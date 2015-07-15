@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/fit.png</file>
+        <file>images/search_for_home2.png</file>
+        <file>images/search_for_z.png</file>
+        <file>images/home.png</file>
+        <file>images/safe_z.png</file>
+        <file>images/axis_zero.png</file>
+        <file>images/axis_return.png</file>
+        <file>images/pause.png</file>
+        <file>images/pause1.png</file>
+        <file>images/stop.png</file>
+        <file>images/restart.png</file>
+        <file>images/handle_horizontal.png</file>
+        <file>images/handle_vertical.png</file>
+        <file>images/unlock.png</file>
+        <file>images/1401562699_icon-arrow-up-b.png</file>
+        <file>images/1401562699_icon-arrow-down-b.png</file>
+        <file>images/1401562173_chevron-down.png</file>
+        <file>images/1401562173_chevron-up.png</file>
+        <file>images/1401562173_chevron-right.png</file>
+        <file>images/1401561986_chevron-left.png</file>
+    </qresource>
+</RCC>
