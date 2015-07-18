@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     gldrawable.cpp \
     tooldrawer.cpp \
     tablewidget.cpp \
-    gcodetablemodel.cpp
+    gcodetablemodel.cpp \
+    frmsettings.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -39,9 +40,11 @@ HEADERS  += frmmain.h \
     gldrawable.h \
     tooldrawer.h \
     tablewidget.h \
-    gcodetablemodel.h
+    gcodetablemodel.h \
+    frmsettings.h
 
-FORMS    += frmmain.ui
+FORMS    += frmmain.ui \
+    frmsettings.ui
 
 DEFINES += _USE_MATH_DEFINES
 

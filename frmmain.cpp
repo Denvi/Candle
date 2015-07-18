@@ -2,6 +2,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include "frmmain.h"
+#include "frmsettings.h"
 #include "ui_frmmain.h"
 
 frmMain::frmMain(QWidget *parent) :
@@ -72,15 +73,10 @@ void frmMain::processFile(QString fileName)
 
     while (!textStream.atEnd())
     {
-        commands.append(textStream.readLine());        
+        commands.append(textStream.readLine());
 
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 0), commands.last());
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 1), "В очереди");
-//        ui->tblProgram->setItem(ui->tblProgram->rowCount() - 1, 0, new QTableWidgetItem(commands.last()));
-//        ui->tblProgram->setItem(ui->tblProgram->rowCount() - 2, 1, new QTableWidgetItem("В очереди"));
-//        ui->tblProgram->setItem(ui->tblProgram->rowCount() - 2, 2, new QTableWidgetItem(""));
-//        ui->tblProgram->item(ui->tblProgram->rowCount() - 2, 1)->setFlags(Qt::ItemIsEnabled);
-//        ui->tblProgram->item(ui->tblProgram->rowCount() - 2, 2)->setFlags(Qt::ItemIsEnabled);
     }
 
     m_programLoading = false;
@@ -92,6 +88,7 @@ void frmMain::processFile(QString fileName)
 
     m_viewParser.reset();
     m_viewParser.toObjRedux(commands, 1);
+
     ui->glwVisualizator->fitDrawables();
 }
 
@@ -141,4 +138,12 @@ void frmMain::on_cmdFileNew_clicked()
     clearTable();
     m_viewParser.reset();
     ui->glwVisualizator->fitDrawables();
+}
+
+void frmMain::on_actServiceSettings_triggered()
+{
+    frmSettings *set = new frmSettings();
+
+    set->setFixedSize(set->size());
+    set->show();
 }

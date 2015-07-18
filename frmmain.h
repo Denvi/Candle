@@ -29,6 +29,8 @@ private slots:
 
     void on_cmdFileNew_clicked();
 
+    void on_actServiceSettings_triggered();
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);

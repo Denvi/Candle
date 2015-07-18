@@ -68,6 +68,9 @@ bool GCodeTableModel::removeRow(int row, const QModelIndex &parent)
 void GCodeTableModel::clear()
 {
     beginResetModel();
+
+    foreach (GCodeItem* item, m_data) delete item;
+
     m_data.clear();
     endResetModel();
 }
