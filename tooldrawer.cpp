@@ -1,4 +1,5 @@
 #include "tooldrawer.h"
+#include "math.h"
 
 ToolDrawer::ToolDrawer(QObject *parent) :
     GLDrawable(parent)

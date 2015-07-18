@@ -1,5 +1,6 @@
 #include <QListIterator>
 #include "gcodeparser.h"
+#include "math.h"
 
 GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
 {
@@ -241,7 +242,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
 
     // Calculate radius if necessary.
-    if (_isnan(radius)) {
+    if (std::isnan(radius)) {
         radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
                         + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
     }

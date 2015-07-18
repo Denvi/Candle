@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "gcodedrawer.h"
+#include "math.h"
 
 GcodeDrawer::GcodeDrawer(QObject *parent) :
     GLDrawable(parent)

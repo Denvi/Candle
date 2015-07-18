@@ -13,21 +13,8 @@ PointSegment::PointSegment(QObject *parent) : QObject(parent)
     m_arcProperties = NULL;
 }
 
-PointSegment::PointSegment(PointSegment *ps)
+PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
 {
-    //this->PointSegment::PointSegment(ps->point(), ps->getLineNumber());
-
-    m_toolhead = 0;
-    m_isMetric = true;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
-    m_lineNumber = -1;
-    m_arcProperties = NULL;
-
-    this->m_point = new QVector3D(ps->point()->x(), ps->point()->y(), ps->point()->z());
-    this->m_lineNumber = ps->getLineNumber();
-
     this->setToolHead(ps->getToolhead());
     this->setSpeed(ps->getSpeed());
     this->setIsMetric(ps->isMetric());
@@ -41,25 +28,14 @@ PointSegment::PointSegment(PointSegment *ps)
     }
 }
 
-PointSegment::PointSegment(const QVector3D *b, int num)
+PointSegment::PointSegment(const QVector3D *b, int num) : PointSegment()
 {
-    //this->PointSegment::PointSegment();
-
-    m_toolhead = 0;
-    m_isMetric = true;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
-    m_lineNumber = -1;
-    m_arcProperties = NULL;
-
     this->m_point = new QVector3D(b->x(), b->y(), b->z());
     this->m_lineNumber = num;
 }
 
-PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise)
+PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise) : PointSegment(point, num)
 {
-    this->PointSegment::PointSegment(point, num);
     this->m_isArc = true;
     this->m_arcProperties = new ArcProperties();
     this->m_arcProperties->center = new QVector3D(center->x(), center->y(), center->z());

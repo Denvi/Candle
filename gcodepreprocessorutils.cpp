@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QVector3D>
 #include "gcodepreprocessorutils.h"
+#include "math.h"
+#include "limits"
 
 /**
 * Searches the command string for an 'f' and replaces the speed value
@@ -144,13 +146,13 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
     QVector3D newPoint(initial.x(), initial.y(), initial.z());
 
     if (absoluteMode) {
-        if (!_isnan(x)) newPoint.setX(x);
-        if (!_isnan(y)) newPoint.setY(y);
-        if (!_isnan(z)) newPoint.setZ(z);
+        if (!std::isnan(x)) newPoint.setX(x);
+        if (!std::isnan(y)) newPoint.setY(y);
+        if (!std::isnan(z)) newPoint.setZ(z);
     } else {
-        if (!_isnan(x)) newPoint.setX(newPoint.x() + x);
-        if (!_isnan(y)) newPoint.setY(newPoint.y() + y);
-        if (!_isnan(z)) newPoint.setZ(newPoint.z() + z);
+        if (!std::isnan(x)) newPoint.setX(newPoint.x() + x);
+        if (!std::isnan(y)) newPoint.setY(newPoint.y() + y);
+        if (!std::isnan(z)) newPoint.setZ(newPoint.z() + z);
     }
 
     return newPoint;
@@ -163,7 +165,7 @@ QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> command
     double k = parseCoord(commandArgs, 'K');
     double radius = parseCoord(commandArgs, 'R');
 
-    if (_isnan(i) && _isnan(j) && _isnan(k)) {
+    if (std::isnan(i) && std::isnan(j) && std::isnan(k)) {
         return convertRToCenter(initial, nextPoint, radius, absoluteIJKMode, clockwise);
     }
 
@@ -175,13 +177,13 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
     QString sb("G1");
 
     if (absoluteMode) {
-        if (!_isnan(end.x())) sb.append("X" + QString::number(end.x(), 'f', precision));
-        if (!_isnan(end.y())) sb.append("Y" + QString::number(end.y(), 'f', precision));
-        if (!_isnan(end.z())) sb.append("Z" + QString::number(end.z(), 'f', precision));
+        if (!std::isnan(end.x())) sb.append("X" + QString::number(end.x(), 'f', precision));
+        if (!std::isnan(end.y())) sb.append("Y" + QString::number(end.y(), 'f', precision));
+        if (!std::isnan(end.z())) sb.append("Z" + QString::number(end.z(), 'f', precision));
     } else {
-        if (!_isnan(end.x())) sb.append("X" + QString::number(end.x() - start.x(), 'f', precision));
-        if (!_isnan(end.y())) sb.append("Y" + QString::number(end.y() - start.y(), 'f', precision));
-        if (!_isnan(end.z())) sb.append("Z" + QString::number(end.z() - start.z(), 'f', precision));
+        if (!std::isnan(end.x())) sb.append("X" + QString::number(end.x() - start.x(), 'f', precision));
+        if (!std::isnan(end.y())) sb.append("Y" + QString::number(end.y() - start.y(), 'f', precision));
+        if (!std::isnan(end.z())) sb.append("Z" + QString::number(end.z() - start.z(), 'f', precision));
     }
 
     return sb;
@@ -286,11 +288,11 @@ double GcodePreprocessorUtils::getAngle(QVector3D start, QVector3D end) {
         if (deltaX > 0 && deltaY >= 0) { // 0 - 90
             angle = atan(deltaY / deltaX);
         } else if (deltaX < 0 && deltaY >= 0) { // 90 to 180
-            angle = M_PI - abs(atan(deltaY / deltaX));
+            angle = M_PI - fabs(atan(deltaY / deltaX));
         } else if (deltaX < 0 && deltaY < 0) { // 180 - 270
-            angle = M_PI + abs(atan(deltaY / deltaX));
+            angle = M_PI + fabs(atan(deltaY / deltaX));
         } else if (deltaX > 0 && deltaY < 0) { // 270 - 360
-            angle = M_PI * 2 - abs(atan(deltaY / deltaX));
+            angle = M_PI * 2 - fabs(atan(deltaY / deltaX));
         }
     }
     else {
@@ -326,7 +328,7 @@ double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle
         } else if (isCw && endAngle > startAngle) {
             sweep = ((M_PI * 2 - endAngle) + startAngle);
         } else {
-            sweep = abs(endAngle - startAngle);
+            sweep = fabs(endAngle - startAngle);
         }
     }
 

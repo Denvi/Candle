@@ -45,7 +45,10 @@ FORMS    += frmmain.ui
 
 DEFINES += _USE_MATH_DEFINES
 
-INCLUDEPATH += C:\\Qt\\Qt5.4.1\\Tools\\mingw491_32\\i686-w64-mingw32\\include\\GL
+INCLUDEPATH += "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
+LIBS += -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
 
 RESOURCES += \
     res.qrc
+
+CONFIG += c++11
