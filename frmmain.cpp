@@ -10,6 +10,7 @@ frmMain::frmMain(QWidget *parent) :
     ui(new Ui::frmMain)
 {
     ui->setupUi(this);
+
     m_codeDrawer.setViewParser(&m_viewParser);
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 10));
     ui->glwVisualizator->addDrawable(&m_codeDrawer);
@@ -26,6 +27,13 @@ frmMain::frmMain(QWidget *parent) :
 
     m_programLoading = false;
     clearTable();
+
+    ui->cmdXMinus->setBackColor(QColor(153, 180, 209));
+    ui->cmdXPlus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdYPlus->setBackColor(ui->cmdXMinus->backColor());
+
+    ui->cmdReset->setBackColor(QColor(255, 228, 181));
 }
 
 frmMain::~frmMain()
@@ -144,6 +152,6 @@ void frmMain::on_actServiceSettings_triggered()
 {
     frmSettings *set = new frmSettings();
 
-    set->setFixedSize(set->size());
+    set->layout()->setSizeConstraint(QLayout::SetFixedSize);
     set->show();
 }

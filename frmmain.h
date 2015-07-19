@@ -31,6 +31,7 @@ private slots:
 
     void on_actServiceSettings_triggered();
 
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);

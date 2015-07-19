@@ -21,5 +21,7 @@
         <file>images/turnoff1.png</file>
         <file>images/zero_z.png</file>
         <file>images/cutter.png</file>
+        <file>images/handle2s.png</file>
+        <file>images/handle2sh.png</file>
     </qresource>
 </RCC>

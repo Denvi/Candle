@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     tooldrawer.cpp \
     tablewidget.cpp \
     gcodetablemodel.cpp \
-    frmsettings.cpp
+    frmsettings.cpp \
+    styledtoolbutton.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -41,7 +42,8 @@ HEADERS  += frmmain.h \
     tooldrawer.h \
     tablewidget.h \
     gcodetablemodel.h \
-    frmsettings.h
+    frmsettings.h \
+    styledtoolbutton.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui

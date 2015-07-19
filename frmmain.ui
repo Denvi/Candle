@@ -10,6 +10,13 @@
     <height>972</height>
    </rect>
   </property>
+  <property name="palette">
+   <palette>
+    <active/>
+    <inactive/>
+    <disabled/>
+   </palette>
+  </property>
   <property name="windowTitle">
    <string>frmMain</string>
   </property>
@@ -17,33 +24,39 @@
    <string notr="true">QWidget {
 	font-size: 9pt;
 }
-
-QToolButton { /* all types of tool button */
-    border: 2px solid transparent;
-    border: 2px solid #8f8f91;
-    border-radius: 6px;
-    background-color: white;
-	
-}
-
-QToolButton:hover { /* all types of tool button */
-    border: 2px solid #8f8f91;
-    border-radius: 6px;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+/*
+QToolButton {
+	border: 1px solid palette(mid);
+	border-radius: 2px;
+	background-color: white;
 }
 
 QToolButton:pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+	background-color: rgb(215, 215, 255);
 }
 
-QToolButton:checked { /* all types of tool button */
-    border: 2px solid #8f8f91;
-    border-radius: 6px;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+QToolButton:checked {
+	background-color: rgb(215, 215, 255);
 }
+*/
+/*
+QToolButton { 
+    border: 1px solid #8f8f91;
+    border-radius: 4px;
+    background-color: white;	
+}
+
+QToolButton:hover { 
+	background-color: rgb(234, 234, 234);
+}
+
+QToolButton:pressed {
+	background-color: lightgray;
+}
+
+QToolButton:checked { 
+	background-color: lightgray;
+}*/
 
 QFrame#frameManualControlXY,#frameManualControlZ {
 	border: 1px solid lightgray;
@@ -66,6 +79,24 @@ QSplitter::handle:horizontal {
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 2px; 
+    background: #8f8f91;
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {	
+	background-image: url(:/images/handle2s.png);
+    border: 0px;
+    width: 16px;
+    margin: -7px 0; 
+}
+
+QSlider::handle:horizontal:hover {
+	background-image: url(:/images/handle2sh.png);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -472,7 +503,7 @@ color: black;</string>
             <number>8</number>
            </property>
            <item row="0" column="1">
-            <widget class="QToolButton" name="toolButton_7">
+            <widget class="StyledToolButton" name="toolButton_7">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -495,7 +526,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QToolButton" name="toolButton_8">
+            <widget class="StyledToolButton" name="toolButton_8">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -518,7 +549,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="0" column="3">
-            <widget class="QToolButton" name="toolButton_16">
+            <widget class="StyledToolButton" name="toolButton_16">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -541,7 +572,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QToolButton" name="toolButton_11">
+            <widget class="StyledToolButton" name="toolButton_11">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -564,7 +595,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QToolButton" name="toolButton_14">
+            <widget class="StyledToolButton" name="toolButton_14">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -587,7 +618,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="0" column="4">
-            <widget class="QToolButton" name="toolButton_10">
+            <widget class="StyledToolButton" name="toolButton_10">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -610,7 +641,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="3" column="4">
-            <widget class="QToolButton" name="toolButton_9">
+            <widget class="StyledToolButton" name="toolButton_9">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -636,7 +667,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="3" column="3">
-            <widget class="QToolButton" name="toolButton_12">
+            <widget class="StyledToolButton" name="cmdReset">
              <property name="minimumSize">
               <size>
                <width>52</width>
@@ -723,7 +754,7 @@ color: black;</string>
           </layout>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton_20">
+          <widget class="StyledToolButton" name="toolButton_20">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -784,7 +815,7 @@ color: black;</string>
             <number>4</number>
            </property>
            <item row="3" column="1">
-            <widget class="QToolButton" name="toolButton_2">
+            <widget class="StyledToolButton" name="cmdYMinus">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -884,7 +915,7 @@ color: black;</string>
             </layout>
            </item>
            <item row="0" column="3">
-            <widget class="QToolButton" name="toolButton_13">
+            <widget class="StyledToolButton" name="toolButton_13">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -913,7 +944,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="3" column="3">
-            <widget class="QToolButton" name="toolButton_6">
+            <widget class="StyledToolButton" name="toolButton_6">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -942,7 +973,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QToolButton" name="toolButton_3">
+            <widget class="StyledToolButton" name="cmdXPlus">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -971,7 +1002,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QToolButton" name="toolButton">
+            <widget class="StyledToolButton" name="cmdXMinus">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1000,7 +1031,7 @@ color: black;</string>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QToolButton" name="toolButton_5">
+            <widget class="StyledToolButton" name="cmdYPlus">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1044,7 +1075,7 @@ color: black;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <item>
-                <widget class="QToolButton" name="toolButton_21">
+                <widget class="StyledToolButton" name="toolButton_21">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1054,11 +1085,11 @@ color: black;</string>
                  <property name="minimumSize">
                   <size>
                    <width>50</width>
-                   <height>0</height>
+                   <height>25</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>10</string>
+                  <string>1</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -1066,7 +1097,7 @@ color: black;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_19">
+                <widget class="StyledToolButton" name="toolButton_19">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1076,11 +1107,11 @@ color: black;</string>
                  <property name="minimumSize">
                   <size>
                    <width>50</width>
-                   <height>0</height>
+                   <height>25</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>100</string>
+                  <string>5</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -1094,7 +1125,7 @@ color: black;</string>
            <item>
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="0" column="1">
-              <widget class="QToolButton" name="toolButton_17">
+              <widget class="StyledToolButton" name="toolButton_17">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1104,7 +1135,7 @@ color: black;</string>
                <property name="minimumSize">
                 <size>
                  <width>50</width>
-                 <height>0</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="text">
@@ -1116,7 +1147,7 @@ color: black;</string>
               </widget>
              </item>
              <item row="0" column="0">
-              <widget class="QToolButton" name="toolButton_15">
+              <widget class="StyledToolButton" name="toolButton_15">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1126,7 +1157,7 @@ color: black;</string>
                <property name="minimumSize">
                 <size>
                  <width>50</width>
-                 <height>0</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="text">
@@ -1138,7 +1169,7 @@ color: black;</string>
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QToolButton" name="toolButton_4">
+              <widget class="StyledToolButton" name="toolButton_4">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1148,7 +1179,7 @@ color: black;</string>
                <property name="minimumSize">
                 <size>
                  <width>50</width>
-                 <height>0</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="text">
@@ -1160,7 +1191,7 @@ color: black;</string>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QToolButton" name="toolButton_18">
+              <widget class="StyledToolButton" name="toolButton_18">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1170,7 +1201,7 @@ color: black;</string>
                <property name="minimumSize">
                 <size>
                  <width>50</width>
-                 <height>0</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="text">
@@ -1297,6 +1328,11 @@ color: black;</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>StyledToolButton</class>
+   <extends>QToolButton</extends>
+   <header>styledtoolbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>GLWidget</class>
    <extends>QWidget</extends>
