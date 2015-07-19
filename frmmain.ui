@@ -455,7 +455,7 @@ QToolButton:checked { /* all types of tool button */
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="LineEdit">
+            <widget class="QLineEdit" name="txtStatus">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -464,7 +464,7 @@ QToolButton:checked { /* all types of tool button */
 color: black;</string>
              </property>
              <property name="text">
-              <string>Готов</string>
+              <string>Не подключен</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -754,7 +754,7 @@ color: black;</string>
           </layout>
          </item>
          <item>
-          <widget class="StyledToolButton" name="toolButton_20">
+          <widget class="StyledToolButton" name="cmdSpindle">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1244,7 +1244,7 @@ color: black;</string>
           <number>8</number>
          </property>
          <item>
-          <widget class="QPlainTextEdit" name="plainTextEdit">
+          <widget class="QPlainTextEdit" name="txtConsole">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
              <horstretch>0</horstretch>
@@ -1257,19 +1257,18 @@ color: black;</string>
              <height>10</height>
             </size>
            </property>
-           <property name="plainText">
-            <string>text
-</string>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <widget class="QLineEdit" name="lineEdit"/>
+            <widget class="QLineEdit" name="txtCommand"/>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_10">
+            <widget class="QPushButton" name="cmdCommandSend">
              <property name="text">
               <string>Отправить</string>
              </property>

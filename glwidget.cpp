@@ -75,7 +75,7 @@ void GLWidget::fitDrawables()
         m_zSize = m_zMax - m_zMin;
 
     } else {
-        m_distance = 80;
+        m_distance = 200;
         m_xLookAt = 0;
         m_yLookAt = 0;
         m_zLookAt = 0;
