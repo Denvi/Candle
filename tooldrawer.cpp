@@ -7,34 +7,31 @@ ToolDrawer::ToolDrawer(QObject *parent) :
     m_toolDiameter = 3;
     m_toolLength = 15;
     m_toolPosition = QVector3D(0, 0, 20);
+    m_rotationAngle = 0;
 }
 
 void ToolDrawer::draw()
 {
     glLineWidth(1);
-    glColor3f(0.0, 0.0, 0.0);
-    glBegin(GL_LINES);
-    glVertex3f(m_toolPosition.x() - m_toolDiameter / 2, m_toolPosition.y(), m_toolPosition.z());
-    glVertex3f(m_toolPosition.x() - m_toolDiameter / 2, m_toolPosition.y(), m_toolPosition.z() + m_toolLength);
-    glEnd();
+    glColor3f(1.0, 0.6, 0.0);
 
-    glBegin(GL_LINES);
-    //glColor3f(0.0, 0.0, 0.0);
-    glVertex3f(m_toolPosition.x() + m_toolDiameter / 2, m_toolPosition.y(), m_toolPosition.z());
-    glVertex3f(m_toolPosition.x() + m_toolDiameter / 2, m_toolPosition.y(), m_toolPosition.z() + m_toolLength);
-    glEnd();
+    const int arcs = 4;
 
-    glBegin(GL_LINES);
-    //glColor3f(0.0, 0.0, 0.0);
-    glVertex3f(m_toolPosition.x(), m_toolPosition.y() - m_toolDiameter / 2, m_toolPosition.z());
-    glVertex3f(m_toolPosition.x(), m_toolPosition.y() - m_toolDiameter / 2, m_toolPosition.z() + m_toolLength);
-    glEnd();
+    for (int i = 0; i < arcs; i++) {
 
-    glBegin(GL_LINES);
-    //glColor3f(0.0, 0.0, 0.0);
-    glVertex3f(m_toolPosition.x(), m_toolPosition.y() + m_toolDiameter / 2, m_toolPosition.z());
-    glVertex3f(m_toolPosition.x(), m_toolPosition.y() + m_toolDiameter / 2, m_toolPosition.z() + m_toolLength);
-    glEnd();
+        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_rotationAngle + (2 * M_PI / arcs) * i);
+        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_rotationAngle + (2 * M_PI / arcs) * i);
+
+        glBegin(GL_LINES);
+        glVertex3f(x, y, m_toolPosition.z());
+        glVertex3f(x, y, m_toolPosition.z() + m_toolLength);
+        glEnd();
+
+        glBegin(GL_LINES);
+        glVertex3f(m_toolPosition.x(), m_toolPosition.y(), 0);
+        glVertex3f(x, y, 0);
+        glEnd();
+    }
 
     glBegin(GL_LINE_LOOP);
     //glColor3f(0.0, 0.0, 0.0);
@@ -53,6 +50,16 @@ void ToolDrawer::draw()
         double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(angle);
         double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(angle);
         glVertex3f(x, y, m_toolPosition.z() + m_toolLength);
+    }
+    glEnd();
+
+    glBegin(GL_LINE_LOOP);
+    //glColor3f(0.0, 0.0, 0.0);
+    for (int i = 0; i <= 50; i++) {
+        double angle = 2 * M_PI * i / 50;
+        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(angle);
+        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(angle);
+        glVertex3f(x, y, 0);
     }
     glEnd();
 
@@ -115,6 +122,12 @@ void ToolDrawer::setToolPosition(const QVector3D &toolPosition)
 {
     m_toolPosition = toolPosition;
 }
+double ToolDrawer::rotationAngle() const
+{
+    return m_rotationAngle;
+}
 
-
-
+void ToolDrawer::setRotationAngle(double rotationAngle)
+{
+    m_rotationAngle = rotationAngle;
+}

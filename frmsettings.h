@@ -19,15 +19,23 @@ public:
     void setPort(QString port);
     int baud();
     void setBaud(int baud);
+    double toolDiameter();
+    void setToolDiameter(double diameter);
+    double toolLength();
+    void setToolLength(double length);
+    bool antialiasing();
+    void setAntialiasing(bool antialiasing);
 
 private slots:
     void on_cmdRefresh_clicked();
     void on_cmdOK_clicked();
     void on_cmdCancel_clicked();
 
+    void on_cboToolType_currentIndexChanged(int index);
+
 private:
     Ui::frmSettings *ui;
-    searchPorts();
+    void searchPorts();
 };
 
 #endif // FRMSETTINGS_H

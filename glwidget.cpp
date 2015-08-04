@@ -1,4 +1,5 @@
 #include "glwidget.h"
+#include "tooldrawer.h"
 #include <QDebug>
 #include <QtWidgets>
 #include <QPainter>
@@ -29,6 +30,9 @@ GLWidget::GLWidget(QWidget *parent) :
     m_xSize = 0;
     m_ySize = 0;
     m_zSize = 0;
+
+    connect(&m_timerAnimation, SIGNAL(timeout()), this, SLOT(onTimerAnimation()));
+    m_timerAnimation.start(25);
 }
 
 double GLWidget::calculateVolume(QVector3D size) {
@@ -145,13 +149,33 @@ void GLWidget::fitDrawables()
     //updateGL();
     update();
 }
+bool GLWidget::antialiasing() const
+{
+    return m_antialiasing;
+}
+
+void GLWidget::setAntialiasing(bool antialiasing)
+{
+    m_antialiasing = antialiasing;
+}
+
+void GLWidget::onTimerAnimation()
+{
+    ToolDrawer* tool = static_cast<ToolDrawer*>(m_drawables[1]);
+
+    tool->setRotationAngle(tool->rotationAngle() + M_PI / 25);
+    if (tool->rotationAngle() > 2 * M_PI) tool->setRotationAngle(tool->rotationAngle() - 2 * M_PI);
+
+    update();
+}
+
 
 void GLWidget::initializeGL()
 {
-//    QGLFormat fmt;
-//    fmt.setSampleBuffers(true);
-//    fmt.setSamples(8); //2, 4, 8, 16
-//    QGLFormat::setDefaultFormat(fmt);
+    //    QGLFormat fmt;
+    //    fmt.setSampleBuffers(true);
+    //    fmt.setSamples(8); //2, 4, 8, 16
+    //    QGLFormat::setDefaultFormat(fmt);
 
 //    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -208,8 +232,10 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Draw 3D
     qglClearColor(QColor(Qt::white));
 
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    glEnable(GL_LINE_SMOOTH);
+    if (m_antialiasing) {
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glEnable(GL_LINE_SMOOTH);
+    }
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
