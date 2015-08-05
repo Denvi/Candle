@@ -21,10 +21,6 @@ signals:
 public slots:
 
 private slots:
-<<<<<<< HEAD
-=======
-    void onTimerAnimation();
->>>>>>> origin/master
 
 private:
     double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
@@ -40,12 +36,6 @@ private:
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);
 
-<<<<<<< HEAD
-=======
-    bool m_animate;
-    QTimer m_timerAnimation;
-
->>>>>>> origin/master
 protected:
     void initializeGL();
     void paintGL();

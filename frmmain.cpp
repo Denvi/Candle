@@ -2,11 +2,8 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QStringList>
-<<<<<<< HEAD
 #include <QTextBlock>
 #include <QTextCursor>
-=======
->>>>>>> origin/master
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -75,14 +72,8 @@ frmMain::frmMain(QWidget *parent) :
 
     updateControlsState();
 
-<<<<<<< HEAD
     m_timerConnection.start(1000);
     m_timerStateQuery.start(250);        
-=======
-    m_lineTransferState = processing;
-    m_timerConnection.start(1000);
-    m_timerStateQuery.start(250);
->>>>>>> origin/master
 }
 
 frmMain::~frmMain()
@@ -104,12 +95,9 @@ void frmMain::loadSettings()
     m_frmSettings.setToolLength(set.value("toolLength", 15).toDouble());
     m_frmSettings.setAntialiasing(set.value("antialiasing", true).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
-<<<<<<< HEAD
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
     m_programSpeed = false;
-=======
->>>>>>> origin/master
 }
 
 void frmMain::saveSettings()
@@ -123,10 +111,7 @@ void frmMain::saveSettings()
     set.setValue("toolLength", m_frmSettings.toolLength());
     set.setValue("antialiasing", m_frmSettings.antialiasing());
     set.setValue("jogStep", ui->txtJogStep->value());
-<<<<<<< HEAD
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
-=======
->>>>>>> origin/master
 }
 
 void frmMain::updateControlsState() {
@@ -135,13 +120,8 @@ void frmMain::updateControlsState() {
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
     ui->grpSpindle->setEnabled(portOpened);
-<<<<<<< HEAD
     ui->grpJog->setEnabled(portOpened && !m_transferingFile);
     ui->grpConsole->setEnabled(portOpened);   
-=======
-    ui->grpJog->setEnabled(portOpened);
-    ui->grpConsole->setEnabled(portOpened);
->>>>>>> origin/master
 
     if (!portOpened) ui->txtStatus->setText("Не подключен");
 }
@@ -157,7 +137,6 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command)
 {
-<<<<<<< HEAD
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
         m_queue.append(command);
@@ -202,21 +181,11 @@ void frmMain::sendCommand(QString command)
     }
 
     m_serialPort.write((command + "\r").toLatin1());
-=======
-    if (m_lineTransferState == ready) {
-        m_lineTransferState = processing;
-        ui->txtConsole->appendPlainText(command);
-        m_serialPort.write((command + "\r").toLatin1());
-    } else {
-        ui->txtConsole->appendPlainText("Устройство не готово");
-    }
->>>>>>> origin/master
 }
 
 void frmMain::grblReset()
 {
     ui->txtConsole->appendPlainText("[CTRL+X]");
-<<<<<<< HEAD
     m_transferingFile = false;
     m_serialPort.write(QByteArray(1, (char)24));
     ui->cmdSpindle->setChecked(false);
@@ -233,9 +202,6 @@ int frmMain::bufferLength()
     }
 
     return length;
-=======
-    m_serialPort.write(QByteArray(1, (char)24));
->>>>>>> origin/master
 }
 
 void frmMain::onSerialPortReadyRead()
@@ -244,7 +210,6 @@ void frmMain::onSerialPortReadyRead()
         QString data = m_serialPort.readLine().trimmed();
 
         if (data.contains("Grbl")) {
-<<<<<<< HEAD
             m_commands.clear();
 //            m_lineTransferState = ready;
         }
@@ -259,20 +224,6 @@ void frmMain::onSerialPortReadyRead()
 
             if (rx.indexIn(data) != -1) {
 
-=======
-            m_lineTransferState = ready;
-        }
-
-        if (data.toUpper() == "OK") {
-            m_lineTransferState = ready;
-        }
-
-        if (data[0] == '<') {
-            QRegExp rx("<([^,]*),MPos:([^,]*),([^,]*),([^,]*),WPos:([^,]*),([^,]*),([^,]*)>");
-
-            if (rx.indexIn(data) != -1) {
-
->>>>>>> origin/master
                 int i = m_status.indexOf(rx.cap(1));
 
                 ui->txtStatus->setText(m_statusCaptions[i]);
@@ -303,7 +254,6 @@ void frmMain::onSerialPortReadyRead()
                                                        ui->txtWPosZ->text().toDouble()));
                 ui->glwVisualizator->update();
             }
-<<<<<<< HEAD
         } else if (data.length() > 0) {
             if (m_commands.length() > 0) {
                 CommandAttributes ca = m_commands.takeFirst();
@@ -330,8 +280,6 @@ void frmMain::onSerialPortReadyRead()
             } else {
                 ui->txtConsole->appendPlainText(data);
             }
-=======
->>>>>>> origin/master
         } else {
             ui->txtConsole->appendPlainText(data);
         }
@@ -362,7 +310,6 @@ void frmMain::onTimerConnection()
 
 void frmMain::onTimerStateQuery()
 {
-<<<<<<< HEAD
     if (m_serialPort.isOpen()) {
         m_serialPort.write(QByteArray(1, '?'));
     }
@@ -378,21 +325,6 @@ void frmMain::onCmdJogStepClicked()
     {
         button->setChecked(false);
     }
-=======
-    if (m_serialPort.isOpen() && m_lineTransferState == ready) {
-        m_serialPort.write(QByteArray(1, '?'));
-    }
-}
-
-void frmMain::onCmdJogStepClicked()
-{
-    ui->txtJogStep->setValue(static_cast<QPushButton*>(sender())->text().toDouble());
-
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
-    {
-        button->setChecked(false);
-    }
->>>>>>> origin/master
     static_cast<QPushButton*>(sender())->setChecked(true);
 }
 
@@ -579,13 +511,9 @@ void frmMain::on_cmdZeroZ_clicked()
 
 void frmMain::on_cmdReturnXY_clicked()
 {
-<<<<<<< HEAD
     sendCommand(QString("G92.1"));
     sendCommand(QString("G90G0X%1Y%2").arg(m_storedX).arg(m_storedY));
     sendCommand(QString("G92X0Y0"));
-=======
-    sendCommand(QString("G92.1 G90 G0X%1Y%2").arg(m_storedX).arg(m_storedY));
->>>>>>> origin/master
 }
 
 void frmMain::on_cmdReset_clicked()
@@ -605,12 +533,7 @@ void frmMain::on_cmdTopZ_clicked()
 
 void frmMain::on_cmdSpindle_clicked(bool checked)
 {
-<<<<<<< HEAD
     sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5");
-=======
-    if (m_lineTransferState != ready) ui->cmdSpindle->setChecked(!checked); else
-        sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5");
->>>>>>> origin/master
 }
 
 void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
@@ -620,31 +543,16 @@ void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
 void frmMain::on_txtSpindleSpeed_editingFinished()
 {
     ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value());
-<<<<<<< HEAD
-=======
-    sendCommand("S" + ui->txtSpindleSpeed->text());
->>>>>>> origin/master
 }
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
-<<<<<<< HEAD
     if (!m_programSpeed) sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value()));
-=======
-    qDebug() << "value" << ui->sliSpindleSpeed->value();
-    while (m_lineTransferState != ready) qApp->processEvents(QEventLoop::AllEvents, 500);
-    if (m_lineTransferState == ready) sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value()));
->>>>>>> origin/master
 }
 
 void frmMain::on_cmdYPlus_clicked()
 {
-<<<<<<< HEAD
     sendCommand("G91 G0 Y" + ui->txtJogStep->text());
-=======
-    if (ui->txtMPosY->text().toDouble() + ui->txtJogStep->value() <= 0)
-        sendCommand("G91 G0 Y" + ui->txtJogStep->text());
->>>>>>> origin/master
 }
 
 void frmMain::on_cmdYMinus_clicked()
@@ -658,12 +566,7 @@ void frmMain::on_cmdXPlus_clicked()
 }
 
 void frmMain::on_cmdXMinus_clicked()
-<<<<<<< HEAD
 {    
-=======
-{
-    if (ui->txtMPosX->text().toDouble() - ui->txtJogStep->value() >= 0)
->>>>>>> origin/master
     sendCommand("G91 G0 X-" + ui->txtJogStep->text());
 }
 

@@ -26,10 +26,7 @@ public:
 
     double rotationAngle() const;
     void setRotationAngle(double rotationAngle);
-<<<<<<< HEAD
     void rotate(double angle);
-=======
->>>>>>> origin/master
 
 signals:
 
@@ -40,11 +37,8 @@ private:
     double m_toolLength;
     QVector3D m_toolPosition;
     double m_rotationAngle;
-<<<<<<< HEAD
 
     double normalizeAngle(double angle);
-=======
->>>>>>> origin/master
 };
 
 #endif // TOOLDRAWER_H

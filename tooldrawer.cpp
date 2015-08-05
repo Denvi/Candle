@@ -19,13 +19,8 @@ void ToolDrawer::draw()
 
     for (int i = 0; i < arcs; i++) {
 
-<<<<<<< HEAD
         double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
         double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
-=======
-        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_rotationAngle + (2 * M_PI / arcs) * i);
-        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_rotationAngle + (2 * M_PI / arcs) * i);
->>>>>>> origin/master
 
         glBegin(GL_LINES);
         glVertex3f(x, y, m_toolPosition.z());
@@ -136,7 +131,6 @@ void ToolDrawer::setRotationAngle(double rotationAngle)
 {
     m_rotationAngle = rotationAngle;
 }
-<<<<<<< HEAD
 
 void ToolDrawer::rotate(double angle)
 {
@@ -150,5 +144,3 @@ double ToolDrawer::normalizeAngle(double angle)
 
     return angle;
 }
-=======
->>>>>>> origin/master
