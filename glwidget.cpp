@@ -30,6 +30,9 @@ GLWidget::GLWidget(QWidget *parent) :
     m_xSize = 0;
     m_ySize = 0;
     m_zSize = 0;
+
+    connect(&m_timerAnimation, SIGNAL(timeout()), this, SLOT(onTimerAnimation()));
+    m_timerAnimation.start(25);
 }
 
 double GLWidget::calculateVolume(QVector3D size) {
@@ -107,6 +110,20 @@ void GLWidget::setAntialiasing(bool antialiasing)
 {
     m_antialiasing = antialiasing;
 }
+<<<<<<< HEAD
+=======
+
+void GLWidget::onTimerAnimation()
+{
+    ToolDrawer* tool = static_cast<ToolDrawer*>(m_drawables[1]);
+
+    tool->setRotationAngle(tool->rotationAngle() + M_PI / 25);
+    if (tool->rotationAngle() > 2 * M_PI) tool->setRotationAngle(tool->rotationAngle() - 2 * M_PI);
+
+    update();
+}
+
+>>>>>>> origin/master
 
 void GLWidget::initializeGL()
 {
