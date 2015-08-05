@@ -1,4 +1,5 @@
 #include "glwidget.h"
+#include "tooldrawer.h"
 #include <QDebug>
 #include <QtWidgets>
 #include <QPainter>
@@ -80,54 +81,6 @@ void GLWidget::fitDrawables()
         m_yLookAt = 0;
         m_zLookAt = 0;
     }
-//    if (bigest != NULL) {
-//        if (strcmp(bigest->metaObject()->className(), "ToolDrawer") != -1) {
-//            m_distance = qMax<double>(qMax<double>(maxSize.x(), maxSize.y()), maxSize.z()) * 2;
-
-//            m_xLookAt = (bigest->getMaximumExtremes().x() - bigest->getMinimumExtremes().x()) / 2 + bigest->getMinimumExtremes().x();
-//            m_zLookAt = -((bigest->getMaximumExtremes().y() - bigest->getMinimumExtremes().y()) / 2 + bigest->getMinimumExtremes().y());
-//            m_yLookAt = (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2 + bigest->getMinimumExtremes().z();
-
-//            m_xMin = 0;
-//            m_xMax = 0;
-//            m_yMin = 0;
-//            m_yMax = 0;
-//            m_zMin = 0;
-//            m_zMax = 0;
-//        } else {
-//            m_distance = qMax<double>(qMax<double>(maxSize.x(), maxSize.y()), maxSize.z()) * 2;
-
-//            m_xLookAt = (bigest->getMaximumExtremes().x() - bigest->getMinimumExtremes().x()) / 2 + bigest->getMinimumExtremes().x();
-//            m_zLookAt = -((bigest->getMaximumExtremes().y() - bigest->getMinimumExtremes().y()) / 2 + bigest->getMinimumExtremes().y());
-//            m_yLookAt = (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2 + bigest->getMinimumExtremes().z();
-
-//            m_xMin = bigest->getMinimumExtremes().x();
-//            m_xMax = bigest->getMaximumExtremes().x();
-//            m_yMin = bigest->getMinimumExtremes().y();
-//            m_yMax = bigest->getMaximumExtremes().y();
-//            m_zMin = bigest->getMinimumExtremes().z();
-//            m_zMax = bigest->getMaximumExtremes().z();
-//        }
-//    } else {
-//        m_xLookAt = 0;
-//        m_yLookAt = 0;
-//        m_zLookAt = 0;
-
-//        m_xMin = 0;
-//        m_xMax = 0;
-//        m_yMin = 0;
-//        m_yMax = 0;
-//        m_zMin = 0;
-//        m_zMax = 0;
-
-//        m_xPan = 0;
-//        m_yPan = 0;
-
-//        m_xRot = 45;
-//        m_yRot = 45;
-
-//        m_zoom = 1;
-//    }
 
     m_xSize = m_xMax - m_xMin;
     m_ySize = m_yMax - m_yMin;
@@ -145,13 +98,22 @@ void GLWidget::fitDrawables()
     //updateGL();
     update();
 }
+bool GLWidget::antialiasing() const
+{
+    return m_antialiasing;
+}
+
+void GLWidget::setAntialiasing(bool antialiasing)
+{
+    m_antialiasing = antialiasing;
+}
 
 void GLWidget::initializeGL()
 {
-//    QGLFormat fmt;
-//    fmt.setSampleBuffers(true);
-//    fmt.setSamples(8); //2, 4, 8, 16
-//    QGLFormat::setDefaultFormat(fmt);
+    //    QGLFormat fmt;
+    //    fmt.setSampleBuffers(true);
+    //    fmt.setSamples(8); //2, 4, 8, 16
+    //    QGLFormat::setDefaultFormat(fmt);
 
 //    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -208,8 +170,10 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Draw 3D
     qglClearColor(QColor(Qt::white));
 
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    glEnable(GL_LINE_SMOOTH);
+    if (m_antialiasing) {
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glEnable(GL_LINE_SMOOTH);
+    }
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -2,6 +2,7 @@
 #define TOOLDRAWER_H
 
 #include <QVector3D>
+#include <QTimer>
 #include "gldrawable.h"
 
 class ToolDrawer : public GLDrawable
@@ -23,6 +24,10 @@ public:
     QVector3D toolPosition() const;
     void setToolPosition(const QVector3D &toolPosition);
 
+    double rotationAngle() const;
+    void setRotationAngle(double rotationAngle);
+    void rotate(double angle);
+
 signals:
 
 public slots:
@@ -31,6 +36,9 @@ private:
     double m_toolDiameter;
     double m_toolLength;
     QVector3D m_toolPosition;
+    double m_rotationAngle;
+
+    double normalizeAngle(double angle);
 };
 
 #endif // TOOLDRAWER_H

@@ -2,6 +2,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include <QTimer>
 #include "GLU.h"
 #include "gldrawable.h"
 
@@ -12,9 +13,14 @@ public:
     explicit GLWidget(QWidget *parent = 0);
     void addDrawable(GLDrawable* drawable);    
     void fitDrawables();
+    bool antialiasing() const;
+    void setAntialiasing(bool antialiasing);
+
 signals:
 
 public slots:
+
+private slots:
 
 private:
     double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
@@ -25,9 +31,11 @@ private:
     double m_distance;
     QList<GLDrawable*> m_drawables;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
+    bool m_antialiasing;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);
+
 protected:
     void initializeGL();
     void paintGL();

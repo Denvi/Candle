@@ -50,8 +50,8 @@ FORMS    += frmmain.ui \
 
 DEFINES += _USE_MATH_DEFINES
 
-INCLUDEPATH += "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
-LIBS += -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
+INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl"
+LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -lopengl32 -lglu32
 
 RESOURCES += \
     res.qrc

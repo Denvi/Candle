@@ -54,7 +54,7 @@ void GcodeDrawer::draw()
         }
         else if (ls->isZMovement()) glColor3f(1, 0, 0.0);
         else {
-            glLineWidth(1.5);
+            glLineWidth(1.0);
             glColor3f(0.0, 0.0, 0.0);
         }
 
