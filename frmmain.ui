@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>763</height>
+    <height>781</height>
    </rect>
   </property>
   <property name="palette">
@@ -18,7 +18,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>frmMain</string>
+   <string>grblControl</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
@@ -253,9 +253,16 @@ QToolButton:checked { /* all types of tool button */
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QCheckBox" name="checkBox_3">
+          <widget class="QCheckBox" name="chkTestMode">
            <property name="text">
-            <string>Эмуляция</string>
+            <string>Режим проверки</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkAutoScroll">
+           <property name="text">
+            <string>Автопрокрутка</string>
            </property>
           </widget>
          </item>
@@ -294,9 +301,19 @@ QToolButton:checked { /* all types of tool button */
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="cmdFileReset">
            <property name="text">
-            <string>Отмена</string>
+            <string>Сброс</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cmdFilePause">
+           <property name="text">
+            <string>Пауза</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1157,7 +1174,7 @@ color: black;</string>
              <item>
               <widget class="QLabel" name="label_4">
                <property name="text">
-                <string>Предустановки:</string>
+                <string>Уставки:</string>
                </property>
               </widget>
              </item>
@@ -1313,7 +1330,7 @@ color: black;</string>
         <property name="title">
          <string>Консоль</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
          <property name="leftMargin">
           <number>8</number>
          </property>
@@ -1328,12 +1345,6 @@ color: black;</string>
          </property>
          <item>
           <widget class="QPlainTextEdit" name="txtConsole">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -1346,7 +1357,7 @@ color: black;</string>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0">
            <item>
             <widget class="QLineEdit" name="txtCommand"/>
            </item>
@@ -1392,7 +1403,6 @@ color: black;</string>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actFileOpen">
    <property name="text">
     <string>Открыть</string>

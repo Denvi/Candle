@@ -1,44 +1,52 @@
 #include <QDebug>
 #include "gcodedrawer.h"
 #include "math.h"
+#include "frmmain.h"
 
 GcodeDrawer::GcodeDrawer(QObject *parent) :
     GLDrawable(parent)
 {
+    qDebug() << parent;
 }
 
 void GcodeDrawer::draw()
-{       
+{
     foreach (LineSegment* ls, m_viewParser->getLineSegmentList()) {
 
         if (ls->getLineNumber() == 0) {
 
             double size = qMax(qMax(getSizes().x(), getSizes().y()), getSizes().z()) / 75;
 
+            QVector3D end = ls->getEnd();
+
+            if (end.z() == 0) {
+                end.setZ(m_viewParser->getLineSegmentList()[1]->getEnd().z());
+            }
+
             glLineWidth(1);
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_LINE_LOOP);
             for (int i = 0; i <= 20; i++) {
                 double angle = 2 * M_PI * i / 20;
-                double x = ls->getEnd().x() + size * cos(angle);
-                double y = ls->getEnd().y() + size * sin(angle);
-                glVertex3f(x, y, ls->getEnd().z());
+                double x = end.x() + size * cos(angle);
+                double y = end.y() + size * sin(angle);
+                glVertex3f(x, y, end.z());
             }
             glEnd();
             glBegin(GL_LINE_LOOP);
             for (int i = 0; i <= 20; i++) {
                 double angle = 2 * M_PI * i / 20;
-                double x = ls->getEnd().x() + size * cos(angle);
-                double z = ls->getEnd().z() + size * sin(angle);
-                glVertex3f(x, ls->getEnd().y(), z);
+                double x = end.x() + size * cos(angle);
+                double z = end.z() + size * sin(angle);
+                glVertex3f(x, end.y(), z);
             }
             glEnd();
             glBegin(GL_LINE_LOOP);
             for (int i = 0; i <= 20; i++) {
                 double angle = 2 * M_PI * i / 20;
-                double y = ls->getEnd().y() + size * cos(angle);
-                double z = ls->getEnd().z() + size * sin(angle);
-                glVertex3f(ls->getEnd().x(), y, z);
+                double y = end.y() + size * cos(angle);
+                double z = end.z() + size * sin(angle);
+                glVertex3f(end.x(), y, z);
             }
             glEnd();
             continue;
@@ -46,17 +54,15 @@ void GcodeDrawer::draw()
 
         glLineWidth(1);
         if (ls->isFastTraverse()) {
-            //glColor3f(0.7, 0.7, 0.7);
             glColor3f(0.0, 0.0, 0.0);
-
             glLineStipple(1, 0x00ff);
             glEnable(GL_LINE_STIPPLE);
         }
         else if (ls->isZMovement()) glColor3f(1, 0, 0.0);
         else {
-            glLineWidth(1.0);
             glColor3f(0.0, 0.0, 0.0);
         }
+        if (ls->drawn()) glColor3f(0.85, 0.85, 0.85);
 
         glBegin(GL_LINES);
         glVertex3f(ls->getStart().x(), ls->getStart().y(), ls->getStart().z());

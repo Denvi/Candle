@@ -19,12 +19,13 @@ frmMain::frmMain(QWidget *parent) :
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
 
-    m_codeDrawer.setViewParser(&m_viewParser);
+    m_codeDrawer = new GcodeDrawer(this);
+    m_codeDrawer->setViewParser(&m_viewParser);
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 10));
     m_toolDrawer.setToolDiameter(m_frmSettings.toolDiameter());
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
 
-    ui->glwVisualizator->addDrawable(&m_codeDrawer);
+    ui->glwVisualizator->addDrawable(m_codeDrawer);
     ui->glwVisualizator->addDrawable(&m_toolDrawer);
     ui->glwVisualizator->fitDrawables();
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
@@ -34,9 +35,10 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->setModel(&m_tableModel);
 
-    ui->tblProgram->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->tblProgram->setColumnWidth(1, 150);
+    ui->tblProgram->setColumnWidth(0, 40);
+    ui->tblProgram->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     ui->tblProgram->setColumnWidth(2, 150);
+    ui->tblProgram->setColumnWidth(3, 150);
 
     m_programLoading = false;
     clearTable();
@@ -45,6 +47,9 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdXPlus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYPlus->setBackColor(ui->cmdXMinus->backColor());
+
+    ui->splitter->setStretchFactor(0, 1);
+    ui->splitter->setStretchFactor(1, 0);
 
 //    ui->cmdReset->setBackColor(QColor(255, 228, 181));
 
@@ -73,7 +78,7 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     m_timerConnection.start(1000);
-    m_timerStateQuery.start(250);        
+    m_timerStateQuery.start(25);
 }
 
 frmMain::~frmMain()
@@ -82,6 +87,11 @@ frmMain::~frmMain()
     saveSettings();
 
     delete ui;
+}
+
+double frmMain::toolZPosition()
+{
+    return m_toolDrawer.toolPosition().z();
 }
 
 void frmMain::loadSettings()
@@ -120,10 +130,29 @@ void frmMain::updateControlsState() {
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
     ui->grpSpindle->setEnabled(portOpened);
-    ui->grpJog->setEnabled(portOpened && !m_transferingFile);
+    ui->grpJog->setEnabled(portOpened && !m_transferringFile);
     ui->grpConsole->setEnabled(portOpened);   
 
+    ui->chkTestMode->setEnabled(portOpened && !m_transferringFile);
+    ui->cmdHome->setEnabled(!m_transferringFile);
+    ui->cmdTouch->setEnabled(!m_transferringFile);
+    ui->cmdZeroXY->setEnabled(!m_transferringFile);
+    ui->cmdZeroZ->setEnabled(!m_transferringFile);
+    ui->cmdReturnXY->setEnabled(!m_transferringFile);
+    ui->cmdTopZ->setEnabled(!m_transferringFile);
+    ui->cmdUnlock->setEnabled(!m_transferringFile);
+    ui->cmdSpindle->setEnabled(!m_transferringFile);
+
+    ui->cmdFileNew->setEnabled(!m_transferringFile);
+    ui->cmdFileOpen->setEnabled(!m_transferringFile);
+    ui->cmdFileReset->setEnabled(!m_transferringFile);
+    ui->cmdFileSend->setEnabled(!m_transferringFile);
+    ui->cmdFilePause->setEnabled(m_transferringFile);
+    ui->actFileOpen->setEnabled(!m_transferringFile);
+
     if (!portOpened) ui->txtStatus->setText("Не подключен");
+
+    this->repaint();
 }
 
 void frmMain::openPort()
@@ -135,7 +164,7 @@ void frmMain::openPort()
     }
 }
 
-void frmMain::sendCommand(QString command)
+void frmMain::sendCommand(QString command, int index)
 {
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
@@ -151,25 +180,12 @@ void frmMain::sendCommand(QString command)
     CommandAttributes ca;
     ca.length = command.length() + 1;
     ca.consoleIndex = ui->txtConsole->blockCount();
+    ca.tableIndex = index;
     m_commands.append(ca);
 
     ui->txtConsole->appendPlainText(command);
 
     // Processing
-    QRegExp m("[Mm]0*(\\d+)");
-    if (m.indexIn(command) != -1) {
-
-        qDebug() << m.capturedTexts();
-
-        if (m.cap(1).toInt() == 3) {
-            m_timerToolAnimation.start(25, this);
-            ui->cmdSpindle->setChecked(true);
-        }
-        else if (m.cap(1).toInt() == 5) {
-            m_timerToolAnimation.stop();
-            ui->cmdSpindle->setChecked(false);
-        }
-    }
     QRegExp s("[Ss]0*(\\d+)");
     if (s.indexIn(command) != -1) {
         int speed = s.cap(1).toInt();
@@ -186,10 +202,12 @@ void frmMain::sendCommand(QString command)
 void frmMain::grblReset()
 {
     ui->txtConsole->appendPlainText("[CTRL+X]");
-    m_transferingFile = false;
+    m_transferringFile = false;
     m_serialPort.write(QByteArray(1, (char)24));
+
     ui->cmdSpindle->setChecked(false);
     m_timerToolAnimation.stop();
+
     updateControlsState();
 }
 
@@ -253,9 +271,44 @@ void frmMain::onSerialPortReadyRead()
                                                        ui->txtWPosY->text().toDouble(),
                                                        ui->txtWPosZ->text().toDouble()));
                 ui->glwVisualizator->update();
+
+                ui->chkTestMode->setChecked(i == 6);
+                ui->cmdFilePause->setChecked(i == 4 || i == 5);
+
+                if (m_transferringFile) {
+                    bool validPosition = false;
+
+                    QList<int> drawnLines;
+
+                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+                        if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
+                            validPosition = true;
+                            m_lastDrawnLineIndex = i;
+                            break;
+                        }
+                        drawnLines << i;
+                    }
+
+                    if (validPosition) {
+                        foreach (int i, drawnLines) {
+                            m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+                        }
+                    }
+                }
+
+                if (m_transferringFile && i == 0 && m_fileCommandIndex == m_tableModel.rowCount()) {
+                    m_transferringFile = false;
+
+                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+                        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+                    }
+
+                    updateControlsState();
+                }
             }
         } else if (data.length() > 0) {
             if (m_commands.length() > 0) {
+
                 CommandAttributes ca = m_commands.takeFirst();
                 QTextBlock tb = ui->txtConsole->document()->findBlockByNumber(ca.consoleIndex);
                 QTextCursor tc(tb);
@@ -264,16 +317,31 @@ void frmMain::onSerialPortReadyRead()
                 tc.insertText(" > " + data);
                 tc.endEditBlock();
 
-                if (m_transferingFile) {
-                    if (m_fileCommandIndex == m_tableModel.rowCount() - 1) {
-                        m_transferingFile = false;
-                        updateControlsState();
+                if (m_transferringFile) {
+
+                    m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), "Обработана");
+                    m_tableModel.setData(m_tableModel.index(ca.tableIndex, 3), data);
+
+                    if (ui->chkAutoScroll->isChecked()) ui->tblProgram->setCurrentIndex(m_tableModel.index(ca.tableIndex, 1));
+
+                    if (m_fileCommandIndex == m_tableModel.rowCount()) {
+//                        m_transferringFile = false;
+//                        updateControlsState();
                     } else {
-                        QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex + 1, 0)).toString();
-                        if ((bufferLength() + command.length() + 1) <= BUFFERLENGTH) {
-                            m_fileCommandIndex++;
-                            sendCommand(command);
-                        }
+
+                        sendNextFileCommands();
+                    }
+                }
+
+                QRegExp m("[Mm]0*(\\d+)");
+                if (m.indexIn(tb.text()) != -1) {
+                    if (m.cap(1).toInt() == 3) {
+                        m_timerToolAnimation.start(25, this);
+                        ui->cmdSpindle->setChecked(true);
+                    }
+                    else if (m.cap(1).toInt() == 5) {
+                        m_timerToolAnimation.stop();
+                        ui->cmdSpindle->setChecked(false);
                     }
                 }
 
@@ -314,7 +382,7 @@ void frmMain::onTimerStateQuery()
         m_serialPort.write(QByteArray(1, '?'));
     }
 
-    ui->statusBar->showMessage(QString("Буфер: %1    Очередь: %2").arg(bufferLength()).arg(m_queue.length()));
+//    ui->statusBar->showMessage(QString("Буфер: %1    Очередь: %2").arg(bufferLength()).arg(m_queue.length()));
 }
 
 void frmMain::onCmdJogStepClicked()
@@ -330,10 +398,10 @@ void frmMain::onCmdJogStepClicked()
 
 void frmMain::showEvent(QShowEvent *se)
 {
-    QList<int> sizes;
-    sizes.append(ui->grpProgram->height() - 100);
-    sizes.append(100);
-    ui->splitter->setSizes(sizes);
+//    QList<int> sizes;
+//    sizes.append(ui->grpProgram->height() - 100);
+//    sizes.append(100);
+//    ui->splitter->setSizes(sizes);
     ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
 }
 
@@ -380,21 +448,28 @@ void frmMain::processFile(QString fileName)
     {
         commands.append(textStream.readLine());
 
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 0), commands.last());
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 1), "В очереди");
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), commands.last());
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 2), "В очереди");
     }
 
     m_programLoading = false;
 
     ui->tblProgram->setModel(&m_tableModel);
-    ui->tblProgram->setColumnWidth(0, 400);
-    ui->tblProgram->setColumnWidth(1, 150);
-    ui->tblProgram->horizontalHeader()->setStretchLastSection(true);
+
+    ui->tblProgram->setColumnWidth(0, 40);
+    ui->tblProgram->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tblProgram->setColumnWidth(2, 150);
+    ui->tblProgram->setColumnWidth(3, 150);
 
     m_viewParser.reset();
-    m_viewParser.toObjRedux(commands, 1);
+    m_viewParser.toObjRedux(commands, 0.1);
 
     ui->glwVisualizator->fitDrawables();
+
+//    for (int i = 0; i < 20 && i < m_viewParser.getLineSegmentList().length(); i++) {
+//        qDebug() << m_viewParser.getLineSegmentList()[i]->getLineNumber() << m_viewParser.getLineSegmentList()[i]->getPointArray();
+//        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+//    }
 }
 
 void frmMain::clearTable()
@@ -409,23 +484,47 @@ void frmMain::on_cmdFit_clicked()
 }
 
 void frmMain::on_cmdFileSend_clicked()
-{
-    m_fileCommandIndex = 0;
-    m_transferingFile = true;
-    updateControlsState();
+{    
+//    m_fileCommandIndex = 0;
+//    m_lastDrawnLineIndex = 0;
 
-    sendCommand(m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 0)).toString());
+//    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+//        m_viewParser.getLineSegmentList()[i]->setDrawn(false);
+//    }
+
+//    for (int i = 0; i < m_tableModel.rowCount(); i++) {
+//        m_tableModel.setData(m_tableModel.index(i, 2), "В очереди");
+//        m_tableModel.setData(m_tableModel.index(i, 3), "");
+//    }
+    on_cmdFileReset_clicked();
+
+    m_transferringFile = true;
+    updateControlsState();
+    sendNextFileCommands();
+}
+
+void frmMain::sendNextFileCommands() {
+
+    if (m_queue.length() > 0) return;
+
+    QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
+    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount()) {
+        m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), "Отправлена");
+        sendCommand(command, m_fileCommandIndex);
+        m_fileCommandIndex++;
+        command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
+    }
 }
 
 void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 {
-    if (i1.column() != 0) return;
-    if (i1.row() == (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 0)).toString() != "") {
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), "В очереди");
+    if (i1.column() != 1) return;
+    if (i1.row() == (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() != "") {
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 2), "В очереди");
         m_tableModel.insertRow(m_tableModel.rowCount());
-        if (!m_programLoading) ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 0));
-    } else if (i1.row() != (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 0)).toString() == "") {
-        ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 0));
+        if (!m_programLoading) ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 1));
+    } else if (i1.row() != (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() == "") {
+        ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 1));
         m_tableModel.removeRow(i1.row());
     }
 
@@ -433,11 +532,11 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
         QList<QString> commands;
 
         for (int i = 0; i < m_tableModel.rowCount(); i++) {
-            commands.append(m_tableModel.data(m_tableModel.index(i, 0)).toString());
+            commands.append(m_tableModel.data(m_tableModel.index(i, 1)).toString());
         }
 
         m_viewParser.reset();
-        m_viewParser.toObjRedux(commands, 1);
+        m_viewParser.toObjRedux(commands, 0.1);
         //ui->glwVisualizator->fitDrawables();
         ui->glwVisualizator->update();
     }
@@ -547,7 +646,9 @@ void frmMain::on_txtSpindleSpeed_editingFinished()
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
-    if (!m_programSpeed) sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value()));
+    if (!m_programSpeed) {
+        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value()));
+    }
 }
 
 void frmMain::on_cmdYPlus_clicked()
@@ -578,4 +679,30 @@ void frmMain::on_cmdZPlus_clicked()
 void frmMain::on_cmdZMinus_clicked()
 {
     sendCommand("G91 G0 Z-" + ui->txtJogStep->text());
+}
+
+void frmMain::on_chkTestMode_clicked()
+{
+    sendCommand("$C");
+}
+
+void frmMain::on_cmdFilePause_clicked(bool checked)
+{
+    m_serialPort.write(checked ? "!" : "~");
+//    sendCommand(checked ? "!" : "~");
+}
+
+void frmMain::on_cmdFileReset_clicked()
+{
+    m_fileCommandIndex = 0;
+    m_lastDrawnLineIndex = 0;
+
+    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+        m_viewParser.getLineSegmentList()[i]->setDrawn(false);
+    }
+
+    for (int i = 0; i < m_tableModel.rowCount(); i++) {
+        m_tableModel.setData(m_tableModel.index(i, 2), "В очереди");
+        m_tableModel.setData(m_tableModel.index(i, 3), "");
+    }
 }

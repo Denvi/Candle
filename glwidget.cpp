@@ -30,6 +30,8 @@ GLWidget::GLWidget(QWidget *parent) :
     m_xSize = 0;
     m_ySize = 0;
     m_zSize = 0;
+
+    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
 double GLWidget::calculateVolume(QVector3D size) {
@@ -106,6 +108,13 @@ bool GLWidget::antialiasing() const
 void GLWidget::setAntialiasing(bool antialiasing)
 {
     m_antialiasing = antialiasing;
+}
+
+void GLWidget::onFramesTimer()
+{
+    m_fps = m_frames;
+    m_frames = 0;
+    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
 void GLWidget::initializeGL()
@@ -290,7 +299,11 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_yMin, 0, 'f', 3).arg(m_yMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_zMin, 0, 'f', 3).arg(m_zMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));
+    painter.drawText(QPoint(this->width() - 60, y + 45), QString("FPS: %1").arg(m_fps));
+
     painter.end();
+
+    m_frames++;
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)

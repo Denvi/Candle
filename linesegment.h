@@ -27,6 +27,12 @@ public:
     bool isArc();
     void setIsFastTraverse(bool isF);
     bool isFastTraverse();
+
+    bool contains(QVector3D point);
+
+    bool drawn() const;
+    void setDrawn(bool drawn);
+
 signals:
 
 public slots:
@@ -41,6 +47,7 @@ private:
     bool m_isArc;
     bool m_isFastTraverse;
     int m_lineNumber;
+    bool m_drawn;
 };
 
 #endif // LINESEGMENT_H

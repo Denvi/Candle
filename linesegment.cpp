@@ -1,4 +1,5 @@
 #include "linesegment.h"
+#include <QDebug>
 
 LineSegment::LineSegment(QObject *parent) :
     QObject(parent)
@@ -7,14 +8,15 @@ LineSegment::LineSegment(QObject *parent) :
     m_isZMovement = false;
     m_isArc = false;
     m_isFastTraverse = false;
+    m_drawn = false;
 }
 
-LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
+LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
 {
-    m_toolhead = 0; //DEFAULT TOOLHEAD ASSUMED TO BE 0!
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
+//    m_toolhead = 0; //DEFAULT TOOLHEAD ASSUMED TO BE 0!
+//    m_isZMovement = false;
+//    m_isArc = false;
+//    m_isFastTraverse = false;
 
     m_first = a;
     m_second = b;
@@ -99,3 +101,25 @@ void LineSegment::setIsFastTraverse(bool isF) {
 bool LineSegment::isFastTraverse() {
     return this->m_isFastTraverse;
 }
+
+bool LineSegment::contains(QVector3D point)
+{
+    double delta;
+    QVector3D line = this->getEnd() - this->getStart();
+    QVector3D pt = point - this->getStart();
+
+    delta = (line - pt).length() - (line.length() - pt.length());
+
+    return delta < 0.01;
+}
+
+bool LineSegment::drawn() const
+{
+    return m_drawn;
+}
+
+void LineSegment::setDrawn(bool drawn)
+{
+    m_drawn = drawn;
+}
+

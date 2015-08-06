@@ -21,6 +21,7 @@ class frmMain;
 struct CommandAttributes {
     int length;
     int consoleIndex;
+    int tableIndex;
 };
 
 class frmMain : public QMainWindow
@@ -30,6 +31,8 @@ class frmMain : public QMainWindow
 public:
     explicit frmMain(QWidget *parent = 0);
     ~frmMain();    
+
+    double toolZPosition();
 
 private slots:
     void onSerialPortReadyRead();
@@ -67,6 +70,12 @@ private slots:
     void on_cmdZPlus_clicked();
     void on_cmdZMinus_clicked();
 
+    void on_chkTestMode_clicked();
+
+    void on_cmdFilePause_clicked(bool checked);
+
+    void on_cmdFileReset_clicked();
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
@@ -77,7 +86,7 @@ private:
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
-    GcodeDrawer m_codeDrawer;
+    GcodeDrawer *m_codeDrawer;
     ToolDrawer m_toolDrawer;
     GCodeTableModel m_tableModel;
     bool m_programLoading;
@@ -101,11 +110,13 @@ private:
     bool m_homing = false;
     bool m_programSpeed = false;
 
+    int m_lastDrawnLineIndex;
+
     QList<CommandAttributes> m_commands;
     QList<QString> m_queue;
     int m_queueCount;
 
-    bool m_transferingFile = false;
+    bool m_transferringFile = false;
     int m_fileCommandIndex;
 
     void processFile(QString fileName);
@@ -114,9 +125,10 @@ private:
     void saveSettings();
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command);
+    void sendCommand(QString command, int index = 0);
     void grblReset();
     int bufferLength();
+    void sendNextFileCommands();
 };
 
 #endif // FRMMAIN_H
