@@ -60,6 +60,7 @@ void GcodeDrawer::draw()
         }
         else if (ls->isZMovement()) glColor3f(1, 0, 0.0);
         else {
+            glLineWidth(1.5);
             glColor3f(0.0, 0.0, 0.0);
         }
         if (ls->drawn()) glColor3f(0.85, 0.85, 0.85);
@@ -94,7 +95,12 @@ QVector3D GcodeDrawer::getMaximumExtremes()
     return m_viewParser->getMaximumExtremes();
 }
 
-void GcodeDrawer::setViewParser(GcodeViewParse *viewParser)
+int GcodeDrawer::getLinesCount()
+{
+    return m_viewParser->getLineSegmentList().count();
+}
+
+void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)
 {
     m_viewParser = viewParser;
 }

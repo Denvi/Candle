@@ -14,6 +14,7 @@ public:
     virtual QVector3D getSizes();
     virtual QVector3D getMinimumExtremes();
     virtual QVector3D getMaximumExtremes();
+    virtual int getLinesCount();
 
 signals:
 

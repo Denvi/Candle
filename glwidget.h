@@ -33,8 +33,8 @@ private:
     QList<GLDrawable*> m_drawables;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     bool m_antialiasing;
-    int m_frames;
-    int m_fps;
+    int m_frames = 0;
+    int m_fps = 0;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);

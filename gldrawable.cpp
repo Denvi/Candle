@@ -23,3 +23,8 @@ QVector3D GLDrawable::getMaximumExtremes()
 {
     return QVector3D(0, 0, 0);
 }
+
+int GLDrawable::getLinesCount()
+{
+    return 0;
+}

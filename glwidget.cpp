@@ -58,8 +58,14 @@ void GLWidget::fitDrawables()
     }
 
     if (bigest != NULL) {
-//        m_distance = qMax<double>(qMax<double>(maxSize.x(), maxSize.y()), maxSize.z()) * 1.2 + bigest->getMaximumExtremes().z();
-        m_distance = qMax<double>(maxSize.x(), maxSize.y()) / 2 / 0.25 * 1.1 + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
+
+        double a = maxSize.y() / 2 / 0.25 * 1.3
+                / (this->height() < this->width() ? 1 : (double)this->height() / this->width())
+                + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
+        double b = maxSize.x() / 2 / 0.25 * 1.3
+                / (this->height() < this->width() ? (double)this->width() / this->height() : 1)
+                + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
+        m_distance = qMax(a, b);
 
         m_xLookAt = (bigest->getMaximumExtremes().x() - bigest->getMinimumExtremes().x()) / 2 + bigest->getMinimumExtremes().x();
         m_zLookAt = -((bigest->getMaximumExtremes().y() - bigest->getMinimumExtremes().y()) / 2 + bigest->getMinimumExtremes().y());
@@ -119,10 +125,10 @@ void GLWidget::onFramesTimer()
 
 void GLWidget::initializeGL()
 {
-    //    QGLFormat fmt;
-    //    fmt.setSampleBuffers(true);
-    //    fmt.setSamples(8); //2, 4, 8, 16
-    //    QGLFormat::setDefaultFormat(fmt);
+//        QGLFormat fmt;
+//        fmt.setSampleBuffers(true);
+//        fmt.setSamples(8); //2, 4, 8, 16
+//        QGLFormat::setDefaultFormat(fmt);
 
 //    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -141,6 +147,7 @@ void GLWidget::initializeGL()
     GLint samples;
     glGetIntegerv(GL_SAMPLE_BUFFERS, &bufs);
     glGetIntegerv(GL_SAMPLES, &samples);
+
     qDebug("Have %d buffers and %d samples", bufs, samples);
 
 //    qglClearColor(QColor(Qt::white));
@@ -180,15 +187,15 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     qglClearColor(QColor(Qt::white));
 
     if (m_antialiasing) {
-        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-        glEnable(GL_LINE_SMOOTH);
+//        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+//        glEnable(GL_LINE_SMOOTH);
+        glEnable(GL_MULTISAMPLE);
     }
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_MULTISAMPLE);
     updateProjection();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -275,7 +282,11 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     glEnd();
 
     // Draw drawables
-    foreach (GLDrawable *dr, m_drawables) dr->draw();
+    int lines = 0;
+    foreach (GLDrawable *dr, m_drawables) {
+        lines += dr->getLinesCount();
+        dr->draw();
+    }
 
     // Draw 2D
     glShadeModel(GL_FLAT);
@@ -298,8 +309,10 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_xMin, 0, 'f', 3).arg(m_xMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_yMin, 0, 'f', 3).arg(m_yMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_zMin, 0, 'f', 3).arg(m_zMax, 0, 'f', 3));
-    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));
-    painter.drawText(QPoint(this->width() - 60, y + 45), QString("FPS: %1").arg(m_fps));
+    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));        
+
+    painter.drawText(QPoint(x, 25), QString("Lines: %1").arg(lines));
+    painter.drawText(QPoint(this->width() - 70, y + 45), QString("FPS: %1").arg(m_fps));
 
     painter.end();
 
@@ -317,7 +330,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) {
+    if (event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::LeftButton) {
         m_yRot = normalizeAngle(m_yLastRot - (event->pos().x() - m_lastPos.x()) * 0.5);
         m_xRot = m_xLastRot + (event->pos().y() - m_lastPos.y()) * 0.5;
 
@@ -327,7 +340,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         //qDebug() << m_yRot << m_xRot;
     }
 
-    if (event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) {
+    if (event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier || event->buttons() & Qt::RightButton) {
         m_xPan = m_xLastPan - (event->pos().x() - m_lastPos.x()) * 1 / (double)width();
         m_yPan = m_yLastPan + (event->pos().y() - m_lastPos.y()) * 1 / (double)height();
 

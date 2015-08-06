@@ -280,7 +280,7 @@ void frmMain::onSerialPortReadyRead()
 
                     QList<int> drawnLines;
 
-                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+                    for (int i = m_lastDrawnLineIndex; (m_lastDrawnLineIndex == 0 && i < 10) || (m_lastDrawnLineIndex != 0 && i < m_lastDrawnLineIndex + 50 && i < m_viewParser.getLineSegmentList().length()); i++) {
                         if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
                             validPosition = true;
                             m_lastDrawnLineIndex = i;
@@ -462,7 +462,7 @@ void frmMain::processFile(QString fileName)
     ui->tblProgram->setColumnWidth(3, 150);
 
     m_viewParser.reset();
-    m_viewParser.toObjRedux(commands, 0.1);
+    m_viewParser.toObjRedux(commands, 0);
 
     ui->glwVisualizator->fitDrawables();
 
@@ -536,7 +536,7 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
         }
 
         m_viewParser.reset();
-        m_viewParser.toObjRedux(commands, 0.1);
+        m_viewParser.toObjRedux(commands, 0);
         //ui->glwVisualizator->fitDrawables();
         ui->glwVisualizator->update();
     }
@@ -562,6 +562,8 @@ void frmMain::on_actServiceSettings_triggered()
             m_serialPort.setBaudRate(m_frmSettings.baud());
             openPort();
         }
+
+        updateControlsState();
 
         m_toolDrawer.setToolDiameter(m_frmSettings.toolDiameter());
         m_toolDrawer.setToolLength(m_frmSettings.toolLength());
