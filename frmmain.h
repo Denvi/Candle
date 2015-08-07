@@ -47,7 +47,6 @@ private slots:
     void on_cmdFit_clicked();
     void on_cmdFileSend_clicked();
     void on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2);
-    void on_cmdFileNew_clicked();
     void on_actServiceSettings_triggered();
     void on_actFileOpen_triggered();
     void on_txtCommand_returnPressed();
@@ -74,6 +73,8 @@ private slots:
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
 
+
+    void on_actFileNew_triggered();
 
 protected:
     void showEvent(QShowEvent *se);

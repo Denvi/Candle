@@ -165,12 +165,17 @@ void frmMain::updateControlsState() {
     ui->cmdUnlock->setEnabled(!m_transferringFile);
     ui->cmdSpindle->setEnabled(!m_transferringFile);
 
-    ui->cmdFileNew->setEnabled(!m_transferringFile);
+    ui->actFileNew->setEnabled(!m_transferringFile);
+    ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileReset->setEnabled(!m_transferringFile);
     ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile);
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
+
+    ui->tblProgram->setEditTriggers(m_transferringFile ? QAbstractItemView::NoEditTriggers :
+                                                         QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
+                                                         | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
     if (!portOpened) ui->txtStatus->setText("Не подключен");
 
@@ -384,7 +389,10 @@ void frmMain::onSerialPortReadyRead()
                     m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), "Обработана");
                     m_tableModel.setData(m_tableModel.index(ca.tableIndex, 3), data);
 
-                    if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) ui->tblProgram->setCurrentIndex(m_tableModel.index(ca.tableIndex, 1));
+                    if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
+                        ui->tblProgram->scrollTo(m_tableModel.index(ca.tableIndex + 1, 0));
+                        ui->tblProgram->setCurrentIndex(m_tableModel.index(ca.tableIndex, 1));
+                    }
 
                     if (m_fileCommandIndex < m_tableModel.rowCount()) {
                         sendNextFileCommands();
@@ -560,17 +568,6 @@ void frmMain::on_cmdFit_clicked()
 
 void frmMain::on_cmdFileSend_clicked()
 {    
-//    m_fileCommandIndex = 0;
-//    m_lastDrawnLineIndex = 0;
-
-//    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
-//        m_viewParser.getLineSegmentList()[i]->setDrawn(false);
-//    }
-
-//    for (int i = 0; i < m_tableModel.rowCount(); i++) {
-//        m_tableModel.setData(m_tableModel.index(i, 2), "В очереди");
-//        m_tableModel.setData(m_tableModel.index(i, 3), "");
-//    }
     on_cmdFileReset_clicked();
 
     m_transferCompleted = false;
@@ -622,13 +619,6 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
         //ui->glwVisualizator->fitDrawables();
         ui->glwVisualizator->update();
     }
-}
-
-void frmMain::on_cmdFileNew_clicked()
-{
-    clearTable();
-    m_viewParser.reset();
-    ui->glwVisualizator->fitDrawables();
 }
 
 void frmMain::on_actServiceSettings_triggered()
@@ -809,5 +799,13 @@ void frmMain::on_cmdFileReset_clicked()
         m_tableModel.setData(m_tableModel.index(i, 3), "");
     }
 
-    ui->tblProgram->setCurrentIndex(m_tableModel.index(0, 1));
+    ui->tblProgram->scrollTo(m_tableModel.index(0, 0));
+    ui->tblProgram->clearSelection();
+}
+
+void frmMain::on_actFileNew_triggered()
+{
+    clearTable();
+    m_viewParser.reset();
+    ui->glwVisualizator->fitDrawables();
 }

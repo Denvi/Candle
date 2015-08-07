@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>781</height>
+    <width>1057</width>
+    <height>843</height>
    </rect>
   </property>
   <property name="palette">
@@ -278,13 +278,6 @@ QToolButton:checked { /* all types of tool button */
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="cmdFileNew">
-           <property name="text">
-            <string>Новый</string>
-           </property>
-          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="cmdFileOpen">
@@ -1385,15 +1378,18 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>903</width>
-     <height>21</height>
+     <width>1057</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
      <string>Файл</string>
     </property>
+    <addaction name="actFileNew"/>
     <addaction name="actFileOpen"/>
+    <addaction name="actFileSave"/>
+    <addaction name="actFileSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actFileExit"/>
    </widget>
@@ -1419,6 +1415,27 @@ color: black;</string>
   <action name="actServiceSettings">
    <property name="text">
     <string>Настройки</string>
+   </property>
+  </action>
+  <action name="actFileNew">
+   <property name="text">
+    <string>Новый</string>
+   </property>
+  </action>
+  <action name="actFileSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
+  <action name="actFileSaveAs">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Сохранить как</string>
    </property>
   </action>
  </widget>
