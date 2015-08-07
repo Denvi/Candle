@@ -230,45 +230,45 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     glBegin(GL_LINES);
     glColor3f(1.0, 0.0, 0.0);
     glVertex3f(0, 0, 0);
-    glVertex3f(10, 0, 0);
+    glVertex3f(9, 0, 0);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
     glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(11, 0, 0);
-    glVertex3f(9, 0.5, 0);
-    glVertex3f(9, -0.5, 0);
-    glVertex3f(11, 0, 0);
+    glVertex3f(10, 0, 0);
+    glVertex3f(8, 0.5, 0);
+    glVertex3f(8, -0.5, 0);
+    glVertex3f(10, 0, 0);
     glEnd();
 
     // Draw Y-axis
     glBegin(GL_LINES);
     glColor3f(0.0, 1.0, 0.0);
     glVertex3f(0, 0, 0);
-    glVertex3f(0, 10, 0);
+    glVertex3f(0, 9, 0);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
     glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0, 11, 0);
-    glVertex3f(-0.5, 9, 0);
-    glVertex3f(0.5, 9, 0);
-    glVertex3f(0, 11, 0);
+    glVertex3f(0, 10, 0);
+    glVertex3f(-0.5, 8, 0);
+    glVertex3f(0.5, 8, 0);
+    glVertex3f(0, 10, 0);
     glEnd();
 
     // Draw Z-axis
     glBegin(GL_LINES);
     glColor3f(0.0, 0.0, 1.0);
     glVertex3f(0, 0, 0);
-    glVertex3f(0, 0, 10);
+    glVertex3f(0, 0, 9);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
     glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0, 0, 11);
-    glVertex3f(-0.5, 0, 9);
-    glVertex3f(0.5, 0, 9);
-    glVertex3f(0, 0, 11);
+    glVertex3f(0, 0, 10);
+    glVertex3f(-0.5, 0, 8);
+    glVertex3f(0.5, 0, 8);
+    glVertex3f(0, 0, 10);
     glEnd();
 
     // Draw 2x2 XY rect
@@ -311,8 +311,12 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_zMin, 0, 'f', 3).arg(m_zMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));        
 
-    painter.drawText(QPoint(x, 25), QString("Lines: %1").arg(lines));
-    painter.drawText(QPoint(this->width() - 70, y + 45), QString("FPS: %1").arg(m_fps));
+    QFontMetrics fm(painter.font());
+
+    QString str = QString("Lines: %1").arg(lines);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
+    str = QString("FPS: %1").arg(m_fps);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);
 
     painter.end();
 

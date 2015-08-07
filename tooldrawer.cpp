@@ -12,7 +12,7 @@ ToolDrawer::ToolDrawer(QObject *parent) :
 
 void ToolDrawer::draw()
 {
-    glLineWidth(1);
+    glLineWidth(m_lineWidth);
     glColor3f(1.0, 0.6, 0.0);
 
     const int arcs = 4;
@@ -136,6 +136,16 @@ void ToolDrawer::rotate(double angle)
 {
     m_rotationAngle = normalizeAngle(m_rotationAngle + angle);
 }
+double ToolDrawer::lineWidth() const
+{
+    return m_lineWidth;
+}
+
+void ToolDrawer::setLineWidth(double lineWidth)
+{
+    m_lineWidth = lineWidth;
+}
+
 
 double ToolDrawer::normalizeAngle(double angle)
 {

@@ -11,6 +11,7 @@ public:
     QString command;
     QString state;
     QString status;
+    int line;
 };
 
 class GCodeTableModel : public QAbstractTableModel

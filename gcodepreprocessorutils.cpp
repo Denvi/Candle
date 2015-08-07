@@ -360,7 +360,7 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D 
         return empty;
     }
 
-    int numPoints = 20;
+    int numPoints = 50 / M_PI * sweep + 1;
 
     if (arcSegmentLength <= 0 && minArcLength > 0) {
         arcSegmentLength = (sweep * radius) / minArcLength;

@@ -25,6 +25,15 @@ public:
     void setToolLength(double length);
     bool antialiasing();
     void setAntialiasing(bool antialiasing);
+    double lineWidth();
+    void setLineWidth(double lineWidth);
+    double arcPrecision();
+    void setArcPrecision(double arcPrecision);
+    bool showAllCommands();
+    void setShowAllCommands(bool showAllCommands);
+    double safeZ();
+    void setSafeZ(double safeZ);
+
 
 private slots:
     void on_cmdRefresh_clicked();

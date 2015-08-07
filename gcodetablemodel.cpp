@@ -5,12 +5,13 @@ GCodeItem::GCodeItem()
     this->command = "";
     this->state = "";
     this->status = "";
+    this->line = 0;
 }
 
 GCodeTableModel::GCodeTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    m_headers << "№" << "Команда" << "Состояние" << "Статус";
+    m_headers << "№" << "Команда" << "Состояние" << "Статус" << "Строка";
 }
 
 QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
@@ -22,10 +23,11 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column())
         {
-        case 0: return index.row() + 1;
+        case 0: return index.row() == this->rowCount() - 1 ? "" : QString::number(index.row() + 1);
         case 1: return m_data.at(index.row())->command;
         case 2: return m_data.at(index.row())->state;
         case 3: return m_data.at(index.row())->status;
+        case 4: return m_data.at(index.row())->line;
         }
     }
 
@@ -48,6 +50,7 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
         case 1: m_data.at(index.row())->command = value.toString(); break;
         case 2: m_data.at(index.row())->state = value.toString(); break;
         case 3: m_data.at(index.row())->status = value.toString(); break;
+        case 4: m_data.at(index.row())->line = value.toInt(); break;
         }
         emit dataChanged(index, index);
         return true;
@@ -92,7 +95,7 @@ int GCodeTableModel::rowCount(const QModelIndex &parent) const
 
 int GCodeTableModel::columnCount(const QModelIndex &parent) const
 {
-    return 4;
+    return 5;
 }
 
 QVariant GCodeTableModel::headerData(int section, Qt::Orientation orientation, int role) const

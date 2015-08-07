@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>903</width>
     <height>781</height>
    </rect>
   </property>
@@ -534,8 +534,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdHome">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -557,8 +557,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdTouch">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -580,8 +580,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdZeroXY">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -603,8 +603,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdZeroZ">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -624,6 +624,9 @@ color: black;</string>
            </item>
            <item row="1" column="1">
             <widget class="StyledToolButton" name="cmdReturnXY">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>42</width>
@@ -649,8 +652,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdTopZ">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -672,8 +675,8 @@ color: black;</string>
             <widget class="StyledToolButton" name="cmdReset">
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -698,8 +701,8 @@ color: black;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -791,8 +794,8 @@ color: black;</string>
            </property>
            <property name="minimumSize">
             <size>
-             <width>42</width>
-             <height>42</height>
+             <width>44</width>
+             <height>44</height>
             </size>
            </property>
            <property name="icon">
@@ -935,8 +938,8 @@ color: black;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -982,8 +985,8 @@ color: black;</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>42</width>
-                 <height>42</height>
+                 <width>44</width>
+                 <height>44</height>
                 </size>
                </property>
                <property name="text">
@@ -1026,8 +1029,8 @@ color: black;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -1073,8 +1076,8 @@ color: black;</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>42</width>
-                 <height>42</height>
+                 <width>44</width>
+                 <height>44</height>
                 </size>
                </property>
                <property name="text">
@@ -1117,8 +1120,8 @@ color: black;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -1146,8 +1149,8 @@ color: black;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>42</width>
-               <height>42</height>
+               <width>44</width>
+               <height>44</height>
               </size>
              </property>
              <property name="text">
@@ -1382,7 +1385,7 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>903</width>
      <height>21</height>
     </rect>
    </property>

@@ -1,4 +1,5 @@
 #include <QListIterator>
+#include <QDebug>
 #include "gcodeparser.h"
 #include "math.h"
 

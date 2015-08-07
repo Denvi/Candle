@@ -19,12 +19,17 @@ public:
     void setViewParser(GcodeViewParse* viewParser);
     int getLinesCount();
 
+    double lineWidth() const;
+    void setLineWidth(double lineWidth);
+
 signals:
 
 public slots:
 
 private:
     GcodeViewParse *m_viewParser;
+
+    double m_lineWidth;
 };
 
 #endif // GCODEDRAWER_H

@@ -15,6 +15,15 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->txtToolDiameter->setValidator(validator);
     ui->txtToolLength->setValidator(validator);
 
+    validator->setBottom(0);
+    validator->setTop(10);
+    ui->txtLineWidth->setValidator(validator);
+    ui->txtArcPrecision->setValidator(validator);
+
+    validator->setBottom(-65535);
+    validator->setTop(65535);
+    ui->txtSafeZ->setValidator(validator);
+
     searchPorts();
 }
 
@@ -73,6 +82,46 @@ bool frmSettings::antialiasing()
 void frmSettings::setAntialiasing(bool antialiasing)
 {
     ui->chkAntialiasing->setChecked(antialiasing);
+}
+
+double frmSettings::lineWidth()
+{
+    return ui->txtLineWidth->text().toDouble();
+}
+
+void frmSettings::setLineWidth(double lineWidth)
+{
+    ui->txtLineWidth->setText(QString::number(lineWidth));
+}
+
+double frmSettings::arcPrecision()
+{
+    return ui->txtArcPrecision->text().toDouble();
+}
+
+void frmSettings::setArcPrecision(double arcPrecision)
+{
+    ui->txtArcPrecision->setText(QString::number(arcPrecision));
+}
+
+bool frmSettings::showAllCommands()
+{
+    return ui->chkShowAllCommands->isChecked();
+}
+
+void frmSettings::setShowAllCommands(bool showAllCommands)
+{
+    ui->chkShowAllCommands->setChecked(showAllCommands);
+}
+
+double frmSettings::safeZ()
+{
+    return ui->txtSafeZ->text().toDouble();
+}
+
+void frmSettings::setSafeZ(double safeZ)
+{
+    ui->txtSafeZ->setText(QString::number(safeZ));
 }
 
 void frmSettings::searchPorts()

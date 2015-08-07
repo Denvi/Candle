@@ -13,15 +13,12 @@ void GcodeDrawer::draw()
 {
     foreach (LineSegment* ls, m_viewParser->getLineSegmentList()) {
 
+        // First point
         if (ls->getLineNumber() == 0) {
 
             double size = qMax(qMax(getSizes().x(), getSizes().y()), getSizes().z()) / 75;
 
             QVector3D end = ls->getEnd();
-
-            if (end.z() == 0) {
-                end.setZ(m_viewParser->getLineSegmentList()[1]->getEnd().z());
-            }
 
             glLineWidth(1);
             glColor3f(1.0, 0.0, 0.0);
@@ -52,18 +49,27 @@ void GcodeDrawer::draw()
             continue;
         }
 
-        glLineWidth(1);
         if (ls->isFastTraverse()) {
-            glColor3f(0.0, 0.0, 0.0);
             glLineStipple(1, 0x00ff);
             glEnable(GL_LINE_STIPPLE);
         }
-        else if (ls->isZMovement()) glColor3f(1, 0, 0.0);
-        else {
-            glLineWidth(1.5);
+
+        if (ls->drawn()) {
+            glLineWidth(1);
+            glColor3f(0.85, 0.85, 0.85);
+        }
+        else if (ls->isFastTraverse()) {
+            glLineWidth(1);
             glColor3f(0.0, 0.0, 0.0);
         }
-        if (ls->drawn()) glColor3f(0.85, 0.85, 0.85);
+        else if (ls->isZMovement()) {
+            glLineWidth(1);
+            glColor3f(1, 0, 0.0);
+        }
+        else {
+            glLineWidth(m_lineWidth);
+            glColor3f(0.0, 0.0, 0.0);
+        }
 
         glBegin(GL_LINES);
         glVertex3f(ls->getStart().x(), ls->getStart().y(), ls->getStart().z());
@@ -99,6 +105,16 @@ int GcodeDrawer::getLinesCount()
 {
     return m_viewParser->getLineSegmentList().count();
 }
+double GcodeDrawer::lineWidth() const
+{
+    return m_lineWidth;
+}
+
+void GcodeDrawer::setLineWidth(double lineWidth)
+{
+    m_lineWidth = lineWidth;
+}
+
 
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)
 {

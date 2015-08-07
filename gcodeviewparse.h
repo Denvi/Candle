@@ -17,6 +17,7 @@ public:
     QVector3D getMaximumExtremes();
     QList<LineSegment *> toObjRedux(QList<QString> gcode, double arcSegmentLength);
     QList<LineSegment *> getLineSegmentList();
+    QList<LineSegment *> getLinesFromParser(GcodeParser *gp, double arcSegmentLength);
     void reset();
 signals:
 
@@ -38,7 +39,6 @@ private:
     bool debug;
     void testExtremes(QVector3D p3d);
     void testExtremes(double x, double y, double z);
-    QList<LineSegment *> getLinesFromParser(GcodeParser *gp, double arcSegmentLength);
 };
 
 #endif // GCODEVIEWPARSE_H

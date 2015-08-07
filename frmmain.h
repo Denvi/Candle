@@ -22,6 +22,7 @@ struct CommandAttributes {
     int length;
     int consoleIndex;
     int tableIndex;
+    QString command;
 };
 
 class frmMain : public QMainWindow
@@ -69,12 +70,10 @@ private slots:
     void on_cmdXMinus_clicked();
     void on_cmdZPlus_clicked();
     void on_cmdZMinus_clicked();
-
     void on_chkTestMode_clicked();
-
     void on_cmdFilePause_clicked(bool checked);
-
     void on_cmdFileReset_clicked();
+
 
 protected:
     void showEvent(QShowEvent *se);
@@ -105,8 +104,10 @@ private:
     double m_storedX = 0;
     double m_storedY = 0;
     double m_storedZ = 0;
+    double m_safeZ = 0;
 
     bool m_settingZeroXY = false;
+    bool m_settingZeroZ = false;
     bool m_homing = false;
     bool m_programSpeed = false;
 
@@ -114,10 +115,11 @@ private:
 
     QList<CommandAttributes> m_commands;
     QList<QString> m_queue;
-    int m_queueCount;
 
     bool m_transferringFile = false;
+    bool m_transferCompleted = false;
     int m_fileCommandIndex;
+    bool m_showAllCommands = false;
 
     void processFile(QString fileName);
     void clearTable();
@@ -125,10 +127,11 @@ private:
     void saveSettings();
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int index = 0);
+    void sendCommand(QString command, int tableIndex = 0);
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();
+    void applySettings();
 };
 
 #endif // FRMMAIN_H

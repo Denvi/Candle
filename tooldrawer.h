@@ -28,6 +28,9 @@ public:
     void setRotationAngle(double rotationAngle);
     void rotate(double angle);
 
+    double lineWidth() const;
+    void setLineWidth(double lineWidth);
+
 signals:
 
 public slots:
@@ -37,6 +40,7 @@ private:
     double m_toolLength;
     QVector3D m_toolPosition;
     double m_rotationAngle;
+    double m_lineWidth;
 
     double normalizeAngle(double angle);
 };
