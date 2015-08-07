@@ -59,3 +59,5 @@ RESOURCES += \
     res.qrc
 
 CONFIG += c++11
+
+RC_ICONS += images/3d_printer.ico
