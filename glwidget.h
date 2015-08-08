@@ -26,12 +26,17 @@ public:
     double lineWidth() const;
     void setLineWidth(double lineWidth);
 
+    void setIsometricView();
+    void setTopView();
+
 signals:
+    void rotationChanged();
 
 public slots:
 
 private slots:
     void onFramesTimer();
+    void onChangeViewTimer();
 
 private:
     double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
@@ -47,7 +52,9 @@ private:
     int m_frames = 0;
     int m_fps = 0;
     QTime m_spendTime;
-    QTime m_estimatedTime;
+    QTime m_estimatedTime;    
+    QTimer m_changeViewTimer;
+    double m_xRotTarget, m_yRotTarget;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);

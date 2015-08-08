@@ -35,7 +35,9 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizator->fitDrawables();
 //    ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->cmdFit->setParent(ui->glwVisualizator);
+    ui->cmdIsometric->setParent(ui->glwVisualizator);
 
+    connect(ui->glwVisualizator, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(&m_tableModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
 
     ui->tblProgram->setModel(&m_tableModel);
@@ -44,7 +46,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 //    ui->tblProgram->setColumnWidth(2, 150);
 //    ui->tblProgram->setColumnWidth(3, 150);
-//    ui->tblProgram->hideColumn(4);
+    ui->tblProgram->hideColumn(4);
 //    ui->tblProgram->showColumn(4);
 
     m_programLoading = false;
@@ -249,6 +251,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
 void frmMain::grblReset()
 {
     m_transferringFile = false;
+    m_fileCommandIndex = 0;
     ui->cmdSpindle->setChecked(false);
     m_timerToolAnimation.stop();
 
@@ -340,7 +343,7 @@ void frmMain::onSerialPortReadyRead()
 
                     for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().count()
                          && m_viewParser.getLineSegmentList()[i]->getLineNumber()
-                         < (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt()); i++) {
+                         <= (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                         if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
                             toolOnTrajectory = true;
                             m_lastDrawnLineIndex = i;
@@ -482,6 +485,11 @@ void frmMain::onCmdJogStepClicked()
     static_cast<QPushButton*>(sender())->setChecked(true);
 }
 
+void frmMain::onVisualizatorRotationChanged()
+{
+    ui->cmdIsometric->setChecked(false);
+}
+
 void frmMain::showEvent(QShowEvent *se)
 {
 //    QList<int> sizes;
@@ -489,11 +497,13 @@ void frmMain::showEvent(QShowEvent *se)
 //    sizes.append(100);
 //    ui->splitter->setSizes(sizes);
     ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
+    ui->cmdIsometric->move(ui->cmdFit->geometry().left() - ui->cmdIsometric->width() - 10, 10);
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
 {
     ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
+    ui->cmdIsometric->move(ui->cmdFit->geometry().left() - ui->cmdIsometric->width() - 10, 10);
 }
 
 void frmMain::timerEvent(QTimerEvent *te)
@@ -538,10 +548,8 @@ void frmMain::processFile(QString fileName)
 
     while (!textStream.atEnd())
     {
-//        commands.append(textStream.readLine());
         QString command = textStream.readLine();
 
-//        if (gp.addCommand(command) != NULL) line++;
         gp.addCommand(command);
 
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), command);
@@ -566,6 +574,7 @@ void frmMain::processFile(QString fileName)
     qDebug() << "Command lines count: " << m_viewParser.getLineSegmentList().last()->getLineNumber();
 
     ui->glwVisualizator->fitDrawables();
+//    ui->glwVisualizator->setTopView();
 
 //    for (int i = 0; i < 20 && i < m_viewParser.getLineSegmentList().length(); i++) {
 //        qDebug() << m_viewParser.getLineSegmentList()[i]->getLineNumber() << m_viewParser.getLineSegmentList()[i]->getPointArray();
@@ -654,13 +663,11 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
     if (!m_programLoading) {
 //        QList<QString> commands;
 
-        int line = -1;
         GcodeParser gp;
 
         for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
-//            commands.append(m_tableModel.data(m_tableModel.index(i, 1)).toString());
-            if (gp.addCommand(m_tableModel.data(m_tableModel.index(i, 1)).toString()) != NULL) line++;
-            m_tableModel.setData(m_tableModel.index(i, 4), line);
+            gp.addCommand(m_tableModel.data(m_tableModel.index(i, 1)).toString());
+            m_tableModel.setData(m_tableModel.index(i, 4), gp.getCommandNumber());
         }
 
         m_viewParser.reset();
@@ -863,4 +870,9 @@ void frmMain::on_actFileNew_triggered()
     clearTable();
     m_viewParser.reset();
     ui->glwVisualizator->fitDrawables();
+}
+
+void frmMain::on_cmdIsometric_clicked(bool checked)
+{
+    if (checked) ui->glwVisualizator->setIsometricView(); else ui->glwVisualizator->setTopView();
 }

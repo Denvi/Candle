@@ -300,8 +300,7 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> args) {
         code = code.mid(1);
 
     double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
-    if (!std::isnan(speed)) this->m_lastSpeed = speed;
-
+    if (!std::isnan(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);

@@ -126,7 +126,7 @@ QSlider::handle:horizontal:hover {
       <property name="flat">
        <bool>false</bool>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,1,0">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,1,0">
        <property name="spacing">
         <number>8</number>
        </property>
@@ -142,6 +142,54 @@ QSlider::handle:horizontal:hover {
        <property name="bottomMargin">
         <number>8</number>
        </property>
+       <item>
+        <widget class="QToolButton" name="cmdIsometric">
+         <property name="minimumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { /* all types of tool button */
+	color: lightgray;
+	border: 1px solid lightgray;
+	border-radius: 0px;
+	background-color: white;
+}
+
+QToolButton:hover { /* all types of tool button */
+	border: 1px solid gray;
+	color: gray;
+}
+
+QToolButton:pressed {
+}
+
+QToolButton:checked { /* all types of tool button */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/images/cube.png</normaloff>:/images/cube.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QToolButton" name="cmdFit">
          <property name="minimumSize">

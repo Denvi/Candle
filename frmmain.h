@@ -42,6 +42,7 @@ private slots:
     void onTimerConnection();
     void onTimerStateQuery();
     void onCmdJogStepClicked();
+    void onVisualizatorRotationChanged();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -73,9 +74,8 @@ private slots:
     void on_chkTestMode_clicked();
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
-
-
     void on_actFileNew_triggered();
+    void on_cmdIsometric_clicked(bool checked);
 
 protected:
     void showEvent(QShowEvent *se);

@@ -23,5 +23,6 @@
         <file>images/cutter.png</file>
         <file>images/handle2s.png</file>
         <file>images/handle2sh.png</file>
+        <file>images/cube.png</file>
     </qresource>
 </RCC>

@@ -9,7 +9,7 @@
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
-    m_xRot = 0;
+    m_xRot = 90;
     m_yRot = 0;
     m_zoom = 1;
 
@@ -34,6 +34,9 @@ GLWidget::GLWidget(QWidget *parent) :
     m_spendTime.setHMS(0, 0, 0);
     m_estimatedTime.setHMS(0, 0, 0);
 
+    m_changeViewTimer.setInterval(33);
+    connect(&m_changeViewTimer, SIGNAL(timeout()), this, SLOT(onChangeViewTimer()));
+
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
@@ -50,6 +53,8 @@ void GLWidget::fitDrawables()
 {
     GLDrawable *bigest = NULL;
     QVector3D maxSize(0, 0, 0);
+
+    m_changeViewTimer.stop();
 
     foreach (GLDrawable *dr, m_drawables) {
         QVector3D size = dr->getSizes();
@@ -100,8 +105,15 @@ void GLWidget::fitDrawables()
     m_xPan = 0;
     m_yPan = 0;
 
-    m_xRot = 45;
-    m_yRot = 45;
+//    m_xRot = 90;
+//    m_yRot = 0;
+
+//    m_xRotTarget = 90;
+//    m_yRotTarget = m_yRot > 180 ? 360 : 0;
+//    m_changeViewTimer.start();
+
+//    m_xRot = 45;
+//    m_yRot = 45;
 
     m_zoom = 1;
 
@@ -125,6 +137,19 @@ void GLWidget::onFramesTimer()
     m_frames = 0;
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
+
+void GLWidget::onChangeViewTimer()
+{
+    double step = 2;
+
+    if (fabs(m_xRot - m_xRotTarget) > 0.1) m_xRot += (m_xRotTarget - m_xRot) / step; else m_xRot = m_xRotTarget;
+    if (fabs(m_yRot - m_yRotTarget) > 0.1) m_yRot += (m_yRotTarget - m_yRot) / step; else m_yRot = m_yRotTarget;
+
+    if (m_xRot == m_xRotTarget && m_yRot == m_yRotTarget) m_changeViewTimer.stop();
+
+    update();
+}
+
 double GLWidget::lineWidth() const
 {
     return m_lineWidth;
@@ -133,6 +158,24 @@ double GLWidget::lineWidth() const
 void GLWidget::setLineWidth(double lineWidth)
 {
     m_lineWidth = lineWidth;
+}
+
+void GLWidget::setTopView()
+{
+    m_xRotTarget = 90;
+    m_yRotTarget = m_yRot > 180 ? 360 : 0;
+    m_changeViewTimer.start();
+}
+
+void GLWidget::setIsometricView()
+{
+    m_xRotTarget = 45;
+    m_yRotTarget = m_yRot > 180 ? 405 : 45;
+    m_changeViewTimer.start();
+
+//    m_xRot = 45;
+//    m_yRot = 45;
+//    update();
 }
 
 QTime GLWidget::estimatedTime() const
@@ -373,12 +416,16 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::LeftButton) {
+
+        m_changeViewTimer.stop();
+
         m_yRot = normalizeAngle(m_yLastRot - (event->pos().x() - m_lastPos.x()) * 0.5);
         m_xRot = m_xLastRot + (event->pos().y() - m_lastPos.y()) * 0.5;
 
         if (m_xRot < -90) m_xRot = -90;
         if (m_xRot > 90) m_xRot = 90;
 
+        emit rotationChanged();
         //qDebug() << m_yRot << m_xRot;
     }
 
