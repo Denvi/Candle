@@ -12,7 +12,7 @@ frmMain::frmMain(QWidget *parent) :
     ui(new Ui::frmMain)
 {
     m_status = {"Idle", "Alarm", "Run", "Home", "Hold", "Queue", "Check"};
-    m_statusCaptions = {"Готов", "Тревога", "Работа", "Домой", "Пауза", "Очередь", "Проверка"};
+    m_statusCaptions = {tr("Idle"), tr("Alarm"), tr("Run"), tr("Home"), tr("Hold"), tr("Queue"), tr("Check")};
     m_statusBackColors = {"palette(button)", "red", "lime", "lime", "yellow", "yellow", "palette(button)"};
     m_statusForeColors = {"palette(text)", "white", "black", "black", "black", "black", "palette(text)"};
 
@@ -185,7 +185,7 @@ void frmMain::updateControlsState() {
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
-    if (!portOpened) ui->txtStatus->setText("Не подключен");
+    if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
 
     qApp->processEvents();
     this->update();
@@ -194,7 +194,7 @@ void frmMain::updateControlsState() {
 void frmMain::openPort()
 {
     if (m_serialPort.open(QIODevice::ReadWrite)) {
-        ui->txtStatus->setText("Подключен");
+        ui->txtStatus->setText(tr("Connected"));
         updateControlsState();
         grblReset();
     }
@@ -403,7 +403,7 @@ void frmMain::onSerialPortReadyRead()
                 // Update file table
                 if (m_transferringFile) {
 
-                    m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), "Обработана");
+                    m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), tr("Processed"));
                     m_tableModel.setData(m_tableModel.index(ca.tableIndex, 3), data);
 
                     m_fileProcessedCommandIndex = ca.tableIndex;
@@ -448,7 +448,7 @@ void frmMain::onSerialPortError(QSerialPort::SerialPortError error)
     static QSerialPort::SerialPortError previousError;
 
     if (error != QSerialPort::NoError && error != previousError) {
-        ui->txtConsole->appendPlainText("Serial port error " + QString::number(error) + ": " + m_serialPort.errorString());
+        ui->txtConsole->appendPlainText(tr("Serial port error ") + QString::number(error) + ": " + m_serialPort.errorString());
         if (m_serialPort.isOpen()) {
             m_serialPort.close();
             updateControlsState();
@@ -492,10 +492,6 @@ void frmMain::onVisualizatorRotationChanged()
 
 void frmMain::showEvent(QShowEvent *se)
 {
-//    QList<int> sizes;
-//    sizes.append(ui->grpProgram->height() - 100);
-//    sizes.append(100);
-//    ui->splitter->setSizes(sizes);
     ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
     ui->cmdIsometric->move(ui->cmdFit->geometry().left() - ui->cmdIsometric->width() - 10, 10);
 }
@@ -523,7 +519,7 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Открыть", "", "Файлы G-Code (*.nc;*.ncc;*.tap)");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)"));
 
     if (fileName != "") processFile(fileName);
 }
@@ -543,7 +539,6 @@ void frmMain::processFile(QString fileName)
 
     ui->tblProgram->setModel(NULL);
 
-    int line = -1;
     GcodeParser gp;
 
     while (!textStream.atEnd())
@@ -553,7 +548,7 @@ void frmMain::processFile(QString fileName)
         gp.addCommand(command);
 
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), command);
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 2), "В очереди");
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 2), tr("In queue"));
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 4), gp.getCommandNumber());
     }
 
@@ -562,24 +557,10 @@ void frmMain::processFile(QString fileName)
     ui->tblProgram->setModel(&m_tableModel);
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
-//    ui->tblProgram->setColumnWidth(0, 40);
-//    ui->tblProgram->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-//    ui->tblProgram->setColumnWidth(2, 150);
-//    ui->tblProgram->setColumnWidth(3, 150);
-//    ui->tblProgram->hideColumn(4);
-
     m_viewParser.reset();
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 
-    qDebug() << "Command lines count: " << m_viewParser.getLineSegmentList().last()->getLineNumber();
-
     ui->glwVisualizator->fitDrawables();
-//    ui->glwVisualizator->setTopView();
-
-//    for (int i = 0; i < 20 && i < m_viewParser.getLineSegmentList().length(); i++) {
-//        qDebug() << m_viewParser.getLineSegmentList()[i]->getLineNumber() << m_viewParser.getLineSegmentList()[i]->getPointArray();
-//        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
-//    }
 }
 
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
@@ -596,13 +577,10 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
     time *= 60;
 
-    qDebug() << "Overall time (sec):" << time;
-
     QTime t;
 
     t.setHMS(0, 0, 0);
     t = t.addSecs(time);
-    qDebug() << t.minute() << t.second();
 
     ui->glwVisualizator->setSpendTime(QTime(0, 0, 0));
     ui->glwVisualizator->setEstimatedTime(t);
@@ -641,7 +619,7 @@ void frmMain::sendNextFileCommands() {
 
     QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount() - 1) {
-        m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), "Отправлена");
+        m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), tr("Sended"));
         sendCommand(command, m_fileCommandIndex);
         m_fileCommandIndex++;
         command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
@@ -652,7 +630,7 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 {
     if (i1.column() != 1) return;
     if (i1.row() == (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() != "") {
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 2), "В очереди");
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 2), tr("In queue"));
         m_tableModel.insertRow(m_tableModel.rowCount());
         if (!m_programLoading) ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 1));
     } else if (i1.row() != (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() == "") {
@@ -855,7 +833,7 @@ void frmMain::on_cmdFileReset_clicked()
     }   
 
     for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
-        m_tableModel.setData(m_tableModel.index(i, 2), "В очереди");
+        m_tableModel.setData(m_tableModel.index(i, 2), tr("In queue"));
         m_tableModel.setData(m_tableModel.index(i, 3), "");
     }
 

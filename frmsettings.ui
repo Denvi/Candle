@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
-    <height>467</height>
+    <width>389</width>
+    <height>554</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Настройки</string>
+   <string>Settings</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
@@ -46,7 +46,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Соединение</string>
+      <string>Connection</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -54,7 +54,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Порт:</string>
+           <string>Port:</string>
           </property>
          </widget>
         </item>
@@ -79,7 +79,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Скорость:</string>
+           <string>Baud:</string>
           </property>
          </widget>
         </item>
@@ -131,7 +131,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_5">
      <property name="title">
-      <string>Визуализатор</string>
+      <string>Visualizer</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
@@ -139,7 +139,7 @@
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Толщина линий:</string>
+           <string>Line width:</string>
           </property>
          </widget>
         </item>
@@ -150,9 +150,6 @@
             <width>70</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="whatsThis">
-           <string>Толщина основных линий в пикселах</string>
           </property>
           <property name="text">
            <string>0</string>
@@ -165,7 +162,7 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Точность дуг:</string>
+           <string>Arcs precision:</string>
           </property>
          </widget>
         </item>
@@ -176,11 +173,6 @@
             <width>70</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="whatsThis">
-           <string>Длина отрезков апроксимирующих дугу.
-Укажите значение 0 для автоматического 
-выбора оптимальной длины.</string>
           </property>
           <property name="text">
            <string>0</string>
@@ -195,7 +187,7 @@
       <item>
        <widget class="QCheckBox" name="chkAntialiasing">
         <property name="text">
-         <string>Сглаживание линий</string>
+         <string>Line smoothing</string>
         </property>
        </widget>
       </item>
@@ -205,7 +197,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
-      <string>Условное обозначение фрезы</string>
+      <string>Tool graphic representation</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="horizontalSpacing">
@@ -219,10 +211,6 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="whatsThis">
-         <string>Диаметр условного обозначения 
-фрезы в мм.</string>
-        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -234,14 +222,14 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Тип:</string>
+         <string>Type:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Диаметр:</string>
+         <string>Diameter:</string>
         </property>
        </widget>
       </item>
@@ -250,14 +238,20 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <item>
          <property name="text">
-          <string>Концевая</string>
+          <string>Flat</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Коническая</string>
+          <string>Conic</string>
          </property>
         </item>
        </widget>
@@ -268,7 +262,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Угол:</string>
+         <string>Angle:</string>
         </property>
        </widget>
       </item>
@@ -279,10 +273,6 @@
           <width>100</width>
           <height>16777215</height>
          </size>
-        </property>
-        <property name="whatsThis">
-         <string>Длина условного обозначения 
-фрезы в мм.</string>
         </property>
         <property name="text">
          <string>0</string>
@@ -295,7 +285,7 @@
       <item row="1" column="4">
        <widget class="QLabel" name="lblToolLength">
         <property name="text">
-         <string>Длина:</string>
+         <string>Length:</string>
         </property>
        </widget>
       </item>
@@ -324,7 +314,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_6">
      <property name="title">
-      <string>Управление</string>
+      <string>GRBL Control</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
@@ -335,7 +325,7 @@
         <item>
          <widget class="QLabel" name="label_9">
           <property name="text">
-           <string>Безопасная высота:</string>
+           <string>Safe Z:</string>
           </property>
          </widget>
         </item>
@@ -346,9 +336,6 @@
             <width>70</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="whatsThis">
-           <string>Безопасная высота по Z в мм.</string>
           </property>
           <property name="text">
            <string>0</string>
@@ -379,7 +366,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Перемещение</string>
+      <string>Jog</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -388,7 +375,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Управление с клавиатуры</string>
+         <string>Keyboard control</string>
         </property>
        </widget>
       </item>
@@ -398,7 +385,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Консоль</string>
+      <string>Console</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -410,7 +397,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Отображать команды G-код программы в консоли</string>
+         <string>Show G-code program commands in console</string>
         </property>
        </widget>
       </item>
@@ -435,14 +422,14 @@
      <item>
       <widget class="QPushButton" name="cmdOK">
        <property name="text">
-        <string>ОК</string>
+        <string>OK</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="cmdCancel">
        <property name="text">
-        <string>Отмена</string>
+        <string>Cancel</string>
        </property>
       </widget>
      </item>

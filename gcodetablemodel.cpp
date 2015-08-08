@@ -11,7 +11,7 @@ GCodeItem::GCodeItem()
 GCodeTableModel::GCodeTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    m_headers << "№" << "Команда" << "Состояние" << "Статус" << "Строка";
+    m_headers << tr("#") << tr("Command") << tr("State") << tr("Status") << tr("Line");
 }
 
 QVariant GCodeTableModel::data(const QModelIndex &index, int role) const

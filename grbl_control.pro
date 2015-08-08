@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = grbl_control
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         frmmain.cpp \
     glwidget.cpp \
@@ -53,11 +52,11 @@ DEFINES += _USE_MATH_DEFINES
 INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl" "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
 LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
 
-
-
 RESOURCES += \
     res.qrc
 
 CONFIG += c++11
 
 RC_ICONS += images/3d_printer.ico
+
+TRANSLATIONS = translations/grblControl_ru.ts

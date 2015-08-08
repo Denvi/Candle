@@ -389,7 +389,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     QFontMetrics fm(painter.font());
 
-    QString str = QString("Lines: %1").arg(lines);
+    QString str = QString(tr("Lines: %1")).arg(lines);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
     str = QString("FPS: %1").arg(m_fps);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);

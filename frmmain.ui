@@ -121,7 +121,7 @@ QSlider::handle:horizontal:hover {
     <item>
      <widget class="QGroupBox" name="grpProgram">
       <property name="title">
-       <string>G-код программа</string>
+       <string>G-code program</string>
       </property>
       <property name="flat">
        <bool>false</bool>
@@ -303,14 +303,14 @@ QToolButton:checked { /* all types of tool button */
          <item>
           <widget class="QCheckBox" name="chkTestMode">
            <property name="text">
-            <string>Режим проверки</string>
+            <string>Test mode</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QCheckBox" name="chkAutoScroll">
            <property name="text">
-            <string>Автопрокрутка</string>
+            <string>Auto scroll</string>
            </property>
           </widget>
          </item>
@@ -330,28 +330,28 @@ QToolButton:checked { /* all types of tool button */
          <item>
           <widget class="QPushButton" name="cmdFileOpen">
            <property name="text">
-            <string>Открыть</string>
+            <string>Open</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="cmdFileSend">
            <property name="text">
-            <string>Отправить</string>
+            <string>Send</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="cmdFileReset">
            <property name="text">
-            <string>Сброс</string>
+            <string>Reset</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="cmdFilePause">
            <property name="text">
-            <string>Пауза</string>
+            <string>Pause</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -368,7 +368,7 @@ QToolButton:checked { /* all types of tool button */
       <item>
        <widget class="QGroupBox" name="grpState">
         <property name="title">
-         <string>Состояние</string>
+         <string>State</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <property name="leftMargin">
@@ -393,7 +393,7 @@ QToolButton:checked { /* all types of tool button */
              <item>
               <widget class="QLabel" name="label">
                <property name="text">
-                <string>Рабочие координаты:</string>
+                <string>Work coordinates:</string>
                </property>
               </widget>
              </item>
@@ -457,7 +457,7 @@ QToolButton:checked { /* all types of tool button */
              <item>
               <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>Машинные координаты:</string>
+                <string>Machine coordinates:</string>
                </property>
               </widget>
              </item>
@@ -519,7 +519,7 @@ QToolButton:checked { /* all types of tool button */
            <item row="0" column="0">
             <widget class="QLabel" name="Label">
              <property name="text">
-              <string>Статус:</string>
+              <string>Status:</string>
              </property>
             </widget>
            </item>
@@ -533,7 +533,7 @@ QToolButton:checked { /* all types of tool button */
 color: black;</string>
              </property>
              <property name="text">
-              <string>Не подключен</string>
+              <string>Not connected</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -551,7 +551,7 @@ color: black;</string>
       <item>
        <widget class="QGroupBox" name="grpControl">
         <property name="title">
-         <string>Управление</string>
+         <string>Control</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
          <property name="leftMargin">
@@ -769,7 +769,7 @@ color: black;</string>
       <item>
        <widget class="QGroupBox" name="grpSpindle">
         <property name="title">
-         <string>Шпиндель</string>
+         <string>Spindle</string>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
@@ -791,7 +791,7 @@ color: black;</string>
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
-                <string>Скорость:</string>
+                <string>Speed:</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -860,7 +860,7 @@ color: black;</string>
       <item>
        <widget class="QGroupBox" name="grpJog">
         <property name="title">
-         <string>Перемещение</string>
+         <string>Jog</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_11">
          <property name="spacing">
@@ -910,7 +910,7 @@ color: black;</string>
              <item>
               <widget class="QLabel" name="label_3">
                <property name="text">
-                <string>Шаг:</string>
+                <string>Step:</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -1218,7 +1218,7 @@ color: black;</string>
              <item>
               <widget class="QLabel" name="label_4">
                <property name="text">
-                <string>Уставки:</string>
+                <string>Presets:</string>
                </property>
               </widget>
              </item>
@@ -1372,7 +1372,7 @@ color: black;</string>
       <item>
        <widget class="QGroupBox" name="grpConsole">
         <property name="title">
-         <string>Консоль</string>
+         <string>Console</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
          <property name="leftMargin">
@@ -1408,7 +1408,7 @@ color: black;</string>
            <item>
             <widget class="QPushButton" name="cmdCommandSend">
              <property name="text">
-              <string>Отправить</string>
+              <string>Send</string>
              </property>
             </widget>
            </item>
@@ -1430,9 +1430,9 @@ color: black;</string>
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="mnuFile">
     <property name="title">
-     <string>Файл</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actFileNew"/>
     <addaction name="actFileOpen"/>
@@ -1441,33 +1441,33 @@ color: black;</string>
     <addaction name="separator"/>
     <addaction name="actFileExit"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="mnuService">
     <property name="title">
-     <string>Сервис</string>
+     <string>&amp;Service</string>
     </property>
     <addaction name="actServiceSettings"/>
    </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_2"/>
+   <addaction name="mnuFile"/>
+   <addaction name="mnuService"/>
   </widget>
   <action name="actFileOpen">
    <property name="text">
-    <string>Открыть</string>
+    <string>&amp;Open</string>
    </property>
   </action>
   <action name="actFileExit">
    <property name="text">
-    <string>Выход</string>
+    <string>E&amp;xit</string>
    </property>
   </action>
   <action name="actServiceSettings">
    <property name="text">
-    <string>Настройки</string>
+    <string>&amp;Settings</string>
    </property>
   </action>
   <action name="actFileNew">
    <property name="text">
-    <string>Новый</string>
+    <string>&amp;New</string>
    </property>
   </action>
   <action name="actFileSave">
@@ -1475,7 +1475,7 @@ color: black;</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Сохранить</string>
+    <string>&amp;Save</string>
    </property>
   </action>
   <action name="actFileSaveAs">
@@ -1483,7 +1483,7 @@ color: black;</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Сохранить как</string>
+    <string>Save &amp;As</string>
    </property>
   </action>
  </widget>

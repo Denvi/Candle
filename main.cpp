@@ -7,6 +7,9 @@
 #include <QDebug>
 #include <QVector3D>
 #include <QGLWidget>
+#include <QLocale>
+#include <QTranslator>
+#include <QFile>
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +20,22 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     glf.setDoubleBuffer(true);
     QGLFormat::setDefaultFormat(glf);
+
+    QString loc = QLocale().name().left(2);
+    qDebug() << loc;
+
+    QString translationsFolder = qApp->applicationDirPath() + "/translations/";
+    qDebug() << translationsFolder;
+
+    QString translationFileName = translationsFolder + "grblControl_" + loc + ".qm";
+    qDebug() << translationFileName;
+
+    if(QFile::exists(translationFileName)) {
+
+        QTranslator* translator = new QTranslator();
+
+        if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
+    }
 
     frmMain w;
     w.show();
