@@ -36,7 +36,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->setModel(&m_tableModel);
 
 //    ui->tblProgram->setColumnWidth(0, 40);
-    ui->tblProgram->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 //    ui->tblProgram->setColumnWidth(2, 150);
 //    ui->tblProgram->setColumnWidth(3, 150);
     ui->tblProgram->hideColumn(4);
@@ -80,7 +80,7 @@ frmMain::frmMain(QWidget *parent) :
     applySettings();
 
     m_timerConnection.start(1000);
-    m_timerStateQuery.start(25);
+    m_timerStateQuery.start(33);
 }
 
 frmMain::~frmMain()
@@ -179,7 +179,8 @@ void frmMain::updateControlsState() {
 
     if (!portOpened) ui->txtStatus->setText("Не подключен");
 
-    this->repaint();
+    qApp->processEvents();
+    this->update();
 }
 
 void frmMain::openPort()
@@ -324,8 +325,6 @@ void frmMain::onSerialPortReadyRead()
                 m_toolDrawer.setToolPosition(QVector3D(ui->txtWPosX->text().toDouble(),
                                                        ui->txtWPosY->text().toDouble(),
                                                        ui->txtWPosZ->text().toDouble()));
-                ui->glwVisualizator->update();
-
 
                 // Trajectory shadowing
                 if (m_transferringFile) {
@@ -348,11 +347,20 @@ void frmMain::onSerialPortReadyRead()
                         foreach (int i, drawnLines) {
                             m_viewParser.getLineSegmentList()[i]->setDrawn(true);
                         }
-                    } else {
+                    } else if (m_lastDrawnLineIndex < m_viewParser.getLineSegmentList().count()) {
                         qDebug() << m_viewParser.getLineSegmentList()[m_lastDrawnLineIndex]->getLineNumber()
                                  << m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 4)).toInt();
                     }
                 }
+
+                // Update timer
+                if (m_transferringFile) {
+                    QTime time(0, 0, 0);
+                    int elapsed = m_startTime.elapsed();
+                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
+                }
+
+                ui->glwVisualizator->update();
 
                 // Test for job complete
                 if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1) {
@@ -406,7 +414,7 @@ void frmMain::onSerialPortReadyRead()
                 QRegExp m("[Mm]0*(\\d+)");
                 if (m.indexIn(ca.command) != -1) {
                     if (m.cap(1).toInt() == 3) {
-                        m_timerToolAnimation.start(25, this);
+                        m_timerToolAnimation.start(33, this);
                         ui->cmdSpindle->setChecked(true);
                     }
                     else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2) {
@@ -544,8 +552,7 @@ void frmMain::processFile(QString fileName)
 //    ui->tblProgram->hideColumn(4);
 
     m_viewParser.reset();
-    m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision());
-//    m_viewParser.toObjRedux(commands, m_frmSettings.arcPrecision());
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 
     ui->glwVisualizator->fitDrawables();
 
@@ -553,6 +560,34 @@ void frmMain::processFile(QString fileName)
 //        qDebug() << m_viewParser.getLineSegmentList()[i]->getLineNumber() << m_viewParser.getLineSegmentList()[i]->getPointArray();
 //        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
 //    }
+}
+
+QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
+{
+    double time = 0;
+    foreach (LineSegment *ls, lines) {
+        double length = (ls->getEnd() - ls->getStart()).length();
+
+        if (!std::isnan(length) && !std::isnan(ls->getSpeed())) time +=  length / ls->getSpeed();
+
+        if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
+        if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
+    }
+
+    time *= 60;
+
+    qDebug() << "Overall time (sec):" << time;
+
+    QTime t;
+
+    t.setHMS(0, 0, 0);
+    t = t.addSecs(time);
+    qDebug() << t.minute() << t.second();
+
+    ui->glwVisualizator->setSpendTime(QTime(0, 0, 0));
+    ui->glwVisualizator->setEstimatedTime(t);
+
+    return t;
 }
 
 void frmMain::clearTable()
@@ -568,7 +603,11 @@ void frmMain::on_cmdFit_clicked()
 
 void frmMain::on_cmdFileSend_clicked()
 {    
+    if (m_tableModel.rowCount() == 1) return;
+
     on_cmdFileReset_clicked();
+
+    m_startTime.start();
 
     m_transferCompleted = false;
     m_transferringFile = true;
@@ -614,7 +653,8 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
         }
 
         m_viewParser.reset();
-        m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision());
+
+        updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 //        m_viewParser.toObjRedux(commands, m_frmSettings.arcPrecision());
         //ui->glwVisualizator->fitDrawables();
         ui->glwVisualizator->update();
@@ -645,6 +685,7 @@ void frmMain::applySettings() {
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
     m_toolDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_codeDrawer->setLineWidth(m_frmSettings.lineWidth());
+    ui->glwVisualizator->setLineWidth(m_frmSettings.lineWidth());
     m_showAllCommands = m_frmSettings.showAllCommands();
     m_safeZ = m_frmSettings.safeZ();
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
@@ -801,6 +842,8 @@ void frmMain::on_cmdFileReset_clicked()
 
     ui->tblProgram->scrollTo(m_tableModel.index(0, 0));
     ui->tblProgram->clearSelection();
+
+    ui->glwVisualizator->setSpendTime(QTime(0, 0, 0));
 }
 
 void frmMain::on_actFileNew_triggered()

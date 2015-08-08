@@ -8,6 +8,7 @@
 #include <QBasicTimer>
 #include <QStringList>
 #include <QList>
+#include <QTime>
 #include "gcodeviewparse.h"
 #include "gcodedrawer.h"
 #include "tooldrawer.h"
@@ -122,6 +123,8 @@ private:
     int m_fileCommandIndex;
     bool m_showAllCommands = false;
 
+    QTime m_startTime;
+
     void processFile(QString fileName);
     void clearTable();
     void loadSettings();
@@ -133,6 +136,7 @@ private:
     int bufferLength();
     void sendNextFileCommands();
     void applySettings();
+    QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
 };
 
 #endif // FRMMAIN_H

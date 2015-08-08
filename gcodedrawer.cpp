@@ -13,6 +13,8 @@ void GcodeDrawer::draw()
 {
     foreach (LineSegment* ls, m_viewParser->getLineSegmentList()) {
 
+        glLineWidth(m_lineWidth);
+
         // First point
         if (ls->getLineNumber() == 0) {
 
@@ -20,7 +22,6 @@ void GcodeDrawer::draw()
 
             QVector3D end = ls->getEnd();
 
-            glLineWidth(1);
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_LINE_LOOP);
             for (int i = 0; i <= 20; i++) {
@@ -55,19 +56,19 @@ void GcodeDrawer::draw()
         }
 
         if (ls->drawn()) {
-            glLineWidth(1);
+//            glLineWidth(1);
             glColor3f(0.85, 0.85, 0.85);
         }
         else if (ls->isFastTraverse()) {
-            glLineWidth(1);
+//            glLineWidth(1);
             glColor3f(0.0, 0.0, 0.0);
         }
         else if (ls->isZMovement()) {
-            glLineWidth(1);
+//            glLineWidth(1);
             glColor3f(1, 0, 0.0);
         }
         else {
-            glLineWidth(m_lineWidth);
+//            glLineWidth(m_lineWidth);
             glColor3f(0.0, 0.0, 0.0);
         }
 

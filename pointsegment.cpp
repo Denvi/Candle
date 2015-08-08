@@ -11,6 +11,7 @@ PointSegment::PointSegment(QObject *parent) : QObject(parent)
     m_isFastTraverse = false;
     m_lineNumber = -1;
     m_arcProperties = NULL;
+    m_speed = 0;
 }
 
 PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())

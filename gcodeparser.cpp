@@ -19,6 +19,8 @@ GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
     m_smallArcThreshold = 1.0;
     // Not configurable outside, but maybe it should be.
     m_smallArcSegmentLength = 0.3;
+    m_lastSpeed = 0;
+    m_traverseSpeed = 300;
 
     reset();
 }
@@ -187,6 +189,16 @@ QList<PointSegment*> GcodeParser::expandArc()
 QList<PointSegment*> GcodeParser::getPointSegmentList() {
     return this->m_points;
 }
+double GcodeParser::getTraverseSpeed() const
+{
+    return m_traverseSpeed;
+}
+
+void GcodeParser::setTraverseSpeed(double traverseSpeed)
+{
+    m_traverseSpeed = traverseSpeed;
+}
+
 
 PointSegment *GcodeParser::processCommand(QList<QString> args)
 {
@@ -196,6 +208,14 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
     // handle M codes.
     //codes = GcodePreprocessorUtils.parseCodes(args, 'M');
     //handleMCode(for each codes);
+
+    // handle F code.
+    QList<QString> fCodes = GcodePreprocessorUtils::parseCodes(args, 'F');
+
+    foreach (QString code, fCodes) {
+//        double speed = GcodePreprocessorUtils::parseCoord(QList<QString>() << code, 'F');
+//        if (!std::isnan(speed)) this->m_lastSpeed = speed;
+    }
 
     // handle G codes.
     gCodes = GcodePreprocessorUtils::parseCodes(args, 'G');
@@ -228,6 +248,7 @@ PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastT
     ps->setIsMetric(this->m_isMetric);
     ps->setIsZMovement(zOnly);
     ps->setIsFastTraverse(fastTraverse);
+    ps->setSpeed(fastTraverse ? this->m_traverseSpeed : this->m_lastSpeed);
     this->m_points.append(ps);
 
     // Save off the endpoint.
@@ -253,6 +274,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     ps->setIsArc(true);
     ps->setRadius(radius);
     ps->setIsClockwise(clockwise);
+    ps->setSpeed(this->m_lastSpeed);
     this->m_points.append(ps);
 
     // Save off the endpoint.
@@ -267,10 +289,14 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> args) {
 
 //    Point3d nextPoint =
 //        GcodePreprocessorUtils.updatePointWithCommand(
-//        args, this.currentPoint, this.inAbsoluteMode);
+//        args, this.currentPoint, this.inAbsoluteMode);    
 
     if (code.length() > 1 && code.startsWith("0"))
         code = code.mid(1);
+
+    double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
+    if (!std::isnan(speed)) this->m_lastSpeed = speed;
+
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);
@@ -284,6 +310,7 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> args) {
     else if (code == "91.1") this->m_inAbsoluteIJKMode = false;
 
     this->m_lastGcodeCommand = code;
+
     return ps;
 }
 

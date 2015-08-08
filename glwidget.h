@@ -3,6 +3,7 @@
 
 #include <QGLWidget>
 #include <QTimer>
+#include <QTime>
 #include "GLU.h"
 #include "gldrawable.h"
 
@@ -15,6 +16,15 @@ public:
     void fitDrawables();
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
+
+    QTime spendTime() const;
+    void setSpendTime(const QTime &spendTime);
+
+    QTime estimatedTime() const;
+    void setEstimatedTime(const QTime &estimatedTime);
+
+    double lineWidth() const;
+    void setLineWidth(double lineWidth);
 
 signals:
 
@@ -32,9 +42,12 @@ private:
     double m_distance;
     QList<GLDrawable*> m_drawables;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
+    double m_lineWidth;
     bool m_antialiasing;
     int m_frames = 0;
     int m_fps = 0;
+    QTime m_spendTime;
+    QTime m_estimatedTime;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);

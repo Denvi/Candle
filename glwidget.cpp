@@ -31,6 +31,9 @@ GLWidget::GLWidget(QWidget *parent) :
     m_ySize = 0;
     m_zSize = 0;
 
+    m_spendTime.setHMS(0, 0, 0);
+    m_estimatedTime.setHMS(0, 0, 0);
+
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
@@ -122,13 +125,43 @@ void GLWidget::onFramesTimer()
     m_frames = 0;
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
+double GLWidget::lineWidth() const
+{
+    return m_lineWidth;
+}
+
+void GLWidget::setLineWidth(double lineWidth)
+{
+    m_lineWidth = lineWidth;
+}
+
+QTime GLWidget::estimatedTime() const
+{
+    return m_estimatedTime;
+}
+
+void GLWidget::setEstimatedTime(const QTime &estimatedTime)
+{
+    m_estimatedTime = estimatedTime;
+}
+
+QTime GLWidget::spendTime() const
+{
+    return m_spendTime;
+}
+
+void GLWidget::setSpendTime(const QTime &spendTime)
+{
+    m_spendTime = spendTime;
+}
+
 
 void GLWidget::initializeGL()
 {
-//        QGLFormat fmt;
-//        fmt.setSampleBuffers(true);
-//        fmt.setSamples(8); //2, 4, 8, 16
-//        QGLFormat::setDefaultFormat(fmt);
+    //        QGLFormat fmt;
+    //        fmt.setSampleBuffers(true);
+    //        fmt.setSamples(8); //2, 4, 8, 16
+    //        QGLFormat::setDefaultFormat(fmt);
 
 //    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -218,7 +251,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     glRotatef(-90, 1.0, 0.0, 0.0);
 
-    glLineWidth(1);
+    glLineWidth(m_lineWidth);
 
 //    glBegin(GL_LINES);
 //    glColor3f(1.0, 1.0, 0.0);
@@ -314,11 +347,16 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     QFontMetrics fm(painter.font());
 
     QString str = QString("Lines: %1").arg(lines);
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
     str = QString("FPS: %1").arg(m_fps);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
+
+    str = m_spendTime.toString("hh:mm:ss") + " / " + m_estimatedTime.toString("hh:mm:ss");
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);
 
     painter.end();
+
+//    QGLWidget::paintEvent(pe);
 
     m_frames++;
 }

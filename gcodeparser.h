@@ -34,6 +34,9 @@ public:
     QList<QString> preprocessCommand(QString command);
     QList<QString> convertArcsToLines(QString command);
     QList<PointSegment *> getPointSegmentList();
+    double getTraverseSpeed() const;
+    void setTraverseSpeed(double traverseSpeed);
+
 signals:
 
 public slots:
@@ -56,6 +59,9 @@ private:
     double m_smallArcThreshold;
     // Not configurable outside, but maybe it should be.
     double m_smallArcSegmentLength;
+
+    double m_lastSpeed;
+    double m_traverseSpeed;
 
     // The gcode.
     QList<PointSegment*> m_points;
