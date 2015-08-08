@@ -109,6 +109,7 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                         lines.append(ls);
                         startPoint = nextPoint;
                     }
+                    num++;
                 }
             // Line
             } else {

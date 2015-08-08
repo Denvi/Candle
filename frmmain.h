@@ -98,10 +98,10 @@ private:
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
 
-    QStringList m_status = {"Idle", "Alarm", "Run", "Home", "Hold", "Queue", "Check"};
-    QStringList m_statusCaptions = {"Готов", "Тревога", "Работа", "Домой", "Пауза", "Очередь", "Проверка"};
-    QStringList m_statusBackColors = {"palette(button)", "red", "lime", "lime", "yellow", "yellow", "palette(button)"};
-    QStringList m_statusForeColors = {"palette(text)", "white", "black", "black", "black", "black", "palette(text)"};
+    QStringList m_status;
+    QStringList m_statusCaptions;
+    QStringList m_statusBackColors;
+    QStringList m_statusForeColors;
 
     double m_storedX = 0;
     double m_storedY = 0;
@@ -121,6 +121,7 @@ private:
     bool m_transferringFile = false;
     bool m_transferCompleted = false;
     int m_fileCommandIndex;
+    int m_fileProcessedCommandIndex;
     bool m_showAllCommands = false;
 
     QTime m_startTime;

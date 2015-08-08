@@ -36,6 +36,7 @@ public:
     QList<PointSegment *> getPointSegmentList();
     double getTraverseSpeed() const;
     void setTraverseSpeed(double traverseSpeed);
+    int getCommandNumber() const;
 
 signals:
 

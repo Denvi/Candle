@@ -11,6 +11,11 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
+    m_status = {"Idle", "Alarm", "Run", "Home", "Hold", "Queue", "Check"};
+    m_statusCaptions = {"Готов", "Тревога", "Работа", "Домой", "Пауза", "Очередь", "Проверка"};
+    m_statusBackColors = {"palette(button)", "red", "lime", "lime", "yellow", "yellow", "palette(button)"};
+    m_statusForeColors = {"palette(text)", "white", "black", "black", "black", "black", "palette(text)"};
+
     ui->setupUi(this);
 
     ui->txtJogStep->setLocale(QLocale::C);
@@ -39,7 +44,8 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 //    ui->tblProgram->setColumnWidth(2, 150);
 //    ui->tblProgram->setColumnWidth(3, 150);
-    ui->tblProgram->hideColumn(4);
+//    ui->tblProgram->hideColumn(4);
+//    ui->tblProgram->showColumn(4);
 
     m_programLoading = false;
     clearTable();
@@ -242,12 +248,12 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
 void frmMain::grblReset()
 {
-    ui->txtConsole->appendPlainText("[CTRL+X]");
     m_transferringFile = false;
-    m_serialPort.write(QByteArray(1, (char)24));
-
     ui->cmdSpindle->setChecked(false);
     m_timerToolAnimation.stop();
+
+    ui->txtConsole->appendPlainText("[CTRL+X]");
+    m_serialPort.write(QByteArray(1, (char)24));
 
     updateControlsState();
 }
@@ -334,7 +340,7 @@ void frmMain::onSerialPortReadyRead()
 
                     for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().count()
                          && m_viewParser.getLineSegmentList()[i]->getLineNumber()
-                         < (m_tableModel.data(m_tableModel.index(m_fileCommandIndex - 1, 4)).toInt()); i++) {
+                         < (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt()); i++) {
                         if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
                             toolOnTrajectory = true;
                             m_lastDrawnLineIndex = i;
@@ -349,7 +355,7 @@ void frmMain::onSerialPortReadyRead()
                         }
                     } else if (m_lastDrawnLineIndex < m_viewParser.getLineSegmentList().count()) {
                         qDebug() << m_viewParser.getLineSegmentList()[m_lastDrawnLineIndex]->getLineNumber()
-                                 << m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 4)).toInt();
+                                 << m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt();
                     }
                 }
 
@@ -396,6 +402,8 @@ void frmMain::onSerialPortReadyRead()
 
                     m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), "Обработана");
                     m_tableModel.setData(m_tableModel.index(ca.tableIndex, 3), data);
+
+                    m_fileProcessedCommandIndex = ca.tableIndex;
 
                     if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
                         ui->tblProgram->scrollTo(m_tableModel.index(ca.tableIndex + 1, 0));
@@ -533,11 +541,12 @@ void frmMain::processFile(QString fileName)
 //        commands.append(textStream.readLine());
         QString command = textStream.readLine();
 
-        if (gp.addCommand(command) != NULL) line++;
+//        if (gp.addCommand(command) != NULL) line++;
+        gp.addCommand(command);
 
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), command);
         m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 2), "В очереди");
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 4), line);
+        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 4), gp.getCommandNumber());
     }
 
     m_programLoading = false;
@@ -553,6 +562,8 @@ void frmMain::processFile(QString fileName)
 
     m_viewParser.reset();
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
+
+    qDebug() << "Command lines count: " << m_viewParser.getLineSegmentList().last()->getLineNumber();
 
     ui->glwVisualizator->fitDrawables();
 
@@ -829,6 +840,7 @@ void frmMain::on_cmdFilePause_clicked(bool checked)
 void frmMain::on_cmdFileReset_clicked()
 {
     m_fileCommandIndex = 0;
+    m_fileProcessedCommandIndex = 0;
     m_lastDrawnLineIndex = 0;
 
     for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
