@@ -125,6 +125,8 @@ void frmMain::loadSettings()
     m_frmSettings.setShowAllCommands(set.value("showAllCommands", 0).toBool());
     m_frmSettings.setSafeZ(set.value("safeZ", 0).toDouble());
     m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
+    m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
+    m_frmSettings.setToolType(set.value("toolType", 0).toInt());
     m_frmSettings.setQueryStateTime(set.value("queryStateTime", 0).toDouble());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
@@ -154,6 +156,8 @@ void frmMain::saveSettings()
     set.setValue("showAllCommands", m_frmSettings.showAllCommands());
     set.setValue("safeZ", m_frmSettings.safeZ());
     set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
+    set.setValue("toolAngle", m_frmSettings.toolAngle());
+    set.setValue("toolType", m_frmSettings.toolType());
     set.setValue("queryStateTime", m_frmSettings.queryStateTime());
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
@@ -436,7 +440,7 @@ void frmMain::onSerialPortReadyRead()
                 QRegExp m("[Mm]0*(\\d+)");
                 if (m.indexIn(ca.command) != -1) {
                     if (m.cap(1).toInt() == 3) {
-                        m_timerToolAnimation.start(33, this);
+                        m_timerToolAnimation.start(25, this);
                         ui->cmdSpindle->setChecked(true);
                     }
                     else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2) {
@@ -701,6 +705,7 @@ void frmMain::applySettings() {
     m_safeZ = m_frmSettings.safeZ();
     m_rapidSpeed = m_frmSettings.rapidSpeed();
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
+    m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizator->update();
 }

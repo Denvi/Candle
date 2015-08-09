@@ -37,6 +37,10 @@ public:
     void setRapidSpeed(double rapidSpeed);
     double queryStateTime();
     void setQueryStateTime(double queryStateTime);
+    int toolType();
+    void setToolType(int toolType);
+    double toolAngle();
+    void setToolAngle(double toolAngle);
 
 private slots:
     void on_cmdRefresh_clicked();

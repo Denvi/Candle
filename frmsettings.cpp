@@ -29,6 +29,9 @@ frmSettings::frmSettings(QWidget *parent) :
 
     ui->txtQueryStateTime->setValidator(validator);
 
+    validator->setTop(180);
+    ui->txtToolAngle->setValidator(validator);
+
     searchPorts();
 }
 
@@ -147,6 +150,26 @@ double frmSettings::queryStateTime()
 void frmSettings::setQueryStateTime(double queryStateTime)
 {
     ui->txtQueryStateTime->setText(QString::number(queryStateTime));
+}
+
+int frmSettings::toolType()
+{
+    return ui->cboToolType->currentIndex();
+}
+
+void frmSettings::setToolType(int toolType)
+{
+    ui->cboToolType->setCurrentIndex(toolType);
+}
+
+double frmSettings::toolAngle()
+{
+    return ui->txtToolAngle->text().toDouble();
+}
+
+void frmSettings::setToolAngle(double toolAngle)
+{
+    ui->txtToolAngle->setText(QString::number(toolAngle));
 }
 
 void frmSettings::searchPorts()

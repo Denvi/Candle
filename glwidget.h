@@ -53,7 +53,8 @@ private:
     int m_fps = 0;
     QTime m_spendTime;
     QTime m_estimatedTime;    
-    QTimer m_changeViewTimer;
+//    QTimer m_changeViewTimer;
+    QBasicTimer m_timerAnimation;
     double m_xRotTarget, m_yRotTarget;
 
     double normalizeAngle(double angle);
@@ -69,6 +70,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *we);
+
+    void timerEvent(QTimerEvent *);
 };
 
 #endif // GLWIDGET_H
