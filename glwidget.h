@@ -56,6 +56,8 @@ private:
 //    QTimer m_changeViewTimer;
     QBasicTimer m_timerAnimation;
     double m_xRotTarget, m_yRotTarget;
+    bool m_animateRotation;
+    int m_targetFps;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);

@@ -90,7 +90,8 @@ frmMain::frmMain(QWidget *parent) :
     applySettings();
 
     m_timerConnection.start(1000);
-    m_timerStateQuery.start(33);
+    m_timerStateQuery.start();
+//    m_timerToolAnimation.start(33, this);
 }
 
 frmMain::~frmMain()
@@ -127,7 +128,7 @@ void frmMain::loadSettings()
     m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
-    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 0).toDouble());
+    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toDouble());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 
@@ -379,7 +380,7 @@ void frmMain::onSerialPortReadyRead()
                     ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
                 }
 
-                ui->glwVisualizator->update();
+//                ui->glwVisualizator->update();
 
                 // Test for job complete
                 if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1) {
@@ -521,7 +522,7 @@ void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
         m_toolDrawer.rotate(-20 * (double)ui->txtSpindleSpeed->value() / 100);
-        ui->glwVisualizator->update();
+//        ui->glwVisualizator->update();
     } else {
         QMainWindow::timerEvent(te);
     }
@@ -671,7 +672,7 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
         updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 //        m_viewParser.toObjRedux(commands, m_frmSettings.arcPrecision());
         //ui->glwVisualizator->fitDrawables();
-        ui->glwVisualizator->update();
+//        ui->glwVisualizator->update();
         updateControlsState();
     }
 }
@@ -707,7 +708,7 @@ void frmMain::applySettings() {
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
-    ui->glwVisualizator->update();
+//    ui->glwVisualizator->update();
 }
 
 void frmMain::on_cmdCommandSend_clicked()
