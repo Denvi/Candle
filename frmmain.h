@@ -107,6 +107,7 @@ private:
     double m_storedY = 0;
     double m_storedZ = 0;
     double m_safeZ = 0;
+    double m_rapidSpeed = 0;
 
     bool m_settingZeroXY = false;
     bool m_settingZeroZ = false;

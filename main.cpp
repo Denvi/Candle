@@ -37,6 +37,15 @@ int main(int argc, char *argv[])
         if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
     }
 
+    QString baseTranslationFileName = translationsFolder + "qtbase_" + loc + ".qm";
+
+    if(QFile::exists(translationFileName)) {
+
+        QTranslator* baseTranslator = new QTranslator();
+
+        if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
+    }
+
     frmMain w;
     w.show();
 

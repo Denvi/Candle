@@ -19,7 +19,9 @@ frmMain::frmMain(QWidget *parent) :
     ui->setupUi(this);
 
     ui->txtJogStep->setLocale(QLocale::C);
-    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
+//    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
+
+    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
 
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
@@ -122,6 +124,7 @@ void frmMain::loadSettings()
     m_frmSettings.setArcPrecision(set.value("arcPrecision", 0).toDouble());
     m_frmSettings.setShowAllCommands(set.value("showAllCommands", 0).toBool());
     m_frmSettings.setSafeZ(set.value("safeZ", 0).toDouble());
+    m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 
@@ -149,6 +152,7 @@ void frmMain::saveSettings()
     set.setValue("arcPrecision", m_frmSettings.arcPrecision());
     set.setValue("showAllCommands", m_frmSettings.showAllCommands());
     set.setValue("safeZ", m_frmSettings.safeZ());
+    set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
@@ -540,6 +544,7 @@ void frmMain::processFile(QString fileName)
     ui->tblProgram->setModel(NULL);
 
     GcodeParser gp;
+    gp.setTraverseSpeed(m_rapidSpeed);
 
     while (!textStream.atEnd())
     {
@@ -557,7 +562,7 @@ void frmMain::processFile(QString fileName)
     ui->tblProgram->setModel(&m_tableModel);
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
-    m_viewParser.reset();
+    m_viewParser.reset();    
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 
     ui->glwVisualizator->fitDrawables();
@@ -642,6 +647,7 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 //        QList<QString> commands;
 
         GcodeParser gp;
+        gp.setTraverseSpeed(m_rapidSpeed);
 
         for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
             gp.addCommand(m_tableModel.data(m_tableModel.index(i, 1)).toString());
@@ -684,6 +690,7 @@ void frmMain::applySettings() {
     ui->glwVisualizator->setLineWidth(m_frmSettings.lineWidth());
     m_showAllCommands = m_frmSettings.showAllCommands();
     m_safeZ = m_frmSettings.safeZ();
+    m_rapidSpeed = m_frmSettings.rapidSpeed();
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizator->update();
 }
@@ -731,8 +738,7 @@ void frmMain::on_cmdZeroZ_clicked()
 void frmMain::on_cmdReturnXY_clicked()
 {    
     sendCommand(QString("G21"));
-    sendCommand(QString("G92.1"));
-    sendCommand(QString("G90G0X%1Y%2").arg(m_storedX).arg(m_storedY));
+    sendCommand(QString("G53G90G0X%1Y%2").arg(m_storedX).arg(m_storedY));
     sendCommand(QString("G92X0Y0Z%1").arg(ui->txtMPosZ->text().toDouble() - m_storedZ));
 }
 
@@ -750,8 +756,7 @@ void frmMain::on_cmdTopZ_clicked()
 {
 
     sendCommand(QString("G21"));
-    sendCommand(QString("G90 G0Z%1").arg(m_safeZ - ui->txtMPosZ->text().toDouble()
-                                         + ui->txtWPosZ->text().toDouble()));
+    sendCommand(QString("G53G90G0Z%1").arg(m_safeZ));
 }
 
 void frmMain::on_cmdSpindle_clicked(bool checked)
@@ -778,37 +783,37 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 void frmMain::on_cmdYPlus_clicked()
 {
     sendCommand("$G");
-    sendCommand("G91 G0 Y" + ui->txtJogStep->text());
+    sendCommand("G91G0Y" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdYMinus_clicked()
 {
     sendCommand("$G");
-    sendCommand("G91 G0 Y-" + ui->txtJogStep->text());
+    sendCommand("G91G0Y-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXPlus_clicked()
 {
     sendCommand("$G");
-    sendCommand("G91 G0 X" + ui->txtJogStep->text());
+    sendCommand("G91G0X" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXMinus_clicked()
 {    
     sendCommand("$G");
-    sendCommand("G91 G0 X-" + ui->txtJogStep->text());
+    sendCommand("G91G0X-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZPlus_clicked()
 {
     sendCommand("$G");
-    sendCommand("G91 G0 Z" + ui->txtJogStep->text());
+    sendCommand("G91G0Z" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZMinus_clicked()
 {
     sendCommand("$G");
-    sendCommand("G91 G0 Z-" + ui->txtJogStep->text());
+    sendCommand("G91G0Z-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_chkTestMode_clicked()

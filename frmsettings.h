@@ -33,6 +33,8 @@ public:
     void setShowAllCommands(bool showAllCommands);
     double safeZ();
     void setSafeZ(double safeZ);
+    double rapidSpeed();
+    void setRapidSpeed(double rapidSpeed);
 
 
 private slots:

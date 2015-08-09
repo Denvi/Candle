@@ -24,6 +24,9 @@ frmSettings::frmSettings(QWidget *parent) :
     validator->setTop(65535);
     ui->txtSafeZ->setValidator(validator);
 
+    validator->setBottom(0);
+    ui->txtRapidSpeed->setValidator(validator);
+
     searchPorts();
 }
 
@@ -122,6 +125,16 @@ double frmSettings::safeZ()
 void frmSettings::setSafeZ(double safeZ)
 {
     ui->txtSafeZ->setText(QString::number(safeZ));
+}
+
+double frmSettings::rapidSpeed()
+{
+    return ui->txtRapidSpeed->text().toDouble();
+}
+
+void frmSettings::setRapidSpeed(double rapidSpeed)
+{
+    ui->txtRapidSpeed->setText(QString::number(rapidSpeed));
 }
 
 void frmSettings::searchPorts()

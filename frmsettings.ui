@@ -6,15 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
+    <width>350</width>
     <height>554</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
@@ -145,12 +139,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtLineWidth">
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>16777215</height>
-           </size>
-          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -168,12 +156,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtArcPrecision">
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>16777215</height>
-           </size>
-          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -205,12 +187,6 @@
       </property>
       <item row="1" column="1">
        <widget class="QLineEdit" name="txtToolDiameter">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -238,12 +214,6 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <item>
          <property name="text">
           <string>Flat</string>
@@ -268,12 +238,6 @@
       </item>
       <item row="1" column="5">
        <widget class="QLineEdit" name="txtToolLength">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -294,12 +258,6 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="text">
          <string>0</string>
         </property>
@@ -314,7 +272,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_6">
      <property name="title">
-      <string>GRBL Control</string>
+      <string>GRBL</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
@@ -331,12 +289,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtSafeZ">
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>16777215</height>
-           </size>
-          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -346,17 +298,21 @@
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Rapid speed:</string>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtRapidSpeed">
+          <property name="text">
+           <string>0</string>
           </property>
-         </spacer>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -397,7 +353,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Show G-code program commands in console</string>
+         <string>Show G-code program commands</string>
         </property>
        </widget>
       </item>

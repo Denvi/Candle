@@ -121,7 +121,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="536"/>
-        <location filename="../frmmain.cpp" line="188"/>
+        <location filename="../frmmain.cpp" line="192"/>
         <source>Not connected</source>
         <translation>Нет соединения</translation>
     </message>
@@ -273,40 +273,40 @@
         <translation>Проверка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="197"/>
+        <location filename="../frmmain.cpp" line="201"/>
         <source>Connected</source>
         <translation>Подключен</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="406"/>
+        <location filename="../frmmain.cpp" line="410"/>
         <source>Processed</source>
         <translation>Обработана</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="451"/>
+        <location filename="../frmmain.cpp" line="455"/>
         <source>Serial port error </source>
         <translation>Ошибка последовательного порта</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="333"/>
-        <location filename="../frmmain.cpp" line="522"/>
+        <location filename="../frmmain.cpp" line="526"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="522"/>
+        <location filename="../frmmain.cpp" line="526"/>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
         <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="551"/>
-        <location filename="../frmmain.cpp" line="633"/>
-        <location filename="../frmmain.cpp" line="836"/>
+        <location filename="../frmmain.cpp" line="556"/>
+        <location filename="../frmmain.cpp" line="638"/>
+        <location filename="../frmmain.cpp" line="843"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="622"/>
+        <location filename="../frmmain.cpp" line="627"/>
         <source>Sended</source>
         <translation>Отправлена</translation>
     </message>
@@ -314,163 +314,177 @@
 <context>
     <name>frmSettings</name>
     <message>
-        <location filename="../frmsettings.ui" line="20"/>
+        <location filename="../frmsettings.ui" line="14"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="49"/>
+        <location filename="../frmsettings.ui" line="43"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="57"/>
+        <location filename="../frmsettings.ui" line="51"/>
         <source>Port:</source>
         <translation>Порт:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="71"/>
+        <location filename="../frmsettings.ui" line="65"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="82"/>
+        <location filename="../frmsettings.ui" line="76"/>
         <source>Baud:</source>
         <translation>Скорость:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="92"/>
-        <location filename="../frmsettings.ui" line="96"/>
+        <location filename="../frmsettings.ui" line="86"/>
+        <location filename="../frmsettings.ui" line="90"/>
         <source>9600</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="101"/>
+        <location filename="../frmsettings.ui" line="95"/>
         <source>14400</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="106"/>
+        <location filename="../frmsettings.ui" line="100"/>
         <source>19200</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="111"/>
+        <location filename="../frmsettings.ui" line="105"/>
         <source>38400</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="116"/>
+        <location filename="../frmsettings.ui" line="110"/>
         <source>57600</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="121"/>
+        <location filename="../frmsettings.ui" line="115"/>
         <source>115200</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="134"/>
+        <location filename="../frmsettings.ui" line="128"/>
         <source>Visualizer</source>
         <translation>Визуализатор</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="142"/>
+        <location filename="../frmsettings.ui" line="136"/>
         <source>Line width:</source>
         <translation>Толщина линий:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="155"/>
-        <location filename="../frmsettings.ui" line="178"/>
-        <location filename="../frmsettings.ui" line="215"/>
-        <location filename="../frmsettings.ui" line="278"/>
-        <location filename="../frmsettings.ui" line="304"/>
-        <location filename="../frmsettings.ui" line="341"/>
+        <location filename="../frmsettings.ui" line="143"/>
+        <location filename="../frmsettings.ui" line="160"/>
+        <location filename="../frmsettings.ui" line="191"/>
+        <location filename="../frmsettings.ui" line="242"/>
+        <location filename="../frmsettings.ui" line="262"/>
+        <location filename="../frmsettings.ui" line="293"/>
+        <location filename="../frmsettings.ui" line="310"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="165"/>
+        <location filename="../frmsettings.ui" line="153"/>
         <source>Arcs precision:</source>
         <translation>Точность дуг:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="190"/>
+        <location filename="../frmsettings.ui" line="172"/>
         <source>Line smoothing</source>
         <translation>Сглаживание линий</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="200"/>
+        <location filename="../frmsettings.ui" line="182"/>
         <source>Tool graphic representation</source>
         <translation>Условное обозначение инструмента</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="225"/>
+        <location filename="../frmsettings.ui" line="201"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="232"/>
+        <location filename="../frmsettings.ui" line="208"/>
         <source>Diameter:</source>
         <translation>Диаметр:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="249"/>
+        <location filename="../frmsettings.ui" line="219"/>
         <source>Flat</source>
         <translation>Плоская</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="254"/>
+        <location filename="../frmsettings.ui" line="224"/>
         <source>Conic</source>
         <translation>Коническая</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="265"/>
+        <location filename="../frmsettings.ui" line="235"/>
         <source>Angle:</source>
         <translation>Угол:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="288"/>
+        <location filename="../frmsettings.ui" line="252"/>
         <source>Length:</source>
         <translation>Длина:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="317"/>
+        <location filename="../frmsettings.ui" line="275"/>
+        <source>GRBL</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../frmsettings.ui" line="356"/>
+        <source>Show G-code program commands</source>
+        <translation>Отображать команды G-code программы</translation>
+    </message>
+    <message>
         <source>GRBL Control</source>
-        <translation>Управление GRBL</translation>
+        <translation type="vanished">Управление GRBL</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="328"/>
+        <location filename="../frmsettings.ui" line="286"/>
         <source>Safe Z:</source>
-        <translation>Безопасная высота:</translation>
+        <translation>Безопасная Z:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="369"/>
+        <location filename="../frmsettings.ui" line="303"/>
+        <source>Rapid speed:</source>
+        <translation>Скорость G0:</translation>
+    </message>
+    <message>
+        <location filename="../frmsettings.ui" line="325"/>
         <source>Jog</source>
         <translation>Перемещение</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="378"/>
+        <location filename="../frmsettings.ui" line="334"/>
         <source>Keyboard control</source>
         <translation>Управление с клавиатуры</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="388"/>
+        <location filename="../frmsettings.ui" line="344"/>
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="400"/>
         <source>Show G-code program commands in console</source>
-        <translation>Отображать команды G-code программы в консоли</translation>
+        <translation type="vanished">Отображать команды G-code программы в консоли</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="425"/>
+        <location filename="../frmsettings.ui" line="381"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="432"/>
+        <location filename="../frmsettings.ui" line="388"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
