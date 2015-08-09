@@ -182,8 +182,8 @@ void frmMain::updateControlsState() {
     ui->actFileNew->setEnabled(!m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileOpen->setEnabled(!m_transferringFile);
-    ui->cmdFileReset->setEnabled(!m_transferringFile);
-    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile);
+    ui->cmdFileReset->setEnabled(!m_transferringFile && m_tableModel.rowCount() > 1);
+    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_tableModel.rowCount() > 1);
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
 
@@ -573,6 +573,7 @@ void frmMain::processFile(QString fileName)
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
 
     ui->glwVisualizator->fitDrawables();
+    updateControlsState();
 }
 
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
@@ -667,6 +668,7 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 //        m_viewParser.toObjRedux(commands, m_frmSettings.arcPrecision());
         //ui->glwVisualizator->fitDrawables();
         ui->glwVisualizator->update();
+        updateControlsState();
     }
 }
 
