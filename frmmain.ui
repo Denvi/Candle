@@ -225,7 +225,7 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="icon">
           <iconset resource="res.qrc">
-           <normaloff>:/images/fit.png</normaloff>:/images/fit.png</iconset>
+           <normaloff>:/images/fit_1.png</normaloff>:/images/fit_1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1401,14 +1401,35 @@ color: black;</string>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0">
+          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
            <item>
             <widget class="QLineEdit" name="txtCommand"/>
            </item>
            <item>
             <widget class="QPushButton" name="cmdCommandSend">
-             <property name="text">
-              <string>Send</string>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="cmdClearConsole">
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/images/erase_1.png</normaloff>:/images/erase_1.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
              </property>
             </widget>
            </item>

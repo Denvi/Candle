@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>554</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -182,9 +182,6 @@
       <string>Tool graphic representation</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="horizontalSpacing">
-       <number>12</number>
-      </property>
       <item row="1" column="1">
        <widget class="QLineEdit" name="txtToolDiameter">
         <property name="text">
@@ -277,9 +274,6 @@
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <property name="spacing">
-         <number>12</number>
-        </property>
         <item>
          <widget class="QLabel" name="label_9">
           <property name="text">
@@ -306,6 +300,27 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtRapidSpeed">
+          <property name="text">
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Query state time period:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtQueryStateTime">
           <property name="text">
            <string>0</string>
           </property>

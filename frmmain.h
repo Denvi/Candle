@@ -77,6 +77,8 @@ private slots:
     void on_actFileNew_triggered();
     void on_cmdIsometric_clicked(bool checked);
 
+    void on_cmdClearConsole_clicked();
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);

@@ -35,7 +35,8 @@ public:
     void setSafeZ(double safeZ);
     double rapidSpeed();
     void setRapidSpeed(double rapidSpeed);
-
+    double queryStateTime();
+    void setQueryStateTime(double queryStateTime);
 
 private slots:
     void on_cmdRefresh_clicked();

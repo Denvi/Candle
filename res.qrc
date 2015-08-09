@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/fit.png</file>
         <file>images/search_for_home2.png</file>
         <file>images/search_for_z.png</file>
-        <file>images/home.png</file>
         <file>images/safe_z.png</file>
         <file>images/axis_zero.png</file>
         <file>images/axis_return.png</file>
@@ -17,12 +15,13 @@
         <file>images/1401562173_chevron-up.png</file>
         <file>images/1401562173_chevron-right.png</file>
         <file>images/1401561986_chevron-left.png</file>
-        <file>images/turnon.png</file>
-        <file>images/turnoff1.png</file>
         <file>images/zero_z.png</file>
         <file>images/cutter.png</file>
         <file>images/handle2s.png</file>
         <file>images/handle2sh.png</file>
         <file>images/cube.png</file>
+        <file>images/fit_1.png</file>
+        <file>images/send_1.png</file>
+        <file>images/erase_1.png</file>
     </qresource>
 </RCC>

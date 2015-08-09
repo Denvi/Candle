@@ -27,6 +27,8 @@ frmSettings::frmSettings(QWidget *parent) :
     validator->setBottom(0);
     ui->txtRapidSpeed->setValidator(validator);
 
+    ui->txtQueryStateTime->setValidator(validator);
+
     searchPorts();
 }
 
@@ -135,6 +137,16 @@ double frmSettings::rapidSpeed()
 void frmSettings::setRapidSpeed(double rapidSpeed)
 {
     ui->txtRapidSpeed->setText(QString::number(rapidSpeed));
+}
+
+double frmSettings::queryStateTime()
+{
+    return ui->txtQueryStateTime->text().toDouble();
+}
+
+void frmSettings::setQueryStateTime(double queryStateTime)
+{
+    ui->txtQueryStateTime->setText(QString::number(queryStateTime));
 }
 
 void frmSettings::searchPorts()

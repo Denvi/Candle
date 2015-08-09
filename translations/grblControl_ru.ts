@@ -60,13 +60,12 @@
         <translation>Управление</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1455"/>
+        <location filename="../frmmain.ui" line="1476"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="340"/>
-        <location filename="../frmmain.ui" line="1411"/>
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
@@ -121,7 +120,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="536"/>
-        <location filename="../frmmain.cpp" line="192"/>
+        <location filename="../frmmain.cpp" line="194"/>
         <source>Not connected</source>
         <translation>Нет соединения</translation>
     </message>
@@ -203,37 +202,37 @@
         <translation>Консоль</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1435"/>
+        <location filename="../frmmain.ui" line="1456"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1446"/>
+        <location filename="../frmmain.ui" line="1467"/>
         <source>&amp;Service</source>
         <translation>&amp;Сервис</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1460"/>
+        <location filename="../frmmain.ui" line="1481"/>
         <source>E&amp;xit</source>
         <translation>Вы&amp;ход</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1465"/>
+        <location filename="../frmmain.ui" line="1486"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1470"/>
+        <location filename="../frmmain.ui" line="1491"/>
         <source>&amp;New</source>
         <translation>&amp;Новый</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1478"/>
+        <location filename="../frmmain.ui" line="1499"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1486"/>
+        <location filename="../frmmain.ui" line="1507"/>
         <source>Save &amp;As</source>
         <translation>Сохранить &amp;как</translation>
     </message>
@@ -273,40 +272,40 @@
         <translation>Проверка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="201"/>
+        <location filename="../frmmain.cpp" line="203"/>
         <source>Connected</source>
         <translation>Подключен</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="410"/>
+        <location filename="../frmmain.cpp" line="417"/>
         <source>Processed</source>
         <translation>Обработана</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="455"/>
+        <location filename="../frmmain.cpp" line="462"/>
         <source>Serial port error </source>
         <translation>Ошибка последовательного порта</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="333"/>
-        <location filename="../frmmain.cpp" line="526"/>
+        <location filename="../frmmain.cpp" line="533"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="526"/>
+        <location filename="../frmmain.cpp" line="533"/>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
         <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="556"/>
-        <location filename="../frmmain.cpp" line="638"/>
-        <location filename="../frmmain.cpp" line="843"/>
+        <location filename="../frmmain.cpp" line="563"/>
+        <location filename="../frmmain.cpp" line="645"/>
+        <location filename="../frmmain.cpp" line="851"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="627"/>
+        <location filename="../frmmain.cpp" line="634"/>
         <source>Sended</source>
         <translation>Отправлена</translation>
     </message>
@@ -387,6 +386,7 @@
         <location filename="../frmsettings.ui" line="262"/>
         <location filename="../frmsettings.ui" line="293"/>
         <location filename="../frmsettings.ui" line="310"/>
+        <location filename="../frmsettings.ui" line="340"/>
         <source>0</source>
         <translation></translation>
     </message>
@@ -441,7 +441,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="356"/>
+        <location filename="../frmsettings.ui" line="327"/>
+        <source>Query state time period:</source>
+        <translation>Период опроса состояния:</translation>
+    </message>
+    <message>
+        <location filename="../frmsettings.ui" line="399"/>
         <source>Show G-code program commands</source>
         <translation>Отображать команды G-code программы</translation>
     </message>
@@ -460,17 +465,17 @@
         <translation>Скорость G0:</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="325"/>
+        <location filename="../frmsettings.ui" line="368"/>
         <source>Jog</source>
         <translation>Перемещение</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="334"/>
+        <location filename="../frmsettings.ui" line="377"/>
         <source>Keyboard control</source>
         <translation>Управление с клавиатуры</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="344"/>
+        <location filename="../frmsettings.ui" line="387"/>
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
@@ -479,12 +484,12 @@
         <translation type="vanished">Отображать команды G-code программы в консоли</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="381"/>
+        <location filename="../frmsettings.ui" line="424"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="388"/>
+        <location filename="../frmsettings.ui" line="431"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>

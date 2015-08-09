@@ -125,6 +125,7 @@ void frmMain::loadSettings()
     m_frmSettings.setShowAllCommands(set.value("showAllCommands", 0).toBool());
     m_frmSettings.setSafeZ(set.value("safeZ", 0).toDouble());
     m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
+    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 0).toDouble());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 
@@ -153,6 +154,7 @@ void frmMain::saveSettings()
     set.setValue("showAllCommands", m_frmSettings.showAllCommands());
     set.setValue("safeZ", m_frmSettings.safeZ());
     set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
+    set.setValue("queryStateTime", m_frmSettings.queryStateTime());
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
@@ -222,9 +224,9 @@ void frmMain::sendCommand(QString command, int tableIndex)
     CommandAttributes ca;
 
     if (!(command == "$G" && tableIndex == 0)
-            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex == -1)) {
-        ca.consoleIndex = ui->txtConsole->blockCount();
+            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex == -1)) {        
         ui->txtConsole->appendPlainText(command);
+        ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
         ca.consoleIndex = -1;
     }
@@ -397,11 +399,16 @@ void frmMain::onSerialPortReadyRead()
                 QTextCursor tc(tb);
 
                 // Add answer to console
-                if (ca.consoleIndex != -1) {
+                if (ca.consoleIndex != -1 && tb.isValid()) {
+
+                    QCursor cur = ui->txtConsole->cursor();
+
                     tc.beginEditBlock();
                     tc.movePosition(QTextCursor::EndOfBlock);
                     tc.insertText(" > " + data);
                     tc.endEditBlock();
+
+                    ui->txtConsole->setCursor(cur);
                 }
 
                 // Update file table
@@ -691,12 +698,15 @@ void frmMain::applySettings() {
     m_showAllCommands = m_frmSettings.showAllCommands();
     m_safeZ = m_frmSettings.safeZ();
     m_rapidSpeed = m_frmSettings.rapidSpeed();
+    m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizator->update();
 }
 
 void frmMain::on_cmdCommandSend_clicked()
 {
+    if (ui->txtCommand->text().isEmpty()) return;
+
     sendCommand(ui->txtCommand->text(), -1);
     ui->txtCommand->clear();
 }
@@ -858,4 +868,9 @@ void frmMain::on_actFileNew_triggered()
 void frmMain::on_cmdIsometric_clicked(bool checked)
 {
     if (checked) ui->glwVisualizator->setIsometricView(); else ui->glwVisualizator->setTopView();
+}
+
+void frmMain::on_cmdClearConsole_clicked()
+{
+    ui->txtConsole->clear();
 }
