@@ -57,6 +57,6 @@ RESOURCES += \
 
 CONFIG += c++11
 
-RC_ICONS += images/grblControl1.ico
+RC_ICONS += images/grblControl2.ico
 
 TRANSLATIONS = translations/grblControl_ru.ts
