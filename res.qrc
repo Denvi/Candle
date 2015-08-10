@@ -26,5 +26,6 @@
         <file>images/cubeFront.png</file>
         <file>images/cubeLeft.png</file>
         <file>images/cubeTop.png</file>
+        <file>images/icon3png.png</file>
     </qresource>
 </RCC>

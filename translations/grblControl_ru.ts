@@ -38,6 +38,24 @@
     </message>
 </context>
 <context>
+    <name>frmAbout</name>
+    <message>
+        <location filename="../frmabout.ui" line="14"/>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <location filename="../frmabout.ui" line="44"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Version: 0.1&lt;br/&gt;License: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Visit: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Версия: 0.1&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Посетите: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../frmabout.ui" line="91"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <location filename="../frmmain.ui" line="21"/>
@@ -60,7 +78,7 @@
         <translation>Управление</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1614"/>
+        <location filename="../frmmain.ui" line="1621"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
@@ -204,29 +222,39 @@
         <translation>&amp;Сервис</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1619"/>
+        <location filename="../frmmain.ui" line="1611"/>
+        <source>&amp;Help</source>
+        <translation>С&amp;правка</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1626"/>
         <source>E&amp;xit</source>
         <translation>Вы&amp;ход</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1624"/>
+        <location filename="../frmmain.ui" line="1631"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1629"/>
+        <location filename="../frmmain.ui" line="1636"/>
         <source>&amp;New</source>
         <translation>&amp;Новый</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1634"/>
+        <location filename="../frmmain.ui" line="1641"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1639"/>
+        <location filename="../frmmain.ui" line="1646"/>
         <source>Save &amp;as...</source>
         <translation>Сохранить &amp;как...</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1651"/>
+        <source>&amp;About</source>
+        <translation>&amp;О программе</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="16"/>
@@ -264,7 +292,7 @@
         <translation>Проверка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="415"/>
+        <location filename="../frmmain.cpp" line="416"/>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Задание выполнено.
@@ -286,7 +314,7 @@ Time elapsed: %1</source>
         <translation>Ошибка последовательного порта </translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="947"/>
+        <location filename="../frmmain.cpp" line="948"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -298,19 +326,19 @@ Time elapsed: %1</source>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="576"/>
-        <location filename="../frmmain.cpp" line="947"/>
+        <location filename="../frmmain.cpp" line="948"/>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
         <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="606"/>
-        <location filename="../frmmain.cpp" line="689"/>
-        <location filename="../frmmain.cpp" line="900"/>
+        <location filename="../frmmain.cpp" line="690"/>
+        <location filename="../frmmain.cpp" line="901"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="678"/>
+        <location filename="../frmmain.cpp" line="679"/>
         <source>Sended</source>
         <translation>Отправлена</translation>
     </message>

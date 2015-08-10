@@ -6,7 +6,7 @@ ToolDrawer::ToolDrawer(QObject *parent) :
 {
     m_toolDiameter = 3;
     m_toolLength = 15;
-    m_toolPosition = QVector3D(0, 0, 20);
+    m_toolPosition = QVector3D(0, 0, 0);
     m_rotationAngle = 0;
 }
 

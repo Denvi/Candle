@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     tablewidget.cpp \
     gcodetablemodel.cpp \
     frmsettings.cpp \
-    styledtoolbutton.cpp
+    styledtoolbutton.cpp \
+    frmabout.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -42,10 +43,12 @@ HEADERS  += frmmain.h \
     tablewidget.h \
     gcodetablemodel.h \
     frmsettings.h \
-    styledtoolbutton.h
+    styledtoolbutton.h \
+    frmabout.h
 
 FORMS    += frmmain.ui \
-    frmsettings.ui
+    frmsettings.ui \
+    frmabout.ui
 
 DEFINES += _USE_MATH_DEFINES
 

@@ -1586,7 +1586,7 @@ color: black;</string>
      <x>0</x>
      <y>0</y>
      <width>957</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -1606,8 +1606,15 @@ color: black;</string>
     </property>
     <addaction name="actServiceSettings"/>
    </widget>
+   <widget class="QMenu" name="mnuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actAbout"/>
+   </widget>
    <addaction name="mnuFile"/>
    <addaction name="mnuService"/>
+   <addaction name="mnuHelp"/>
   </widget>
   <action name="actFileOpen">
    <property name="text">
@@ -1639,6 +1646,11 @@ color: black;</string>
     <string>Save &amp;as...</string>
    </property>
   </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -1654,6 +1666,55 @@ color: black;</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>cmdTop</tabstop>
+  <tabstop>cmdFront</tabstop>
+  <tabstop>cmdLeft</tabstop>
+  <tabstop>cmdIsometric</tabstop>
+  <tabstop>cmdFit</tabstop>
+  <tabstop>txtWPosX</tabstop>
+  <tabstop>txtWPosY</tabstop>
+  <tabstop>txtWPosZ</tabstop>
+  <tabstop>txtMPosX</tabstop>
+  <tabstop>txtMPosY</tabstop>
+  <tabstop>txtMPosZ</tabstop>
+  <tabstop>txtStatus</tabstop>
+  <tabstop>cmdHome</tabstop>
+  <tabstop>cmdTouch</tabstop>
+  <tabstop>cmdZeroXY</tabstop>
+  <tabstop>cmdZeroZ</tabstop>
+  <tabstop>cmdReturnXY</tabstop>
+  <tabstop>cmdTopZ</tabstop>
+  <tabstop>cmdReset</tabstop>
+  <tabstop>cmdUnlock</tabstop>
+  <tabstop>txtSpindleSpeed</tabstop>
+  <tabstop>sliSpindleSpeed</tabstop>
+  <tabstop>cmdSpindle</tabstop>
+  <tabstop>cmdXMinus</tabstop>
+  <tabstop>cmdYPlus</tabstop>
+  <tabstop>cmdXPlus</tabstop>
+  <tabstop>cmdYMinus</tabstop>
+  <tabstop>cmdZPlus</tabstop>
+  <tabstop>cmdZMinus</tabstop>
+  <tabstop>txtJogStep</tabstop>
+  <tabstop>cmdJogStep1</tabstop>
+  <tabstop>cmdJogStep2</tabstop>
+  <tabstop>cmdJogStep3</tabstop>
+  <tabstop>cmdJogStep4</tabstop>
+  <tabstop>cmdJogStep5</tabstop>
+  <tabstop>cmdJogStep6</tabstop>
+  <tabstop>txtConsole</tabstop>
+  <tabstop>txtCommand</tabstop>
+  <tabstop>cmdCommandSend</tabstop>
+  <tabstop>cmdClearConsole</tabstop>
+  <tabstop>chkTestMode</tabstop>
+  <tabstop>chkAutoScroll</tabstop>
+  <tabstop>cmdFileOpen</tabstop>
+  <tabstop>cmdFileSend</tabstop>
+  <tabstop>cmdFileReset</tabstop>
+  <tabstop>cmdFilePause</tabstop>
+  <tabstop>tblProgram</tabstop>
+ </tabstops>
  <resources>
   <include location="res.qrc"/>
  </resources>

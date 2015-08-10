@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>457</height>
+    <width>373</width>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -452,6 +452,25 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cboPort</tabstop>
+  <tabstop>cmdRefresh</tabstop>
+  <tabstop>cboBaud</tabstop>
+  <tabstop>txtLineWidth</tabstop>
+  <tabstop>txtArcPrecision</tabstop>
+  <tabstop>cboFps</tabstop>
+  <tabstop>chkAntialiasing</tabstop>
+  <tabstop>cboToolType</tabstop>
+  <tabstop>txtToolAngle</tabstop>
+  <tabstop>txtToolDiameter</tabstop>
+  <tabstop>txtToolLength</tabstop>
+  <tabstop>txtSafeZ</tabstop>
+  <tabstop>txtRapidSpeed</tabstop>
+  <tabstop>txtQueryStateTime</tabstop>
+  <tabstop>chkShowAllCommands</tabstop>
+  <tabstop>cmdOK</tabstop>
+  <tabstop>cmdCancel</tabstop>
+ </tabstops>
  <resources>
   <include location="res.qrc"/>
  </resources>

@@ -14,6 +14,7 @@
 #include "tooldrawer.h"
 #include "gcodetablemodel.h"
 #include "frmsettings.h"
+#include "frmabout.h"
 
 namespace Ui {
 class frmMain;
@@ -83,6 +84,8 @@ private slots:
     void on_cmdLeft_clicked();
     void on_cmdIsometric_clicked();
 
+    void on_actAbout_triggered();
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
@@ -100,6 +103,7 @@ private:
     bool m_programLoading;
     QSerialPort m_serialPort;
     frmSettings m_frmSettings;
+    frmAbout m_frmAbout;
     QString m_settingsFileName;
     QString m_programFileName;
     QTimer m_timerConnection;

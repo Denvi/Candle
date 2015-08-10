@@ -673,7 +673,8 @@ void frmMain::sendNextFileCommands() {
 
     if (m_queue.length() > 0) return;
 
-    QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
+    QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();        
+
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount() - 1) {
         m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), tr("Sended"));
         sendCommand(command, m_fileCommandIndex);
@@ -975,4 +976,9 @@ void frmMain::on_cmdLeft_clicked()
 void frmMain::on_cmdIsometric_clicked()
 {
     ui->glwVisualizator->setIsometricView();
+}
+
+void frmMain::on_actAbout_triggered()
+{
+    m_frmAbout.exec();
 }
