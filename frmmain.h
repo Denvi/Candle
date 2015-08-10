@@ -75,14 +75,19 @@ private slots:
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
     void on_actFileNew_triggered();
-    void on_cmdIsometric_clicked(bool checked);
-
     void on_cmdClearConsole_clicked();
+    void on_actFileSaveAs_triggered();
+    void on_actFileSave_triggered();
+    void on_cmdTop_clicked();
+    void on_cmdFront_clicked();
+    void on_cmdLeft_clicked();
+    void on_cmdIsometric_clicked();
 
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
+    void keyPressEvent(QKeyEvent *ke);
 
 private:
     const int BUFFERLENGTH = 127;
@@ -96,6 +101,7 @@ private:
     QSerialPort m_serialPort;
     frmSettings m_frmSettings;
     QString m_settingsFileName;
+    QString m_programFileName;
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
@@ -141,6 +147,8 @@ private:
     void sendNextFileCommands();
     void applySettings();
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
+    bool saveProgramToFile(QString fileName);
+    void placeVisualizerButtons();
 };
 
 #endif // FRMMAIN_H

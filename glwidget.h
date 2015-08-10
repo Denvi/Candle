@@ -28,6 +28,10 @@ public:
 
     void setIsometricView();
     void setTopView();
+    void setFrontView();
+    void setLeftView();
+
+    void setFps(int fps);
 
 signals:
     void rotationChanged();
@@ -36,7 +40,7 @@ public slots:
 
 private slots:
     void onFramesTimer();
-    void onChangeViewTimer();
+    void viewAnimation();
 
 private:
     double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
@@ -51,17 +55,20 @@ private:
     bool m_antialiasing;
     int m_frames = 0;
     int m_fps = 0;
+    int m_targetFps;
+    int m_animationFrame;
     QTime m_spendTime;
     QTime m_estimatedTime;    
 //    QTimer m_changeViewTimer;
     QBasicTimer m_timerAnimation;
     double m_xRotTarget, m_yRotTarget;
-    bool m_animateRotation;
-    int m_targetFps;
+    double m_xRotStored, m_yRotStored;
+    bool m_animateView;
 
     double normalizeAngle(double angle);
-    double calculateVolume(QVector3D size);
-
+    double calculateVolume(QVector3D size);    
+    void beginViewAnimation();
+    void stopViewAnimation();
 protected:
     void initializeGL();
     void paintGL();

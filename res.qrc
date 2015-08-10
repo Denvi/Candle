@@ -23,5 +23,8 @@
         <file>images/fit_1.png</file>
         <file>images/send_1.png</file>
         <file>images/erase_1.png</file>
+        <file>images/cubeFront.png</file>
+        <file>images/cubeLeft.png</file>
+        <file>images/cubeTop.png</file>
     </qresource>
 </RCC>

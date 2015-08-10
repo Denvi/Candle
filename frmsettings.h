@@ -41,6 +41,8 @@ public:
     void setToolType(int toolType);
     double toolAngle();
     void setToolAngle(double toolAngle);
+    int fps();
+    void setFps(int fps);
 
 private slots:
     void on_cmdRefresh_clicked();

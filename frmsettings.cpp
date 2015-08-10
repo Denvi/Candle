@@ -172,6 +172,16 @@ void frmSettings::setToolAngle(double toolAngle)
     ui->txtToolAngle->setText(QString::number(toolAngle));
 }
 
+int frmSettings::fps()
+{
+    return ui->cboFps->currentText().toInt();
+}
+
+void frmSettings::setFps(int fps)
+{
+    ui->cboFps->setCurrentText(QString::number(fps));
+}
+
 void frmSettings::searchPorts()
 {
     ui->cboPort->clear();

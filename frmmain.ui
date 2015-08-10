@@ -126,7 +126,7 @@ QSlider::handle:horizontal:hover {
       <property name="flat">
        <bool>false</bool>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,1,0">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,0,1,0">
        <property name="spacing">
         <number>8</number>
        </property>
@@ -146,8 +146,8 @@ QSlider::handle:horizontal:hover {
         <widget class="QToolButton" name="cmdIsometric">
          <property name="minimumSize">
           <size>
-           <width>32</width>
-           <height>32</height>
+           <width>30</width>
+           <height>30</height>
           </size>
          </property>
          <property name="autoFillBackground">
@@ -181,12 +181,144 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="iconSize">
           <size>
-           <width>22</width>
-           <height>22</height>
+           <width>20</width>
+           <height>20</height>
           </size>
          </property>
-         <property name="checkable">
-          <bool>true</bool>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="cmdTop">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { /* all types of tool button */
+	color: lightgray;
+	border: 1px solid lightgray;
+	border-radius: 0px;
+	background-color: white;
+}
+
+QToolButton:hover { /* all types of tool button */
+	border: 1px solid gray;
+	color: gray;
+}
+
+QToolButton:pressed {
+}
+
+QToolButton:checked { /* all types of tool button */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/images/cubeTop.png</normaloff>:/images/cubeTop.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="cmdFront">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { /* all types of tool button */
+	color: lightgray;
+	border: 1px solid lightgray;
+	border-radius: 0px;
+	background-color: white;
+}
+
+QToolButton:hover { /* all types of tool button */
+	border: 1px solid gray;
+	color: gray;
+}
+
+QToolButton:pressed {
+}
+
+QToolButton:checked { /* all types of tool button */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/images/cubeFront.png</normaloff>:/images/cubeFront.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="cmdLeft">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { /* all types of tool button */
+	color: lightgray;
+	border: 1px solid lightgray;
+	border-radius: 0px;
+	background-color: white;
+}
+
+QToolButton:hover { /* all types of tool button */
+	border: 1px solid gray;
+	color: gray;
+}
+
+QToolButton:pressed {
+}
+
+QToolButton:checked { /* all types of tool button */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/images/cubeLeft.png</normaloff>:/images/cubeLeft.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -194,8 +326,8 @@ QToolButton:checked { /* all types of tool button */
         <widget class="QToolButton" name="cmdFit">
          <property name="minimumSize">
           <size>
-           <width>32</width>
-           <height>32</height>
+           <width>30</width>
+           <height>30</height>
           </size>
          </property>
          <property name="autoFillBackground">
@@ -229,8 +361,8 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="iconSize">
           <size>
-           <width>22</width>
-           <height>22</height>
+           <width>20</width>
+           <height>20</height>
           </size>
          </property>
         </widget>
@@ -806,8 +938,11 @@ color: black;</string>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::NoButtons</enum>
                </property>
-               <property name="maximum">
+               <property name="minimum">
                 <number>100</number>
+               </property>
+               <property name="maximum">
+                <number>20000</number>
                </property>
               </widget>
              </item>
@@ -815,8 +950,11 @@ color: black;</string>
            </item>
            <item>
             <widget class="QSlider" name="sliSpindleSpeed">
+             <property name="minimum">
+              <number>1</number>
+             </property>
              <property name="maximum">
-              <number>100</number>
+              <number>200</number>
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -1448,7 +1586,7 @@ color: black;</string>
      <x>0</x>
      <y>0</y>
      <width>957</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -1492,19 +1630,13 @@ color: black;</string>
    </property>
   </action>
   <action name="actFileSave">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>&amp;Save</string>
    </property>
   </action>
   <action name="actFileSaveAs">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
-    <string>Save &amp;As</string>
+    <string>Save &amp;as...</string>
    </property>
   </action>
  </widget>
@@ -1525,22 +1657,5 @@ color: black;</string>
  <resources>
   <include location="res.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>sliSpindleSpeed</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>txtSpindleSpeed</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>642</x>
-     <y>518</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>682</x>
-     <y>493</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

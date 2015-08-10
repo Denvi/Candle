@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QTextBlock>
 #include <QTextCursor>
+#include <QMessageBox>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -11,10 +12,10 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
-    m_status = {"Idle", "Alarm", "Run", "Home", "Hold", "Queue", "Check"};
-    m_statusCaptions = {tr("Idle"), tr("Alarm"), tr("Run"), tr("Home"), tr("Hold"), tr("Queue"), tr("Check")};
-    m_statusBackColors = {"palette(button)", "red", "lime", "lime", "yellow", "yellow", "palette(button)"};
-    m_statusForeColors = {"palette(text)", "white", "black", "black", "black", "black", "palette(text)"};
+    m_status << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check";
+    m_statusCaptions << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check");
+    m_statusBackColors << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)";
+    m_statusForeColors << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)";
 
     ui->setupUi(this);
 
@@ -38,6 +39,9 @@ frmMain::frmMain(QWidget *parent) :
 //    ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->cmdFit->setParent(ui->glwVisualizator);
     ui->cmdIsometric->setParent(ui->glwVisualizator);
+    ui->cmdTop->setParent(ui->glwVisualizator);
+    ui->cmdFront->setParent(ui->glwVisualizator);
+    ui->cmdLeft->setParent(ui->glwVisualizator);
 
     connect(ui->glwVisualizator, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(&m_tableModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
@@ -91,7 +95,6 @@ frmMain::frmMain(QWidget *parent) :
 
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
-//    m_timerToolAnimation.start(33, this);
 }
 
 frmMain::~frmMain()
@@ -128,9 +131,12 @@ void frmMain::loadSettings()
     m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
+    m_frmSettings.setFps(set.value("fps", 60).toInt());
     m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toDouble());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
+    ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
+    ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
 
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
@@ -138,6 +144,8 @@ void frmMain::loadSettings()
         ui->splitter->setStretchFactor(0, 1);
         ui->splitter->setStretchFactor(1, 0);
     } else ui->splitter->restoreState(splitterState);
+
+    this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
 }
 
 void frmMain::saveSettings()
@@ -159,10 +167,13 @@ void frmMain::saveSettings()
     set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
     set.setValue("toolAngle", m_frmSettings.toolAngle());
     set.setValue("toolType", m_frmSettings.toolType());
+    set.setValue("fps", m_frmSettings.fps());
     set.setValue("queryStateTime", m_frmSettings.queryStateTime());
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
+    set.setValue("formGeometry", this->saveGeometry());
+    set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
 }
 
 void frmMain::updateControlsState() {
@@ -188,15 +199,22 @@ void frmMain::updateControlsState() {
     ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileReset->setEnabled(!m_transferringFile && m_tableModel.rowCount() > 1);
-    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_tableModel.rowCount() > 1);
+    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_tableModel.rowCount() > 1);    
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
+    ui->actFileSave->setEnabled(m_tableModel.rowCount() > 1);
+    ui->actFileSaveAs->setEnabled(m_tableModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers(m_transferringFile ? QAbstractItemView::NoEditTriggers :
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
     if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
+
+    this->setWindowTitle(m_programFileName.isEmpty() ? "grblControl"
+                                                     : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - grblControl");
+
+//    QRegExp rx("([^/]*)$");
 
     qApp->processEvents();
     this->update();
@@ -213,6 +231,8 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command, int tableIndex)
 {
+    if (!m_serialPort.isOpen()) return;
+
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
         m_queue.append(command);
@@ -249,9 +269,9 @@ void frmMain::sendCommand(QString command, int tableIndex)
     QRegExp s("[Ss]0*(\\d+)");
     if (s.indexIn(command) != -1) {
         int speed = s.cap(1).toInt();
-        if (ui->sliSpindleSpeed->value() != speed) {
+        if (ui->sliSpindleSpeed->value() != speed / 100) {
             m_programSpeed = true;
-            ui->sliSpindleSpeed->setValue(speed);
+            ui->sliSpindleSpeed->setValue(speed / 100);
             m_programSpeed = false;
         }
     }
@@ -383,7 +403,7 @@ void frmMain::onSerialPortReadyRead()
 //                ui->glwVisualizator->update();
 
                 // Test for job complete
-                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1) {
+                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
                     m_transferringFile = false;
 
                     for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
@@ -391,6 +411,10 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     updateControlsState();
+
+                    qApp->beep();
+                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
+                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
                 }
             }
         } else if (data.length() > 0) {
@@ -506,16 +530,24 @@ void frmMain::onVisualizatorRotationChanged()
     ui->cmdIsometric->setChecked(false);
 }
 
+void frmMain::placeVisualizerButtons()
+{
+    ui->cmdIsometric->move(ui->glwVisualizator->width() - ui->cmdIsometric->width() - 8, 8);
+    ui->cmdTop->move(ui->cmdIsometric->geometry().left() - ui->cmdTop->width() - 8, 8);
+    ui->cmdLeft->move(ui->glwVisualizator->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
+    ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
+//    ui->cmdFit->move(ui->cmdTop->geometry().left() - ui->cmdFit->width() - 10, 10);
+    ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
+}
+
 void frmMain::showEvent(QShowEvent *se)
 {
-    ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
-    ui->cmdIsometric->move(ui->cmdFit->geometry().left() - ui->cmdIsometric->width() - 10, 10);
+    placeVisualizerButtons();
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
 {
-    ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 10, 10);
-    ui->cmdIsometric->move(ui->cmdFit->geometry().left() - ui->cmdIsometric->width() - 10, 10);
+    placeVisualizerButtons();
 }
 
 void frmMain::timerEvent(QTimerEvent *te)
@@ -526,6 +558,12 @@ void frmMain::timerEvent(QTimerEvent *te)
     } else {
         QMainWindow::timerEvent(te);
     }
+}
+
+void frmMain::keyPressEvent(QKeyEvent *ke)
+{
+    qDebug() << "Key pressed:" << ke->key();
+    QMainWindow::keyPressEvent(ke);
 }
 
 void frmMain::on_actFileExit_triggered()
@@ -546,10 +584,10 @@ void frmMain::processFile(QString fileName)
 
     if (!file.open(QIODevice::ReadOnly)) return;
     QTextStream textStream(&file);  
-    QList<QString> commands;
 
     clearTable();
     m_programLoading = true;
+    m_programFileName = fileName;
 
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
 
@@ -708,6 +746,7 @@ void frmMain::applySettings() {
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
+    ui->glwVisualizator->setFps(m_frmSettings.fps());
 //    ui->glwVisualizator->update();
 }
 
@@ -788,13 +827,15 @@ void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
 
 void frmMain::on_txtSpindleSpeed_editingFinished()
 {
-    ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value());
+//    ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
+    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -1);
 }
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
     if (!m_programSpeed) {
-        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value()), -1);
+        ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
+        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -1);
     }
 }
 
@@ -871,14 +912,67 @@ void frmMain::on_actFileNew_triggered()
     clearTable();
     m_viewParser.reset();
     ui->glwVisualizator->fitDrawables();
-}
+    m_programFileName = "";
 
-void frmMain::on_cmdIsometric_clicked(bool checked)
-{
-    if (checked) ui->glwVisualizator->setIsometricView(); else ui->glwVisualizator->setTopView();
+    updateControlsState();
 }
 
 void frmMain::on_cmdClearConsole_clicked()
 {
     ui->txtConsole->clear();
+}
+
+bool frmMain::saveProgramToFile(QString fileName)
+{
+    QFile file(fileName);
+    QDir dir;
+
+    qDebug() << "Saving program";
+
+    if (file.exists()) dir.remove(file.fileName());
+
+    if (!file.open(QIODevice::WriteOnly)) return false;
+
+    QTextStream textStream(&file);
+
+    for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
+        textStream << m_tableModel.data(m_tableModel.index(i, 1)).toString() << "\r\n";
+    }
+
+    return true;
+}
+
+void frmMain::on_actFileSaveAs_triggered()
+{
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc;*.ncc;*.tap)")));
+
+    if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
+        m_programFileName = fileName;
+        updateControlsState();
+    }
+}
+
+void frmMain::on_actFileSave_triggered()
+{
+    if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveProgramToFile(m_programFileName);
+}
+
+void frmMain::on_cmdTop_clicked()
+{
+    ui->glwVisualizator->setTopView();
+}
+
+void frmMain::on_cmdFront_clicked()
+{
+    ui->glwVisualizator->setFrontView();
+}
+
+void frmMain::on_cmdLeft_clicked()
+{
+    ui->glwVisualizator->setLeftView();
+}
+
+void frmMain::on_cmdIsometric_clicked()
+{
+    ui->glwVisualizator->setIsometricView();
 }

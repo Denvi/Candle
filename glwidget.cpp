@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QtWidgets>
 #include <QPainter>
+#include <QEasingCurve>
 
 #define ZOOMSTEP 1.1
 
@@ -34,12 +35,8 @@ GLWidget::GLWidget(QWidget *parent) :
     m_spendTime.setHMS(0, 0, 0);
     m_estimatedTime.setHMS(0, 0, 0);
 
-//    m_changeViewTimer.setInterval(33);
-//    connect(&m_changeViewTimer, SIGNAL(timeout()), this, SLOT(onChangeViewTimer()));
-
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
-    m_targetFps = 120;
-    m_timerAnimation.start(16, this);
+    setFps(60);
 }
 
 double GLWidget::calculateVolume(QVector3D size) {
@@ -56,8 +53,7 @@ void GLWidget::fitDrawables()
     GLDrawable *bigest = NULL;
     QVector3D maxSize(0, 0, 0);
 
-//    m_timerAnimation.stop();
-    m_animateRotation = false;
+    stopViewAnimation();
 
     foreach (GLDrawable *dr, m_drawables) {
         QVector3D size = dr->getSizes();
@@ -108,23 +104,9 @@ void GLWidget::fitDrawables()
     m_xPan = 0;
     m_yPan = 0;
 
-//    m_xRot = 90;
-//    m_yRot = 0;
-
-//    m_xRotTarget = 90;
-//    m_yRotTarget = m_yRot > 180 ? 360 : 0;
-//    m_changeViewTimer.start();
-
-//    m_xRot = 45;
-//    m_yRot = 45;
-
     m_zoom = 1;
-
-    //updateProjection();
-    //updateGL();
-//    update();
-    m_targetFps = 120;
 }
+
 bool GLWidget::antialiasing() const
 {
     return m_antialiasing;
@@ -137,34 +119,23 @@ void GLWidget::setAntialiasing(bool antialiasing)
 
 void GLWidget::onFramesTimer()
 {
-    static int tries = 0;
-
     m_fps = m_frames;
-
-    if (m_fps > 0 && m_fps < m_targetFps - 5) {
-        if (tries++ > 10) {
-            tries = 0;
-            m_timerAnimation.stop();
-            if (m_targetFps > 30) m_targetFps /= 2;
-            qDebug() << "Setting fps:" << m_targetFps;
-            m_timerAnimation.start(1000 / m_targetFps, this);
-        }
-    }
-
     m_frames = 0;
+
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
-void GLWidget::onChangeViewTimer()
+void GLWidget::viewAnimation()
 {
-    double step = 2;
+    double t = (double)m_animationFrame++ / (m_targetFps * 0.2);
 
-    if (fabs(m_xRot - m_xRotTarget) > 0.1) m_xRot += (m_xRotTarget - m_xRot) / step; else m_xRot = m_xRotTarget;
-    if (fabs(m_yRot - m_yRotTarget) > 0.1) m_yRot += (m_yRotTarget - m_yRot) / step; else m_yRot = m_yRotTarget;
+    if (t == 1) stopViewAnimation();
 
-    if (m_xRot == m_xRotTarget && m_yRot == m_yRotTarget) m_animateRotation = false;
+    QEasingCurve ec(QEasingCurve::OutExpo);
+    double val = ec.valueForProgress(t);
 
-//    update();
+    m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
+    m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 }
 
 double GLWidget::lineWidth() const
@@ -181,20 +152,46 @@ void GLWidget::setTopView()
 {
     m_xRotTarget = 90;
     m_yRotTarget = m_yRot > 180 ? 360 : 0;
-//    m_timerAnimation.start(25, this);
-    m_animateRotation = true;
+    beginViewAnimation();
+}
+
+void GLWidget::setFrontView()
+{
+    m_xRotTarget = 0;
+    m_yRotTarget = m_yRot > 180 ? 360 : 0;
+    beginViewAnimation();
+}
+
+void GLWidget::setLeftView()
+{
+    m_xRotTarget = 0;
+    m_yRotTarget = m_yRot > 270 ? 450 : 90;
+    beginViewAnimation();
 }
 
 void GLWidget::setIsometricView()
 {
     m_xRotTarget = 45;
     m_yRotTarget = m_yRot > 180 ? 405 : 45;
-//    m_timerAnimation.start(25, this);
+    beginViewAnimation();
+}
 
-//    m_xRot = 45;
-//    m_yRot = 45;
-//    update();
-    m_animateRotation = true;
+void GLWidget::beginViewAnimation() {
+    m_xRotStored = m_xRot;
+    m_yRotStored = m_yRot;
+    m_animationFrame = 0;
+    m_animateView = true;
+}
+
+void GLWidget::stopViewAnimation() {
+    m_animateView = false;
+}
+
+void GLWidget::setFps(int fps)
+{
+    m_targetFps = fps;
+    m_timerAnimation.stop();
+    m_timerAnimation.start(1000 / fps, Qt::PreciseTimer, this);
 }
 
 QTime GLWidget::estimatedTime() const
@@ -216,7 +213,6 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 {
     m_spendTime = spendTime;
 }
-
 
 void GLWidget::initializeGL()
 {
@@ -436,8 +432,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::LeftButton) {
 
-//        m_timerAnimation.stop();
-        m_animateRotation = false;
+        stopViewAnimation();
 
         m_yRot = normalizeAngle(m_yLastRot - (event->pos().x() - m_lastPos.x()) * 0.5);
         m_xRot = m_xLastRot + (event->pos().y() - m_lastPos.y()) * 0.5;
@@ -455,9 +450,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
         //updateProjection();
     }
-
-    //updateGL();
-//    update();
 }
 
 void GLWidget::wheelEvent(QWheelEvent *we)
@@ -486,7 +478,7 @@ void GLWidget::wheelEvent(QWheelEvent *we)
 void GLWidget::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerAnimation.timerId()) {
-        if (m_animateRotation) onChangeViewTimer();
+        if (m_animateView) viewAnimation();
         update();
     } else {
         QGLWidget::timerEvent(te);
