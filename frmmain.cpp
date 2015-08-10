@@ -553,7 +553,8 @@ void frmMain::resizeEvent(QResizeEvent *re)
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.rotate(-20 * (double)ui->txtSpindleSpeed->value() / 100);
+        m_toolDrawer.rotate(-40 * (double)(ui->txtSpindleSpeed->value())
+                            / (ui->txtSpindleSpeed->maximum() - ui->txtSpindleSpeed->minimum()));
 //        ui->glwVisualizator->update();
     } else {
         QMainWindow::timerEvent(te);
