@@ -67,10 +67,9 @@ void GLWidget::fitDrawables()
     if (bigest != NULL) {
 
         double a = maxSize.y() / 2 / 0.25 * 1.3
-                / (this->height() < this->width() ? 1 : (double)this->height() / this->width())
                 + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
         double b = maxSize.x() / 2 / 0.25 * 1.3
-                / (this->height() < this->width() ? (double)this->width() / this->height() : 1)
+                / ((double)this->width() / this->height())
                 + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
         m_distance = qMax(a, b);
 

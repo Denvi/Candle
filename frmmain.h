@@ -90,7 +90,6 @@ protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
-    void keyPressEvent(QKeyEvent *ke);
 
 private:
     const int BUFFERLENGTH = 127;
@@ -145,7 +144,7 @@ private:
     void saveSettings();
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int tableIndex = 0);
+    void sendCommand(QString command, int tableIndex = -1);
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();
@@ -153,6 +152,7 @@ private:
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     bool saveProgramToFile(QString fileName);
     void placeVisualizerButtons();
+    bool dataIsEnd(QString data);
 };
 
 #endif // FRMMAIN_H
