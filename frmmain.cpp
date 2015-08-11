@@ -274,12 +274,13 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
     // Processing spindle speed only from g-code program
     QRegExp s("[Ss]0*(\\d+)");
-    if (s.indexIn(command) != -1 && ca.tableIndex > -1) {
+    if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
         int speed = s.cap(1).toInt();
         if (ui->sliSpindleSpeed->value() != speed / 100) {
             m_programSpeed = true;
             ui->sliSpindleSpeed->setValue(speed / 100);
             m_programSpeed = false;
+            ui->txtSpindleSpeed->setValue(speed);
         }
     }
 
@@ -850,15 +851,17 @@ void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
 
 void frmMain::on_txtSpindleSpeed_editingFinished()
 {
-//    ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
-    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -1);
+    m_programSpeed = true;
+    ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
+    m_programSpeed = false;
+    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
 }
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
-    ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
     if (!m_programSpeed) {
-        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -1);
+        ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
+        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
     }
 }
 
