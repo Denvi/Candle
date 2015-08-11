@@ -33,6 +33,12 @@ public:
 
     void setFps(int fps);
 
+    QString parserStatus() const;
+    void setParserStatus(const QString &parserStatus);
+
+    QString bufferState() const;
+    void setBufferState(const QString &bufferState);
+
 signals:
     void rotationChanged();
 
@@ -64,6 +70,8 @@ private:
     double m_xRotTarget, m_yRotTarget;
     double m_xRotStored, m_yRotStored;
     bool m_animateView;
+    QString m_parserStatus;
+    QString m_bufferState;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);    

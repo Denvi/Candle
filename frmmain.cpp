@@ -128,6 +128,8 @@ void frmMain::loadSettings()
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
     ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
+    ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
+    ui->sliFeed->setValue(set.value("feed", 100).toInt());
 
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
@@ -165,6 +167,8 @@ void frmMain::saveSettings()
     set.setValue("splitter", ui->splitter->saveState());
     set.setValue("formGeometry", this->saveGeometry());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
+    set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
+    set.setValue("feed", ui->txtFeed->value());
 }
 
 void frmMain::updateControlsState() {
@@ -200,6 +204,8 @@ void frmMain::updateControlsState() {
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
+    ui->grpFeed->setEnabled(portOpened && !m_transferringFile);
+
     if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
 
     this->setWindowTitle(m_programFileName.isEmpty() ? "grblControl"
@@ -224,25 +230,35 @@ void frmMain::sendCommand(QString command, int tableIndex)
 {
     if (!m_serialPort.isOpen()) return;
 
+    // Feed override
+    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
+
     // Commands queue
-    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
+    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH || m_queue.length() > 0) {
 
-        qDebug() << "queue:" << command;
+//        qDebug() << "queue:" << command;
 
-        m_queue.append(command);
-    }
+        CommandQueue cq;
 
-    while ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
-        qApp->processEvents();
-    }
+        cq.command = command;
+        cq.tableIndex = tableIndex;
 
-    if (m_queue.length() > 0) {
-        command = m_queue.takeFirst();
+        m_queue.append(cq);
+
+        while ((bufferLength() + m_queue[0].command.length() + 1) > BUFFERLENGTH) {
+            qApp->processEvents();
+        }
+
+        cq = m_queue.takeFirst();
+        command = cq.command;
+        tableIndex = cq.tableIndex;
+
+//        qDebug() << "get queue:" << cq.command;
     }
 
     CommandAttributes ca;
 
-    if (!(command == "$G" && tableIndex == -2)
+    if (!(command == "$G" && tableIndex < -1)
             && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex == -1)) {
         ui->txtConsole->appendPlainText(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
@@ -256,9 +272,9 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
     m_commands.append(ca);
 
-    // Processing
+    // Processing spindle speed only from g-code program
     QRegExp s("[Ss]0*(\\d+)");
-    if (s.indexIn(command) != -1) {
+    if (s.indexIn(command) != -1 && ca.tableIndex > -1) {
         int speed = s.cap(1).toInt();
         if (ui->sliSpindleSpeed->value() != speed / 100) {
             m_programSpeed = true;
@@ -416,6 +432,11 @@ void frmMain::onSerialPortReadyRead()
                         sendCommand("G90");
                     }
 
+                    // Parser status
+                    if (ca.command.toUpper() == "$G" && ca.tableIndex == -3) {
+                        ui->glwVisualizator->setParserStatus(answer.left(answer.indexOf("; ")));
+                    }
+
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
 
@@ -507,6 +528,8 @@ void frmMain::onTimerConnection()
 {    
     if (!m_serialPort.isOpen()) {
         openPort();
+    } else {
+        sendCommand("$G", -3);
     }
 }
 
@@ -515,6 +538,8 @@ void frmMain::onTimerStateQuery()
     if (m_serialPort.isOpen()) {
         m_serialPort.write(QByteArray(1, '?'));
     }
+
+    ui->glwVisualizator->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
 
 //    ui->statusBar->showMessage(QString("Буфер: %1    Очередь: %2").arg(bufferLength()).arg(m_queue.length()));
 }
@@ -997,4 +1022,9 @@ bool frmMain::dataIsEnd(QString data) {
     }
 
     return false;
+}
+
+void frmMain::on_txtFeed_editingFinished()
+{
+    ui->sliFeed->setValue(ui->txtFeed->value());
 }

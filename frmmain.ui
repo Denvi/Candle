@@ -502,7 +502,7 @@ QToolButton:checked { /* all types of tool button */
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,1,100">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,0,1,100">
       <item>
        <widget class="QGroupBox" name="grpState">
         <property name="title">
@@ -997,6 +997,71 @@ color: black;</string>
             <bool>true</bool>
            </property>
           </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="grpFeed">
+        <property name="title">
+         <string>Feed</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,1">
+             <item>
+              <widget class="QCheckBox" name="chkFeedOverride">
+               <property name="text">
+                <string>Override:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="txtFeed">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QSlider" name="sliFeed">
+             <property name="minimum">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>200</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -1592,7 +1657,7 @@ color: black;</string>
      <x>0</x>
      <y>0</y>
      <width>957</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -1724,5 +1789,22 @@ color: black;</string>
  <resources>
   <include location="res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>sliFeed</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>txtFeed</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>811</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>890</x>
+     <y>496</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

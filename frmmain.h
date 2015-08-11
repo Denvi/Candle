@@ -27,6 +27,11 @@ struct CommandAttributes {
     QString command;
 };
 
+struct CommandQueue {
+    QString command;
+    int tableIndex;
+};
+
 class frmMain : public QMainWindow
 {
     Q_OBJECT
@@ -86,6 +91,8 @@ private slots:
 
     void on_actAbout_triggered();
 
+    void on_txtFeed_editingFinished();
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
@@ -128,7 +135,7 @@ private:
     int m_lastDrawnLineIndex;
 
     QList<CommandAttributes> m_commands;
-    QList<QString> m_queue;
+    QList<CommandQueue> m_queue;
 
     bool m_transferringFile = false;
     bool m_transferCompleted = false;

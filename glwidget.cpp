@@ -136,6 +136,26 @@ void GLWidget::viewAnimation()
     m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 }
+QString GLWidget::bufferState() const
+{
+    return m_bufferState;
+}
+
+void GLWidget::setBufferState(const QString &bufferState)
+{
+    m_bufferState = bufferState;
+}
+
+QString GLWidget::parserStatus() const
+{
+    return m_parserStatus;
+}
+
+void GLWidget::setParserStatus(const QString &parserStatus)
+{
+    m_parserStatus = parserStatus;
+}
+
 
 double GLWidget::lineWidth() const
 {
@@ -403,13 +423,18 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     QFontMetrics fm(painter.font());
 
+    painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
+
     QString str = QString(tr("Lines: %1")).arg(lines);
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
-    str = QString("FPS: %1").arg(m_fps);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
+    str = QString("FPS: %1").arg(m_fps);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);
 
     str = m_spendTime.toString("hh:mm:ss") + " / " + m_estimatedTime.toString("hh:mm:ss");
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y), str);
+
+    str = m_bufferState;
+    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
 
     painter.end();
 
