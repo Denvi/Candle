@@ -259,7 +259,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
     CommandAttributes ca;
 
     if (!(command == "$G" && tableIndex < -1)
-            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex == -1)) {
+            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex < 0)) {
         ui->txtConsole->appendPlainText(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
