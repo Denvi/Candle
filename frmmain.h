@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #ifndef FRMMAIN_H
 #define FRMMAIN_H
 
@@ -100,6 +103,7 @@ protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
+    void closeEvent(QCloseEvent *ce);
 
 private:
     const int BUFFERLENGTH = 127;

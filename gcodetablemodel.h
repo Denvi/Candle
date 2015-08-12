@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #ifndef GCODETABLEMODEL_H
 #define GCODETABLEMODEL_H
 

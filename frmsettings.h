@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #ifndef FRMSETTINGS_H
 #define FRMSETTINGS_H
 

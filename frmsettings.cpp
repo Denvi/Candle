@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #include "frmsettings.h"
 #include "ui_frmsettings.h"
 #include <QtSerialPort/QSerialPort>

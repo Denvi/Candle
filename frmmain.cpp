@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
@@ -90,8 +93,7 @@ frmMain::frmMain(QWidget *parent) :
 }
 
 frmMain::~frmMain()
-{
-    if (m_serialPort.isOpen()) m_serialPort.close();
+{    
     saveSettings();
 
     delete ui;
@@ -266,6 +268,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
         command = cq.command;
         tableIndex = cq.tableIndex;
 
+        if (!m_serialPort.isOpen()) return;
+
 //        qDebug() << "get queue:" << cq.command;
     }
 
@@ -308,7 +312,7 @@ void frmMain::grblReset()
     m_timerToolAnimation.stop();
 
     m_commands.clear();
-    m_queue.clear();
+//    m_queue.clear();
 
     ui->txtConsole->appendPlainText("[CTRL+X]");
     m_serialPort.write(QByteArray(1, (char)24));
@@ -715,6 +719,12 @@ void frmMain::timerEvent(QTimerEvent *te)
     } else {
         QMainWindow::timerEvent(te);
     }
+}
+
+void frmMain::closeEvent(QCloseEvent *ce)
+{
+    if (m_serialPort.isOpen()) m_serialPort.close();
+    if (m_queue.length() > 0) m_commands.clear();
 }
 
 void frmMain::on_actFileExit_triggered()
