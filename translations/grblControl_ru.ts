@@ -4,27 +4,31 @@
 <context>
     <name>GCodeTableModel</name>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="14"/>
+        <location filename="../gcodetablemodel.cpp" line="17"/>
         <source>#</source>
         <translation>№</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="14"/>
+        <location filename="../gcodetablemodel.cpp" line="17"/>
         <source>Command</source>
         <translation>Команда</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="14"/>
+        <location filename="../gcodetablemodel.cpp" line="17"/>
         <source>State</source>
         <translation>Состояние</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="14"/>
-        <source>Status</source>
-        <translation>Статус</translation>
+        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <source>Response</source>
+        <translation>Ответ</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="14"/>
+        <source>Status</source>
+        <translation type="vanished">Статус</translation>
+    </message>
+    <message>
+        <location filename="../gcodetablemodel.cpp" line="17"/>
         <source>Line</source>
         <translation>Строка</translation>
     </message>
@@ -32,7 +36,7 @@
 <context>
     <name>GLWidget</name>
     <message>
-        <location filename="../glwidget.cpp" line="433"/>
+        <location filename="../glwidget.cpp" line="436"/>
         <source>Lines: %1</source>
         <translation>Сегменты: %1</translation>
     </message>
@@ -52,7 +56,7 @@
     <message>
         <location filename="../frmabout.ui" line="74"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;The program is provided AS IS without any guarantees or warranty. Use at your own risk.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Программа поставляется &quot;Как Есть&quot;, автор не несет никакой ответственности за возможный принесенный ущерб. Используйте на свой риск и страх.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Программа поставляется &quot;Как Есть&quot;, автор не несет никакой ответственности за возможный принесенный ущерб. Используйте на свой страх и риск.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Version: 0.1&lt;br/&gt;License: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Visit: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -143,7 +147,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="726"/>
-        <location filename="../frmmain.cpp" line="222"/>
+        <location filename="../frmmain.cpp" line="224"/>
         <source>Not connected</source>
         <translation>Нет соединения</translation>
     </message>
@@ -276,64 +280,64 @@
         <translation>&amp;О программе</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Idle</source>
         <translation>Готов</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Alarm</source>
         <translation>Тревога</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Run</source>
         <translation>Работа</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Home</source>
         <translation>Домой</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Hold</source>
         <translation>Пауза</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Queue</source>
         <translation>Пауза</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="17"/>
+        <location filename="../frmmain.cpp" line="20"/>
         <source>Check</source>
         <translation>Проверка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="388"/>
+        <location filename="../frmmain.cpp" line="392"/>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Задание выполнено.
 Времени затрачено: %1</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="668"/>
+        <location filename="../frmmain.cpp" line="672"/>
         <source>Buffer: %1 / %2</source>
         <translation>Буфер: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="236"/>
+        <location filename="../frmmain.cpp" line="238"/>
         <source>Connected</source>
         <translation>Подключен</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="592"/>
+        <location filename="../frmmain.cpp" line="596"/>
         <source>Processed</source>
         <translation>Обработана</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="643"/>
+        <location filename="../frmmain.cpp" line="647"/>
         <source>Serial port error </source>
         <translation>Ошибка последовательного порта </translation>
     </message>
@@ -342,31 +346,31 @@ Time elapsed: %1</source>
         <translation type="vanished">Буфер/очередь: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1136"/>
+        <location filename="../frmmain.cpp" line="1146"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="523"/>
-        <location filename="../frmmain.cpp" line="727"/>
+        <location filename="../frmmain.cpp" line="737"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="727"/>
-        <location filename="../frmmain.cpp" line="1136"/>
+        <location filename="../frmmain.cpp" line="737"/>
+        <location filename="../frmmain.cpp" line="1146"/>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
         <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="757"/>
-        <location filename="../frmmain.cpp" line="842"/>
-        <location filename="../frmmain.cpp" line="1089"/>
+        <location filename="../frmmain.cpp" line="767"/>
+        <location filename="../frmmain.cpp" line="852"/>
+        <location filename="../frmmain.cpp" line="1099"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="831"/>
+        <location filename="../frmmain.cpp" line="841"/>
         <source>Sended</source>
         <translation>Отправлена</translation>
     </message>

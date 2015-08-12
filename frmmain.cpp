@@ -394,6 +394,7 @@ void frmMain::onSerialPortReadyRead()
 
                     m_timerConnection.start();
                     m_timerStateQuery.start();
+
                 }
             }
 
@@ -444,103 +445,6 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtMPosY->setText(mpx.cap(2));
                 ui->txtMPosZ->setText(mpx.cap(3));
             }
-
-//            if (rx.indexIn(data) != -1) {
-
-//                int i = m_status.indexOf(rx.cap(1));
-
-//                ui->txtStatus->setText(m_statusCaptions[i]);
-//                ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
-//                                             .arg(m_statusBackColors[i]).arg(m_statusForeColors[i]));
-
-//                ui->txtWPosX->setText(rx.cap(5));
-//                ui->txtWPosY->setText(rx.cap(6));
-//                ui->txtWPosZ->setText(rx.cap(7));
-
-//                ui->txtMPosX->setText(rx.cap(2));
-//                ui->txtMPosY->setText(rx.cap(3));
-//                ui->txtMPosZ->setText(rx.cap(4));
-
-//                // Store work origin
-//                if (i == 0) {
-//                    if (m_settingZeroXY) {
-//                        m_settingZeroXY = false;
-//                        m_storedX = ui->txtMPosX->text().toDouble();
-//                        m_storedY = ui->txtMPosY->text().toDouble();
-//                    } else if (m_settingZeroZ) {
-//                        m_settingZeroZ = false;
-//                        m_storedZ = ui->txtMPosZ->text().toDouble();
-//                    }
-//                }
-
-//                // Update controls
-//                ui->cmdReturnXY->setEnabled(i == 0);
-//                ui->cmdTopZ->setEnabled(i == 0);
-//                ui->chkTestMode->setChecked(i == 6);
-//                ui->cmdFilePause->setChecked(i == 4 || i == 5);
-
-//                // Update tool position
-//                m_toolDrawer.setToolPosition(QVector3D(ui->txtWPosX->text().toDouble(),
-//                                                       ui->txtWPosY->text().toDouble(),
-//                                                       ui->txtWPosZ->text().toDouble()));
-
-//                // Trajectory shadowing
-//                if (m_transferringFile) {
-//                    bool toolOnTrajectory = false;
-
-//                    QList<int> drawnLines;
-
-//                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().count()
-//                         && m_viewParser.getLineSegmentList()[i]->getLineNumber()
-//                         <= (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-//                        if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
-//                            toolOnTrajectory = true;
-//                            m_lastDrawnLineIndex = i;
-//                            break;
-//                        }
-//                        drawnLines << i;
-//                    }
-
-//                    if (toolOnTrajectory) {
-//                        foreach (int i, drawnLines) {
-//                            m_viewParser.getLineSegmentList()[i]->setDrawn(true);
-//                        }
-//                    } else if (m_lastDrawnLineIndex < m_viewParser.getLineSegmentList().count()) {
-//                        qDebug() << "tool missed:" << m_viewParser.getLineSegmentList()[m_lastDrawnLineIndex]->getLineNumber()
-//                                 << m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt()
-//                                 << m_fileProcessedCommandIndex;
-//                    }
-//                }
-
-//                // Update timer
-//                if (m_transferringFile) {
-//                    QTime time(0, 0, 0);
-//                    int elapsed = m_startTime.elapsed();
-//                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
-//                }
-
-//                // Test for job complete
-//                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
-//                    m_transferringFile = false;
-
-//                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
-//                        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
-//                    }
-
-//                    updateControlsState();
-
-//                    qApp->beep();
-
-//                    m_timerStateQuery.stop();
-//                    m_timerConnection.stop();
-
-//                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
-//                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
-
-//                    m_timerConnection.start();
-//                    m_timerStateQuery.start();
-//                }
-//            }
         } else if (data.length() > 0) {
 
             // Processed commands
@@ -632,6 +536,7 @@ void frmMain::onSerialPortReadyRead()
 
             } else {
                 ui->txtConsole->appendPlainText(data);
+                qDebug() << "test:" << m_commands.length() << data;
             }
         } else {
             ui->txtConsole->appendPlainText(data);
@@ -1186,13 +1091,13 @@ bool frmMain::dataIsEnd(QString data) {
 
     ends << "ok";
     ends << "error";
-    ends << "Reset to continue";
-    ends << "'$H'|'$X' to unlock";
-    ends << "Caution: Unlocked";
-    ends << "Enabled";
-    ends << "Disabled";
-    ends << "Check Door";
-    ends << "Pgm End";
+//    ends << "Reset to continue";
+//    ends << "'$H'|'$X' to unlock";
+//    ends << "Caution: Unlocked";
+//    ends << "Enabled";
+//    ends << "Disabled";
+//    ends << "Check Door";
+//    ends << "Pgm End";
 
     foreach (QString str, ends) {
         if (data.contains(str)) return true;
