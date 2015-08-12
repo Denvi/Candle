@@ -10,27 +10,12 @@ frmSettings::frmSettings(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QDoubleValidator *validator = new QDoubleValidator(0.1, 100, 3, this);
-    validator->setLocale(QLocale::C);
-    ui->txtToolDiameter->setValidator(validator);
-    ui->txtToolLength->setValidator(validator);
+//    foreach (QAbstractSpinBox* sb, this->findChildren<QAbstractSpinBox*>())
+//    {
+//        sb->setLocale(QLocale::C);
+//    }
 
-    validator->setBottom(0);
-    validator->setTop(10);
-    ui->txtLineWidth->setValidator(validator);
-    ui->txtArcPrecision->setValidator(validator);
-
-    validator->setBottom(-65535);
-    validator->setTop(65535);
-    ui->txtSafeZ->setValidator(validator);
-
-    validator->setBottom(0);
-    ui->txtRapidSpeed->setValidator(validator);
-
-    ui->txtQueryStateTime->setValidator(validator);
-
-    validator->setTop(180);
-    ui->txtToolAngle->setValidator(validator);
+    this->setLocale(QLocale::C);
 
     searchPorts();
 }
@@ -62,24 +47,22 @@ void frmSettings::setBaud(int baud)
 
 double frmSettings::toolDiameter()
 {
-//    return QLocale::system().toDouble(ui->txtToolDiameter->text());
-    return ui->txtToolDiameter->text().toDouble();
+    return ui->txtToolDiameter->value();
 }
 
 void frmSettings::setToolDiameter(double diameter)
 {
-//    ui->txtToolDiameter->setText(QLocale::system().toString(diameter));
-    ui->txtToolDiameter->setText(QString::number(diameter));
+    ui->txtToolDiameter->setValue(diameter);
 }
 
 double frmSettings::toolLength()
 {
-    return ui->txtToolLength->text().toDouble();
+    return ui->txtToolLength->value();
 }
 
 void frmSettings::setToolLength(double length)
 {
-    ui->txtToolLength->setText(QString::number(length));
+    ui->txtToolLength->setValue(length);
 }
 
 bool frmSettings::antialiasing()
@@ -94,22 +77,22 @@ void frmSettings::setAntialiasing(bool antialiasing)
 
 double frmSettings::lineWidth()
 {
-    return ui->txtLineWidth->text().toDouble();
+    return ui->txtLineWidth->value();
 }
 
 void frmSettings::setLineWidth(double lineWidth)
 {
-    ui->txtLineWidth->setText(QString::number(lineWidth));
+    ui->txtLineWidth->setValue(lineWidth);
 }
 
 double frmSettings::arcPrecision()
 {
-    return ui->txtArcPrecision->text().toDouble();
+    return ui->txtArcPrecision->value();
 }
 
 void frmSettings::setArcPrecision(double arcPrecision)
 {
-    ui->txtArcPrecision->setText(QString::number(arcPrecision));
+    ui->txtArcPrecision->setValue(arcPrecision);
 }
 
 bool frmSettings::showAllCommands()
@@ -124,32 +107,52 @@ void frmSettings::setShowAllCommands(bool showAllCommands)
 
 double frmSettings::safeZ()
 {
-    return ui->txtSafeZ->text().toDouble();
+    return ui->txtSafeZ->value();
 }
 
 void frmSettings::setSafeZ(double safeZ)
 {
-    ui->txtSafeZ->setText(QString::number(safeZ));
+    ui->txtSafeZ->setValue(safeZ);
 }
 
-double frmSettings::rapidSpeed()
+int frmSettings::spindleSpeedMin()
 {
-    return ui->txtRapidSpeed->text().toDouble();
+    return ui->txtSpindleSpeedMin->value();
 }
 
-void frmSettings::setRapidSpeed(double rapidSpeed)
+void frmSettings::setSpindleSpeedMin(int speed)
 {
-    ui->txtRapidSpeed->setText(QString::number(rapidSpeed));
+    ui->txtSpindleSpeedMin->setValue(speed);
 }
 
-double frmSettings::queryStateTime()
+int frmSettings::spindleSpeedMax()
 {
-    return ui->txtQueryStateTime->text().toDouble();
+    return ui->txtSpindleSpeedMax->value();
 }
 
-void frmSettings::setQueryStateTime(double queryStateTime)
+void frmSettings::setSpindleSpeedMax(int speed)
 {
-    ui->txtQueryStateTime->setText(QString::number(queryStateTime));
+    ui->txtSpindleSpeedMax->setValue(speed);
+}
+
+int frmSettings::rapidSpeed()
+{
+    return ui->txtRapidSpeed->value();
+}
+
+void frmSettings::setRapidSpeed(int rapidSpeed)
+{
+    ui->txtRapidSpeed->setValue(rapidSpeed);
+}
+
+int frmSettings::queryStateTime()
+{
+    return ui->txtQueryStateTime->value();
+}
+
+void frmSettings::setQueryStateTime(int queryStateTime)
+{
+    ui->txtQueryStateTime->setValue(queryStateTime);
 }
 
 int frmSettings::toolType()
@@ -164,12 +167,12 @@ void frmSettings::setToolType(int toolType)
 
 double frmSettings::toolAngle()
 {
-    return ui->txtToolAngle->text().toDouble();
+    return ui->txtToolAngle->value();
 }
 
 void frmSettings::setToolAngle(double toolAngle)
 {
-    ui->txtToolAngle->setText(QString::number(toolAngle));
+    ui->txtToolAngle->setValue(toolAngle);
 }
 
 int frmSettings::fps()

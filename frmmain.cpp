@@ -5,6 +5,7 @@
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QMessageBox>
+#include <QComboBox>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -119,11 +120,13 @@ void frmMain::loadSettings()
     m_frmSettings.setArcPrecision(set.value("arcPrecision", 0).toDouble());
     m_frmSettings.setShowAllCommands(set.value("showAllCommands", 0).toBool());
     m_frmSettings.setSafeZ(set.value("safeZ", 0).toDouble());
-    m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toDouble());
+    m_frmSettings.setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
+    m_frmSettings.setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
+    m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toInt());
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
     m_frmSettings.setFps(set.value("fps", 60).toInt());
-    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toDouble());
+    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
@@ -137,6 +140,10 @@ void frmMain::loadSettings()
         ui->splitter->setStretchFactor(0, 1);
         ui->splitter->setStretchFactor(1, 0);
     } else ui->splitter->restoreState(splitterState);
+
+    ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
+    ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
+    ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
 }
@@ -157,6 +164,8 @@ void frmMain::saveSettings()
     set.setValue("arcPrecision", m_frmSettings.arcPrecision());
     set.setValue("showAllCommands", m_frmSettings.showAllCommands());
     set.setValue("safeZ", m_frmSettings.safeZ());
+    set.setValue("spindleSpeedMin", m_frmSettings.spindleSpeedMin());
+    set.setValue("spindleSpeedMax", m_frmSettings.spindleSpeedMax());
     set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
     set.setValue("toolAngle", m_frmSettings.toolAngle());
     set.setValue("toolType", m_frmSettings.toolType());
@@ -169,6 +178,9 @@ void frmMain::saveSettings()
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
     set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
     set.setValue("feed", ui->txtFeed->value());
+    set.setValue("spindlePanel", ui->grpSpindle->isChecked());
+    set.setValue("feedPanel", ui->grpFeed->isChecked());
+    set.setValue("jogPanel", ui->grpJog->isChecked());
 }
 
 void frmMain::updateControlsState() {
@@ -176,9 +188,12 @@ void frmMain::updateControlsState() {
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
-    ui->grpSpindle->setEnabled(portOpened);
-    ui->grpJog->setEnabled(portOpened && !m_transferringFile);
-    ui->grpConsole->setEnabled(portOpened);   
+    ui->widgetSpindle->setEnabled(portOpened);
+    ui->widgetJog->setEnabled(portOpened && !m_transferringFile);
+//    ui->grpConsole->setEnabled(portOpened);
+    ui->txtCommand->setEnabled(portOpened);
+    ui->cmdCommandSend->setEnabled(portOpened);
+    ui->widgetFeed->setEnabled(!m_transferringFile);
 
     ui->chkTestMode->setEnabled(portOpened && !m_transferringFile);
     ui->cmdHome->setEnabled(!m_transferringFile);
@@ -203,8 +218,6 @@ void frmMain::updateControlsState() {
     ui->tblProgram->setEditTriggers(m_transferringFile ? QAbstractItemView::NoEditTriggers :
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
-
-    ui->grpFeed->setEnabled(portOpened && !m_transferringFile);
 
     if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
 
@@ -319,25 +332,24 @@ void frmMain::onSerialPortReadyRead()
     while (m_serialPort.canReadLine()) {
         QString data = m_serialPort.readLine().trimmed();
 
-        // Status
+        // Status answer
         if (data[0] == '<') {
-            QRegExp rx("<([^,]*),MPos:([^,]*),([^,]*),([^,]*),WPos:([^,]*),([^,]*),([^,]*)>");
+//            QRegExp rx("<([^,]*),MPos:([^,]*),([^,]*),([^,]*),WPos:([^,]*),([^,]*),([^,]*)>");
 
-            if (rx.indexIn(data) != -1) {
-
-                int i = m_status.indexOf(rx.cap(1));
+            // Status
+            QRegExp stx("<([^,^>]*)");
+            if (stx.indexIn(data) != -1) {
+                int i = m_status.indexOf(stx.cap(1));
 
                 ui->txtStatus->setText(m_statusCaptions[i]);
                 ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
                                              .arg(m_statusBackColors[i]).arg(m_statusForeColors[i]));
 
-                ui->txtWPosX->setText(rx.cap(5));
-                ui->txtWPosY->setText(rx.cap(6));
-                ui->txtWPosZ->setText(rx.cap(7));
-
-                ui->txtMPosX->setText(rx.cap(2));
-                ui->txtMPosY->setText(rx.cap(3));
-                ui->txtMPosZ->setText(rx.cap(4));
+                // Update controls
+                ui->cmdReturnXY->setEnabled(i == 0);
+                ui->cmdTopZ->setEnabled(i == 0);
+                ui->chkTestMode->setChecked(i == 6);
+                ui->cmdFilePause->setChecked(i == 4 || i == 5);
 
                 // Store work origin
                 if (i == 0) {
@@ -351,11 +363,42 @@ void frmMain::onSerialPortReadyRead()
                     }
                 }
 
-                // Update controls
-                ui->cmdReturnXY->setEnabled(i == 0);
-                ui->cmdTopZ->setEnabled(i == 0);
-                ui->chkTestMode->setChecked(i == 6);
-                ui->cmdFilePause->setChecked(i == 4 || i == 5);
+                // Update "elapsed time" timer
+                if (m_transferringFile) {
+                    QTime time(0, 0, 0);
+                    int elapsed = m_startTime.elapsed();
+                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
+                }
+
+                // Test for job complete
+                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
+                    m_transferringFile = false;
+
+                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+                        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+                    }
+
+                    updateControlsState();
+
+                    qApp->beep();
+
+                    m_timerStateQuery.stop();
+                    m_timerConnection.stop();
+
+                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
+                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
+
+                    m_timerConnection.start();
+                    m_timerStateQuery.start();
+                }
+            }
+
+            QRegExp wpx("WPos:([^,]*),([^,]*),([^,^>]*)");
+            if (wpx.indexIn(data) != -1)
+            {
+                ui->txtWPosX->setText(wpx.cap(1));
+                ui->txtWPosY->setText(wpx.cap(2));
+                ui->txtWPosZ->setText(wpx.cap(3));
 
                 // Update tool position
                 m_toolDrawer.setToolPosition(QVector3D(ui->txtWPosX->text().toDouble(),
@@ -389,29 +432,111 @@ void frmMain::onSerialPortReadyRead()
                                  << m_fileProcessedCommandIndex;
                     }
                 }
-
-                // Update timer
-                if (m_transferringFile) {
-                    QTime time(0, 0, 0);
-                    int elapsed = m_startTime.elapsed();
-                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
-                }
-
-                // Test for job complete
-                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
-                    m_transferringFile = false;
-
-                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
-                        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
-                    }
-
-                    updateControlsState();
-
-                    qApp->beep();
-                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
-                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
-                }
             }
+
+            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
+            if (mpx.indexIn(data) != -1) {
+                ui->txtMPosX->setText(mpx.cap(1));
+                ui->txtMPosY->setText(mpx.cap(2));
+                ui->txtMPosZ->setText(mpx.cap(3));
+            }
+
+//            if (rx.indexIn(data) != -1) {
+
+//                int i = m_status.indexOf(rx.cap(1));
+
+//                ui->txtStatus->setText(m_statusCaptions[i]);
+//                ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
+//                                             .arg(m_statusBackColors[i]).arg(m_statusForeColors[i]));
+
+//                ui->txtWPosX->setText(rx.cap(5));
+//                ui->txtWPosY->setText(rx.cap(6));
+//                ui->txtWPosZ->setText(rx.cap(7));
+
+//                ui->txtMPosX->setText(rx.cap(2));
+//                ui->txtMPosY->setText(rx.cap(3));
+//                ui->txtMPosZ->setText(rx.cap(4));
+
+//                // Store work origin
+//                if (i == 0) {
+//                    if (m_settingZeroXY) {
+//                        m_settingZeroXY = false;
+//                        m_storedX = ui->txtMPosX->text().toDouble();
+//                        m_storedY = ui->txtMPosY->text().toDouble();
+//                    } else if (m_settingZeroZ) {
+//                        m_settingZeroZ = false;
+//                        m_storedZ = ui->txtMPosZ->text().toDouble();
+//                    }
+//                }
+
+//                // Update controls
+//                ui->cmdReturnXY->setEnabled(i == 0);
+//                ui->cmdTopZ->setEnabled(i == 0);
+//                ui->chkTestMode->setChecked(i == 6);
+//                ui->cmdFilePause->setChecked(i == 4 || i == 5);
+
+//                // Update tool position
+//                m_toolDrawer.setToolPosition(QVector3D(ui->txtWPosX->text().toDouble(),
+//                                                       ui->txtWPosY->text().toDouble(),
+//                                                       ui->txtWPosZ->text().toDouble()));
+
+//                // Trajectory shadowing
+//                if (m_transferringFile) {
+//                    bool toolOnTrajectory = false;
+
+//                    QList<int> drawnLines;
+
+//                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().count()
+//                         && m_viewParser.getLineSegmentList()[i]->getLineNumber()
+//                         <= (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+//                        if (m_viewParser.getLineSegmentList()[i]->contains(m_toolDrawer.toolPosition())) {
+//                            toolOnTrajectory = true;
+//                            m_lastDrawnLineIndex = i;
+//                            break;
+//                        }
+//                        drawnLines << i;
+//                    }
+
+//                    if (toolOnTrajectory) {
+//                        foreach (int i, drawnLines) {
+//                            m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+//                        }
+//                    } else if (m_lastDrawnLineIndex < m_viewParser.getLineSegmentList().count()) {
+//                        qDebug() << "tool missed:" << m_viewParser.getLineSegmentList()[m_lastDrawnLineIndex]->getLineNumber()
+//                                 << m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt()
+//                                 << m_fileProcessedCommandIndex;
+//                    }
+//                }
+
+//                // Update timer
+//                if (m_transferringFile) {
+//                    QTime time(0, 0, 0);
+//                    int elapsed = m_startTime.elapsed();
+//                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
+//                }
+
+//                // Test for job complete
+//                if (m_transferCompleted && i == 0 && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
+//                    m_transferringFile = false;
+
+//                    for (int i = m_lastDrawnLineIndex; i < m_viewParser.getLineSegmentList().length(); i++) {
+//                        m_viewParser.getLineSegmentList()[i]->setDrawn(true);
+//                    }
+
+//                    updateControlsState();
+
+//                    qApp->beep();
+
+//                    m_timerStateQuery.stop();
+//                    m_timerConnection.stop();
+
+//                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
+//                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
+
+//                    m_timerConnection.start();
+//                    m_timerStateQuery.start();
+//                }
+//            }
         } else if (data.length() > 0) {
 
             // Processed commands
@@ -529,7 +654,7 @@ void frmMain::onTimerConnection()
 {    
     if (!m_serialPort.isOpen()) {
         openPort();
-    } else {
+    } else if (!m_homing) {
         sendCommand("$G", -3);
     }
 }
@@ -639,7 +764,7 @@ void frmMain::processFile(QString fileName)
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
     m_viewParser.reset();    
-    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
 
     ui->glwVisualizator->fitDrawables();
     updateControlsState();
@@ -651,7 +776,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
     foreach (LineSegment *ls, lines) {
         double length = (ls->getEnd() - ls->getStart()).length();
 
-        if (!std::isnan(length) && !std::isnan(ls->getSpeed())) time +=  length / ls->getSpeed();
+        if (!std::isnan(length) && !std::isnan(ls->getSpeed())) time +=
+                length / (ui->chkFeedOverride->isChecked() ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed());
 
         if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
         if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
@@ -732,13 +858,32 @@ void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 
         m_viewParser.reset();
 
-        updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_frmSettings.arcPrecision()));
+        updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
         updateControlsState();
     }
 }
 
 void frmMain::on_actServiceSettings_triggered()
 {
+    QList<double> storedValues;
+    QList<bool> storedChecks;
+    QList<QString> storedCombos;
+
+    foreach (QAbstractSpinBox* sb, m_frmSettings.findChildren<QAbstractSpinBox*>())
+    {
+        storedValues.append(sb->property("value").toDouble());
+    }
+
+    foreach (QCheckBox* cb, m_frmSettings.findChildren<QCheckBox*>())
+    {
+        storedChecks.append(cb->isChecked());
+    }
+
+    foreach (QComboBox* cb, m_frmSettings.findChildren<QComboBox*>())
+    {
+        storedCombos.append(cb->currentText());
+    }
+
     if (m_frmSettings.exec()) {
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_frmSettings.port() << "Baud:" << m_frmSettings.baud();
@@ -753,6 +898,20 @@ void frmMain::on_actServiceSettings_triggered()
 
         updateControlsState();
         applySettings();
+    } else {
+        foreach (QAbstractSpinBox* sb, m_frmSettings.findChildren<QAbstractSpinBox*>())
+        {
+            sb->setProperty("value", storedValues.takeFirst());
+        }
+
+        foreach (QCheckBox* cb, m_frmSettings.findChildren<QCheckBox*>())
+        {
+            cb->setChecked(storedChecks.takeFirst());
+        }
+        foreach (QComboBox* cb, m_frmSettings.findChildren<QComboBox*>())
+        {
+            cb->setCurrentText(storedCombos.takeFirst());
+        }
     }
 }
 
@@ -761,6 +920,7 @@ void frmMain::applySettings() {
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
     m_toolDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_codeDrawer->setLineWidth(m_frmSettings.lineWidth());
+    m_arcPrecision = m_frmSettings.arcPrecision();
     ui->glwVisualizator->setLineWidth(m_frmSettings.lineWidth());
     m_showAllCommands = m_frmSettings.showAllCommands();
     m_safeZ = m_frmSettings.safeZ();
@@ -769,6 +929,10 @@ void frmMain::applySettings() {
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizator->setFps(m_frmSettings.fps());
+    ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
+    ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
+    ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
+    ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
 //    ui->glwVisualizator->update();
 }
 
@@ -1030,4 +1194,33 @@ bool frmMain::dataIsEnd(QString data) {
 void frmMain::on_txtFeed_editingFinished()
 {
     ui->sliFeed->setValue(ui->txtFeed->value());
+}
+
+void frmMain::on_sliFeed_valueChanged(int value)
+{
+    ui->txtFeed->setValue(value);
+    updateProgramEstimatedTime(m_viewParser.getLineSegmentList());
+}
+
+void frmMain::on_chkFeedOverride_toggled(bool checked)
+{
+    ui->grpFeed->setProperty("overrided", checked);
+    style()->unpolish(ui->grpFeed);
+    ui->grpFeed->ensurePolished();
+    updateProgramEstimatedTime(m_viewParser.getLineSegmentList());
+}
+
+void frmMain::on_grpFeed_toggled(bool checked)
+{
+    ui->widgetFeed->setVisible(checked);
+}
+
+void frmMain::on_grpSpindle_toggled(bool checked)
+{
+    ui->widgetSpindle->setVisible(checked);
+}
+
+void frmMain::on_grpJog_toggled(bool checked)
+{
+    ui->widgetJog->setVisible(checked);
 }

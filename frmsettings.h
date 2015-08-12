@@ -33,10 +33,14 @@ public:
     void setShowAllCommands(bool showAllCommands);
     double safeZ();
     void setSafeZ(double safeZ);
-    double rapidSpeed();
-    void setRapidSpeed(double rapidSpeed);
-    double queryStateTime();
-    void setQueryStateTime(double queryStateTime);
+    int spindleSpeedMin();
+    void setSpindleSpeedMin(int speed);
+    int spindleSpeedMax();
+    void setSpindleSpeedMax(int speed);
+    int rapidSpeed();
+    void setRapidSpeed(int rapidSpeed);
+    int queryStateTime();
+    void setQueryStateTime(int queryStateTime);
     int toolType();
     void setToolType(int toolType);
     double toolAngle();

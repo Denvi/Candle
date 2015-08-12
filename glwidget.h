@@ -31,6 +31,7 @@ public:
     void setFrontView();
     void setLeftView();
 
+    int fps();
     void setFps(int fps);
 
     QString parserStatus() const;

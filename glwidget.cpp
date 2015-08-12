@@ -188,6 +188,11 @@ void GLWidget::setLeftView()
     beginViewAnimation();
 }
 
+int GLWidget::fps()
+{
+    return m_targetFps;
+}
+
 void GLWidget::setIsometricView()
 {
     m_xRotTarget = 45;

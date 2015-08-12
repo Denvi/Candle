@@ -88,10 +88,13 @@ private slots:
     void on_cmdFront_clicked();
     void on_cmdLeft_clicked();
     void on_cmdIsometric_clicked();
-
     void on_actAbout_triggered();
-
     void on_txtFeed_editingFinished();
+    void on_sliFeed_valueChanged(int value);
+    void on_chkFeedOverride_toggled(bool checked);
+    void on_grpFeed_toggled(bool checked);
+    void on_grpSpindle_toggled(bool checked);
+    void on_grpJog_toggled(bool checked);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -131,6 +134,7 @@ private:
     bool m_settingZeroZ = false;
     bool m_homing = false;
     bool m_programSpeed = false;
+    double m_arcPrecision;
 
     int m_lastDrawnLineIndex;
 
