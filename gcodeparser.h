@@ -75,7 +75,7 @@ private:
     QList<PointSegment*> m_points;
 
     PointSegment *processCommand(QList<QString> args);
-    PointSegment *handleGCode(QString code, QList<QString> args);
+    PointSegment *handleGCode(QString code, QList<QString> &args);
     PointSegment *addLinearPointSegment(QVector3D nextPoint, bool fastTraverse);
     PointSegment *addArcPointSegment(QVector3D nextPoint, bool clockwise, QList<QString> args);
     void setLastGcodeCommand(QString num);

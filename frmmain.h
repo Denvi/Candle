@@ -52,6 +52,7 @@ private slots:
     void onTimerStateQuery();
     void onCmdJogStepClicked();
     void onVisualizatorRotationChanged();
+    void onScroolBarAction(int action);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -106,7 +107,7 @@ protected:
     void closeEvent(QCloseEvent *ce);
 
 private:
-    const int BUFFERLENGTH = 127;
+    const int BUFFERLENGTH = 126;
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
@@ -150,6 +151,8 @@ private:
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;
     bool m_showAllCommands = false;
+
+    bool m_reseting = false;
 
     QTime m_startTime;
 

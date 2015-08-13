@@ -100,7 +100,7 @@ void GcodeParser::reset()
 PointSegment* GcodeParser::addCommand(QString command)
 {
     QString stripped = GcodePreprocessorUtils::removeComment(command);
-    QList<QString> args = GcodePreprocessorUtils::splitCommand(stripped);
+    QList<QString> args = GcodePreprocessorUtils::splitCommand(command);
     return this->addCommand(args);
 }
 
@@ -222,12 +222,12 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
     //handleMCode(for each codes);
 
     // handle F code.
-    QList<QString> fCodes = GcodePreprocessorUtils::parseCodes(args, 'F');
+//    QList<QString> fCodes = GcodePreprocessorUtils::parseCodes(args, 'F');
 
-    foreach (QString code, fCodes) {
+//    foreach (QString code, fCodes) {
 //        double speed = GcodePreprocessorUtils::parseCoord(QList<QString>() << code, 'F');
 //        if (!std::isnan(speed)) this->m_lastSpeed = speed;
-    }
+//    }
 
     // handle G codes.
     gCodes = GcodePreprocessorUtils::parseCodes(args, 'G');
@@ -294,7 +294,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     return ps;
 }
 
-PointSegment * GcodeParser::handleGCode(QString code, QList<QString> args) {
+PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
