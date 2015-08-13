@@ -100,7 +100,7 @@ void GcodeParser::reset()
 PointSegment* GcodeParser::addCommand(QString command)
 {
     QString stripped = GcodePreprocessorUtils::removeComment(command);
-    QList<QString> args = GcodePreprocessorUtils::splitCommand(command);
+    QList<QString> args = GcodePreprocessorUtils::splitCommand(stripped);
     return this->addCommand(args);
 }
 

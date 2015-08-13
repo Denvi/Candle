@@ -723,9 +723,11 @@ void frmMain::processFile(QString fileName)
 
     time.start();
 
+    QString command;
+
     while (!textStream.atEnd())
     {
-        QString command = textStream.readLine();
+        command = textStream.readLine();
 
         gp.addCommand(command);
 

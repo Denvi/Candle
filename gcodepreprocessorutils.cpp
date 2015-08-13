@@ -80,14 +80,12 @@ QString GcodePreprocessorUtils::removeAllWhitespace(QString command)
     return command.replace(QRegExp("\\s"),"");
 }
 
-QList<QString> GcodePreprocessorUtils::parseCodes(QList<QString> &args, char code)
+QList<QString> GcodePreprocessorUtils::parseCodes(QList<QString> args, char code)
 {
     QList<QString> l;
-//    char address = QChar(code).toUpper().toLatin1();
-    QChar address = code;
 
     foreach (QString s, args) {
-        if (s.length() > 0 && s[0].toUpper() == address) l.append(s.mid(1));
+        if (s.length() > 0 && s[0].toUpper() == code) l.append(s.mid(1));
     }
 
     return l;
@@ -135,7 +133,7 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVecto
 /**
 * Update a point given the arguments of a command, using a pre-parsed list.
 */
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> &commandArgs, QVector3D initial, bool absoluteMode)
+QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode)
 {
 
     double x = parseCoord(commandArgs, 'X');
@@ -150,7 +148,6 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> &command
 */
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, double x, double y, double z, bool absoluteMode)
 {
-
     QVector3D newPoint(initial.x(), initial.y(), initial.z());
 
     if (absoluteMode) {
@@ -166,7 +163,7 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
     return newPoint;
 }
 
-QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> &commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
+QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
     double i = parseCoord(commandArgs, 'I');
     double j = parseCoord(commandArgs, 'J');
@@ -206,39 +203,55 @@ QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
     QList<QString> l;
     bool readNumeric = false;
     QString sb;
-    QChar c;
+
+    QByteArray ba(command.toLatin1());
+    const char *cmd = ba.constData(); // Direct access to string data
+    char c;
 
     for (int i = 0; i < command.length(); i++) {
-        c = command[i];
+        c = cmd[i];
 
-        if (readNumeric && !c.isDigit() && c != '.') {
+        if (readNumeric && !isDigit(c) && c != '.') {
             readNumeric = false;
             l.append(sb);
-            sb = "";
-            if (c.isLetter()) sb.append(c);
-        } else if (c.isDigit() || c == '.' || c == '-') {
+            sb.clear();
+            if (isLetter(c)) sb.append(c);
+        } else if (isDigit(c) || c == '.' || c == '-') {
             sb.append(c);
             readNumeric = true;
-        } else if (c.isLetter()) sb.append(c);
+        } else if (isLetter(c)) sb.append(c);
     }
 
     if (sb.length() > 0) l.append(sb);
+
+//    QChar c;
+
+//    for (int i = 0; i < command.length(); i++) {
+//        c = command[i];
+
+//        if (readNumeric && !c.isDigit() && c != '.') {
+//            readNumeric = false;
+//            l.append(sb);
+//            sb = "";
+//            if (c.isLetter()) sb.append(c);
+//        } else if (c.isDigit() || c == '.' || c == '-') {
+//            sb.append(c);
+//            readNumeric = true;
+//        } else if (c.isLetter()) sb.append(c);
+//    }
+
+//    if (sb.length() > 0) l.append(sb);
 
     return l;
 }
 
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
-double GcodePreprocessorUtils::parseCoord(QList<QString> &argList, char c)
+double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
 {
-//    char address = QChar(c).toUpper().toLatin1();
-    QChar address = c;
     foreach (QString t, argList)
     {
-        if (t.length() > 0 && t[0].toUpper() == address)
-        {
-            return t.mid(1).toDouble();
-        }
+        if (t.length() > 0 && t[0].toUpper() == c) return t.mid(1).toDouble();
     }
     return std::numeric_limits<double>::quiet_NaN();
 }
@@ -423,4 +436,19 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D 
     segments.append(p2);
 
     return segments;
+}
+
+bool GcodePreprocessorUtils::isDigit(char c)
+{
+    return c > 47 && c < 58;
+}
+
+bool GcodePreprocessorUtils::isLetter(char c)
+{
+    return (c > 64 && c < 91) || (c > 96 && c < 123);
+}
+
+char GcodePreprocessorUtils::toUpper(char c)
+{
+    return (c > 96 && c < 123) ? c - 32 : c;
 }
