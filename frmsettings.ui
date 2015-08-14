@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
-    <height>579</height>
+    <width>372</width>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -498,7 +498,7 @@ QSpinBox, QDoubleSpinBox {
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
+           <enum>QSizePolicy::Expanding</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>

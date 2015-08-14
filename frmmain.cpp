@@ -159,6 +159,7 @@ void frmMain::loadSettings()
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
+    ui->chkKeyboardControl->setChecked(set.value("keyboardControl", false).toBool());
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
 }
@@ -198,6 +199,7 @@ void frmMain::saveSettings()
     set.setValue("spindlePanel", ui->grpSpindle->isChecked());
     set.setValue("feedPanel", ui->grpFeed->isChecked());
     set.setValue("jogPanel", ui->grpJog->isChecked());
+    set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
 }
 
 void frmMain::updateControlsState() {
@@ -208,7 +210,7 @@ void frmMain::updateControlsState() {
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && !m_transferringFile);
 //    ui->grpConsole->setEnabled(portOpened);
-    ui->txtCommand->setEnabled(portOpened);
+    ui->txtCommand->setEnabled(portOpened && !ui->chkKeyboardControl->isChecked());
     ui->cmdCommandSend->setEnabled(portOpened);
     ui->widgetFeed->setEnabled(!m_transferringFile);
 
@@ -1278,7 +1280,14 @@ void frmMain::blockJogForRapidMovement() {
     double v = m_frmSettings.rapidSpeed() / 60;         // Rapid speed mm/sec
     double at = v / acc;                                // Acceleration time
     double s = acc * at * at / 2;                       // Distance on acceleration
-    double time = (ui->txtJogStep->text().toDouble() - 2 * s) / v + at;
+    double time;
+    double step = ui->txtJogStep->text().toDouble();
+
+    if (2 * s > step) {
+        time = sqrt(step / acc);
+    } else {
+        time = (step - 2 * s) / v + at;
+    }
 
 //                qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
     QTimer::singleShot(time * 1000, Qt::PreciseTimer, this, SLOT(onJogTimer()));
