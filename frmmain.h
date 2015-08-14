@@ -18,6 +18,7 @@
 #include "gcodetablemodel.h"
 #include "frmsettings.h"
 #include "frmabout.h"
+#include "styledtoolbutton.h"
 
 namespace Ui {
 class frmMain;
@@ -53,6 +54,8 @@ private slots:
     void onCmdJogStepClicked();
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
+    void onJogTimer();
+//    void onClearJogBlock();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -100,6 +103,8 @@ private slots:
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
 
+    void on_chkKeyboardControl_toggled(bool checked);
+
 protected:
     void showEvent(QShowEvent *se);
     void resizeEvent(QResizeEvent *re);
@@ -146,6 +151,7 @@ private:
     QList<CommandAttributes> m_commands;
     QList<CommandQueue> m_queue;
 
+    QTime m_startTime;
     bool m_transferringFile = false;
     bool m_transferCompleted = false;
     int m_fileCommandIndex;
@@ -154,7 +160,8 @@ private:
 
     bool m_reseting = false;
 
-    QTime m_startTime;
+    bool m_jogBlock = false;
+    bool m_absoluteCoordinates;
 
     void processFile(QString fileName);
     void clearTable();
@@ -171,6 +178,10 @@ private:
     bool saveProgramToFile(QString fileName);
     void placeVisualizerButtons();
     bool dataIsEnd(QString data);
+
+    bool eventFilter(QObject *obj, QEvent *event);
+    //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);
+    void blockJogForRapidMovement();
 };
 
 #endif // FRMMAIN_H

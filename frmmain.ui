@@ -1607,7 +1607,7 @@ color: black;</string>
                      </size>
                     </property>
                     <property name="text">
-                     <string>10</string>
+                     <string>5</string>
                     </property>
                     <property name="checkable">
                      <bool>true</bool>
@@ -1679,7 +1679,7 @@ color: black;</string>
                    </size>
                   </property>
                   <property name="text">
-                   <string>50</string>
+                   <string>10</string>
                   </property>
                   <property name="checkable">
                    <bool>true</bool>
@@ -1711,6 +1711,13 @@ color: black;</string>
                </layout>
               </item>
              </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="chkKeyboardControl">
+              <property name="text">
+               <string>Keyboard control</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1936,5 +1943,118 @@ color: black;</string>
  <resources>
   <include location="res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblProgram</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>720</x>
+     <y>802</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>695</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtCommand</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>809</x>
+     <y>807</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>910</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtJogStep</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>767</x>
+     <y>812</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>738</x>
+     <y>666</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtFeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>792</x>
+     <y>810</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>830</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sliFeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>786</x>
+     <y>798</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>786</x>
+     <y>543</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtSpindleSpeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>747</x>
+     <y>809</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>757</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sliSpindleSpeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>739</x>
+     <y>808</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>718</x>
+     <y>446</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -158,6 +158,16 @@ void frmSettings::setRapidSpeed(int rapidSpeed)
     ui->txtRapidSpeed->setValue(rapidSpeed);
 }
 
+int frmSettings::acceleration()
+{
+    return ui->txtAcceleration->value();
+}
+
+void frmSettings::setAcceleration(int acceleration)
+{
+    ui->txtAcceleration->setValue(acceleration);
+}
+
 int frmSettings::queryStateTime()
 {
     return ui->txtQueryStateTime->value();

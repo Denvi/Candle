@@ -466,6 +466,76 @@ QSpinBox, QDoubleSpinBox {
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0">
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Rapid speed:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="txtRapidSpeed">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="maximum">
+           <number>99999</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>6</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Acceleration:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="txtAcceleration">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="maximum">
+           <number>99999</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QLabel" name="label_12">
@@ -532,48 +602,6 @@ QSpinBox, QDoubleSpinBox {
            <number>99999</number>
           </property>
          </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,1">
-        <item>
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Rapid movements speed:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="txtRapidSpeed">
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>

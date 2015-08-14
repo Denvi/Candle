@@ -96,6 +96,11 @@ frmMain::frmMain(QWidget *parent) :
 
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
+
+    this->installEventFilter(this);
+//    ui->txtConsole->installEventFilter(this);
+//    ui->txtSpindleSpeed->installEventFilter(this);
+//    ui->tblProgram->installEventFilter(this);
 }
 
 frmMain::~frmMain()
@@ -132,6 +137,7 @@ void frmMain::loadSettings()
     m_frmSettings.setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
     m_frmSettings.setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
     m_frmSettings.setRapidSpeed(set.value("rapidSpeed", 0).toInt());
+    m_frmSettings.setAcceleration(set.value("acceleration", 10).toInt());
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
     m_frmSettings.setFps(set.value("fps", 60).toInt());
@@ -177,6 +183,7 @@ void frmMain::saveSettings()
     set.setValue("spindleSpeedMin", m_frmSettings.spindleSpeedMin());
     set.setValue("spindleSpeedMax", m_frmSettings.spindleSpeedMax());
     set.setValue("rapidSpeed", m_frmSettings.rapidSpeed());
+    set.setValue("acceleration", m_frmSettings.acceleration());
     set.setValue("toolAngle", m_frmSettings.toolAngle());
     set.setValue("toolType", m_frmSettings.toolType());
     set.setValue("fps", m_frmSettings.fps());
@@ -496,7 +503,7 @@ void frmMain::onSerialPortReadyRead()
 
                     // Restore absolute/relative coordinate system after jog
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -2 && answer.contains("G90")) {
-                        sendCommand("G90");
+                        if (ui->chkKeyboardControl->isChecked()) m_absoluteCoordinates = answer.contains("G90"); else sendCommand("G90");
                     }
 
                     // Print parser status
@@ -657,6 +664,11 @@ void frmMain::onVisualizatorRotationChanged()
 void frmMain::onScroolBarAction(int action)
 {
     if (m_transferringFile) ui->chkAutoScroll->setChecked(false);
+}
+
+void frmMain::onJogTimer()
+{
+    m_jogBlock = false;
 }
 
 void frmMain::placeVisualizerButtons()
@@ -1029,37 +1041,50 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 
 void frmMain::on_cmdYPlus_clicked()
 {
-    sendCommand("$G", -2); // Query parser state to restore coordinate system, hide from table and console
+    if (m_jogBlock) return;
+    // Query parser state to restore coordinate system, hide from table and console
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0Y" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdYMinus_clicked()
 {
-    sendCommand("$G", -2);
+    if (m_jogBlock) return;
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0Y-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXPlus_clicked()
 {
-    sendCommand("$G", -2);
+    if (m_jogBlock) return;
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0X" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXMinus_clicked()
 {    
-    sendCommand("$G", -2);
+    if (m_jogBlock) return;
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0X-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZPlus_clicked()
 {
-    sendCommand("$G", -2);
+    if (m_jogBlock) return;
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0Z" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZMinus_clicked()
 {
-    sendCommand("$G", -2);
+    if (m_jogBlock) return;
+    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    blockJogForRapidMovement();
     sendCommand("G91G0Z-" + ui->txtJogStep->text());
 }
 
@@ -1239,4 +1264,71 @@ void frmMain::on_grpSpindle_toggled(bool checked)
 void frmMain::on_grpJog_toggled(bool checked)
 {
     ui->widgetJog->setVisible(checked);
+}
+
+bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
+{
+    return b1->text().toDouble() < b2->text().toDouble();
+}
+
+void frmMain::blockJogForRapidMovement() {
+    m_jogBlock = true;
+
+    const double acc = m_frmSettings.acceleration();    // Acceleration mm/sec^2
+    double v = m_frmSettings.rapidSpeed() / 60;         // Rapid speed mm/sec
+    double at = v / acc;                                // Acceleration time
+    double s = acc * at * at / 2;                       // Distance on acceleration
+    double time = (ui->txtJogStep->text().toDouble() - 2 * s) / v + at;
+
+//                qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
+    QTimer::singleShot(time * 1000, Qt::PreciseTimer, this, SLOT(onJogTimer()));
+}
+
+bool frmMain::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (ui->widgetJog->isEnabled() && ui->chkKeyboardControl->isChecked()) {
+            if (keyEvent->key() == Qt::Key_4) {
+                on_cmdXMinus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_6) {
+                on_cmdXPlus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_8) {
+                on_cmdYPlus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_2) {
+                on_cmdYMinus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_9) {
+                on_cmdZPlus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_3) {
+                on_cmdZMinus_clicked();
+            }
+            else if (keyEvent->key() == Qt::Key_5) {
+                QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
+                std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
+
+                for (int i = 0; i < stepButtons.count(); i++) {
+                    if (stepButtons[i]->isChecked()) {
+                        stepButtons[i == stepButtons.length() - 1 ? 0 : i + 1]->click();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
+}
+
+void frmMain::on_chkKeyboardControl_toggled(bool checked)
+{
+    ui->grpJog->setProperty("overrided", checked);
+    style()->unpolish(ui->grpJog);
+    ui->grpJog->ensurePolished();
+
+    // Store/restore coordinate system
+    if (checked) sendCommand("$G", -2); else if (m_absoluteCoordinates) sendCommand("G90");
 }
