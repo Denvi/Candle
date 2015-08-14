@@ -78,6 +78,16 @@ void frmSettings::setAntialiasing(bool antialiasing)
     ui->chkAntialiasing->setChecked(antialiasing);
 }
 
+bool frmSettings::zBuffer()
+{
+    return ui->chkZBuffer->isChecked();
+}
+
+void frmSettings::setZBuffer(bool zBuffer)
+{
+    ui->chkZBuffer->setChecked(zBuffer);
+}
+
 double frmSettings::lineWidth()
 {
     return ui->txtLineWidth->value();

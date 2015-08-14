@@ -139,6 +139,16 @@ void GLWidget::viewAnimation()
     m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 }
+bool GLWidget::zBuffer() const
+{
+    return m_zBuffer;
+}
+
+void GLWidget::setZBuffer(bool zBuffer)
+{
+    m_zBuffer = zBuffer;
+}
+
 QString GLWidget::bufferState() const
 {
     return m_bufferState;
@@ -243,24 +253,6 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 
 void GLWidget::initializeGL()
 {
-    //        QGLFormat fmt;
-    //        fmt.setSampleBuffers(true);
-    //        fmt.setSamples(8); //2, 4, 8, 16
-    //        QGLFormat::setDefaultFormat(fmt);
-
-//    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-//    glEnable(GL_LINE_SMOOTH);
-//    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-//    glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_MULTISAMPLE);
-//    //glEnable(GL_CULL_FACE);
-//    glShadeModel(GL_SMOOTH);
-
     GLint bufs;
     GLint samples;
     glGetIntegerv(GL_SAMPLE_BUFFERS, &bufs);
@@ -304,20 +296,13 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Draw 3D
     qglClearColor(QColor(Qt::white));
 
-    if (m_antialiasing) {
-//        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-//        glEnable(GL_LINE_SMOOTH);
-        glEnable(GL_MULTISAMPLE);
-    }
+    if (m_antialiasing) glEnable(GL_MULTISAMPLE);
+    if (m_zBuffer) glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnable(GL_DEPTH_TEST);
     updateProjection();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+    glLoadIdentity();   
 
     double r = m_distance;
     double angY = M_PI / 180 * m_yRot;
@@ -409,20 +394,15 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Draw 2D
     glShadeModel(GL_FLAT);
 
-    glDisable(GL_LINE_SMOOTH);
-    glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
     QPainter painter(this);
-    //painter.setRenderHint(QPainter::Antialiasing);
-    //painter.drawText(QPoint(10, 20), "Overpainting text");
+
     double x = 10;
     double y = this->height() - 60;
-
-    //painter.setPen(Qt::red);
 
     painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_xMin, 0, 'f', 3).arg(m_xMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_yMin, 0, 'f', 3).arg(m_yMax, 0, 'f', 3));
@@ -443,8 +423,6 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     str = m_bufferState;
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
-
-    painter.end();
 
 //    QGLWidget::paintEvent(pe);
 

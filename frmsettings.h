@@ -28,6 +28,8 @@ public:
     void setToolLength(double length);
     bool antialiasing();
     void setAntialiasing(bool antialiasing);
+    bool zBuffer();
+    void setZBuffer(bool zBuffer);
     double lineWidth();
     void setLineWidth(double lineWidth);
     double arcPrecision();

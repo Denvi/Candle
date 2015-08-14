@@ -34,9 +34,9 @@ public:
     static double calculateSweep(double startAngle, double endAngle, bool isCw);
     static QList<QVector3D> generatePointsAlongArcBDring(QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength);
     static QList<QVector3D> generatePointsAlongArcBDring(QVector3D p1, QVector3D p2, QVector3D center, bool isCw, double radius, double startAngle, double sweep, int numPoints);
-    static bool isDigit(char c);
-    static bool isLetter(char c);
-    static char toUpper(char c);
+    static inline bool isDigit(char c);
+    static inline bool isLetter(char c);
+    static inline char toUpper(char c);
 signals:
 
 public slots:

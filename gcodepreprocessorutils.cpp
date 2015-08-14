@@ -135,10 +135,30 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVecto
 */
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode)
 {
+    double x = std::numeric_limits<double>::quiet_NaN();
+    double y = std::numeric_limits<double>::quiet_NaN();
+    double z = std::numeric_limits<double>::quiet_NaN();
+    char c;
 
-    double x = parseCoord(commandArgs, 'X');
-    double y = parseCoord(commandArgs, 'Y');
-    double z = parseCoord(commandArgs, 'Z');
+    for (int i = 0; i < commandArgs.length(); i++) {
+
+//    foreach (QString t, commandArgs)
+//    {
+        if (commandArgs[i].length() > 0) {
+            c = commandArgs[i][0].toUpper().toLatin1();
+            switch (c) {
+            case 'X':
+                x = commandArgs[i].mid(1).toDouble();
+                break;
+            case 'Y':
+                y = commandArgs[i].mid(1).toDouble();
+                break;
+            case 'Z':
+                z = commandArgs[i].mid(1).toDouble();
+                break;
+            }
+        }
+    }
 
     return updatePointWithCommand(initial, x, y, z, absoluteMode);
 }
@@ -165,13 +185,35 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
 
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
-    double i = parseCoord(commandArgs, 'I');
-    double j = parseCoord(commandArgs, 'J');
-    double k = parseCoord(commandArgs, 'K');
-    double radius = parseCoord(commandArgs, 'R');
+    double i = std::numeric_limits<double>::quiet_NaN();
+    double j = std::numeric_limits<double>::quiet_NaN();
+    double k = std::numeric_limits<double>::quiet_NaN();
+    double r = std::numeric_limits<double>::quiet_NaN();
+    char c;
+
+    foreach (QString t, commandArgs)
+    {
+        if (t.length() > 0) {
+            c = t[0].toUpper().toLatin1();
+            switch (c) {
+            case 'I':
+                i = t.mid(1).toDouble();
+                break;
+            case 'J':
+                j = t.mid(1).toDouble();
+                break;
+            case 'K':
+                k = t.mid(1).toDouble();
+                break;
+            case 'R':
+                r = t.mid(1).toDouble();
+                break;
+            }
+        }
+    }
 
     if (std::isnan(i) && std::isnan(j) && std::isnan(k)) {
-        return convertRToCenter(initial, nextPoint, radius, absoluteIJKMode, clockwise);
+        return convertRToCenter(initial, nextPoint, r, absoluteIJKMode, clockwise);
     }
 
     return updatePointWithCommand(initial, i, j, k, absoluteIJKMode);
@@ -249,6 +291,12 @@ QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
 // the string and creates a hash with all the values.
 double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
 {
+//    int n = argList.length();
+
+//    for (int i = 0; i < n; i++) {
+//        if (argList[i].length() > 0 && argList[i][0].toUpper() == c) return argList[i].mid(1).toDouble();
+//    }
+
     foreach (QString t, argList)
     {
         if (t.length() > 0 && t[0].toUpper() == c) return t.mid(1).toDouble();

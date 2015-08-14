@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>765</width>
-    <height>863</height>
+    <width>887</width>
+    <height>944</height>
    </rect>
   </property>
   <property name="palette">
@@ -48,12 +48,19 @@ QGroupBox[collapsible=&quot;true&quot;]::title {
 }
 */
 
+QGroupBox {
+}
+
 QGroupBox:disabled {
 	color: palette(shadow);
 }
 
 QGroupBox[overrided=&quot;true&quot;] {
 	color: red;
+}
+
+QGroupBox[checkable=&quot;true&quot;]::title {
+	margin-top: 1px;
 }
 
 QGroupBox[checkable=&quot;true&quot;]::indicator {
@@ -528,16 +535,19 @@ QToolButton:checked { /* all types of tool button */
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="cmdFileSend">
+          <widget class="QPushButton" name="cmdFileReset">
            <property name="text">
-            <string>Send</string>
+            <string>Reset</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="cmdFileReset">
+          <widget class="QPushButton" name="cmdFileSend">
            <property name="text">
-            <string>Reset</string>
+            <string>Send</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -1597,7 +1607,7 @@ color: black;</string>
                      </size>
                     </property>
                     <property name="text">
-                     <string>5</string>
+                     <string>10</string>
                     </property>
                     <property name="checkable">
                      <bool>true</bool>
@@ -1669,7 +1679,7 @@ color: black;</string>
                    </size>
                   </property>
                   <property name="text">
-                   <string>10</string>
+                   <string>50</string>
                   </property>
                   <property name="checkable">
                    <bool>true</bool>
@@ -1734,6 +1744,11 @@ color: black;</string>
              <height>26</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -1786,8 +1801,8 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>765</width>
-     <height>21</height>
+     <width>887</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -1868,10 +1883,16 @@ color: black;</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tblProgram</tabstop>
+  <tabstop>chkTestMode</tabstop>
+  <tabstop>chkAutoScroll</tabstop>
+  <tabstop>cmdFileOpen</tabstop>
+  <tabstop>cmdFileReset</tabstop>
+  <tabstop>cmdFilePause</tabstop>
   <tabstop>cmdTop</tabstop>
+  <tabstop>cmdIsometric</tabstop>
   <tabstop>cmdFront</tabstop>
   <tabstop>cmdLeft</tabstop>
-  <tabstop>cmdIsometric</tabstop>
   <tabstop>cmdFit</tabstop>
   <tabstop>txtWPosX</tabstop>
   <tabstop>txtWPosY</tabstop>
@@ -1889,11 +1910,15 @@ color: black;</string>
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
   <tabstop>txtSpindleSpeed</tabstop>
+  <tabstop>cmdSpindle</tabstop>
   <tabstop>sliSpindleSpeed</tabstop>
-  <tabstop>cmdXMinus</tabstop>
+  <tabstop>chkFeedOverride</tabstop>
+  <tabstop>txtFeed</tabstop>
+  <tabstop>sliFeed</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
+  <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdZPlus</tabstop>
   <tabstop>cmdZMinus</tabstop>
   <tabstop>txtJogStep</tabstop>
@@ -1907,13 +1932,6 @@ color: black;</string>
   <tabstop>txtCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
-  <tabstop>chkTestMode</tabstop>
-  <tabstop>chkAutoScroll</tabstop>
-  <tabstop>cmdFileOpen</tabstop>
-  <tabstop>cmdFileSend</tabstop>
-  <tabstop>cmdFileReset</tabstop>
-  <tabstop>cmdFilePause</tabstop>
-  <tabstop>tblProgram</tabstop>
  </tabstops>
  <resources>
   <include location="res.qrc"/>

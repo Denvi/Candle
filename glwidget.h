@@ -43,6 +43,9 @@ public:
     QString bufferState() const;
     void setBufferState(const QString &bufferState);
 
+    bool zBuffer() const;
+    void setZBuffer(bool zBuffer);
+
 signals:
     void rotationChanged();
 
@@ -63,6 +66,7 @@ private:
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     double m_lineWidth;
     bool m_antialiasing;
+    bool m_zBuffer;
     int m_frames = 0;
     int m_fps = 0;
     int m_targetFps;

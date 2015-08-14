@@ -120,6 +120,7 @@ void frmMain::loadSettings()
     m_frmSettings.setToolDiameter(set.value("toolDiameter", 3).toDouble());
     m_frmSettings.setToolLength(set.value("toolLength", 15).toDouble());
     m_frmSettings.setAntialiasing(set.value("antialiasing", true).toBool());
+    m_frmSettings.setZBuffer(set.value("zBuffer", false).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
@@ -166,6 +167,7 @@ void frmMain::saveSettings()
     set.setValue("toolDiameter", m_frmSettings.toolDiameter());
     set.setValue("toolLength", m_frmSettings.toolLength());
     set.setValue("antialiasing", m_frmSettings.antialiasing());
+    set.setValue("zBuffer", m_frmSettings.zBuffer());
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_frmSettings.lineWidth());
@@ -325,6 +327,7 @@ void frmMain::grblReset()
 
 //    m_timerConnection.stop();
     m_reseting = true;
+    m_homing = false;
 
     m_commands.clear();
     ui->txtConsole->appendPlainText("[CTRL+X]");
@@ -353,6 +356,7 @@ void frmMain::onSerialPortReadyRead()
             qDebug() << "reseting:" << data;
             if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
             else {
+                m_commands.clear();
                 m_reseting = false;
             }
         }
@@ -500,10 +504,13 @@ void frmMain::onSerialPortReadyRead()
                         ui->glwVisualizator->setParserStatus(answer.left(answer.indexOf("; ")));
                     }
 
+                    // Homing responce
+                    if ((ca.command.toUpper() == "$H" || ca.command.toUpper() == "$T") && m_homing) m_homing = false;
+
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
 
-                        QCursor cur = ui->txtConsole->cursor();
+                        bool scrolledDown = ui->txtConsole->verticalScrollBar()->value() == ui->txtConsole->verticalScrollBar()->maximum();
 
                         // Update text block numbers
                         int blocksAdded = answer.count("; ");
@@ -518,7 +525,7 @@ void frmMain::onSerialPortReadyRead()
                         tc.insertText(" < " + QString(answer).replace("; ", "\r\n"));
                         tc.endEditBlock();
 
-                        ui->txtConsole->setCursor(cur);
+                        if (scrolledDown) ui->txtConsole->verticalScrollBar()->setValue(ui->txtConsole->verticalScrollBar()->maximum());
                     }
 
                     // Add answer to table, send next program commands
@@ -720,7 +727,6 @@ void frmMain::processFile(QString fileName)
     gp.setTraverseSpeed(m_rapidSpeed);
 
     QTime time;
-
     time.start();
 
     QString command;
@@ -749,6 +755,12 @@ void frmMain::processFile(QString fileName)
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
 
     qDebug() << "view parser filled:" << time.elapsed();
+
+    for (int i = 0; i < 10 && i < gp.getPointSegmentList().count(); i++) {
+        qDebug() << gp.getPointSegmentList().at(i)->point()->x()
+                 << gp.getPointSegmentList().at(i)->point()->y()
+                 << gp.getPointSegmentList().at(i)->point()->z();
+    }
 
     ui->glwVisualizator->fitDrawables();
     updateControlsState();
@@ -913,6 +925,7 @@ void frmMain::applySettings() {
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
+    ui->glwVisualizator->setZBuffer(m_frmSettings.zBuffer());
     ui->glwVisualizator->setFps(m_frmSettings.fps());
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
@@ -1075,6 +1088,8 @@ void frmMain::on_cmdFileReset_clicked()
 
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(false);
+
+        if (i < 10) qDebug() << i << list[i]->getStart() << list[i]->getEnd();
     }      
 
     qDebug() << "drawn false:" << time.elapsed();

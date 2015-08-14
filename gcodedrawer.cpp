@@ -14,16 +14,23 @@ GcodeDrawer::GcodeDrawer(QObject *parent) :
 
 void GcodeDrawer::draw()
 {
-    foreach (LineSegment* ls, m_viewParser->getLineSegmentList()) {
+    QList<LineSegment*> list = m_viewParser->getLineSegmentList();
+    bool drawFirstPoint = true;
 
-        glLineWidth(m_lineWidth);
+    glLineWidth(m_lineWidth);
+
+    for (int i = 0; i < list.count(); i++) {
+
+        if (std::isnan(list[i]->getEnd().z())) continue;
 
         // First point
-        if (ls->getLineNumber() == 0) {
+        if (drawFirstPoint) {
+
+            if (std::isnan(list[i]->getEnd().x()) || std::isnan(list[i]->getEnd().y())) continue;
 
             double size = qMax(qMax(getSizes().x(), getSizes().y()), getSizes().z()) / 75;
 
-            QVector3D end = ls->getEnd();
+            QVector3D end = list[i]->getEnd();
 
             glColor3f(1.0, 0.0, 0.0);
             glBegin(GL_LINE_LOOP);
@@ -50,23 +57,25 @@ void GcodeDrawer::draw()
                 glVertex3f(end.x(), y, z);
             }
             glEnd();
+
+            drawFirstPoint = false;
             continue;
         }
 
-        if (ls->isFastTraverse()) {
+        if (list[i]->isFastTraverse()) {
             glLineStipple(1, 0x00ff);
             glEnable(GL_LINE_STIPPLE);
         }
 
-        if (ls->drawn()) {
+        if (list[i]->drawn()) {
 //            glLineWidth(1);
             glColor3f(0.85, 0.85, 0.85);
         }
-        else if (ls->isFastTraverse()) {
+        else if (list[i]->isFastTraverse()) {
 //            glLineWidth(1);
             glColor3f(0.0, 0.0, 0.0);
         }
-        else if (ls->isZMovement()) {
+        else if (list[i]->isZMovement()) {
 //            glLineWidth(1);
             glColor3f(1, 0, 0.0);
         }
@@ -76,8 +85,8 @@ void GcodeDrawer::draw()
         }
 
         glBegin(GL_LINES);
-        glVertex3f(ls->getStart().x(), ls->getStart().y(), ls->getStart().z());
-        glVertex3f(ls->getEnd().x(), ls->getEnd().y(), ls->getEnd().z());
+        glVertex3f(list[i]->getStart().x(), list[i]->getStart().y(), list[i]->getStart().z());
+        glVertex3f(list[i]->getEnd().x(), list[i]->getEnd().y(), list[i]->getEnd().z());
         glEnd();
 
         glDisable(GL_LINE_STIPPLE);

@@ -7,10 +7,8 @@
 #include <QAbstractTableModel>
 #include <QString>
 
-class GCodeItem
+struct GCodeItem
 {
-public:
-    GCodeItem();
     QString command;
     QString state;
     QString status;

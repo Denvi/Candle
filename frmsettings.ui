@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>323</width>
-    <height>489</height>
+    <width>371</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -226,11 +226,22 @@ QSpinBox, QDoubleSpinBox {
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="chkAntialiasing">
-        <property name="text">
-         <string>Line smoothing</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QCheckBox" name="chkAntialiasing">
+          <property name="text">
+           <string>Line smoothing</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chkZBuffer">
+          <property name="text">
+           <string>Z-buffer</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -629,7 +640,6 @@ QSpinBox, QDoubleSpinBox {
   <tabstop>cmdRefresh</tabstop>
   <tabstop>cboBaud</tabstop>
   <tabstop>cboFps</tabstop>
-  <tabstop>chkAntialiasing</tabstop>
   <tabstop>cboToolType</tabstop>
   <tabstop>chkShowAllCommands</tabstop>
   <tabstop>cmdOK</tabstop>

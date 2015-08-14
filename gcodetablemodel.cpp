@@ -3,13 +3,13 @@
 
 #include "gcodetablemodel.h"
 
-GCodeItem::GCodeItem()
-{
-    this->command = "";
-    this->state = "";
-    this->status = "";
-    this->line = 0;
-}
+//GCodeItem::GCodeItem()
+//{
+//    this->command = "";
+//    this->state = "";
+//    this->status = "";
+//    this->line = 0;
+//}
 
 GCodeTableModel::GCodeTableModel(QObject *parent) :
     QAbstractTableModel(parent)

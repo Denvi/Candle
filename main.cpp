@@ -19,9 +19,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QGLFormat glf = QGLFormat::defaultFormat();
+//    glf.setAlpha(true);
     glf.setSampleBuffers(true);
     glf.setSamples(8);
-    glf.setDoubleBuffer(true);
+//    glf.setDoubleBuffer(true);
     QGLFormat::setDefaultFormat(glf);
 
     QString loc = QLocale().name().left(2);
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
         QTranslator* baseTranslator = new QTranslator();
 
         if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
-    }
+    }   
 
     frmMain w;
     w.show();
