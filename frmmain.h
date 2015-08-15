@@ -165,11 +165,12 @@ private:
     bool m_showAllCommands = false;
 
     bool m_reseting = false;
+    bool m_resetCompleted = true;
 
     bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
-    bool m_storedKeyboardControl;   
+    bool m_storedKeyboardControl;      
 
     void processFile(QString fileName);
     void clearTable();

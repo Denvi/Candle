@@ -262,7 +262,7 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command, int tableIndex)
 {
-    if (!m_serialPort.isOpen()) return;
+    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
     // Feed override
     if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
@@ -325,6 +325,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
 void frmMain::grblReset()
 {
+    qDebug() << "reset begin";
+
     m_serialPort.write(QByteArray(1, (char)24));
     m_serialPort.flush();
 
@@ -341,9 +343,11 @@ void frmMain::grblReset()
     m_homing = false;
 
     m_commands.clear();
-    ui->txtConsole->appendPlainText("[CTRL+X]");
-
+    m_resetCompleted = false;
+//    ui->txtConsole->appendPlainText("[CTRL+X]");
     updateControlsState();
+//    ui->cmdUnlock->setEnabled(false);
+    qDebug() << "reset end";
 }
 
 int frmMain::bufferLength()
@@ -364,9 +368,16 @@ void frmMain::onSerialPortReadyRead()
 
         // Filter prereset responses
         if (m_reseting) {
+            qDebug() << "reseting filter:" << data;
             if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
             else {
-                m_commands.clear();
+                CommandAttributes ca;
+                ca.command = "[CTRL+X]";
+                ui->txtConsole->appendPlainText(ca.command);
+                ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+                ca.tableIndex = -1;
+                ca.length = ca.command.length() + 1;
+                m_commands.append(ca);
                 m_reseting = false;
             }
         }
@@ -492,11 +503,24 @@ void frmMain::onSerialPortReadyRead()
         } else if (data.length() > 0) {
 
             // Processed commands
-            if (m_commands.length() > 0) {
+            if (m_commands.length() > 0 && !data.contains("'$H'|'$X' to unlock")) {
 
                 static QString answer; // Full answer string
 
-                if (dataIsEnd(data)) {
+                //    .-'---`-.             [CTRL+X] < ALARM: Abort during cycle
+                //  ,'          `.          ok
+                //  |             \         Grbl 0.9i ['$' for help]
+                //  |              \
+                //  \           _  \        ['$H'|'$X' to unlock]
+                //  ,\  _    ,'-,/-)\
+                //  ( * \ \,' ,' ,'-)
+                //   `._,)     -',-')
+                //     \/         ''/
+                //      )        / /
+                //     /       ,'
+
+                if (m_commands[0].command != "[CTRL+X]" && dataIsEnd(data)
+                        || m_commands[0].command == "[CTRL+X]" && data.contains("'$' for help")) {
 
                     answer.append(data);
 
@@ -517,6 +541,13 @@ void frmMain::onSerialPortReadyRead()
 
                     // Homing responce
                     if ((ca.command.toUpper() == "$H" || ca.command.toUpper() == "$T") && m_homing) m_homing = false;
+
+
+                    // Reset complete
+                    if (ca.command == "[CTRL+X]") m_resetCompleted = true;
+
+                    // Debug
+                    if (ca.command != "$G") qDebug() << "responce:" << tb.text() << ca.command << answer << ca.consoleIndex;
 
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
@@ -613,6 +644,7 @@ void frmMain::onSerialPortReadyRead()
 
             } else {
                 ui->txtConsole->appendPlainText(data);
+                qDebug() << "floating responce:" << data;
             }
         } else {
             ui->txtConsole->appendPlainText(data);
@@ -640,6 +672,7 @@ void frmMain::onTimerConnection()
     if (!m_serialPort.isOpen()) {
         openPort();
     } else if (!m_homing && !m_reseting) {
+//        qDebug() << "sending $G";
         sendCommand("$G", -3);
     }
 }
