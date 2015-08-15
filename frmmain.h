@@ -74,7 +74,7 @@ private slots:
     void on_cmdReset_clicked();
     void on_cmdUnlock_clicked();
     void on_cmdTopZ_clicked();
-    void on_cmdSpindle_clicked(bool checked);
+    void on_cmdSpindle_toggled(bool checked);
     void on_txtSpindleSpeed_valueChanged(const QString &arg1);
     void on_txtSpindleSpeed_editingFinished();
     void on_sliSpindleSpeed_valueChanged(int value);
@@ -163,6 +163,7 @@ private:
     bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
+    bool m_storedKeyboardControl;
 
     void processFile(QString fileName);
     void clearTable();

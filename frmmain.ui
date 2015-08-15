@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>887</width>
-    <height>944</height>
+    <height>976</height>
    </rect>
   </property>
   <property name="palette">
@@ -1947,32 +1947,16 @@ color: black;</string>
   <connection>
    <sender>chkKeyboardControl</sender>
    <signal>toggled(bool)</signal>
-   <receiver>tblProgram</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>720</x>
-     <y>802</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>695</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
    <receiver>txtCommand</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>809</x>
-     <y>807</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
-     <x>745</x>
-     <y>910</y>
+     <x>795</x>
+     <y>954</y>
     </hint>
    </hints>
   </connection>
@@ -1983,12 +1967,12 @@ color: black;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>767</x>
-     <y>812</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
-     <x>738</x>
-     <y>666</y>
+     <x>762</x>
+     <y>692</y>
     </hint>
    </hints>
   </connection>
@@ -1999,8 +1983,8 @@ color: black;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>792</x>
-     <y>810</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>830</x>
@@ -2015,8 +1999,8 @@ color: black;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>786</x>
-     <y>798</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>786</x>
@@ -2031,8 +2015,8 @@ color: black;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>747</x>
-     <y>809</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>757</x>
@@ -2047,12 +2031,28 @@ color: black;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>739</x>
-     <y>808</y>
+     <x>868</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>718</x>
      <y>446</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblProgram</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>750</x>
+     <y>843</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>771</y>
     </hint>
    </hints>
   </connection>

@@ -159,7 +159,7 @@ void frmMain::loadSettings()
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
-    ui->chkKeyboardControl->setChecked(set.value("keyboardControl", false).toBool());
+    m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
 }
@@ -210,7 +210,7 @@ void frmMain::updateControlsState() {
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && !m_transferringFile);
 //    ui->grpConsole->setEnabled(portOpened);
-    ui->txtCommand->setEnabled(portOpened && !ui->chkKeyboardControl->isChecked());
+    ui->txtCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
     ui->cmdCommandSend->setEnabled(portOpened);
     ui->widgetFeed->setEnabled(!m_transferringFile);
 
@@ -244,6 +244,8 @@ void frmMain::updateControlsState() {
                                                      : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - grblControl");
 
 //    QRegExp rx("([^/]*)$");
+
+    if (!m_transferringFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
     qApp->processEvents();
     this->update();
@@ -315,6 +317,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
             ui->sliSpindleSpeed->setValue(speed / 100);
             m_programSpeed = false;
             ui->txtSpindleSpeed->setValue(speed);
+            if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
+                ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
         }
     }
 
@@ -590,11 +594,15 @@ void frmMain::onSerialPortReadyRead()
                     if (m.indexIn(ca.command) != -1) {
                         if (m.cap(1).toInt() == 3) {
                             m_timerToolAnimation.start(25, this);
+                            m_programSpeed = true;
                             ui->cmdSpindle->setChecked(true);
+                            m_programSpeed = false;
                         }
                         else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2) {
                             m_timerToolAnimation.stop();
+                            m_programSpeed = true;
                             ui->cmdSpindle->setChecked(false);
+                            m_programSpeed = false;
                         }
                     }
                     answer.clear();
@@ -828,6 +836,8 @@ void frmMain::on_cmdFileSend_clicked()
 
     m_transferCompleted = false;
     m_transferringFile = true;
+    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
+    ui->chkKeyboardControl->setChecked(false);
     updateControlsState();
     sendNextFileCommands();
 }
@@ -1016,9 +1026,18 @@ void frmMain::on_cmdTopZ_clicked()
     sendCommand(QString("G53G90G0Z%1").arg(m_safeZ));
 }
 
-void frmMain::on_cmdSpindle_clicked(bool checked)
-{
-    sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5");
+void frmMain::on_cmdSpindle_toggled(bool checked)
+{    
+    if (!m_programSpeed) sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5");
+    ui->grpSpindle->setProperty("overrided", checked);
+    style()->unpolish(ui->grpSpindle);
+    ui->grpSpindle->ensurePolished();
+
+    if (checked) {
+        if (!ui->grpSpindle->isChecked()) ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+    } else {
+        ui->grpSpindle->setTitle(tr("Spindle"));
+    }
 }
 
 void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
@@ -1044,37 +1063,37 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 void frmMain::on_cmdYPlus_clicked()
 {
     // Query parser state to restore coordinate system, hide from table and console
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0Y" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdYMinus_clicked()
 {
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0Y-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXPlus_clicked()
 {
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0X" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXMinus_clicked()
 {    
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0X-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZPlus_clicked()
 {
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0Z" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZMinus_clicked()
 {
-    if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
+    sendCommand("$G", -2);
     sendCommand("G91G0Z-" + ui->txtJogStep->text());
 }
 
@@ -1248,16 +1267,34 @@ void frmMain::on_chkFeedOverride_toggled(bool checked)
 void frmMain::on_grpFeed_toggled(bool checked)
 {
     ui->widgetFeed->setVisible(checked);
+
+    if (checked) {
+        ui->grpFeed->setTitle(tr("Feed"));
+    } else if (ui->chkFeedOverride->isChecked()) {
+        ui->grpFeed->setTitle(tr("Feed") + QString(tr(" (%1)")).arg(ui->txtFeed->text()));
+    }
 }
 
 void frmMain::on_grpSpindle_toggled(bool checked)
 {
     ui->widgetSpindle->setVisible(checked);
+
+    if (checked) {
+        ui->grpSpindle->setTitle(tr("Spindle"));
+    } else if (ui->cmdSpindle->isChecked()) {
+        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+    }
 }
 
 void frmMain::on_grpJog_toggled(bool checked)
 {
     ui->widgetJog->setVisible(checked);
+
+    if (checked) {
+        ui->grpJog->setTitle(tr("Jog"));
+    } else if (ui->chkKeyboardControl->isChecked()) {
+        ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
+    }
 }
 
 bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
@@ -1290,33 +1327,33 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (keyEvent->key() == Qt::Key_ScrollLock) {
+        if (!m_transferringFile && keyEvent->key() == Qt::Key_ScrollLock) {
             ui->chkKeyboardControl->toggle();
         }
 
-        if (ui->widgetJog->isEnabled() && ui->chkKeyboardControl->isChecked()) {
+        if (!m_transferringFile && ui->chkKeyboardControl->isChecked()) {
             // Block only autorepeated keypresses
             if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
                 blockJogForRapidMovement();
 
                 switch (keyEvent->key()) {
                 case Qt::Key_4:
-                    on_cmdXMinus_clicked();
+                    sendCommand("G91G0X-" + ui->txtJogStep->text());
                     break;
                 case Qt::Key_6:
-                    on_cmdXPlus_clicked();
+                    sendCommand("G91G0X" + ui->txtJogStep->text());
                     break;
                 case Qt::Key_8:
-                    on_cmdYPlus_clicked();
+                    sendCommand("G91G0Y" + ui->txtJogStep->text());
                     break;
                 case Qt::Key_2:
-                    on_cmdYMinus_clicked();
+                    sendCommand("G91G0Y-" + ui->txtJogStep->text());
                     break;
                 case Qt::Key_9:
-                    on_cmdZPlus_clicked();
+                    sendCommand("G91G0Z" + ui->txtJogStep->text());
                     break;
                 case Qt::Key_3:
-                    on_cmdZMinus_clicked();
+                    sendCommand("G91G0Z-" + ui->txtJogStep->text());
                     break;
                 }
             }
@@ -1326,7 +1363,19 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
                 for (int i = 0; i < stepButtons.count(); i++) {
                     if (stepButtons[i]->isChecked()) {
-                        stepButtons[i == stepButtons.length() - 1 ? 0 : i + 1]->click();
+
+                        StyledToolButton *button = stepButtons[i == stepButtons.length() - 1 ? 0 : i + 1];
+
+                        ui->txtJogStep->setValue(button->text().toDouble());
+                        foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
+                        {
+                            button->setChecked(false);
+                        }
+                        button->setChecked(true);
+
+                        if (!ui->grpJog->isChecked()) {
+                            ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
+                        }
                         break;
                     }
                 }
@@ -1348,5 +1397,14 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
     ui->grpJog->ensurePolished();
 
     // Store/restore coordinate system
-    if (checked) sendCommand("$G", -2); else if (m_absoluteCoordinates) sendCommand("G90");
+    if (checked) {
+        sendCommand("$G", -2);
+        if (!ui->grpJog->isChecked()) ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
+    } else {
+        if (m_absoluteCoordinates) sendCommand("G90");
+        ui->grpJog->setTitle(tr("Jog"));
+    }
+
+//    m_storedKeyboardControl = checked;
+//    updateControlsState();
 }
