@@ -313,12 +313,10 @@ void frmMain::sendCommand(QString command, int tableIndex)
     if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
         int speed = s.cap(1).toInt();
         if (ui->sliSpindleSpeed->value() != speed / 100) {
+            ui->txtSpindleSpeed->setValue(speed);
             m_programSpeed = true;
             ui->sliSpindleSpeed->setValue(speed / 100);
             m_programSpeed = false;
-            ui->txtSpindleSpeed->setValue(speed);
-            if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
-                ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
         }
     }
 
@@ -335,7 +333,9 @@ void frmMain::grblReset()
     m_transferringFile = false;
     m_fileCommandIndex = 0;
 
+    m_programSpeed = true;
     ui->cmdSpindle->setChecked(false);
+    m_programSpeed = false;
     m_timerToolAnimation.stop();
 
 //    m_timerConnection.stop();
@@ -1058,6 +1058,10 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
         ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
         sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
     }
+    qDebug() << "sliSpindleSpeed";
+
+    if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
+        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
 }
 
 void frmMain::on_cmdYPlus_clicked()
@@ -1379,6 +1383,12 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                         break;
                     }
                 }
+            } else if (keyEvent->key() == Qt::Key_0) {
+                ui->cmdSpindle->toggle();
+            } else if (keyEvent->key() == Qt::Key_7) {
+                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
+            } else if (keyEvent->key() == Qt::Key_1) {
+                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
             }
         }
     }
@@ -1405,6 +1415,6 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
         ui->grpJog->setTitle(tr("Jog"));
     }
 
-//    m_storedKeyboardControl = checked;
+    if (!m_transferringFile) m_storedKeyboardControl = checked;
 //    updateControlsState();
 }
