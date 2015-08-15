@@ -84,7 +84,7 @@ private slots:
     void on_cmdXMinus_clicked();
     void on_cmdZPlus_clicked();
     void on_cmdZMinus_clicked();
-    void on_chkTestMode_clicked();
+    void on_chkTestMode_clicked(bool checked);
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
     void on_actFileNew_triggered();
@@ -160,6 +160,7 @@ private:
 
     bool m_reseting = false;
 
+    bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
 
@@ -182,6 +183,7 @@ private:
     bool eventFilter(QObject *obj, QEvent *event);
     //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);
     void blockJogForRapidMovement();
+    bool keyIsMovement(int key);
 };
 
 #endif // FRMMAIN_H

@@ -1043,56 +1043,48 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 
 void frmMain::on_cmdYPlus_clicked()
 {
-    if (m_jogBlock) return;
     // Query parser state to restore coordinate system, hide from table and console
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0Y" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdYMinus_clicked()
 {
-    if (m_jogBlock) return;
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0Y-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXPlus_clicked()
 {
-    if (m_jogBlock) return;
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0X" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdXMinus_clicked()
 {    
-    if (m_jogBlock) return;
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0X-" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZPlus_clicked()
 {
-    if (m_jogBlock) return;
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0Z" + ui->txtJogStep->text());
 }
 
 void frmMain::on_cmdZMinus_clicked()
 {
-    if (m_jogBlock) return;
     if (!ui->chkKeyboardControl->isChecked()) sendCommand("$G", -2);
-    blockJogForRapidMovement();
     sendCommand("G91G0Z-" + ui->txtJogStep->text());
 }
 
-void frmMain::on_chkTestMode_clicked()
+void frmMain::on_chkTestMode_clicked(bool checked)
 {
     sendCommand("$C");
+    if (!checked) {
+        m_reseting = true;
+        m_commands.clear();
+    }
 }
 
 void frmMain::on_cmdFilePause_clicked(bool checked)
@@ -1294,27 +1286,39 @@ void frmMain::blockJogForRapidMovement() {
 }
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
-{
+{    
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_ScrollLock) {
+            ui->chkKeyboardControl->toggle();
+        }
+
         if (ui->widgetJog->isEnabled() && ui->chkKeyboardControl->isChecked()) {
-            if (keyEvent->key() == Qt::Key_4) {
-                on_cmdXMinus_clicked();
-            }
-            else if (keyEvent->key() == Qt::Key_6) {
-                on_cmdXPlus_clicked();
-            }
-            else if (keyEvent->key() == Qt::Key_8) {
-                on_cmdYPlus_clicked();
-            }
-            else if (keyEvent->key() == Qt::Key_2) {
-                on_cmdYMinus_clicked();
-            }
-            else if (keyEvent->key() == Qt::Key_9) {
-                on_cmdZPlus_clicked();
-            }
-            else if (keyEvent->key() == Qt::Key_3) {
-                on_cmdZMinus_clicked();
+            // Block only autorepeated keypresses
+            if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
+                blockJogForRapidMovement();
+
+                switch (keyEvent->key()) {
+                case Qt::Key_4:
+                    on_cmdXMinus_clicked();
+                    break;
+                case Qt::Key_6:
+                    on_cmdXPlus_clicked();
+                    break;
+                case Qt::Key_8:
+                    on_cmdYPlus_clicked();
+                    break;
+                case Qt::Key_2:
+                    on_cmdYMinus_clicked();
+                    break;
+                case Qt::Key_9:
+                    on_cmdZPlus_clicked();
+                    break;
+                case Qt::Key_3:
+                    on_cmdZMinus_clicked();
+                    break;
+                }
             }
             else if (keyEvent->key() == Qt::Key_5) {
                 QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
@@ -1330,6 +1334,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         }
     }
     return QMainWindow::eventFilter(obj, event);
+}
+
+bool frmMain::keyIsMovement(int key)
+{
+    return key == Qt::Key_4 || key == Qt::Key_6 || key == Qt::Key_8 || key == Qt::Key_2 || key == Qt::Key_9 || key == Qt::Key_3;
 }
 
 void frmMain::on_chkKeyboardControl_toggled(bool checked)
