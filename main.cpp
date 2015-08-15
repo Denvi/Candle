@@ -19,20 +19,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QGLFormat glf = QGLFormat::defaultFormat();
-//    glf.setAlpha(true);
     glf.setSampleBuffers(true);
     glf.setSamples(8);
-//    glf.setDoubleBuffer(true);
     QGLFormat::setDefaultFormat(glf);
 
     QString loc = QLocale().name().left(2);
-    qDebug() << loc;
-
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
-    qDebug() << translationsFolder;
-
     QString translationFileName = translationsFolder + "grblControl_" + loc + ".qm";
-    qDebug() << translationFileName;
 
     if(QFile::exists(translationFileName)) {
 

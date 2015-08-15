@@ -325,8 +325,6 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
 void frmMain::grblReset()
 {
-    qDebug() << "reset begin";
-
     m_serialPort.write(QByteArray(1, (char)24));
     m_serialPort.flush();
 
@@ -366,7 +364,6 @@ void frmMain::onSerialPortReadyRead()
 
         // Filter prereset responses
         if (m_reseting) {
-            qDebug() << "reseting:" << data;
             if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
             else {
                 m_commands.clear();
@@ -612,7 +609,6 @@ void frmMain::onSerialPortReadyRead()
 
             } else {
                 ui->txtConsole->appendPlainText(data);
-                qDebug() << "test:" << m_commands.length() << data;
             }
         } else {
             ui->txtConsole->appendPlainText(data);
@@ -1058,7 +1054,6 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
         ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
         sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
     }
-    qDebug() << "sliSpindleSpeed";
 
     if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
