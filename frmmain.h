@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QList>
 #include <QTime>
+#include <QtWinExtras/QtWinExtras>
 #include "gcodeviewparse.h"
 #include "gcodedrawer.h"
 #include "tooldrawer.h"
@@ -19,6 +20,7 @@
 #include "frmsettings.h"
 #include "frmabout.h"
 #include "styledtoolbutton.h"
+#include "shobjidl.h"
 
 namespace Ui {
 class frmMain;
@@ -107,6 +109,7 @@ private slots:
 
 protected:
     void showEvent(QShowEvent *se);
+    void hideEvent(QHideEvent *he);
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
     void closeEvent(QCloseEvent *ce);
@@ -133,6 +136,9 @@ private:
     QStringList m_statusCaptions;
     QStringList m_statusBackColors;
     QStringList m_statusForeColors;
+
+    QWinTaskbarButton *m_taskBarButton;
+    QWinTaskbarProgress *m_taskBarProgress;
 
     double m_storedX = 0;
     double m_storedY = 0;
@@ -163,7 +169,7 @@ private:
     bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
-    bool m_storedKeyboardControl;
+    bool m_storedKeyboardControl;   
 
     void processFile(QString fileName);
     void clearTable();

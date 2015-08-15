@@ -23,6 +23,8 @@ frmMain::frmMain(QWidget *parent) :
     m_statusForeColors << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)";
 
     ui->setupUi(this);
+    m_taskBarButton = NULL;
+    m_taskBarProgress = NULL;
 
     ui->txtJogStep->setLocale(QLocale::C);
 
@@ -98,9 +100,6 @@ frmMain::frmMain(QWidget *parent) :
     m_timerStateQuery.start();
 
     this->installEventFilter(this);
-//    ui->txtConsole->installEventFilter(this);
-//    ui->txtSpindleSpeed->installEventFilter(this);
-//    ui->tblProgram->installEventFilter(this);
 }
 
 frmMain::~frmMain()
@@ -246,6 +245,7 @@ void frmMain::updateControlsState() {
 //    QRegExp rx("([^/]*)$");
 
     if (!m_transferringFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
+    if (!m_transferringFile && m_taskBarProgress) m_taskBarProgress->hide();
 
     qApp->processEvents();
     this->update();
@@ -391,6 +391,7 @@ void frmMain::onSerialPortReadyRead()
                 ui->cmdTopZ->setEnabled(statusIndex == 0);
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
+                if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
 
                 // Store work origin
                 if (statusIndex == 0) {
@@ -554,6 +555,9 @@ void frmMain::onSerialPortReadyRead()
                             }
                         }
 
+                        // Update taskbar progress
+                        if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
+
                         // Send next program commands
                         if (m_fileCommandIndex < m_tableModel.rowCount()) {
                             sendNextFileCommands();
@@ -690,6 +694,19 @@ void frmMain::placeVisualizerButtons()
 void frmMain::showEvent(QShowEvent *se)
 {
     placeVisualizerButtons();
+
+    if (m_taskBarButton == NULL) {
+        m_taskBarButton = new QWinTaskbarButton(this);
+        m_taskBarButton->setWindow(this->windowHandle());
+        m_taskBarProgress = m_taskBarButton->progress();
+    }
+
+    ui->glwVisualizator->setUpdatesEnabled(true);
+}
+
+void frmMain::hideEvent(QHideEvent *he)
+{
+    ui->glwVisualizator->setUpdatesEnabled(false);
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
@@ -834,6 +851,13 @@ void frmMain::on_cmdFileSend_clicked()
     m_transferringFile = true;
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
+
+    if (m_taskBarProgress) {
+        m_taskBarProgress->setMaximum(m_tableModel.rowCount() - 2);
+        m_taskBarProgress->setValue(0);
+        m_taskBarProgress->show();
+    }
+
     updateControlsState();
     sendNextFileCommands();
 }

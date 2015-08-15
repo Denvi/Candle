@@ -46,6 +46,9 @@ public:
     bool zBuffer() const;
     void setZBuffer(bool zBuffer);
 
+    bool updatesEnabled() const;
+    void setUpdatesEnabled(bool updatesEnabled);
+
 signals:
     void rotationChanged();
 
@@ -80,6 +83,7 @@ private:
     bool m_animateView;
     QString m_parserStatus;
     QString m_bufferState;
+    bool m_updatesEnabled;
 
     double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);    

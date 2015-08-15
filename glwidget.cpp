@@ -139,6 +139,16 @@ void GLWidget::viewAnimation()
     m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 }
+bool GLWidget::updatesEnabled() const
+{
+    return m_updatesEnabled;
+}
+
+void GLWidget::setUpdatesEnabled(bool updatesEnabled)
+{
+    m_updatesEnabled = updatesEnabled;
+}
+
 bool GLWidget::zBuffer() const
 {
     return m_zBuffer;
@@ -489,7 +499,7 @@ void GLWidget::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerAnimation.timerId()) {
         if (m_animateView) viewAnimation();
-        update();
+        if (m_updatesEnabled) update();
     } else {
         QGLWidget::timerEvent(te);
     }
