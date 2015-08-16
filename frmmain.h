@@ -13,6 +13,7 @@
 #include <QList>
 #include <QTime>
 #include <QtWinExtras/QtWinExtras>
+#include <QMenu>
 #include "gcodeviewparse.h"
 #include "gcodedrawer.h"
 #include "tooldrawer.h"
@@ -57,7 +58,8 @@ private slots:
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
     void onJogTimer();
-//    void onClearJogBlock();
+    void onTableInsertLine();
+    void onTableDeleteLines();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -104,8 +106,8 @@ private slots:
     void on_grpFeed_toggled(bool checked);
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
-
     void on_chkKeyboardControl_toggled(bool checked);
+    void on_tblProgram_customContextMenuRequested(const QPoint &pos);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -140,6 +142,8 @@ private:
     QWinTaskbarButton *m_taskBarButton;
     QWinTaskbarProgress *m_taskBarProgress;
 
+    QMenu *m_tableMenu;
+
     double m_storedX = 0;
     double m_storedY = 0;
     double m_storedZ = 0;
@@ -172,10 +176,13 @@ private:
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;      
 
+    bool m_fileChanged = false;
+
     void processFile(QString fileName);
     void clearTable();
     void loadSettings();
     void saveSettings();
+    bool saveChanges();
     void updateControlsState();
     void openPort();
     void sendCommand(QString command, int tableIndex = -1);
@@ -183,6 +190,7 @@ private:
     int bufferLength();
     void sendNextFileCommands();
     void applySettings();
+    void updateParser();
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     bool saveProgramToFile(QString fileName);
     void placeVisualizerButtons();
@@ -191,7 +199,7 @@ private:
     bool eventFilter(QObject *obj, QEvent *event);
     //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);
     void blockJogForRapidMovement();
-    bool keyIsMovement(int key);
+    bool keyIsMovement(int key);    
 };
 
 #endif // FRMMAIN_H

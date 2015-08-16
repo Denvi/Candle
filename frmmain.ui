@@ -477,6 +477,9 @@ QToolButton:checked { /* all types of tool button */
             <pointsize>9</pointsize>
            </font>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
           </property>
