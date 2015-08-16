@@ -294,9 +294,6 @@ void frmMain::sendCommand(QString command, int tableIndex)
 {
     if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
-    // Feed override
-    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
-
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH || m_queue.length() > 0) {
 
@@ -308,6 +305,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
         cq.tableIndex = tableIndex;
 
         m_queue.append(cq);
+
+        qDebug() << "queue:" << cq.command;
 
         while ((bufferLength() + m_queue[0].command.length() + 1) > BUFFERLENGTH) {
             qApp->processEvents();
@@ -964,6 +963,9 @@ void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
     QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();        
+
+    // Feed override
+    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount() - 1) {
         m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), tr("Sended"));

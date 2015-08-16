@@ -20,7 +20,7 @@
 */
 QString GcodePreprocessorUtils::overrideSpeed(QString command, double speed)
 {
-    QRegExp re("F([0-9.]+)");
+    QRegExp re("[Ff]([0-9.]+)");
 
     if (re.indexIn(command) != -1) {
         command.replace(re, QString("F%1").arg(re.cap(1).toDouble() / 100 * speed));
