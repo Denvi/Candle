@@ -372,14 +372,6 @@ void frmMain::grblReset()
 
     m_commands.clear();
 
-    CommandAttributes ca;
-    ca.command = "[CTRL+X]";
-    ui->txtConsole->appendPlainText(ca.command);
-    ca.consoleIndex = ui->txtConsole->blockCount() - 1;
-    ca.tableIndex = -1;
-    ca.length = ca.command.length() + 1;
-    m_commands.append(ca);
-
     updateControlsState();
 }
 
@@ -402,9 +394,19 @@ void frmMain::onSerialPortReadyRead()
         // Filter prereset responses
         if (m_reseting) {
             qDebug() << "reseting filter:" << data;
-            if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
+            if (data.contains("[G") || data[0] == '<' || dataIsEnd(data)) continue;
             else {
                 m_reseting = false;
+                m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
+
+                // Catch reset responce
+                CommandAttributes ca;
+                ca.command = "[CTRL+X]";
+                ui->txtConsole->appendPlainText(ca.command);
+                ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+                ca.tableIndex = -1;
+                ca.length = ca.command.length() + 1;
+                m_commands.append(ca);
             }
         }
 
@@ -429,6 +431,9 @@ void frmMain::onSerialPortReadyRead()
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
                 if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
+
+                // Increase state query interval on check mode
+                if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
 
                 // Store work origin
                 if (statusIndex == 0) {
@@ -1240,8 +1245,18 @@ void frmMain::on_chkTestMode_clicked(bool checked)
 {
     sendCommand("$C");
     if (!checked) {
+        // Process check off reset
         m_reseting = true;
+        m_resetCompleted = false;
         m_commands.clear();
+
+        // Catch [Disabled] response
+        CommandAttributes ca;
+        ca.command = "$C";
+        ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+        ca.tableIndex = -1;
+        ca.length = ca.command.length() + 1;
+        m_commands.append(ca);
     }
 }
 

@@ -483,6 +483,9 @@ QToolButton:checked { /* all types of tool button */
           <property name="editTriggers">
            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ContiguousSelection</enum>
+          </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
@@ -548,9 +551,6 @@ QToolButton:checked { /* all types of tool button */
           <widget class="QPushButton" name="cmdFileSend">
            <property name="text">
             <string>Send</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
