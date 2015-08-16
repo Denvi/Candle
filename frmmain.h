@@ -195,6 +195,7 @@ private:
     bool saveProgramToFile(QString fileName);
     void placeVisualizerButtons();
     bool dataIsEnd(QString data);
+    QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
     //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);

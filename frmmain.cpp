@@ -962,16 +962,13 @@ void frmMain::sendNextFileCommands() {
 
     if (m_queue.length() > 0) return;
 
-    QString command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();        
-
-    // Feed override
-    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
+    QString command = feedOverride(m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString());
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount() - 1) {
         m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), tr("Sended"));
         sendCommand(command, m_fileCommandIndex);
         m_fileCommandIndex++;
-        command = m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString();
+        command = feedOverride(m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString());
     }
 }
 
@@ -1392,6 +1389,14 @@ bool frmMain::dataIsEnd(QString data) {
     }
 
     return false;
+}
+
+QString frmMain::feedOverride(QString command)
+{
+    // Feed override
+    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
+
+    return command;
 }
 
 void frmMain::on_txtFeed_editingFinished()
