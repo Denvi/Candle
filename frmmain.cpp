@@ -817,6 +817,17 @@ void frmMain::timerEvent(QTimerEvent *te)
 
 void frmMain::closeEvent(QCloseEvent *ce)
 {
+    if (!saveChanges()) {
+        ce->ignore();
+        return;
+    }
+
+    if (m_transferringFile && QMessageBox::warning(this, this->windowTitle(), tr("File sending in progress. Terminate and exit?"),
+                                                   QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
+        ce->ignore();
+        return;
+    }
+
     if (m_serialPort.isOpen()) m_serialPort.close();
     if (m_queue.length() > 0) m_commands.clear();
 }
