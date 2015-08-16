@@ -399,7 +399,7 @@ void frmMain::onSerialPortReadyRead()
                 m_reseting = false;
                 m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
 
-                // Catch reset responce
+                // Catch reset response
                 CommandAttributes ca;
                 ca.command = "[CTRL+X]";
                 ui->txtConsole->appendPlainText(ca.command);
@@ -538,18 +538,6 @@ void frmMain::onSerialPortReadyRead()
 
                 static QString response; // Full response string
 
-                //    .-'---`-.             [CTRL+X] < ALARM: Abort during cycle
-                //  ,'          `.          ok
-                //  |             \         Grbl 0.9i ['$' for help]
-                //  |              \
-                //  \           _  \        ['$H'|'$X' to unlock]
-                //  ,\  _    ,'-,/-)\
-                //  ( * \ \,' ,' ,'-)
-                //   `._,)     -',-')
-                //     \/         ''/
-                //      )        / /
-                //     /       ,'
-
                 if ((m_commands[0].command != "[CTRL+X]" && dataIsEnd(data))
                         || (m_commands[0].command == "[CTRL+X]" && data.contains("'$' for help"))) {
 
@@ -561,8 +549,9 @@ void frmMain::onSerialPortReadyRead()
                     QTextCursor tc(tb);
 
                     // Restore absolute/relative coordinate system after jog
-                    if (ca.command.toUpper() == "$G" && ca.tableIndex == -2 && response.contains("G90")) {
-                        if (ui->chkKeyboardControl->isChecked()) m_absoluteCoordinates = response.contains("G90"); else sendCommand("G90");
+                    if (ca.command.toUpper() == "$G" && ca.tableIndex == -2) {
+                        if (ui->chkKeyboardControl->isChecked()) m_absoluteCoordinates = response.contains("G90");
+                        else if (response.contains("G90")) sendCommand("G90");
                     }
 
                     // Print parser status
@@ -570,14 +559,14 @@ void frmMain::onSerialPortReadyRead()
                         ui->glwVisualizator->setParserStatus(response.left(response.indexOf("; ")));
                     }
 
-                    // Homing responce
+                    // Homing response
                     if ((ca.command.toUpper() == "$H" || ca.command.toUpper() == "$T") && m_homing) m_homing = false;
 
                     // Reset complete
                     if (ca.command == "[CTRL+X]") m_resetCompleted = true;
 
                     // Debug
-//                    if (ca.command != "$G") qDebug() << "responce:" << tb.text() << ca.command << response << ca.consoleIndex;
+//                    if (ca.command != "$G") qDebug() << "response:" << tb.text() << ca.command << response << ca.consoleIndex;
 
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
@@ -673,12 +662,12 @@ void frmMain::onSerialPortReadyRead()
                 }
 
             } else {
-                // Responce without commands in buffer
+                // response without commands in buffer
                 ui->txtConsole->appendPlainText(data);
-                qDebug() << "floating responce:" << data;
+                qDebug() << "floating response:" << data;
             }
         } else {
-            // Blank responce
+            // Blank response
 //            ui->txtConsole->appendPlainText(data);
         }
     }
