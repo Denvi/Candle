@@ -109,6 +109,8 @@ private slots:
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
 
+    void on_splitter_splitterMoved(int pos, int index);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -178,6 +180,8 @@ private:
 
     bool m_fileChanged = false;
 
+    bool m_spindleCW = true;
+
     void processFile(QString fileName);
     void clearTable();
     void loadSettings();
@@ -202,6 +206,7 @@ private:
     void blockJogForRapidMovement();
     bool keyIsMovement(int key);
     bool dataIsFloating(QString data);
+    void resizeCheckBoxes();
 };
 
 #endif // FRMMAIN_H

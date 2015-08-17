@@ -171,6 +171,8 @@ void frmMain::loadSettings()
         ui->splitter->setStretchFactor(1, 0);
     } else ui->splitter->restoreState(splitterState);
 
+    on_splitter_splitterMoved(0, 0);
+
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
@@ -539,10 +541,10 @@ void frmMain::onSerialPortReadyRead()
             }
         } else if (data.length() > 0) {
 
-            qDebug() << "data:" << data;
+//            qDebug() << "data:" << data;
 
             // Debug
-            if (m_commands.length() > 0) foreach (CommandAttributes ca, m_commands) qDebug() << "command:" << ca.command;
+//            if (m_commands.length() > 0) foreach (CommandAttributes ca, m_commands) qDebug() << "command:" << ca.command;
 
             // Processed commands
             if (m_commands.length() > 0 && !dataIsFloating(data)
@@ -580,8 +582,8 @@ void frmMain::onSerialPortReadyRead()
                     // Debug
 //                    if (ca.command != "$G") qDebug() << "response:" << tb.text() << ca.command << response << ca.consoleIndex;
 
-                    // Clear command buffer on "M2" command
-                    if (ca.command == "M2" && response.contains("ok") && !response.contains("[Pgm End]")) {
+                    // Clear command buffer on "M2" & "M30" command
+                    if ((ca.command.contains("M2") || ca.command.contains("M30")) && response.contains("ok") && !response.contains("[Pgm End]")) {
                         m_commands.clear();
                     }
 
@@ -660,13 +662,14 @@ void frmMain::onSerialPortReadyRead()
                     // Process spindle control commands
                     QRegExp m("[Mm]0*(\\d+)");
                     if (m.indexIn(ca.command) != -1) {
-                        if (m.cap(1).toInt() == 3) {
+                        if (m.cap(1).toInt() == 3 || m.cap(1).toInt() == 4 || m.cap(1).toInt() == 13) {
+                            m_spindleCW = m.cap(1).toInt() == 3;
                             m_timerToolAnimation.start(25, this);
                             m_programSpeed = true;
                             ui->cmdSpindle->setChecked(true);
                             m_programSpeed = false;
                         }
-                        else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2) {
+                        else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2 || m.cap(1).toInt() == 30) {
                             m_timerToolAnimation.stop();
                             m_programSpeed = true;
                             ui->cmdSpindle->setChecked(false);
@@ -801,6 +804,8 @@ void frmMain::showEvent(QShowEvent *se)
     }
 
     ui->glwVisualizator->setUpdatesEnabled(true);
+
+    resizeCheckBoxes();
 }
 
 void frmMain::hideEvent(QHideEvent *he)
@@ -811,14 +816,45 @@ void frmMain::hideEvent(QHideEvent *he)
 void frmMain::resizeEvent(QResizeEvent *re)
 {
     placeVisualizerButtons();
+    resizeCheckBoxes();
+}
+
+void frmMain::resizeCheckBoxes()
+{
+    static int widthCheckMode = ui->chkTestMode->sizeHint().width();
+    static int widthAutoScroll = ui->chkAutoScroll->sizeHint().width();
+
+    // Magic
+    if (ui->chkTestMode->sizeHint().width() > ui->chkTestMode->width()) {
+        widthCheckMode = ui->chkTestMode->sizeHint().width();
+        ui->chkTestMode->setText(tr("Check"));
+        ui->chkTestMode->setMinimumWidth(ui->chkTestMode->sizeHint().width());
+        return;
+    }
+
+    if (ui->chkAutoScroll->sizeHint().width() > ui->chkAutoScroll->width() && ui->chkTestMode->text() == tr("Check")) {
+        widthAutoScroll = ui->chkAutoScroll->sizeHint().width();
+        ui->chkAutoScroll->setText(tr("Scroll"));
+        ui->chkAutoScroll->setMinimumWidth(ui->chkAutoScroll->sizeHint().width());
+        return;
+    }
+
+    if (ui->spacerBot->geometry().width() + ui->chkAutoScroll->sizeHint().width()
+            - ui->spacerBot->sizeHint().width() > widthAutoScroll) {
+        ui->chkAutoScroll->setText(tr("Auto scroll"));
+    }
+
+    if (ui->spacerBot->geometry().width() + ui->chkTestMode->sizeHint().width()
+            - ui->spacerBot->sizeHint().width() > widthCheckMode) {
+        ui->chkTestMode->setText(tr("Check mode"));
+    }
 }
 
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.rotate(-40 * (double)(ui->txtSpindleSpeed->value())
+        m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->txtSpindleSpeed->value())
                             / (ui->txtSpindleSpeed->maximum() - ui->txtSpindleSpeed->minimum()));
-//        ui->glwVisualizator->update();
     } else {
         QMainWindow::timerEvent(te);
     }
@@ -1621,4 +1657,10 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
         m_tableMenu->actions().at(1)->setEnabled(false);
     }
     m_tableMenu->popup(ui->tblProgram->viewport()->mapToGlobal(pos));
+}
+
+void frmMain::on_splitter_splitterMoved(int pos, int index)
+{
+    ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
+    resizeCheckBoxes();
 }
