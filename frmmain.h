@@ -117,7 +117,7 @@ protected:
     void closeEvent(QCloseEvent *ce);
 
 private:
-    const int BUFFERLENGTH = 126;
+    const int BUFFERLENGTH = 127;
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
@@ -200,7 +200,8 @@ private:
     bool eventFilter(QObject *obj, QEvent *event);
     //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);
     void blockJogForRapidMovement();
-    bool keyIsMovement(int key);    
+    bool keyIsMovement(int key);
+    bool dataIsFloating(QString data);
 };
 
 #endif // FRMMAIN_H

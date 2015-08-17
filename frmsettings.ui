@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>581</height>
+    <width>323</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -230,9 +230,45 @@ QSpinBox, QDoubleSpinBox {
         <item>
          <widget class="QCheckBox" name="chkAntialiasing">
           <property name="text">
-           <string>Line smoothing</string>
+           <string>Smoothing</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radLine">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Line</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radMSAA">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>MSAA</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <widget class="QCheckBox" name="chkZBuffer">
@@ -676,5 +712,38 @@ QSpinBox, QDoubleSpinBox {
  <resources>
   <include location="res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>chkAntialiasing</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>radLine</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>54</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAntialiasing</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>radMSAA</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>192</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

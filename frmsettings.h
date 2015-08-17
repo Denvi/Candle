@@ -54,6 +54,8 @@ public:
     void setToolAngle(double toolAngle);
     int fps();
     void setFps(int fps);
+    bool msaa();
+    void setMsaa(bool msaa);
 
 private slots:
     void on_cmdRefresh_clicked();

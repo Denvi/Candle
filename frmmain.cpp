@@ -136,6 +136,7 @@ void frmMain::loadSettings()
     m_frmSettings.setToolDiameter(set.value("toolDiameter", 3).toDouble());
     m_frmSettings.setToolLength(set.value("toolLength", 15).toDouble());
     m_frmSettings.setAntialiasing(set.value("antialiasing", true).toBool());
+    m_frmSettings.setMsaa(set.value("msaa", true).toBool());
     m_frmSettings.setZBuffer(set.value("zBuffer", false).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
     m_programSpeed = true;
@@ -159,6 +160,9 @@ void frmMain::loadSettings()
     ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
     ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
     ui->sliFeed->setValue(set.value("feed", 100).toInt());
+    m_storedX = set.value("storedX", 0).toDouble();
+    m_storedY = set.value("storedY", 0).toDouble();
+    m_storedZ = set.value("storedZ", 0).toDouble();
 
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
@@ -185,6 +189,7 @@ void frmMain::saveSettings()
     set.setValue("toolDiameter", m_frmSettings.toolDiameter());
     set.setValue("toolLength", m_frmSettings.toolLength());
     set.setValue("antialiasing", m_frmSettings.antialiasing());
+    set.setValue("msaa", m_frmSettings.msaa());
     set.setValue("zBuffer", m_frmSettings.zBuffer());
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
@@ -211,6 +216,9 @@ void frmMain::saveSettings()
     set.setValue("feedPanel", ui->grpFeed->isChecked());
     set.setValue("jogPanel", ui->grpJog->isChecked());
     set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
+    set.setValue("storedX", m_storedX);
+    set.setValue("storedY", m_storedY);
+    set.setValue("storedZ", m_storedZ);
 }
 
 bool frmMain::saveChanges()
@@ -235,7 +243,7 @@ void frmMain::updateControlsState() {
 //    ui->grpConsole->setEnabled(portOpened);
     ui->txtCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
     ui->cmdCommandSend->setEnabled(portOpened);
-    ui->widgetFeed->setEnabled(!m_transferringFile);
+//    ui->widgetFeed->setEnabled(!m_transferringFile);
 
     ui->chkTestMode->setEnabled(portOpened && !m_transferringFile);
     ui->cmdHome->setEnabled(!m_transferringFile);
@@ -294,10 +302,10 @@ void frmMain::sendCommand(QString command, int tableIndex)
 {
     if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
+    command = command.toUpper();
+
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH || m_queue.length() > 0) {
-
-//        qDebug() << "queue:" << command;
 
         CommandQueue cq;
 
@@ -317,8 +325,6 @@ void frmMain::sendCommand(QString command, int tableIndex)
         tableIndex = cq.tableIndex;
 
         if (!m_serialPort.isOpen() || m_reseting) return;
-
-//        qDebug() << "get queue:" << cq.command;
     }
 
     CommandAttributes ca;
@@ -369,7 +375,17 @@ void frmMain::grblReset()
     m_homing = false;
     m_resetCompleted = false;
 
+    // Drop all remaining commands in buffer
     m_commands.clear();
+
+    // Prepare reset response catch
+    CommandAttributes ca;
+    ca.command = "[CTRL+X]";
+    ui->txtConsole->appendPlainText(ca.command);
+    ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+    ca.tableIndex = -1;
+    ca.length = ca.command.length() + 1;
+    m_commands.append(ca);
 
     updateControlsState();
 }
@@ -393,19 +409,10 @@ void frmMain::onSerialPortReadyRead()
         // Filter prereset responses
         if (m_reseting) {
             qDebug() << "reseting filter:" << data;
-            if (data.contains("[G") || data[0] == '<' || dataIsEnd(data)) continue;
+            if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
             else {
                 m_reseting = false;
                 m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
-
-                // Catch reset response
-                CommandAttributes ca;
-                ca.command = "[CTRL+X]";
-                ui->txtConsole->appendPlainText(ca.command);
-                ca.consoleIndex = ui->txtConsole->blockCount() - 1;
-                ca.tableIndex = -1;
-                ca.length = ca.command.length() + 1;
-                m_commands.append(ca);
             }
         }
 
@@ -532,8 +539,14 @@ void frmMain::onSerialPortReadyRead()
             }
         } else if (data.length() > 0) {
 
+            qDebug() << "data:" << data;
+
+            // Debug
+            if (m_commands.length() > 0) foreach (CommandAttributes ca, m_commands) qDebug() << "command:" << ca.command;
+
             // Processed commands
-            if (m_commands.length() > 0 && !data.contains("'$H'|'$X' to unlock")) {
+            if (m_commands.length() > 0 && !dataIsFloating(data)
+                    && !(m_commands[0].command != "[CTRL+X]" && data.contains("'$' for help"))) {
 
                 static QString response; // Full response string
 
@@ -566,6 +579,11 @@ void frmMain::onSerialPortReadyRead()
 
                     // Debug
 //                    if (ca.command != "$G") qDebug() << "response:" << tb.text() << ca.command << response << ca.consoleIndex;
+
+                    // Clear command buffer on "M2" command
+                    if (ca.command == "M2" && response.contains("ok") && !response.contains("[Pgm End]")) {
+                        m_commands.clear();
+                    }
 
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
@@ -704,8 +722,6 @@ void frmMain::onTimerStateQuery()
     }
 
     ui->glwVisualizator->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
-
-//    ui->statusBar->showMessage(QString("Буфер: %1    Очередь: %2").arg(bufferLength()).arg(m_queue.length()));
 }
 
 void frmMain::onCmdJogStepClicked()
@@ -998,7 +1014,7 @@ void frmMain::on_actServiceSettings_triggered()
         storedValues.append(sb->property("value").toDouble());
     }
 
-    foreach (QCheckBox* cb, m_frmSettings.findChildren<QCheckBox*>())
+    foreach (QAbstractButton* cb, m_frmSettings.findChildren<QAbstractButton*>())
     {
         storedChecks.append(cb->isChecked());
     }
@@ -1028,7 +1044,7 @@ void frmMain::on_actServiceSettings_triggered()
             sb->setProperty("value", storedValues.takeFirst());
         }
 
-        foreach (QCheckBox* cb, m_frmSettings.findChildren<QCheckBox*>())
+        foreach (QAbstractButton* cb, m_frmSettings.findChildren<QAbstractButton*>())
         {
             cb->setChecked(storedChecks.takeFirst());
         }
@@ -1052,8 +1068,9 @@ void frmMain::applySettings() {
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
     ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
+    ui->glwVisualizator->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizator->setZBuffer(m_frmSettings.zBuffer());
-    ui->glwVisualizator->setFps(m_frmSettings.fps());
+    ui->glwVisualizator->setFps(m_frmSettings.fps());\
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
@@ -1231,21 +1248,22 @@ void frmMain::on_cmdZMinus_clicked()
 
 void frmMain::on_chkTestMode_clicked(bool checked)
 {
-    sendCommand("$C");
     if (!checked) {
         // Process check off reset
-        m_reseting = true;
-        m_resetCompleted = false;
-        m_commands.clear();
+//        m_reseting = true;
+//        m_resetCompleted = false;
+//        m_commands.clear();
 
         // Catch [Disabled] response
-        CommandAttributes ca;
-        ca.command = "$C";
-        ca.consoleIndex = ui->txtConsole->blockCount() - 1;
-        ca.tableIndex = -1;
-        ca.length = ca.command.length() + 1;
-        m_commands.append(ca);
+//        CommandAttributes ca;
+//        ca.command = "$C";
+//        ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+//        ca.tableIndex = -1;
+//        ca.length = ca.command.length() + 1;
+//        m_commands.append(ca);
+        m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     }
+    sendCommand("$C");
 }
 
 void frmMain::on_cmdFilePause_clicked(bool checked)
@@ -1375,7 +1393,7 @@ bool frmMain::dataIsEnd(QString data) {
 
     ends << "ok";
     ends << "error";
-    ends << "Reset to continue";
+//    ends << "Reset to continue";
 //    ends << "'$' for help";
 //    ends << "'$H'|'$X' to unlock";
 //    ends << "Caution: Unlocked";
@@ -1383,6 +1401,20 @@ bool frmMain::dataIsEnd(QString data) {
 //    ends << "Disabled";
 //    ends << "Check Door";
 //    ends << "Pgm End";
+
+    foreach (QString str, ends) {
+        if (data.contains(str)) return true;
+    }
+
+    return false;
+}
+
+bool frmMain::dataIsFloating(QString data) {
+    QStringList ends;
+
+    ends << "Reset to continue";
+    ends << "'$H'|'$X' to unlock";
+    ends << "ALARM: Hard limit. MPos?";
 
     foreach (QString str, ends) {
         if (data.contains(str)) return true;
@@ -1469,10 +1501,10 @@ void frmMain::blockJogForRapidMovement() {
     if (2 * s > step) {
         time = sqrt(step / acc);
     } else {
-        time = (step - 2 * s) / v + at;
+        time = (step - 2 * s) / v + 2 * at;
     }
 
-//                qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
+    qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
     QTimer::singleShot(time * 1000, Qt::PreciseTimer, this, SLOT(onJogTimer()));
 }
 

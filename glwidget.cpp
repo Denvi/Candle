@@ -139,6 +139,16 @@ void GLWidget::viewAnimation()
     m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 }
+bool GLWidget::msaa() const
+{
+    return m_msaa;
+}
+
+void GLWidget::setMsaa(bool msaa)
+{
+    m_msaa = msaa;
+}
+
 bool GLWidget::updatesEnabled() const
 {
     return m_updatesEnabled;
@@ -306,7 +316,14 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Draw 3D
     qglClearColor(QColor(Qt::white));
 
-    if (m_antialiasing) glEnable(GL_MULTISAMPLE);
+    if (m_antialiasing) {
+        if (m_msaa) glEnable(GL_MULTISAMPLE); else {
+            glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+            glEnable(GL_LINE_SMOOTH);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glEnable(GL_BLEND);
+        }
+    }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
 
     updateProjection();
@@ -405,6 +422,9 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     glShadeModel(GL_FLAT);
 
     glDisable(GL_DEPTH_TEST);
+    glDisable(GL_MULTISAMPLE);
+    glDisable(GL_LINE_SMOOTH);
+    glDisable(GL_BLEND);
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();

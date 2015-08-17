@@ -208,6 +208,16 @@ void frmSettings::setFps(int fps)
     ui->cboFps->setCurrentText(QString::number(fps));
 }
 
+bool frmSettings::msaa()
+{
+    return ui->radMSAA->isChecked();
+}
+
+void frmSettings::setMsaa(bool msaa)
+{
+    ui->radMSAA->setChecked(msaa);
+}
+
 void frmSettings::searchPorts()
 {
     ui->cboPort->clear();

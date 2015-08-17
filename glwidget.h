@@ -49,6 +49,9 @@ public:
     bool updatesEnabled() const;
     void setUpdatesEnabled(bool updatesEnabled);
 
+    bool msaa() const;
+    void setMsaa(bool msaa);
+
 signals:
     void rotationChanged();
 
@@ -69,6 +72,7 @@ private:
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     double m_lineWidth;
     bool m_antialiasing;
+    bool m_msaa;
     bool m_zBuffer;
     int m_frames = 0;
     int m_fps = 0;
