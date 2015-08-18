@@ -880,6 +880,7 @@ void frmMain::resizeCheckBoxes()
     }
 
     this->setUpdatesEnabled(true);
+    this->repaint();
 }
 
 void frmMain::timerEvent(QTimerEvent *te)
