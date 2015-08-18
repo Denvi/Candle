@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>366</width>
-    <height>585</height>
+    <width>321</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -140,11 +140,11 @@ QSpinBox, QDoubleSpinBox {
         </property>
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
-          <property name="topMargin">
-           <number>1</number>
-          </property>
           <property name="bottomMargin">
            <number>1</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>6</number>
           </property>
           <item row="0" column="2">
            <widget class="QDoubleSpinBox" name="txtLineWidth">
@@ -199,6 +199,9 @@ QSpinBox, QDoubleSpinBox {
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>

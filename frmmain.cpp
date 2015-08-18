@@ -11,6 +11,7 @@
 #include <QComboBox>
 #include <QScrollBar>
 #include <QShortcut>
+#include <QAction>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -110,6 +111,8 @@ frmMain::frmMain(QWidget *parent) :
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
 
+    connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
+
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
 }
@@ -155,7 +158,6 @@ void frmMain::loadSettings()
     m_frmSettings.setFps(set.value("fps", 60).toInt());
     m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
-    ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
     ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
     ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
@@ -163,22 +165,30 @@ void frmMain::loadSettings()
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
     m_storedZ = set.value("storedZ", 0).toDouble();
+    m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
 
+    this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
     if (splitterState.length() == 0) {
         ui->splitter->setStretchFactor(0, 1);
-        ui->splitter->setStretchFactor(1, 0);
+        ui->splitter->setStretchFactor(1, 1);
     } else ui->splitter->restoreState(splitterState);
 
-    on_splitter_splitterMoved(0, 0);
+    ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
+    resizeCheckBoxes();
+
+    ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
 
-    this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
+    ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
+    ui->cboCommand->setCurrentIndex(-1);
+
+    updateRecentFilesMenu();
 }
 
 void frmMain::saveSettings()
@@ -221,6 +231,12 @@ void frmMain::saveSettings()
     set.setValue("storedX", m_storedX);
     set.setValue("storedY", m_storedY);
     set.setValue("storedZ", m_storedZ);
+    set.setValue("recentFiles", m_recentFiles);
+
+    QStringList list;
+
+    for (int i = 0; i < ui->cboCommand->count(); i++) list.append(ui->cboCommand->itemText(i));
+    set.setValue("recentCommands", list);
 }
 
 bool frmMain::saveChanges()
@@ -243,7 +259,7 @@ void frmMain::updateControlsState() {
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && !m_transferringFile);
 //    ui->grpConsole->setEnabled(portOpened);
-    ui->txtCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
+    ui->cboCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
     ui->cmdCommandSend->setEnabled(portOpened);
 //    ui->widgetFeed->setEnabled(!m_transferringFile);
 
@@ -264,6 +280,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_tableModel.rowCount() > 1);    
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
+    ui->mnuRecent->setEnabled(!m_transferringFile && m_recentFiles.count() > 0);
     ui->actFileSave->setEnabled(m_tableModel.rowCount() > 1);
     ui->actFileSaveAs->setEnabled(m_tableModel.rowCount() > 1);
 
@@ -331,7 +348,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
     CommandAttributes ca;
 
-    if (!(command == "$G" && tableIndex < -1)
+    if (!(command == "$G" && tableIndex < -1) && !(command == "$#" && tableIndex < -1)
             && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex < 0)) {
         ui->txtConsole->appendPlainText(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
@@ -443,18 +460,6 @@ void frmMain::onSerialPortReadyRead()
                 // Increase state query interval on check mode
                 if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
 
-                // Store work origin
-                if (statusIndex == 0) {
-                    if (m_settingZeroXY) {
-                        m_settingZeroXY = false;
-                        m_storedX = ui->txtMPosX->text().toDouble();
-                        m_storedY = ui->txtMPosY->text().toDouble();
-                    } else if (m_settingZeroZ) {
-                        m_settingZeroZ = false;
-                        m_storedZ = ui->txtMPosZ->text().toDouble();
-                    }
-                }
-
                 // Update "elapsed time" timer
                 if (m_transferringFile) {
                     QTime time(0, 0, 0);
@@ -484,6 +489,7 @@ void frmMain::onSerialPortReadyRead()
                     QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
                                              .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
 
+                    m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
                     m_timerConnection.start();
                     m_timerStateQuery.start();
                 }
@@ -571,6 +577,24 @@ void frmMain::onSerialPortReadyRead()
                     // Print parser status
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -3) {
                         ui->glwVisualizator->setParserStatus(response.left(response.indexOf("; ")));
+                    }
+
+                    // Store origin
+                    if (ca.command == "$#" && ca.tableIndex == -2) {
+                        qDebug() << "store origin" << response;
+                        QRegExp rx(".*G92:([^,]*),([^,]*),([^]]*)");
+
+                        if (rx.indexIn(response) != -1) {
+                            qDebug() << "storing origin:" << rx.capturedTexts();
+                            if (m_settingZeroXY) {
+                                m_settingZeroXY = false;
+                                m_storedX = rx.cap(1).toDouble();
+                                m_storedY = rx.cap(2).toDouble();
+                            } else if (m_settingZeroZ) {
+                                m_settingZeroZ = false;
+                                m_storedZ = rx.cap(3).toDouble();
+                            }
+                        }
                     }
 
                     // Homing response
@@ -824,30 +848,38 @@ void frmMain::resizeCheckBoxes()
     static int widthCheckMode = ui->chkTestMode->sizeHint().width();
     static int widthAutoScroll = ui->chkAutoScroll->sizeHint().width();
 
-    // Magic
+    // Transform checkboxes
+
+    this->setUpdatesEnabled(false);
+
     if (ui->chkTestMode->sizeHint().width() > ui->chkTestMode->width()) {
         widthCheckMode = ui->chkTestMode->sizeHint().width();
         ui->chkTestMode->setText(tr("Check"));
         ui->chkTestMode->setMinimumWidth(ui->chkTestMode->sizeHint().width());
-        return;
+        updateLayouts();
     }
 
-    if (ui->chkAutoScroll->sizeHint().width() > ui->chkAutoScroll->width() && ui->chkTestMode->text() == tr("Check")) {
+    if (ui->chkAutoScroll->sizeHint().width() > ui->chkAutoScroll->width()
+            && ui->chkTestMode->text() == tr("Check")) {
         widthAutoScroll = ui->chkAutoScroll->sizeHint().width();
         ui->chkAutoScroll->setText(tr("Scroll"));
         ui->chkAutoScroll->setMinimumWidth(ui->chkAutoScroll->sizeHint().width());
-        return;
+        updateLayouts();
     }
 
     if (ui->spacerBot->geometry().width() + ui->chkAutoScroll->sizeHint().width()
-            - ui->spacerBot->sizeHint().width() > widthAutoScroll) {
+            - ui->spacerBot->sizeHint().width() > widthAutoScroll && ui->chkAutoScroll->text() == tr("Scroll")) {
         ui->chkAutoScroll->setText(tr("Auto scroll"));
+        updateLayouts();
     }
 
     if (ui->spacerBot->geometry().width() + ui->chkTestMode->sizeHint().width()
-            - ui->spacerBot->sizeHint().width() > widthCheckMode) {
+            - ui->spacerBot->sizeHint().width() > widthCheckMode && ui->chkTestMode->text() == tr("Check")) {
         ui->chkTestMode->setText(tr("Check mode"));
+        updateLayouts();
     }
+
+    this->setUpdatesEnabled(true);
 }
 
 void frmMain::timerEvent(QTimerEvent *te)
@@ -888,14 +920,22 @@ void frmMain::on_cmdFileOpen_clicked()
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)"));
 
-    if (fileName != "") processFile(fileName);
+    if (fileName != "") {
+        addRecentFile(fileName);
+        updateRecentFilesMenu();
+
+        loadFile(fileName);
+    }
 }
 
-void frmMain::processFile(QString fileName)
+void frmMain::loadFile(QString fileName)
 {
     QFile file(fileName);
 
-    if (!file.open(QIODevice::ReadOnly)) return;
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+        return;
+    }
     QTextStream textStream(&file);  
 
     clearTable();
@@ -959,8 +999,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
                 length / ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
                           ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed());
 
-//        if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
-//        if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
+        if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
+        if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
     }
 
     time *= 60;
@@ -1142,17 +1182,12 @@ void frmMain::updateParser()
 
 void frmMain::on_cmdCommandSend_clicked()
 {
-    if (ui->txtCommand->text().isEmpty()) return;
+    QString command = ui->cboCommand->currentText();
+    if (command.isEmpty()) return;
 
-    QString command = ui->txtCommand->text();
-
-    ui->txtCommand->clear();
+    ui->cboCommand->storeText();
+    ui->cboCommand->setCurrentText("");
     sendCommand(command, -1);
-}
-
-void frmMain::on_txtCommand_returnPressed()
-{
-    this->on_cmdCommandSend_clicked();
 }
 
 void frmMain::on_actFileOpen_triggered()
@@ -1176,12 +1211,14 @@ void frmMain::on_cmdZeroXY_clicked()
 {
     m_settingZeroXY = true;
     sendCommand("G92X0Y0");
+    sendCommand("$#", -2);
 }
 
 void frmMain::on_cmdZeroZ_clicked()
 {
     m_settingZeroZ = true;
     sendCommand("G92Z0");
+    sendCommand("$#", -2);
 }
 
 void frmMain::on_cmdReturnXY_clicked()
@@ -1390,6 +1427,10 @@ void frmMain::on_actFileSaveAs_triggered()
 
     if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
         m_programFileName = fileName;
+
+        addRecentFile(fileName);
+        updateRecentFilesMenu();
+
         updateControlsState();
     }
 }
@@ -1579,14 +1620,16 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                     break;
                 }
             }
-            else if (keyEvent->key() == Qt::Key_5) {
+            else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
                 QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
                 std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
 
                 for (int i = 0; i < stepButtons.count(); i++) {
                     if (stepButtons[i]->isChecked()) {
 
-                        StyledToolButton *button = stepButtons[i == stepButtons.length() - 1 ? 0 : i + 1];
+                        StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
+                                ? (i == stepButtons.length() - 1 ? 0 : i + 1)
+                                : (i == 0 ? stepButtons.length() - 1 : i - 1)];
 
                         ui->txtJogStep->setValue(button->text().toDouble());
                         foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
@@ -1642,7 +1685,7 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
 
     if (!m_transferringFile) m_storedKeyboardControl = checked;
 
-//    updateControlsState();
+    updateControlsState();
 }
 
 void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
@@ -1661,6 +1704,71 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 
 void frmMain::on_splitter_splitterMoved(int pos, int index)
 {
-    ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
-    resizeCheckBoxes();
+    static bool tableCollapsed = ui->splitter->sizes()[1] == 0;
+
+    if ((ui->splitter->sizes()[1] == 0) != tableCollapsed) {
+        this->setUpdatesEnabled(false);
+        ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
+        updateLayouts();
+        resizeCheckBoxes();
+
+        this->setUpdatesEnabled(true);
+        ui->chkAutoScroll->repaint();
+
+        // Store collapsed state
+        tableCollapsed = ui->splitter->sizes()[1] == 0;
+    }
+}
+
+void frmMain::updateLayouts()
+{
+    this->update();
+    qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
+}
+
+void frmMain::addRecentFile(QString fileName)
+{
+    m_recentFiles.removeAll(fileName);
+    m_recentFiles.append(fileName);
+    if (m_recentFiles.count() > 5) m_recentFiles.takeFirst();
+}
+
+void frmMain::onActRecentFileTriggered()
+{
+    QAction *action = static_cast<QAction*>(sender());
+
+    if (action != NULL) loadFile(action->text());
+}
+
+void frmMain::onCboCommandReturnPressed()
+{
+    QString command = ui->cboCommand->currentText();
+    if (command.isEmpty()) return;
+
+    ui->cboCommand->setCurrentText("");
+    sendCommand(command, -1);
+}
+
+void frmMain::updateRecentFilesMenu()
+{
+    foreach (QAction * action, ui->mnuRecent->actions()) {
+        if (action->text() == "") break; else {
+            ui->mnuRecent->removeAction(action);
+            delete action;
+        }
+    }
+
+    foreach (QString file, m_recentFiles) {
+        QAction *action = new QAction(file, this);
+        connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
+        ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
+    }
+
+    updateControlsState();
+}
+
+void frmMain::on_actRecentClear_triggered()
+{
+    m_recentFiles.clear();
+    updateRecentFilesMenu();
 }

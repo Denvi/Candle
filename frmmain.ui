@@ -1305,7 +1305,13 @@ color: black;</string>
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">border: 1px solid lightgray;</string>
+                   <string notr="true">QDoubleSpinBox {
+	border: 1px solid lightgray;
+}
+
+QDoubleSpinBox:focus {
+	border: 1px solid lightsteelblue;
+}</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1791,7 +1797,32 @@ color: black;</string>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
            <item>
-            <widget class="QLineEdit" name="txtCommand"/>
+            <widget class="ComboBox" name="cboCommand">
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
+	padding: 2 2;
+}
+
+QComboBox::drop-down {
+	width: 0;
+}</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+             <property name="maxVisibleItems">
+              <number>5</number>
+             </property>
+             <property name="maxCount">
+              <number>5</number>
+             </property>
+             <property name="insertPolicy">
+              <enum>QComboBox::InsertAtTop</enum>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="cmdCommandSend">
@@ -1843,8 +1874,17 @@ color: black;</string>
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="mnuRecent">
+     <property name="title">
+      <string>&amp;Recent files</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="actRecentClear"/>
+    </widget>
     <addaction name="actFileNew"/>
     <addaction name="actFileOpen"/>
+    <addaction name="mnuRecent"/>
+    <addaction name="separator"/>
     <addaction name="actFileSave"/>
     <addaction name="actFileSaveAs"/>
     <addaction name="separator"/>
@@ -1901,6 +1941,11 @@ color: black;</string>
     <string>&amp;About</string>
    </property>
   </action>
+  <action name="actRecentClear">
+   <property name="text">
+    <string>&amp;Clear</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -1914,6 +1959,11 @@ color: black;</string>
    <extends>QWidget</extends>
    <header>glwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>combobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1963,7 +2013,6 @@ color: black;</string>
   <tabstop>cmdJogStep5</tabstop>
   <tabstop>cmdJogStep6</tabstop>
   <tabstop>txtConsole</tabstop>
-  <tabstop>txtCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
  </tabstops>
@@ -1971,22 +2020,6 @@ color: black;</string>
   <include location="res.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtCommand</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>868</x>
-     <y>851</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>795</x>
-     <y>954</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>chkKeyboardControl</sender>
    <signal>toggled(bool)</signal>
