@@ -60,6 +60,8 @@ private slots:
     void onJogTimer();
     void onTableInsertLine();
     void onTableDeleteLines();
+    void onActRecentFileTriggered();
+    void onCboCommandReturnPressed();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -68,7 +70,6 @@ private slots:
     void on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2);
     void on_actServiceSettings_triggered();
     void on_actFileOpen_triggered();
-    void on_txtCommand_returnPressed();
     void on_cmdCommandSend_clicked();
     void on_cmdHome_clicked();
     void on_cmdTouch_clicked();
@@ -108,6 +109,10 @@ private slots:
     void on_grpJog_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
+
+    void on_splitter_splitterMoved(int pos, int index);
+
+    void on_actRecentClear_triggered();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -175,10 +180,13 @@ private:
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;      
-
     bool m_fileChanged = false;
 
-    void processFile(QString fileName);
+    bool m_spindleCW = true;
+
+    QStringList m_recentFiles;
+
+    void loadFile(QString fileName);
     void clearTable();
     void loadSettings();
     void saveSettings();
@@ -202,6 +210,10 @@ private:
     void blockJogForRapidMovement();
     bool keyIsMovement(int key);
     bool dataIsFloating(QString data);
+    void resizeCheckBoxes();
+    void updateLayouts();
+    void updateRecentFilesMenu();
+    void addRecentFile(QString fileName);
 };
 
 #endif // FRMMAIN_H

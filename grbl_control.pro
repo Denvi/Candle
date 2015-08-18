@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     gcodetablemodel.cpp \
     frmsettings.cpp \
     styledtoolbutton.cpp \
-    frmabout.cpp
+    frmabout.cpp \
+    combobox.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -44,7 +45,8 @@ HEADERS  += frmmain.h \
     gcodetablemodel.h \
     frmsettings.h \
     styledtoolbutton.h \
-    frmabout.h
+    frmabout.h \
+    combobox.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
