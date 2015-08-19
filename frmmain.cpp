@@ -165,6 +165,9 @@ void frmMain::loadSettings()
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
     m_storedZ = set.value("storedZ", 0).toDouble();
+
+    ui->cmdReturnXY->setToolTip(QString("%1, %2, %3").arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
@@ -594,6 +597,7 @@ void frmMain::onSerialPortReadyRead()
                                 m_settingZeroZ = false;
                                 m_storedZ = rx.cap(3).toDouble();
                             }
+                            ui->cmdReturnXY->setToolTip(QString("%1, %2, %3").arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
                     }
 
