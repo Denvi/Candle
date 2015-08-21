@@ -183,6 +183,7 @@ private:
     bool m_fileChanged = false;
 
     bool m_spindleCW = true;
+    bool m_spindleCommandSpeed = false;
 
     QStringList m_recentFiles;
 

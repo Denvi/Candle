@@ -467,7 +467,7 @@ QToolButton:checked { /* all types of tool button */
             <number>1</number>
            </property>
            <item>
-            <widget class="GLWidget" name="glwVisualizator" native="true"/>
+            <widget class="GLWidget" name="glwVisualizer" native="true"/>
            </item>
           </layout>
          </widget>
@@ -1057,11 +1057,11 @@ color: black;</string>
                   <property name="buttonSymbols">
                    <enum>QAbstractSpinBox::NoButtons</enum>
                   </property>
-                  <property name="minimum">
-                   <number>100</number>
-                  </property>
                   <property name="maximum">
                    <number>20000</number>
+                  </property>
+                  <property name="value">
+                   <number>0</number>
                   </property>
                  </widget>
                 </item>
@@ -1180,6 +1180,9 @@ color: black;</string>
                   </property>
                   <property name="buttonSymbols">
                    <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string>%</string>
                   </property>
                   <property name="minimum">
                    <number>0</number>
@@ -1867,7 +1870,7 @@ QComboBox::drop-down {
      <x>0</x>
      <y>0</y>
      <width>905</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

@@ -37,11 +37,11 @@ frmMain::frmMain(QWidget *parent) :
 
     //    ui->cmdReset->setBackColor(QColor(255, 228, 181));
 
-    ui->cmdFit->setParent(ui->glwVisualizator);
-    ui->cmdIsometric->setParent(ui->glwVisualizator);
-    ui->cmdTop->setParent(ui->glwVisualizator);
-    ui->cmdFront->setParent(ui->glwVisualizator);
-    ui->cmdLeft->setParent(ui->glwVisualizator);
+    ui->cmdFit->setParent(ui->glwVisualizer);
+    ui->cmdIsometric->setParent(ui->glwVisualizer);
+    ui->cmdTop->setParent(ui->glwVisualizer);
+    ui->cmdFront->setParent(ui->glwVisualizer);
+    ui->cmdLeft->setParent(ui->glwVisualizer);
 
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
 
@@ -70,11 +70,11 @@ frmMain::frmMain(QWidget *parent) :
     m_codeDrawer->setViewParser(&m_viewParser);
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
 
-    ui->glwVisualizator->addDrawable(m_codeDrawer);
-    ui->glwVisualizator->addDrawable(&m_toolDrawer);
-    ui->glwVisualizator->fitDrawables();
+    ui->glwVisualizer->addDrawable(m_codeDrawer);
+    ui->glwVisualizer->addDrawable(&m_toolDrawer);
+    ui->glwVisualizer->fitDrawables();
 
-    connect(ui->glwVisualizator, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
+    connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(&m_tableModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
 
     ui->tblProgram->setModel(&m_tableModel);
@@ -366,14 +366,16 @@ void frmMain::sendCommand(QString command, int tableIndex)
     m_commands.append(ca);
 
     // Processing spindle speed only from g-code program
-    QRegExp s("[Ss]0*(\\d+)");
-    if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
-        int speed = s.cap(1).toInt();
-        if (ui->sliSpindleSpeed->value() != speed / 100) {
-            ui->txtSpindleSpeed->setValue(speed);
-            m_programSpeed = true;
-            ui->sliSpindleSpeed->setValue(speed / 100);
-            m_programSpeed = false;
+    if (m_spindleCommandSpeed) {
+        QRegExp s("[Ss]0*(\\d+)");
+        if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
+            int speed = s.cap(1).toInt();
+            if (ui->txtSpindleSpeed->value() != speed) {
+                ui->txtSpindleSpeed->setValue(speed);
+                m_programSpeed = true;
+                ui->sliSpindleSpeed->setValue(speed / 100);
+                m_programSpeed = false;
+            }
         }
     }
 
@@ -388,10 +390,10 @@ void frmMain::grblReset()
     m_transferringFile = false;
     m_fileCommandIndex = 0;
 
-    m_programSpeed = true;
-    ui->cmdSpindle->setChecked(false);
-    m_programSpeed = false;
-    m_timerToolAnimation.stop();
+//    m_programSpeed = true;
+//    ui->cmdSpindle->setChecked(false);
+//    m_programSpeed = false;
+//    m_timerToolAnimation.stop();
 
     m_reseting = true;
     m_homing = false;
@@ -467,7 +469,7 @@ void frmMain::onSerialPortReadyRead()
                 if (m_transferringFile) {
                     QTime time(0, 0, 0);
                     int elapsed = m_startTime.elapsed();
-                    ui->glwVisualizator->setSpendTime(time.addMSecs(elapsed));
+                    ui->glwVisualizer->setSpendTime(time.addMSecs(elapsed));
                 }
 
                 // Test for job complete
@@ -490,7 +492,7 @@ void frmMain::onSerialPortReadyRead()
                     m_timerConnection.stop();
 
                     QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
-                                             .arg(ui->glwVisualizator->spendTime().toString("hh:mm:ss")));
+                                             .arg(ui->glwVisualizer->spendTime().toString("hh:mm:ss")));
 
                     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
                     m_timerConnection.start();
@@ -577,9 +579,40 @@ void frmMain::onSerialPortReadyRead()
                         else if (response.contains("G90")) sendCommand("G90");
                     }
 
-                    // Print parser status
+                    // Process parser status
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -3) {
-                        ui->glwVisualizator->setParserStatus(response.left(response.indexOf("; ")));
+                        // Update status in visualizer window
+                        ui->glwVisualizer->setParserStatus(response.left(response.indexOf("; ")));
+
+                        // Process spindle state
+                        if (!response.contains("M5")) {
+                            m_spindleCW = response.contains("M3");
+                            m_timerToolAnimation.start(25, this);
+                            m_programSpeed = true;
+                            ui->cmdSpindle->setChecked(true);
+                            m_programSpeed = false;
+                        } else {
+                            m_timerToolAnimation.stop();
+                            m_programSpeed = true;
+                            ui->cmdSpindle->setChecked(false);
+                            m_programSpeed = false;
+                        }
+
+                        // Spindle speed
+                        QRegExp rx(".*S(\\d+)");
+                        if (rx.indexIn(response) != -1) {
+                            int speed = rx.cap(1).toInt();
+                            if (!ui->txtSpindleSpeed->hasFocus()) {
+                                ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+                                if (ui->txtSpindleSpeed->value() != speed) {
+                                    ui->txtSpindleSpeed->setValue(speed);
+                                    m_programSpeed = true;
+                                    ui->sliSpindleSpeed->setValue(speed / 100);
+                                    m_programSpeed = false;
+                                }
+                            }
+                            m_spindleCommandSpeed = false;
+                        } else m_spindleCommandSpeed = true;
                     }
 
                     // Store origin
@@ -688,22 +721,22 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Process spindle control commands
-                    QRegExp m("[Mm]0*(\\d+)");
-                    if (m.indexIn(ca.command) != -1) {
-                        if (m.cap(1).toInt() == 3 || m.cap(1).toInt() == 4 || m.cap(1).toInt() == 13) {
-                            m_spindleCW = m.cap(1).toInt() == 3;
-                            m_timerToolAnimation.start(25, this);
-                            m_programSpeed = true;
-                            ui->cmdSpindle->setChecked(true);
-                            m_programSpeed = false;
-                        }
-                        else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2 || m.cap(1).toInt() == 30) {
-                            m_timerToolAnimation.stop();
-                            m_programSpeed = true;
-                            ui->cmdSpindle->setChecked(false);
-                            m_programSpeed = false;
-                        }
-                    }
+//                    QRegExp m("[Mm]0*(\\d+)");
+//                    if (m.indexIn(ca.command) != -1) {
+//                        if (m.cap(1).toInt() == 3 || m.cap(1).toInt() == 4 || m.cap(1).toInt() == 13) {
+//                            m_spindleCW = m.cap(1).toInt() == 3;
+//                            m_timerToolAnimation.start(25, this);
+//                            m_programSpeed = true;
+//                            ui->cmdSpindle->setChecked(true);
+//                            m_programSpeed = false;
+//                        }
+//                        else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2 || m.cap(1).toInt() == 30) {
+//                            m_timerToolAnimation.stop();
+//                            m_programSpeed = true;
+//                            ui->cmdSpindle->setChecked(false);
+//                            m_programSpeed = false;
+//                        }
+//                    }
                     response.clear();
                 } else {
                     response.append(data + "; ");
@@ -752,7 +785,7 @@ void frmMain::onTimerStateQuery()
         m_serialPort.write(QByteArray(1, '?'));
     }
 
-    ui->glwVisualizator->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
+    ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
 }
 
 void frmMain::onCmdJogStepClicked()
@@ -813,12 +846,12 @@ void frmMain::onTableDeleteLines()
 
 void frmMain::placeVisualizerButtons()
 {
-    ui->cmdIsometric->move(ui->glwVisualizator->width() - ui->cmdIsometric->width() - 8, 8);
+    ui->cmdIsometric->move(ui->glwVisualizer->width() - ui->cmdIsometric->width() - 8, 8);
     ui->cmdTop->move(ui->cmdIsometric->geometry().left() - ui->cmdTop->width() - 8, 8);
-    ui->cmdLeft->move(ui->glwVisualizator->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
+    ui->cmdLeft->move(ui->glwVisualizer->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
 //    ui->cmdFit->move(ui->cmdTop->geometry().left() - ui->cmdFit->width() - 10, 10);
-    ui->cmdFit->move(ui->glwVisualizator->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
+    ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
 }
 
 void frmMain::showEvent(QShowEvent *se)
@@ -831,14 +864,14 @@ void frmMain::showEvent(QShowEvent *se)
         m_taskBarProgress = m_taskBarButton->progress();
     }
 
-    ui->glwVisualizator->setUpdatesEnabled(true);
+    ui->glwVisualizer->setUpdatesEnabled(true);
 
     resizeCheckBoxes();
 }
 
 void frmMain::hideEvent(QHideEvent *he)
 {
-    ui->glwVisualizator->setUpdatesEnabled(false);
+    ui->glwVisualizer->setUpdatesEnabled(false);
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
@@ -990,7 +1023,7 @@ void frmMain::loadFile(QString fileName)
                  << gp.getPointSegmentList().at(i)->point()->z();
     }
 
-    ui->glwVisualizator->fitDrawables();
+    ui->glwVisualizer->fitDrawables();
     updateControlsState();
 }
 
@@ -1015,8 +1048,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
     t.setHMS(0, 0, 0);
     t = t.addSecs(time);
 
-    ui->glwVisualizator->setSpendTime(QTime(0, 0, 0));
-    ui->glwVisualizator->setEstimatedTime(t);
+    ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+    ui->glwVisualizer->setEstimatedTime(t);
 
     return t;
 }
@@ -1029,7 +1062,7 @@ void frmMain::clearTable()
 
 void frmMain::on_cmdFit_clicked()
 {
-    ui->glwVisualizator->fitDrawables();
+    ui->glwVisualizer->fitDrawables();
 }
 
 void frmMain::on_cmdFileSend_clicked()
@@ -1142,16 +1175,16 @@ void frmMain::applySettings() {
     m_toolDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_codeDrawer->setLineWidth(m_frmSettings.lineWidth());
     m_arcPrecision = m_frmSettings.arcPrecision();
-    ui->glwVisualizator->setLineWidth(m_frmSettings.lineWidth());
+    ui->glwVisualizer->setLineWidth(m_frmSettings.lineWidth());
     m_showAllCommands = m_frmSettings.showAllCommands();
     m_safeZ = m_frmSettings.safeZ();
     m_rapidSpeed = m_frmSettings.rapidSpeed();
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
-    ui->glwVisualizator->setAntialiasing(m_frmSettings.antialiasing());
-    ui->glwVisualizator->setMsaa(m_frmSettings.msaa());
-    ui->glwVisualizator->setZBuffer(m_frmSettings.zBuffer());
-    ui->glwVisualizator->setFps(m_frmSettings.fps());\
+    ui->glwVisualizer->setAntialiasing(m_frmSettings.antialiasing());
+    ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
+    ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
+    ui->glwVisualizer->setFps(m_frmSettings.fps());\
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
@@ -1270,6 +1303,7 @@ void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
 
 void frmMain::on_txtSpindleSpeed_editingFinished()
 {
+    ui->txtSpindleSpeed->setStyleSheet("color: red;");
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
     m_programSpeed = false;
@@ -1280,6 +1314,7 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
     if (!m_programSpeed) {
         ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
+        ui->txtSpindleSpeed->setStyleSheet("color: red;");
         sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
     }
 
@@ -1384,7 +1419,7 @@ void frmMain::on_cmdFileReset_clicked()
     ui->tblProgram->scrollTo(m_tableModel.index(0, 0));
     ui->tblProgram->clearSelection();
 
-    ui->glwVisualizator->setSpendTime(QTime(0, 0, 0));
+    ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
 }
 
 void frmMain::on_actFileNew_triggered()
@@ -1393,7 +1428,7 @@ void frmMain::on_actFileNew_triggered()
 
     clearTable();
     m_viewParser.reset();
-    ui->glwVisualizator->fitDrawables();
+    ui->glwVisualizer->fitDrawables();
     m_programFileName = "";
 
     updateControlsState();
@@ -1447,22 +1482,22 @@ void frmMain::on_actFileSave_triggered()
 
 void frmMain::on_cmdTop_clicked()
 {
-    ui->glwVisualizator->setTopView();
+    ui->glwVisualizer->setTopView();
 }
 
 void frmMain::on_cmdFront_clicked()
 {
-    ui->glwVisualizator->setFrontView();
+    ui->glwVisualizer->setFrontView();
 }
 
 void frmMain::on_cmdLeft_clicked()
 {
-    ui->glwVisualizator->setLeftView();
+    ui->glwVisualizer->setLeftView();
 }
 
 void frmMain::on_cmdIsometric_clicked()
 {
-    ui->glwVisualizator->setIsometricView();
+    ui->glwVisualizer->setIsometricView();
 }
 
 void frmMain::on_actAbout_triggered()
