@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>366</width>
-    <height>679</height>
+    <width>321</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,6 +44,12 @@ QSpinBox, QDoubleSpinBox {
    </property>
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Connection</string>
      </property>
@@ -129,6 +135,12 @@ QSpinBox, QDoubleSpinBox {
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_6">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Visualizer</string>
      </property>
@@ -309,6 +321,12 @@ QSpinBox, QDoubleSpinBox {
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_4">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Tool graphic representation</string>
      </property>
@@ -451,6 +469,12 @@ QSpinBox, QDoubleSpinBox {
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>GRBL</string>
      </property>
@@ -680,6 +704,9 @@ QSpinBox, QDoubleSpinBox {
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
+          <property name="placeholderText">
+           <string>Command 1; command 2; ...</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -736,6 +763,12 @@ QSpinBox, QDoubleSpinBox {
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Console</string>
      </property>

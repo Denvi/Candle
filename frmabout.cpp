@@ -11,6 +11,8 @@ frmAbout::frmAbout(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->lblAbout->setText(ui->lblAbout->text().arg(qApp->applicationVersion()));
+
     QFile file(qApp->applicationDirPath() + "/LICENSE");
 
     if (file.open(QIODevice::ReadOnly)) {

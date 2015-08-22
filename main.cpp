@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
         if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
     }   
 
+    a.setApplicationVersion(APP_VERSION);
+
     frmMain w;
     w.show();
 
