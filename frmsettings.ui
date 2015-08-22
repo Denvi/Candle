@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>366</width>
-    <height>646</height>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -671,7 +671,7 @@ QSpinBox, QDoubleSpinBox {
         <item>
          <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>Table touch commands:</string>
+           <string>Z-probe commands:</string>
           </property>
          </widget>
         </item>

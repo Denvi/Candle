@@ -851,7 +851,7 @@ color: black;</string>
               </size>
              </property>
              <property name="toolTip">
-              <string>Table touch</string>
+              <string>Z-probe</string>
              </property>
              <property name="text">
               <string>...</string>

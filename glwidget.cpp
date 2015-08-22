@@ -208,7 +208,6 @@ void GLWidget::setLineWidth(double lineWidth)
 
 void GLWidget::setTopView()
 {
-    qDebug() << "top view";
     m_xRotTarget = 90;
     m_yRotTarget = m_yRot > 180 ? 360 : 0;
     beginViewAnimation();
@@ -216,7 +215,6 @@ void GLWidget::setTopView()
 
 void GLWidget::setFrontView()
 {
-    qDebug() << "front view";
     m_xRotTarget = 0;
     m_yRotTarget = m_yRot > 180 ? 360 : 0;
     beginViewAnimation();
@@ -224,7 +222,6 @@ void GLWidget::setFrontView()
 
 void GLWidget::setLeftView()
 {
-    qDebug() << "left view";
     m_xRotTarget = 0;
     m_yRotTarget = m_yRot > 270 ? 450 : 90;
     beginViewAnimation();

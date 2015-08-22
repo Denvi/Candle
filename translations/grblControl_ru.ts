@@ -132,6 +132,10 @@
         <translation>Управление</translation>
     </message>
     <message>
+        <source>Probing Z</source>
+        <translation type="vanished">Z-щуп</translation>
+    </message>
+    <message>
         <location filename="../frmmain.ui" line="935"/>
         <source>Restore XYZ</source>
         <translation>Восстановить XYZ</translation>
@@ -215,9 +219,8 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="854"/>
         <source>Table touch</source>
-        <translation>Поиск стола</translation>
+        <translation type="vanished">Поиск стола</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="880"/>
@@ -232,6 +235,11 @@
     <message>
         <source>Return XY(Z)</source>
         <translation type="vanished">Вернуться в XY(Z)</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="854"/>
+        <source>Z-probe</source>
+        <translation>Z-щуп</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="961"/>
@@ -674,8 +682,16 @@ Time elapsed: %1</source>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="674"/>
+        <source>Z-probe commands:</source>
+        <translation>Команды Z-щупа:</translation>
+    </message>
+    <message>
+        <source>Probing Z commands:</source>
+        <translation type="vanished">Команды Z-щупа:</translation>
+    </message>
+    <message>
         <source>Table touch commands:</source>
-        <translation>Команды поиска стола:</translation>
+        <translation type="vanished">Команды поиска стола:</translation>
     </message>
     <message>
         <source>Table touch command:</source>

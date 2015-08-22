@@ -1030,6 +1030,8 @@ void frmMain::loadFile(QString fileName)
                  << gp.getPointSegmentList().at(i)->point()->z();
     }
 
+    qDebug() << m_viewParser.getMinimumExtremes() << m_viewParser.getMaximumExtremes();
+
     ui->glwVisualizer->fitDrawables();
     updateControlsState();
 }
