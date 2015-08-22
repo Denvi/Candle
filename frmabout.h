@@ -21,7 +21,7 @@ public:
 private slots:
     void on_cmdOk_clicked();
 
-    void on_label_linkActivated(const QString &link);
+    void on_lblAbout_linkActivated(const QString &link);
 
 private:
     Ui::frmAbout *ui;

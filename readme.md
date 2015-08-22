@@ -8,9 +8,12 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-In development:
----------------
-Main form compacted.
+Version 0.3 release:
+--------------------
+* Recent files & commands lists added.
+* Custom Z-probe commands supported now.
+* Imperial units of GRBL reports support added.
+* Main form compacted.
 
 Visualizer only view:
 ![screenshot](/screenshots/screenshot_compact_visualizer.png)
@@ -23,7 +26,7 @@ Live G-code editing:
 
 Version 0.2 release:
 --------------------
-* Jog/spindle control with numpad added.
+* Jog/spindle control with numpad added:
 * Feed override function added.
 * "Spindle", "Feed", "Jog" groupboxes collapsible now.
 * Visualizer works in "Check mode" now.

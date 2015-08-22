@@ -30,7 +30,7 @@ void frmAbout::on_cmdOk_clicked()
     this->hide();
 }
 
-void frmAbout::on_label_linkActivated(const QString &link)
+void frmAbout::on_lblAbout_linkActivated(const QString &link)
 {
     QDesktopServices::openUrl(link);
 }
