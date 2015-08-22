@@ -212,6 +212,9 @@ QSlider::handle:horizontal:hover {
            <height>30</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Isometric view</string>
+         </property>
          <property name="autoFillBackground">
           <bool>false</bool>
          </property>
@@ -256,6 +259,9 @@ QToolButton:checked { /* all types of tool button */
            <width>30</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Top view</string>
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -302,6 +308,9 @@ QToolButton:checked { /* all types of tool button */
            <height>30</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Front view</string>
+         </property>
          <property name="autoFillBackground">
           <bool>false</bool>
          </property>
@@ -347,6 +356,9 @@ QToolButton:checked { /* all types of tool button */
            <height>30</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Left view</string>
+         </property>
          <property name="autoFillBackground">
           <bool>false</bool>
          </property>
@@ -391,6 +403,9 @@ QToolButton:checked { /* all types of tool button */
            <width>30</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Fit</string>
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -540,7 +555,7 @@ QToolButton:checked { /* all types of tool button */
             </size>
            </property>
            <property name="text">
-            <string>Auto scroll</string>
+            <string>Autoscroll</string>
            </property>
           </widget>
          </item>
@@ -809,6 +824,9 @@ color: black;</string>
                <height>44</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Home</string>
+             </property>
              <property name="text">
               <string>...</string>
              </property>
@@ -831,6 +849,9 @@ color: black;</string>
                <width>44</width>
                <height>44</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Table touch</string>
              </property>
              <property name="text">
               <string>...</string>
@@ -855,6 +876,9 @@ color: black;</string>
                <height>44</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Zero XY</string>
+             </property>
              <property name="text">
               <string>...</string>
              </property>
@@ -877,6 +901,9 @@ color: black;</string>
                <width>44</width>
                <height>44</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Zero Z</string>
              </property>
              <property name="text">
               <string>...</string>
@@ -904,6 +931,9 @@ color: black;</string>
                <height>42</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Restore XYZ</string>
+             </property>
              <property name="text">
               <string>...</string>
              </property>
@@ -927,6 +957,9 @@ color: black;</string>
                <height>44</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Safe Z</string>
+             </property>
              <property name="text">
               <string>...</string>
              </property>
@@ -949,6 +982,9 @@ color: black;</string>
                <width>44</width>
                <height>44</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Reset</string>
              </property>
              <property name="text">
               <string>...</string>
@@ -975,6 +1011,9 @@ color: black;</string>
                <width>44</width>
                <height>44</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Unlock</string>
              </property>
              <property name="text">
               <string>...</string>
@@ -1098,6 +1137,9 @@ color: black;</string>
                 <width>44</width>
                 <height>44</height>
                </size>
+              </property>
+              <property name="toolTip">
+               <string>Spindle on/off</string>
               </property>
               <property name="icon">
                <iconset resource="res.qrc">
@@ -1365,6 +1407,9 @@ QDoubleSpinBox:focus {
                   <height>44</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string>X-</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
@@ -1412,6 +1457,9 @@ QDoubleSpinBox:focus {
                     <height>44</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Y-</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -1455,6 +1503,9 @@ QDoubleSpinBox:focus {
                   <width>44</width>
                   <height>44</height>
                  </size>
+                </property>
+                <property name="toolTip">
+                 <string>X+</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -1503,6 +1554,9 @@ QDoubleSpinBox:focus {
                     <height>44</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Y+</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -1547,6 +1601,9 @@ QDoubleSpinBox:focus {
                   <height>44</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string>Z+</string>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -1575,6 +1632,9 @@ QDoubleSpinBox:focus {
                   <width>44</width>
                   <height>44</height>
                  </size>
+                </property>
+                <property name="toolTip">
+                 <string>Z-</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -1829,6 +1889,9 @@ QComboBox::drop-down {
            </item>
            <item>
             <widget class="QPushButton" name="cmdCommandSend">
+             <property name="toolTip">
+              <string>Send command</string>
+             </property>
              <property name="icon">
               <iconset resource="res.qrc">
                <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
@@ -1843,6 +1906,9 @@ QComboBox::drop-down {
            </item>
            <item>
             <widget class="QPushButton" name="cmdClearConsole">
+             <property name="toolTip">
+              <string>Clear console</string>
+             </property>
              <property name="icon">
               <iconset resource="res.qrc">
                <normaloff>:/images/erase_1.png</normaloff>:/images/erase_1.png</iconset>

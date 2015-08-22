@@ -162,11 +162,12 @@ void frmMain::loadSettings()
     ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
     ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
     ui->sliFeed->setValue(set.value("feed", 100).toInt());
+    m_frmSettings.setUnits(set.value("units", 0).toInt());
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
     m_storedZ = set.value("storedZ", 0).toDouble();
 
-    ui->cmdReturnXY->setToolTip(QString("%1, %2, %3").arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+    ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
 
@@ -190,6 +191,9 @@ void frmMain::loadSettings()
 
     ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
     ui->cboCommand->setCurrentIndex(-1);
+
+    m_frmSettings.setAutoCompletion(set.value("autoCompletion", true).toBool());
+    m_frmSettings.setTouchCommand(set.value("touchCommand", "G21G38.2Z-30F100; G92Z0; G0Z25").toString());
 
     updateRecentFilesMenu();
 }
@@ -231,10 +235,13 @@ void frmMain::saveSettings()
     set.setValue("feedPanel", ui->grpFeed->isChecked());
     set.setValue("jogPanel", ui->grpJog->isChecked());
     set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
+    set.setValue("autoCompletion", m_frmSettings.autoCompletion());
+    set.setValue("units", m_frmSettings.units());
     set.setValue("storedX", m_storedX);
     set.setValue("storedY", m_storedY);
     set.setValue("storedZ", m_storedZ);
     set.setValue("recentFiles", m_recentFiles);
+    set.setValue("touchCommand", m_frmSettings.touchCommand());
 
     QStringList list;
 
@@ -509,9 +516,9 @@ void frmMain::onSerialPortReadyRead()
 
                 // Update tool position                
                 if (!(statusIndex == 6 && m_fileProcessedCommandIndex < m_tableModel.rowCount() - 1)) {
-                    m_toolDrawer.setToolPosition(QVector3D(ui->txtWPosX->text().toDouble(),
-                                                           ui->txtWPosY->text().toDouble(),
-                                                           ui->txtWPosZ->text().toDouble()));
+                    m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
+                                                           toMetric(ui->txtWPosY->text().toDouble()),
+                                                           toMetric(ui->txtWPosZ->text().toDouble())));
                 }
 
                 // Trajectory shadowing
@@ -599,9 +606,9 @@ void frmMain::onSerialPortReadyRead()
                         }
 
                         // Spindle speed
-                        QRegExp rx(".*S(\\d+)");
+                        QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
-                            int speed = rx.cap(1).toInt();
+                            int speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
                             if (!ui->txtSpindleSpeed->hasFocus()) {
                                 ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
                                 if (ui->txtSpindleSpeed->value() != speed) {
@@ -630,7 +637,7 @@ void frmMain::onSerialPortReadyRead()
                                 m_settingZeroZ = false;
                                 m_storedZ = rx.cap(3).toDouble();
                             }
-                            ui->cmdReturnXY->setToolTip(QString("%1, %2, %3").arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+                            ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
                     }
 
@@ -906,7 +913,7 @@ void frmMain::resizeCheckBoxes()
 
     if (ui->spacerBot->geometry().width() + ui->chkAutoScroll->sizeHint().width()
             - ui->spacerBot->sizeHint().width() > widthAutoScroll && ui->chkAutoScroll->text() == tr("Scroll")) {
-        ui->chkAutoScroll->setText(tr("Auto scroll"));
+        ui->chkAutoScroll->setText(tr("Autoscroll"));
         updateLayouts();
     }
 
@@ -1169,6 +1176,11 @@ void frmMain::on_actServiceSettings_triggered()
     }
 }
 
+bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
+{
+    return b1->text().toDouble() < b2->text().toDouble();
+}
+
 void frmMain::applySettings() {
     m_toolDrawer.setToolDiameter(m_frmSettings.toolDiameter());
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
@@ -1184,12 +1196,12 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
-    ui->glwVisualizer->setFps(m_frmSettings.fps());\
+    ui->glwVisualizer->setFps(m_frmSettings.fps());
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
     ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
-    //    ui->glwVisualizator->update();
+    ui->cboCommand->setAutoCompletion(m_frmSettings.autoCompletion());
 }
 
 void frmMain::updateParser()
@@ -1242,7 +1254,12 @@ void frmMain::on_cmdHome_clicked()
 void frmMain::on_cmdTouch_clicked()
 {
     m_homing = true;
-    sendCommand("$T");
+
+    QStringList list = m_frmSettings.touchCommand().split(";");
+
+    foreach (QString cmd, list) {
+        sendCommand(cmd.trimmed());
+    }
 }
 
 void frmMain::on_cmdZeroXY_clicked()
@@ -1600,11 +1617,6 @@ void frmMain::on_grpJog_toggled(bool checked)
     }
 }
 
-bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
-{
-    return b1->text().toDouble() < b2->text().toDouble();
-}
-
 void frmMain::blockJogForRapidMovement() {
     m_jogBlock = true;
 
@@ -1811,4 +1823,9 @@ void frmMain::on_actRecentClear_triggered()
 {
     m_recentFiles.clear();
     updateRecentFilesMenu();
+}
+
+double frmMain::toMetric(double value)
+{
+    return m_frmSettings.units() == 0 ? value : value * 25.4;
 }

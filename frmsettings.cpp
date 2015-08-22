@@ -218,6 +218,36 @@ void frmSettings::setMsaa(bool msaa)
     ui->radMSAA->setChecked(msaa);
 }
 
+bool frmSettings::autoCompletion()
+{
+    return ui->chkAutocompletion->isChecked();
+}
+
+void frmSettings::setAutoCompletion(bool autoCompletion)
+{
+    ui->chkAutocompletion->setChecked(autoCompletion);
+}
+
+int frmSettings::units()
+{
+    return ui->cboUnits->currentIndex();
+}
+
+void frmSettings::setUnits(int units)
+{
+    ui->cboUnits->setCurrentIndex(units);
+}
+
+QString frmSettings::touchCommand()
+{
+    return ui->txtTouchCommand->text();
+}
+
+void frmSettings::setTouchCommand(QString touchCommand)
+{
+    ui->txtTouchCommand->setText(touchCommand);
+}
+
 void frmSettings::searchPorts()
 {
     ui->cboPort->clear();

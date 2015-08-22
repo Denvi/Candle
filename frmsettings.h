@@ -56,6 +56,12 @@ public:
     void setFps(int fps);
     bool msaa();
     void setMsaa(bool msaa);
+    bool autoCompletion();
+    void setAutoCompletion(bool autoCompletion);
+    int units();
+    void setUnits(int units);
+    QString touchCommand();
+    void setTouchCommand(QString touchCommand);
 
 private slots:
     void on_cmdRefresh_clicked();

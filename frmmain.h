@@ -215,6 +215,7 @@ private:
     void updateLayouts();
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
+    double toMetric(double value);
 };
 
 #endif // FRMMAIN_H
