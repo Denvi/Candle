@@ -72,7 +72,7 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
-    ui->glwVisualizer->fitDrawables();
+    ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(&m_tableModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
@@ -373,7 +373,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
     m_commands.append(ca);
 
     // Processing spindle speed only from g-code program
-    if (m_spindleCommandSpeed) {
+//    if (m_spindleCommandSpeed) {
         QRegExp s("[Ss]0*(\\d+)");
         if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
             int speed = s.cap(1).toInt();
@@ -384,7 +384,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
                 m_programSpeed = false;
             }
         }
-    }
+//    }
 
     m_serialPort.write((command + "\r").toLatin1());
 }
@@ -609,17 +609,17 @@ void frmMain::onSerialPortReadyRead()
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
                             int speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-                            if (!ui->txtSpindleSpeed->hasFocus()) {
-                                ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
-                                if (ui->txtSpindleSpeed->value() != speed) {
-                                    ui->txtSpindleSpeed->setValue(speed);
-                                    m_programSpeed = true;
-                                    ui->sliSpindleSpeed->setValue(speed / 100);
-                                    m_programSpeed = false;
-                                }
-                            }
-                            m_spindleCommandSpeed = false;
-                        } else m_spindleCommandSpeed = true;
+//                            if (!ui->txtSpindleSpeed->hasFocus()) {
+                                if (ui->txtSpindleSpeed->value() == speed) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+//                                if (ui->txtSpindleSpeed->value() != speed) {
+//                                    ui->txtSpindleSpeed->setValue(speed);
+//                                    m_programSpeed = true;
+//                                    ui->sliSpindleSpeed->setValue(speed / 100);
+//                                    m_programSpeed = false;
+//                                }
+//                            }
+//                            m_spindleCommandSpeed = false;
+                        } //else m_spindleCommandSpeed = true;
                     }
 
                     // Store origin
@@ -782,6 +782,10 @@ void frmMain::onTimerConnection()
         openPort();
     } else if (!m_homing/* && !m_reseting*/) {
 //        qDebug() << "sending $G";
+        if (m_updateSpindleSpeed) {
+            m_updateSpindleSpeed = false;
+            sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
+        }
         sendCommand("$G", -3);
     }
 }
@@ -1032,7 +1036,7 @@ void frmMain::loadFile(QString fileName)
 
     qDebug() << m_viewParser.getMinimumExtremes() << m_viewParser.getMaximumExtremes();
 
-    ui->glwVisualizer->fitDrawables();
+    ui->glwVisualizer->fitDrawable(m_codeDrawer);
     updateControlsState();
 }
 
@@ -1071,7 +1075,7 @@ void frmMain::clearTable()
 
 void frmMain::on_cmdFit_clicked()
 {
-    ui->glwVisualizer->fitDrawables();
+    ui->glwVisualizer->fitDrawable(m_codeDrawer);
 }
 
 void frmMain::on_cmdFileSend_clicked()
@@ -1226,7 +1230,8 @@ void frmMain::updateParser()
         m_viewParser.reset();
 
         updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
-        updateControlsState();
+        ui->glwVisualizer->updateExtremes(m_codeDrawer);
+        updateControlsState();        
 
         m_fileChanged = true;
     }
@@ -1326,19 +1331,31 @@ void frmMain::on_txtSpindleSpeed_editingFinished()
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
     m_programSpeed = false;
-    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
+//    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
+    m_updateSpindleSpeed = true;
 }
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
     if (!m_programSpeed) {
         ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
-        ui->txtSpindleSpeed->setStyleSheet("color: red;");
-        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
+//        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
+        m_updateSpindleSpeed = true;
     }
+
+    ui->txtSpindleSpeed->setStyleSheet("color: red;");
 
     if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+}
+
+void frmMain::on_sliSpindleSpeed_sliderReleased()
+{
+//    if (!m_programSpeed) {
+//        ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
+//        ui->txtSpindleSpeed->setStyleSheet("color: red;");
+//        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
+//    }
 }
 
 void frmMain::on_cmdYPlus_clicked()
@@ -1447,7 +1464,7 @@ void frmMain::on_actFileNew_triggered()
 
     clearTable();
     m_viewParser.reset();
-    ui->glwVisualizer->fitDrawables();
+    ui->glwVisualizer->fitDrawable();
     m_programFileName = "";
 
     updateControlsState();

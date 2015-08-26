@@ -13,6 +13,7 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QFile>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(APP_VERSION);
 
     frmMain w;
+
     w.show();
 
 //    qDebug() << GcodePreprocessorUtils::overrideSpeed("G0 X0 Y10 Z200 F123", 50);

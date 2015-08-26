@@ -57,46 +57,48 @@ void GLWidget::addDrawable(GLDrawable *drawable)
     m_drawables.append(drawable);
 }
 
-void GLWidget::fitDrawables()
+void GLWidget::fitDrawable(GLDrawable *drawable)
 {
-    GLDrawable *bigest = NULL;
+//    GLDrawable *bigest = NULL;
     QVector3D maxSize(0, 0, 0);
 
     stopViewAnimation();
 
-    foreach (GLDrawable *dr, m_drawables) {
-        QVector3D size = dr->getSizes();
-        //if (calculateVolume(size) > calculateVolume(maxSize)) {
-        if (size.length() > maxSize.length() && strcmp(dr->metaObject()->className(), "ToolDrawer") == -1) {
-            maxSize = size;
-            bigest = dr;
-        }
-    }
+//    foreach (GLDrawable *dr, m_drawables) {
+//        QVector3D size = dr->getSizes();
+//        //if (calculateVolume(size) > calculateVolume(maxSize)) {
+//        if (size.length() > maxSize.length() && strcmp(dr->metaObject()->className(), "ToolDrawer") == -1) {
+//            maxSize = size;
+//            bigest = dr;
+//        }
+//    }
 
-    if (bigest != NULL) {
+    if (drawable != NULL) {
 
-        double a = maxSize.y() / 2 / 0.25 * 1.3
-                + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
-        double b = maxSize.x() / 2 / 0.25 * 1.3
+        updateExtremes(drawable);
+
+        double a = m_ySize / 2 / 0.25 * 1.3
+                + (m_zMax - m_zMin) / 2;
+        double b = m_xSize / 2 / 0.25 * 1.3
                 / ((double)this->width() / this->height())
-                + (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2;
+                + (m_zMax - m_zMin) / 2;
         m_distance = qMax(a, b);
 
-        m_xLookAt = (bigest->getMaximumExtremes().x() - bigest->getMinimumExtremes().x()) / 2 + bigest->getMinimumExtremes().x();
-        m_zLookAt = -((bigest->getMaximumExtremes().y() - bigest->getMinimumExtremes().y()) / 2 + bigest->getMinimumExtremes().y());
-        m_yLookAt = (bigest->getMaximumExtremes().z() - bigest->getMinimumExtremes().z()) / 2 + bigest->getMinimumExtremes().z();
+        m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
+        m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
+        m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
 //        m_yLookAt = bigest->getMinimumExtremes().z();
 
-        m_xMin = bigest->getMinimumExtremes().x();
-        m_xMax = bigest->getMaximumExtremes().x();
-        m_yMin = bigest->getMinimumExtremes().y();
-        m_yMax = bigest->getMaximumExtremes().y();
-        m_zMin = bigest->getMinimumExtremes().z();
-        m_zMax = bigest->getMaximumExtremes().z();
+//        m_xMin = bigest->getMinimumExtremes().x();
+//        m_xMax = bigest->getMaximumExtremes().x();
+//        m_yMin = bigest->getMinimumExtremes().y();
+//        m_yMax = bigest->getMaximumExtremes().y();
+//        m_zMin = bigest->getMinimumExtremes().z();
+//        m_zMax = bigest->getMaximumExtremes().z();
 
-        m_xSize = m_xMax - m_xMin;
-        m_ySize = m_yMax - m_yMin;
-        m_zSize = m_zMax - m_zMin;
+//        m_xSize = m_xMax - m_xMin;
+//        m_ySize = m_yMax - m_yMin;
+//        m_zSize = m_zMax - m_zMin;
 
     } else {
         m_distance = 200;
@@ -105,14 +107,28 @@ void GLWidget::fitDrawables()
         m_zLookAt = 0;
     }
 
-    m_xSize = m_xMax - m_xMin;
-    m_ySize = m_yMax - m_yMin;
-    m_zSize = m_zMax - m_zMin;
+//    m_xSize = m_xMax - m_xMin;
+//    m_ySize = m_yMax - m_yMin;
+//    m_zSize = m_zMax - m_zMin;
 
     m_xPan = 0;
     m_yPan = 0;
 
     m_zoom = 1;
+}
+
+void GLWidget::updateExtremes(GLDrawable *drawable)
+{
+    m_xMin = drawable->getMinimumExtremes().x();
+    m_xMax = drawable->getMaximumExtremes().x();
+    m_yMin = drawable->getMinimumExtremes().y();
+    m_yMax = drawable->getMaximumExtremes().y();
+    m_zMin = drawable->getMinimumExtremes().z();
+    m_zMax = drawable->getMaximumExtremes().z();
+
+    m_xSize = m_xMax - m_xMin;
+    m_ySize = m_yMax - m_yMin;
+    m_zSize = m_zMax - m_zMin;
 }
 
 bool GLWidget::antialiasing() const

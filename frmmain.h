@@ -114,6 +114,8 @@ private slots:
 
     void on_actRecentClear_triggered();
 
+    void on_sliSpindleSpeed_sliderReleased();
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -159,6 +161,7 @@ private:
     bool m_settingZeroZ = false;
     bool m_homing = false;
     bool m_programSpeed = false;
+    bool m_updateSpindleSpeed = false;
     double m_arcPrecision;
 
     int m_lastDrawnLineIndex;

@@ -16,7 +16,8 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
     void addDrawable(GLDrawable* drawable);    
-    void fitDrawables();
+    void updateExtremes(GLDrawable *drawable);
+    void fitDrawable(GLDrawable *drawable = NULL);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
 
