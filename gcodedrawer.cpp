@@ -118,16 +118,6 @@ int GcodeDrawer::getLinesCount()
 {
     return m_viewParser->getLineSegmentList().count();
 }
-double GcodeDrawer::lineWidth() const
-{
-    return m_lineWidth;
-}
-
-void GcodeDrawer::setLineWidth(double lineWidth)
-{
-    m_lineWidth = lineWidth;
-}
-
 
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)
 {

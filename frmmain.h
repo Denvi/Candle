@@ -17,6 +17,8 @@
 #include "gcodeviewparse.h"
 #include "gcodedrawer.h"
 #include "tooldrawer.h"
+#include "heightmapborderdrawer.h"
+#include "heightmapgriddrawer.h"
 #include "gcodetablemodel.h"
 #include "frmsettings.h"
 #include "frmabout.h"
@@ -116,6 +118,32 @@ private slots:
 
     void on_sliSpindleSpeed_sliderReleased();
 
+    void on_grpHeightMap_toggled(bool arg1);
+
+    void on_chkHeightMapBorderAuto_toggled(bool checked);
+
+    void on_chkHeightMapBorderShow_toggled(bool checked);
+
+    void on_txtHeightMapBorderX_valueChanged(double arg1);
+
+    void on_txtHeightMapBorderWidth_valueChanged(double arg1);
+
+    void on_txtHeightMapBorderY_valueChanged(double arg1);
+
+    void on_txtHeightMapBorderHeight_valueChanged(double arg1);
+
+    void on_chkHeightMapGridShow_toggled(bool checked);
+
+    void on_txtHeightMapGridX_valueChanged(double arg1);
+
+    void on_txtHeightMapGridY_valueChanged(double arg1);
+
+    void on_txtHeightMapGridZBottom_valueChanged(double arg1);
+
+    void on_txtHeightMapGridZTop_valueChanged(double arg1);
+
+    void on_cmdHeightMapMode_toggled(bool checked);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -130,6 +158,8 @@ private:
     GcodeViewParse m_viewParser;
     GcodeDrawer *m_codeDrawer;
     ToolDrawer m_toolDrawer;
+    HeightMapBorderDrawer m_heightMapBorderDrawer;
+    HeightMapGridDrawer m_heightMapGridDrawer;
     GCodeTableModel m_tableModel;
     bool m_programLoading;
     QSerialPort m_serialPort;
@@ -219,6 +249,10 @@ private:
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
     double toMetric(double value);
+    QRectF getBorderRect();
+    void updateHeightMapBorder();
+    void updateHeightMapGrid();
+    void autoBorderRect();
 };
 
 #endif // FRMMAIN_H

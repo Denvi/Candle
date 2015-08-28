@@ -19,9 +19,19 @@ public:
     virtual QVector3D getMaximumExtremes();
     virtual int getLinesCount();
 
+    double lineWidth() const;
+    void setLineWidth(double lineWidth);
+
+    bool visible() const;
+    void setVisible(bool visible);
+
 signals:
 
-public slots:
+public slots:   
+
+protected:
+    double m_lineWidth;
+    bool m_visible;
 
 };
 

@@ -32,7 +32,9 @@ SOURCES += main.cpp\
     frmsettings.cpp \
     styledtoolbutton.cpp \
     frmabout.cpp \
-    combobox.cpp
+    combobox.cpp \
+    heightmapborderdrawer.cpp \
+    heightmapgriddrawer.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -50,7 +52,9 @@ HEADERS  += frmmain.h \
     frmsettings.h \
     styledtoolbutton.h \
     frmabout.h \
-    combobox.h
+    combobox.h \
+    heightmapborderdrawer.h \
+    heightmapgriddrawer.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

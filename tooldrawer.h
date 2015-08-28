@@ -31,9 +31,6 @@ public:
     void setRotationAngle(double rotationAngle);
     void rotate(double angle);
 
-    double lineWidth() const;
-    void setLineWidth(double lineWidth);
-
     double toolAngle() const;
     void setToolAngle(double toolAngle);
 
@@ -47,7 +44,6 @@ private:
     double m_endLength;
     QVector3D m_toolPosition;
     double m_rotationAngle;
-    double m_lineWidth;
     double m_toolAngle;
 
     double normalizeAngle(double angle);

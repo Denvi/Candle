@@ -57,6 +57,11 @@ void GLWidget::addDrawable(GLDrawable *drawable)
     m_drawables.append(drawable);
 }
 
+void GLWidget::removeDrawable(GLDrawable *drawable)
+{
+    m_drawables.removeOne(drawable);
+}
+
 void GLWidget::fitDrawable(GLDrawable *drawable)
 {
 //    GLDrawable *bigest = NULL;
@@ -84,6 +89,8 @@ void GLWidget::fitDrawable(GLDrawable *drawable)
                 + (m_zMax - m_zMin) / 2;
         m_distance = qMax(a, b);
 
+        if (m_distance == 0) m_distance = 200;
+
         m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
         m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
         m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
@@ -105,6 +112,17 @@ void GLWidget::fitDrawable(GLDrawable *drawable)
         m_xLookAt = 0;
         m_yLookAt = 0;
         m_zLookAt = 0;
+
+        m_xMin = 0;
+        m_xMax = 0;
+        m_yMin = 0;
+        m_yMax = 0;
+        m_zMin = 0;
+        m_zMax = 0;
+
+        m_xSize = 0;
+        m_ySize = 0;
+        m_zSize = 0;
     }
 
 //    m_xSize = m_xMax - m_xMin;
@@ -119,16 +137,16 @@ void GLWidget::fitDrawable(GLDrawable *drawable)
 
 void GLWidget::updateExtremes(GLDrawable *drawable)
 {
-    m_xMin = drawable->getMinimumExtremes().x();
-    m_xMax = drawable->getMaximumExtremes().x();
-    m_yMin = drawable->getMinimumExtremes().y();
-    m_yMax = drawable->getMaximumExtremes().y();
-    m_zMin = drawable->getMinimumExtremes().z();
-    m_zMax = drawable->getMaximumExtremes().z();
+    if (!std::isnan(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
+    if (!std::isnan(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
+    if (!std::isnan(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
 
     m_xSize = m_xMax - m_xMin;
     m_ySize = m_yMax - m_yMin;
-    m_zSize = m_zMax - m_zMin;
+    m_zSize = m_zMax - m_zMin;    
 }
 
 bool GLWidget::antialiasing() const

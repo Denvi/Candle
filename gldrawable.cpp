@@ -31,3 +31,24 @@ int GLDrawable::getLinesCount()
 {
     return 0;
 }
+double GLDrawable::lineWidth() const
+{
+    return m_lineWidth;
+}
+
+void GLDrawable::setLineWidth(double lineWidth)
+{
+    m_lineWidth = lineWidth;
+}
+
+bool GLDrawable::visible() const
+{
+    return m_visible;
+}
+
+void GLDrawable::setVisible(bool visible)
+{
+    m_visible = visible;
+}
+
+

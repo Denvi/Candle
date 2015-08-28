@@ -146,15 +146,7 @@ void ToolDrawer::rotate(double angle)
 {
     m_rotationAngle = normalizeAngle(m_rotationAngle + angle);
 }
-double ToolDrawer::lineWidth() const
-{
-    return m_lineWidth;
-}
 
-void ToolDrawer::setLineWidth(double lineWidth)
-{
-    m_lineWidth = lineWidth;
-}
 double ToolDrawer::toolAngle() const
 {
     return m_toolAngle;
