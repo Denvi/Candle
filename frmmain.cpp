@@ -184,8 +184,6 @@ void frmMain::loadSettings()
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
     resizeCheckBoxes();
 
-    ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
-
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
@@ -198,6 +196,8 @@ void frmMain::loadSettings()
     m_frmSettings.setTouchCommand(set.value("touchCommand", "G21G38.2Z-30F100; G92Z0; G0Z25").toString());
 
     updateRecentFilesMenu();
+
+    ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 }
 
 void frmMain::saveSettings()
@@ -328,24 +328,22 @@ void frmMain::updateControlsState() {
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && ui->cmdHeightMapMode->isChecked());
 
     if (ui->cmdHeightMapMode->isChecked()) {
-//        ui->grpSpindle->setVisible(false);
-//        ui->grpFeed->setVisible(false);
-//        ui->grpJog->setVisible(false);
-        ui->widgetHeightMapSettings->setVisible(true);
-        ui->grpProgram->setTitle("G-code программа (создание карты высот)");
-        ui->grpProgram->setStyleSheet("QGroupBox::title {color: red;}");
-//        this->setUpdatesEnabled(true);
+        ui->grpProgram->setTitle("Карта высот");
+        ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: red;}");
     } else {
-        ui->widgetHeightMapSettings->setVisible(false);
         ui->grpProgram->setTitle("G-code программа");
-        ui->grpProgram->setStyleSheet("QGroupBox::title {color: palette(text);}");
-//        this->setUpdatesEnabled(false);
-//        this->updateLayouts();
-//        this->setUpdatesEnabled(true);
-//        ui->grpSpindle->setVisible(true);
-//        ui->grpFeed->setVisible(true);
-//        ui->grpJog->setVisible(true);
+        ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: palette(text);}");
     }
+
+    ui->grpHeightMapSettings->setVisible(ui->cmdHeightMapMode->isChecked());
+//    ui->cmdHeightMapGet->setVisible(ui->cmdHeightMapMode->isChecked());
+    ui->chkTestMode->setVisible(!ui->cmdHeightMapMode->isChecked());
+    ui->chkAutoScroll->setVisible(!ui->cmdHeightMapMode->isChecked());
+
+    ui->tblHeightMap->setVisible(ui->cmdHeightMapMode->isChecked());
+    ui->tblProgram->setVisible(!ui->cmdHeightMapMode->isChecked());
+//    ui->cmdFileOpen->setVisible(!ui->cmdHeightMapMode->isChecked());
+//    ui->cmdFileSend->setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::openPort()
@@ -1820,7 +1818,7 @@ void frmMain::on_splitter_splitterMoved(int pos, int index)
 
     if ((ui->splitter->sizes()[1] == 0) != tableCollapsed) {
         this->setUpdatesEnabled(false);
-        ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
+        ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !ui->cmdHeightMapMode->isChecked());
         updateLayouts();
         resizeCheckBoxes();
 

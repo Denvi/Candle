@@ -6,6 +6,7 @@
 GLDrawable::GLDrawable(QObject *parent) :
     QObject(parent)
 {
+    m_lineWidth = 1;
 }
 
 void GLDrawable::draw()
