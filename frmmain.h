@@ -19,7 +19,9 @@
 #include "tooldrawer.h"
 #include "heightmapborderdrawer.h"
 #include "heightmapgriddrawer.h"
+#include "heightmapinterpolationdrawer.h"
 #include "gcodetablemodel.h"
+#include "heightmaptablemodel.h"
 #include "frmsettings.h"
 #include "frmabout.h"
 #include "styledtoolbutton.h"
@@ -160,7 +162,9 @@ private:
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
+    HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
     GCodeTableModel m_tableModel;
+    HeightMapTableModel m_heightMapModel;
     bool m_programLoading;
     QSerialPort m_serialPort;
     frmSettings m_frmSettings;
@@ -253,6 +257,10 @@ private:
     void updateHeightMapBorder();
     void updateHeightMapGrid();
     void autoBorderRect();
+    void loadHeightMap(QString fileName);
+    void saveHeightMap(QString fileName);
+    double cubicInterpolate(QVector<double> p, double x);
+    double bicubicInterpolate(QVector<QVector<double> > p, double x, double y);
 };
 
 #endif // FRMMAIN_H

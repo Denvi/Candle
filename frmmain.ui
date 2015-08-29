@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
+    <width>891</width>
     <height>1112</height>
    </rect>
   </property>
@@ -474,7 +474,7 @@ QToolButton:checked { /* all types of tool button */
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <property name="spacing">
             <number>9</number>
@@ -513,7 +513,29 @@ QToolButton:checked { /* all types of tool button */
             </widget>
            </item>
            <item>
-            <widget class="QTableView" name="tblHeightMap"/>
+            <widget class="QTableView" name="tblHeightMap">
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="gridStyle">
+              <enum>Qt::DashLine</enum>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>60</number>
+             </attribute>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -547,6 +569,9 @@ QToolButton:checked { /* all types of tool button */
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -579,6 +604,9 @@ QToolButton:checked { /* all types of tool button */
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -608,6 +636,9 @@ QToolButton:checked { /* all types of tool button */
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -636,6 +667,9 @@ QToolButton:checked { /* all types of tool button */
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -670,12 +704,18 @@ QToolButton:checked { /* all types of tool button */
                 <property name="text">
                  <string>Авто</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
                <widget class="QCheckBox" name="chkHeightMapBorderShow">
                 <property name="text">
                  <string>Показать границы</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -722,6 +762,9 @@ QToolButton:checked { /* all types of tool button */
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -740,6 +783,9 @@ QToolButton:checked { /* all types of tool button */
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -766,6 +812,9 @@ QToolButton:checked { /* all types of tool button */
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -806,6 +855,9 @@ QToolButton:checked { /* all types of tool button */
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -831,6 +883,9 @@ QToolButton:checked { /* all types of tool button */
                <widget class="QCheckBox" name="chkHeightMapGridShow">
                 <property name="text">
                  <string>Показать сетку</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -870,7 +925,7 @@ QToolButton:checked { /* all types of tool button */
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="cboHeightMapInterpolationType">
                 <item>
                  <property name="text">
                   <string>Линейная</string>
@@ -878,18 +933,21 @@ QToolButton:checked { /* all types of tool button */
                 </item>
                 <item>
                  <property name="text">
-                  <string>Сплайн</string>
+                  <string>Кубическая</string>
                  </property>
                 </item>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridX_2">
+               <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStep">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1027,15 +1085,6 @@ QToolButton:checked { /* all types of tool button */
         </layout>
        </item>
       </layout>
-      <zorder>cmdIsometric</zorder>
-      <zorder>cmdTop</zorder>
-      <zorder>cmdFront</zorder>
-      <zorder>cmdLeft</zorder>
-      <zorder>cmdFit</zorder>
-      <zorder>splitter</zorder>
-      <zorder>horizontalLayoutWidget</zorder>
-      <zorder>horizontalLayoutWidget</zorder>
-      <zorder>grpHeightMapSettings</zorder>
      </widget>
     </item>
     <item>
@@ -1521,7 +1570,7 @@ color: black;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit">
+               <widget class="QLineEdit" name="txtHeightMap">
                 <property name="text">
                  <string/>
                 </property>
@@ -2489,7 +2538,7 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>882</width>
+     <width>891</width>
      <height>26</height>
     </rect>
    </property>

@@ -34,7 +34,9 @@ SOURCES += main.cpp\
     frmabout.cpp \
     combobox.cpp \
     heightmapborderdrawer.cpp \
-    heightmapgriddrawer.cpp
+    heightmapgriddrawer.cpp \
+    heightmaptablemodel.cpp \
+    heightmapinterpolationdrawer.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -54,7 +56,9 @@ HEADERS  += frmmain.h \
     frmabout.h \
     combobox.h \
     heightmapborderdrawer.h \
-    heightmapgriddrawer.h
+    heightmapgriddrawer.h \
+    heightmaptablemodel.h \
+    heightmapinterpolationdrawer.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

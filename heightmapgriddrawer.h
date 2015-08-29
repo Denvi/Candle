@@ -2,6 +2,7 @@
 #define HEIGHTMAPGRIDDRAWER_H
 
 #include <QObject>
+#include <QAbstractTableModel>
 #include "gldrawable.h"
 
 class HeightMapGridDrawer : public GLDrawable
@@ -23,11 +24,15 @@ public:
     double zBottom() const;
     void setZBottom(double zBottom);
 
+    QAbstractTableModel *model() const;
+    void setModel(QAbstractTableModel *model);
+
 private:
     QPointF m_gridSize;
     QRectF m_borderRect;
     double m_zTop;
     double m_zBottom;
+    QAbstractTableModel *m_model;
 };
 
 #endif // HEIGHTMAPGRIDDRAWER_H
