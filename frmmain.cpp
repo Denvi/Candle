@@ -372,6 +372,8 @@ void frmMain::updateControlsState() {
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
 
     ui->cmdFileSend->setText(ui->cmdHeightMapMode->isChecked() ? tr("Probe") : tr("Send"));
+
+    ui->chkHeightMapUse->setEnabled(!ui->cmdHeightMapMode->isChecked() && !ui->txtHeightMap->text().isEmpty());
 }
 
 void frmMain::openPort()
@@ -1059,7 +1061,10 @@ void frmMain::loadFile(QString fileName)
         QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
         return;
     }
-    QTextStream textStream(&file);  
+
+    ui->chkHeightMapUse->setChecked(false);
+
+    QTextStream textStream(&file);
 
     clearTable();
     m_programLoading = true;
@@ -1068,6 +1073,7 @@ void frmMain::loadFile(QString fileName)
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
 
     ui->tblProgram->setModel(NULL);
+    m_currentModel = &m_programModel;
 
     GcodeParser gp;
     gp.setTraverseSpeed(m_rapidSpeed);
@@ -2181,6 +2187,10 @@ void frmMain::on_txtHeightMapGridZTop_valueChanged(double arg1)
 void frmMain::on_cmdHeightMapMode_toggled(bool checked)
 {
     QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+
+    if (!checked) {
+        on_cmdFileReset_clicked();
+    }
 
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);

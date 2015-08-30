@@ -1605,6 +1605,9 @@ color: black;</string>
               </item>
               <item>
                <widget class="QLineEdit" name="txtHeightMap">
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
