@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
+    <width>904</width>
     <height>1112</height>
    </rect>
   </property>
@@ -546,9 +546,9 @@ QToolButton:checked { /* all types of tool button */
          <property name="title">
           <string>Параметры карты высот</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,1,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,1,1">
           <property name="spacing">
-           <number>9</number>
+           <number>11</number>
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -911,35 +911,28 @@ QToolButton:checked { /* all types of tool button */
             <item>
              <widget class="QLabel" name="label_16">
               <property name="text">
-               <string>Интерполяция:</string>
+               <string>Сетка интерполяции:</string>
               </property>
              </widget>
             </item>
             <item>
              <layout class="QGridLayout" name="gridLayout_6">
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_18">
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_19">
                 <property name="text">
-                 <string>Шаг:</string>
+                 <string>Y:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="cboHeightMapInterpolationType">
-                <item>
-                 <property name="text">
-                  <string>Линейная</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Кубическая</string>
-                 </property>
-                </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>X:</string>
+                </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStep">
+               <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepX">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -960,11 +953,57 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
+              <item row="1" column="3">
+               <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="0,0">
+              <item>
                <widget class="QLabel" name="label_17">
                 <property name="text">
                  <string>Тип:</string>
                 </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cboHeightMapInterpolationType">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Линейная</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Кубическая</string>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
@@ -972,7 +1011,7 @@ QToolButton:checked { /* all types of tool button */
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_24">
               <item>
-               <widget class="QCheckBox" name="chkHeightMapGridShow_3">
+               <widget class="QCheckBox" name="chkHeightMapInterpolationShow">
                 <property name="text">
                  <string>Отобразить</string>
                 </property>
@@ -1590,6 +1629,25 @@ color: black;</string>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_21">
               <item>
+               <widget class="StyledToolButton" name="cmdHeightMapCreate">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>42</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Создать</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="StyledToolButton" name="cmdHeightMapLoad">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -1608,29 +1666,29 @@ color: black;</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="StyledToolButton" name="cmdHeightMapMode">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>42</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Создать</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
              </layout>
+            </item>
+            <item>
+             <widget class="StyledToolButton" name="cmdHeightMapMode">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>42</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Режим редактирования</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -2538,7 +2596,7 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>891</width>
+     <width>904</width>
      <height>26</height>
     </rect>
    </property>

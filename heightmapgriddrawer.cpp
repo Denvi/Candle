@@ -11,41 +11,45 @@ void HeightMapGridDrawer::draw()
 
     glLineWidth(m_lineWidth);
     glPointSize(4);
-    glColor3f(1.0, 0.6, 0.0);
+//    glColor3f(1.0, 0.6, 0.0);
 
-    int xPoints = m_model->columnCount();
-    int yPoints = m_model->rowCount();
+    int gridPointsX = m_model->columnCount();
+    int gridPointsY = m_model->rowCount();
 
-    double gridX = xPoints > 1 ? m_borderRect.width() / (xPoints - 1) : 0;
-    double gridY = yPoints > 1 ? m_borderRect.height() / (yPoints - 1) : 0;
+    double gridStepX = gridPointsX > 1 ? m_borderRect.width() / (gridPointsX - 1) : 0;
+    double gridStepY = gridPointsY > 1 ? m_borderRect.height() / (gridPointsY - 1) : 0;
 
-    for (int i = 0; i < yPoints; i++) {
-        for (int j = 0; j < xPoints; j++) {
-            if (m_model == NULL || std::isnan(m_model->data(m_model->index(i, j)).toDouble())) {
+    for (int i = 0; i < gridPointsY; i++) {
+        for (int j = 0; j < gridPointsX; j++) {
+            if (m_model == NULL || std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
                 glBegin(GL_LINES);
-                glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_zTop);
-                glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_zBottom);
+                glColor3f(1.0, 0.6, 0.0);
+                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
+                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zBottom);
                 glEnd();
             } else {
                 glBegin(GL_POINTS);
-                glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_model->data(m_model->index(i, j)).toDouble());
+                glColor3f(0.0, 0.0, 1.0);
+                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
                 glEnd();
             }
         }
     }
 
-    for (int i = 0; i < yPoints; i++) {
+    glColor3f(0.0, 0.0, 1.0);
+
+    for (int i = 0; i < gridPointsY; i++) {
         glBegin(GL_LINE_STRIP);
-        for (int j = 0; j < xPoints; j++) {
-            glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_model->data(m_model->index(i, j)).toDouble());
+        for (int j = 0; j < gridPointsX; j++) {
+            glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
         }
         glEnd();
     }
 
-    for (int j = 0; j < xPoints; j++) {
+    for (int j = 0; j < gridPointsX; j++) {
         glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < yPoints; i++) {
-            glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_model->data(m_model->index(i, j)).toDouble());
+        for (int i = 0; i < gridPointsY; i++) {
+            glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
         }
         glEnd();
     }

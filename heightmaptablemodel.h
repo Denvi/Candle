@@ -25,7 +25,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
 private:
-    QList<QList<double>> m_data;
+//    QList<QList<double>> m_data;
+    QVector<QVector<double>> m_data;
     QStringList m_headers;
 };
 

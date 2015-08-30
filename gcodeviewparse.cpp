@@ -42,29 +42,13 @@ void GcodeViewParse::testExtremes(QVector3D p3d)
 
 void GcodeViewParse::testExtremes(double x, double y, double z)
 {
-    m_min.setX(Min(m_min.x(), x));
-    m_min.setY(Min(m_min.y(), y));
-    m_min.setZ(Min(m_min.z(), z));
+    m_min.setX(Util::nMin(m_min.x(), x));
+    m_min.setY(Util::nMin(m_min.y(), y));
+    m_min.setZ(Util::nMin(m_min.z(), z));
 
-    m_max.setX(Max(m_max.x(), x));
-    m_max.setY(Max(m_max.y(), y));
-    m_max.setZ(Max(m_max.z(), z));
-}
-
-double GcodeViewParse::Min(double v1, double v2)
-{
-    if (!std::isnan(v1) && !std::isnan(v2)) return qMin<double>(v1, v2);
-    else if (!std::isnan(v1)) return v1;
-    else if (!std::isnan(v2)) return v2;
-    else return std::numeric_limits<double>::quiet_NaN();
-}
-
-double GcodeViewParse::Max(double v1, double v2)
-{
-    if (!std::isnan(v1) && !std::isnan(v2)) return qMax<double>(v1, v2);
-    else if (!std::isnan(v1)) return v1;
-    else if (!std::isnan(v2)) return v2;
-    else return std::numeric_limits<double>::quiet_NaN();
+    m_max.setX(Util::nMax(m_max.x(), x));
+    m_max.setY(Util::nMax(m_max.y(), y));
+    m_max.setZ(Util::nMax(m_max.z(), z));
 }
 
 QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcSegmentLength)

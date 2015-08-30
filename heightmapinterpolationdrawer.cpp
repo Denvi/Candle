@@ -11,13 +11,25 @@ void HeightMapInterpolationDrawer::draw()
 
     glLineWidth(m_lineWidth);
     glPointSize(4);
-    glColor3f(0.0, 0.0, 1.0);
+    glColor3f(0.0, 0.8, 0.0);
 
-    int xPoints = m_data->at(0).count();
-    int yPoints = m_data->count();
+    int interpolationPointsX = m_data->at(0).count();
+    int interpolationPointsY = m_data->count();
 
-    double gridX = xPoints > 1 ? m_borderRect.width() / (xPoints - 1) : 0;
-    double gridY = yPoints > 1 ? m_borderRect.height() / (yPoints - 1) : 0;
+    double interpolationStepX = interpolationPointsX > 1 ? m_borderRect.width() / (interpolationPointsX - 1) : 0;
+    double interpolationStepY = interpolationPointsY > 1 ? m_borderRect.height() / (interpolationPointsY - 1) : 0;
+
+    double min = m_data->at(0).at(0);
+    double max = min;
+
+    for (int i = 0; i < interpolationPointsY; i++) {
+        for (int j = 0; j < interpolationPointsX; j++) {
+            min = Util::nMin(min, m_data->at(i).at(j));
+            max = Util::nMax(max, m_data->at(i).at(j));
+        }
+    }
+
+    QColor color;
 
 //    glBegin(GL_POINTS);
 //    for (int i = 0; i < yPoints; i++) {
@@ -27,18 +39,22 @@ void HeightMapInterpolationDrawer::draw()
 //    }
 //    glEnd();
 
-    for (int i = 0; i < yPoints; i++) {
+    for (int i = 0; i < interpolationPointsY; i++) {
         glBegin(GL_LINE_STRIP);
-        for (int j = 0; j < xPoints; j++) {
-            glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_data->at(i).at(j));
+        for (int j = 0; j < interpolationPointsX; j++) {
+            color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
+            glColor3f(color.redF(), color.greenF(), color.blueF());
+            glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
         }
         glEnd();
     }
 
-    for (int j = 0; j < xPoints; j++) {
+    for (int j = 0; j < interpolationPointsX; j++) {
         glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < yPoints; i++) {
-            glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_data->at(i).at(j));
+        for (int i = 0; i < interpolationPointsY; i++) {
+            color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
+            glColor3f(color.redF(), color.greenF(), color.blueF());
+            glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
         }
         glEnd();
     }

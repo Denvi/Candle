@@ -2,17 +2,17 @@
 
 HeightMapTableModel::HeightMapTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    m_data.append(QList<double>());
+    m_data.append(QVector<double>());
 }
 
 void HeightMapTableModel::resize(int cols, int rows)
 {
-    foreach (QList<double> row, m_data) row.clear();
+    foreach (QVector<double> row, m_data) row.clear();
 
     m_data.clear();
 
     for (int i = 0; i < rows; i++) {
-        QList<double> row;
+        QVector<double> row;
         for (int j = 0; j < cols; j++) {
             row.append(std::numeric_limits<double>::quiet_NaN());
         }
@@ -27,7 +27,11 @@ QVariant HeightMapTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= m_data.count() || index.column() >= m_data[0].count()) return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        return QString::number(m_data[index.row()][index.column()], 'f', 3);
+        return QString::number(m_data[(m_data.count() - 1) - index.row()][index.column()], 'f', 3);
+    }
+
+    if (role == Qt::UserRole) {
+        return m_data[index.row()][index.column()];
     }
 
     if (role == Qt::TextAlignmentRole) {
@@ -40,16 +44,19 @@ QVariant HeightMapTableModel::data(const QModelIndex &index, int role) const
 bool HeightMapTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     m_data[index.row()][index.column()] = value.toDouble();
+    return true;
 }
 
 bool HeightMapTableModel::insertRow(int row, const QModelIndex &parent)
 {
-    m_data.insert(row, QList<double>());
+    m_data.insert(row, QVector<double>());
+    return true;
 }
 
 bool HeightMapTableModel::removeRow(int row, const QModelIndex &parent)
 {
     m_data.removeAt(row);
+    return true;
 }
 
 void HeightMapTableModel::clear()

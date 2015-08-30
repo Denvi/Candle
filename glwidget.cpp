@@ -453,6 +453,9 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     // Draw drawables
     int lines = 0;
+
+    glShadeModel(GL_SMOOTH);
+
     foreach (GLDrawable *dr, m_drawables) {
         lines += dr->getLinesCount();
         dr->draw();

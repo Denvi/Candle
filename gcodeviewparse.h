@@ -12,6 +12,7 @@
 #include <QVector3D>
 #include "linesegment.h"
 #include "gcodeparser.h"
+#include "util.h"
 
 class GcodeViewParse : public QObject
 {
@@ -46,8 +47,6 @@ private:
     bool debug;
     void testExtremes(QVector3D p3d);
     void testExtremes(double x, double y, double z);
-    double Min(double v1, double v2);
-    double Max(double v1, double v2);
 };
 
 #endif // GCODEVIEWPARSE_H

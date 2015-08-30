@@ -58,7 +58,9 @@ HEADERS  += frmmain.h \
     heightmapborderdrawer.h \
     heightmapgriddrawer.h \
     heightmaptablemodel.h \
-    heightmapinterpolationdrawer.h
+    heightmapinterpolationdrawer.h \
+    util.h \
+    interpolation.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

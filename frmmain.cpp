@@ -326,11 +326,14 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->ensurePolished();
     ui->cmdFilePause->ensurePolished();
 
-    if (ui->chkHeightMapBorderShow->isChecked()) updateHeightMapBorder();
+    // Heighmap
+
+//    if (ui->chkHeightMapBorderShow->isChecked()) updateHeightMapBorder();
 //    if (ui->chkHeightMapGridShow->isChecked()) updateHeightMapGrid();
 
     m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && ui->cmdHeightMapMode->isChecked());
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && ui->cmdHeightMapMode->isChecked());
+    m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && ui->cmdHeightMapMode->isChecked());
 
     if (ui->cmdHeightMapMode->isChecked()) {
         ui->grpProgram->setTitle("Карта высот");
@@ -347,7 +350,10 @@ void frmMain::updateControlsState() {
     ui->tblHeightMap->setVisible(ui->cmdHeightMapMode->isChecked());
     ui->tblProgram->setVisible(!ui->cmdHeightMapMode->isChecked());
 
-    ui->widgetHeightMap->setEnabled(m_tableModel.rowCount() > 1);
+    ui->widgetHeightMap->setEnabled(m_tableModel.rowCount() > 1);    
+    ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
+
+    ui->cmdFileSend->setText(ui->cmdHeightMapMode->isChecked() ? "Зонд" : "Отправить");
 }
 
 void frmMain::openPort()
@@ -1016,11 +1022,7 @@ void frmMain::on_cmdFileOpen_clicked()
             loadFile(fileName);
         }
     } else {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
-
-        if (fileName != "") {
-            loadHeightMap(fileName);
-        }
+        loadHeightMap();
     }
 }
 
@@ -1087,9 +1089,9 @@ void frmMain::loadFile(QString fileName)
     updateControlsState();
 
     if (ui->chkHeightMapBorderAuto->isChecked()) {
-        autoBorderRect();
-        updateHeightMapBorder();
-        updateHeightMapGrid();
+        borderRectFromExtremes();
+        updateHeightMapBorderDrawer();
+        updateHeightMapGridDrawer();
     }
 }
 
@@ -1245,6 +1247,9 @@ void frmMain::applySettings() {
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
     m_toolDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_codeDrawer->setLineWidth(m_frmSettings.lineWidth());
+    m_heightMapBorderDrawer.setLineWidth(m_frmSettings.lineWidth());
+    m_heightMapGridDrawer.setLineWidth(0.1);
+    m_heightMapInterpolationDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_arcPrecision = m_frmSettings.arcPrecision();
     ui->glwVisualizer->setLineWidth(m_frmSettings.lineWidth());
     m_showAllCommands = m_frmSettings.showAllCommands();
@@ -1287,9 +1292,9 @@ void frmMain::updateParser()
         updateControlsState();        
 
         if (ui->chkHeightMapBorderAuto->isChecked()) {
-            autoBorderRect();
-            updateHeightMapBorder();
-            updateHeightMapGrid();
+            borderRectFromExtremes();
+            updateHeightMapBorderDrawer();
+            updateHeightMapGridDrawer();
         }
 
         m_fileChanged = true;
@@ -1528,9 +1533,12 @@ void frmMain::on_cmdFileReset_clicked()
         ui->txtHeightMapGridZBottom->setEnabled(true);
         ui->txtHeightMapGridZTop->setEnabled(true);
 
-        updateHeightMapGrid();
+        delete m_heightMapInterpolationDrawer.data();
+        m_heightMapInterpolationDrawer.setData(NULL);
 
-        ui->txtHeightMap->clear();
+        updateHeightMapGridDrawer();
+
+//        ui->txtHeightMap->clear();
     }
 }
 
@@ -1936,7 +1944,7 @@ void frmMain::on_grpHeightMap_toggled(bool arg1)
     ui->widgetHeightMap->setVisible(arg1);
 }
 
-QRectF frmMain::getBorderRect()
+QRectF frmMain::borderRectFromTextboxes()
 {
     QRectF rect;
 
@@ -1948,56 +1956,87 @@ QRectF frmMain::getBorderRect()
     return rect;
 }
 
-void frmMain::autoBorderRect()
+QRectF frmMain::borderRectFromExtremes()
 {
-    if (!std::isnan(m_codeDrawer->getSizes().length())) {
-        ui->txtHeightMapBorderX->setValue(m_codeDrawer->getMinimumExtremes().x());
-        ui->txtHeightMapBorderY->setValue(m_codeDrawer->getMinimumExtremes().y());
-        ui->txtHeightMapBorderWidth->setValue(m_codeDrawer->getSizes().x());
-        ui->txtHeightMapBorderHeight->setValue(m_codeDrawer->getSizes().y());
-    }
+    QRectF rect;
+
+    rect.setX(m_codeDrawer->getMinimumExtremes().x());
+    rect.setY(m_codeDrawer->getMinimumExtremes().y());
+    rect.setWidth(m_codeDrawer->getSizes().x());
+    rect.setHeight(m_codeDrawer->getSizes().y());
+
+    return rect;
 }
 
 void frmMain::on_chkHeightMapBorderAuto_toggled(bool checked)
 {
-    static QRectF storedRect;
-
     if (checked) {
-//        storedRect = getBorderRect();
-        autoBorderRect();
-    } else {
-//        ui->txtHeightMapBorderX->setValue(storedRect.x());
-//        ui->txtHeightMapBorderY->setValue(storedRect.y());
-//        ui->txtHeightMapBorderWidth->setValue(storedRect.width());
-//        ui->txtHeightMapBorderHeight->setValue(storedRect.height());
+        QRectF rect = borderRectFromExtremes();
+
+        if (!std::isnan(rect.width()) && !std::isnan(rect.height())) {
+            ui->txtHeightMapBorderX->setValue(rect.x());
+            ui->txtHeightMapBorderY->setValue(rect.y());
+            ui->txtHeightMapBorderWidth->setValue(rect.width());
+            ui->txtHeightMapBorderHeight->setValue(rect.height());
+        }
     }
 }
 
-void frmMain::updateHeightMapBorder()
+void frmMain::updateHeightMapBorderDrawer()
 {
-    m_heightMapBorderDrawer.setBorderRect(getBorderRect());
+    m_heightMapBorderDrawer.setBorderRect(borderRectFromTextboxes());
 }
 
-void frmMain::updateHeightMapGrid()
-{
-    m_heightMapGridDrawer.setBorderRect(getBorderRect());
+void frmMain::updateHeightMapGridDrawer()
+{    
+    m_heightMapGridDrawer.setBorderRect(borderRectFromTextboxes());
     m_heightMapGridDrawer.setGridSize(QPointF(ui->txtHeightMapGridX->value(), ui->txtHeightMapGridY->value()));
     m_heightMapGridDrawer.setZBottom(ui->txtHeightMapGridZBottom->value());
     m_heightMapGridDrawer.setZTop(ui->txtHeightMapGridZTop->value());
 
-    int xPoints = trunc(getBorderRect().width() / ui->txtHeightMapGridX->value()) + 1;
-    int yPoints = trunc(getBorderRect().height() / ui->txtHeightMapGridY->value()) + 1;
+    int gridPointsX = trunc(borderRectFromTextboxes().width() / ui->txtHeightMapGridX->value()) + 1;
+    int gridPointsY = trunc(borderRectFromTextboxes().height() / ui->txtHeightMapGridY->value()) + 1;
 
-    m_heightMapModel.resize(xPoints, yPoints);
+    m_heightMapModel.resize(gridPointsX, gridPointsY);
     ui->tblHeightMap->setModel(NULL);
     ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-//    ui->tblHeightMap->horizontalHeader()->resizeSections(QHeaderView::Fixed);
 
     ui->tblHeightMap->setModel(&m_heightMapModel);
 
     if (ui->tblHeightMap->horizontalHeader()->defaultSectionSize()
             * ui->tblHeightMap->horizontalHeader()->count() < ui->tblHeightMap->width())
         ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);        
+}
+
+void frmMain::updateHeightMapInterpolationDrawer()
+{
+    if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;
+
+    QRectF borderRect = borderRectFromTextboxes();
+    m_heightMapInterpolationDrawer.setBorderRect(borderRect);
+
+    QVector<QVector<double>> *interpolationData = new QVector<QVector<double>>;
+
+    int interpolationPointsX = trunc(borderRect.width() / ui->txtHeightMapInterpolationStepX->value()) + 1;
+    int interpolationPointsY = trunc(borderRect.height() / ui->txtHeightMapInterpolationStepY->value()) + 1;
+
+    double interpolationStepX = interpolationPointsX > 1 ? borderRect.width() / (interpolationPointsX - 1) : 0;
+    double interpolationStepY = interpolationPointsY > 1 ? borderRect.height() / (interpolationPointsY - 1) : 0;
+
+    for (int i = 0; i < interpolationPointsY; i++) {
+        QVector<double> row;
+        for (int j = 0; j < interpolationPointsX; j++) {
+
+            double x = interpolationStepX * j + borderRect.x();
+            double y = interpolationStepY * i + borderRect.y();
+
+            row.append(Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
+        }
+        interpolationData->append(row);
+    }
+
+    if (m_heightMapInterpolationDrawer.data() != NULL) delete m_heightMapInterpolationDrawer.data();
+    m_heightMapInterpolationDrawer.setData(interpolationData);
 }
 
 void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
@@ -2007,26 +2046,26 @@ void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
 
 void frmMain::on_txtHeightMapBorderX_valueChanged(double arg1)
 {
-    updateHeightMapBorder();
-    updateHeightMapGrid();
+    updateHeightMapBorderDrawer();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapBorderWidth_valueChanged(double arg1)
 {
-    updateHeightMapBorder();
-    updateHeightMapGrid();
+    updateHeightMapBorderDrawer();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapBorderY_valueChanged(double arg1)
 {
-    updateHeightMapBorder();
-    updateHeightMapGrid();
+    updateHeightMapBorderDrawer();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapBorderHeight_valueChanged(double arg1)
 {
-    updateHeightMapBorder();
-    updateHeightMapGrid();
+    updateHeightMapBorderDrawer();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -2036,22 +2075,22 @@ void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
 
 void frmMain::on_txtHeightMapGridX_valueChanged(double arg1)
 {
-    updateHeightMapGrid();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapGridY_valueChanged(double arg1)
 {
-    updateHeightMapGrid();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapGridZBottom_valueChanged(double arg1)
 {
-    updateHeightMapGrid();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_txtHeightMapGridZTop_valueChanged(double arg1)
 {
-    updateHeightMapGrid();
+    updateHeightMapGridDrawer();
 }
 
 void frmMain::on_cmdHeightMapMode_toggled(bool checked)
@@ -2063,13 +2102,6 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     }
 
     updateControlsState();
-
-    if (checked) {
-//        ui->tblHeightMap->setModel(&m_heightMapModel);
-//        ui->tblHeightMap->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-        updateHeightMapBorder();
-        updateHeightMapGrid();
-    }
 }
 
 void frmMain::saveHeightMap(QString fileName)
@@ -2090,7 +2122,8 @@ void frmMain::saveHeightMap(QString fileName)
                << ui->txtHeightMapGridZBottom->text() << ";"
                << ui->txtHeightMapGridZTop->text() << "\r\n";
     textStream << ui->cboHeightMapInterpolationType->currentIndex() << ";"
-               << ui->txtHeightMapInterpolationStep->text() << "\r\n";
+               << ui->txtHeightMapInterpolationStepX->text() << ";"
+                << ui->txtHeightMapInterpolationStepY->text() << "\r\n";
 
     for (int i = 0; i < m_heightMapModel.rowCount(); i++) {
         for (int j = 0; j < m_heightMapModel.columnCount(); j++) {
@@ -2102,140 +2135,96 @@ void frmMain::saveHeightMap(QString fileName)
     file.close();
 }
 
-void frmMain::loadHeightMap(QString fileName)
+void frmMain::loadHeightMap()
 {
-    QFile file(fileName);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
 
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
-        return;
-    }
-    QTextStream textStream(&file);
+    if (fileName != "") {
+        QFile file(fileName);
 
-    QList<QString> list = textStream.readLine().split(";");
-    ui->txtHeightMapBorderX->setValue(list[0].toDouble());
-    ui->txtHeightMapBorderY->setValue(list[1].toDouble());
-    ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
-    ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
-
-    list = textStream.readLine().split(";");
-    ui->txtHeightMapGridX->setValue(list[0].toDouble());
-    ui->txtHeightMapGridY->setValue(list[1].toDouble());
-    ui->txtHeightMapGridZBottom->setValue(list[2].toDouble());
-    ui->txtHeightMapGridZTop->setValue(list[3].toDouble());
-
-    list = textStream.readLine().split(";");
-    ui->cboHeightMapInterpolationType->setCurrentIndex(list[0].toInt());
-    ui->txtHeightMapInterpolationStep->setValue(list[1].toDouble());
-
-    ui->chkHeightMapBorderAuto->setEnabled(false);
-    ui->chkHeightMapBorderAuto->setChecked(false);
-    ui->txtHeightMapBorderX->setEnabled(false);
-    ui->txtHeightMapBorderY->setEnabled(false);
-    ui->txtHeightMapBorderWidth->setEnabled(false);
-    ui->txtHeightMapBorderHeight->setEnabled(false);
-
-    ui->txtHeightMapGridX->setEnabled(false);
-    ui->txtHeightMapGridY->setEnabled(false);
-    ui->txtHeightMapGridZBottom->setEnabled(false);
-    ui->txtHeightMapGridZTop->setEnabled(false);
-
-    m_heightMapModel.clear();
-
-    QRectF borderRect = getBorderRect();
-
-    // Base points
-    int xPoints = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
-    int yPoints = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
-
-    double gridX = xPoints > 1 ? borderRect.width() / (xPoints - 1) : 0;
-    double gridY = yPoints > 1 ? borderRect.height() / (yPoints - 1) : 0;
-
-    m_heightMapModel.resize(xPoints, yPoints);
-
-    for (int i = 0; i < yPoints; i++) {
-        QList<QString> row = textStream.readLine().split(";");
-        for (int j = 0; j < xPoints; j++) {
-            m_heightMapModel.setData(m_heightMapModel.index(i, j), row[j].toDouble());
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+            return;
         }
-    }
+        QTextStream textStream(&file);
 
-    file.close();
+        QList<QString> list = textStream.readLine().split(";");
+        ui->txtHeightMapBorderX->setValue(list[0].toDouble());
+        ui->txtHeightMapBorderY->setValue(list[1].toDouble());
+        ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
+        ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
 
-    ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+        list = textStream.readLine().split(";");
+        ui->txtHeightMapGridX->setValue(list[0].toDouble());
+        ui->txtHeightMapGridY->setValue(list[1].toDouble());
+        ui->txtHeightMapGridZBottom->setValue(list[2].toDouble());
+        ui->txtHeightMapGridZTop->setValue(list[3].toDouble());
 
-    // Interpolation
-    m_heightMapInterpolationDrawer.setBorderRect(borderRect);
+        list = textStream.readLine().split(";");
 
-    QVector<QVector<double>> *interp = new QVector<QVector<double>>;
+        ui->chkHeightMapBorderAuto->setEnabled(false);
+        ui->chkHeightMapBorderAuto->setChecked(false);
+        ui->txtHeightMapBorderX->setEnabled(false);
+        ui->txtHeightMapBorderY->setEnabled(false);
+        ui->txtHeightMapBorderWidth->setEnabled(false);
+        ui->txtHeightMapBorderHeight->setEnabled(false);
 
-    xPoints = trunc(borderRect.width() / ui->txtHeightMapInterpolationStep->value()) + 1;
-    yPoints = trunc(borderRect.height() / ui->txtHeightMapInterpolationStep->value()) + 1;
+        ui->txtHeightMapGridX->setEnabled(false);
+        ui->txtHeightMapGridY->setEnabled(false);
+        ui->txtHeightMapGridZBottom->setEnabled(false);
+        ui->txtHeightMapGridZTop->setEnabled(false);
 
-    double interX = xPoints > 1 ? borderRect.width() / (xPoints - 1) : 0;
-    double interY = yPoints > 1 ? borderRect.height() / (yPoints - 1) : 0;
+        m_heightMapModel.clear();
+        ui->tblHeightMap->setModel(NULL);
+        ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
-    for (int i = 0; i < yPoints; i++) {
-        QVector<double> row;
-        for (int j = 0; j < xPoints; j++) {
-//            glVertex3f(borderRect.x() + gridX * j, borderRect.y() + gridY * i, m_data->at(i).at(j));
-            double x = interX * j;
-            double y = interY * i;
+        // Base points
+        QRectF borderRect = borderRectFromTextboxes();
+        int xPoints = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
+        int yPoints = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
 
-            int ix = trunc(x / gridX);
-            int iy = trunc(y / gridY);
+        m_heightMapModel.resize(xPoints, yPoints);
 
-            QVector<QVector<double>> p;
-            QVector<double> arr;
-            arr.append(m_heightMapModel.data(m_heightMapModel.index((iy > 0 ? iy - 1 : iy), (ix > 0 ? ix - 1 : ix))).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index((iy > 0 ? iy - 1 : iy), ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index((iy > 0 ? iy - 1 : iy), ix + 1)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index((iy > 0 ? iy - 1 : iy), (ix < m_heightMapModel.columnCount() - 2 ? ix + 2: ix + 1))).toDouble());
-            p.append(arr);
-            arr.clear();
-
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy, ix > 0 ? ix - 1 : ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy, ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy, ix + 1)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy, ix < m_heightMapModel.columnCount() - 2 ? ix + 2: ix + 1)).toDouble());
-            p.append(arr);
-            arr.clear();
-
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy + 1, ix > 0 ? ix - 1 : ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy + 1, ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy + 1, ix + 1)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy + 1, ix < m_heightMapModel.columnCount() - 2 ? ix + 2 : ix + 1)).toDouble());
-            p.append(arr);
-            arr.clear();
-
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy < m_heightMapModel.rowCount() - 2 ? iy + 2 : iy + 1, ix > 0 ? ix - 1 : ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy < m_heightMapModel.rowCount() - 2 ? iy + 2 : iy + 1, ix)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy < m_heightMapModel.rowCount() - 2 ? iy + 2 : iy + 1, ix + 1)).toDouble());
-            arr.append(m_heightMapModel.data(m_heightMapModel.index(iy < m_heightMapModel.rowCount() - 2 ? iy + 2 : iy + 1, ix < m_heightMapModel.columnCount() - 2 ? ix + 2 : ix + 1)).toDouble());
-            p.append(arr);
-            arr.clear();
-
-//            qDebug() << "x:" << x << "y:" << y << "ix:" << ix << "iy:" << iy << "points:" << p;
-
-            row.append(bicubicInterpolate(p, x / gridX - ix, y / gridY - iy));
+        for (int i = 0; i < yPoints; i++) {
+            QList<QString> row = textStream.readLine().split(";");
+            for (int j = 0; j < xPoints; j++) {
+                m_heightMapModel.setData(m_heightMapModel.index(i, j), row[j].toDouble());
+            }
         }
-        interp->append(row);
-    }
 
-    m_heightMapInterpolationDrawer.setData(interp);
+        file.close();
+
+        ui->tblHeightMap->setModel(&m_heightMapModel);
+        if (ui->tblHeightMap->horizontalHeader()->defaultSectionSize()
+                * ui->tblHeightMap->horizontalHeader()->count() < ui->glwVisualizer->width())
+            ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+        ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+        ui->cboHeightMapInterpolationType->setCurrentIndex(list[0].toInt());
+        ui->txtHeightMapInterpolationStepX->setValue(list[1].toDouble());
+        ui->txtHeightMapInterpolationStepY->setValue(list[2].toDouble());
+
+        updateHeightMapInterpolationDrawer();
+    }
 }
 
-double frmMain::cubicInterpolate(QVector<double> p, double x)
+void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
-    return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
+    updateControlsState();
 }
 
-double frmMain::bicubicInterpolate(QVector<QVector<double>> p, double x, double y)
+void frmMain::on_cmdHeightMapLoad_clicked()
 {
-    QVector<double> arr;
-    arr.append(cubicInterpolate(p[0], x));
-    arr.append(cubicInterpolate(p[1], x));
-    arr.append(cubicInterpolate(p[2], x));
-    arr.append(cubicInterpolate(p[3], x));
-    return cubicInterpolate(arr, y);
+    loadHeightMap();
+    updateControlsState();
+}
+
+void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
+{
+    updateHeightMapInterpolationDrawer();
+}
+
+void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
+{
+    updateHeightMapInterpolationDrawer();
 }

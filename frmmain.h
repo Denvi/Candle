@@ -26,6 +26,7 @@
 #include "frmabout.h"
 #include "styledtoolbutton.h"
 #include "shobjidl.h"
+#include "interpolation.h"
 
 namespace Ui {
 class frmMain;
@@ -113,38 +114,28 @@ private slots:
     void on_grpJog_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
-
     void on_splitter_splitterMoved(int pos, int index);
-
     void on_actRecentClear_triggered();
-
     void on_sliSpindleSpeed_sliderReleased();
-
     void on_grpHeightMap_toggled(bool arg1);
-
     void on_chkHeightMapBorderAuto_toggled(bool checked);
-
     void on_chkHeightMapBorderShow_toggled(bool checked);
-
     void on_txtHeightMapBorderX_valueChanged(double arg1);
-
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);
-
     void on_txtHeightMapBorderY_valueChanged(double arg1);
-
     void on_txtHeightMapBorderHeight_valueChanged(double arg1);
-
     void on_chkHeightMapGridShow_toggled(bool checked);
-
     void on_txtHeightMapGridX_valueChanged(double arg1);
-
     void on_txtHeightMapGridY_valueChanged(double arg1);
-
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
-
     void on_txtHeightMapGridZTop_valueChanged(double arg1);
-
     void on_cmdHeightMapMode_toggled(bool checked);
+    void on_chkHeightMapInterpolationShow_toggled(bool checked);
+    void on_cmdHeightMapLoad_clicked();
+
+    void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
+
+    void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -244,7 +235,6 @@ private:
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
-    //    bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2);
     void blockJogForRapidMovement();
     bool keyIsMovement(int key);
     bool dataIsFloating(QString data);
@@ -253,14 +243,14 @@ private:
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
     double toMetric(double value);
-    QRectF getBorderRect();
-    void updateHeightMapBorder();
-    void updateHeightMapGrid();
-    void autoBorderRect();
-    void loadHeightMap(QString fileName);
+
+    QRectF borderRectFromTextboxes();
+    QRectF borderRectFromExtremes();
+    void updateHeightMapBorderDrawer();
+    void updateHeightMapGridDrawer();
+    void updateHeightMapInterpolationDrawer();
+    void loadHeightMap();
     void saveHeightMap(QString fileName);
-    double cubicInterpolate(QVector<double> p, double x);
-    double bicubicInterpolate(QVector<QVector<double> > p, double x, double y);
 };
 
 #endif // FRMMAIN_H
