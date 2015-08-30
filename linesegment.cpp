@@ -30,6 +30,19 @@ LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
     m_lineNumber = num;
 }
 
+LineSegment::LineSegment(LineSegment* initial)
+{
+    m_toolhead = initial->getToolhead();
+    m_isZMovement = initial->isZMovement();
+    m_isArc = initial->isArc();
+    m_isFastTraverse = initial->isFastTraverse();
+    m_drawn = initial->drawn();
+    m_first = initial->getStart();
+    m_second = initial->getEnd();
+    m_lineNumber = initial->getLineNumber();
+    m_speed = initial->getSpeed();
+}
+
 LineSegment::~LineSegment()
 {
 
@@ -63,8 +76,18 @@ QVector3D LineSegment::getStart() {
     return this->m_first;
 }
 
+void LineSegment::setStart(QVector3D vector)
+{
+    m_first = vector;
+}
+
 QVector3D LineSegment::getEnd() {
     return this->m_second;
+}
+
+void LineSegment::setEnd(QVector3D vector)
+{
+    m_second = vector;
 }
 
 void LineSegment::setToolHead(int head) {

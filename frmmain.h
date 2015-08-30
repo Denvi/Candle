@@ -137,6 +137,10 @@ private slots:
 
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
 
+    void on_chkHeightMapUse_toggled(bool checked);
+
+    void on_cmdHeightMapCreate_clicked();
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -149,19 +153,33 @@ private:
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
+
     GcodeDrawer *m_codeDrawer;
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
     HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
-    GCodeTableModel m_tableModel;
+
+    GCodeTableModel m_programModel;
+    GCodeTableModel m_probeModel;
+    GCodeTableModel m_programHeightmapModel;
+
     HeightMapTableModel m_heightMapModel;
+
     bool m_programLoading;
+
     QSerialPort m_serialPort;
+
     frmSettings m_frmSettings;
     frmAbout m_frmAbout;
+
     QString m_settingsFileName;
     QString m_programFileName;
+    QString m_heightMapFileName;
+
+    bool m_fileChanged = false;
+    bool m_heightMapChanged = false;
+
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
@@ -208,18 +226,18 @@ private:
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;      
-    bool m_fileChanged = false;
 
     bool m_spindleCW = true;
     bool m_spindleCommandSpeed = false;
 
     QStringList m_recentFiles;
+    QStringList m_recentHeightmaps;
 
     void loadFile(QString fileName);
     void clearTable();
     void loadSettings();
     void saveSettings();
-    bool saveChanges();
+    bool saveChanges(bool heightMapMode);
     void updateControlsState();
     void openPort();
     void sendCommand(QString command, int tableIndex = -1);
@@ -242,6 +260,7 @@ private:
     void updateLayouts();
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
+    void addRecentHeightmap(QString fileName);
     double toMetric(double value);
 
     QRectF borderRectFromTextboxes();
@@ -249,8 +268,11 @@ private:
     void updateHeightMapBorderDrawer();
     void updateHeightMapGridDrawer();
     void updateHeightMapInterpolationDrawer();
-    void loadHeightMap();
-    void saveHeightMap(QString fileName);
+    void loadHeightMap(QString fileName);
+    bool saveHeightMap(QString fileName);
+
+    GCodeTableModel *getCurrentTableModel();
+    QList<LineSegment *> subdivideSegment(LineSegment *segment);
 };
 
 #endif // FRMMAIN_H

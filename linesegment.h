@@ -17,13 +17,19 @@ class LineSegment : public QObject
 public:
     explicit LineSegment(QObject *parent = 0);
     LineSegment(QVector3D a, QVector3D b, int num);
+    LineSegment(LineSegment *initial);
     ~LineSegment();
 
     int getLineNumber();
     QList<QVector3D> getPointArray();
     QList<double> getPoints();
+
     QVector3D getStart();
+    void setStart(QVector3D vector);
+
     QVector3D getEnd();
+    void setEnd(QVector3D vector);
+
     void setToolHead(int head);
     int getToolhead();
     void setSpeed(double s);

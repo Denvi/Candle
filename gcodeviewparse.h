@@ -26,6 +26,9 @@ public:
     QList<LineSegment *> toObjRedux(QList<QString> gcode, double arcSegmentLength);
     QList<LineSegment *> getLineSegmentList();
     QList<LineSegment *> getLinesFromParser(GcodeParser *gp, double arcSegmentLength);
+
+    QList<LineSegment *> *getLines();
+
     void reset();
 signals:
 

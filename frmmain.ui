@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>904</width>
-    <height>1112</height>
+    <width>923</width>
+    <height>1146</height>
    </rect>
   </property>
   <property name="palette">
@@ -544,7 +544,7 @@ QToolButton:checked { /* all types of tool button */
        <item>
         <widget class="QGroupBox" name="grpHeightMapSettings">
          <property name="title">
-          <string>Параметры карты высот</string>
+          <string>Heightmap settings</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,1,1">
           <property name="spacing">
@@ -555,40 +555,12 @@ QToolButton:checked { /* all types of tool button */
             <item>
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>Границы:</string>
+               <string>Border:</string>
               </property>
              </widget>
             </item>
             <item>
              <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="3">
-               <widget class="QDoubleSpinBox" name="txtHeightMapBorderWidth">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>10.000000000000000</double>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_6">
                 <property name="text">
@@ -618,45 +590,6 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                 <property name="maximum">
                  <double>999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Y:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="txtHeightMapBorderY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Ш:</string>
                 </property>
                </widget>
               </item>
@@ -691,7 +624,74 @@ QToolButton:checked { /* all types of tool button */
               <item row="1" column="2">
                <widget class="QLabel" name="label_9">
                 <property name="text">
-                 <string>В:</string>
+                 <string>H:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="txtHeightMapBorderWidth">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>-999.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>10.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>W:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QDoubleSpinBox" name="txtHeightMapBorderY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>-999.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -702,7 +702,7 @@ QToolButton:checked { /* all types of tool button */
               <item>
                <widget class="QCheckBox" name="chkHeightMapBorderAuto">
                 <property name="text">
-                 <string>Авто</string>
+                 <string>Auto</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -712,7 +712,7 @@ QToolButton:checked { /* all types of tool button */
               <item>
                <widget class="QCheckBox" name="chkHeightMapBorderShow">
                 <property name="text">
-                 <string>Показать границы</string>
+                 <string>Show border</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -741,7 +741,7 @@ QToolButton:checked { /* all types of tool button */
             <item>
              <widget class="QLabel" name="label_10">
               <property name="text">
-               <string>Сетка зондирования:</string>
+               <string>Probe grid:</string>
               </property>
              </widget>
             </item>
@@ -776,74 +776,10 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>Y:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string>Zв:</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="2">
                <widget class="QLabel" name="label_11">
                 <property name="text">
-                 <string>Zн:</string>
+                 <string>Zb:</string>
                 </property>
                </widget>
               </item>
@@ -875,6 +811,70 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>-999.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Zt:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -882,7 +882,7 @@ QToolButton:checked { /* all types of tool button */
               <item>
                <widget class="QCheckBox" name="chkHeightMapGridShow">
                 <property name="text">
-                 <string>Показать сетку</string>
+                 <string>Show grid</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -911,7 +911,7 @@ QToolButton:checked { /* all types of tool button */
             <item>
              <widget class="QLabel" name="label_16">
               <property name="text">
-               <string>Сетка интерполяции:</string>
+               <string>Interpolation grid:</string>
               </property>
              </widget>
             </item>
@@ -982,7 +982,7 @@ QToolButton:checked { /* all types of tool button */
               <item>
                <widget class="QLabel" name="label_17">
                 <property name="text">
-                 <string>Тип:</string>
+                 <string>Type:</string>
                 </property>
                </widget>
               </item>
@@ -996,12 +996,7 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                 <item>
                  <property name="text">
-                  <string>Линейная</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Кубическая</string>
+                  <string>Bicubic</string>
                  </property>
                 </item>
                </widget>
@@ -1013,7 +1008,7 @@ QToolButton:checked { /* all types of tool button */
               <item>
                <widget class="QCheckBox" name="chkHeightMapInterpolationShow">
                 <property name="text">
-                 <string>Отобразить</string>
+                 <string>Show</string>
                 </property>
                </widget>
               </item>
@@ -1556,7 +1551,7 @@ color: black;</string>
       <item>
        <widget class="QGroupBox" name="grpHeightMap">
         <property name="title">
-         <string>Карта высот</string>
+         <string>Heightmap</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -1595,7 +1590,7 @@ color: black;</string>
             <item>
              <widget class="QCheckBox" name="chkHeightMapUse">
               <property name="text">
-               <string>Использовать карту высот</string>
+               <string>Use heightmap</string>
               </property>
              </widget>
             </item>
@@ -1604,7 +1599,7 @@ color: black;</string>
               <item>
                <widget class="QLabel" name="label_15">
                 <property name="text">
-                 <string>Карта:</string>
+                 <string>Map:</string>
                 </property>
                </widget>
               </item>
@@ -1620,7 +1615,7 @@ color: black;</string>
                  <bool>true</bool>
                 </property>
                 <property name="placeholderText">
-                 <string>Отсутствует</string>
+                 <string>Absent</string>
                 </property>
                </widget>
               </item>
@@ -1643,7 +1638,7 @@ color: black;</string>
                  </size>
                 </property>
                 <property name="text">
-                 <string>Создать</string>
+                 <string>Create</string>
                 </property>
                </widget>
               </item>
@@ -1662,7 +1657,7 @@ color: black;</string>
                  </size>
                 </property>
                 <property name="text">
-                 <string>Окрыть</string>
+                 <string>Open</string>
                 </property>
                </widget>
               </item>
@@ -1683,7 +1678,7 @@ color: black;</string>
                </size>
               </property>
               <property name="text">
-               <string>Режим редактирования</string>
+               <string>Edit mode</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -2596,7 +2591,7 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>904</width>
+     <width>923</width>
      <height>26</height>
     </rect>
    </property>

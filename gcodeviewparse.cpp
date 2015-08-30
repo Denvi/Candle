@@ -76,7 +76,7 @@ void GcodeViewParse::reset()
     m_max = QVector3D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
 }
 
-QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcSegmentLength)
+QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcSegmentLength)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
@@ -136,4 +136,9 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
     }
 
     return lines;
+}
+
+QList<LineSegment *> *GcodeViewParse::getLines()
+{
+    return &lines;
 }

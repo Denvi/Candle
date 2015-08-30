@@ -36,7 +36,7 @@
 <context>
     <name>GLWidget</name>
     <message>
-        <location filename="../glwidget.cpp" line="452"/>
+        <location filename="../glwidget.cpp" line="489"/>
         <source>Lines: %1</source>
         <translation>Сегменты: %1</translation>
     </message>
@@ -85,53 +85,138 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="186"/>
+        <location filename="../frmmain.cpp" line="358"/>
         <source>G-code program</source>
         <translation>G-code программа</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="216"/>
+        <location filename="../frmmain.ui" line="204"/>
         <source>Isometric view</source>
         <translation>Изометрия</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="264"/>
+        <location filename="../frmmain.ui" line="252"/>
         <source>Top view</source>
         <translation>Вид сверху</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="312"/>
+        <location filename="../frmmain.ui" line="300"/>
         <source>Front view</source>
         <translation>Вид спереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="360"/>
+        <location filename="../frmmain.ui" line="348"/>
         <source>Left view</source>
         <translation>Вид слева</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="408"/>
+        <location filename="../frmmain.ui" line="396"/>
         <source>Fit</source>
         <translation>Вписать</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="539"/>
-        <location filename="../frmmain.cpp" line="922"/>
+        <location filename="../frmmain.ui" line="547"/>
+        <source>Heightmap settings</source>
+        <translation>Настройки карты высот</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="558"/>
+        <source>Border:</source>
+        <translation>Границы:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="567"/>
+        <location filename="../frmmain.ui" line="753"/>
+        <location filename="../frmmain.ui" line="930"/>
+        <source>X:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="627"/>
+        <source>H:</source>
+        <translation>В:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="662"/>
+        <source>W:</source>
+        <translation>Ш:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="669"/>
+        <location filename="../frmmain.ui" line="852"/>
+        <location filename="../frmmain.ui" line="923"/>
+        <source>Y:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="705"/>
+        <source>Auto</source>
+        <translation>Авто</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="715"/>
+        <source>Show border</source>
+        <translation>Показать границы</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="744"/>
+        <source>Probe grid:</source>
+        <translation>Сетка зондирования:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="782"/>
+        <source>Zb:</source>
+        <translation>Zн:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="845"/>
+        <source>Zt:</source>
+        <translation>Zв:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="885"/>
+        <source>Show grid</source>
+        <translation>Показать сетку</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="914"/>
+        <source>Interpolation grid:</source>
+        <translation>Сетка интерполяции:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="985"/>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="999"/>
+        <source>Bicubic</source>
+        <translation>Бикубическая</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1011"/>
+        <source>Show</source>
+        <translation>Отобразить</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1052"/>
+        <location filename="../frmmain.cpp" line="986"/>
         <source>Check mode</source>
         <translation>Режим проверки</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="558"/>
-        <location filename="../frmmain.cpp" line="916"/>
+        <location filename="../frmmain.ui" line="1071"/>
+        <location filename="../frmmain.cpp" line="980"/>
         <source>Autoscroll</source>
         <translation>Автопрокрутка</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="616"/>
+        <location filename="../frmmain.ui" line="1129"/>
         <source>State</source>
         <translation>Состояние</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="799"/>
+        <location filename="../frmmain.ui" line="1312"/>
         <source>Control</source>
         <translation>Управление</translation>
     </message>
@@ -140,22 +225,23 @@
         <translation type="vanished">Z-щуп</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="935"/>
+        <location filename="../frmmain.ui" line="1448"/>
         <source>Restore XYZ</source>
         <translation>Восстановить XYZ</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1948"/>
+        <location filename="../frmmain.ui" line="2604"/>
         <source>&amp;Recent files</source>
         <translation>&amp;Недавние файлы</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1980"/>
+        <location filename="../frmmain.ui" line="2636"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="592"/>
+        <location filename="../frmmain.ui" line="1105"/>
+        <location filename="../frmmain.cpp" line="372"/>
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
@@ -168,57 +254,57 @@
         <translation type="vanished">Автопрокрутка</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="585"/>
-        <location filename="../frmmain.ui" line="987"/>
+        <location filename="../frmmain.ui" line="1098"/>
+        <location filename="../frmmain.ui" line="1500"/>
         <source>Reset</source>
         <translation>Сброс</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="599"/>
+        <location filename="../frmmain.ui" line="1112"/>
         <source>Pause</source>
         <translation>Пауза</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="641"/>
+        <location filename="../frmmain.ui" line="1154"/>
         <source>Work coordinates:</source>
         <translation>Рабочие координаты:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="655"/>
-        <location filename="../frmmain.ui" line="668"/>
-        <location filename="../frmmain.ui" line="681"/>
-        <location filename="../frmmain.ui" line="719"/>
-        <location filename="../frmmain.ui" line="732"/>
-        <location filename="../frmmain.ui" line="745"/>
+        <location filename="../frmmain.ui" line="1168"/>
+        <location filename="../frmmain.ui" line="1181"/>
+        <location filename="../frmmain.ui" line="1194"/>
+        <location filename="../frmmain.ui" line="1232"/>
+        <location filename="../frmmain.ui" line="1245"/>
+        <location filename="../frmmain.ui" line="1258"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="705"/>
+        <location filename="../frmmain.ui" line="1218"/>
         <source>Machine coordinates:</source>
         <translation>Машинные координаты:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="767"/>
+        <location filename="../frmmain.ui" line="1280"/>
         <source>Status:</source>
         <translation>Статус:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="781"/>
-        <location filename="../frmmain.cpp" line="301"/>
+        <location filename="../frmmain.ui" line="1294"/>
+        <location filename="../frmmain.cpp" line="326"/>
         <source>Not connected</source>
         <translation>Нет соединения</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="831"/>
-        <location filename="../frmmain.ui" line="857"/>
-        <location filename="../frmmain.ui" line="883"/>
-        <location filename="../frmmain.ui" line="909"/>
-        <location filename="../frmmain.ui" line="938"/>
-        <location filename="../frmmain.ui" line="964"/>
-        <location filename="../frmmain.ui" line="990"/>
-        <location filename="../frmmain.ui" line="1019"/>
-        <location filename="../frmmain.ui" line="1414"/>
+        <location filename="../frmmain.ui" line="1344"/>
+        <location filename="../frmmain.ui" line="1370"/>
+        <location filename="../frmmain.ui" line="1396"/>
+        <location filename="../frmmain.ui" line="1422"/>
+        <location filename="../frmmain.ui" line="1451"/>
+        <location filename="../frmmain.ui" line="1477"/>
+        <location filename="../frmmain.ui" line="1503"/>
+        <location filename="../frmmain.ui" line="1532"/>
+        <location filename="../frmmain.ui" line="2070"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -227,12 +313,12 @@
         <translation type="vanished">Поиск стола</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="880"/>
+        <location filename="../frmmain.ui" line="1393"/>
         <source>Zero XY</source>
         <translation>Обнулить XY</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="906"/>
+        <location filename="../frmmain.ui" line="1419"/>
         <source>Zero Z</source>
         <translation>Обнулить Z</translation>
     </message>
@@ -241,204 +327,235 @@
         <translation type="vanished">Вернуться в XY(Z)</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="854"/>
+        <location filename="../frmmain.ui" line="1367"/>
         <source>Z-probe</source>
         <translation>Z-щуп</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="961"/>
+        <location filename="../frmmain.ui" line="1474"/>
         <source>Safe Z</source>
         <translation>Безопасная Z</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1016"/>
+        <location filename="../frmmain.ui" line="1529"/>
         <source>Unlock</source>
         <translation>Разблокировать</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1044"/>
-        <location filename="../frmmain.cpp" line="1313"/>
-        <location filename="../frmmain.cpp" line="1315"/>
-        <location filename="../frmmain.cpp" line="1341"/>
-        <location filename="../frmmain.cpp" line="1605"/>
-        <location filename="../frmmain.cpp" line="1607"/>
+        <location filename="../frmmain.ui" line="1554"/>
+        <location filename="../frmmain.cpp" line="355"/>
+        <source>Heightmap</source>
+        <translation>Карта высот</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1593"/>
+        <source>Use heightmap</source>
+        <translation>Использовать карту высот</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1602"/>
+        <source>Map:</source>
+        <translation>Карта:</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1618"/>
+        <source>Absent</source>
+        <translation>Отсутствует</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1641"/>
+        <source>Create</source>
+        <translation>Создать</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1681"/>
+        <source>Edit mode</source>
+        <translation>Редактирование</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.ui" line="1700"/>
+        <location filename="../frmmain.cpp" line="1417"/>
+        <location filename="../frmmain.cpp" line="1419"/>
+        <location filename="../frmmain.cpp" line="1448"/>
+        <location filename="../frmmain.cpp" line="1781"/>
+        <location filename="../frmmain.cpp" line="1783"/>
         <source>Spindle</source>
         <translation>Шпиндель</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1084"/>
+        <location filename="../frmmain.ui" line="1740"/>
         <source>Speed:</source>
         <translation>Скорость:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1142"/>
+        <location filename="../frmmain.ui" line="1798"/>
         <source>Spindle on/off</source>
         <translation>Вкл/выкл шпиндель</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1171"/>
-        <location filename="../frmmain.cpp" line="1594"/>
-        <location filename="../frmmain.cpp" line="1596"/>
+        <location filename="../frmmain.ui" line="1827"/>
+        <location filename="../frmmain.cpp" line="1770"/>
+        <location filename="../frmmain.cpp" line="1772"/>
         <source>Feed</source>
         <translation>Подача</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1214"/>
+        <location filename="../frmmain.ui" line="1870"/>
         <source>Override:</source>
         <translation>Переопределить:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1227"/>
+        <location filename="../frmmain.ui" line="1883"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1263"/>
-        <location filename="../frmmain.cpp" line="1616"/>
-        <location filename="../frmmain.cpp" line="1618"/>
-        <location filename="../frmmain.cpp" line="1696"/>
-        <location filename="../frmmain.cpp" line="1734"/>
-        <location filename="../frmmain.cpp" line="1737"/>
+        <location filename="../frmmain.ui" line="1919"/>
+        <location filename="../frmmain.cpp" line="1792"/>
+        <location filename="../frmmain.cpp" line="1794"/>
+        <location filename="../frmmain.cpp" line="1872"/>
+        <location filename="../frmmain.cpp" line="1910"/>
+        <location filename="../frmmain.cpp" line="1913"/>
         <source>Jog</source>
         <translation>Перемещение</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1331"/>
+        <location filename="../frmmain.ui" line="1987"/>
         <source>Step:</source>
         <translation>Шаг:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1411"/>
+        <location filename="../frmmain.ui" line="2067"/>
         <source>X-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1461"/>
+        <location filename="../frmmain.ui" line="2117"/>
         <source>Y-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1508"/>
+        <location filename="../frmmain.ui" line="2164"/>
         <source>X+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1558"/>
+        <location filename="../frmmain.ui" line="2214"/>
         <source>Y+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1605"/>
+        <location filename="../frmmain.ui" line="2261"/>
         <source>Z+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1637"/>
+        <location filename="../frmmain.ui" line="2293"/>
         <source>Z-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1663"/>
+        <location filename="../frmmain.ui" line="2319"/>
         <source>Presets:</source>
         <translation>Уставки:</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1684"/>
+        <location filename="../frmmain.ui" line="2340"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1706"/>
+        <location filename="../frmmain.ui" line="2362"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1734"/>
+        <location filename="../frmmain.ui" line="2390"/>
         <source>0.1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1756"/>
+        <location filename="../frmmain.ui" line="2412"/>
         <source>0.01</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1778"/>
+        <location filename="../frmmain.ui" line="2434"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1800"/>
+        <location filename="../frmmain.ui" line="2456"/>
         <source>100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1814"/>
+        <location filename="../frmmain.ui" line="2470"/>
         <source>Keyboard control</source>
         <translation>Управление с клавиатуры</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1827"/>
+        <location filename="../frmmain.ui" line="2483"/>
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1893"/>
+        <location filename="../frmmain.ui" line="2549"/>
         <source>Send command</source>
         <translation>Отправить команду</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1910"/>
+        <location filename="../frmmain.ui" line="2566"/>
         <source>Clear console</source>
         <translation>Очистить консоль</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1944"/>
+        <location filename="../frmmain.ui" line="2600"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1964"/>
+        <location filename="../frmmain.ui" line="2620"/>
         <source>&amp;Service</source>
         <translation>&amp;Сервис</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1970"/>
+        <location filename="../frmmain.ui" line="2626"/>
         <source>&amp;Help</source>
         <translation>С&amp;правка</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1985"/>
+        <location filename="../frmmain.ui" line="2641"/>
         <source>E&amp;xit</source>
         <translation>Вы&amp;ход</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1990"/>
+        <location filename="../frmmain.ui" line="2646"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="1995"/>
+        <location filename="../frmmain.ui" line="2651"/>
         <source>&amp;New</source>
         <translation>&amp;Новый</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="2000"/>
+        <location filename="../frmmain.ui" line="2656"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="2005"/>
+        <location filename="../frmmain.ui" line="2661"/>
         <source>Save &amp;as...</source>
         <translation>Сохранить &amp;как...</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="2010"/>
+        <location filename="../frmmain.ui" line="2666"/>
         <source>&amp;About</source>
         <translation>&amp;О программе</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="2015"/>
+        <location filename="../frmmain.ui" line="2671"/>
         <source>&amp;Clear</source>
         <translation>&amp;Очистить</translation>
     </message>
@@ -458,7 +575,7 @@
         <translation>Работа</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="828"/>
+        <location filename="../frmmain.ui" line="1341"/>
         <location filename="../frmmain.cpp" line="23"/>
         <source>Home</source>
         <translation>Домой</translation>
@@ -475,9 +592,9 @@
     </message>
     <message>
         <location filename="../frmmain.cpp" line="23"/>
-        <location filename="../frmmain.cpp" line="901"/>
-        <location filename="../frmmain.cpp" line="907"/>
-        <location filename="../frmmain.cpp" line="921"/>
+        <location filename="../frmmain.cpp" line="965"/>
+        <location filename="../frmmain.cpp" line="971"/>
+        <location filename="../frmmain.cpp" line="985"/>
         <source>Check</source>
         <translation>Проверка</translation>
     </message>
@@ -492,76 +609,103 @@
         <translation>&amp;Удалить строки</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="170"/>
-        <location filename="../frmmain.cpp" line="640"/>
+        <location filename="../frmmain.cpp" line="177"/>
+        <location filename="../frmmain.cpp" line="694"/>
         <source>Restore XYZ:
 %1, %2, %3</source>
         <translation>Восстановить XYZ:
 %1, %2, %3</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="255"/>
         <source>File was changed. Save?</source>
-        <translation>Файл был изменен. Сохранить?</translation>
+        <translation type="vanished">Файл был изменен. Сохранить?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="501"/>
+        <location filename="../frmmain.cpp" line="555"/>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Задание выполнено.
 Времени затрачено: %1</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="795"/>
+        <location filename="../frmmain.cpp" line="853"/>
         <source>Buffer: %1 / %2</source>
         <translation>Буфер: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="840"/>
+        <location filename="../frmmain.cpp" line="898"/>
         <source>Delete lines?</source>
         <translation>Удалить строки?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="909"/>
-        <location filename="../frmmain.cpp" line="915"/>
+        <location filename="../frmmain.cpp" line="973"/>
+        <location filename="../frmmain.cpp" line="979"/>
         <source>Scroll</source>
         <translation>Прокрутка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="947"/>
+        <location filename="../frmmain.cpp" line="1011"/>
         <source>File sending in progress. Terminate and exit?</source>
         <translation>Идет процесс отправки файла. Прервать и выйти из программы?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="981"/>
+        <location filename="../frmmain.cpp" line="1042"/>
+        <location filename="../frmmain.cpp" line="1649"/>
+        <location filename="../frmmain.cpp" line="2312"/>
+        <source>Heightmap files (*.map)</source>
+        <translation>Файлы карт высот (*.map)</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="1057"/>
+        <location filename="../frmmain.cpp" line="2234"/>
         <source>Can&apos;t open file:
 </source>
         <translation>Ошибка при открытии файла:
 </translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1313"/>
-        <location filename="../frmmain.cpp" line="1341"/>
-        <location filename="../frmmain.cpp" line="1596"/>
-        <location filename="../frmmain.cpp" line="1607"/>
-        <location filename="../frmmain.cpp" line="1618"/>
-        <location filename="../frmmain.cpp" line="1696"/>
-        <location filename="../frmmain.cpp" line="1734"/>
+        <location filename="../frmmain.cpp" line="1417"/>
+        <location filename="../frmmain.cpp" line="1448"/>
+        <location filename="../frmmain.cpp" line="1772"/>
+        <location filename="../frmmain.cpp" line="1783"/>
+        <location filename="../frmmain.cpp" line="1794"/>
+        <location filename="../frmmain.cpp" line="1872"/>
+        <location filename="../frmmain.cpp" line="1910"/>
         <source> (%1)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="324"/>
+        <location filename="../frmmain.cpp" line="1593"/>
+        <source>Untitled</source>
+        <translation>Без имени</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="378"/>
         <source>Connected</source>
         <translation>Подключен</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="684"/>
+        <location filename="../frmmain.cpp" line="264"/>
+        <source>G-code program file was changed. Save?</source>
+        <translation>Файл G-code программы был изменен. Сохранить?</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="272"/>
+        <source>Heightmap file was changed. Save?</source>
+        <translation>Файл карты высот был изменен. Сохранить?</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="372"/>
+        <source>Probe</source>
+        <translation>Зонд</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="738"/>
         <source>Processed</source>
         <translation>Обработана</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="769"/>
+        <location filename="../frmmain.cpp" line="823"/>
         <source>Serial port error </source>
         <translation>Ошибка последовательного порта </translation>
     </message>
@@ -570,33 +714,37 @@ Time elapsed: %1</source>
         <translation type="vanished">Буфер/очередь: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1485"/>
+        <location filename="../frmmain.cpp" line="1638"/>
+        <location filename="../frmmain.cpp" line="1649"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../frmmain.ui" line="578"/>
-        <location filename="../frmmain.cpp" line="966"/>
+        <location filename="../frmmain.ui" line="1091"/>
+        <location filename="../frmmain.ui" line="1660"/>
+        <location filename="../frmmain.cpp" line="1031"/>
+        <location filename="../frmmain.cpp" line="1042"/>
+        <location filename="../frmmain.cpp" line="2312"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="966"/>
-        <location filename="../frmmain.cpp" line="1485"/>
+        <location filename="../frmmain.cpp" line="1031"/>
+        <location filename="../frmmain.cpp" line="1638"/>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
         <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="831"/>
-        <location filename="../frmmain.cpp" line="1009"/>
-        <location filename="../frmmain.cpp" line="1118"/>
-        <location filename="../frmmain.cpp" line="1219"/>
-        <location filename="../frmmain.cpp" line="1431"/>
+        <location filename="../frmmain.cpp" line="889"/>
+        <location filename="../frmmain.cpp" line="1085"/>
+        <location filename="../frmmain.cpp" line="1212"/>
+        <location filename="../frmmain.cpp" line="1316"/>
+        <location filename="../frmmain.cpp" line="1548"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1107"/>
+        <location filename="../frmmain.cpp" line="1201"/>
         <source>Sended</source>
         <translation>Отправлена</translation>
     </message>

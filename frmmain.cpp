@@ -78,9 +78,9 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
-    connect(&m_tableModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
 
-    ui->tblProgram->setModel(&m_tableModel);
+    ui->tblProgram->setModel(&m_programModel);
 
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tblProgram->hideColumn(4);
@@ -177,6 +177,7 @@ void frmMain::loadSettings()
     ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
+    m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
@@ -248,6 +249,7 @@ void frmMain::saveSettings()
     set.setValue("storedY", m_storedY);
     set.setValue("storedZ", m_storedZ);
     set.setValue("recentFiles", m_recentFiles);
+    set.setValue("recentHeightmaps", m_recentHeightmaps);
     set.setValue("touchCommand", m_frmSettings.touchCommand());
 
     QStringList list;
@@ -256,19 +258,32 @@ void frmMain::saveSettings()
     set.setValue("recentCommands", list);
 }
 
-bool frmMain::saveChanges()
+bool frmMain::saveChanges(bool heightMapMode)
 {
-    if (m_fileChanged) {
-        int res = QMessageBox::warning(this, this->windowTitle(), tr("File was changed. Save?"),
+    if ((!heightMapMode && m_fileChanged)) {
+        int res = QMessageBox::warning(this, this->windowTitle(), tr("G-code program file was changed. Save?"),
                                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (res == QMessageBox::Cancel) return false;
         else if (res == QMessageBox::Yes) on_actFileSave_triggered();
+        m_fileChanged = false;
     }
-    m_fileChanged = false;
+
+    if (m_heightMapChanged) {
+        int res = QMessageBox::warning(this, this->windowTitle(), tr("Heightmap file was changed. Save?"),
+                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if (res == QMessageBox::Cancel) return false;
+        else if (res == QMessageBox::Yes) {
+            ui->cmdHeightMapMode->setChecked(true);
+            on_actFileSave_triggered();
+        }
+
+        m_fileChanged = false;
+    }
+
     return true;
 }
 
-void frmMain::updateControlsState() {
+void frmMain::updateControlsState() {    
     bool portOpened = m_serialPort.isOpen();
 
 //    this->setUpdatesEnabled(false);
@@ -295,13 +310,14 @@ void frmMain::updateControlsState() {
     ui->actFileNew->setEnabled(!m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileOpen->setEnabled(!m_transferringFile);
-    ui->cmdFileReset->setEnabled(!m_transferringFile && m_tableModel.rowCount() > 1);
-    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_tableModel.rowCount() > 1);    
+    ui->cmdFileReset->setEnabled(!m_transferringFile && m_programModel.rowCount() > 1);
+    ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
-    ui->mnuRecent->setEnabled(!m_transferringFile && m_recentFiles.count() > 0);
-    ui->actFileSave->setEnabled(m_tableModel.rowCount() > 1);
-    ui->actFileSaveAs->setEnabled(m_tableModel.rowCount() > 1);
+    ui->mnuRecent->setEnabled(!m_transferringFile && ((m_recentFiles.count() > 0 && !ui->cmdHeightMapMode->isChecked())
+                                                      || (m_recentHeightmaps.count() > 0 && ui->cmdHeightMapMode->isChecked())));
+    ui->actFileSave->setEnabled(m_programModel.rowCount() > 1);
+    ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers(m_transferringFile ? QAbstractItemView::NoEditTriggers :
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
@@ -336,10 +352,10 @@ void frmMain::updateControlsState() {
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && ui->cmdHeightMapMode->isChecked());
 
     if (ui->cmdHeightMapMode->isChecked()) {
-        ui->grpProgram->setTitle("Карта высот");
+        ui->grpProgram->setTitle(tr("Heightmap"));
         ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: red;}");
     } else {
-        ui->grpProgram->setTitle("G-code программа");
+        ui->grpProgram->setTitle(tr("G-code program"));
         ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: palette(text);}");
     }
 
@@ -350,10 +366,10 @@ void frmMain::updateControlsState() {
     ui->tblHeightMap->setVisible(ui->cmdHeightMapMode->isChecked());
     ui->tblProgram->setVisible(!ui->cmdHeightMapMode->isChecked());
 
-    ui->widgetHeightMap->setEnabled(m_tableModel.rowCount() > 1);    
+    ui->widgetHeightMap->setEnabled(!m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
 
-    ui->cmdFileSend->setText(ui->cmdHeightMapMode->isChecked() ? "Зонд" : "Отправить");
+    ui->cmdFileSend->setText(ui->cmdHeightMapMode->isChecked() ? tr("Probe") : tr("Send"));
 }
 
 void frmMain::openPort()
@@ -471,7 +487,7 @@ int frmMain::bufferLength()
 }
 
 void frmMain::onSerialPortReadyRead()
-{
+{    
     while (m_serialPort.canReadLine()) {
         QString data = m_serialPort.readLine().trimmed();
 
@@ -518,7 +534,7 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Test for job complete
-                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) && m_fileCommandIndex == m_tableModel.rowCount() - 1 && m_transferringFile) {
+                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) && m_fileCommandIndex == getCurrentTableModel()->rowCount() - 1 && m_transferringFile) {
                     m_transferringFile = false;
                     m_fileProcessedCommandIndex = 0;
                     m_lastDrawnLineIndex = 0;
@@ -553,7 +569,7 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtWPosZ->setText(wpx.cap(3));
 
                 // Update tool position                
-                if (!(statusIndex == 6 && m_fileProcessedCommandIndex < m_tableModel.rowCount() - 1)) {
+                if (!(statusIndex == 6 && m_fileProcessedCommandIndex < getCurrentTableModel()->rowCount() - 1)) {
                     m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
                                                            toMetric(ui->txtWPosY->text().toDouble()),
                                                            toMetric(ui->txtWPosZ->text().toDouble())));
@@ -568,7 +584,7 @@ void frmMain::onSerialPortReadyRead()
 
                     for (int i = m_lastDrawnLineIndex; i < list.count()
                          && list[i]->getLineNumber()
-                         <= (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+                         <= (getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                         if (list[i]->contains(m_toolDrawer.toolPosition())) {
                             toolOnTrajectory = true;
                             m_lastDrawnLineIndex = i;
@@ -583,7 +599,7 @@ void frmMain::onSerialPortReadyRead()
                         }
                     } else if (m_lastDrawnLineIndex < list.count()) {
                         qDebug() << "tool missed:" << list[m_lastDrawnLineIndex]->getLineNumber()
-                                 << m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt()
+                                 << getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt()
                                  << m_fileProcessedCommandIndex;
                     }
                 }
@@ -719,14 +735,14 @@ void frmMain::onSerialPortReadyRead()
 
                         // Only if command from table
                         if (ca.tableIndex > -1) {
-                            m_tableModel.setData(m_tableModel.index(ca.tableIndex, 2), tr("Processed"));
-                            m_tableModel.setData(m_tableModel.index(ca.tableIndex, 3), response);
+                            getCurrentTableModel()->setData(getCurrentTableModel()->index(ca.tableIndex, 2), tr("Processed"));
+                            getCurrentTableModel()->setData(getCurrentTableModel()->index(ca.tableIndex, 3), response);
 
                             m_fileProcessedCommandIndex = ca.tableIndex;
 
                             if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
-                                ui->tblProgram->scrollTo(m_tableModel.index(ca.tableIndex + 1, 0));
-                                ui->tblProgram->setCurrentIndex(m_tableModel.index(ca.tableIndex, 1));
+                                ui->tblProgram->scrollTo(getCurrentTableModel()->index(ca.tableIndex + 1, 0));
+                                ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(ca.tableIndex, 1));
                             }
                         }
 
@@ -734,23 +750,23 @@ void frmMain::onSerialPortReadyRead()
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
 
                         // Send next program commands
-                        if (m_fileCommandIndex < m_tableModel.rowCount()) {
+                        if (m_fileCommandIndex < getCurrentTableModel()->rowCount()) {
                             sendNextFileCommands();
                         }
                     }
 
                     // Check transfer complete (last row always blank, last command row = rowcount - 2)
-                    if (m_fileProcessedCommandIndex == m_tableModel.rowCount() - 2) m_transferCompleted = true;
+                    if (m_fileProcessedCommandIndex == getCurrentTableModel()->rowCount() - 2) m_transferCompleted = true;
 
                     // Trajectory shadowing on check mode
-                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == 6 && m_fileProcessedCommandIndex < m_tableModel.rowCount() - 1) {
+                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == 6 && m_fileProcessedCommandIndex < getCurrentTableModel()->rowCount() - 1) {
                         int i;
                         QList<int> drawnLines;
                         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
 
                         for (i = m_lastDrawnLineIndex; i < list.count()
                              && list[i]->getLineNumber()
-                             <= (m_tableModel.data(m_tableModel.index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+                             <= (getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                             drawnLines << i;
                         }
 
@@ -869,9 +885,9 @@ void frmMain::onTableInsertLine()
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
-    m_tableModel.insertRow(row);
-    m_tableModel.setData(m_tableModel.index(row, 2), tr("In queue"));
-//    ui->tblProgram->edit(m_tableModel.index(row, 1));
+    getCurrentTableModel()->insertRow(row);
+    getCurrentTableModel()->setData(getCurrentTableModel()->index(row, 2), tr("In queue"));
+//    ui->tblProgram->edit(getCurrentTableModel()->index(row, 1));
 
     updateParser();
 }
@@ -884,8 +900,8 @@ void frmMain::onTableDeleteLines()
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
 
-    for (int i = 0; i < rowsCount && firstRow.row() != m_tableModel.rowCount() - 1; i++) {
-        m_tableModel.removeRow(firstRow.row());
+    for (int i = 0; i < rowsCount && firstRow.row() != getCurrentTableModel()->rowCount() - 1; i++) {
+        getCurrentTableModel()->removeRow(firstRow.row());
     }
 
     ui->tblProgram->selectRow(firstRow.row());
@@ -987,7 +1003,7 @@ void frmMain::timerEvent(QTimerEvent *te)
 
 void frmMain::closeEvent(QCloseEvent *ce)
 {
-    if (!saveChanges()) {
+    if (!saveChanges(ui->cmdHeightMapMode->isChecked())) {
         ce->ignore();
         return;
     }
@@ -1010,8 +1026,7 @@ void frmMain::on_actFileExit_triggered()
 void frmMain::on_cmdFileOpen_clicked()
 {
     if (!ui->cmdHeightMapMode->isChecked()) {
-
-        if (!saveChanges()) return;
+        if (!saveChanges(false)) return;
 
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)"));
 
@@ -1021,8 +1036,16 @@ void frmMain::on_cmdFileOpen_clicked()
 
             loadFile(fileName);
         }
-    } else {
-        loadHeightMap();
+    } else {        
+        if (!saveChanges(true)) return;
+
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
+
+        if (fileName != "") {
+            addRecentHeightmap(fileName);
+            updateRecentFilesMenu();
+            loadHeightMap(fileName);
+        }
     }
 }
 
@@ -1058,9 +1081,9 @@ void frmMain::loadFile(QString fileName)
 
         gp.addCommand(command);
 
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 1), command);
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 2), tr("In queue"));
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 2, 4), gp.getCommandNumber());
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
     }
 
     qDebug() << "model filled:" << time.elapsed();
@@ -1069,7 +1092,7 @@ void frmMain::loadFile(QString fileName)
 
     m_programLoading = false;
 
-    ui->tblProgram->setModel(&m_tableModel);
+    ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
     m_viewParser.reset();    
@@ -1086,13 +1109,25 @@ void frmMain::loadFile(QString fileName)
     qDebug() << m_viewParser.getMinimumExtremes() << m_viewParser.getMaximumExtremes();
 
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
+
+    delete m_heightMapInterpolationDrawer.data();
+    m_heightMapInterpolationDrawer.setData(NULL);
+    updateHeightMapInterpolationDrawer();
+
+    ui->tblHeightMap->setModel(NULL);
+    m_heightMapModel.resize(1, 1);
+
+    ui->txtHeightMap->clear();
+    m_heightMapFileName.clear();
+    m_heightMapChanged = false;
+
     updateControlsState();
 
-    if (ui->chkHeightMapBorderAuto->isChecked()) {
-        borderRectFromExtremes();
-        updateHeightMapBorderDrawer();
-        updateHeightMapGridDrawer();
-    }
+//    if (ui->chkHeightMapBorderAuto->isChecked()) {
+//        borderRectFromExtremes();
+//        updateHeightMapBorderDrawer();
+//        updateHeightMapGridDrawer();
+//    }
 }
 
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
@@ -1124,8 +1159,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
 void frmMain::clearTable()
 {
-    m_tableModel.clear();
-    m_tableModel.insertRow(0);
+    m_programModel.clear();
+    m_programModel.insertRow(0);
 }
 
 void frmMain::on_cmdFit_clicked()
@@ -1135,7 +1170,7 @@ void frmMain::on_cmdFit_clicked()
 
 void frmMain::on_cmdFileSend_clicked()
 {    
-    if (m_tableModel.rowCount() == 1) return;
+    if (getCurrentTableModel()->rowCount() == 1) return;
 
     on_cmdFileReset_clicked();
 
@@ -1147,7 +1182,7 @@ void frmMain::on_cmdFileSend_clicked()
     ui->chkKeyboardControl->setChecked(false);
 
     if (m_taskBarProgress) {
-        m_taskBarProgress->setMaximum(m_tableModel.rowCount() - 2);
+        m_taskBarProgress->setMaximum(getCurrentTableModel()->rowCount() - 2);
         m_taskBarProgress->setValue(0);
         m_taskBarProgress->show();
     }
@@ -1160,25 +1195,25 @@ void frmMain::sendNextFileCommands() {
 
     if (m_queue.length() > 0) return;
 
-    QString command = feedOverride(m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString());
+    QString command = feedOverride(getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileCommandIndex, 1)).toString());
 
-    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_tableModel.rowCount() - 1) {
-        m_tableModel.setData(m_tableModel.index(m_fileCommandIndex, 2), tr("Sended"));
+    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < getCurrentTableModel()->rowCount() - 1) {
+        getCurrentTableModel()->setData(getCurrentTableModel()->index(m_fileCommandIndex, 2), tr("Sended"));
         sendCommand(command, m_fileCommandIndex);
         m_fileCommandIndex++;
-        command = feedOverride(m_tableModel.data(m_tableModel.index(m_fileCommandIndex, 1)).toString());
+        command = feedOverride(getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileCommandIndex, 1)).toString());
     }
 }
 
 void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 {
     if (i1.column() != 1) return;
-    if (i1.row() == (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() != "") {
-        m_tableModel.setData(m_tableModel.index(m_tableModel.rowCount() - 1, 2), tr("In queue"));
-        m_tableModel.insertRow(m_tableModel.rowCount());
-        if (!m_programLoading) ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 1));
-    } /*else if (i1.row() != (m_tableModel.rowCount() - 1) && m_tableModel.data(m_tableModel.index(i1.row(), 1)).toString() == "") {
-        ui->tblProgram->setCurrentIndex(m_tableModel.index(i1.row() + 1, 1));
+    if (i1.row() == (getCurrentTableModel()->rowCount() - 1) && getCurrentTableModel()->data(getCurrentTableModel()->index(i1.row(), 1)).toString() != "") {
+        getCurrentTableModel()->setData(getCurrentTableModel()->index(getCurrentTableModel()->rowCount() - 1, 2), tr("In queue"));
+        getCurrentTableModel()->insertRow(getCurrentTableModel()->rowCount());
+        if (!m_programLoading) ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(i1.row() + 1, 1));
+    } /*else if (i1.row() != (getCurrentTableModel()->rowCount() - 1) && getCurrentTableModel()->data(getCurrentTableModel()->index(i1.row(), 1)).toString() == "") {
+        ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(i1.row() + 1, 1));
         m_tableModel.removeRow(i1.row());
     }*/
 
@@ -1276,11 +1311,11 @@ void frmMain::updateParser()
 
         ui->tblProgram->setUpdatesEnabled(false);
 
-        for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
-            gp.addCommand(m_tableModel.data(m_tableModel.index(i, 1)).toString());
-            m_tableModel.setData(m_tableModel.index(i, 2), tr("In queue"));
-            m_tableModel.setData(m_tableModel.index(i, 3), "");
-            m_tableModel.setData(m_tableModel.index(i, 4), gp.getCommandNumber());
+        for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
+            gp.addCommand(getCurrentTableModel()->data(getCurrentTableModel()->index(i, 1)).toString());
+            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 2), tr("In queue"));
+            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 3), "");
+            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 4), gp.getCommandNumber());
         }
 
         ui->tblProgram->setUpdatesEnabled(true);
@@ -1291,7 +1326,7 @@ void frmMain::updateParser()
         ui->glwVisualizer->updateExtremes(m_codeDrawer);
         updateControlsState();        
 
-        if (ui->chkHeightMapBorderAuto->isChecked()) {
+        if (ui->chkHeightMapBorderAuto->isChecked() && !ui->txtHeightMap->text().isEmpty()) {
             borderRectFromExtremes();
             updateHeightMapBorderDrawer();
             updateHeightMapGridDrawer();
@@ -1509,15 +1544,15 @@ void frmMain::on_cmdFileReset_clicked()
         time.start();
 
         ui->tblProgram->setUpdatesEnabled(false);
-        for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
-            m_tableModel.setData(m_tableModel.index(i, 2), tr("In queue"));
-            m_tableModel.setData(m_tableModel.index(i, 3), "");
+        for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
+            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 2), tr("In queue"));
+            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 3), "");
         }
         ui->tblProgram->setUpdatesEnabled(true);
 
         qDebug() << "table updated:" << time.elapsed();
 
-        ui->tblProgram->scrollTo(m_tableModel.index(0, 0));
+        ui->tblProgram->scrollTo(getCurrentTableModel()->index(0, 0));
         ui->tblProgram->clearSelection();
 
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
@@ -1543,13 +1578,28 @@ void frmMain::on_cmdFileReset_clicked()
 }
 
 void frmMain::on_actFileNew_triggered()
-{
-    if (!saveChanges()) return;
+{    
+    qDebug() << "changes:" << m_fileChanged << m_heightMapChanged;
 
-    clearTable();
-    m_viewParser.reset();
-    ui->glwVisualizer->fitDrawable();
-    m_programFileName = "";
+    if (!saveChanges(ui->cmdHeightMapMode->isChecked())) return;
+
+    if (!ui->cmdHeightMapMode->isChecked()) {
+        clearTable();
+        m_viewParser.reset();
+        ui->glwVisualizer->fitDrawable();
+        m_programFileName = "";
+    } else {
+        on_cmdFileReset_clicked();
+        ui->txtHeightMap->setText(tr("Untitled"));
+        m_heightMapFileName.clear();
+
+        if (ui->chkHeightMapBorderAuto->isChecked()) on_chkHeightMapBorderAuto_toggled(true);
+
+        updateHeightMapBorderDrawer();
+        updateHeightMapGridDrawer();
+
+        m_heightMapChanged = false;
+    }
 
     updateControlsState();
 }
@@ -1574,8 +1624,8 @@ bool frmMain::saveProgramToFile(QString fileName)
 
     QTextStream textStream(&file);
 
-    for (int i = 0; i < m_tableModel.rowCount() - 1; i++) {
-        textStream << m_tableModel.data(m_tableModel.index(i, 1)).toString() << "\r\n";
+    for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
+        textStream << getCurrentTableModel()->data(getCurrentTableModel()->index(i, 1)).toString() << "\r\n";
     }
 
     return true;
@@ -1583,15 +1633,34 @@ bool frmMain::saveProgramToFile(QString fileName)
 
 void frmMain::on_actFileSaveAs_triggered()
 {
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc;*.ncc;*.tap)")));
+    if (!ui->cmdHeightMapMode->isChecked()) {
 
-    if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
-        m_programFileName = fileName;
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc;*.ncc;*.tap)")));
 
-        addRecentFile(fileName);
-        updateRecentFilesMenu();
+        if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
+            m_programFileName = fileName;
 
-        updateControlsState();
+            addRecentFile(fileName);
+            updateRecentFilesMenu();
+
+            updateControlsState();
+        }
+    } else {
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("Heightmap files (*.map)")));
+
+        if (!fileName.isEmpty()) if (saveHeightMap(fileName)) {
+            ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+            m_heightMapFileName = fileName;
+            m_heightMapChanged = false;
+
+            addRecentHeightmap(fileName);
+            updateRecentFilesMenu();
+
+//            addRecentFile(fileName);
+//            updateRecentFilesMenu();
+
+            updateControlsState();
+        }
     }
 }
 
@@ -1602,7 +1671,7 @@ void frmMain::on_actFileSave_triggered()
         if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveProgramToFile(m_programFileName);
     } else {
         // Height map saving
-
+        if (m_heightMapFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveHeightMap(m_heightMapFileName);
     }
 }
 
@@ -1855,7 +1924,7 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 
     if (ui->tblProgram->selectionModel()->selectedRows().count() > 0) {
         m_tableMenu->actions().at(0)->setEnabled(true);
-        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_tableModel.rowCount() - 1);
+        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != getCurrentTableModel()->rowCount() - 1);
     } else {
         m_tableMenu->actions().at(0)->setEnabled(false);
         m_tableMenu->actions().at(1)->setEnabled(false);
@@ -1894,11 +1963,21 @@ void frmMain::addRecentFile(QString fileName)
     if (m_recentFiles.count() > 5) m_recentFiles.takeFirst();
 }
 
+void frmMain::addRecentHeightmap(QString fileName)
+{
+    m_recentHeightmaps.removeAll(fileName);
+    m_recentHeightmaps.append(fileName);
+    if (m_recentHeightmaps.count() > 5) m_recentHeightmaps.takeFirst();
+}
+
 void frmMain::onActRecentFileTriggered()
 {
     QAction *action = static_cast<QAction*>(sender());
 
-    if (action != NULL) loadFile(action->text());
+    if (action != NULL) {
+        if (!saveChanges(ui->cmdHeightMapMode->isChecked())) return;
+        if (!ui->cmdHeightMapMode->isChecked()) loadFile(action->text()); else loadHeightMap(action->text());
+    }
 }
 
 void frmMain::onCboCommandReturnPressed()
@@ -1919,7 +1998,7 @@ void frmMain::updateRecentFilesMenu()
         }
     }
 
-    foreach (QString file, m_recentFiles) {
+    foreach (QString file, !ui->cmdHeightMapMode->isChecked() ? m_recentFiles : m_recentHeightmaps) {
         QAction *action = new QAction(file, this);
         connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
         ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
@@ -1930,7 +2009,7 @@ void frmMain::updateRecentFilesMenu()
 
 void frmMain::on_actRecentClear_triggered()
 {
-    m_recentFiles.clear();
+    if (!ui->cmdHeightMapMode->isChecked()) m_recentFiles.clear(); else m_recentHeightmaps.clear();
     updateRecentFilesMenu();
 }
 
@@ -1989,6 +2068,8 @@ void frmMain::updateHeightMapBorderDrawer()
 
 void frmMain::updateHeightMapGridDrawer()
 {    
+    qDebug() << "updating heightmap grid";
+
     m_heightMapGridDrawer.setBorderRect(borderRectFromTextboxes());
     m_heightMapGridDrawer.setGridSize(QPointF(ui->txtHeightMapGridX->value(), ui->txtHeightMapGridY->value()));
     m_heightMapGridDrawer.setZBottom(ui->txtHeightMapGridZBottom->value());
@@ -2005,7 +2086,9 @@ void frmMain::updateHeightMapGridDrawer()
 
     if (ui->tblHeightMap->horizontalHeader()->defaultSectionSize()
             * ui->tblHeightMap->horizontalHeader()->count() < ui->tblHeightMap->width())
-        ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);        
+        ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    m_heightMapChanged = true;
 }
 
 void frmMain::updateHeightMapInterpolationDrawer()
@@ -2101,16 +2184,17 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
         list[i]->setDrawn(checked);
     }
 
+    updateRecentFilesMenu();
     updateControlsState();
 }
 
-void frmMain::saveHeightMap(QString fileName)
+bool frmMain::saveHeightMap(QString fileName)
 {
     QFile file(fileName);
     QDir dir;
 
     if (file.exists()) dir.remove(file.fileName());
-    if (!file.open(QIODevice::WriteOnly)) return;
+    if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
     textStream << ui->txtHeightMapBorderX->text() << ";"
@@ -2133,79 +2217,85 @@ void frmMain::saveHeightMap(QString fileName)
     }
 
     file.close();
+
+    return true;
 }
 
-void frmMain::loadHeightMap()
+GCodeTableModel *frmMain::getCurrentTableModel()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
+    return ui->tblProgram->model() != NULL ? (GCodeTableModel*)ui->tblProgram->model() : &m_programModel;
+}
 
-    if (fileName != "") {
-        QFile file(fileName);
+void frmMain::loadHeightMap(QString fileName)
+{
+    QFile file(fileName);
 
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
-            return;
-        }
-        QTextStream textStream(&file);
-
-        QList<QString> list = textStream.readLine().split(";");
-        ui->txtHeightMapBorderX->setValue(list[0].toDouble());
-        ui->txtHeightMapBorderY->setValue(list[1].toDouble());
-        ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
-        ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
-
-        list = textStream.readLine().split(";");
-        ui->txtHeightMapGridX->setValue(list[0].toDouble());
-        ui->txtHeightMapGridY->setValue(list[1].toDouble());
-        ui->txtHeightMapGridZBottom->setValue(list[2].toDouble());
-        ui->txtHeightMapGridZTop->setValue(list[3].toDouble());
-
-        list = textStream.readLine().split(";");
-
-        ui->chkHeightMapBorderAuto->setEnabled(false);
-        ui->chkHeightMapBorderAuto->setChecked(false);
-        ui->txtHeightMapBorderX->setEnabled(false);
-        ui->txtHeightMapBorderY->setEnabled(false);
-        ui->txtHeightMapBorderWidth->setEnabled(false);
-        ui->txtHeightMapBorderHeight->setEnabled(false);
-
-        ui->txtHeightMapGridX->setEnabled(false);
-        ui->txtHeightMapGridY->setEnabled(false);
-        ui->txtHeightMapGridZBottom->setEnabled(false);
-        ui->txtHeightMapGridZTop->setEnabled(false);
-
-        m_heightMapModel.clear();
-        ui->tblHeightMap->setModel(NULL);
-        ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-
-        // Base points
-        QRectF borderRect = borderRectFromTextboxes();
-        int xPoints = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
-        int yPoints = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
-
-        m_heightMapModel.resize(xPoints, yPoints);
-
-        for (int i = 0; i < yPoints; i++) {
-            QList<QString> row = textStream.readLine().split(";");
-            for (int j = 0; j < xPoints; j++) {
-                m_heightMapModel.setData(m_heightMapModel.index(i, j), row[j].toDouble());
-            }
-        }
-
-        file.close();
-
-        ui->tblHeightMap->setModel(&m_heightMapModel);
-        if (ui->tblHeightMap->horizontalHeader()->defaultSectionSize()
-                * ui->tblHeightMap->horizontalHeader()->count() < ui->glwVisualizer->width())
-            ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-        ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
-        ui->cboHeightMapInterpolationType->setCurrentIndex(list[0].toInt());
-        ui->txtHeightMapInterpolationStepX->setValue(list[1].toDouble());
-        ui->txtHeightMapInterpolationStepY->setValue(list[2].toDouble());
-
-        updateHeightMapInterpolationDrawer();
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+        return;
     }
+    QTextStream textStream(&file);
+
+    QList<QString> list = textStream.readLine().split(";");
+    ui->txtHeightMapBorderX->setValue(list[0].toDouble());
+    ui->txtHeightMapBorderY->setValue(list[1].toDouble());
+    ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
+    ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
+
+    list = textStream.readLine().split(";");
+    ui->txtHeightMapGridX->setValue(list[0].toDouble());
+    ui->txtHeightMapGridY->setValue(list[1].toDouble());
+    ui->txtHeightMapGridZBottom->setValue(list[2].toDouble());
+    ui->txtHeightMapGridZTop->setValue(list[3].toDouble());
+
+    list = textStream.readLine().split(";");
+
+    ui->chkHeightMapBorderAuto->setEnabled(false);
+    ui->chkHeightMapBorderAuto->setChecked(false);
+    ui->txtHeightMapBorderX->setEnabled(false);
+    ui->txtHeightMapBorderY->setEnabled(false);
+    ui->txtHeightMapBorderWidth->setEnabled(false);
+    ui->txtHeightMapBorderHeight->setEnabled(false);
+
+    ui->txtHeightMapGridX->setEnabled(false);
+    ui->txtHeightMapGridY->setEnabled(false);
+    ui->txtHeightMapGridZBottom->setEnabled(false);
+    ui->txtHeightMapGridZTop->setEnabled(false);
+
+    m_heightMapModel.clear();
+    ui->tblHeightMap->setModel(NULL);
+    ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+
+    // Base points
+    QRectF borderRect = borderRectFromTextboxes();
+    int xPoints = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
+    int yPoints = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
+
+    m_heightMapModel.resize(xPoints, yPoints);
+
+    for (int i = 0; i < yPoints; i++) {
+        QList<QString> row = textStream.readLine().split(";");
+        for (int j = 0; j < xPoints; j++) {
+            m_heightMapModel.setData(m_heightMapModel.index(i, j), row[j].toDouble());
+        }
+    }
+
+    file.close();
+
+    ui->tblHeightMap->setModel(&m_heightMapModel);
+    if (ui->tblHeightMap->horizontalHeader()->defaultSectionSize()
+            * ui->tblHeightMap->horizontalHeader()->count() < ui->glwVisualizer->width())
+        ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+    m_heightMapFileName = fileName;
+    m_heightMapChanged = false;
+
+    ui->cboHeightMapInterpolationType->setCurrentIndex(list[0].toInt());
+    ui->txtHeightMapInterpolationStepX->setValue(list[1].toDouble());
+    ui->txtHeightMapInterpolationStepY->setValue(list[2].toDouble());
+
+    updateHeightMapInterpolationDrawer();
 }
 
 void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
@@ -2215,8 +2305,19 @@ void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 
 void frmMain::on_cmdHeightMapLoad_clicked()
 {
-    loadHeightMap();
-    updateControlsState();
+    if (!saveChanges(true)) {
+        return;
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
+
+    if (fileName != "") {
+        addRecentHeightmap(fileName);
+        loadHeightMap(fileName);
+
+        updateRecentFilesMenu();
+        updateControlsState(); // Enable 'cmdHeightMapMode' button
+    }
 }
 
 void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
@@ -2227,4 +2328,108 @@ void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
 void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
 {
     updateHeightMapInterpolationDrawer();
+}
+
+void frmMain::on_chkHeightMapUse_toggled(bool checked)
+{
+//    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+//    QRectF borderRect = borderRectFromTextboxes();
+//    double x, y, z;
+
+//    for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
+//        x = list[i]->getStart().x();
+//        y = list[i]->getStart().y();
+//        z = list[i]->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+//        list[i]->setStart(QVector3D(x, y, z));
+
+//        x = list[i]->getEnd().x();
+//        y = list[i]->getEnd().y();
+//        z = list[i]->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+//        list[i]->setEnd(QVector3D(x, y, z));
+//    }
+
+    QList<LineSegment*> *list = m_viewParser.getLines();
+    QRectF borderRect = borderRectFromTextboxes();
+    double x, y, z;
+
+    for (int i = 0; i < list->count(); i++) {
+        if (!list->at(i)->isZMovement()) {
+            QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
+
+            if (subSegments.count() > 0) {
+                list->removeAt(i);
+//                i--;
+                foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
+                i--;
+            }
+        }
+    }
+
+    for (int i = 0; i < list->count(); i++) {
+        x = list->at(i)->getStart().x();
+        y = list->at(i)->getStart().y();
+        z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+        list->at(i)->setStart(QVector3D(x, y, z));
+
+        x = list->at(i)->getEnd().x();
+        y = list->at(i)->getEnd().y();
+        z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+        list->at(i)->setEnd(QVector3D(x, y, z));
+    }
+
+    m_programHeightmapModel.clear();
+}
+
+QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
+{
+    QList<LineSegment*> list;
+
+    double interpolationStepX = ui->txtHeightMapInterpolationStepX->value();
+    double interpolationStepY = ui->txtHeightMapInterpolationStepY->value();
+    double length;
+
+    QVector3D vec = segment->getEnd() - segment->getStart();
+
+    if (std::isnan(vec.length())) return QList<LineSegment*>();
+
+    if (fabs(vec.x()) / fabs(vec.y()) < interpolationStepX / interpolationStepY) length = interpolationStepY / (vec.y() / vec.length());
+    else length = interpolationStepX / (vec.x() / vec.length());
+
+    length = fabs(length);
+
+    if (std::isnan(length)) {
+        qDebug() << "ERROR length:" << segment->getStart() << segment->getEnd();
+        return QList<LineSegment*>();
+    }
+
+    QVector3D seg = vec.normalized() * length;
+    int count = trunc(vec.length() / length);
+
+    if (count == 0) return QList<LineSegment*>();
+
+//    LineSegment* line = new LineSegment(segment);
+//    line->setEnd(line->getStart() + seg);
+//    list.append(line);
+
+    for (int i = 0; i < count; i++) {
+        LineSegment* line = new LineSegment(segment);
+        line->setStart(i == 0 ? segment->getStart() : list[i - 1]->getEnd());
+        line->setEnd(line->getStart() + seg);
+        list.append(line);
+    }
+
+    if (list.last()->getEnd() != segment->getEnd()) {
+        LineSegment* line = new LineSegment(segment);
+        line->setStart(list.last()->getEnd());
+        line->setEnd(segment->getEnd());
+        list.append(line);
+    }
+
+    return list;
+}
+
+void frmMain::on_cmdHeightMapCreate_clicked()
+{
+    ui->cmdHeightMapMode->setChecked(true);
+    on_actFileNew_triggered();
 }

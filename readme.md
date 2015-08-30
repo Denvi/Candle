@@ -8,6 +8,22 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
+In development:
+---------------
+G-code modification with heighmap.
+
+Original file:
+![screenshot](/screenshots/screenshot_heightmap_original.png)
+
+Heightmap:
+![screenshot](/screenshots/screenshot_heightmap_heightmap.png)
+
+Bicubic interpolation:
+![screenshot](/screenshots/screenshot_heightmap_heightmap_interpolation.png)
+
+Modified file:
+![screenshot](/screenshots/screenshot_heightmap_modified.png)
+
 Version 0.3 release:
 --------------------
 * Recent files & commands lists added.
