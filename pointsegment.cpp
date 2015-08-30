@@ -13,6 +13,7 @@ PointSegment::PointSegment(QObject *parent) : QObject(parent)
 {
     m_toolhead = 0;
     m_isMetric = true;
+    m_isAbsolute = true;
     m_isZMovement = false;
     m_isArc = false;
     m_isFastTraverse = false;
@@ -28,6 +29,7 @@ PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->get
     this->setIsMetric(ps->isMetric());
     this->setIsZMovement(ps->isZMovement());
     this->setIsFastTraverse(ps->isFastTraverse());
+    this->setIsAbsolute(ps->isAbsolute());
 
     if (ps->isArc()) {
         this->setArcCenter(ps->center());
@@ -195,3 +197,13 @@ void PointSegment::convertToMetric() {
         this->m_arcProperties->radius *= 25.4;
     }
 }
+bool PointSegment::isAbsolute() const
+{
+    return m_isAbsolute;
+}
+
+void PointSegment::setIsAbsolute(bool isAbsolute)
+{
+    m_isAbsolute = isAbsolute;
+}
+

@@ -27,7 +27,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->setupUi(this);
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
-    m_currentModel = NULL;
+    m_currentModel = &m_programModel;
 
     ui->txtJogStep->setLocale(QLocale::C);
 
@@ -538,7 +538,7 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Test for job complete
-                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) && m_fileCommandIndex == getCurrentTableModel()->rowCount() - 1 && m_transferringFile) {
+                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) && m_fileCommandIndex == m_currentModel->rowCount() - 1 && m_transferringFile) {
                     m_transferringFile = false;
                     m_fileProcessedCommandIndex = 0;
                     m_lastDrawnLineIndex = 0;
@@ -573,7 +573,7 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtWPosZ->setText(wpx.cap(3));
 
                 // Update tool position                
-                if (!(statusIndex == 6 && m_fileProcessedCommandIndex < getCurrentTableModel()->rowCount() - 1)) {
+                if (!(statusIndex == 6 && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
                     m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
                                                            toMetric(ui->txtWPosY->text().toDouble()),
                                                            toMetric(ui->txtWPosZ->text().toDouble())));
@@ -588,7 +588,7 @@ void frmMain::onSerialPortReadyRead()
 
                     for (int i = m_lastDrawnLineIndex; i < list.count()
                          && list[i]->getLineNumber()
-                         <= (getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+                         <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                         if (list[i]->contains(m_toolDrawer.toolPosition())) {
                             toolOnTrajectory = true;
                             m_lastDrawnLineIndex = i;
@@ -603,7 +603,7 @@ void frmMain::onSerialPortReadyRead()
                         }
                     } else if (m_lastDrawnLineIndex < list.count()) {
                         qDebug() << "tool missed:" << list[m_lastDrawnLineIndex]->getLineNumber()
-                                 << getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt()
+                                 << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
                                  << m_fileProcessedCommandIndex;
                     }
                 }
@@ -739,14 +739,14 @@ void frmMain::onSerialPortReadyRead()
 
                         // Only if command from table
                         if (ca.tableIndex > -1) {
-                            getCurrentTableModel()->setData(getCurrentTableModel()->index(ca.tableIndex, 2), tr("Processed"));
-                            getCurrentTableModel()->setData(getCurrentTableModel()->index(ca.tableIndex, 3), response);
+                            m_currentModel->setData(m_currentModel->index(ca.tableIndex, 2), tr("Processed"));
+                            m_currentModel->setData(m_currentModel->index(ca.tableIndex, 3), response);
 
                             m_fileProcessedCommandIndex = ca.tableIndex;
 
                             if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
-                                ui->tblProgram->scrollTo(getCurrentTableModel()->index(ca.tableIndex + 1, 0));
-                                ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(ca.tableIndex, 1));
+                                ui->tblProgram->scrollTo(m_currentModel->index(ca.tableIndex + 1, 0));
+                                ui->tblProgram->setCurrentIndex(m_currentModel->index(ca.tableIndex, 1));
                             }
                         }
 
@@ -754,23 +754,23 @@ void frmMain::onSerialPortReadyRead()
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
 
                         // Send next program commands
-                        if (m_fileCommandIndex < getCurrentTableModel()->rowCount()) {
+                        if (m_fileCommandIndex < m_currentModel->rowCount()) {
                             sendNextFileCommands();
                         }
                     }
 
                     // Check transfer complete (last row always blank, last command row = rowcount - 2)
-                    if (m_fileProcessedCommandIndex == getCurrentTableModel()->rowCount() - 2) m_transferCompleted = true;
+                    if (m_fileProcessedCommandIndex == m_currentModel->rowCount() - 2) m_transferCompleted = true;
 
                     // Trajectory shadowing on check mode
-                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == 6 && m_fileProcessedCommandIndex < getCurrentTableModel()->rowCount() - 1) {
+                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == 6 && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1) {
                         int i;
                         QList<int> drawnLines;
                         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
 
                         for (i = m_lastDrawnLineIndex; i < list.count()
                              && list[i]->getLineNumber()
-                             <= (getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+                             <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                             drawnLines << i;
                         }
 
@@ -889,9 +889,9 @@ void frmMain::onTableInsertLine()
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
-    getCurrentTableModel()->insertRow(row);
-    getCurrentTableModel()->setData(getCurrentTableModel()->index(row, 2), tr("In queue"));
-//    ui->tblProgram->edit(getCurrentTableModel()->index(row, 1));
+    m_currentModel->insertRow(row);
+    m_currentModel->setData(m_currentModel->index(row, 2), tr("In queue"));
+//    ui->tblProgram->edit(m_currentModel->index(row, 1));
 
     updateParser();
 }
@@ -904,8 +904,8 @@ void frmMain::onTableDeleteLines()
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
 
-    for (int i = 0; i < rowsCount && firstRow.row() != getCurrentTableModel()->rowCount() - 1; i++) {
-        getCurrentTableModel()->removeRow(firstRow.row());
+    for (int i = 0; i < rowsCount && firstRow.row() != m_currentModel->rowCount() - 1; i++) {
+        m_currentModel->removeRow(firstRow.row());
     }
 
     ui->tblProgram->selectRow(firstRow.row());
@@ -1178,7 +1178,7 @@ void frmMain::on_cmdFit_clicked()
 
 void frmMain::on_cmdFileSend_clicked()
 {    
-    if (getCurrentTableModel()->rowCount() == 1) return;
+    if (m_currentModel->rowCount() == 1) return;
 
     on_cmdFileReset_clicked();
 
@@ -1190,7 +1190,7 @@ void frmMain::on_cmdFileSend_clicked()
     ui->chkKeyboardControl->setChecked(false);
 
     if (m_taskBarProgress) {
-        m_taskBarProgress->setMaximum(getCurrentTableModel()->rowCount() - 2);
+        m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
         m_taskBarProgress->setValue(0);
         m_taskBarProgress->show();
     }
@@ -1203,25 +1203,27 @@ void frmMain::sendNextFileCommands() {
 
     if (m_queue.length() > 0) return;
 
-    QString command = feedOverride(getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileCommandIndex, 1)).toString());
+    QString command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
 
-    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < getCurrentTableModel()->rowCount() - 1) {
-        getCurrentTableModel()->setData(getCurrentTableModel()->index(m_fileCommandIndex, 2), tr("Sended"));
+    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_currentModel->rowCount() - 1) {
+        m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sended"));
         sendCommand(command, m_fileCommandIndex);
         m_fileCommandIndex++;
-        command = feedOverride(getCurrentTableModel()->data(getCurrentTableModel()->index(m_fileCommandIndex, 1)).toString());
+        command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
     }
 }
 
 void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
 {
+    GCodeTableModel *model = (GCodeTableModel*)sender();
+
     if (i1.column() != 1) return;
-    if (i1.row() == (getCurrentTableModel()->rowCount() - 1) && getCurrentTableModel()->data(getCurrentTableModel()->index(i1.row(), 1)).toString() != "") {
-        getCurrentTableModel()->setData(getCurrentTableModel()->index(getCurrentTableModel()->rowCount() - 1, 2), tr("In queue"));
-        getCurrentTableModel()->insertRow(getCurrentTableModel()->rowCount());
-        if (!m_programLoading) ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(i1.row() + 1, 1));
-    } /*else if (i1.row() != (getCurrentTableModel()->rowCount() - 1) && getCurrentTableModel()->data(getCurrentTableModel()->index(i1.row(), 1)).toString() == "") {
-        ui->tblProgram->setCurrentIndex(getCurrentTableModel()->index(i1.row() + 1, 1));
+    if (i1.row() == (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() != "") {
+        model->setData(model->index(model->rowCount() - 1, 2), tr("In queue"));
+        model->insertRow(model->rowCount());
+        if (!m_programLoading) ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
+    } /*else if (i1.row() != (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() == "") {
+        ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
         m_tableModel.removeRow(i1.row());
     }*/
 
@@ -1319,11 +1321,11 @@ void frmMain::updateParser()
 
         ui->tblProgram->setUpdatesEnabled(false);
 
-        for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
-            gp.addCommand(getCurrentTableModel()->data(getCurrentTableModel()->index(i, 1)).toString());
-            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 2), tr("In queue"));
-            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 3), "");
-            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 4), gp.getCommandNumber());
+        for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
+            gp.addCommand(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
+            m_currentModel->setData(m_currentModel->index(i, 3), "");
+            m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
         }
 
         ui->tblProgram->setUpdatesEnabled(true);
@@ -1552,15 +1554,15 @@ void frmMain::on_cmdFileReset_clicked()
         time.start();
 
         ui->tblProgram->setUpdatesEnabled(false);
-        for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
-            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 2), tr("In queue"));
-            getCurrentTableModel()->setData(getCurrentTableModel()->index(i, 3), "");
+        for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
+            m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
+            m_currentModel->setData(m_currentModel->index(i, 3), "");
         }
         ui->tblProgram->setUpdatesEnabled(true);
 
         qDebug() << "table updated:" << time.elapsed();
 
-        ui->tblProgram->scrollTo(getCurrentTableModel()->index(0, 0));
+        ui->tblProgram->scrollTo(m_currentModel->index(0, 0));
         ui->tblProgram->clearSelection();
 
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
@@ -1632,8 +1634,8 @@ bool frmMain::saveProgramToFile(QString fileName)
 
     QTextStream textStream(&file);
 
-    for (int i = 0; i < getCurrentTableModel()->rowCount() - 1; i++) {
-        textStream << getCurrentTableModel()->data(getCurrentTableModel()->index(i, 1)).toString() << "\r\n";
+    for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
+        textStream << m_currentModel->data(m_currentModel->index(i, 1)).toString() << "\r\n";
     }
 
     return true;
@@ -1932,7 +1934,7 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 
     if (ui->tblProgram->selectionModel()->selectedRows().count() > 0) {
         m_tableMenu->actions().at(0)->setEnabled(true);
-        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != getCurrentTableModel()->rowCount() - 1);
+        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_currentModel->rowCount() - 1);
     } else {
         m_tableMenu->actions().at(0)->setEnabled(false);
         m_tableMenu->actions().at(1)->setEnabled(false);
@@ -2233,12 +2235,6 @@ bool frmMain::saveHeightMap(QString fileName)
     return true;
 }
 
-GCodeTableModel *frmMain::getCurrentTableModel()
-{
-//    return ui->tblProgram->model() != NULL ? (GCodeTableModel*)ui->tblProgram->model() : &m_programModel;
-    return m_currentModel != NULL ? m_currentModel : &m_programModel;
-}
-
 void frmMain::loadHeightMap(QString fileName)
 {
     QFile file(fileName);
@@ -2393,7 +2389,6 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
         ui->tblProgram->setModel(NULL);
 
         m_programLoading = true;
-        m_currentModel = &m_programHeightmapModel;
         m_programHeightmapModel.clear();
         m_programHeightmapModel.insertRow(0);
 
@@ -2424,11 +2419,27 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
 
                             // Create new commands for each linesegment with given command index
                             while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
+                                x = list->at(j)->getEnd().x();
+                                y = list->at(j)->getEnd().y();
+                                z = list->at(j)->getEnd().z();
+
+                                if (!list->at(j)->isAbsolute()) {
+                                    x -= list->at(j)->getStart().x();
+                                    y -= list->at(j)->getStart().y();
+                                    z -= list->at(j)->getStart().z();
+                                }
+
+                                if (!list->at(j)->isMetric()) {
+                                    x /= 25.4;
+                                    y /= 25.4;
+                                    z /= 25.4;
+                                }
+
                                 m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1)
                                                        , newCommandPrefix + QString("X%1Y%2Z%3")
-                                                       .arg(list->at(j)->getEnd().x(), 0, 'f', 3)
-                                                       .arg(list->at(j)->getEnd().y(), 0, 'f', 3)
-                                                       .arg(list->at(j)->getEnd().z(), 0, 'f', 3));
+                                                       .arg(x, 0, 'f', 3)
+                                                       .arg(y, 0, 'f', 3)
+                                                       .arg(z, 0, 'f', 3));
                                 if (!newCommandPrefix.isEmpty()) newCommandPrefix.clear();
                                 j++;
                             }
@@ -2445,9 +2456,10 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
             lastCommandIndex = commandIndex;
         }
 
-        ui->tblProgram->setModel(&m_programHeightmapModel);
+        ui->tblProgram->setModel(&m_programHeightmapModel);        
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
-        m_programLoading = false;
+        m_currentModel = &m_programHeightmapModel;
+        m_programLoading = false;        
 
         // Update parser
         updateParser();

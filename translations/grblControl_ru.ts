@@ -191,7 +191,7 @@
     <message>
         <location filename="../frmmain.ui" line="999"/>
         <source>Bicubic</source>
-        <translation>Бикубическая</translation>
+        <translation>Бикубический</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1011"/>

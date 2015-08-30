@@ -94,6 +94,7 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
 
     foreach (PointSegment *segment, psl) {
         PointSegment *ps = segment;
+        bool isMetric = ps->isMetric();
         ps->convertToMetric();
 
         end = ps->point();
@@ -114,6 +115,8 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
                         ls->setIsArc(ps->isArc());
                         ls->setIsFastTraverse(ps->isFastTraverse());
                         ls->setIsZMovement(ps->isZMovement());
+                        ls->setIsMetric(isMetric);
+                        ls->setIsAbsolute(ps->isAbsolute());
                         ls->setSpeed(ps->getSpeed());
                         this->testExtremes(nextPoint);
                         lines.append(ls);
@@ -127,6 +130,8 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
                 ls->setIsArc(ps->isArc());
                 ls->setIsFastTraverse(ps->isFastTraverse());
                 ls->setIsZMovement(ps->isZMovement());
+                ls->setIsMetric(isMetric);
+                ls->setIsAbsolute(ps->isAbsolute());
                 ls->setSpeed(ps->getSpeed());
                 this->testExtremes(*end);
                 lines.append(ls);

@@ -16,6 +16,8 @@ LineSegment::LineSegment(QObject *parent) :
     m_isArc = false;
     m_isFastTraverse = false;
     m_drawn = false;
+    m_isMetric = true;
+    m_isAbsolute = true;
 }
 
 LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
@@ -41,6 +43,8 @@ LineSegment::LineSegment(LineSegment* initial)
     m_second = initial->getEnd();
     m_lineNumber = initial->getLineNumber();
     m_speed = initial->getSpeed();
+    m_isMetric = initial->isMetric();
+    m_isAbsolute = initial->isAbsolute();
 }
 
 LineSegment::~LineSegment()
@@ -152,4 +156,24 @@ void LineSegment::setDrawn(bool drawn)
 {
     m_drawn = drawn;
 }
+bool LineSegment::isMetric() const
+{
+    return m_isMetric;
+}
+
+void LineSegment::setIsMetric(bool isMetric)
+{
+    m_isMetric = isMetric;
+}
+bool LineSegment::isAbsolute() const
+{
+    return m_isAbsolute;
+}
+
+void LineSegment::setIsAbsolute(bool isAbsolute)
+{
+    m_isAbsolute = isAbsolute;
+}
+
+
 

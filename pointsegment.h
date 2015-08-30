@@ -49,6 +49,9 @@ public:
     double getRadius();
     void convertToMetric();
 
+    bool isAbsolute() const;
+    void setIsAbsolute(bool isAbsolute);
+
 signals:
 
 public slots:
@@ -62,6 +65,7 @@ private:
     bool m_isZMovement;
     bool m_isArc;
     bool m_isFastTraverse;
+    bool m_isAbsolute;
     int m_lineNumber;
 };
 

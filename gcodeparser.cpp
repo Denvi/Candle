@@ -263,11 +263,13 @@ PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastT
     ps->setIsMetric(this->m_isMetric);
     ps->setIsZMovement(zOnly);
     ps->setIsFastTraverse(fastTraverse);
+    ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(fastTraverse ? this->m_traverseSpeed : this->m_lastSpeed);
     this->m_points.append(ps);
 
     // Save off the endpoint.
     this->m_currentPoint = nextPoint;
+
     return ps;
 }
 
@@ -289,6 +291,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     ps->setIsArc(true);
     ps->setRadius(radius);
     ps->setIsClockwise(clockwise);
+    ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(this->m_lastSpeed);
     this->m_points.append(ps);
 
@@ -314,6 +317,7 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);
+    else if (code == "38.2") ps = addLinearPointSegment(nextPoint, false);
     else if (code == "2") ps = addArcPointSegment(nextPoint, true, args);
     else if (code == "3") ps = addArcPointSegment(nextPoint, false, args);
     else if (code == "20") this->m_isMetric = false;

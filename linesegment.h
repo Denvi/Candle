@@ -46,6 +46,12 @@ public:
     bool drawn() const;
     void setDrawn(bool drawn);
 
+    bool isMetric() const;
+    void setIsMetric(bool isMetric);
+
+    bool isAbsolute() const;
+    void setIsAbsolute(bool isAbsolute);
+
 signals:
 
 public slots:
@@ -61,6 +67,8 @@ private:
     bool m_isFastTraverse;
     int m_lineNumber;
     bool m_drawn;
+    bool m_isMetric;
+    bool m_isAbsolute;
 };
 
 #endif // LINESEGMENT_H
