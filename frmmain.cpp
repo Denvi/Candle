@@ -27,6 +27,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->setupUi(this);
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
+    m_currentModel = NULL;
 
     ui->txtJogStep->setLocale(QLocale::C);
 
@@ -79,6 +80,7 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
 
     ui->tblProgram->setModel(&m_programModel);
 
@@ -2223,7 +2225,8 @@ bool frmMain::saveHeightMap(QString fileName)
 
 GCodeTableModel *frmMain::getCurrentTableModel()
 {
-    return ui->tblProgram->model() != NULL ? (GCodeTableModel*)ui->tblProgram->model() : &m_programModel;
+//    return ui->tblProgram->model() != NULL ? (GCodeTableModel*)ui->tblProgram->model() : &m_programModel;
+    return m_currentModel != NULL ? m_currentModel : &m_programModel;
 }
 
 void frmMain::loadHeightMap(QString fileName)
@@ -2332,52 +2335,126 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
 
 void frmMain::on_chkHeightMapUse_toggled(bool checked)
 {
-//    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
-//    QRectF borderRect = borderRectFromTextboxes();
-//    double x, y, z;
+    static bool fileChanged;
 
-//    for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
-//        x = list[i]->getStart().x();
-//        y = list[i]->getStart().y();
-//        z = list[i]->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-//        list[i]->setStart(QVector3D(x, y, z));
+    if (checked) {
 
-//        x = list[i]->getEnd().x();
-//        y = list[i]->getEnd().y();
-//        z = list[i]->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-//        list[i]->setEnd(QVector3D(x, y, z));
-//    }
+        // Store fileChanged state
+        fileChanged = m_fileChanged;
 
-    QList<LineSegment*> *list = m_viewParser.getLines();
-    QRectF borderRect = borderRectFromTextboxes();
-    double x, y, z;
+        // Modifying linesegments
+        QList<LineSegment*> *list = m_viewParser.getLines();
+        QRectF borderRect = borderRectFromTextboxes();
+        double x, y, z;
 
-    for (int i = 0; i < list->count(); i++) {
-        if (!list->at(i)->isZMovement()) {
-            QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
+        for (int i = 0; i < list->count(); i++) {
+            if (!list->at(i)->isZMovement()) {
+                QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
 
-            if (subSegments.count() > 0) {
-                list->removeAt(i);
-//                i--;
-                foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
-                i--;
+                if (subSegments.count() > 0) {
+                    list->removeAt(i);
+                    foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
+                    i--;
+                }
             }
         }
+
+        for (int i = 0; i < list->count(); i++) {
+            x = list->at(i)->getStart().x();
+            y = list->at(i)->getStart().y();
+            z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+            list->at(i)->setStart(QVector3D(x, y, z));
+
+            x = list->at(i)->getEnd().x();
+            y = list->at(i)->getEnd().y();
+            z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+            list->at(i)->setEnd(QVector3D(x, y, z));
+        }
+
+        // Modifying g-code program
+        int lastSegmentIndex = 0;
+        int commandIndex;
+        int lastCommandIndex = -1;
+        QString command;
+        QString newCommandPrefix;
+        QStringList codes;
+
+        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+        ui->tblProgram->setModel(NULL);
+
+        m_programLoading = true;
+        m_currentModel = &m_programHeightmapModel;
+        m_programHeightmapModel.clear();
+        m_programHeightmapModel.insertRow(0);
+
+        for (int i = 0; i < m_programModel.rowCount(); i++) {
+            commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
+            command = m_programModel.data(m_programModel.index(i, 1)).toString();
+
+            if (commandIndex < 0 || commandIndex == lastCommandIndex) {
+                m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
+            } else {
+                // Get command codes
+                codes = GcodePreprocessorUtils::splitCommand(command);
+                newCommandPrefix.clear();
+
+                // Remove coordinates codes
+                foreach (QString code, codes) if (code.contains(QRegExp("[XxYyZzIiJjKkRr]+"))) codes.removeOne(code);
+                else newCommandPrefix.append(code);
+
+                // Replace arcs with lines
+                newCommandPrefix.replace(QRegExp("[Gg]0*2|[Gg]0*3"), "G1");
+
+                // Find first linesegment by command index
+                for (int j = lastSegmentIndex; j < list->count(); j++) {
+                    if (list->at(j)->getLineNumber() == commandIndex) {
+
+                        // If command is G0 or G1
+                        if (!std::isnan(list->at(j)->getEnd().length()) && newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))) {
+
+                            // Create new commands for each linesegment with given command index
+                            while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
+                                m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1)
+                                                       , newCommandPrefix + QString("X%1Y%2Z%3")
+                                                       .arg(list->at(j)->getEnd().x(), 0, 'f', 3)
+                                                       .arg(list->at(j)->getEnd().y(), 0, 'f', 3)
+                                                       .arg(list->at(j)->getEnd().z(), 0, 'f', 3));
+                                if (!newCommandPrefix.isEmpty()) newCommandPrefix.clear();
+                                j++;
+                            }
+                        // Copy original command if not G0 or G1
+                        } else {
+                            m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
+                        }
+
+                        lastSegmentIndex = j;
+                        break;
+                    }
+                }
+            }
+            lastCommandIndex = commandIndex;
+        }
+
+        ui->tblProgram->setModel(&m_programHeightmapModel);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
+        m_programLoading = false;
+
+        // Update parser
+        updateParser();
+        m_fileChanged = false;
+
+    } else {
+        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+        ui->tblProgram->setModel(NULL);
+        m_programHeightmapModel.clear();
+
+        m_currentModel = &m_programModel;
+        ui->tblProgram->setModel(&m_programModel);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
+
+        updateParser();
+        m_fileChanged = fileChanged;
     }
-
-    for (int i = 0; i < list->count(); i++) {
-        x = list->at(i)->getStart().x();
-        y = list->at(i)->getStart().y();
-        z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-        list->at(i)->setStart(QVector3D(x, y, z));
-
-        x = list->at(i)->getEnd().x();
-        y = list->at(i)->getEnd().y();
-        z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-        list->at(i)->setEnd(QVector3D(x, y, z));
-    }
-
-    m_programHeightmapModel.clear();
 }
 
 QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)

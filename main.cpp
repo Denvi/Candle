@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
         QTranslator* translator = new QTranslator();
 
-//        if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
+        if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
     }
 
     QString baseTranslationFileName = translationsFolder + "qt_" + loc + ".qm";

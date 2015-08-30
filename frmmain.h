@@ -272,6 +272,7 @@ private:
     bool saveHeightMap(QString fileName);
 
     GCodeTableModel *getCurrentTableModel();
+    GCodeTableModel *m_currentModel;
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
 };
 
