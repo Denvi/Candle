@@ -223,6 +223,7 @@ private:
     bool m_transferCompleted = false;
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;
+    int m_probeIndex;
     bool m_showAllCommands = false;
 
     bool m_reseting = false;
