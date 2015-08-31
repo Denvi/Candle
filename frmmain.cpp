@@ -445,7 +445,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
     command = command.toUpper();
 
     // Commands queue
-    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH || m_queue.length() > 0) {
+    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
+        qDebug() << "queue:" << command;
 
         CommandQueue cq;
 
@@ -453,18 +454,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
         cq.tableIndex = tableIndex;
 
         m_queue.append(cq);
-
-        qDebug() << "queue:" << cq.command;
-
-        while ((bufferLength() + m_queue[0].command.length() + 1) > BUFFERLENGTH) {
-            qApp->processEvents();
-        }
-
-        cq = m_queue.takeFirst();
-        command = cq.command;
-        tableIndex = cq.tableIndex;
-
-        if (!m_serialPort.isOpen() || m_reseting) return;
+        return;
     }
 
     CommandAttributes ca;
@@ -519,6 +509,7 @@ void frmMain::grblReset()
 
     // Drop all remaining commands in buffer
     m_commands.clear();
+    m_queue.clear();
 
     // Prepare reset response catch
     CommandAttributes ca;
@@ -768,6 +759,7 @@ void frmMain::onSerialPortReadyRead()
                     // Clear command buffer on "M2" & "M30" command
                     if ((ca.command.contains("M2") || ca.command.contains("M30")) && response.contains("ok") && !response.contains("[Pgm End]")) {
                         m_commands.clear();
+                        m_queue.clear();
                     }
 
                     // Process probing on heightmap mode only from table commands
@@ -825,6 +817,15 @@ void frmMain::onSerialPortReadyRead()
                         tc.endEditBlock();
 
                         if (scrolledDown) ui->txtConsole->verticalScrollBar()->setValue(ui->txtConsole->verticalScrollBar()->maximum());
+                    }
+
+                    // Check queue
+                    if (m_queue.length() > 0) {
+                        CommandQueue cq = m_queue.takeFirst();
+                        while ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
+                            sendCommand(cq.command, cq.tableIndex);
+                            if (m_queue.isEmpty()) break; else cq = m_queue.takeFirst();
+                        }
                     }
 
                     // Add answer to table, send next program commands
@@ -933,7 +934,7 @@ void frmMain::onTimerConnection()
 {    
     if (!m_serialPort.isOpen()) {
         openPort();
-    } else if (!m_homing/* && !m_reseting*/) {
+    } else if (!m_homing/* && !m_reseting*/ && !ui->cmdFilePause->isChecked()) {
 //        qDebug() << "sending $G";
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
@@ -1118,7 +1119,10 @@ void frmMain::closeEvent(QCloseEvent *ce)
     }
 
     if (m_serialPort.isOpen()) m_serialPort.close();
-    if (m_queue.length() > 0) m_commands.clear();
+    if (m_queue.length() > 0) {
+        m_commands.clear();
+        m_queue.clear();
+    }
 }
 
 void frmMain::on_actFileExit_triggered()
