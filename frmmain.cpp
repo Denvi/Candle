@@ -2633,12 +2633,17 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                 // Replace arcs with lines
                 newCommandPrefix.replace(QRegExp("[Gg]0*2|[Gg]0*3"), "G1");
 
+                // Store last motion code
+                static QString lastCode;
+
                 // Find first linesegment by command index
                 for (int j = lastSegmentIndex; j < list->count(); j++) {
                     if (list->at(j)->getLineNumber() == commandIndex) {
 
                         // If command is G0 or G1
-                        if (!std::isnan(list->at(j)->getEnd().length()) && newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))) {
+                        if (!std::isnan(list->at(j)->getEnd().length())
+                                && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
+                                    || (lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
 
                             // Create new commands for each linesegment with given command index
                             while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
@@ -2670,6 +2675,9 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                         } else {
                             m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                         }
+
+                        if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
+                        else if (newCommandPrefix.contains(QRegExp("[Gg]0*1"))) lastCode = "G1";
 
                         lastSegmentIndex = j;
                         break;
