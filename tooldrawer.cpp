@@ -16,6 +16,7 @@ ToolDrawer::ToolDrawer(QObject *parent) :
 void ToolDrawer::draw()
 {
     glLineWidth(m_lineWidth);
+    glPointSize(4);
     glColor3f(1.0, 0.6, 0.0);
 
     const int arcs = 4;

@@ -43,7 +43,10 @@ QVariant HeightMapTableModel::data(const QModelIndex &index, int role) const
 
 bool HeightMapTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    m_data[index.row()][index.column()] = value.toDouble();
+    m_data[role == Qt::EditRole ? (m_data.count() - 1) - index.row() : index.row()][index.column()] = value.toDouble();
+
+    if (role == Qt::EditRole) emit dataChangedByUserInput();
+
     return true;
 }
 
@@ -83,6 +86,6 @@ QVariant HeightMapTableModel::headerData(int section, Qt::Orientation orientatio
 Qt::ItemFlags HeightMapTableModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) return NULL;
-    return QAbstractTableModel::flags(index);
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 

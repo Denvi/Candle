@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>923</width>
-    <height>1146</height>
+    <width>839</width>
+    <height>1048</height>
    </rect>
   </property>
   <property name="palette">
@@ -720,6 +720,13 @@ QToolButton:checked { /* all types of tool button */
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="cmdHeightMapBorderAuto">
+                <property name="text">
+                 <string>Auto</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -747,10 +754,42 @@ QToolButton:checked { /* all types of tool button */
             </item>
             <item>
              <layout class="QGridLayout" name="gridLayout_4">
+              <item row="0" column="3">
+               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_12">
                 <property name="text">
                  <string>X:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Y:</string>
                 </property>
                </widget>
               </item>
@@ -771,19 +810,15 @@ QToolButton:checked { /* all types of tool button */
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
                 <property name="value">
                  <double>1.000000000000000</double>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Zb:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
+              <item row="1" column="1">
                <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -811,7 +846,21 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Zb:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Zt:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
                <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -833,42 +882,6 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                 <property name="maximum">
                  <double>999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string>Zt:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>Y:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="value">
                  <double>1.000000000000000</double>
@@ -988,6 +1001,9 @@ QToolButton:checked { /* all types of tool button */
               </item>
               <item>
                <widget class="QComboBox" name="cboHeightMapInterpolationType">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -2594,8 +2610,8 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>923</width>
-     <height>26</height>
+     <width>839</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2695,17 +2711,34 @@ QComboBox::drop-down {
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>tblProgram</tabstop>
-  <tabstop>chkTestMode</tabstop>
-  <tabstop>chkAutoScroll</tabstop>
-  <tabstop>cmdFileOpen</tabstop>
-  <tabstop>cmdFileReset</tabstop>
-  <tabstop>cmdFilePause</tabstop>
   <tabstop>cmdTop</tabstop>
   <tabstop>cmdIsometric</tabstop>
   <tabstop>cmdFront</tabstop>
   <tabstop>cmdLeft</tabstop>
   <tabstop>cmdFit</tabstop>
+  <tabstop>tblProgram</tabstop>
+  <tabstop>tblHeightMap</tabstop>
+  <tabstop>chkTestMode</tabstop>
+  <tabstop>chkAutoScroll</tabstop>
+  <tabstop>cmdFileOpen</tabstop>
+  <tabstop>cmdFileReset</tabstop>
+  <tabstop>cmdFileSend</tabstop>
+  <tabstop>cmdFilePause</tabstop>
+  <tabstop>txtHeightMapBorderX</tabstop>
+  <tabstop>txtHeightMapBorderY</tabstop>
+  <tabstop>txtHeightMapBorderWidth</tabstop>
+  <tabstop>txtHeightMapBorderHeight</tabstop>
+  <tabstop>chkHeightMapBorderAuto</tabstop>
+  <tabstop>chkHeightMapBorderShow</tabstop>
+  <tabstop>txtHeightMapGridX</tabstop>
+  <tabstop>txtHeightMapGridY</tabstop>
+  <tabstop>txtHeightMapGridZBottom</tabstop>
+  <tabstop>txtHeightMapGridZTop</tabstop>
+  <tabstop>chkHeightMapGridShow</tabstop>
+  <tabstop>txtHeightMapInterpolationStepX</tabstop>
+  <tabstop>txtHeightMapInterpolationStepY</tabstop>
+  <tabstop>cboHeightMapInterpolationType</tabstop>
+  <tabstop>chkHeightMapInterpolationShow</tabstop>
   <tabstop>txtWPosX</tabstop>
   <tabstop>txtWPosY</tabstop>
   <tabstop>txtWPosZ</tabstop>
@@ -2721,26 +2754,36 @@ QComboBox::drop-down {
   <tabstop>cmdTopZ</tabstop>
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
+  <tabstop>grpHeightMap</tabstop>
+  <tabstop>chkHeightMapUse</tabstop>
+  <tabstop>cmdHeightMapCreate</tabstop>
+  <tabstop>cmdHeightMapLoad</tabstop>
+  <tabstop>cmdHeightMapMode</tabstop>
+  <tabstop>grpSpindle</tabstop>
+  <tabstop>sliSpindleSpeed</tabstop>
   <tabstop>txtSpindleSpeed</tabstop>
   <tabstop>cmdSpindle</tabstop>
-  <tabstop>sliSpindleSpeed</tabstop>
+  <tabstop>grpFeed</tabstop>
   <tabstop>chkFeedOverride</tabstop>
   <tabstop>txtFeed</tabstop>
   <tabstop>sliFeed</tabstop>
+  <tabstop>grpJog</tabstop>
+  <tabstop>txtJogStep</tabstop>
+  <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
-  <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdZPlus</tabstop>
   <tabstop>cmdZMinus</tabstop>
-  <tabstop>txtJogStep</tabstop>
   <tabstop>cmdJogStep1</tabstop>
   <tabstop>cmdJogStep2</tabstop>
   <tabstop>cmdJogStep3</tabstop>
   <tabstop>cmdJogStep4</tabstop>
   <tabstop>cmdJogStep5</tabstop>
   <tabstop>cmdJogStep6</tabstop>
+  <tabstop>chkKeyboardControl</tabstop>
   <tabstop>txtConsole</tabstop>
+  <tabstop>cboCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
  </tabstops>
@@ -2755,12 +2798,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>663</x>
-     <y>971</y>
+     <x>798</x>
+     <y>779</y>
     </hint>
    </hints>
   </connection>
@@ -2771,12 +2814,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>767</x>
-     <y>812</y>
+     <x>902</x>
+     <y>620</y>
     </hint>
    </hints>
   </connection>
@@ -2787,12 +2830,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>768</x>
-     <y>838</y>
+     <x>903</x>
+     <y>646</y>
     </hint>
    </hints>
   </connection>
@@ -2803,12 +2846,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>717</x>
-     <y>725</y>
+     <x>852</x>
+     <y>533</y>
     </hint>
    </hints>
   </connection>
@@ -2819,12 +2862,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>751</y>
+     <x>853</x>
+     <y>559</y>
     </hint>
    </hints>
   </connection>
@@ -2835,12 +2878,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>1125</y>
+     <x>904</x>
+     <y>933</y>
     </hint>
     <hint type="destinationlabel">
-     <x>455</x>
-     <y>771</y>
+     <x>474</x>
+     <y>700</y>
     </hint>
    </hints>
   </connection>
@@ -2851,12 +2894,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>596</x>
-     <y>554</y>
+     <x>79</x>
+     <y>1080</y>
     </hint>
     <hint type="destinationlabel">
-     <x>592</x>
-     <y>494</y>
+     <x>129</x>
+     <y>1027</y>
     </hint>
    </hints>
   </connection>
@@ -2867,12 +2910,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>608</x>
-     <y>554</y>
+     <x>79</x>
+     <y>1080</y>
     </hint>
     <hint type="destinationlabel">
-     <x>619</x>
-     <y>525</y>
+     <x>230</x>
+     <y>1027</y>
     </hint>
    </hints>
   </connection>
@@ -2883,12 +2926,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>608</x>
-     <y>547</y>
+     <x>79</x>
+     <y>1080</y>
     </hint>
     <hint type="destinationlabel">
-     <x>697</x>
-     <y>500</y>
+     <x>129</x>
+     <y>1053</y>
     </hint>
    </hints>
   </connection>
@@ -2899,12 +2942,12 @@ QComboBox::drop-down {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>589</x>
-     <y>549</y>
+     <x>79</x>
+     <y>1080</y>
     </hint>
     <hint type="destinationlabel">
-     <x>694</x>
-     <y>521</y>
+     <x>230</x>
+     <y>1053</y>
     </hint>
    </hints>
   </connection>

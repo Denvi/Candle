@@ -20,6 +20,8 @@ public:
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
     void setViewParser(GcodeViewParse* viewParser);
+    GcodeViewParse* viewParser();
+
     int getLinesCount();
 
 signals:

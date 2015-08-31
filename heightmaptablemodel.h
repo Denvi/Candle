@@ -24,6 +24,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
+signals:
+    void dataChangedByUserInput();
+
 private:
 //    QList<QList<double>> m_data;
     QVector<QVector<double>> m_data;

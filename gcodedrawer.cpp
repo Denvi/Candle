@@ -14,6 +14,8 @@ GcodeDrawer::GcodeDrawer(QObject *parent) :
 
 void GcodeDrawer::draw()
 {
+    if (!m_visible) return;
+
     QList<LineSegment*> list = m_viewParser->getLineSegmentList();
     bool drawFirstPoint = true;
 
@@ -122,6 +124,11 @@ int GcodeDrawer::getLinesCount()
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)
 {
     m_viewParser = viewParser;
+}
+
+GcodeViewParse *GcodeDrawer::viewParser()
+{
+    return m_viewParser;
 }
 
 //void GcodeDrawer::setLines(QList<LineSegment *> lines)

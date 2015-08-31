@@ -54,7 +54,9 @@ public:
 
     double toolZPosition();
 
-private slots:
+private slots:    
+    void updateHeightMapInterpolationDrawer();
+
     void onSerialPortReadyRead();
     void onSerialPortError(QSerialPort::SerialPortError);
     void onTimerConnection();
@@ -132,14 +134,13 @@ private slots:
     void on_cmdHeightMapMode_toggled(bool checked);
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
     void on_cmdHeightMapLoad_clicked();
-
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
-
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
-
     void on_chkHeightMapUse_toggled(bool checked);
-
     void on_cmdHeightMapCreate_clicked();
+    void on_cmdHeightMapMode_clicked(bool checked);
+
+    void on_cmdHeightMapBorderAuto_clicked();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -153,8 +154,12 @@ private:
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
+    GcodeViewParse m_probeParser;
 
     GcodeDrawer *m_codeDrawer;
+    GcodeDrawer *m_probeDrawer;
+    GcodeDrawer *m_currentDrawer;
+
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
@@ -167,6 +172,7 @@ private:
     HeightMapTableModel m_heightMapModel;
 
     bool m_programLoading;
+    bool m_settingsLoading;
 
     QSerialPort m_serialPort;
 
@@ -266,13 +272,14 @@ private:
     QRectF borderRectFromTextboxes();
     QRectF borderRectFromExtremes();
     void updateHeightMapBorderDrawer();
-    void updateHeightMapGridDrawer();
-    void updateHeightMapInterpolationDrawer();
+    bool updateHeightMapGrid();
     void loadHeightMap(QString fileName);
     bool saveHeightMap(QString fileName);
 
     GCodeTableModel *m_currentModel;
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
+    void resizeTableHeightMapSections();
+    void updateHeightMapGrid(double arg1);
 };
 
 #endif // FRMMAIN_H

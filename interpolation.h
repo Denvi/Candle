@@ -34,8 +34,14 @@ public:
         double gridStepY = gridPointsY > 1 ? borderRect.height() / (gridPointsY - 1) : 0;
 
         // Get 16 points
+        x -= borderRect.x();
+        y -= borderRect.y();
+
         int ix = trunc(x / gridStepX);
         int iy = trunc(y / gridStepY);
+
+        if (ix > basePoints->columnCount() - 2) ix = basePoints->columnCount() - 2;
+        if (iy > basePoints->rowCount() - 2) iy = basePoints->rowCount() - 2;
 
         double p[4][4];
 
@@ -60,7 +66,7 @@ public:
         p[3][3] = basePoints->data(basePoints->index(iy < basePoints->rowCount() - 2 ? iy + 2 : iy + 1, ix < basePoints->columnCount() - 2 ? ix + 2 : ix + 1), Qt::UserRole).toDouble();
 
         // Interpolate
-        return Interpolation::bicubicInterpolate(p, (x - borderRect.x()) / gridStepX - ix, (y - borderRect.y()) / gridStepY - iy);
+        return Interpolation::bicubicInterpolate(p, x / gridStepX - ix, y / gridStepY - iy);
     }
 };
 
