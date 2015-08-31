@@ -44,6 +44,8 @@ public:
     void setSpindleSpeedMax(int speed);
     int rapidSpeed();
     void setRapidSpeed(int rapidSpeed);
+    int heightmapProbingFeed();
+    void setHeightmapProbingFeed(int heightmapProbingFeed);
     int acceleration();
     void setAcceleration(int acceleration);
     int queryStateTime();

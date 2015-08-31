@@ -158,6 +158,16 @@ void frmSettings::setRapidSpeed(int rapidSpeed)
     ui->txtRapidSpeed->setValue(rapidSpeed);
 }
 
+int frmSettings::heightmapProbingFeed()
+{
+    return ui->txtHeightMapProbingFeed->value();
+}
+
+void frmSettings::setHeightmapProbingFeed(int heightmapProbingFeed)
+{
+    ui->txtHeightMapProbingFeed->setValue(heightmapProbingFeed);
+}
+
 int frmSettings::acceleration()
 {
     return ui->txtAcceleration->value();

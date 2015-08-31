@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>321</width>
-    <height>579</height>
+    <width>366</width>
+    <height>669</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -691,36 +691,61 @@ QSpinBox, QDoubleSpinBox {
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,0">
-        <item>
-         <widget class="QLabel" name="label_17">
+       <widget class="QLabel" name="label_17">
+        <property name="styleSheet">
+         <string notr="true">padding-left: -4;
+padding-top: 3;</string>
+        </property>
+        <property name="text">
+         <string>Z-probe commands:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtTouchCommand">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string>Command 1; command 2; ...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_18">
           <property name="text">
-           <string>Z-probe commands:</string>
+           <string>Heightmap probing feed:</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="txtTouchCommand">
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="txtHeightMapProbingFeed">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
-          <property name="placeholderText">
-           <string>Command 1; command 2; ...</string>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="maximum">
+           <number>99999</number>
           </property>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,3">
-        <item>
+        <item row="1" column="0">
          <widget class="QLabel" name="label_15">
           <property name="text">
            <string>Report units:</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="1" column="1">
          <widget class="QComboBox" name="cboUnits">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -739,22 +764,6 @@ QSpinBox, QDoubleSpinBox {
            </property>
           </item>
          </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>6</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -850,7 +859,6 @@ QSpinBox, QDoubleSpinBox {
   <tabstop>txtAcceleration</tabstop>
   <tabstop>txtSpindleSpeedMin</tabstop>
   <tabstop>txtSpindleSpeedMax</tabstop>
-  <tabstop>cboUnits</tabstop>
   <tabstop>chkShowAllCommands</tabstop>
   <tabstop>chkAutocompletion</tabstop>
   <tabstop>cmdOK</tabstop>
