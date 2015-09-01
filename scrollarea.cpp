@@ -42,8 +42,15 @@ void ScrollArea::resizeEvent(QResizeEvent *re)
 
 void ScrollArea::mouseMoveEvent(QMouseEvent *me)
 {
-    if (me->buttons() & Qt::LeftButton != 0) {
-    }
+    QPoint delta = me->globalPos() - m_previousPos;
+    m_previousPos = me->globalPos();
+
+    onScroll(delta.x(), delta.y());
+}
+
+void ScrollArea::mousePressEvent(QMouseEvent *me)
+{
+    m_previousPos = me->globalPos();
 }
 
 void ScrollArea::onContentSizeChanged(QSize newSize)
@@ -54,13 +61,6 @@ void ScrollArea::onContentSizeChanged(QSize newSize)
 void ScrollArea::onVerticalScrollBarValueChanged(int newValue)
 {
     updateBorders();
-}
-
-void ScrollArea::onVerticalScrollBarRangeChanged(int, int)
-{
-    if (m_update) {
-        m_update = false;
-    }
 }
 
 void ScrollArea::onScroll(int dx, int dy)

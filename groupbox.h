@@ -18,7 +18,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
-    QPoint m_pressPos;
+    QPoint m_previousPos;
 };
 
 #endif // GROUPBOX_H

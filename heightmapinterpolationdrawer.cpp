@@ -42,6 +42,7 @@ void HeightMapInterpolationDrawer::draw()
     for (int i = 0; i < interpolationPointsY; i++) {
         glBegin(GL_LINE_STRIP);
         for (int j = 0; j < interpolationPointsX; j++) {
+            if (std::isnan(m_data->at(i).at(j))) continue;
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
             glColor3f(color.redF(), color.greenF(), color.blueF());
             glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
@@ -52,6 +53,7 @@ void HeightMapInterpolationDrawer::draw()
     for (int j = 0; j < interpolationPointsX; j++) {
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < interpolationPointsY; i++) {
+            if (std::isnan(m_data->at(i).at(j))) continue;
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
             glColor3f(color.redF(), color.greenF(), color.blueF());
             glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));

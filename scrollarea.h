@@ -24,15 +24,16 @@ signals:
 protected:
     void resizeEvent(QResizeEvent *re);
     void mouseMoveEvent(QMouseEvent *me);
+    void mousePressEvent(QMouseEvent *me);
 
 private slots:
     void onContentSizeChanged(QSize newSize);
     void onVerticalScrollBarValueChanged(int newValue);
-    void onVerticalScrollBarRangeChanged(int, int);
     void onScroll(int dx, int dy);
 
 private:
     bool m_update;
+    QPoint m_previousPos;
 
     void updateBorders();
 };
