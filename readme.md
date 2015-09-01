@@ -8,7 +8,7 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-In development:
+Version 0.4 pre-release:
 ---------------
 G-code modification with heighmap.
 
