@@ -38,11 +38,13 @@ void HeightMapInterpolationDrawer::draw()
 //        }
 //    }
 //    glEnd();
+    m_linesCount = 0;
 
     for (int i = 0; i < interpolationPointsY; i++) {
         glBegin(GL_LINE_STRIP);
         for (int j = 0; j < interpolationPointsX; j++) {
             if (std::isnan(m_data->at(i).at(j))) continue;
+            m_linesCount++;
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
             glColor3f(color.redF(), color.greenF(), color.blueF());
             glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
@@ -54,6 +56,7 @@ void HeightMapInterpolationDrawer::draw()
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < interpolationPointsY; i++) {
             if (std::isnan(m_data->at(i).at(j))) continue;
+            m_linesCount++;
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
             glColor3f(color.redF(), color.greenF(), color.blueF());
             glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
@@ -79,6 +82,11 @@ QRectF HeightMapInterpolationDrawer::borderRect() const
 void HeightMapInterpolationDrawer::setBorderRect(const QRectF &borderRect)
 {
     m_borderRect = borderRect;
+}
+
+int HeightMapInterpolationDrawer::getLinesCount()
+{
+    return m_linesCount;
 }
 
 

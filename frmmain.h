@@ -140,10 +140,7 @@ private slots:
     void on_chkHeightMapUse_toggled(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapMode_clicked(bool checked);
-
     void on_cmdHeightMapBorderAuto_clicked();
-
-    void on_cmdCommandSend_2_clicked();
 
 protected:
     void showEvent(QShowEvent *se);

@@ -14,6 +14,8 @@ public:
     QRectF borderRect() const;
     void setBorderRect(const QRectF &borderRect);
 
+    int getLinesCount();
+
 private:
     QRectF m_borderRect;
 };

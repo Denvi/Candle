@@ -19,16 +19,19 @@ void HeightMapGridDrawer::draw()
     double gridStepX = gridPointsX > 1 ? m_borderRect.width() / (gridPointsX - 1) : 0;
     double gridStepY = gridPointsY > 1 ? m_borderRect.height() / (gridPointsY - 1) : 0;
 
+    m_linesCount = 0;
+
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 0; j < gridPointsX; j++) {
             if (m_model == NULL || std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
                 glBegin(GL_LINES);
+                m_linesCount++;
                 glColor3f(1.0, 0.6, 0.0);
                 glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
                 glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zBottom);
                 glEnd();
             } else {
-                glBegin(GL_POINTS);
+                glBegin(GL_POINTS);                
                 glColor3f(0.0, 0.0, 1.0);
                 glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
                 glEnd();
@@ -41,6 +44,8 @@ void HeightMapGridDrawer::draw()
     for (int i = 0; i < gridPointsY; i++) {
         glBegin(GL_LINE_STRIP);
         for (int j = 0; j < gridPointsX; j++) {
+            if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
+            m_linesCount++;
             glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
         }
         glEnd();
@@ -49,6 +54,8 @@ void HeightMapGridDrawer::draw()
     for (int j = 0; j < gridPointsX; j++) {
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < gridPointsY; i++) {
+            if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
+            m_linesCount++;
             glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
         }
         glEnd();
@@ -99,6 +106,11 @@ QAbstractTableModel *HeightMapGridDrawer::model() const
 void HeightMapGridDrawer::setModel(QAbstractTableModel *model)
 {
     m_model = model;
+}
+
+int HeightMapGridDrawer::getLinesCount()
+{
+    return m_linesCount;
 }
 
 

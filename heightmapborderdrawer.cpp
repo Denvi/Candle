@@ -31,4 +31,9 @@ void HeightMapBorderDrawer::setBorderRect(const QRectF &borderRect)
     m_borderRect = borderRect;
 }
 
+int HeightMapBorderDrawer::getLinesCount()
+{
+    return 4;
+}
+
 

@@ -459,8 +459,8 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     glShadeModel(GL_SMOOTH);
 
     foreach (GLDrawable *dr, m_drawables) {
-        if (dr->visible()) lines += dr->getLinesCount();
         dr->draw();
+        if (dr->visible()) lines += dr->getLinesCount();
     }
 
     // Draw 2D
@@ -488,7 +488,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
 
-    QString str = QString(tr("Lines: %1")).arg(lines);
+    QString str = QString(tr("Segments: %1")).arg(lines);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
     str = QString("FPS: %1").arg(m_fps);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);

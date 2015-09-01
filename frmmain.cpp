@@ -26,6 +26,8 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
+
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
 
     m_taskBarButton = NULL;
@@ -1027,7 +1029,7 @@ void frmMain::placeVisualizerButtons()
 
 void frmMain::showEvent(QShowEvent *se)
 {
-//    placeVisualizerButtons();
+    placeVisualizerButtons();
 
     if (m_taskBarButton == NULL) {
         m_taskBarButton = new QWinTaskbarButton(this);
@@ -2789,9 +2791,4 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
         ui->txtHeightMapBorderWidth->setValue(rect.width());
         ui->txtHeightMapBorderHeight->setValue(rect.height());
     }
-}
-
-void frmMain::on_cmdCommandSend_2_clicked()
-{
-    ui->scrollArea->updateGeometry();
 }

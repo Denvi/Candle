@@ -617,6 +617,45 @@ QToolButton:checked { /* all types of tool button */
                </widget>
               </item>
               <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="txtHeightMapBorderY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>-999.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>W:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
                <widget class="QDoubleSpinBox" name="txtHeightMapBorderWidth">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -641,45 +680,6 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                 <property name="value">
                  <double>10.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>W:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Y:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QDoubleSpinBox" name="txtHeightMapBorderY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -708,24 +708,17 @@ QToolButton:checked { /* all types of tool button */
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="cmdHeightMapBorderAuto">
+               <widget class="StyledToolButton" name="cmdHeightMapBorderAuto">
+                <property name="minimumSize">
+                 <size>
+                  <width>44</width>
+                  <height>18</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Auto</string>
                 </property>
                </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </item>
@@ -742,42 +735,10 @@ QToolButton:checked { /* all types of tool button */
             </item>
             <item>
              <layout class="QGridLayout" name="gridLayout_4">
-              <item row="0" column="3">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>0.100000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_12">
                 <property name="text">
                  <string>X:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>Y:</string>
                 </property>
                </widget>
               </item>
@@ -806,49 +767,7 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="locale">
-                 <locale language="C" country="AnyCountry"/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>-1.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Zb:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string>Zt:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
+              <item row="0" column="5">
                <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -876,6 +795,80 @@ QToolButton:checked { /* all types of tool button */
                 </property>
                </widget>
               </item>
+              <item row="1" column="5">
+               <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>-999.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>999.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>-1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="locale">
+                 <locale language="C" country="AnyCountry"/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Zb:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Zt:</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -898,7 +891,7 @@ QToolButton:checked { /* all types of tool button */
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
-                  <height>20</height>
+                  <height>1</height>
                  </size>
                 </property>
                </spacer>
@@ -1024,7 +1017,7 @@ QToolButton:checked { /* all types of tool button */
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
-                  <height>20</height>
+                  <height>1</height>
                  </size>
                 </property>
                </spacer>
@@ -1580,8 +1573,8 @@ color: black;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>232</width>
-           <height>661</height>
+           <width>225</width>
+           <height>611</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2520,7 +2513,7 @@ QDoubleSpinBox:focus {
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0,0">
+          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
            <item>
             <widget class="ComboBox" name="cboCommand">
              <property name="styleSheet">
@@ -2546,23 +2539,6 @@ QComboBox::drop-down {
              </property>
              <property name="frame">
               <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="cmdCommandSend_2">
-             <property name="toolTip">
-              <string>Send command</string>
-             </property>
-             <property name="icon">
-              <iconset resource="res.qrc">
-               <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>16</width>
-               <height>16</height>
-              </size>
              </property>
             </widget>
            </item>
@@ -2615,7 +2591,7 @@ QComboBox::drop-down {
      <x>0</x>
      <y>0</y>
      <width>1008</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2747,15 +2723,10 @@ QComboBox::drop-down {
   <tabstop>cmdFileSend</tabstop>
   <tabstop>cmdFilePause</tabstop>
   <tabstop>txtHeightMapBorderX</tabstop>
-  <tabstop>txtHeightMapBorderY</tabstop>
-  <tabstop>txtHeightMapBorderWidth</tabstop>
   <tabstop>txtHeightMapBorderHeight</tabstop>
   <tabstop>chkHeightMapBorderAuto</tabstop>
   <tabstop>chkHeightMapBorderShow</tabstop>
   <tabstop>txtHeightMapGridX</tabstop>
-  <tabstop>txtHeightMapGridY</tabstop>
-  <tabstop>txtHeightMapGridZBottom</tabstop>
-  <tabstop>txtHeightMapGridZTop</tabstop>
   <tabstop>chkHeightMapGridShow</tabstop>
   <tabstop>txtHeightMapInterpolationStepX</tabstop>
   <tabstop>txtHeightMapInterpolationStepY</tabstop>
