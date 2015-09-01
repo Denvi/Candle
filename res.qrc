@@ -31,5 +31,6 @@
         <file>images/collapse.png</file>
         <file>images/collapse_disabled.png</file>
         <file>images/expand_disabled.png</file>
+        <file>images/small_arrow.png</file>
     </qresource>
 </RCC>

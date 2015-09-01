@@ -36,7 +36,10 @@ SOURCES += main.cpp\
     heightmapborderdrawer.cpp \
     heightmapgriddrawer.cpp \
     heightmaptablemodel.cpp \
-    heightmapinterpolationdrawer.cpp
+    heightmapinterpolationdrawer.cpp \
+    scrollarea.cpp \
+    widget.cpp \
+    groupbox.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -60,7 +63,10 @@ HEADERS  += frmmain.h \
     heightmaptablemodel.h \
     heightmapinterpolationdrawer.h \
     util.h \
-    interpolation.h
+    interpolation.h \
+    scrollarea.h \
+    widget.h \
+    groupbox.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

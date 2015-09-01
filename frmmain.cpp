@@ -25,6 +25,9 @@ frmMain::frmMain(QWidget *parent) :
     m_statusForeColors << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)";
 
     ui->setupUi(this);
+
+    connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
+
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
     m_currentModel = &m_programModel;
@@ -1024,7 +1027,7 @@ void frmMain::placeVisualizerButtons()
 
 void frmMain::showEvent(QShowEvent *se)
 {
-    placeVisualizerButtons();
+//    placeVisualizerButtons();
 
     if (m_taskBarButton == NULL) {
         m_taskBarButton = new QWinTaskbarButton(this);
@@ -1044,9 +1047,12 @@ void frmMain::hideEvent(QHideEvent *he)
 
 void frmMain::resizeEvent(QResizeEvent *re)
 {
-    placeVisualizerButtons();
+//    placeVisualizerButtons();
     resizeCheckBoxes();
     resizeTableHeightMapSections();
+
+//    ui->scrollArea->setMinimumSize(ui->scrollAreaWidgetContents->sizeHint());
+//    qDebug() << "viewport sizeHint:" << ui->scrollArea->viewport()->sizeHint() << ;
 }
 
 void frmMain::resizeTableHeightMapSections()
@@ -2783,4 +2789,9 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
         ui->txtHeightMapBorderWidth->setValue(rect.width());
         ui->txtHeightMapBorderHeight->setValue(rect.height());
     }
+}
+
+void frmMain::on_cmdCommandSend_2_clicked()
+{
+    ui->scrollArea->updateGeometry();
 }

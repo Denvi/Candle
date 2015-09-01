@@ -56,6 +56,7 @@ public:
 
 signals:
     void rotationChanged();
+    void resized();
 
 public slots:
 

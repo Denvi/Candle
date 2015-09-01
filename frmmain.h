@@ -56,6 +56,7 @@ public:
 
 private slots:    
     void updateHeightMapInterpolationDrawer();
+    void placeVisualizerButtons();
 
     void onSerialPortReadyRead();
     void onSerialPortError(QSerialPort::SerialPortError);
@@ -141,6 +142,8 @@ private slots:
     void on_cmdHeightMapMode_clicked(bool checked);
 
     void on_cmdHeightMapBorderAuto_clicked();
+
+    void on_cmdCommandSend_2_clicked();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -255,7 +258,6 @@ private:
     void updateParser();
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     bool saveProgramToFile(QString fileName);
-    void placeVisualizerButtons();
     bool dataIsEnd(QString data);
     QString feedOverride(QString command);
 
