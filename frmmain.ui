@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>897</width>
+    <width>921</width>
     <height>889</height>
    </rect>
   </property>
@@ -168,6 +168,18 @@ QSlider::handle:horizontal:hover {
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="100,1">
+    <property name="leftMargin">
+     <number>8</number>
+    </property>
+    <property name="topMargin">
+     <number>8</number>
+    </property>
+    <property name="rightMargin">
+     <number>8</number>
+    </property>
+    <property name="bottomMargin">
+     <number>8</number>
+    </property>
     <item>
      <widget class="QGroupBox" name="grpProgram">
       <property name="title">
@@ -178,7 +190,19 @@ QSlider::handle:horizontal:hover {
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_17" stretch="0,0,0,0,0,1,0,0">
        <property name="spacing">
-        <number>9</number>
+        <number>7</number>
+       </property>
+       <property name="leftMargin">
+        <number>8</number>
+       </property>
+       <property name="topMargin">
+        <number>8</number>
+       </property>
+       <property name="rightMargin">
+        <number>8</number>
+       </property>
+       <property name="bottomMargin">
+        <number>8</number>
        </property>
        <item>
         <widget class="QToolButton" name="cmdIsometric">
@@ -537,6 +561,18 @@ QToolButton:checked { /* all types of tool button */
          <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,1,1">
           <property name="spacing">
            <number>11</number>
+          </property>
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="rightMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
+           <number>8</number>
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -1166,7 +1202,7 @@ QToolButton:checked { /* all types of tool button */
           <number>8</number>
          </property>
          <property name="bottomMargin">
-          <number>8</number>
+          <number>9</number>
          </property>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1349,7 +1385,7 @@ color: black;</string>
           <number>8</number>
          </property>
          <property name="bottomMargin">
-          <number>8</number>
+          <number>9</number>
          </property>
          <item>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -1592,9 +1628,6 @@ color: black;</string>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustToContents</enum>
-        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
@@ -1602,13 +1635,13 @@ color: black;</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-324</y>
-           <width>232</width>
-           <height>661</height>
+           <y>0</y>
+           <width>241</width>
+           <height>662</height>
           </rect>
          </property>
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -1645,7 +1678,7 @@ color: black;</string>
               <number>8</number>
              </property>
              <property name="bottomMargin">
-              <number>8</number>
+              <number>9</number>
              </property>
              <item>
               <widget class="QWidget" name="widgetHeightMap" native="true">
@@ -1707,14 +1740,14 @@ color: black;</string>
                   <item>
                    <widget class="StyledToolButton" name="cmdHeightMapCreate">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>42</width>
+                      <width>0</width>
                       <height>25</height>
                      </size>
                     </property>
@@ -1726,14 +1759,14 @@ color: black;</string>
                   <item>
                    <widget class="StyledToolButton" name="cmdHeightMapLoad">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>42</width>
+                      <width>0</width>
                       <height>25</height>
                      </size>
                     </property>
@@ -1747,7 +1780,7 @@ color: black;</string>
                 <item>
                  <widget class="StyledToolButton" name="cmdHeightMapMode">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -1964,7 +1997,7 @@ color: black;</string>
                        <string>%</string>
                       </property>
                       <property name="minimum">
-                       <number>0</number>
+                       <number>1</number>
                       </property>
                       <property name="maximum">
                        <number>500</number>
@@ -2183,70 +2216,6 @@ color: black;</string>
                     </item>
                    </layout>
                   </item>
-                  <item row="0" column="3">
-                   <widget class="StyledToolButton" name="cmdZPlus">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>44</width>
-                      <height>44</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Z+</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="res.qrc">
-                      <normaloff>:/images/1401562699_icon-arrow-up-b.png</normaloff>:/images/1401562699_icon-arrow-up-b.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>28</width>
-                      <height>28</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="3">
-                   <widget class="StyledToolButton" name="cmdZMinus">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>44</width>
-                      <height>44</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Z-</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="res.qrc">
-                      <normaloff>:/images/1401562699_icon-arrow-down-b.png</normaloff>:/images/1401562699_icon-arrow-down-b.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>28</width>
-                      <height>28</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="1">
                    <layout class="QVBoxLayout" name="verticalLayout_10">
                     <property name="spacing">
@@ -2335,6 +2304,104 @@ QDoubleSpinBox:focus {
                        </size>
                       </property>
                      </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="0" column="3">
+                   <layout class="QHBoxLayout" name="horizontalLayout_25">
+                    <item>
+                     <spacer name="horizontalSpacer">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="StyledToolButton" name="cmdZPlus">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>44</width>
+                        <height>44</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>Z+</string>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/images/1401562699_icon-arrow-up-b.png</normaloff>:/images/1401562699_icon-arrow-up-b.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>28</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="3">
+                   <layout class="QHBoxLayout" name="horizontalLayout_26">
+                    <item>
+                     <spacer name="horizontalSpacer_2">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="StyledToolButton" name="cmdZMinus">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>44</width>
+                        <height>44</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>Z-</string>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/images/1401562699_icon-arrow-down-b.png</normaloff>:/images/1401562699_icon-arrow-down-b.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>28</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -2620,7 +2687,7 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>897</width>
+     <width>921</width>
      <height>26</height>
     </rect>
    </property>
@@ -2783,11 +2850,7 @@ QComboBox::drop-down {
   <tabstop>cmdTopZ</tabstop>
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
-  <tabstop>chkHeightMapUse</tabstop>
   <tabstop>scrollArea</tabstop>
-  <tabstop>cmdHeightMapCreate</tabstop>
-  <tabstop>cmdHeightMapLoad</tabstop>
-  <tabstop>cmdHeightMapMode</tabstop>
   <tabstop>grpSpindle</tabstop>
   <tabstop>txtSpindleSpeed</tabstop>
   <tabstop>cmdSpindle</tabstop>
@@ -2802,8 +2865,6 @@ QComboBox::drop-down {
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
-  <tabstop>cmdZPlus</tabstop>
-  <tabstop>cmdZMinus</tabstop>
   <tabstop>cmdJogStep1</tabstop>
   <tabstop>cmdJogStep2</tabstop>
   <tabstop>cmdJogStep3</tabstop>

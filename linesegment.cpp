@@ -18,6 +18,7 @@ LineSegment::LineSegment(QObject *parent) :
     m_drawn = false;
     m_isMetric = true;
     m_isAbsolute = true;
+    m_isHightlight = false;
 }
 
 LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
@@ -45,6 +46,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_speed = initial->getSpeed();
     m_isMetric = initial->isMetric();
     m_isAbsolute = initial->isAbsolute();
+    m_isHightlight = initial->isHightlight();
 }
 
 LineSegment::~LineSegment()
@@ -174,6 +176,16 @@ void LineSegment::setIsAbsolute(bool isAbsolute)
 {
     m_isAbsolute = isAbsolute;
 }
+bool LineSegment::isHightlight() const
+{
+    return m_isHightlight;
+}
+
+void LineSegment::setIsHightlight(bool isHightlight)
+{
+    m_isHightlight = isHightlight;
+}
+
 
 
 

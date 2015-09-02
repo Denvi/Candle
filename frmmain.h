@@ -70,6 +70,7 @@ private slots:
     void onTableDeleteLines();
     void onActRecentFileTriggered();
     void onCboCommandReturnPressed();
+    void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        

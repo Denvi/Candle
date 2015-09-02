@@ -1222,6 +1222,8 @@ void frmMain::loadFile(QString fileName)
     m_programLoading = false;
 
     ui->tblProgram->setModel(&m_programModel);
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+    ui->tblProgram->selectRow(0);
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
     m_viewParser.reset();    
@@ -1680,6 +1682,7 @@ void frmMain::on_cmdFileReset_clicked()
 
         ui->tblProgram->scrollTo(m_currentModel->index(0, 0));
         ui->tblProgram->clearSelection();
+        ui->tblProgram->selectRow(0);
 
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
     } else {
@@ -2117,6 +2120,16 @@ void frmMain::onCboCommandReturnPressed()
     sendCommand(command, -1);
 }
 
+void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
+{
+    GcodeViewParse *parser = m_currentDrawer->viewParser();
+    QList<LineSegment*> list = parser->getLineSegmentList();
+
+    for (int i = 0; i < list.count(); i++) {
+        list[i]->setIsHightlight(list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+    }
+}
+
 void frmMain::updateRecentFilesMenu()
 {
     foreach (QAction * action, ui->mnuRecent->actions()) {
@@ -2401,6 +2414,9 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
         m_probeParser.reset();
         if (!ui->chkHeightMapUse->isChecked()) {
             ui->tblProgram->setModel(&m_programModel);
+            connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+            ui->tblProgram->selectRow(0);
+
             resizeTableHeightMapSections();
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
@@ -2713,7 +2729,10 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
         qDebug() << "Model modification time: " << time.elapsed();
 
         ui->tblProgram->setModel(&m_programHeightmapModel);        
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        ui->tblProgram->selectRow(0);
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
+
         m_currentModel = &m_programHeightmapModel;
         m_programLoading = false;        
 
@@ -2733,7 +2752,9 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
         m_programHeightmapModel.clear();
 
         m_currentModel = &m_programModel;
-        ui->tblProgram->setModel(&m_programModel);
+        ui->tblProgram->setModel(&m_programModel);        
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        ui->tblProgram->selectRow(0);
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         bool fileChanged = m_fileChanged;

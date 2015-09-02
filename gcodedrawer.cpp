@@ -73,6 +73,9 @@ void GcodeDrawer::draw()
 //            glLineWidth(1);
             glColor3f(0.85, 0.85, 0.85);
         }
+        else if (list[i]->isHightlight()) {
+            glColor3f(0.57, 0.51, 0.9);
+        }
         else if (list[i]->isFastTraverse()) {
 //            glLineWidth(1);
             glColor3f(0.0, 0.0, 0.0);

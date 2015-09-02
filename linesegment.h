@@ -52,6 +52,9 @@ public:
     bool isAbsolute() const;
     void setIsAbsolute(bool isAbsolute);
 
+    bool isHightlight() const;
+    void setIsHightlight(bool isHightlight);
+
 signals:
 
 public slots:
@@ -69,6 +72,7 @@ private:
     bool m_drawn;
     bool m_isMetric;
     bool m_isAbsolute;
+    bool m_isHightlight;
 };
 
 #endif // LINESEGMENT_H
