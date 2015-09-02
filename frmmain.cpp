@@ -2230,8 +2230,10 @@ bool frmMain::updateHeightMapGrid()
     m_heightMapGridDrawer.setZTop(ui->txtHeightMapGridZTop->value());
 
     // Reset model
-    int gridPointsX = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
-    int gridPointsY = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
+//    int gridPointsX = trunc(borderRect.width() / ui->txtHeightMapGridX->value()) + 1;
+//    int gridPointsY = trunc(borderRect.height() / ui->txtHeightMapGridY->value()) + 1;
+    int gridPointsX = ui->txtHeightMapGridX->value();
+    int gridPointsY = ui->txtHeightMapGridY->value();
 
     m_heightMapModel.resize(gridPointsX, gridPointsY);
     ui->tblHeightMap->setModel(NULL);
@@ -2294,8 +2296,10 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 
     QVector<QVector<double>> *interpolationData = new QVector<QVector<double>>;
 
-    int interpolationPointsX = trunc(borderRect.width() / ui->txtHeightMapInterpolationStepX->value()) + 1;
-    int interpolationPointsY = trunc(borderRect.height() / ui->txtHeightMapInterpolationStepY->value()) + 1;
+//    int interpolationPointsX = trunc(borderRect.width() / ui->txtHeightMapInterpolationStepX->value()) + 1;
+//    int interpolationPointsY = trunc(borderRect.height() / ui->txtHeightMapInterpolationStepY->value()) + 1;
+    int interpolationPointsX = ui->txtHeightMapInterpolationStepX->value();// * (ui->txtHeightMapGridX->value() - 1) + 1;
+    int interpolationPointsY = ui->txtHeightMapInterpolationStepY->value();// * (ui->txtHeightMapGridY->value() - 1) + 1;
 
     double interpolationStepX = interpolationPointsX > 1 ? borderRect.width() / (interpolationPointsX - 1) : 0;
     double interpolationStepY = interpolationPointsY > 1 ? borderRect.height() / (interpolationPointsY - 1) : 0;
@@ -2647,7 +2651,7 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                 // Replace arcs with lines
                 newCommandPrefix.replace(QRegExp("[Gg]0*2|[Gg]0*3"), "G1");
 
-                // Store last motion code
+                // Last motion code
                 static QString lastCode;
 
                 // Find first linesegment by command index
@@ -2660,7 +2664,8 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                         // If command is G0 or G1
                         if (!std::isnan(list->at(j)->getEnd().length())
                                 && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
-                                    || (newCommandPrefix == "" && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
+                                    || (!newCommandPrefix.contains(QRegExp("[Gg]|[Mm]"))
+                                        && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
 
                             // Store motion code
                             if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
@@ -2741,8 +2746,14 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 {
     QList<LineSegment*> list;
 
-    double interpolationStepX = ui->txtHeightMapInterpolationStepX->value();
-    double interpolationStepY = ui->txtHeightMapInterpolationStepY->value();
+    QRectF borderRect = borderRectFromTextboxes();
+
+//    double interpolationStepX = ui->txtHeightMapInterpolationStepX->value();
+//    double interpolationStepY = ui->txtHeightMapInterpolationStepY->value();
+
+    double interpolationStepX = borderRect.width() / (ui->txtHeightMapInterpolationStepX->value() - 1);
+    double interpolationStepY = borderRect.height() / (ui->txtHeightMapInterpolationStepY->value() - 1);
+
     double length;
 
     QVector3D vec = segment->getEnd() - segment->getStart();

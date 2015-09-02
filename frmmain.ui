@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>936</width>
+    <width>897</width>
     <height>889</height>
    </rect>
   </property>
@@ -759,11 +759,17 @@ QToolButton:checked { /* all types of tool button */
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
                 <property name="minimum">
-                 <double>0.100000000000000</double>
+                 <double>2.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1000.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>2.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -840,11 +846,17 @@ QToolButton:checked { /* all types of tool button */
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
                 <property name="minimum">
-                 <double>0.100000000000000</double>
+                 <double>2.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1000.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>2.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -942,8 +954,17 @@ QToolButton:checked { /* all types of tool button */
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
+                <property name="minimum">
+                 <double>2.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1000.000000000000000</double>
+                </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>2.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -964,8 +985,17 @@ QToolButton:checked { /* all types of tool button */
                 <property name="buttonSymbols">
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
+                <property name="minimum">
+                 <double>2.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>1000.000000000000000</double>
+                </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>2.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -1572,7 +1602,7 @@ color: black;</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
+           <y>-324</y>
            <width>232</width>
            <height>661</height>
           </rect>
@@ -2590,7 +2620,7 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>936</width>
+     <width>897</width>
      <height>26</height>
     </rect>
    </property>
@@ -2723,10 +2753,16 @@ QComboBox::drop-down {
   <tabstop>cmdFileSend</tabstop>
   <tabstop>cmdFilePause</tabstop>
   <tabstop>txtHeightMapBorderX</tabstop>
+  <tabstop>txtHeightMapBorderY</tabstop>
+  <tabstop>txtHeightMapBorderWidth</tabstop>
   <tabstop>txtHeightMapBorderHeight</tabstop>
   <tabstop>chkHeightMapBorderAuto</tabstop>
   <tabstop>chkHeightMapBorderShow</tabstop>
+  <tabstop>cmdHeightMapBorderAuto</tabstop>
   <tabstop>txtHeightMapGridX</tabstop>
+  <tabstop>txtHeightMapGridY</tabstop>
+  <tabstop>txtHeightMapGridZTop</tabstop>
+  <tabstop>txtHeightMapGridZBottom</tabstop>
   <tabstop>chkHeightMapGridShow</tabstop>
   <tabstop>txtHeightMapInterpolationStepX</tabstop>
   <tabstop>txtHeightMapInterpolationStepY</tabstop>
@@ -2748,19 +2784,23 @@ QComboBox::drop-down {
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
   <tabstop>chkHeightMapUse</tabstop>
+  <tabstop>scrollArea</tabstop>
   <tabstop>cmdHeightMapCreate</tabstop>
   <tabstop>cmdHeightMapLoad</tabstop>
   <tabstop>cmdHeightMapMode</tabstop>
-  <tabstop>sliSpindleSpeed</tabstop>
+  <tabstop>grpSpindle</tabstop>
   <tabstop>txtSpindleSpeed</tabstop>
   <tabstop>cmdSpindle</tabstop>
+  <tabstop>sliSpindleSpeed</tabstop>
+  <tabstop>grpFeed</tabstop>
   <tabstop>chkFeedOverride</tabstop>
   <tabstop>txtFeed</tabstop>
   <tabstop>sliFeed</tabstop>
+  <tabstop>grpJog</tabstop>
   <tabstop>txtJogStep</tabstop>
   <tabstop>cmdXMinus</tabstop>
-  <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdXPlus</tabstop>
+  <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
   <tabstop>cmdZPlus</tabstop>
   <tabstop>cmdZMinus</tabstop>
@@ -2775,6 +2815,7 @@ QComboBox::drop-down {
   <tabstop>cboCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
+  <tabstop>grpHeightMap</tabstop>
  </tabstops>
  <resources>
   <include location="res.qrc"/>
