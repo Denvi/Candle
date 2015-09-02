@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1008</width>
-    <height>1146</height>
+    <width>936</width>
+    <height>889</height>
    </rect>
   </property>
   <property name="palette">
@@ -1573,8 +1573,8 @@ color: black;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>225</width>
-           <height>611</height>
+           <width>232</width>
+           <height>661</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2590,8 +2590,8 @@ QComboBox::drop-down {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1008</width>
-     <height>21</height>
+     <width>936</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

@@ -55,7 +55,7 @@ public:
     double toolZPosition();
 
 private slots:    
-    void updateHeightMapInterpolationDrawer();
+    void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
 
     void onSerialPortReadyRead();

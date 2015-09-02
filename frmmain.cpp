@@ -579,7 +579,7 @@ void frmMain::onSerialPortReadyRead()
                 if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
 
                 // Increase state query interval on check mode
-                if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
+//                if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
 
                 // Update "elapsed time" timer
                 if (m_transferringFile) {
@@ -805,6 +805,11 @@ void frmMain::onSerialPortReadyRead()
                         m_probeIndex++;
                     }
 
+                    // Process check mode
+                    if (ca.command.contains(QRegExp("$[cC]"))) {
+                        m_timerStateQuery.setInterval(response.contains("Enable") ? 1000 : m_frmSettings.queryStateTime());
+                    }
+
                     // Add answer to console
                     if (tb.isValid() && tb.text() == ca.command) {
 
@@ -948,7 +953,7 @@ void frmMain::onTimerConnection()
             m_updateSpindleSpeed = false;
             sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
         }
-        sendCommand("$G", -3);
+        if (m_queue.length() == 0) sendCommand("$G", -3);
     }
 }
 
@@ -1074,6 +1079,8 @@ void frmMain::resizeCheckBoxes()
     // Transform checkboxes
 
     this->setUpdatesEnabled(false);
+
+    updateLayouts();
 
     if (ui->chkTestMode->sizeHint().width() > ui->chkTestMode->width()) {
         widthCheckMode = ui->chkTestMode->sizeHint().width();
@@ -1255,12 +1262,19 @@ void frmMain::loadFile(QString fileName)
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
     double time = 0;
+
+    qDebug() << "update estimated time:" << lines.count();
+
     foreach (LineSegment *ls, lines) {
         double length = (ls->getEnd() - ls->getStart()).length();
 
-        if (!std::isnan(length) && !std::isnan(ls->getSpeed())) time +=
+        if (!std::isnan(length) && !std::isnan(ls->getSpeed()) && ls->getSpeed() != 0) time +=
                 length / ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
                           ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed());
+
+//        qDebug() << "length/time:" << length << ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
+//                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
+//                 << time;
 
         if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
         if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
@@ -1623,21 +1637,6 @@ void frmMain::on_cmdZMinus_clicked()
 
 void frmMain::on_chkTestMode_clicked(bool checked)
 {
-    if (!checked) {
-        // Process check off reset
-//        m_reseting = true;
-//        m_resetCompleted = false;
-//        m_commands.clear();
-
-        // Catch [Disabled] response
-//        CommandAttributes ca;
-//        ca.command = "$C";
-//        ca.consoleIndex = ui->txtConsole->blockCount() - 1;
-//        ca.tableIndex = -1;
-//        ca.length = ca.command.length() + 1;
-//        m_commands.append(ca);
-        m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
-    }
     sendCommand("$C");
 }
 
@@ -2240,7 +2239,7 @@ bool frmMain::updateHeightMapGrid()
     resizeTableHeightMapSections();
 
     // Update interpolation
-    updateHeightMapInterpolationDrawer();
+    updateHeightMapInterpolationDrawer(true);
 
     // Generate probe program
     double gridStepX = gridPointsX > 1 ? borderRect.width() / (gridPointsX - 1) : 0;
@@ -2254,8 +2253,8 @@ bool frmMain::updateHeightMapGrid()
 
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1G0Z%2").
                          arg(m_frmSettings.heightmapProbingFeed()).arg(ui->txtHeightMapGridZTop->value()));
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0")
-                         .arg(ui->txtHeightMapGridZTop->value()));
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0"));
+//                         .arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
                          .arg(ui->txtHeightMapGridZBottom->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
@@ -2284,8 +2283,10 @@ bool frmMain::updateHeightMapGrid()
     return true;
 }
 
-void frmMain::updateHeightMapInterpolationDrawer()
+void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
+    qDebug() << "Updating interpolation";
+
     if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;
 
     QRectF borderRect = borderRectFromTextboxes();
@@ -2306,13 +2307,16 @@ void frmMain::updateHeightMapInterpolationDrawer()
             double x = interpolationStepX * j + borderRect.x();
             double y = interpolationStepY * i + borderRect.y();
 
-            row.append(Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
+            row.append(reset ? std::numeric_limits<double>::quiet_NaN() : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
         }
         interpolationData->append(row);
-    }
+    }   
 
     if (m_heightMapInterpolationDrawer.data() != NULL) delete m_heightMapInterpolationDrawer.data();
     m_heightMapInterpolationDrawer.setData(interpolationData);
+
+    // Heightmap changed by table user input
+    if (sender() == &m_heightMapModel) m_heightMapChanged = true;
 
 //    ui->chkHeightMapBorderAuto->setChecked(false);
 }
@@ -2441,6 +2445,8 @@ bool frmMain::saveHeightMap(QString fileName)
     }
 
     file.close();
+
+    m_heightMapChanged = false;
 
     return true;
 }
@@ -2648,10 +2654,17 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                 for (int j = lastSegmentIndex; j < list->count(); j++) {
                     if (list->at(j)->getLineNumber() == commandIndex) {
 
+//                        qDebug() << "Updating line:" << commandIndex << list->at(j)->getEnd().length()
+//                                 << newCommandPrefix << lastCode;
+
                         // If command is G0 or G1
                         if (!std::isnan(list->at(j)->getEnd().length())
                                 && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
-                                    || (lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
+                                    || (newCommandPrefix == "" && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
+
+                            // Store motion code
+                            if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
+                            else if (newCommandPrefix.contains(QRegExp("[Gg]0*1"))) lastCode = "G1";
 
                             // Create new commands for each linesegment with given command index
                             while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
@@ -2683,9 +2696,6 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                         } else {
                             m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                         }
-
-                        if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
-                        else if (newCommandPrefix.contains(QRegExp("[Gg]0*1"))) lastCode = "G1";
 
                         lastSegmentIndex = j;
                         break;
