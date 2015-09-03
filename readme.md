@@ -8,9 +8,15 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-Version 0.4 pre-release:
----------------
-G-code modification with heighmap.
+Version 0.5 release:
+--------------------
+* Toolpath highlighting on g-code program table selection.
+
+![screenshot](/screenshots/screenshot_toolpath_highlighting.png)
+
+Version 0.4 release:
+--------------------
+G-code modification with heightmap.
 
 Original file:
 ![screenshot](/screenshots/screenshot_heightmap_original.png)

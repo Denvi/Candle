@@ -8,7 +8,7 @@ QT       = core gui opengl serialport winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 0.4
+VERSION = 0.5
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
