@@ -7,8 +7,9 @@
 #include <QGLWidget>
 #include <QTimer>
 #include <QTime>
-#include "GLU.h"
 #include "gldrawable.h"
+
+#include "glu.h"
 
 class GLWidget : public QGLWidget
 {

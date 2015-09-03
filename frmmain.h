@@ -12,7 +12,6 @@
 #include <QStringList>
 #include <QList>
 #include <QTime>
-#include <QtWinExtras/QtWinExtras>
 #include <QMenu>
 #include "gcodeviewparse.h"
 #include "gcodedrawer.h"
@@ -25,8 +24,12 @@
 #include "frmsettings.h"
 #include "frmabout.h"
 #include "styledtoolbutton.h"
-#include "shobjidl.h"
 #include "interpolation.h"
+
+#ifdef WIN32
+    #include <QtWinExtras/QtWinExtras>
+    #include "shobjidl.h"
+#endif
 
 namespace Ui {
 class frmMain;
@@ -196,8 +199,10 @@ private:
     QStringList m_statusBackColors;
     QStringList m_statusForeColors;
 
+#ifdef WIN32
     QWinTaskbarButton *m_taskBarButton;
     QWinTaskbarProgress *m_taskBarProgress;
+#endif
 
     QMenu *m_tableMenu;
 

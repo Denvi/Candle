@@ -4,7 +4,19 @@
 #
 #-------------------------------------------------
 
-QT       = core gui opengl serialport winextras
+QT       = core gui opengl serialport
+
+win32: {
+    QT += winextras
+    DEFINES += WIN32
+    INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl" "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
+    LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
+}
+
+unix: {
+    INCLUDEPATH += "/usr/include/GL"
+    LIBS += -L"/usr/lib/i386-linux-gnu" -lGLU
+}
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -74,9 +86,6 @@ FORMS    += frmmain.ui \
 
 DEFINES += _USE_MATH_DEFINES
 
-INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl" "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
-LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
-
 RESOURCES += \
     res.qrc
 
@@ -86,5 +95,7 @@ RC_ICONS += images/grblControl2.ico
 
 TRANSLATIONS = translations/grblControl_ru.ts
 
-QMAKE_CXXFLAGS_DEBUG += -g3 -pg
-QMAKE_LFLAGS_DEBUG += -pg -lgmon
+win32: {
+    QMAKE_CXXFLAGS_DEBUG += -g3 -pg
+    QMAKE_LFLAGS_DEBUG += -pg -lgmon
+}

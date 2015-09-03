@@ -26,8 +26,11 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->setupUi(this);
 
+#ifdef WIN32
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
+#endif
+
     m_currentModel = &m_programModel;
 
     ui->txtJogStep->setLocale(QLocale::C);
@@ -397,7 +400,10 @@ void frmMain::updateControlsState() {
 //    QRegExp rx("([^/]*)$");
 
     if (!m_transferringFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
+
+#ifdef WIN32
     if (!m_transferringFile && m_taskBarProgress) m_taskBarProgress->hide();
+#endif
 
     style()->unpolish(ui->cmdFileOpen);
     style()->unpolish(ui->cmdFileReset);
@@ -578,7 +584,9 @@ void frmMain::onSerialPortReadyRead()
                 ui->cmdTopZ->setEnabled(statusIndex == 0);
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
+#ifdef WIN32
                 if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
+#endif
 
                 // Increase state query interval on check mode
 //                if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
@@ -859,7 +867,9 @@ void frmMain::onSerialPortReadyRead()
                         }
 
                         // Update taskbar progress
+#ifdef WIN32
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
+#endif
 
                         // Send next program commands
                         if (m_fileCommandIndex < m_currentModel->rowCount()) {
@@ -1038,11 +1048,13 @@ void frmMain::showEvent(QShowEvent *se)
 {
     placeVisualizerButtons();
 
+#ifdef WIN32
     if (m_taskBarButton == NULL) {
         m_taskBarButton = new QWinTaskbarButton(this);
         m_taskBarButton->setWindow(this->windowHandle());
         m_taskBarProgress = m_taskBarButton->progress();
     }
+#endif
 
     ui->glwVisualizer->setUpdatesEnabled(true);
 
@@ -1155,7 +1167,7 @@ void frmMain::on_cmdFileOpen_clicked()
     if (!ui->cmdHeightMapMode->isChecked()) {
         if (!saveChanges(false)) return;
 
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)|All files (*.*)"));
 
         if (fileName != "") {
             addRecentFile(fileName);
@@ -1321,11 +1333,13 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
+#ifdef WIN32
     if (m_taskBarProgress) {
         m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
         m_taskBarProgress->setValue(0);
         m_taskBarProgress->show();
     }
+#endif
 
     updateControlsState();
     sendNextFileCommands();

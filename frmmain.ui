@@ -25,6 +25,10 @@
 	font-size: 9pt;
 }
 
+QComboBox::drop-down {
+	border: 0;
+}
+
 QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
 	padding-bottom: 1px;
@@ -2620,6 +2624,12 @@ QDoubleSpinBox:focus {
 
 QComboBox::drop-down {
 	width: 0;
+	border-style: none;
+}
+
+QComboBox::down-arrow {
+	image: url(noimg);
+	border-width: 0;
 }</string>
              </property>
              <property name="editable">
