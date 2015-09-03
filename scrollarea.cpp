@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #include <QDebug>
 #include <QLayout>
 #include <QScrollBar>
@@ -8,6 +11,7 @@
 ScrollArea::ScrollArea(QWidget *parent) : QScrollArea(parent)
 {
     m_update = false;
+    m_width = 0;
 
     connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onVerticalScrollBarValueChanged(int)));
     connect(this->verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(onVerticalScrollBarRangeChanged(int,int)));
@@ -18,7 +22,8 @@ ScrollArea::ScrollArea(QWidget *parent) : QScrollArea(parent)
 QSize ScrollArea::sizeHint() const
 {
     QSize hint = widget()->sizeHint();
-    hint.setHeight(hint.height() + 2);
+    hint.setHeight(hint.height() + 4);  // top + bottom border width
+    hint.setWidth(m_width);
 
     return hint;
 }
@@ -30,7 +35,8 @@ void ScrollArea::setWidget(QWidget *widget)
     QList<GroupBox*> list = widget->findChildren<GroupBox*>();
     foreach (GroupBox *box, list) {
         connect(box, SIGNAL(mouseMoved(int,int)), this, SLOT(onScroll(int,int)));
-    }
+        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left()); // 1 * margin
+    }   
 
     QScrollArea::setWidget(widget);
 }
@@ -55,6 +61,7 @@ void ScrollArea::mousePressEvent(QMouseEvent *me)
 
 void ScrollArea::onContentSizeChanged(QSize newSize)
 {
+    this->widget()->setMinimumWidth(m_width);
     this->updateGeometry();
 }
 
@@ -78,9 +85,11 @@ void ScrollArea::updateBorders()
 
     this->styleSheet().clear();
 
-    QString style = QString("QScrollArea {border-top: 1px solid %1; border-bottom: 1px solid %2;}")
-            .arg(bar->value() > bar->minimum() && !fitted ? "palette(midlight)" : "transparent")
-            .arg(bar->value() < bar->maximum() && !fitted ? "palette(midlight)" : "transparent");
+    QString style = QString("QScrollArea {border-top: 2px solid %1; border-bottom: 2px solid %2;}")
+            .arg(bar->value() > bar->minimum() && !fitted ? "qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white)"
+                                                          : "transparent")
+            .arg(bar->value() < bar->maximum() && !fitted ? "qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white)"
+                                                          : "transparent");
 
     this->setStyleSheet(style);
 }

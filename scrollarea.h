@@ -1,3 +1,6 @@
+// This file is a part of "grblControl" application.
+// Copyright 2015 Hayrullin Denis Ravilevich
+
 #ifndef SCROLLAREA_H
 #define SCROLLAREA_H
 
@@ -34,6 +37,7 @@ private slots:
 private:
     bool m_update;
     QPoint m_previousPos;
+    int m_width;
 
     void updateBorders();
 };

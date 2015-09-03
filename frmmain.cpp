@@ -26,10 +26,6 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
-
-    connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
-
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
     m_currentModel = &m_programModel;
@@ -48,6 +44,11 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdTop->setParent(ui->glwVisualizer);
     ui->cmdFront->setParent(ui->glwVisualizer);
     ui->cmdLeft->setParent(ui->glwVisualizer);
+
+    ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
+    ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
 
@@ -93,6 +94,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
+    connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
@@ -777,7 +779,7 @@ void frmMain::onSerialPortReadyRead()
                         double z = std::numeric_limits<double>::quiet_NaN();
                         if (rx.indexIn(response) != -1) {
                             qDebug() << "probing coordinates:" << rx.cap(1) << rx.cap(2) << rx.cap(3);
-                            z = rx.cap(3).toDouble();
+                            z = toMetric(rx.cap(3).toDouble());
                         }
 
 //                        z = 23 + (double)m_probeIndex / 10;
@@ -1003,6 +1005,7 @@ void frmMain::onTableInsertLine()
 //    ui->tblProgram->edit(m_currentModel->index(row, 1));
 
     updateParser();
+    ui->tblProgram->selectRow(row);
 }
 
 void frmMain::onTableDeleteLines()
@@ -1017,9 +1020,8 @@ void frmMain::onTableDeleteLines()
         m_currentModel->removeRow(firstRow.row());
     }
 
-    ui->tblProgram->selectRow(firstRow.row());
-
     updateParser();
+    ui->tblProgram->selectRow(firstRow.row());
 }
 
 void frmMain::placeVisualizerButtons()
@@ -1895,35 +1897,38 @@ void frmMain::on_chkFeedOverride_toggled(bool checked)
 
 void frmMain::on_grpFeed_toggled(bool checked)
 {
-    ui->widgetFeed->setVisible(checked);
-
     if (checked) {
         ui->grpFeed->setTitle(tr("Feed"));
     } else if (ui->chkFeedOverride->isChecked()) {
         ui->grpFeed->setTitle(tr("Feed") + QString(tr(" (%1)")).arg(ui->txtFeed->text()));
     }
+    updateLayouts();
+
+    ui->widgetFeed->setVisible(checked);
 }
 
 void frmMain::on_grpSpindle_toggled(bool checked)
 {
-    ui->widgetSpindle->setVisible(checked);
-
     if (checked) {
         ui->grpSpindle->setTitle(tr("Spindle"));
     } else if (ui->cmdSpindle->isChecked()) {
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
     }
+    updateLayouts();
+
+    ui->widgetSpindle->setVisible(checked);
 }
 
 void frmMain::on_grpJog_toggled(bool checked)
 {
-    ui->widgetJog->setVisible(checked);
-
     if (checked) {
         ui->grpJog->setTitle(tr("Jog"));
     } else if (ui->chkKeyboardControl->isChecked()) {
         ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
     }
+    updateLayouts();
+
+    ui->widgetJog->setVisible(checked);
 }
 
 void frmMain::blockJogForRapidMovement() {
