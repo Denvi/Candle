@@ -1167,7 +1167,7 @@ void frmMain::on_cmdFileOpen_clicked()
     if (!ui->cmdHeightMapMode->isChecked()) {
         if (!saveChanges(false)) return;
 
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc;*.ncc;*.tap)|All files (*.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.tap);;All files (*.*)"));
 
         if (fileName != "") {
             addRecentFile(fileName);

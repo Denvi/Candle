@@ -20,6 +20,10 @@
   <property name="windowTitle">
    <string>grblControl</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/images/icon3png.png</normaloff>:/images/icon3png.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
 	font-size: 9pt;
@@ -1640,8 +1644,8 @@ color: black;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>241</width>
-           <height>662</height>
+           <width>236</width>
+           <height>663</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2618,7 +2622,8 @@ QDoubleSpinBox:focus {
            <item>
             <widget class="ComboBox" name="cboCommand">
              <property name="styleSheet">
-              <string notr="true">QComboBox {
+              <string notr="true">/*
+QComboBox {
 	padding: 2 2;
 }
 
@@ -2630,7 +2635,8 @@ QComboBox::drop-down {
 QComboBox::down-arrow {
 	image: url(noimg);
 	border-width: 0;
-}</string>
+}
+*/</string>
              </property>
              <property name="editable">
               <bool>true</bool>
@@ -2698,7 +2704,7 @@ QComboBox::down-arrow {
      <x>0</x>
      <y>0</y>
      <width>921</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
