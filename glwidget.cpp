@@ -14,6 +14,7 @@ GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
     m_animateView = false;
+    m_updatesEnabled = false;
 
     m_xRot = 90;
     m_yRot = 0;

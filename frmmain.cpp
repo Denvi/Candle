@@ -1189,6 +1189,20 @@ void frmMain::on_cmdFileOpen_clicked()
     }
 }
 
+void frmMain::resetHeightmap()
+{
+    delete m_heightMapInterpolationDrawer.data();
+    m_heightMapInterpolationDrawer.setData(NULL);
+    updateHeightMapInterpolationDrawer();
+
+    ui->tblHeightMap->setModel(NULL);
+    m_heightMapModel.resize(1, 1);
+
+    ui->txtHeightMap->clear();
+    m_heightMapFileName.clear();
+    m_heightMapChanged = false;
+}
+
 void frmMain::loadFile(QString fileName)
 {
     QFile file(fileName);
@@ -1198,17 +1212,14 @@ void frmMain::loadFile(QString fileName)
         return;
     }
 
-    ui->chkHeightMapUse->setChecked(false);
-
     QTextStream textStream(&file);
-
-    clearTable();
-    m_programLoading = true;
     m_programFileName = fileName;
 
+    ui->chkHeightMapUse->setChecked(false);
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
 
     ui->tblProgram->setModel(NULL);
+    m_programLoading = true;
     m_currentModel = &m_programModel;
 
     GcodeParser gp;
@@ -1217,17 +1228,29 @@ void frmMain::loadFile(QString fileName)
     QTime time;
     time.start();
 
-    QString command;
+    // Test memory leakage
+    for (int i = 0; i < 1; i++) {
 
-    while (!textStream.atEnd())
-    {
-        command = textStream.readLine();
+        textStream.seek(0);
 
-        gp.addCommand(command);
+        clearTable();
+        gp.reset();
 
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+        QString command;
+
+        while (!textStream.atEnd())
+        {
+            command = textStream.readLine();
+
+            gp.addCommand(command);
+
+            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
+            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+        }
+
+        m_viewParser.reset();
+        updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
     }
 
     qDebug() << "model filled:" << time.elapsed();
@@ -1241,9 +1264,6 @@ void frmMain::loadFile(QString fileName)
     ui->tblProgram->selectRow(0);
     ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
-    m_viewParser.reset();    
-    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
-
     qDebug() << "view parser filled:" << time.elapsed();
 
     for (int i = 0; i < 10 && i < gp.getPointSegmentList().count(); i++) {
@@ -1256,24 +1276,9 @@ void frmMain::loadFile(QString fileName)
 
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
 
-    delete m_heightMapInterpolationDrawer.data();
-    m_heightMapInterpolationDrawer.setData(NULL);
-    updateHeightMapInterpolationDrawer();
-
-    ui->tblHeightMap->setModel(NULL);
-    m_heightMapModel.resize(1, 1);
-
-    ui->txtHeightMap->clear();
-    m_heightMapFileName.clear();
-    m_heightMapChanged = false;
+    resetHeightmap();
 
     updateControlsState();
-
-//    if (ui->chkHeightMapBorderAuto->isChecked()) {
-//        borderRectFromExtremes();
-//        updateHeightMapBorderDrawer();
-//        updateHeightMapGridDrawer();
-//    }
 }
 
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
@@ -1732,9 +1737,19 @@ void frmMain::on_actFileNew_triggered()
 
     if (!ui->cmdHeightMapMode->isChecked()) {
         clearTable();
+        m_probeModel.clear();
+        m_programHeightmapModel.clear();
+
         m_viewParser.reset();
+        m_probeParser.reset();
         ui->glwVisualizer->fitDrawable();
+        ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+        ui->glwVisualizer->setEstimatedTime(QTime(0, 0, 0));
+
         m_programFileName = "";
+        ui->chkHeightMapUse->setChecked(false);
+
+        resetHeightmap();
     } else {
         m_heightMapModel.clear();
         on_cmdFileReset_clicked();
@@ -2627,6 +2642,7 @@ void frmMain::on_chkHeightMapUse_toggled(bool checked)
                 QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
 
                 if (subSegments.count() > 0) {
+                    delete list->at(i);
                     list->removeAt(i);
                     foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
                     i--;

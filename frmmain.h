@@ -286,6 +286,7 @@ private:
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void resizeTableHeightMapSections();
     void updateHeightMapGrid(double arg1);
+    void resetHeightmap();
 };
 
 #endif // FRMMAIN_H
