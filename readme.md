@@ -8,6 +8,11 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
+Downloads:
+----------
+Windows: [grblControl_0.5.zip](https://github.com/Denvi/grblControl/releases/download/0.5/grblControl_0.5.zip)
+Linux: [grblControl_0.5.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.5/grblControl_0.5.tar.gz)
+
 Version 0.5 release:
 --------------------
 * Toolpath highlighting on g-code program table selection.

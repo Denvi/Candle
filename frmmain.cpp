@@ -1191,8 +1191,8 @@ void frmMain::on_cmdFileOpen_clicked()
 
 void frmMain::resetHeightmap()
 {
-    delete m_heightMapInterpolationDrawer.data();
-    m_heightMapInterpolationDrawer.setData(NULL);
+//    delete m_heightMapInterpolationDrawer.data();
+//    m_heightMapInterpolationDrawer.setData(NULL);
     updateHeightMapInterpolationDrawer();
 
     ui->tblHeightMap->setModel(NULL);
@@ -2337,7 +2337,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
     qDebug() << "Updating interpolation";
 
-    if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;
+//    if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;
 
     QRectF borderRect = borderRectFromTextboxes();
     m_heightMapInterpolationDrawer.setBorderRect(borderRect);
