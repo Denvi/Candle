@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>321</width>
-    <height>538</height>
+    <width>332</width>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -859,6 +859,9 @@ padding-top: 3;</string>
   <tabstop>txtAcceleration</tabstop>
   <tabstop>txtSpindleSpeedMin</tabstop>
   <tabstop>txtSpindleSpeedMax</tabstop>
+  <tabstop>txtTouchCommand</tabstop>
+  <tabstop>txtHeightMapProbingFeed</tabstop>
+  <tabstop>cboUnits</tabstop>
   <tabstop>chkShowAllCommands</tabstop>
   <tabstop>chkAutocompletion</tabstop>
   <tabstop>cmdOK</tabstop>

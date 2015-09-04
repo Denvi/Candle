@@ -1644,8 +1644,8 @@ color: black;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>236</width>
-           <height>663</height>
+           <width>241</width>
+           <height>662</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2621,23 +2621,6 @@ QDoubleSpinBox:focus {
           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
            <item>
             <widget class="ComboBox" name="cboCommand">
-             <property name="styleSheet">
-              <string notr="true">/*
-QComboBox {
-	padding: 2 2;
-}
-
-QComboBox::drop-down {
-	width: 0;
-	border-style: none;
-}
-
-QComboBox::down-arrow {
-	image: url(noimg);
-	border-width: 0;
-}
-*/</string>
-             </property>
              <property name="editable">
               <bool>true</bool>
              </property>
@@ -2704,7 +2687,7 @@ QComboBox::down-arrow {
      <x>0</x>
      <y>0</y>
      <width>921</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

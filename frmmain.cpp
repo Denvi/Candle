@@ -29,6 +29,7 @@ frmMain::frmMain(QWidget *parent) :
 #ifdef WIN32
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
+    ui->cboCommand->setStyleSheet("QComboBox {padding: 2 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
 
     m_currentModel = &m_programModel;
@@ -1131,7 +1132,7 @@ void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
         m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->txtSpindleSpeed->value())
-                            / (ui->txtSpindleSpeed->maximum() - ui->txtSpindleSpeed->minimum()));
+                            / (ui->txtSpindleSpeed->maximum()));
     } else {
         QMainWindow::timerEvent(te);
     }
