@@ -46,6 +46,16 @@ int main(int argc, char *argv[])
 
     a.setApplicationVersion(APP_VERSION);
 
+#ifndef WIN32
+    foreach (QString str, QStyleFactory::keys()) {
+        qDebug() << str;
+        if (str.contains("GTK")) {
+            a.setStyle(QStyleFactory::create(str));
+            break;
+        }
+    }
+#endif
+
     frmMain w;
 
     w.show();

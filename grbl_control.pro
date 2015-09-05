@@ -16,6 +16,7 @@ win32: {
 unix: {
     INCLUDEPATH += "/usr/include/GL"
     LIBS += -L"/usr/lib/i386-linux-gnu" -lGLU
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
