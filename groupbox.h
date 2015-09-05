@@ -15,13 +15,14 @@ public:
 
 signals:
     void mouseMoved(int dx, int dy);
+    void mousePressed();
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private:
-    QPoint m_previousPos;
+    QPoint m_pressedPos;
 };
 
 #endif // GROUPBOX_H

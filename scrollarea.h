@@ -33,10 +33,12 @@ private slots:
     void onContentSizeChanged(QSize newSize);
     void onVerticalScrollBarValueChanged(int newValue);
     void onScroll(int dx, int dy);
+    void onPressed();
 
 private:
     bool m_update;
-    QPoint m_previousPos;
+    QPoint m_pressedPos;
+    int m_pressedValue;
     int m_width;
 
     void updateBorders();

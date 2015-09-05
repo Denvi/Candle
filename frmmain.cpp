@@ -99,9 +99,9 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
-    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
-    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
-    connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(on_tblProgram_cellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTblProgramCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTblProgramCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTblProgramCellChanged(QModelIndex,QModelIndex)));
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
     ui->tblProgram->setModel(&m_programModel);
@@ -462,7 +462,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
     // Commands queue
     if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
-        qDebug() << "queue:" << command;
+//        qDebug() << "queue:" << command;
 
         CommandQueue cq;
 
@@ -1191,9 +1191,9 @@ void frmMain::on_cmdFileOpen_clicked()
 
 void frmMain::resetHeightmap()
 {
-//    delete m_heightMapInterpolationDrawer.data();
-//    m_heightMapInterpolationDrawer.setData(NULL);
-    updateHeightMapInterpolationDrawer();
+    delete m_heightMapInterpolationDrawer.data();
+    m_heightMapInterpolationDrawer.setData(NULL);
+//    updateHeightMapInterpolationDrawer();
 
     ui->tblHeightMap->setModel(NULL);
     m_heightMapModel.resize(1, 1);
@@ -1365,7 +1365,7 @@ void frmMain::sendNextFileCommands() {
     }
 }
 
-void frmMain::on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2)
+void frmMain::onTblProgramCellChanged(QModelIndex i1, QModelIndex i2)
 {
     GCodeTableModel *model = (GCodeTableModel*)sender();
 
@@ -2335,6 +2335,8 @@ bool frmMain::updateHeightMapGrid()
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
+    if (m_settingsLoading) return;
+
     qDebug() << "Updating interpolation";
 
 //    if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;

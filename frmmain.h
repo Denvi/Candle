@@ -79,7 +79,7 @@ private slots:
     void on_cmdFileOpen_clicked();        
     void on_cmdFit_clicked();
     void on_cmdFileSend_clicked();
-    void on_tblProgram_cellChanged(QModelIndex i1, QModelIndex i2);
+    void onTblProgramCellChanged(QModelIndex i1, QModelIndex i2);
     void on_actServiceSettings_triggered();
     void on_actFileOpen_triggered();
     void on_cmdCommandSend_clicked();
