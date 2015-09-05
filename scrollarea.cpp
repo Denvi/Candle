@@ -89,7 +89,7 @@ void ScrollArea::updateBorders()
 
     this->styleSheet().clear();
 
-    QString style = QString("QScrollArea {border-top: 2px solid %1; border-bottom: 2px solid %2;}")
+    QString style = QString("QScrollArea {background-color: transparent; border-top: 2px solid %1; border-bottom: 2px solid %2;}")
             .arg(bar->value() > bar->minimum() && !fitted ? "qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white)"
                                                           : "transparent")
             .arg(bar->value() < bar->maximum() && !fitted ? "qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white)"

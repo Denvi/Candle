@@ -246,6 +246,8 @@ private:
     QStringList m_recentFiles;
     QStringList m_recentHeightmaps;
 
+    bool m_heightMapMode;
+
     void loadFile(QString fileName);
     void clearTable();
     void loadSettings();

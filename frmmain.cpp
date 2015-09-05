@@ -32,6 +32,8 @@ frmMain::frmMain(QWidget *parent) :
     ui->cboCommand->setStyleSheet("QComboBox {padding: 2 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
 
+    m_heightMapMode = false;
+
     m_currentModel = &m_programModel;
 
     ui->txtJogStep->setLocale(QLocale::C);
@@ -343,11 +345,12 @@ bool frmMain::saveChanges(bool heightMapMode)
                                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (res == QMessageBox::Cancel) return false;
         else if (res == QMessageBox::Yes) {
-            ui->cmdHeightMapMode->setChecked(true);
+            m_heightMapMode = true;
             on_actFileSave_triggered();
         }
 
         m_fileChanged = false;
+        m_heightMapMode = false;
     }
 
     return true;
@@ -384,8 +387,8 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdFilePause->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
-    ui->mnuRecent->setEnabled(!m_transferringFile && ((m_recentFiles.count() > 0 && !ui->cmdHeightMapMode->isChecked())
-                                                      || (m_recentHeightmaps.count() > 0 && ui->cmdHeightMapMode->isChecked())));
+    ui->mnuRecent->setEnabled(!m_transferringFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)
+                                                      || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
     ui->actFileSave->setEnabled(m_programModel.rowCount() > 1);
     ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
@@ -417,11 +420,11 @@ void frmMain::updateControlsState() {
 
     // Heightmap
 
-    m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && ui->cmdHeightMapMode->isChecked());
-    m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && ui->cmdHeightMapMode->isChecked());
-    m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && ui->cmdHeightMapMode->isChecked());
+    m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
+    m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
+    m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
-    if (ui->cmdHeightMapMode->isChecked()) {
+    if (m_heightMapMode) {
         ui->grpProgram->setTitle(tr("Heightmap"));
         ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: red;}");
     } else {
@@ -429,20 +432,20 @@ void frmMain::updateControlsState() {
         ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: palette(text);}");
     }
 
-    ui->grpHeightMapSettings->setVisible(ui->cmdHeightMapMode->isChecked());
+    ui->grpHeightMapSettings->setVisible(m_heightMapMode);
     ui->grpHeightMapSettings->setEnabled(!m_transferringFile);
-    ui->chkTestMode->setVisible(!ui->cmdHeightMapMode->isChecked());
-    ui->chkAutoScroll->setVisible(!ui->cmdHeightMapMode->isChecked());
+    ui->chkTestMode->setVisible(!m_heightMapMode);
+    ui->chkAutoScroll->setVisible(!m_heightMapMode);
 
-    ui->tblHeightMap->setVisible(ui->cmdHeightMapMode->isChecked());
-    ui->tblProgram->setVisible(!ui->cmdHeightMapMode->isChecked());
+    ui->tblHeightMap->setVisible(m_heightMapMode);
+    ui->tblProgram->setVisible(!m_heightMapMode);
 
     ui->widgetHeightMap->setEnabled(!m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
 
-    ui->cmdFileSend->setText(ui->cmdHeightMapMode->isChecked() ? tr("Probe") : tr("Send"));
+    ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
-    ui->chkHeightMapUse->setEnabled(!ui->cmdHeightMapMode->isChecked() && !ui->txtHeightMap->text().isEmpty());            
+    ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
 }
 
 void frmMain::openPort()
@@ -781,7 +784,7 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Process probing on heightmap mode only from table commands
-                    if (ca.command.contains("G38.2") && ui->cmdHeightMapMode->isChecked() && ca.tableIndex > -1) {
+                    if (ca.command.contains("G38.2") && m_heightMapMode && ca.tableIndex > -1) {
                         // Get probe Z coordinate
                         // "[PRB:0.000,0.000,0.000:0];ok"
                         QRegExp rx(".*PRB:([^,]*),([^,]*),([^]^:]*)");
@@ -1140,7 +1143,7 @@ void frmMain::timerEvent(QTimerEvent *te)
 
 void frmMain::closeEvent(QCloseEvent *ce)
 {
-    if (!saveChanges(ui->cmdHeightMapMode->isChecked())) {
+    if (!saveChanges(m_heightMapMode)) {
         ce->ignore();
         return;
     }
@@ -1165,7 +1168,7 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
-    if (!ui->cmdHeightMapMode->isChecked()) {
+    if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.tap);;All files (*.*)"));
@@ -1676,7 +1679,7 @@ void frmMain::on_cmdFileReset_clicked()
     m_lastDrawnLineIndex = 0;
     m_probeIndex = -1;
 
-    if (!ui->cmdHeightMapMode->isChecked()) {
+    if (!m_heightMapMode) {
         QTime time;
 
         time.start();
@@ -1733,9 +1736,9 @@ void frmMain::on_actFileNew_triggered()
 {    
     qDebug() << "changes:" << m_fileChanged << m_heightMapChanged;
 
-    if (!saveChanges(ui->cmdHeightMapMode->isChecked())) return;
+    if (!saveChanges(m_heightMapMode)) return;
 
-    if (!ui->cmdHeightMapMode->isChecked()) {
+    if (!m_heightMapMode) {
         clearTable();
         m_probeModel.clear();
         m_programHeightmapModel.clear();
@@ -1796,7 +1799,7 @@ bool frmMain::saveProgramToFile(QString fileName)
 
 void frmMain::on_actFileSaveAs_triggered()
 {
-    if (!ui->cmdHeightMapMode->isChecked()) {
+    if (!m_heightMapMode) {
 
         QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc;*.ncc;*.tap)")));
 
@@ -1829,7 +1832,7 @@ void frmMain::on_actFileSaveAs_triggered()
 
 void frmMain::on_actFileSave_triggered()
 {
-    if (!ui->cmdHeightMapMode->isChecked()) {
+    if (!m_heightMapMode) {
         // G-code saving
         if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveProgramToFile(m_programFileName);
     } else {
@@ -2104,7 +2107,7 @@ void frmMain::on_splitter_splitterMoved(int pos, int index)
 
     if ((ui->splitter->sizes()[1] == 0) != tableCollapsed) {
         this->setUpdatesEnabled(false);
-        ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !ui->cmdHeightMapMode->isChecked());
+        ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !m_heightMapMode);
         updateLayouts();
         resizeCheckBoxes();
 
@@ -2141,8 +2144,8 @@ void frmMain::onActRecentFileTriggered()
     QAction *action = static_cast<QAction*>(sender());
 
     if (action != NULL) {
-        if (!saveChanges(ui->cmdHeightMapMode->isChecked())) return;
-        if (!ui->cmdHeightMapMode->isChecked()) loadFile(action->text()); else loadHeightMap(action->text());
+        if (!saveChanges(m_heightMapMode)) return;
+        if (!m_heightMapMode) loadFile(action->text()); else loadHeightMap(action->text());
     }
 }
 
@@ -2174,7 +2177,7 @@ void frmMain::updateRecentFilesMenu()
         }
     }
 
-    foreach (QString file, !ui->cmdHeightMapMode->isChecked() ? m_recentFiles : m_recentHeightmaps) {
+    foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps) {
         QAction *action = new QAction(file, this);
         connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
         ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
@@ -2185,7 +2188,7 @@ void frmMain::updateRecentFilesMenu()
 
 void frmMain::on_actRecentClear_triggered()
 {
-    if (!ui->cmdHeightMapMode->isChecked()) m_recentFiles.clear(); else m_recentHeightmaps.clear();
+    if (!m_heightMapMode) m_recentFiles.clear(); else m_recentHeightmaps.clear();
     updateRecentFilesMenu();
 }
 
@@ -2431,6 +2434,9 @@ void frmMain::on_txtHeightMapGridZTop_valueChanged(double arg1)
 
 void frmMain::on_cmdHeightMapMode_toggled(bool checked)
 {
+    // Update flag
+    m_heightMapMode = checked;
+
     // Reset file progress
     m_fileCommandIndex = 0;
     m_fileProcessedCommandIndex = 0;
