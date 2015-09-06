@@ -14,10 +14,14 @@
 #include <QTranslator>
 #include <QFile>
 #include <QStyleFactory>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/tahoma.ttf");
 
     QGLFormat glf = QGLFormat::defaultFormat();
     glf.setSampleBuffers(true);
@@ -46,7 +50,7 @@ int main(int argc, char *argv[])
 
     a.setApplicationVersion(APP_VERSION);
 
-#ifndef WIN32
+#ifdef UNIX
     foreach (QString str, QStyleFactory::keys()) {
         qDebug() << str;
         if (str.contains("GTK")) {

@@ -26,7 +26,7 @@
 #include "styledtoolbutton.h"
 #include "interpolation.h"
 
-#ifdef WIN32
+#ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
     #include "shobjidl.h"
 #endif
@@ -199,7 +199,7 @@ private:
     QStringList m_statusBackColors;
     QStringList m_statusForeColors;
 
-#ifdef WIN32
+#ifdef WINDOWS
     QWinTaskbarButton *m_taskBarButton;
     QWinTaskbarProgress *m_taskBarProgress;
 #endif

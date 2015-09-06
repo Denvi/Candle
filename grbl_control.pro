@@ -8,12 +8,15 @@ QT       = core gui opengl serialport
 
 win32: {
     QT += winextras
-    DEFINES += WIN32
+    DEFINES += WINDOWS
     INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl" "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
     LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
+    INCLUDEPATH += "C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Include\\gl"
+    LIBS += -L"C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Lib" -lopengl32 -lglu32
 }
 
 unix: {
+    DEFINES += UNIX
     INCLUDEPATH += "/usr/include/GL"
     LIBS += -L"/usr/lib/i386-linux-gnu" -lGLU
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
@@ -88,7 +91,8 @@ FORMS    += frmmain.ui \
 DEFINES += _USE_MATH_DEFINES
 
 RESOURCES += \
-    res.qrc
+    res.qrc \
+    fonts.qrc
 
 CONFIG += c++11
 

@@ -27,11 +27,15 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->setupUi(this);
 
-#ifdef WIN32
+#ifdef WINDOWS
     m_taskBarButton = NULL;
     m_taskBarProgress = NULL;
-    ui->cboCommand->setStyleSheet("QComboBox {padding: 2 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
+
+#ifndef UNIX
+    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
+#endif
+
     ui->chkHeightMapBorderAuto->hide();
 
     m_heightMapMode = false;
@@ -401,7 +405,7 @@ void frmMain::updateControlsState() {
 
     if (!m_transferringFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
-#ifdef WIN32
+#ifdef WINDOWS
     if (!m_transferringFile && m_taskBarProgress) m_taskBarProgress->hide();
 #endif
 
@@ -585,7 +589,7 @@ void frmMain::onSerialPortReadyRead()
                 ui->cmdTopZ->setEnabled(statusIndex == 0);
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
-#ifdef WIN32
+#ifdef WINDOWS
                 if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
 #endif
 
@@ -868,7 +872,7 @@ void frmMain::onSerialPortReadyRead()
                         }
 
                         // Update taskbar progress
-#ifdef WIN32
+#ifdef WINDOWS
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
 #endif
 
@@ -1049,7 +1053,7 @@ void frmMain::showEvent(QShowEvent *se)
 {
     placeVisualizerButtons();
 
-#ifdef WIN32
+#ifdef WINDOWS
     if (m_taskBarButton == NULL) {
         m_taskBarButton = new QWinTaskbarButton(this);
         m_taskBarButton->setWindow(this->windowHandle());
@@ -1344,7 +1348,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
-#ifdef WIN32
+#ifdef WINDOWS
     if (m_taskBarProgress) {
         m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
         m_taskBarProgress->setValue(0);

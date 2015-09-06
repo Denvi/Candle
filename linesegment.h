@@ -15,7 +15,7 @@ class LineSegment : public QObject
 {
     Q_OBJECT
 public:
-    explicit LineSegment(QObject *parent = 0);
+    LineSegment(QObject *parent = 0);
     LineSegment(QVector3D a, QVector3D b, int num);
     LineSegment(LineSegment *initial);
     ~LineSegment();

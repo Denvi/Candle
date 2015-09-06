@@ -49,10 +49,6 @@ QScrollArea#scrollArea QScrollBar::sub-line:vertical {
     height: 0px;
 }
 
-QComboBox::drop-down {
-	border: 0;
-}
-
 QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
 	padding-bottom: 1px;
@@ -2671,9 +2667,6 @@ QDoubleSpinBox:focus {
                </property>
                <property name="insertPolicy">
                 <enum>QComboBox::InsertAtTop</enum>
-               </property>
-               <property name="frame">
-                <bool>false</bool>
                </property>
               </widget>
              </item>
