@@ -12,6 +12,7 @@
 #include <QScrollBar>
 #include <QShortcut>
 #include <QAction>
+#include <QLayout>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -31,8 +32,11 @@ frmMain::frmMain(QWidget *parent) :
     m_taskBarProgress = NULL;
     ui->cboCommand->setStyleSheet("QComboBox {padding: 2 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
+    ui->chkHeightMapBorderAuto->hide();
 
     m_heightMapMode = false;
+    m_lastDrawnLineIndex = 0;
+    m_fileProcessedCommandIndex = 0;
 
     m_currentModel = &m_programModel;
 
@@ -58,7 +62,8 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
 
-    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
+//    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
+    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
 
     m_codeDrawer = new GcodeDrawer(this);
     m_codeDrawer->setViewParser(&m_viewParser);
@@ -67,6 +72,8 @@ frmMain::frmMain(QWidget *parent) :
     m_probeDrawer = new GcodeDrawer(this);
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
+
+    m_heightMapGridDrawer.setModel(&m_heightMapModel);
 
     m_currentDrawer = m_codeDrawer;
 
@@ -131,25 +138,16 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
 
-    updateControlsState();
-    applySettings();
-
-    m_lastDrawnLineIndex = 0;
-    m_fileProcessedCommandIndex = 0;
-
-    m_timerConnection.start(1000);
-    m_timerStateQuery.start();
-
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
-//    m_heightMapModel.resize(1, 1);
-
-    m_heightMapGridDrawer.setModel(&m_heightMapModel);
+    applySettings();
+    updateControlsState();
 
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
 
-    ui->chkHeightMapBorderAuto->hide();
+    m_timerConnection.start(1000);
+    m_timerStateQuery.start();
 }
 
 frmMain::~frmMain()
@@ -359,8 +357,6 @@ bool frmMain::saveChanges(bool heightMapMode)
 void frmMain::updateControlsState() {    
     bool portOpened = m_serialPort.isOpen();
 
-//    this->setUpdatesEnabled(false);
-
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
     ui->widgetSpindle->setEnabled(portOpened);
@@ -434,6 +430,7 @@ void frmMain::updateControlsState() {
 
     ui->grpHeightMapSettings->setVisible(m_heightMapMode);
     ui->grpHeightMapSettings->setEnabled(!m_transferringFile);
+
     ui->chkTestMode->setVisible(!m_heightMapMode);
     ui->chkAutoScroll->setVisible(!m_heightMapMode);
 
@@ -1143,14 +1140,19 @@ void frmMain::timerEvent(QTimerEvent *te)
 
 void frmMain::closeEvent(QCloseEvent *ce)
 {
+    bool mode = m_heightMapMode;
+    m_heightMapMode = false;
+
     if (!saveChanges(m_heightMapMode)) {
         ce->ignore();
+        m_heightMapMode = mode;
         return;
     }
 
     if (m_transferringFile && QMessageBox::warning(this, this->windowTitle(), tr("File sending in progress. Terminate and exit?"),
                                                    QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
         ce->ignore();
+        m_heightMapMode = mode;
         return;
     }
 

@@ -35,7 +35,7 @@ void ScrollArea::setWidget(QWidget *widget)
     foreach (GroupBox *box, list) {
         connect(box, SIGNAL(mouseMoved(int,int)), this, SLOT(onScroll(int,int)));
         connect(box, SIGNAL(mousePressed()), this, SLOT(onPressed()));
-        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left()); // 1 * margin
+        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left() + 4); // 1 * margin
     }   
 
     QScrollArea::setWidget(widget);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>921</width>
-    <height>889</height>
+    <width>839</width>
+    <height>788</height>
    </rect>
   </property>
   <property name="palette">
@@ -161,11 +161,11 @@ QSplitter::handle {
 QSplitter::handle:vertical {
 	background-image: url(&quot;:/images/handle_horizontal.png&quot;);
 }
-
+/*
 QSplitter::handle:horizontal {
 	background-image: url(&quot;:/images/handle_vertical.png&quot;);
 }
-
+*/
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);
@@ -1678,8 +1678,8 @@ color: black;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>245</width>
-           <height>662</height>
+           <width>237</width>
+           <height>612</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2727,8 +2727,8 @@ QDoubleSpinBox:focus {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>921</width>
-     <height>26</height>
+     <width>839</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

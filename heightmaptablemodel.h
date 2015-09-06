@@ -33,7 +33,7 @@ signals:
 private:
 //    QList<QList<double>> m_data;
     QVector<QVector<double>> m_data;
-    QStringList m_headers;
+    QList<QString> m_headers;
 };
 
 #endif // HEIGHTMAPTABLEMODEL_H

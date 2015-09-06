@@ -61,7 +61,7 @@ bool HeightMapTableModel::insertRow(int row, const QModelIndex &parent)
 
 bool HeightMapTableModel::removeRow(int row, const QModelIndex &parent)
 {
-    m_data.removeAt(row);
+    m_data.remove(row);
     return true;
 }
 

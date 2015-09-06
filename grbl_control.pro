@@ -21,7 +21,7 @@ unix: {
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 0.5
+VERSION = 0.5.2
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
