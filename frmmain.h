@@ -19,6 +19,7 @@
 #include "heightmapborderdrawer.h"
 #include "heightmapgriddrawer.h"
 #include "heightmapinterpolationdrawer.h"
+#include "shaderdrawable.h"
 #include "gcodetablemodel.h"
 #include "heightmaptablemodel.h"
 #include "frmsettings.h"
@@ -163,6 +164,8 @@ private:
     GcodeDrawer *m_codeDrawer;
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
+
+    ShaderDrawable *m_testShaderDrawable;
 
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;

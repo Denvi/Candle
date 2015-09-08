@@ -69,11 +69,11 @@ frmMain::frmMain(QWidget *parent) :
 //    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
     m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
 
-    m_codeDrawer = new GcodeDrawer(this);
+    m_codeDrawer = new GcodeDrawer();
     m_codeDrawer->setViewParser(&m_viewParser);
-    m_codeDrawer->setObjectName("codeDrawer");
+//    m_codeDrawer->setObjectName("codeDrawer");
 
-    m_probeDrawer = new GcodeDrawer(this);
+    m_probeDrawer = new GcodeDrawer();
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
 
@@ -103,7 +103,7 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), deleteShortcut->key());
 
     ui->glwVisualizer->addDrawable(m_codeDrawer);
-    ui->glwVisualizer->addDrawable(m_probeDrawer);
+//    ui->glwVisualizer->addDrawable(m_probeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
@@ -143,7 +143,13 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
+    //---------------
 
+    m_testShaderDrawable = new ShaderDrawable();
+    ui->glwVisualizer->addDrawable(m_testShaderDrawable);
+//    m_testShaderDrawable->update();
+
+    //---------------
     applySettings();
     updateControlsState();
 
@@ -1283,6 +1289,7 @@ void frmMain::loadFile(QString fileName)
 
     qDebug() << m_viewParser.getMinimumExtremes() << m_viewParser.getMaximumExtremes();
 
+    m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
 
     resetHeightmap();
@@ -1498,6 +1505,7 @@ void frmMain::updateParser()
         parser->reset();
 
         updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
+        m_currentDrawer->update();
         ui->glwVisualizer->updateExtremes(m_currentDrawer);
         updateControlsState();        
 

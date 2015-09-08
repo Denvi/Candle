@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     heightmapinterpolationdrawer.cpp \
     scrollarea.cpp \
     widget.cpp \
-    groupbox.cpp
+    groupbox.cpp \
+    shaderdrawable.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -82,7 +83,8 @@ HEADERS  += frmmain.h \
     interpolation.h \
     scrollarea.h \
     widget.h \
-    groupbox.h
+    groupbox.h \
+    shaderdrawable.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
@@ -92,7 +94,8 @@ DEFINES += _USE_MATH_DEFINES
 
 RESOURCES += \
     res.qrc \
-    fonts.qrc
+    fonts.qrc \
+    shaders.qrc
 
 CONFIG += c++11
 
@@ -104,3 +107,5 @@ win32: {
     QMAKE_CXXFLAGS_DEBUG += -g3 -pg
     QMAKE_LFLAGS_DEBUG += -pg -lgmon
 }
+
+OTHER_FILES +=

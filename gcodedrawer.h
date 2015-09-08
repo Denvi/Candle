@@ -8,21 +8,20 @@
 #include <QVector3D>
 #include "linesegment.h"
 #include "gcodeviewparse.h"
-#include "gldrawable.h"
+#include "shaderdrawable.h"
 
-class GcodeDrawer : public GLDrawable
+class GcodeDrawer : public ShaderDrawable
 {
-    Q_OBJECT
 public:
-    explicit GcodeDrawer(QObject *parent = 0);
-    void draw();
+    explicit GcodeDrawer();
+
     QVector3D getSizes();
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
+    int getLinesCount();
+
     void setViewParser(GcodeViewParse* viewParser);
     GcodeViewParse* viewParser();
-
-    int getLinesCount();
 
 signals:
 
@@ -30,6 +29,8 @@ public slots:
 
 private:
     GcodeViewParse *m_viewParser;
+
+    void updateData();
 };
 
 #endif // GCODEDRAWER_H

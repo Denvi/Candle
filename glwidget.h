@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QTime>
 #include "gldrawable.h"
+#include "shaderdrawable.h"
 
 #include "glu.h"
 
@@ -16,10 +17,14 @@ class GLWidget : public QGLWidget
     Q_OBJECT
 public:
     explicit GLWidget(QWidget *parent = 0);
-    void addDrawable(GLDrawable* drawable);    
+    ~GLWidget();
+    void addDrawable(GLDrawable* drawable);
+    void addDrawable(ShaderDrawable *drawable);
     void removeDrawable(GLDrawable *drawable);
     void updateExtremes(GLDrawable *drawable);
+    void updateExtremes(ShaderDrawable *drawable);
     void fitDrawable(GLDrawable *drawable = NULL);
+    void fitDrawable(ShaderDrawable *drawable);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
 
@@ -97,11 +102,17 @@ private:
     double calculateVolume(QVector3D size);    
     void beginViewAnimation();
     void stopViewAnimation();
+
+    QList<ShaderDrawable*> m_shaderDrawables;
+    QOpenGLShaderProgram *m_shaderProgram;
+    QMatrix4x4 m_projectionMatrix;
+    QMatrix4x4 m_viewMatrix;
+
 protected:
     void initializeGL();
-    void paintGL();
     void resizeGL(int width, int height);
     void updateProjection();
+    void updateView();
     void paintEvent(QPaintEvent *pe);
 
     void mousePressEvent(QMouseEvent *event);

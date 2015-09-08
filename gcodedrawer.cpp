@@ -6,13 +6,56 @@
 #include "math.h"
 #include "frmmain.h"
 
-GcodeDrawer::GcodeDrawer(QObject *parent) :
-    GLDrawable(parent)
+GcodeDrawer::GcodeDrawer()
 {
-    qDebug() << parent;
 }
 
-void GcodeDrawer::draw()
+void GcodeDrawer::updateData()
+{
+    QList<LineSegment*> list = m_viewParser->getLineSegmentList();
+    VertexData vertex;
+    bool drawFirstPoint = true;
+
+    // Clear all vertex data
+    m_vertexData.clear();
+
+    for (int i = 0; i < list.count(); i++) {
+
+        if (std::isnan(list[i]->getEnd().z())) continue;
+
+        // Find first point of toolpath
+        if (drawFirstPoint) {
+
+            if (std::isnan(list[i]->getEnd().x()) || std::isnan(list[i]->getEnd().y())) continue;
+            QVector3D end = list[i]->getEnd();
+
+            // TODO: Draw first toolpath point
+
+            drawFirstPoint = false;
+            continue;
+        }
+
+        // Prepare vertices
+        if (list[i]->isFastTraverse()) vertex.start = list[i]->getStart();
+        else vertex.start = QVector3D(NAN, NAN, NAN);
+
+        if (list[i]->drawn()) vertex.color = QVector3D(0.85, 0.85, 0.85);
+        else if (list[i]->isHightlight()) vertex.color = QVector3D(0.57, 0.51, 0.9);
+        else if (list[i]->isFastTraverse()) vertex.color = QVector3D(0.0, 0.0, 0.0);
+        else if (list[i]->isZMovement()) vertex.color = QVector3D(1.0, 0.0, 0.0);
+        else vertex.color = QVector3D(0.0, 0.0, 0.0);
+
+        // Line start
+        vertex.position = list[i]->getStart();
+        m_vertexData.append(vertex);
+
+        // Line end
+        vertex.position = list[i]->getEnd();
+        m_vertexData.append(vertex);
+    }
+}
+
+/*void GcodeDrawer::draw()
 {
     if (!m_visible) return;
 
@@ -96,15 +139,12 @@ void GcodeDrawer::draw()
 
         glDisable(GL_LINE_STIPPLE);
     }
-}
+}*/
 
 QVector3D GcodeDrawer::getSizes()
 {
     QVector3D min = m_viewParser->getMinimumExtremes();
     QVector3D max = m_viewParser->getMaximumExtremes();
-
-//    qDebug() << m_viewParser->getMaximumExtremes() - m_viewParser->getMinimumExtremes();
-//    qDebug() << QVector3D(max.x() - min.x(), max.y() - min.y(), max.z() - min.z());
 
     return QVector3D(max.x() - min.x(), max.y() - min.y(), max.z() - min.z());
 }
@@ -133,8 +173,3 @@ GcodeViewParse *GcodeDrawer::viewParser()
 {
     return m_viewParser;
 }
-
-//void GcodeDrawer::setLines(QList<LineSegment *> lines)
-//{
-//    m_lines = lines;
-//}

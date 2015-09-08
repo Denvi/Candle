@@ -11,7 +11,7 @@
 #define ZOOMSTEP 1.1
 
 GLWidget::GLWidget(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent), m_shaderProgram(0)
 {
     m_animateView = false;
     m_updatesEnabled = false;
@@ -42,11 +42,21 @@ GLWidget::GLWidget(QWidget *parent) :
     m_ySize = 0;
     m_zSize = 0;
 
+    updateProjection();
+    updateView();
+
     m_spendTime.setHMS(0, 0, 0);
     m_estimatedTime.setHMS(0, 0, 0);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
     setFps(60);
+}
+
+GLWidget::~GLWidget()
+{
+    if (m_shaderProgram) {
+        delete m_shaderProgram;
+    }
 }
 
 double GLWidget::calculateVolume(QVector3D size) {
@@ -58,6 +68,11 @@ void GLWidget::addDrawable(GLDrawable *drawable)
     m_drawables.append(drawable);
 }
 
+void GLWidget::addDrawable(ShaderDrawable *drawable)
+{
+    m_shaderDrawables.append(drawable);
+}
+
 void GLWidget::removeDrawable(GLDrawable *drawable)
 {
     m_drawables.removeOne(drawable);
@@ -65,22 +80,9 @@ void GLWidget::removeDrawable(GLDrawable *drawable)
 
 void GLWidget::fitDrawable(GLDrawable *drawable)
 {
-//    GLDrawable *bigest = NULL;
-    QVector3D maxSize(0, 0, 0);
-
     stopViewAnimation();
 
-//    foreach (GLDrawable *dr, m_drawables) {
-//        QVector3D size = dr->getSizes();
-//        //if (calculateVolume(size) > calculateVolume(maxSize)) {
-//        if (size.length() > maxSize.length() && strcmp(dr->metaObject()->className(), "ToolDrawer") == -1) {
-//            maxSize = size;
-//            bigest = dr;
-//        }
-//    }
-
     if (drawable != NULL) {
-
         updateExtremes(drawable);
 
         double a = m_ySize / 2 / 0.25 * 1.3
@@ -95,19 +97,6 @@ void GLWidget::fitDrawable(GLDrawable *drawable)
         m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
         m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
         m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
-//        m_yLookAt = bigest->getMinimumExtremes().z();
-
-//        m_xMin = bigest->getMinimumExtremes().x();
-//        m_xMax = bigest->getMaximumExtremes().x();
-//        m_yMin = bigest->getMinimumExtremes().y();
-//        m_yMax = bigest->getMaximumExtremes().y();
-//        m_zMin = bigest->getMinimumExtremes().z();
-//        m_zMax = bigest->getMaximumExtremes().z();
-
-//        m_xSize = m_xMax - m_xMin;
-//        m_ySize = m_yMax - m_yMin;
-//        m_zSize = m_zMax - m_zMin;
-
     } else {
         m_distance = 200;
         m_xLookAt = 0;
@@ -126,14 +115,57 @@ void GLWidget::fitDrawable(GLDrawable *drawable)
         m_zSize = 0;
     }
 
-//    m_xSize = m_xMax - m_xMin;
-//    m_ySize = m_yMax - m_yMin;
-//    m_zSize = m_zMax - m_zMin;
+    m_xPan = 0;
+    m_yPan = 0;
+    m_zoom = 1;
+
+    updateProjection();
+    updateView();
+}
+
+void GLWidget::fitDrawable(ShaderDrawable *drawable)
+{
+    stopViewAnimation();
+
+    if (drawable != NULL) {
+        updateExtremes(drawable);
+
+        double a = m_ySize / 2 / 0.25 * 1.3
+                + (m_zMax - m_zMin) / 2;
+        double b = m_xSize / 2 / 0.25 * 1.3
+                / ((double)this->width() / this->height())
+                + (m_zMax - m_zMin) / 2;
+        m_distance = qMax(a, b);
+
+        if (m_distance == 0) m_distance = 200;
+
+        m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
+        m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
+        m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
+    } else {
+        m_distance = 200;
+        m_xLookAt = 0;
+        m_yLookAt = 0;
+        m_zLookAt = 0;
+
+        m_xMin = 0;
+        m_xMax = 0;
+        m_yMin = 0;
+        m_yMax = 0;
+        m_zMin = 0;
+        m_zMax = 0;
+
+        m_xSize = 0;
+        m_ySize = 0;
+        m_zSize = 0;
+    }
 
     m_xPan = 0;
     m_yPan = 0;
-
     m_zoom = 1;
+
+    updateProjection();
+    updateView();
 }
 
 void GLWidget::updateExtremes(GLDrawable *drawable)
@@ -147,7 +179,21 @@ void GLWidget::updateExtremes(GLDrawable *drawable)
 
     m_xSize = m_xMax - m_xMin;
     m_ySize = m_yMax - m_yMin;
-    m_zSize = m_zMax - m_zMin;    
+    m_zSize = m_zMax - m_zMin;
+}
+
+void GLWidget::updateExtremes(ShaderDrawable *drawable)
+{
+    if (!std::isnan(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
+    if (!std::isnan(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
+    if (!std::isnan(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
+    if (!std::isnan(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
+
+    m_xSize = m_xMax - m_xMin;
+    m_ySize = m_yMax - m_yMin;
+    m_zSize = m_zMax - m_zMin;
 }
 
 bool GLWidget::antialiasing() const
@@ -179,7 +225,10 @@ void GLWidget::viewAnimation()
 
     m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
+
+    updateView();
 }
+
 bool GLWidget::msaa() const
 {
     return m_msaa;
@@ -314,51 +363,72 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 
 void GLWidget::initializeGL()
 {
-    GLint bufs;
-    GLint samples;
-    glGetIntegerv(GL_SAMPLE_BUFFERS, &bufs);
-    glGetIntegerv(GL_SAMPLES, &samples);
+    // Create shader program
+    m_shaderProgram = new QOpenGLShaderProgram();
 
-    qDebug("Have %d buffers and %d samples", bufs, samples);
-
-//    qglClearColor(QColor(Qt::white));
-}
-
-void GLWidget::paintGL()
-{    
-
+    if (m_shaderProgram) {
+        // Compile vertex shader
+        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vshader.glsl");
+        // Compile fragment shader
+        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fshader.glsl");
+        // Link shader pipeline
+        m_shaderProgram->link();
+        qDebug() << "shader program created";
+    } else {
+        qDebug() << "error creating shader program";
+    }
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, width, height);
-
+    updateProjection();
     emit resized();
-    //updateProjection();
 }
 
 void GLWidget::updateProjection()
 {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    // Reset projection
+    m_projectionMatrix.setToIdentity();
 
     double asp = (double)width() / height();
-    glFrustum ((-0.5 + m_xPan) * asp, (0.5 + m_xPan) * asp, -0.5 + m_yPan, 0.5 + m_yPan, 2, m_distance * 2);
-    //glOrtho((-10 + m_xPan) * asp, (10 + m_xPan) * asp, -10 + m_yPan, 10 + m_yPan, 0, m_distance * 2);
+    m_projectionMatrix.frustum((-0.5 + m_xPan) * asp, (0.5 + m_xPan) * asp, -0.5 + m_yPan, 0.5 + m_yPan, 2, m_distance * 2);
+}
 
-    glMatrixMode(GL_MODELVIEW);
+void GLWidget::updateView()
+{
+    // Set view matrix
+    m_viewMatrix.setToIdentity();
+
+    double r = m_distance;
+    double angY = M_PI / 180 * m_yRot;
+    double angX = M_PI / 180 * m_xRot;
+
+    QVector3D eye(r * cos(angX) * sin(angY) + m_xLookAt, r * sin(angX) + m_yLookAt, r * cos(angX) * cos(angY) + m_zLookAt);
+    QVector3D center(m_xLookAt, m_yLookAt, m_zLookAt);
+    QVector3D up(fabs(m_xRot) == 90 ? -sin(angY + (m_xRot < 0 ? M_PI : 0)) : 0, cos(angX), fabs(m_xRot) == 90 ? -cos(angY + (m_xRot < 0 ? M_PI : 0)) : 0);
+
+    m_viewMatrix.lookAt(eye, center, up.normalized());
+
+    m_viewMatrix.translate(m_xLookAt, m_yLookAt, m_zLookAt);
+    m_viewMatrix.scale(m_zoom, m_zoom, m_zoom);
+    m_viewMatrix.translate(-m_xLookAt, -m_yLookAt, -m_zLookAt);
+
+    m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
 }
 
 void GLWidget::paintEvent(QPaintEvent *pe)
 {
+    // Segment counter
+    int lines = 0;
+
     makeCurrent();
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+    // Clear viewport
+    glClearColor(1.0, 1.0, 1.0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-    // Draw 3D
-    qglClearColor(QColor(Qt::white));
-
+    // Update settings
     if (m_antialiasing) {
         if (m_msaa) glEnable(GL_MULTISAMPLE); else {
             glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -368,112 +438,103 @@ void GLWidget::paintEvent(QPaintEvent *pe)
         }
     }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
-
-    updateProjection();
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();   
-
-    double r = m_distance;
-    double angY = M_PI / 180 * m_yRot;
-    double angX = M_PI / 180 * m_xRot;
-
-//    qDebug() << angY << angX << cos(angX) << sin(angX);
-//    qDebug() << r * cos(angX) * sin(angY) + m_xLookAt << r * sin(angX) + m_yLookAt << r * cos(angX) * cos(angY) + m_zLookAt;
-
-    gluLookAt(r * cos(angX) * sin(angY) + m_xLookAt, r * sin(angX) + m_yLookAt, r * cos(angX) * cos(angY) + m_zLookAt,
-              m_xLookAt, m_yLookAt, m_zLookAt,
-              fabs(m_xRot) == 90 ? -sin(angY + (m_xRot < 0 ? M_PI : 0)) : 0, cos(angX), fabs(m_xRot) == 90 ? -cos(angY + (m_xRot < 0 ? M_PI : 0)) : 0);
-
-    glTranslatef(m_xLookAt, m_yLookAt, m_zLookAt);
-    glScalef(m_zoom, m_zoom, m_zoom);
-    glTranslatef(-m_xLookAt, -m_yLookAt, -m_zLookAt);
-
-    glRotatef(-90, 1.0, 0.0, 0.0);
-
-    glLineWidth(m_lineWidth);
-
-//    glBegin(GL_LINES);
-//    glColor3f(1.0, 1.0, 0.0);
-//    glVertex3f(0, 0, 0);
-//    glVertex3f(m_xLookAt, -m_zLookAt, m_yLookAt);
-//    glEnd();
-
-    // Draw X-axis
-    glBegin(GL_LINES);
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(0, 0, 0);
-    glVertex3f(9, 0, 0);
-    glEnd();
-
-    glBegin(GL_LINE_STRIP);
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(10, 0, 0);
-    glVertex3f(8, 0.5, 0);
-    glVertex3f(8, -0.5, 0);
-    glVertex3f(10, 0, 0);
-    glEnd();
-
-    // Draw Y-axis
-    glBegin(GL_LINES);
-    glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0, 0, 0);
-    glVertex3f(0, 9, 0);
-    glEnd();
-
-    glBegin(GL_LINE_STRIP);
-    glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0, 10, 0);
-    glVertex3f(-0.5, 8, 0);
-    glVertex3f(0.5, 8, 0);
-    glVertex3f(0, 10, 0);
-    glEnd();
-
-    // Draw Z-axis
-    glBegin(GL_LINES);
-    glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0, 0, 0);
-    glVertex3f(0, 0, 9);
-    glEnd();
-
-    glBegin(GL_LINE_STRIP);
-    glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0, 0, 10);
-    glVertex3f(-0.5, 0, 8);
-    glVertex3f(0.5, 0, 8);
-    glVertex3f(0, 0, 10);
-    glEnd();
-
-    // Draw 2x2 XY rect
-    glBegin(GL_LINE_STRIP);
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(1.0, 1.0, 0.0);
-    glVertex3f(-1.0, 1.0, 0.0);
-    glVertex3f(-1.0, -1.0, 0.0);
-    glVertex3f(1.0, -1.0, 0.0);
-    glVertex3f(1.0, 1.0, 0.0);
-    glEnd();
-
-    // Draw drawables
-    int lines = 0;
-
     glShadeModel(GL_SMOOTH);
 
-    foreach (GLDrawable *dr, m_drawables) {
-        dr->draw();
-        if (dr->visible()) lines += dr->getLinesCount();
+    if (m_shaderProgram) {
+        // Draw 3d
+        m_shaderProgram->bind();
+
+        // Set modelview-projection matrix
+        m_shaderProgram->setUniformValue("mvp_matrix", m_projectionMatrix * m_viewMatrix);
+        m_shaderProgram->setUniformValue("mv_matrix", m_viewMatrix);
+
+        // Update geometries in current opengl context
+        foreach (ShaderDrawable *drawable, m_shaderDrawables)
+            if (drawable->needsUpdateGeometry()) drawable->updateGeometry(m_shaderProgram);
+
+        // Draw geometries
+        foreach (ShaderDrawable *drawable, m_shaderDrawables) {
+            drawable->draw();
+            if (drawable->visible()) lines += drawable->getLinesCount();
+        }
+
+        m_shaderProgram->release();
     }
+
+//    return;
+//    glLineWidth(m_lineWidth);
+
+//    // Draw X-axis
+//    glBegin(GL_LINES);
+//    glColor3f(1.0, 0.0, 0.0);
+//    glVertex3f(0, 0, 0);
+//    glVertex3f(9, 0, 0);
+//    glEnd();
+
+//    glBegin(GL_LINE_STRIP);
+//    glColor3f(1.0, 0.0, 0.0);
+//    glVertex3f(10, 0, 0);
+//    glVertex3f(8, 0.5, 0);
+//    glVertex3f(8, -0.5, 0);
+//    glVertex3f(10, 0, 0);
+//    glEnd();
+
+//    // Draw Y-axis
+//    glBegin(GL_LINES);
+//    glColor3f(0.0, 1.0, 0.0);
+//    glVertex3f(0, 0, 0);
+//    glVertex3f(0, 9, 0);
+//    glEnd();
+
+//    glBegin(GL_LINE_STRIP);
+//    glColor3f(0.0, 1.0, 0.0);
+//    glVertex3f(0, 10, 0);
+//    glVertex3f(-0.5, 8, 0);
+//    glVertex3f(0.5, 8, 0);
+//    glVertex3f(0, 10, 0);
+//    glEnd();
+
+//    // Draw Z-axis
+//    glBegin(GL_LINES);
+//    glColor3f(0.0, 0.0, 1.0);
+//    glVertex3f(0, 0, 0);
+//    glVertex3f(0, 0, 9);
+//    glEnd();
+
+//    glBegin(GL_LINE_STRIP);
+//    glColor3f(0.0, 0.0, 1.0);
+//    glVertex3f(0, 0, 10);
+//    glVertex3f(-0.5, 0, 8);
+//    glVertex3f(0.5, 0, 8);
+//    glVertex3f(0, 0, 10);
+//    glEnd();
+
+//    // Draw 2x2 XY rect
+//    glBegin(GL_LINE_STRIP);
+//    glColor3f(1.0, 0.0, 0.0);
+//    glVertex3f(1.0, 1.0, 0.0);
+//    glVertex3f(-1.0, 1.0, 0.0);
+//    glVertex3f(-1.0, -1.0, 0.0);
+//    glVertex3f(1.0, -1.0, 0.0);
+//    glVertex3f(1.0, 1.0, 0.0);
+//    glEnd();
+
+//    // Draw drawables
+//    int lines = 0;
+
+//    glShadeModel(GL_SMOOTH);
+
+//    foreach (GLDrawable *dr, m_drawables) {
+//        dr->draw();
+//        if (dr->visible()) lines += dr->getLinesCount();
+//    }
 
     // Draw 2D
     glShadeModel(GL_FLAT);
-
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_LINE_SMOOTH);
     glDisable(GL_BLEND);
-
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
 
     QPainter painter(this);
 
@@ -483,7 +544,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_xMin, 0, 'f', 3).arg(m_xMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_yMin, 0, 'f', 3).arg(m_yMax, 0, 'f', 3));
     painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_zMin, 0, 'f', 3).arg(m_zMax, 0, 'f', 3));
-    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));        
+    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));
 
     QFontMetrics fm(painter.font());
 
@@ -500,8 +561,6 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     str = m_bufferState;
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
 
-//    QGLWidget::paintEvent(pe);
-
     m_frames++;
 }
 
@@ -516,7 +575,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::LeftButton) {
+    if ((event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) || event->buttons() & Qt::LeftButton) {
 
         stopViewAnimation();
 
@@ -526,15 +585,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         if (m_xRot < -90) m_xRot = -90;
         if (m_xRot > 90) m_xRot = 90;
 
+        updateView();
         emit rotationChanged();
-        //qDebug() << m_yRot << m_xRot;
     }
 
-    if (event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier || event->buttons() & Qt::RightButton) {
+    if ((event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::RightButton) {
         m_xPan = m_xLastPan - (event->pos().x() - m_lastPos.x()) * 1 / (double)width();
         m_yPan = m_yLastPan + (event->pos().y() - m_lastPos.y()) * 1 / (double)height();
 
-        //updateProjection();
+        updateProjection();
     }
 }
 
@@ -554,11 +613,8 @@ void GLWidget::wheelEvent(QWheelEvent *we)
         m_zoom *= ZOOMSTEP;
     }
 
-//    qDebug() << m_zoom;
-
-    //updateProjection();
-    //updateGL();
-//    update();
+    updateProjection();
+    updateView();
 }
 
 void GLWidget::timerEvent(QTimerEvent *te)

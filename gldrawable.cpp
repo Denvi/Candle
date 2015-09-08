@@ -12,6 +12,7 @@ GLDrawable::GLDrawable(QObject *parent) :
 
 void GLDrawable::draw()
 {
+    glEnableClientState(GL_COLOR_ARRAY);
 }
 
 QVector3D GLDrawable::getSizes()
