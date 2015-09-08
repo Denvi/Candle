@@ -14,6 +14,11 @@ Downloads:
 * Windows XP: [grblControl_0.5.2_xp.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2_xp.zip)
 * Linux: [grblControl_0.5.2.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.tar.gz)
 
+In development:
+--------------
+* OpenGL ES 2.0 based visualizer.
+* Test build for embedded systems.
+
 Version 0.5 release:
 --------------------
 * Toolpath highlighting on g-code program table selection.
