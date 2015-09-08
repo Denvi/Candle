@@ -459,8 +459,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
         }
 
         m_shaderProgram->release();
-    }
-
+    }    
 //    return;
 //    glLineWidth(m_lineWidth);
 

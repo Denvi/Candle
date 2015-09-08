@@ -1474,6 +1474,7 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
     ui->glwVisualizer->setFps(m_frmSettings.fps());
+//    ui->glwVisualizer->setFps(58);
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
