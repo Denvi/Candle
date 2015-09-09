@@ -103,5 +103,3 @@ win32: {
     QMAKE_CXXFLAGS_DEBUG += -g3 -pg
     QMAKE_LFLAGS_DEBUG += -pg -lgmon
 }
-
-OTHER_FILES +=

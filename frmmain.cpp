@@ -619,6 +619,7 @@ void frmMain::onSerialPortReadyRead()
                     for (int i = m_lastDrawnLineIndex; i < list.length(); i++) {
                         list[i]->setDrawn(true);
                     }
+                    m_currentDrawer->update();
 
                     updateControlsState();
 
@@ -674,6 +675,7 @@ void frmMain::onSerialPortReadyRead()
                         foreach (int i, drawnLines) {
                             list[i]->setDrawn(true);
                         }
+                        m_currentDrawer->update();
                     } else if (m_lastDrawnLineIndex < list.count()) {
                         qDebug() << "tool missed:" << list[m_lastDrawnLineIndex]->getLineNumber()
                                  << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
@@ -911,25 +913,8 @@ void frmMain::onSerialPortReadyRead()
                         foreach (int i, drawnLines) {
                             list[i]->setDrawn(true);
                         }
+                        m_currentDrawer->update();
                     }
-
-                    // Process spindle control commands
-//                    QRegExp m("[Mm]0*(\\d+)");
-//                    if (m.indexIn(ca.command) != -1) {
-//                        if (m.cap(1).toInt() == 3 || m.cap(1).toInt() == 4 || m.cap(1).toInt() == 13) {
-//                            m_spindleCW = m.cap(1).toInt() == 3;
-//                            m_timerToolAnimation.start(25, this);
-//                            m_programSpeed = true;
-//                            ui->cmdSpindle->setChecked(true);
-//                            m_programSpeed = false;
-//                        }
-//                        else if (m.cap(1).toInt() == 5 || m.cap(1).toInt() == 2 || m.cap(1).toInt() == 30) {
-//                            m_timerToolAnimation.stop();
-//                            m_programSpeed = true;
-//                            ui->cmdSpindle->setChecked(false);
-//                            m_programSpeed = false;
-//                        }
-//                    }
                     response.clear();
                 } else {
                     response.append(data + "; ");
@@ -1685,8 +1670,6 @@ void frmMain::on_cmdFileReset_clicked()
 
         for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
             list[i]->setDrawn(false);
-
-            if (i < 10) qDebug() << i << list[i]->getStart() << list[i]->getEnd();
         }
 
         qDebug() << "drawn false:" << time.elapsed();
@@ -1708,12 +1691,6 @@ void frmMain::on_cmdFileReset_clicked()
 
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
     } else {
-//        ui->chkHeightMapBorderAuto->setEnabled(true);
-//        ui->txtHeightMapBorderX->setEnabled(!ui->chkHeightMapBorderAuto->isChecked());
-//        ui->txtHeightMapBorderY->setEnabled(!ui->chkHeightMapBorderAuto->isChecked());
-//        ui->txtHeightMapBorderWidth->setEnabled(!ui->chkHeightMapBorderAuto->isChecked());
-//        ui->txtHeightMapBorderHeight->setEnabled(!ui->chkHeightMapBorderAuto->isChecked());
-
         ui->txtHeightMapGridX->setEnabled(true);
         ui->txtHeightMapGridY->setEnabled(true);
         ui->txtHeightMapGridZBottom->setEnabled(true);
@@ -1724,8 +1701,6 @@ void frmMain::on_cmdFileReset_clicked()
 
         m_heightMapModel.clear();
         updateHeightMapGrid();
-
-//        ui->txtHeightMap->clear();
     }
 }
 
