@@ -43,19 +43,9 @@ void GcodeDrawer::updateData()
         if (list[i]->isFastTraverse()) vertex.start = list[i]->getStart();
         else vertex.start = QVector3D(NAN, NAN, NAN);
 
-        if (list[i]->drawn()) vertex.color = QVector3D(0.85, 0.85, 0.85);
-        else if (list[i]->isHightlight()) vertex.color = QVector3D(0.57, 0.51, 0.9);
-        else if (list[i]->isFastTraverse()) vertex.color = QVector3D(0.0, 0.0, 0.0);
-        else if (list[i]->isZMovement()) vertex.color = QVector3D(1.0, 0.0, 0.0);
-        else vertex.color = QVector3D(0.0, 0.0, 0.0);
-
-        // Line start
-        vertex.position = list[i]->getStart();
-        m_lines.append(vertex);
-
         // Simplify geometry
+        int j = i;
         if (m_simplify && i < list.count() - 1) {
-            int j = i;
             QVector3D start = list[i]->getEnd() - list[i]->getStart();
             QVector3D next;
             double length = start.length();
@@ -73,6 +63,17 @@ void GcodeDrawer::updateData()
                      && getSegmentType(list[i]) == getSegmentType(list[j]));
             i--;
         }
+
+        // Set color
+        if (list[i]->drawn()) vertex.color = QVector3D(0.85, 0.85, 0.85);
+        else if (list[i]->isHightlight()) vertex.color = QVector3D(0.57, 0.51, 0.9);
+        else if (list[i]->isFastTraverse()) vertex.color = QVector3D(0.0, 0.0, 0.0);
+        else if (list[i]->isZMovement()) vertex.color = QVector3D(1.0, 0.0, 0.0);
+        else vertex.color = QVector3D(0.0, 0.0, 0.0);
+
+        // Line start
+        vertex.position = list[j]->getStart();
+        m_lines.append(vertex);
 
         // Line end
         vertex.position = list[i]->getEnd();
