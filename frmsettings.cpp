@@ -258,6 +258,26 @@ void frmSettings::setTouchCommand(QString touchCommand)
     ui->txtTouchCommand->setText(touchCommand);
 }
 
+bool frmSettings::simplify()
+{
+    return ui->chkSimplify->isChecked();
+}
+
+void frmSettings::setSimplify(bool simplify)
+{
+    ui->chkSimplify->setChecked(simplify);
+}
+
+double frmSettings::simplifyPrecision()
+{
+    return ui->txtSimplifyPrecision->value();
+}
+
+void frmSettings::setSimplifyPrecision(double simplifyPrecision)
+{
+    ui->txtSimplifyPrecision->setValue(simplifyPrecision);
+}
+
 void frmSettings::searchPorts()
 {
     ui->cboPort->clear();

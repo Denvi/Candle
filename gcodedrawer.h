@@ -20,7 +20,13 @@ public:
     QVector3D getMaximumExtremes();
 
     void setViewParser(GcodeViewParse* viewParser);
-    GcodeViewParse* viewParser();
+    GcodeViewParse* viewParser();        
+
+    bool simplify() const;
+    void setSimplify(bool simplify);
+
+    double simplifyPrecision() const;
+    void setSimplifyPrecision(double simplifyPrecision);
 
 signals:
 
@@ -28,8 +34,11 @@ public slots:
 
 private:
     GcodeViewParse *m_viewParser;
+    bool m_simplify;
+    double m_simplifyPrecision;
 
     void updateData();
+    int getSegmentType(LineSegment *segment);
 };
 
 #endif // GCODEDRAWER_H

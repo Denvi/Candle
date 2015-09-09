@@ -64,6 +64,10 @@ public:
     void setUnits(int units);
     QString touchCommand();
     void setTouchCommand(QString touchCommand);
+    bool simplify();
+    void setSimplify(bool simplify);
+    double simplifyPrecision();
+    void setSimplifyPrecision(double simplifyPrecision);
 
 private slots:
     void on_cmdRefresh_clicked();

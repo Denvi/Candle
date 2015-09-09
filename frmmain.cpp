@@ -183,6 +183,8 @@ void frmMain::loadSettings()
     m_frmSettings.setAntialiasing(set.value("antialiasing", true).toBool());
     m_frmSettings.setMsaa(set.value("msaa", true).toBool());
     m_frmSettings.setZBuffer(set.value("zBuffer", false).toBool());
+    m_frmSettings.setSimplify(set.value("simplify", false).toBool());
+    m_frmSettings.setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
@@ -275,6 +277,8 @@ void frmMain::saveSettings()
     set.setValue("antialiasing", m_frmSettings.antialiasing());
     set.setValue("msaa", m_frmSettings.msaa());
     set.setValue("zBuffer", m_frmSettings.zBuffer());
+    set.setValue("simplify", m_frmSettings.simplify());
+    set.setValue("simplifyPrecision", m_frmSettings.simplifyPrecision());
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_frmSettings.lineWidth());
@@ -1452,6 +1456,9 @@ void frmMain::applySettings() {
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
     ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
     ui->cboCommand->setAutoCompletion(m_frmSettings.autoCompletion());
+    m_codeDrawer->setSimplify(m_frmSettings.simplify());
+    m_codeDrawer->setSimplifyPrecision(m_frmSettings.simplifyPrecision());
+    m_codeDrawer->update();
 }
 
 void frmMain::updateParser()

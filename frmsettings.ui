@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>403</height>
+    <width>366</width>
+    <height>769</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,66 +146,70 @@ QSpinBox, QDoubleSpinBox {
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
         <property name="spacing">
          <number>13</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <property name="bottomMargin">
-           <number>1</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>6</number>
-          </property>
-          <item row="0" column="2">
-           <widget class="QDoubleSpinBox" name="txtLineWidth">
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="decimals">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <property name="bottomMargin">
              <number>1</number>
             </property>
-            <property name="maximum">
-             <double>9.000000000000000</double>
+            <property name="verticalSpacing">
+             <number>6</number>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QComboBox" name="cboFps">
-            <item>
-             <property name="text">
-              <string>30</string>
-             </property>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>FPS lock:</string>
+              </property>
+             </widget>
             </item>
-            <item>
-             <property name="text">
-              <string>60</string>
-             </property>
+            <item row="0" column="2">
+             <widget class="QDoubleSpinBox" name="txtLineWidth">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <double>9.000000000000000</double>
+              </property>
+             </widget>
             </item>
-            <item>
-             <property name="text">
-              <string>120</string>
-             </property>
+            <item row="1" column="2">
+             <widget class="QComboBox" name="cboFps">
+              <item>
+               <property name="text">
+                <string>30</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>60</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>120</string>
+               </property>
+              </item>
+             </widget>
             </item>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Line width:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>FPS lock:</string>
-            </property>
-           </widget>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Line width:</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -313,6 +317,62 @@ QSpinBox, QDoubleSpinBox {
            </size>
           </property>
          </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QCheckBox" name="chkSimplify">
+          <property name="text">
+           <string>Simplify geometry</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>7</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Min length:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="decimals">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <double>99.000000000000000</double>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -878,12 +938,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>75</x>
-     <y>205</y>
+     <x>101</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>174</x>
-     <y>205</y>
+     <y>193</y>
     </hint>
    </hints>
   </connection>
@@ -894,12 +954,44 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>66</x>
-     <y>205</y>
+     <x>92</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
-     <x>246</x>
-     <y>205</y>
+     <x>243</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_8</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtSimplifyPrecision</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>260</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
