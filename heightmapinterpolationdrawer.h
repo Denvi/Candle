@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QVector>
 #include <QVector3D>
-#include "gldrawable.h"
+#include <QColor>
+#include "shaderdrawable.h"
 #include "util.h"
 
-class HeightMapInterpolationDrawer : public GLDrawable
+class HeightMapInterpolationDrawer : public ShaderDrawable
 {
 public:
-    explicit HeightMapInterpolationDrawer(QObject *parent = 0);
-    void draw();
+    explicit HeightMapInterpolationDrawer();
 
     QVector<QVector<double> > *data() const;
     void setData(QVector<QVector<double> > *data);
@@ -22,7 +22,8 @@ public:
     QRectF borderRect() const;
     void setBorderRect(const QRectF &borderRect);
 
-    int getLinesCount();
+protected:
+    void updateData();
 
 private:
     QRectF m_borderRect;
@@ -30,7 +31,6 @@ private:
     QVector<QVector<double>> *m_data;
     double Min(double v1, double v2);
     double Max(double v1, double v2);
-    int m_linesCount;
 };
 
 #endif // HEIGHTMAPINTERPOLATIONDRAWER_H

@@ -28,7 +28,7 @@ public:
     virtual QVector3D getSizes();
     virtual QVector3D getMinimumExtremes();
     virtual QVector3D getMaximumExtremes();
-    virtual int getLinesCount();
+    virtual int getVertexCount();
 
     double lineWidth() const;
     void setLineWidth(double lineWidth);
@@ -36,14 +36,19 @@ public:
     bool visible() const;
     void setVisible(bool visible);
 
+    double pointSize() const;
+    void setPointSize(double pointSize);
+
 signals:
 
 public slots:
 
 protected:
     double m_lineWidth;
+    double m_pointSize;
     bool m_visible;
-    QVector<VertexData> m_vertexData;
+    QVector<VertexData> m_lines;
+    QVector<VertexData> m_points;
 
     virtual void updateData();
 

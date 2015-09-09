@@ -7,10 +7,7 @@
 #include <QGLWidget>
 #include <QTimer>
 #include <QTime>
-#include "gldrawable.h"
 #include "shaderdrawable.h"
-
-#include "glu.h"
 
 class GLWidget : public QGLWidget
 {
@@ -18,13 +15,9 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
-    void addDrawable(GLDrawable* drawable);
     void addDrawable(ShaderDrawable *drawable);
-    void removeDrawable(GLDrawable *drawable);
-    void updateExtremes(GLDrawable *drawable);
     void updateExtremes(ShaderDrawable *drawable);
-    void fitDrawable(GLDrawable *drawable = NULL);
-    void fitDrawable(ShaderDrawable *drawable);
+    void fitDrawable(ShaderDrawable *drawable = NULL);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
 
@@ -77,7 +70,6 @@ private:
     QPoint m_lastPos;
     double m_zoom;
     double m_distance;
-    QList<GLDrawable*> m_drawables;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     double m_lineWidth;
     bool m_antialiasing;

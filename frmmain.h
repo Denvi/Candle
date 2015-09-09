@@ -14,6 +14,7 @@
 #include <QTime>
 #include <QMenu>
 #include "gcodeviewparse.h"
+#include "origindrawer.h"
 #include "gcodedrawer.h"
 #include "tooldrawer.h"
 #include "heightmapborderdrawer.h"
@@ -161,11 +162,11 @@ private:
     GcodeViewParse m_viewParser;
     GcodeViewParse m_probeParser;
 
+    OriginDrawer *m_originDrawer;
+
     GcodeDrawer *m_codeDrawer;
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
-
-    ShaderDrawable *m_testShaderDrawable;
 
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;

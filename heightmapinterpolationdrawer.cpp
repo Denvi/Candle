@@ -3,25 +3,36 @@
 
 #include "heightmapinterpolationdrawer.h"
 
-HeightMapInterpolationDrawer::HeightMapInterpolationDrawer(QObject *parent) : GLDrawable(parent)
+HeightMapInterpolationDrawer::HeightMapInterpolationDrawer()
 {
     m_data = NULL;
 }
 
-void HeightMapInterpolationDrawer::draw()
+void HeightMapInterpolationDrawer::updateData()
 {
-    if (!m_visible || m_data == NULL) return;
+    // Check if data is present
+    if (!m_data || m_data->count() == 0) {
+        m_lines.clear();
+        return;
+    }
 
-    glLineWidth(m_lineWidth);
-    glPointSize(4);
-    glColor3f(0.0, 0.8, 0.0);
+    QColor color;
 
+    // Clear data
+    m_lines.clear();
+
+    // Prepare vertex
+    VertexData vertex;
+    vertex.start = QVector3D(NAN, NAN, NAN);
+
+    // Calculate grid parameters
     int interpolationPointsX = m_data->at(0).count();
     int interpolationPointsY = m_data->count();
 
     double interpolationStepX = interpolationPointsX > 1 ? m_borderRect.width() / (interpolationPointsX - 1) : 0;
     double interpolationStepY = interpolationPointsY > 1 ? m_borderRect.height() / (interpolationPointsY - 1) : 0;
 
+    // Find min & max values for coloring
     double min = m_data->at(0).at(0);
     double max = min;
 
@@ -32,39 +43,40 @@ void HeightMapInterpolationDrawer::draw()
         }
     }
 
-    QColor color;
-
-//    glBegin(GL_POINTS);
-//    for (int i = 0; i < yPoints; i++) {
-//        for (int j = 0; j < xPoints; j++) {
-//            glVertex3f(m_borderRect.x() + gridX * j, m_borderRect.y() + gridY * i, m_data->at(i).at(j));
-//        }
-//    }
-//    glEnd();
-    m_linesCount = 0;
-
+    // Horizontal lines
     for (int i = 0; i < interpolationPointsY; i++) {
-        glBegin(GL_LINE_STRIP);
-        for (int j = 0; j < interpolationPointsX; j++) {
+        for (int j = 1; j < interpolationPointsX; j++) {
             if (std::isnan(m_data->at(i).at(j))) continue;
-            m_linesCount++;
+            color.setHsvF(0.67 * (max - m_data->at(i).at(j - 1)) / (max - min), 1.0, 1.0);
+            vertex.color = QVector3D(color.redF(), color.greenF(), color.blueF());
+
+            vertex.position = QVector3D(m_borderRect.x() + interpolationStepX * (j - 1), m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j - 1));
+            m_lines.append(vertex);
+
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
-            glColor3f(color.redF(), color.greenF(), color.blueF());
-            glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
+            vertex.color = QVector3D(color.redF(), color.greenF(), color.blueF());
+
+            vertex.position = QVector3D(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
+            m_lines.append(vertex);
         }
-        glEnd();
     }
 
+    // Vertical lines
     for (int j = 0; j < interpolationPointsX; j++) {
-        glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < interpolationPointsY; i++) {
+        for (int i = 1; i < interpolationPointsY; i++) {
             if (std::isnan(m_data->at(i).at(j))) continue;
-            m_linesCount++;
+            color.setHsvF(0.67 * (max - m_data->at(i - 1).at(j)) / (max - min), 1.0, 1.0);
+            vertex.color = QVector3D(color.redF(), color.greenF(), color.blueF());
+
+            vertex.position = QVector3D(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * (i - 1), m_data->at(i - 1).at(j));
+            m_lines.append(vertex);
+
             color.setHsvF(0.67 * (max - m_data->at(i).at(j)) / (max - min), 1.0, 1.0);
-            glColor3f(color.redF(), color.greenF(), color.blueF());
-            glVertex3f(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
+            vertex.color = QVector3D(color.redF(), color.greenF(), color.blueF());
+
+            vertex.position = QVector3D(m_borderRect.x() + interpolationStepX * j, m_borderRect.y() + interpolationStepY * i, m_data->at(i).at(j));
+            m_lines.append(vertex);
         }
-        glEnd();
     }
 }
 
@@ -76,6 +88,7 @@ QVector<QVector<double> > *HeightMapInterpolationDrawer::data() const
 void HeightMapInterpolationDrawer::setData(QVector<QVector<double> > *data)
 {
     m_data = data;
+    update();
 }
 QRectF HeightMapInterpolationDrawer::borderRect() const
 {
@@ -86,12 +99,6 @@ void HeightMapInterpolationDrawer::setBorderRect(const QRectF &borderRect)
 {
     m_borderRect = borderRect;
 }
-
-int HeightMapInterpolationDrawer::getLinesCount()
-{
-    return m_linesCount;
-}
-
 
 
 

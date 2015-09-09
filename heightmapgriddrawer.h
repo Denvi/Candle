@@ -6,14 +6,12 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
-#include "gldrawable.h"
+#include "shaderdrawable.h"
 
-class HeightMapGridDrawer : public GLDrawable
+class HeightMapGridDrawer : public ShaderDrawable
 {
-    Q_OBJECT
 public:
-    HeightMapGridDrawer(QObject *parent = 0);
-    void draw();
+    HeightMapGridDrawer();
 
     QPointF gridSize() const;
     void setGridSize(const QPointF &gridSize);
@@ -30,7 +28,8 @@ public:
     QAbstractTableModel *model() const;
     void setModel(QAbstractTableModel *model);
 
-    int getLinesCount();
+protected:
+    void updateData();
 
 private:
     QPointF m_gridSize;
@@ -38,7 +37,6 @@ private:
     double m_zTop;
     double m_zBottom;
     QAbstractTableModel *m_model;
-    int m_linesCount;
 };
 
 #endif // HEIGHTMAPGRIDDRAWER_H

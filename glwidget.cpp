@@ -63,64 +63,9 @@ double GLWidget::calculateVolume(QVector3D size) {
     return size.x() * size.y() * size.z();
 }
 
-void GLWidget::addDrawable(GLDrawable *drawable)
-{
-    m_drawables.append(drawable);
-}
-
 void GLWidget::addDrawable(ShaderDrawable *drawable)
 {
     m_shaderDrawables.append(drawable);
-}
-
-void GLWidget::removeDrawable(GLDrawable *drawable)
-{
-    m_drawables.removeOne(drawable);
-}
-
-void GLWidget::fitDrawable(GLDrawable *drawable)
-{
-    stopViewAnimation();
-
-    if (drawable != NULL) {
-        updateExtremes(drawable);
-
-        double a = m_ySize / 2 / 0.25 * 1.3
-                + (m_zMax - m_zMin) / 2;
-        double b = m_xSize / 2 / 0.25 * 1.3
-                / ((double)this->width() / this->height())
-                + (m_zMax - m_zMin) / 2;
-        m_distance = qMax(a, b);
-
-        if (m_distance == 0) m_distance = 200;
-
-        m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
-        m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
-        m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
-    } else {
-        m_distance = 200;
-        m_xLookAt = 0;
-        m_yLookAt = 0;
-        m_zLookAt = 0;
-
-        m_xMin = 0;
-        m_xMax = 0;
-        m_yMin = 0;
-        m_yMax = 0;
-        m_zMin = 0;
-        m_zMax = 0;
-
-        m_xSize = 0;
-        m_ySize = 0;
-        m_zSize = 0;
-    }
-
-    m_xPan = 0;
-    m_yPan = 0;
-    m_zoom = 1;
-
-    updateProjection();
-    updateView();
 }
 
 void GLWidget::fitDrawable(ShaderDrawable *drawable)
@@ -166,20 +111,6 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
 
     updateProjection();
     updateView();
-}
-
-void GLWidget::updateExtremes(GLDrawable *drawable)
-{
-    if (!std::isnan(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
-    if (!std::isnan(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
-    if (!std::isnan(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
-
-    m_xSize = m_xMax - m_xMin;
-    m_ySize = m_yMax - m_yMin;
-    m_zSize = m_zMax - m_zMin;
 }
 
 void GLWidget::updateExtremes(ShaderDrawable *drawable)
@@ -420,25 +351,28 @@ void GLWidget::updateView()
 void GLWidget::paintEvent(QPaintEvent *pe)
 {
     // Segment counter
-    int lines = 0;
+    int vertices = 0;
 
     makeCurrent();
-
-    // Clear viewport
-    glClearColor(1.0, 1.0, 1.0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     // Update settings
     if (m_antialiasing) {
         if (m_msaa) glEnable(GL_MULTISAMPLE); else {
             glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
             glEnable(GL_LINE_SMOOTH);
+            glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+            glEnable(GL_POINT_SMOOTH);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glEnable(GL_BLEND);
         }
     }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
+
+    // Clear viewport
+    glClearColor(1.0, 1.0, 1.0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
     if (m_shaderProgram) {
         // Draw 3d
@@ -455,78 +389,11 @@ void GLWidget::paintEvent(QPaintEvent *pe)
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {
             drawable->draw();
-            if (drawable->visible()) lines += drawable->getLinesCount();
+            if (drawable->visible()) vertices += drawable->getVertexCount();
         }
 
         m_shaderProgram->release();
     }    
-//    return;
-//    glLineWidth(m_lineWidth);
-
-//    // Draw X-axis
-//    glBegin(GL_LINES);
-//    glColor3f(1.0, 0.0, 0.0);
-//    glVertex3f(0, 0, 0);
-//    glVertex3f(9, 0, 0);
-//    glEnd();
-
-//    glBegin(GL_LINE_STRIP);
-//    glColor3f(1.0, 0.0, 0.0);
-//    glVertex3f(10, 0, 0);
-//    glVertex3f(8, 0.5, 0);
-//    glVertex3f(8, -0.5, 0);
-//    glVertex3f(10, 0, 0);
-//    glEnd();
-
-//    // Draw Y-axis
-//    glBegin(GL_LINES);
-//    glColor3f(0.0, 1.0, 0.0);
-//    glVertex3f(0, 0, 0);
-//    glVertex3f(0, 9, 0);
-//    glEnd();
-
-//    glBegin(GL_LINE_STRIP);
-//    glColor3f(0.0, 1.0, 0.0);
-//    glVertex3f(0, 10, 0);
-//    glVertex3f(-0.5, 8, 0);
-//    glVertex3f(0.5, 8, 0);
-//    glVertex3f(0, 10, 0);
-//    glEnd();
-
-//    // Draw Z-axis
-//    glBegin(GL_LINES);
-//    glColor3f(0.0, 0.0, 1.0);
-//    glVertex3f(0, 0, 0);
-//    glVertex3f(0, 0, 9);
-//    glEnd();
-
-//    glBegin(GL_LINE_STRIP);
-//    glColor3f(0.0, 0.0, 1.0);
-//    glVertex3f(0, 0, 10);
-//    glVertex3f(-0.5, 0, 8);
-//    glVertex3f(0.5, 0, 8);
-//    glVertex3f(0, 0, 10);
-//    glEnd();
-
-//    // Draw 2x2 XY rect
-//    glBegin(GL_LINE_STRIP);
-//    glColor3f(1.0, 0.0, 0.0);
-//    glVertex3f(1.0, 1.0, 0.0);
-//    glVertex3f(-1.0, 1.0, 0.0);
-//    glVertex3f(-1.0, -1.0, 0.0);
-//    glVertex3f(1.0, -1.0, 0.0);
-//    glVertex3f(1.0, 1.0, 0.0);
-//    glEnd();
-
-//    // Draw drawables
-//    int lines = 0;
-
-//    glShadeModel(GL_SMOOTH);
-
-//    foreach (GLDrawable *dr, m_drawables) {
-//        dr->draw();
-//        if (dr->visible()) lines += dr->getLinesCount();
-//    }
 
     // Draw 2D
     glShadeModel(GL_FLAT);
@@ -549,7 +416,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
     painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
 
-    QString str = QString(tr("Segments: %1")).arg(lines);
+    QString str = QString(tr("Vertices: %1")).arg(vertices);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
     str = QString("FPS: %1").arg(m_fps);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 45), str);

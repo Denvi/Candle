@@ -3,65 +3,72 @@
 
 #include "heightmapgriddrawer.h"
 
-HeightMapGridDrawer::HeightMapGridDrawer(QObject *parent) : GLDrawable(parent)
+HeightMapGridDrawer::HeightMapGridDrawer()
 {
     m_model = NULL;
+    m_pointSize = 4;
 }
 
-void HeightMapGridDrawer::draw()
+void HeightMapGridDrawer::updateData()
 {
-    if (!m_visible || m_model == NULL) return;
+    // Clear data
+    m_lines.clear();
+    m_points.clear();
 
-    glLineWidth(m_lineWidth);
-    glPointSize(4);
-//    glColor3f(1.0, 0.6, 0.0);
+    // Prepare vertex
+    VertexData vertex;
+    vertex.start = QVector3D(NAN, NAN, NAN);
 
+    // Calculate grid parameters
     int gridPointsX = m_model->columnCount();
     int gridPointsY = m_model->rowCount();
 
     double gridStepX = gridPointsX > 1 ? m_borderRect.width() / (gridPointsX - 1) : 0;
     double gridStepY = gridPointsY > 1 ? m_borderRect.height() / (gridPointsY - 1) : 0;
 
-    m_linesCount = 0;
-
+    // Probe path / dots
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 0; j < gridPointsX; j++) {
             if (m_model == NULL || std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
-                glBegin(GL_LINES);
-                m_linesCount++;
-                glColor3f(1.0, 0.6, 0.0);
-                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
-                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zBottom);
-                glEnd();
+                vertex.color = QVector3D(1.0, 0.6, 0.0);
+                vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
+                m_lines.append(vertex);
+                vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zBottom);
+                m_lines.append(vertex);
             } else {
-                glBegin(GL_POINTS);                
-                glColor3f(0.0, 0.0, 1.0);
-                glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
-                glEnd();
+                vertex.color = QVector3D(0.0, 0.0, 1.0);
+                vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
+                m_points.append(vertex);
             }
         }
     }
 
-    glColor3f(0.0, 0.0, 1.0);
-
+    // Horizontal grid lines
+    vertex.color = QVector3D(0.0, 0.0, 1.0);
     for (int i = 0; i < gridPointsY; i++) {
-        glBegin(GL_LINE_STRIP);
-        for (int j = 0; j < gridPointsX; j++) {
+        for (int j = 1; j < gridPointsX; j++) {
             if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
-            m_linesCount++;
-            glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
+
+            vertex.position = QVector3D(m_borderRect.x() + gridStepX * (j - 1), m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j - 1), Qt::UserRole).toDouble());
+            m_lines.append(vertex);
+
+            vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
+            m_lines.append(vertex);
         }
-        glEnd();
     }
 
+    // Vertical grid lines
+    vertex.color = QVector3D(0.0, 0.0, 1.0);
     for (int j = 0; j < gridPointsX; j++) {
-        glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < gridPointsY; i++) {
+        for (int i = 1; i < gridPointsY; i++) {
             if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
-            m_linesCount++;
-            glVertex3f(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
+
+            vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * (i - 1), m_model->data(m_model->index(i - 1, j), Qt::UserRole).toDouble());
+            m_lines.append(vertex);
+
+            vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j), Qt::UserRole).toDouble());
+            m_lines.append(vertex);
         }
-        glEnd();
     }
 }
 
@@ -73,6 +80,7 @@ QPointF HeightMapGridDrawer::gridSize() const
 void HeightMapGridDrawer::setGridSize(const QPointF &gridSize)
 {
     m_gridSize = gridSize;
+    update();
 }
 QRectF HeightMapGridDrawer::borderRect() const
 {
@@ -82,7 +90,9 @@ QRectF HeightMapGridDrawer::borderRect() const
 void HeightMapGridDrawer::setBorderRect(const QRectF &borderRect)
 {
     m_borderRect = borderRect;
+    update();
 }
+
 double HeightMapGridDrawer::zTop() const
 {
     return m_zTop;
@@ -91,6 +101,7 @@ double HeightMapGridDrawer::zTop() const
 void HeightMapGridDrawer::setZTop(double zTop)
 {
     m_zTop = zTop;
+    update();
 }
 double HeightMapGridDrawer::zBottom() const
 {
@@ -100,7 +111,9 @@ double HeightMapGridDrawer::zBottom() const
 void HeightMapGridDrawer::setZBottom(double zBottom)
 {
     m_zBottom = zBottom;
+    update();
 }
+
 QAbstractTableModel *HeightMapGridDrawer::model() const
 {
     return m_model;
@@ -109,13 +122,8 @@ QAbstractTableModel *HeightMapGridDrawer::model() const
 void HeightMapGridDrawer::setModel(QAbstractTableModel *model)
 {
     m_model = model;
+    update();
 }
-
-int HeightMapGridDrawer::getLinesCount()
-{
-    return m_linesCount;
-}
-
 
 
 

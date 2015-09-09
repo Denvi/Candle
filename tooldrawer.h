@@ -6,17 +6,12 @@
 
 #include <QVector3D>
 #include <QTimer>
-#include "gldrawable.h"
+#include "shaderdrawable.h"
 
-class ToolDrawer : public GLDrawable
+class ToolDrawer : public ShaderDrawable
 {
-    Q_OBJECT
 public:
-    explicit ToolDrawer(QObject *parent = 0);
-    void draw();
-    QVector3D getSizes();
-    QVector3D getMinimumExtremes();
-    QVector3D getMaximumExtremes();
+    explicit ToolDrawer();
 
     double toolDiameter() const;
     void setToolDiameter(double toolDiameter);
@@ -38,6 +33,9 @@ signals:
 
 public slots:
 
+protected:
+    void updateData();
+
 private:
     double m_toolDiameter;
     double m_toolLength;
@@ -47,6 +45,7 @@ private:
     double m_toolAngle;
 
     double normalizeAngle(double angle);
+    QVector<VertexData> createCircle(QVector3D center, double radius, int arcs, QVector3D color);
 };
 
 #endif // TOOLDRAWER_H

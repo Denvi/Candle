@@ -3,25 +3,8 @@
 
 #include "heightmapborderdrawer.h"
 
-HeightMapBorderDrawer::HeightMapBorderDrawer(QObject *parent) : GLDrawable(parent)
+HeightMapBorderDrawer::HeightMapBorderDrawer()
 {
-
-}
-
-void HeightMapBorderDrawer::draw()
-{
-    if (!m_visible) return;
-
-    glLineWidth(m_lineWidth);
-    glColor3f(1.0, 0.0, 0.0);
-
-    glBegin(GL_LINE_LOOP);
-    glVertex3f(m_borderRect.x(), m_borderRect.y(), 0);
-    glVertex3f(m_borderRect.x(), m_borderRect.y() + m_borderRect.height(), 0);
-    glVertex3f(m_borderRect.x() + m_borderRect.width(), m_borderRect.y() + m_borderRect.height(), 0);
-    glVertex3f(m_borderRect.x() + m_borderRect.width(), m_borderRect.y(), 0);
-    glVertex3f(m_borderRect.x(), m_borderRect.y(), 0);
-    glEnd();
 }
 
 QRectF HeightMapBorderDrawer::borderRect() const
@@ -32,11 +15,21 @@ QRectF HeightMapBorderDrawer::borderRect() const
 void HeightMapBorderDrawer::setBorderRect(const QRectF &borderRect)
 {
     m_borderRect = borderRect;
+    update();
 }
 
-int HeightMapBorderDrawer::getLinesCount()
+void HeightMapBorderDrawer::updateData()
 {
-    return 4;
+    m_lines = {
+        {QVector3D(m_borderRect.x(), m_borderRect.y(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x(), m_borderRect.y() + m_borderRect.height(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x(), m_borderRect.y() + m_borderRect.height(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x() + m_borderRect.width(), m_borderRect.y() + m_borderRect.height(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x() + m_borderRect.width(), m_borderRect.y() + m_borderRect.height(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x() + m_borderRect.width(), m_borderRect.y(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x() + m_borderRect.width(), m_borderRect.y(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+        {QVector3D(m_borderRect.x(), m_borderRect.y(), 0), QVector3D(1.0, 0.0, 0.0), QVector3D(NAN, NAN, NAN)},
+    };
 }
 
 

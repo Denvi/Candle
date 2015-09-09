@@ -5,19 +5,18 @@
 #define HEIGHTMAPBORDERDRAWER_H
 
 #include <QObject>
-#include "gldrawable.h"
+#include "shaderdrawable.h"
 
-class HeightMapBorderDrawer : public GLDrawable
+class HeightMapBorderDrawer : public ShaderDrawable
 {
-    Q_OBJECT
 public:
-    HeightMapBorderDrawer(QObject *parent = 0);
-    void draw();
+    HeightMapBorderDrawer();
 
     QRectF borderRect() const;
     void setBorderRect(const QRectF &borderRect);
 
-    int getLinesCount();
+protected:
+    void updateData();
 
 private:
     QRectF m_borderRect;

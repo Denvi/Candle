@@ -2,9 +2,12 @@
 
 #include "shaderdrawable.h"
 
-ShaderDrawable::ShaderDrawable() :
-    m_needsUpdateGeometry(true), m_visible(true)
+ShaderDrawable::ShaderDrawable()
 {
+    m_needsUpdateGeometry = true;
+    m_visible = true;
+    m_lineWidth = 1.0;
+    m_pointSize = 6.0;
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -30,8 +33,6 @@ void ShaderDrawable::update()
 
 void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 {
-    qDebug() << "Updating geometry";
-
     // Init in context
     if (!m_vao.isCreated()) init();
 
@@ -43,7 +44,12 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 
     // Prepare vbo
     m_vbo.bind();
-    m_vbo.allocate(m_vertexData.constData(), m_vertexData.count() * sizeof(VertexData));
+
+    // Prepare vertex buffer
+    QVector<VertexData> vertexData(m_lines);
+    vertexData += m_points;
+
+    m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
 
     // Tell OpenGL which VBOs to use
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo.bufferId());
@@ -81,41 +87,13 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 void ShaderDrawable::updateData()
 {
     // Test data
-    m_vertexData = {
+    m_lines = {
         {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(NAN, 0, 0)},
         {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(NAN, 0, 0)},
         {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(NAN, 0, 0)},
         {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(NAN, 0, 0)},
         {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(NAN, 0, 0)},
         {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(NAN, 0, 0)}
-
-        // Test cube
-//        {QVector3D(-1, -1, -1), QVector3D(0, 0, 0), QVector3D(-1, -1, -1)},
-//        {QVector3D(1, -1, -1), QVector3D(0, 0, 0), QVector3D(-1, -1, -1)},
-//        {QVector3D(1, -1, -1), QVector3D(0, 0, 0), QVector3D(1, -1, -1)},
-//        {QVector3D(1, 1, -1), QVector3D(0, 0, 0), QVector3D(1, -1, -1)},
-//        {QVector3D(1, 1, -1), QVector3D(0, 0, 0), QVector3D(1, 1, -1)},
-//        {QVector3D(-1, 1, -1), QVector3D(0, 0, 0), QVector3D(1, 1, -1)},
-//        {QVector3D(-1, 1, -1), QVector3D(0, 0, 0), QVector3D(-1, 1, -1)},
-//        {QVector3D(-1, -1, -1), QVector3D(0, 0, 0), QVector3D(-1, 1, -1)},
-
-//        {QVector3D(-1, -1, 1), QVector3D(0, 0, 0), QVector3D(-1, -1, 1)},
-//        {QVector3D(1, -1, 1), QVector3D(0, 0, 0), QVector3D(-1, -1, 1)},
-//        {QVector3D(1, -1, 1), QVector3D(0, 0, 0), QVector3D(1, -1, 1)},
-//        {QVector3D(1, 1, 1), QVector3D(0, 0, 0), QVector3D(1, -1, 1)},
-//        {QVector3D(1, 1, 1), QVector3D(0, 0, 0), QVector3D(1, 1, 1)},
-//        {QVector3D(-1, 1, 1), QVector3D(0, 0, 0), QVector3D(1, 1, 1)},
-//        {QVector3D(-1, 1, 1), QVector3D(0, 0, 0), QVector3D(-1, 1, 1)},
-//        {QVector3D(-1, -1, 1), QVector3D(0, 0, 0), QVector3D(-1, 1, 1)},
-
-//        {QVector3D(-1, -1, -1), QVector3D(0, 0, 0), QVector3D(-1, -1, -1)},
-//        {QVector3D(-1, -1, 1), QVector3D(0, 0, 0), QVector3D(-1, -1, -1)},
-//        {QVector3D(1, -1, -1), QVector3D(0, 0, 0), QVector3D(1, -1, -1)},
-//        {QVector3D(1, -1, 1), QVector3D(0, 0, 0), QVector3D(1, -1, -1)},
-//        {QVector3D(1, 1, -1), QVector3D(0, 0, 0), QVector3D(1, 1, -1)},
-//        {QVector3D(1, 1, 1), QVector3D(0, 0, 0), QVector3D(1, 1, -1)},
-//        {QVector3D(-1, 1, -1), QVector3D(0, 0, 0), QVector3D(-1, 1, -1)},
-//        {QVector3D(-1, 1, 1), QVector3D(0, 0, 0), QVector3D(-1, 1, -1)}
     };
 }
 
@@ -129,8 +107,12 @@ void ShaderDrawable::draw()
     if (!m_visible) return;
 
     m_vao.bind();
+
     glLineWidth(m_lineWidth);
-    glDrawArrays(GL_LINES, 0, m_vertexData.count());
+    glDrawArrays(GL_LINES, 0, m_lines.count());
+    glPointSize(m_pointSize);
+    glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());
+
     m_vao.release();
 }
 
@@ -149,10 +131,11 @@ QVector3D ShaderDrawable::getMaximumExtremes()
     return QVector3D(0, 0, 0);
 }
 
-int ShaderDrawable::getLinesCount()
+int ShaderDrawable::getVertexCount()
 {
-    return 0;
+    return m_lines.count() + m_points.count();
 }
+
 double ShaderDrawable::lineWidth() const
 {
     return m_lineWidth;
@@ -172,4 +155,14 @@ void ShaderDrawable::setVisible(bool visible)
 {
     m_visible = visible;
 }
+double ShaderDrawable::pointSize() const
+{
+    return m_pointSize;
+}
+
+void ShaderDrawable::setPointSize(double pointSize)
+{
+    m_pointSize = pointSize;
+}
+
 

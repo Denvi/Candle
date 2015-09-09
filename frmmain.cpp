@@ -69,6 +69,8 @@ frmMain::frmMain(QWidget *parent) :
 //    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
     m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
 
+    m_originDrawer = new OriginDrawer();
+
     m_codeDrawer = new GcodeDrawer();
     m_codeDrawer->setViewParser(&m_viewParser);
 //    m_codeDrawer->setObjectName("codeDrawer");
@@ -102,8 +104,9 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), insertShortcut->key());
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), deleteShortcut->key());
 
+    ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
-//    ui->glwVisualizer->addDrawable(m_probeDrawer);
+    ui->glwVisualizer->addDrawable(m_probeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
@@ -143,13 +146,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
-    //---------------
 
-    m_testShaderDrawable = new ShaderDrawable();
-    ui->glwVisualizer->addDrawable(m_testShaderDrawable);
-//    m_testShaderDrawable->update();
-
-    //---------------
     applySettings();
     updateControlsState();
 
@@ -1281,14 +1278,6 @@ void frmMain::loadFile(QString fileName)
 
     qDebug() << "view parser filled:" << time.elapsed();
 
-    for (int i = 0; i < 10 && i < gp.getPointSegmentList().count(); i++) {
-        qDebug() << gp.getPointSegmentList().at(i)->point()->x()
-                 << gp.getPointSegmentList().at(i)->point()->y()
-                 << gp.getPointSegmentList().at(i)->point()->z();
-    }
-
-    qDebug() << m_viewParser.getMinimumExtremes() << m_viewParser.getMaximumExtremes();
-
     m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
 
@@ -1300,8 +1289,6 @@ void frmMain::loadFile(QString fileName)
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
     double time = 0;
-
-    qDebug() << "update estimated time:" << lines.count();
 
     foreach (LineSegment *ls, lines) {
         double length = (ls->getEnd() - ls->getStart()).length();
@@ -1456,6 +1443,7 @@ bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
 }
 
 void frmMain::applySettings() {
+    m_originDrawer->setLineWidth(m_frmSettings.lineWidth());
     m_toolDrawer.setToolDiameter(m_frmSettings.toolDiameter());
     m_toolDrawer.setToolLength(m_frmSettings.toolLength());
     m_toolDrawer.setLineWidth(m_frmSettings.lineWidth());
@@ -1474,7 +1462,6 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
     ui->glwVisualizer->setFps(m_frmSettings.fps());
-//    ui->glwVisualizer->setFps(58);
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
@@ -1510,11 +1497,6 @@ void frmMain::updateParser()
         ui->glwVisualizer->updateExtremes(m_currentDrawer);
         updateControlsState();        
 
-//        if (ui->chkHeightMapBorderAuto->isChecked() && !ui->txtHeightMap->text().isEmpty()) {
-//            on_chkHeightMapBorderAuto_toggled(true);
-//            updateHeightMapBorderDrawer();
-//            updateHeightMapGridDrawer();
-//        }
         if (m_currentModel == &m_programModel) m_fileChanged = true;
     }
 }
@@ -1760,6 +1742,8 @@ void frmMain::on_actFileNew_triggered()
 
         m_viewParser.reset();
         m_probeParser.reset();
+
+        m_codeDrawer->update();
         ui->glwVisualizer->fitDrawable();
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
         ui->glwVisualizer->setEstimatedTime(QTime(0, 0, 0));
@@ -2181,6 +2165,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     for (int i = 0; i < list.count(); i++) {
         list[i]->setIsHightlight(list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
     }
+
+    m_currentDrawer->update();
 }
 
 void frmMain::updateRecentFilesMenu()
@@ -2353,19 +2339,15 @@ bool frmMain::updateHeightMapGrid()
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
-    if (m_settingsLoading) return;
+    if (m_settingsLoading) return;    
 
     qDebug() << "Updating interpolation";
-
-//    if (ui->txtHeightMapInterpolationStepX->value() < 0.1 || ui->txtHeightMapInterpolationStepY->value() < 0.1) return;
 
     QRectF borderRect = borderRectFromTextboxes();
     m_heightMapInterpolationDrawer.setBorderRect(borderRect);
 
     QVector<QVector<double>> *interpolationData = new QVector<QVector<double>>;
 
-//    int interpolationPointsX = trunc(borderRect.width() / ui->txtHeightMapInterpolationStepX->value()) + 1;
-//    int interpolationPointsY = trunc(borderRect.height() / ui->txtHeightMapInterpolationStepY->value()) + 1;
     int interpolationPointsX = ui->txtHeightMapInterpolationStepX->value();// * (ui->txtHeightMapGridX->value() - 1) + 1;
     int interpolationPointsY = ui->txtHeightMapInterpolationStepY->value();// * (ui->txtHeightMapGridY->value() - 1) + 1;
 
@@ -2384,13 +2366,16 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
         interpolationData->append(row);
     }   
 
-    if (m_heightMapInterpolationDrawer.data() != NULL) delete m_heightMapInterpolationDrawer.data();
+    if (m_heightMapInterpolationDrawer.data() != NULL) {
+        delete m_heightMapInterpolationDrawer.data();
+    }
     m_heightMapInterpolationDrawer.setData(interpolationData);
+
+    // Update grid drawer
+    m_heightMapGridDrawer.update();
 
     // Heightmap changed by table user input
     if (sender() == &m_heightMapModel) m_heightMapChanged = true;
-
-//    ui->chkHeightMapBorderAuto->setChecked(false);
 }
 
 void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
@@ -2489,6 +2474,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);
     }   
+    m_codeDrawer->update();
 
     updateRecentFilesMenu();
     updateControlsState();
@@ -2828,9 +2814,6 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 
     QRectF borderRect = borderRectFromTextboxes();
 
-//    double interpolationStepX = ui->txtHeightMapInterpolationStepX->value();
-//    double interpolationStepY = ui->txtHeightMapInterpolationStepY->value();
-
     double interpolationStepX = borderRect.width() / (ui->txtHeightMapInterpolationStepX->value() - 1);
     double interpolationStepY = borderRect.height() / (ui->txtHeightMapInterpolationStepY->value() - 1);
 
@@ -2862,7 +2845,7 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
         list.append(line);
     }
 
-    if (list.last()->getEnd() != segment->getEnd()) {
+    if (list.count() > 0 && list.last()->getEnd() != segment->getEnd()) {
         LineSegment* line = new LineSegment(segment);
         line->setStart(list.last()->getEnd());
         line->setEnd(segment->getEnd());

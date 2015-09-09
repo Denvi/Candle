@@ -18,7 +18,6 @@ public:
     QVector3D getSizes();
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
-    int getLinesCount();
 
     void setViewParser(GcodeViewParse* viewParser);
     GcodeViewParse* viewParser();

@@ -9,16 +9,12 @@ QT       = core gui opengl serialport
 win32: {
     QT += winextras
     DEFINES += WINDOWS
-    INCLUDEPATH += "C:\\WinDDK\\7600.16385.1\\inc\\crt\\gl" "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include\\gl"
-    LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32 -lglu32
-    INCLUDEPATH += "C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Include\\gl"
-    LIBS += -L"C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Lib" -lopengl32 -lglu32
+    LIBS += -L"C:\\WinDDK\\7600.16385.1\\lib\\win7\\i386" -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib" -lopengl32
+    LIBS += -L"C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Lib" -lopengl32
 }
 
 unix: {
     DEFINES += UNIX
-    INCLUDEPATH += "/usr/include/GL"
-    LIBS += -L"/usr/lib/i386-linux-gnu" -lGLU
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
@@ -41,7 +37,6 @@ SOURCES += main.cpp\
     linesegment.cpp \
     gcodeviewparse.cpp \
     gcodedrawer.cpp \
-    gldrawable.cpp \
     tooldrawer.cpp \
     tablewidget.cpp \
     gcodetablemodel.cpp \
@@ -56,7 +51,8 @@ SOURCES += main.cpp\
     scrollarea.cpp \
     widget.cpp \
     groupbox.cpp \
-    shaderdrawable.cpp
+    shaderdrawable.cpp \
+    origindrawer.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -67,7 +63,6 @@ HEADERS  += frmmain.h \
     linesegment.h \
     gcodeviewparse.h \
     gcodedrawer.h \
-    gldrawable.h \
     tooldrawer.h \
     tablewidget.h \
     gcodetablemodel.h \
@@ -84,7 +79,8 @@ HEADERS  += frmmain.h \
     scrollarea.h \
     widget.h \
     groupbox.h \
-    shaderdrawable.h
+    shaderdrawable.h \
+    origindrawer.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

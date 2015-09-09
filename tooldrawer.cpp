@@ -4,8 +4,7 @@
 #include "tooldrawer.h"
 #include "math.h"
 
-ToolDrawer::ToolDrawer(QObject *parent) :
-    GLDrawable(parent)
+ToolDrawer::ToolDrawer()
 {
     m_toolDiameter = 3;
     m_toolLength = 15;
@@ -13,97 +12,83 @@ ToolDrawer::ToolDrawer(QObject *parent) :
     m_rotationAngle = 0;
 }
 
-void ToolDrawer::draw()
+void ToolDrawer::updateData()
 {
-    glLineWidth(m_lineWidth);
-    glPointSize(4);
-    glColor3f(1.0, 0.6, 0.0);
-
     const int arcs = 4;
 
-    glBegin(GL_LINES);
-    for (int i = 0; i < arcs; i++) {
+    // Clear data
+    m_lines.clear();
+    m_points.clear();
 
+    // Prepare vertex
+    VertexData vertex;
+    vertex.color = QVector3D(1.0, 0.6, 0.0);
+    vertex.start = QVector3D(NAN, NAN, NAN);
+
+    // Draw lines
+    for (int i = 0; i < arcs; i++) {
         double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
         double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
 
         // Side lines
-        glVertex3f(x, y, m_toolPosition.z() + m_endLength);
-        glVertex3f(x, y, m_toolPosition.z() + m_toolLength);
-//        glEnd();
+        vertex.position = QVector3D(x, y, m_toolPosition.z() + m_endLength);
+        m_lines.append(vertex);
+        vertex.position = QVector3D(x, y, m_toolPosition.z() + m_toolLength);
+        m_lines.append(vertex);
 
         // Bottom lines
-//        glBegin(GL_LINES);
-        glVertex3f(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z());
-        glVertex3f(x, y, m_toolPosition.z() + m_endLength);
-//        glEnd();
+        vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z());
+        m_lines.append(vertex);
+        vertex.position = QVector3D(x, y, m_toolPosition.z() + m_endLength);
+        m_lines.append(vertex);
 
         // Top lines
-//        glBegin(GL_LINES);
-        glVertex3f(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength);
-        glVertex3f(x, y, m_toolPosition.z() + m_toolLength);
-//        glEnd();
-
-        // Zero Z lines
-//        glBegin(GL_LINES);
-        glVertex3f(m_toolPosition.x(), m_toolPosition.y(), 0);
-        glVertex3f(x, y, 0);
+        vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength);
+        m_lines.append(vertex);
+        vertex.position = QVector3D(x, y, m_toolPosition.z() + m_toolLength);
+        m_lines.append(vertex);
     }
-    glEnd();
 
-    // Bottom circle
-    glBegin(GL_LINE_LOOP);
-    //glColor3f(0.0, 0.0, 0.0);
-    for (int i = 0; i <= 50; i++) {
-        double angle = 2 * M_PI * i / 50;
-        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(angle);
-        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(angle);
-        glVertex3f(x, y, m_toolPosition.z() + m_endLength);
-    }
-    glEnd();
+    // Draw circles
+    // Bottom
+    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_endLength),
+                            m_toolDiameter / 2, 20, vertex.color);
 
-    // Top circle
-    glBegin(GL_LINE_LOOP);
-    //glColor3f(0.0, 0.0, 0.0);
-    for (int i = 0; i <= 50; i++) {
-        double angle = 2 * M_PI * i / 50;
-        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(angle);
-        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(angle);
-        glVertex3f(x, y, m_toolPosition.z() + m_toolLength);
-    }
-    glEnd();
+    // Top
+    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength),
+                            m_toolDiameter / 2, 20, vertex.color);
 
-    // Zero Z circle
-    if (m_endLength > 0) {
-        glBegin(GL_POINTS);
-        glVertex3f(m_toolPosition.x(), m_toolPosition.y(), 0);
-        glEnd();
-    } else {
-        glBegin(GL_LINE_LOOP);
-        //glColor3f(0.0, 0.0, 0.0);
-        for (int i = 0; i <= 50; i++) {
-            double angle = 2 * M_PI * i / 50;
-            double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(angle);
-            double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(angle);
-            glVertex3f(x, y, 0);
+    // Zero Z point
+    vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0);
+    m_points.append(vertex);
+}
+
+QVector<VertexData> ToolDrawer::createCircle(QVector3D center, double radius, int arcs, QVector3D color)
+{
+    // Vertices
+    QVector<VertexData> circle;
+
+    // Prepare vertex
+    VertexData vertex;
+    vertex.color = color;
+    vertex.start = QVector3D(NAN, NAN, NAN);
+
+    // Create line loop
+    for (int i = 0; i <= arcs; i++) {
+        double angle = 2 * M_PI * i / arcs;
+        double x = center.x() + radius * cos(angle);
+        double y = center.y() + radius * sin(angle);
+
+        if (i > 1) {
+            circle.append(circle.last());
         }
-        glEnd();
+        else if (i == arcs) circle.append(circle.first());
+
+        vertex.position = QVector3D(x, y, center.z());
+        circle.append(vertex);
     }
-}
 
-QVector3D ToolDrawer::getSizes()
-{
-    return QVector3D(m_toolPosition.x() + m_toolDiameter / 2, m_toolPosition.y() + m_toolDiameter / 2, m_toolPosition.z() + m_toolLength);
-}
-
-QVector3D ToolDrawer::getMinimumExtremes()
-{
-    return QVector3D(0, 0, 0);
-}
-
-QVector3D ToolDrawer::getMaximumExtremes()
-{
-    return QVector3D(m_toolPosition.x() + m_toolDiameter / 2, m_toolPosition.y() + m_toolDiameter / 2, m_toolPosition.z() + m_toolLength);
+    return circle;
 }
 
 double ToolDrawer::toolDiameter() const
@@ -114,6 +99,7 @@ double ToolDrawer::toolDiameter() const
 void ToolDrawer::setToolDiameter(double toolDiameter)
 {
     m_toolDiameter = toolDiameter;
+    update();
 }
 double ToolDrawer::toolLength() const
 {
@@ -123,6 +109,7 @@ double ToolDrawer::toolLength() const
 void ToolDrawer::setToolLength(double toolLength)
 {
     m_toolLength = toolLength;
+    update();
 }
 QVector3D ToolDrawer::toolPosition() const
 {
@@ -132,6 +119,7 @@ QVector3D ToolDrawer::toolPosition() const
 void ToolDrawer::setToolPosition(const QVector3D &toolPosition)
 {
     m_toolPosition = toolPosition;
+    update();
 }
 double ToolDrawer::rotationAngle() const
 {
@@ -141,11 +129,12 @@ double ToolDrawer::rotationAngle() const
 void ToolDrawer::setRotationAngle(double rotationAngle)
 {
     m_rotationAngle = rotationAngle;
+    update();
 }
 
 void ToolDrawer::rotate(double angle)
 {
-    m_rotationAngle = normalizeAngle(m_rotationAngle + angle);
+    setRotationAngle(normalizeAngle(m_rotationAngle + angle));
 }
 
 double ToolDrawer::toolAngle() const
@@ -159,6 +148,8 @@ void ToolDrawer::setToolAngle(double toolAngle)
 
     m_endLength = m_toolAngle > 0 && m_toolAngle < 180 ? m_toolDiameter / 2 / tan(m_toolAngle / 180 * M_PI / 2) : 0;
     if (m_toolLength < m_endLength) m_toolLength = m_endLength;
+
+    update();
 }
 
 double ToolDrawer::normalizeAngle(double angle)
