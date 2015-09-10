@@ -20,7 +20,7 @@ public:
     explicit ShaderDrawable();
     ~ShaderDrawable();
     void update();
-    void draw();
+    void draw(QOpenGLShaderProgram *shaderProgram);
 
     bool needsUpdateGeometry() const;
     void updateGeometry(QOpenGLShaderProgram *shaderProgram = 0);

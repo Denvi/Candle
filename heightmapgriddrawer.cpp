@@ -17,7 +17,7 @@ void HeightMapGridDrawer::updateData()
 
     // Prepare vertex
     VertexData vertex;
-    vertex.start = QVector3D(NAN, NAN, NAN);
+    vertex.start = QVector3D(sNan, sNan, sNan);
 
     // Calculate grid parameters
     int gridPointsX = m_model->columnCount();

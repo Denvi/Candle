@@ -23,7 +23,7 @@ void ToolDrawer::updateData()
     // Prepare vertex
     VertexData vertex;
     vertex.color = QVector3D(1.0, 0.6, 0.0);
-    vertex.start = QVector3D(NAN, NAN, NAN);
+    vertex.start = QVector3D(sNan, sNan, sNan);
 
     // Draw lines
     for (int i = 0; i < arcs; i++) {
@@ -71,7 +71,7 @@ QVector<VertexData> ToolDrawer::createCircle(QVector3D center, double radius, in
     // Prepare vertex
     VertexData vertex;
     vertex.color = color;
-    vertex.start = QVector3D(NAN, NAN, NAN);
+    vertex.start = QVector3D(sNan, sNan, sNan);
 
     // Create line loop
     for (int i = 0; i <= arcs; i++) {

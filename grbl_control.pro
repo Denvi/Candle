@@ -14,13 +14,23 @@ win32: {
 }
 
 unix: {
-    DEFINES += UNIX
+    DEFINES += UNIX GL_GLEXT_PROTOTYPES
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
+contains(QT_CONFIG, opengles.) {
+    warning("GL ES detected. VAO will be disabled.")
+    DEFINES += GLES
+    INSTALLS += target
+    target.path = /home/pi
+}
+
+#DEFINES += sNan=\"std::numeric_limits<double>::quiet_NaN()\"
+DEFINES += sNan=\"0\"
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 0.5.2
+VERSION = 0.6
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 

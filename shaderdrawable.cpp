@@ -1,6 +1,10 @@
-﻿//#define NAN std::numeric_limits<double>::quiet_NaN();
+﻿//#define sNan std::numeric_limits<double>::quiet_NaN();
 
 #include "shaderdrawable.h"
+
+#ifdef GLES
+#include <GLES/gl.h>
+#endif
 
 ShaderDrawable::ShaderDrawable()
 {
@@ -39,9 +43,10 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
     // Update data
     updateData();
 
+#ifndef GLES
     // Prepare vao
     m_vao.bind();
-
+#endif
     // Prepare vbo
     m_vbo.bind();
 
@@ -51,9 +56,7 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 
     m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
 
-    // Tell OpenGL which VBOs to use
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo.bufferId());
-
+#ifndef GLES
     // Offset for position
     quintptr offset = 0;
 
@@ -78,7 +81,9 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
     shaderProgram->enableAttributeArray(start);
     shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
 
+
     m_vao.release();
+#endif
     m_vbo.release();
 
     m_needsUpdateGeometry = false;
@@ -88,12 +93,12 @@ void ShaderDrawable::updateData()
 {
     // Test data
     m_lines = {
-        {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(NAN, 0, 0)},
-        {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(NAN, 0, 0)},
-        {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(NAN, 0, 0)},
-        {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(NAN, 0, 0)},
-        {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(NAN, 0, 0)},
-        {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(NAN, 0, 0)}
+        {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0)},
+        {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0)},
+        {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0)},
+        {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0)},
+        {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)},
+        {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)}
     };
 }
 
@@ -102,18 +107,52 @@ bool ShaderDrawable::needsUpdateGeometry() const
     return m_needsUpdateGeometry;
 }
 
-void ShaderDrawable::draw()
+void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
 {
     if (!m_visible) return;
 
+#ifndef GLES
+    // Prepare vao
     m_vao.bind();
+#else
+    // Prepare vbo
+    m_vbo.bind();
+
+    // Offset for position
+    quintptr offset = 0;
+
+    // Tell OpenGL programmable pipeline how to locate vertex position data
+    int vertexLocation = shaderProgram->attributeLocation("a_position");
+    shaderProgram->enableAttributeArray(vertexLocation);
+    shaderProgram->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+    // Offset for color
+    offset = sizeof(QVector3D);
+
+    // Tell OpenGL programmable pipeline how to locate vertex color data
+    int color = shaderProgram->attributeLocation("a_color");
+    shaderProgram->enableAttributeArray(color);
+    shaderProgram->setAttributeBuffer(color, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+    // Offset for line start point
+    offset += sizeof(QVector3D);
+
+    // Tell OpenGL programmable pipeline how to locate vertex line start point
+    int start = shaderProgram->attributeLocation("a_start");
+    shaderProgram->enableAttributeArray(start);
+    shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
+#endif
 
     glLineWidth(m_lineWidth);
     glDrawArrays(GL_LINES, 0, m_lines.count());
     glPointSize(m_pointSize);
     glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());
 
+#ifndef GLES
     m_vao.release();
+#else
+    m_vbo.release();
+#endif
 }
 
 QVector3D ShaderDrawable::getSizes()

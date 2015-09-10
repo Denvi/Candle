@@ -60,8 +60,22 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    frmMain w;
+#ifdef GLES
+    a.setStyle(QStyleFactory::create("Fusion"));
+    QPalette palette;
+    palette.setColor(QPalette::Highlight, QColor(204, 204, 254));
+    palette.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
+    qApp->setPalette(palette);
 
+    a.setStyleSheet("QWidget {font-family: \"Tahoma\"}\
+                    QMenuBar {background-color: black; padding-top: 4px; padding-bottom: 4px;}\
+                    QMenuBar::item {spacing: 3px; padding: 1px 8px; background: transparent; color: white}\
+                    QMenuBar::item:pressed {background: darkgray; color: black;}\
+                    QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white;}\
+                    QDialog {border: 4px solid black; padding: 8px;}");
+#endif
+
+    frmMain w;
     w.show();
 
 //    qDebug() << GcodePreprocessorUtils::overrideSpeed("G0 X0 Y10 Z200 F123", 50);

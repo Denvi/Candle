@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>788</height>
+    <width>870</width>
+    <height>826</height>
    </rect>
   </property>
   <property name="palette">
@@ -1673,9 +1673,9 @@ color: black;</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
-           <width>237</width>
-           <height>612</height>
+           <y>-123</y>
+           <width>240</width>
+           <height>651</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -1884,6 +1884,9 @@ color: black;</string>
                 </property>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
                     <item>
@@ -2014,6 +2017,9 @@ color: black;</string>
                 </property>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_13">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,1">
                     <item>
@@ -2720,8 +2726,8 @@ QDoubleSpinBox:focus {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>839</width>
-     <height>21</height>
+     <width>870</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

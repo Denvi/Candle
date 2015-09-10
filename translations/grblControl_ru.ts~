@@ -833,7 +833,7 @@ Time elapsed: %1</source>
     <message>
         <location filename="../frmsettings.ui" line="147"/>
         <source>Arc approximation segment length:</source>
-        <translation type="unfinished">Точность аппроксимации дуг:</translation>
+        <translation type="unfinished">Длина отрезков, апроксимирующих дуги:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="194"/>

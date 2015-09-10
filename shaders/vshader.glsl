@@ -15,11 +15,18 @@ varying vec4 v_color;
 varying vec2 v_position;
 varying vec2 v_start;
 
+bool isNan(float val)
+{
+    return (val <= 0.0 || 0.0 <= val) ? false : true;
+}
+
 void main()
 {
     // Calculate interpolated vertex position & line start point
     v_position = (mv_matrix * a_position).xy;
-    v_start = (mv_matrix * a_start).xy;
+
+    if ((a_start.x != 0.0) || (a_start.y != 0.0) || (a_start.z != 0.0)) v_start = (mv_matrix * a_start).xy;
+    else v_start = a_start.xy;
 
     // Calculate vertex position in screen space
     gl_Position = mvp_matrix * a_position;

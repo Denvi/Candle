@@ -32,7 +32,7 @@ void GcodeDrawer::updateData()
             // Draw first toolpath point
             vertex.color = list[i]->drawn() ? QVector3D(0.85, 0.85, 0.85) : QVector3D(1.0, 0.0, 0.0);
             vertex.position = list[i]->getEnd();
-            vertex.start = QVector3D(NAN, NAN, NAN);
+            vertex.start = QVector3D(sNan, sNan, sNan);
             m_points.append(vertex);
 
             drawFirstPoint = false;
@@ -41,7 +41,7 @@ void GcodeDrawer::updateData()
 
         // Prepare vertices
         if (list[i]->isFastTraverse()) vertex.start = list[i]->getStart();
-        else vertex.start = QVector3D(NAN, NAN, NAN);
+        else vertex.start = QVector3D(sNan, sNan, sNan);
 
         // Simplify geometry
         int j = i;
@@ -83,7 +83,7 @@ void GcodeDrawer::updateData()
         if (i == list.count() - 1) {
             vertex.color = list[i]->drawn() ? QVector3D(0.85, 0.85, 0.85) : QVector3D(0.0, 1.0, 0.0);
             vertex.position = list[i]->getEnd();
-            vertex.start = QVector3D(NAN, NAN, NAN);
+            vertex.start = QVector3D(sNan, sNan, sNan);
             m_points.append(vertex);
         }
     }

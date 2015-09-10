@@ -8,10 +8,14 @@
 #include <QPainter>
 #include <QEasingCurve>
 
+#ifdef GLES
+#include <GLES/gl.h>
+#endif
+
 #define ZOOMSTEP 1.1
 
 GLWidget::GLWidget(QWidget *parent) :
-    QGLWidget(parent), m_shaderProgram(0)
+    QOpenGLWidget(parent), m_shaderProgram(0)
 {
     m_animateView = false;
     m_updatesEnabled = false;
@@ -49,7 +53,7 @@ GLWidget::GLWidget(QWidget *parent) :
     m_estimatedTime.setHMS(0, 0, 0);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
-    setFps(60);
+    setFps(60);      
 }
 
 GLWidget::~GLWidget()
@@ -299,11 +303,11 @@ void GLWidget::initializeGL()
 
     if (m_shaderProgram) {
         // Compile vertex shader
-        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vshader.glsl");
+        qDebug() << m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vshader.glsl");
         // Compile fragment shader
-        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fshader.glsl");
+        qDebug() << m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fshader.glsl");
         // Link shader pipeline
-        m_shaderProgram->link();
+        qDebug() << m_shaderProgram->link();
         qDebug() << "shader program created";
     } else {
         qDebug() << "error creating shader program";
@@ -348,12 +352,23 @@ void GLWidget::updateView()
     m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
 }
 
+#ifdef GLES
+void GLWidget::paintGL()
+#else
 void GLWidget::paintEvent(QPaintEvent *pe)
+#endif
 {
+    QPainter painter(this);
+
     // Segment counter
-    int vertices = 0;
+    int vertices = 0;  
 
     makeCurrent();
+    painter.beginNativePainting();
+
+    // Clear viewport
+    glClearColor(1.0, 1.0, 1.0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Update settings
     if (m_antialiasing) {
@@ -362,17 +377,13 @@ void GLWidget::paintEvent(QPaintEvent *pe)
             glEnable(GL_LINE_SMOOTH);
             glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
             glEnable(GL_POINT_SMOOTH);
+
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glEnable(GL_BLEND);
         }
     }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
-
-    // Clear viewport
-    glClearColor(1.0, 1.0, 1.0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     if (m_shaderProgram) {
         // Draw 3d
@@ -388,7 +399,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
 
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {
-            drawable->draw();
+            drawable->draw(m_shaderProgram);
             if (drawable->visible()) vertices += drawable->getVertexCount();
         }
 
@@ -396,13 +407,14 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     }    
 
     // Draw 2D
-    glShadeModel(GL_FLAT);
+//    glShadeModel(GL_FLAT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_LINE_SMOOTH);
     glDisable(GL_BLEND);
 
-    QPainter painter(this);
+//    QPainter painter(this);
+    painter.endNativePainting();
 
     double x = 10;
     double y = this->height() - 60;
@@ -489,7 +501,7 @@ void GLWidget::timerEvent(QTimerEvent *te)
         if (m_animateView) viewAnimation();
         if (m_updatesEnabled) update();
     } else {
-        QGLWidget::timerEvent(te);
+        QOpenGLWidget::timerEvent(te);
     }
 }
 
