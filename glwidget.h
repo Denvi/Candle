@@ -5,7 +5,6 @@
 #define GLWIDGET_H
 
 #ifndef GLES
-#define QOpenGLWidget QGLWidget
 #include <QGLWidget>
 #else
 #include <QOpenGLWidget>
@@ -15,7 +14,11 @@
 #include <QTime>
 #include "shaderdrawable.h"
 
+#ifdef GLES
 class GLWidget : public QOpenGLWidget
+#else
+class GLWidget : public QGLWidget
+#endif
 {
     Q_OBJECT
 public:

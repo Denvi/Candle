@@ -14,8 +14,12 @@
 
 #define ZOOMSTEP 1.1
 
-GLWidget::GLWidget(QWidget *parent) :
-    QOpenGLWidget(parent), m_shaderProgram(0)
+#ifdef GLES
+GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
+#else
+GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
+#endif
+
 {
     m_animateView = false;
     m_updatesEnabled = false;
@@ -501,7 +505,11 @@ void GLWidget::timerEvent(QTimerEvent *te)
         if (m_animateView) viewAnimation();
         if (m_updatesEnabled) update();
     } else {
+#ifdef GLES
         QOpenGLWidget::timerEvent(te);
+#else
+        QGLWidget::timerEvent(te);
+#endif
     }
 }
 
