@@ -50,10 +50,11 @@ protected:
     QVector<VertexData> m_lines;
     QVector<VertexData> m_points;
 
-    virtual void updateData();
+    QOpenGLBuffer m_vbo; // Protected for direct vbo access
+
+    virtual bool updateData();
 
 private:
-    QOpenGLBuffer m_vbo;
     QOpenGLVertexArrayObject m_vao;
 
     bool m_needsUpdateGeometry;

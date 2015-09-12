@@ -17,7 +17,7 @@ varying vec2 v_start;
 
 bool isNan(float val)
 {
-    return (val <= 0.0 || 0.0 <= val) ? false : true;
+    return (val > 65535.0);
 }
 
 void main()
@@ -25,7 +25,7 @@ void main()
     // Calculate interpolated vertex position & line start point
     v_position = (mv_matrix * a_position).xy;
 
-    if ((a_start.x != 0.0) || (a_start.y != 0.0) || (a_start.z != 0.0)) v_start = (mv_matrix * a_start).xy;
+    if (!isNan(a_start.x)) v_start = (mv_matrix * a_start).xy;
     else v_start = a_start.xy;
 
     // Calculate vertex position in screen space

@@ -8,12 +8,12 @@ HeightMapInterpolationDrawer::HeightMapInterpolationDrawer()
     m_data = NULL;
 }
 
-void HeightMapInterpolationDrawer::updateData()
+bool HeightMapInterpolationDrawer::updateData()
 {
     // Check if data is present
     if (!m_data || m_data->count() == 0) {
         m_lines.clear();
-        return;
+        return true;
     }
 
     QColor color;
@@ -78,6 +78,8 @@ void HeightMapInterpolationDrawer::updateData()
             m_lines.append(vertex);
         }
     }
+
+    return true;
 }
 
 QVector<QVector<double> > *HeightMapInterpolationDrawer::data() const

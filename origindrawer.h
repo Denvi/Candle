@@ -9,7 +9,7 @@ public:
     OriginDrawer();
 
 protected:
-    void updateData();
+    bool updateData();
 };
 
 #endif // ORIGINDRAWER_H

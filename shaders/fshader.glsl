@@ -13,13 +13,13 @@ varying vec2 v_start;
 
 bool isNan(float val)
 {
-    return (val <= 0.0 || 0.0 <= val) ? false : true;
+    return (val > 65535.0);
 }
 
 void main()
 {
     // Draw dash lines
-    if (length(v_start) != 0.0) {
+    if (!isNan(v_start.x)) {
         vec2 sub = v_position - v_start;
         float coord = length(sub.x) > length(sub.y) ? gl_FragCoord.x : gl_FragCoord.y;
         if (cos(coord / factor) > 0.0) discard;

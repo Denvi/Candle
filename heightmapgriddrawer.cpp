@@ -9,7 +9,7 @@ HeightMapGridDrawer::HeightMapGridDrawer()
     m_pointSize = 4;
 }
 
-void HeightMapGridDrawer::updateData()
+bool HeightMapGridDrawer::updateData()
 {
     // Clear data
     m_lines.clear();
@@ -70,6 +70,8 @@ void HeightMapGridDrawer::updateData()
             m_lines.append(vertex);
         }
     }
+
+    return true;
 }
 
 QPointF HeightMapGridDrawer::gridSize() const

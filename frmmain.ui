@@ -30,7 +30,7 @@
 }
 
 QScrollArea#scrollArea QScrollBar:vertical {
-	background-color: transparent;
+/*	background-color: transparent;*/
 	border: none;
     width: 2px;
 	padding-top: 8px;
@@ -53,24 +53,6 @@ QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
 	padding-bottom: 1px;
 }
-
-/*QGroupBox {
-	border: 1px solid palette(midlight);
-	border-radius: 4;
-	margin-top: 3ex;
-	padding-top: 8;
-}
-
-QGroupBox::title {
-	subcontrol-origin: margin;
-	subcontrol-position: top left;
-	margin-left: 2ex;
-	padding: 0 4;
-}
-
-QGroupBox[collapsible=&quot;true&quot;]::title {
-}
-*/
 
 QGroupBox {
 }
@@ -100,49 +82,6 @@ QGroupBox[checkable=&quot;true&quot;]::indicator:checked {
 QGroupBox[checkable=&quot;true&quot;]::indicator:unchecked {	
 	image: url(:/images/expand.png);
 }
-
-/*
-QGroupBox[checkable=&quot;true&quot;]::indicator:checked:disabled {	
-	image: url(:/images/collapse_disabled.png);
-}
-
-QGroupBox[checkable=&quot;true&quot;]::indicator:unchecked:disabled {	
-	image: url(:/images/expand_disabled.png);
-}
-
-/*
-QToolButton {
-	border: 1px solid palette(mid);
-	border-radius: 2px;
-	background-color: white;
-}
-
-QToolButton:pressed {
-	background-color: rgb(215, 215, 255);
-}
-
-QToolButton:checked {
-	background-color: rgb(215, 215, 255);
-}
-*/
-/*
-QToolButton { 
-    border: 1px solid #8f8f91;
-    border-radius: 4px;
-    background-color: white;	
-}
-
-QToolButton:hover { 
-	background-color: rgb(234, 234, 234);
-}
-
-QToolButton:pressed {
-	background-color: lightgray;
-}
-
-QToolButton:checked { 
-	background-color: lightgray;
-}*/
 
 QFrame#frameManualControlXY,#frameManualControlZ {
 	border: 1px solid lightgray;
@@ -239,9 +178,6 @@ QSlider::handle:horizontal:hover {
          <property name="toolTip">
           <string>Isometric view</string>
          </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
          <property name="styleSheet">
           <string notr="true">QToolButton { /* all types of tool button */
 	color: lightgray;
@@ -286,9 +222,6 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="toolTip">
           <string>Top view</string>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton { /* all types of tool button */
@@ -335,9 +268,6 @@ QToolButton:checked { /* all types of tool button */
          <property name="toolTip">
           <string>Front view</string>
          </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
          <property name="styleSheet">
           <string notr="true">QToolButton { /* all types of tool button */
 	color: lightgray;
@@ -383,9 +313,6 @@ QToolButton:checked { /* all types of tool button */
          <property name="toolTip">
           <string>Left view</string>
          </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
          <property name="styleSheet">
           <string notr="true">QToolButton { /* all types of tool button */
 	color: lightgray;
@@ -430,9 +357,6 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="toolTip">
           <string>Fit</string>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton { /* all types of tool button */
@@ -1661,7 +1585,7 @@ color: black;</string>
          <enum>QFrame::NoFrame</enum>
         </property>
         <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAsNeeded</enum>
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1673,7 +1597,7 @@ color: black;</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-123</y>
+           <y>0</y>
            <width>240</width>
            <height>651</height>
           </rect>

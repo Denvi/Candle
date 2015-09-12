@@ -143,7 +143,7 @@ private slots:
     void on_cmdHeightMapLoad_clicked();
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
-    void on_chkHeightMapUse_toggled(bool checked);
+    void on_chkHeightMapUse_clicked(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapMode_clicked(bool checked);
     void on_cmdHeightMapBorderAuto_clicked();

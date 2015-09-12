@@ -367,7 +367,6 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     // Segment counter
     int vertices = 0;  
 
-    makeCurrent();
     painter.beginNativePainting();
 
     // Clear viewport
@@ -411,13 +410,12 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     }    
 
     // Draw 2D
-//    glShadeModel(GL_FLAT);
+    glShadeModel(GL_FLAT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_LINE_SMOOTH);
     glDisable(GL_BLEND);
 
-//    QPainter painter(this);
     painter.endNativePainting();
 
     double x = 10;
@@ -444,6 +442,10 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 15), str);
 
     m_frames++;
+
+#ifdef GLES
+    update();
+#endif
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -503,7 +505,9 @@ void GLWidget::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerAnimation.timerId()) {
         if (m_animateView) viewAnimation();
+#ifndef GLES
         if (m_updatesEnabled) update();
+#endif
     } else {
 #ifdef GLES
         QOpenGLWidget::timerEvent(te);

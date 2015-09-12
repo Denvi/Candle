@@ -55,6 +55,9 @@ public:
     bool isHightlight() const;
     void setIsHightlight(bool isHightlight);
 
+    int vertexIndex() const;
+    void setVertexIndex(int vertexIndex);
+
 signals:
 
 public slots:
@@ -73,6 +76,7 @@ private:
     bool m_isMetric;
     bool m_isAbsolute;
     bool m_isHightlight;
+    int m_vertexIndex;
 };
 
 #endif // LINESEGMENT_H

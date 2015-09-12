@@ -12,7 +12,7 @@ ToolDrawer::ToolDrawer()
     m_rotationAngle = 0;
 }
 
-void ToolDrawer::updateData()
+bool ToolDrawer::updateData()
 {
     const int arcs = 4;
 
@@ -61,6 +61,8 @@ void ToolDrawer::updateData()
     // Zero Z point
     vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0);
     m_points.append(vertex);
+
+    return true;
 }
 
 QVector<VertexData> ToolDrawer::createCircle(QVector3D center, double radius, int arcs, QVector3D color)
@@ -98,8 +100,10 @@ double ToolDrawer::toolDiameter() const
 
 void ToolDrawer::setToolDiameter(double toolDiameter)
 {
-    m_toolDiameter = toolDiameter;
-    update();
+    if (m_toolDiameter != toolDiameter) {
+        m_toolDiameter = toolDiameter;
+        update();
+    }
 }
 double ToolDrawer::toolLength() const
 {
@@ -108,8 +112,10 @@ double ToolDrawer::toolLength() const
 
 void ToolDrawer::setToolLength(double toolLength)
 {
-    m_toolLength = toolLength;
-    update();
+    if (m_toolLength != toolLength) {
+        m_toolLength = toolLength;
+        update();
+    }
 }
 QVector3D ToolDrawer::toolPosition() const
 {
@@ -118,8 +124,10 @@ QVector3D ToolDrawer::toolPosition() const
 
 void ToolDrawer::setToolPosition(const QVector3D &toolPosition)
 {
-    m_toolPosition = toolPosition;
-    update();
+    if (m_toolPosition != toolPosition) {
+        m_toolPosition = toolPosition;
+        update();
+    }
 }
 double ToolDrawer::rotationAngle() const
 {
@@ -128,8 +136,10 @@ double ToolDrawer::rotationAngle() const
 
 void ToolDrawer::setRotationAngle(double rotationAngle)
 {
-    m_rotationAngle = rotationAngle;
-    update();
+    if (m_rotationAngle != rotationAngle) {
+        m_rotationAngle = rotationAngle;
+        update();
+    }
 }
 
 void ToolDrawer::rotate(double angle)
@@ -144,12 +154,14 @@ double ToolDrawer::toolAngle() const
 
 void ToolDrawer::setToolAngle(double toolAngle)
 {
-    m_toolAngle = toolAngle;
+    if (m_toolAngle != toolAngle) {
+        m_toolAngle = toolAngle;
 
-    m_endLength = m_toolAngle > 0 && m_toolAngle < 180 ? m_toolDiameter / 2 / tan(m_toolAngle / 180 * M_PI / 2) : 0;
-    if (m_toolLength < m_endLength) m_toolLength = m_endLength;
+        m_endLength = m_toolAngle > 0 && m_toolAngle < 180 ? m_toolDiameter / 2 / tan(m_toolAngle / 180 * M_PI / 2) : 0;
+        if (m_toolLength < m_endLength) m_toolLength = m_endLength;
 
-    update();
+        update();
+    }
 }
 
 double ToolDrawer::normalizeAngle(double angle)

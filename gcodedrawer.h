@@ -15,6 +15,10 @@ class GcodeDrawer : public ShaderDrawable
 public:
     explicit GcodeDrawer();
 
+    void update();
+    void update(QList<int> indexes);
+    bool updateData();
+
     QVector3D getSizes();
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
@@ -37,8 +41,10 @@ private:
     bool m_simplify;
     double m_simplifyPrecision;
 
-    void updateData();
+    QList<int> m_indexes;
+
     int getSegmentType(LineSegment *segment);
+    QVector3D getSegmentColor(LineSegment *segment);
 };
 
 #endif // GCODEDRAWER_H

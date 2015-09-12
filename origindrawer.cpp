@@ -4,7 +4,7 @@ OriginDrawer::OriginDrawer()
 {
 }
 
-void OriginDrawer::updateData()
+bool OriginDrawer::updateData()
 {
     m_lines = {
         // X-axis
@@ -47,4 +47,5 @@ void OriginDrawer::updateData()
         {QVector3D(1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan)},
         {QVector3D(1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan)},
     };
+    return true;
 }

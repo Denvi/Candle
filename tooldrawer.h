@@ -34,7 +34,7 @@ signals:
 public slots:
 
 protected:
-    void updateData();
+    bool updateData();
 
 private:
     double m_toolDiameter;

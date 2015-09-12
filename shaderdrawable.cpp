@@ -6,6 +6,8 @@
 #include <GLES/gl.h>
 #endif
 
+#include <QTime>
+
 ShaderDrawable::ShaderDrawable()
 {
     m_needsUpdateGeometry = true;
@@ -40,9 +42,6 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
     // Init in context
     if (!m_vao.isCreated()) init();
 
-    // Update data
-    updateData();
-
 #ifndef GLES
     // Prepare vao
     m_vao.bind();
@@ -50,11 +49,12 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
     // Prepare vbo
     m_vbo.bind();
 
-    // Prepare vertex buffer
-    QVector<VertexData> vertexData(m_lines);
-    vertexData += m_points;
-
-    m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
+    // Update vertex buffer
+    if (updateData()) {
+        QVector<VertexData> vertexData(m_lines);
+        vertexData += m_points;
+        m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
+    }
 
 #ifndef GLES
     // Offset for position
@@ -89,7 +89,7 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
     m_needsUpdateGeometry = false;
 }
 
-void ShaderDrawable::updateData()
+bool ShaderDrawable::updateData()
 {
     // Test data
     m_lines = {

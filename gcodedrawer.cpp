@@ -10,83 +10,167 @@ GcodeDrawer::GcodeDrawer()
 {
 }
 
-void GcodeDrawer::updateData()
+void GcodeDrawer::update()
 {
-    QList<LineSegment*> list = m_viewParser->getLineSegmentList();
-    VertexData vertex;
-    bool drawFirstPoint = true;
+    ShaderDrawable::update();
+}
 
-    // Clear all vertex data
-    m_lines.clear();
-    m_points.clear();
+void GcodeDrawer::update(QList<int> indexes)
+{
+    // Store segments to update
+    if (indexes[0] == -1) m_indexes = indexes; else m_indexes += indexes;
+    ShaderDrawable::update();
+}
 
-    for (int i = 0; i < list.count(); i++) {
+bool GcodeDrawer::updateData()
+{
+    if (m_indexes.isEmpty()) {
+        qDebug() << "updating geometry" << this;
 
-        if (std::isnan(list[i]->getEnd().z())) continue;
+        QList<LineSegment*> *list = m_viewParser->getLines();
+        VertexData vertex;
 
-        // Find first point of toolpath
-        if (drawFirstPoint) {
+        // Create vertices array
+        // Clear all vertex data
+        m_lines.clear();
+        m_points.clear();
 
-            if (std::isnan(list[i]->getEnd().x()) || std::isnan(list[i]->getEnd().y())) continue;
+        bool drawFirstPoint = true;
+        for (int i = 0; i < list->count(); i++) {
 
-            // Draw first toolpath point
-            vertex.color = list[i]->drawn() ? QVector3D(0.85, 0.85, 0.85) : QVector3D(1.0, 0.0, 0.0);
-            vertex.position = list[i]->getEnd();
-            vertex.start = QVector3D(sNan, sNan, sNan);
-            m_points.append(vertex);
+            if (std::isnan(list->at(i)->getEnd().z())) continue;
 
-            drawFirstPoint = false;
-            continue;
+            // Find first point of toolpath
+            if (drawFirstPoint) {
+
+                if (std::isnan(list->at(i)->getEnd().x()) || std::isnan(list->at(i)->getEnd().y())) continue;
+
+                // Draw first toolpath point
+                vertex.color = /*list->at(i)->drawn() ? QVector3D(0.85, 0.85, 0.85) : */QVector3D(1.0, 0.0, 0.0);
+                vertex.position = list->at(i)->getEnd();
+                vertex.start = QVector3D(sNan, sNan, sNan);
+                m_points.append(vertex);
+
+                drawFirstPoint = false;
+                continue;
+            }
+
+            // Prepare vertices
+            if (list->at(i)->isFastTraverse()) vertex.start = list->at(i)->getStart();
+            else vertex.start = QVector3D(sNan, sNan, sNan);
+
+            // Simplify geometry
+            int j = i;
+            if (m_simplify && i < list->count() - 1) {
+                QVector3D start = list->at(i)->getEnd() - list->at(i)->getStart();
+                QVector3D next;
+                double length = start.length();
+                bool straight = false;
+
+                do {
+                    list->at(i)->setVertexIndex(m_lines.count()); // Store vertex index
+                    i++;
+                    if (i < list->count() - 1) {
+                        next = list->at(i)->getEnd() - list->at(i)->getStart();
+                        length += next.length();
+                        straight = start.crossProduct(start.normalized(), next.normalized()).length() < 0.025;
+                    }
+                // Split short & straight lines
+                } while ((length < m_simplifyPrecision || straight) && i < list->count()
+                         && getSegmentType(list->at(i)) == getSegmentType(list->at(j)));
+                i--;
+            } else {
+                list->at(i)->setVertexIndex(m_lines.count()); // Store vertex index
+            }
+
+            // Set color
+            vertex.color = getSegmentColor(list->at(i));
+
+            // Line start
+            vertex.position = list->at(j)->getStart();
+            m_lines.append(vertex);
+
+            // Line end
+            vertex.position = list->at(i)->getEnd();
+            m_lines.append(vertex);
+
+            // Draw last toolpath point
+            if (i == list->count() - 1) {
+                vertex.color = /*list->at(i)->drawn() ? QVector3D(0.85, 0.85, 0.85) : */QVector3D(0.0, 1.0, 0.0);
+                vertex.position = list->at(i)->getEnd();
+                vertex.start = QVector3D(sNan, sNan, sNan);
+                m_points.append(vertex);
+            }
         }
+        m_indexes.clear();
+        return true;
+    } else {
+//        qDebug() << "updating segments" << m_indexes.count();
+//        QTime time;
+//        time.start();
 
-        // Prepare vertices
-        if (list[i]->isFastTraverse()) vertex.start = list[i]->getStart();
-        else vertex.start = QVector3D(sNan, sNan, sNan);
+        // Path through to update vao/vbo with updated geometry
+        if (m_indexes[0] == -1) return true;
 
-        // Simplify geometry
-        int j = i;
-        if (m_simplify && i < list.count() - 1) {
-            QVector3D start = list[i]->getEnd() - list[i]->getStart();
-            QVector3D next;
-            double length = start.length();
-            bool straight;
+        // Update vertices
+        QList<LineSegment*> list = m_viewParser->getLineSegmentList();
+//        QList<int> updatedVertices; // Check each vertex be updated to slow. Updating same vertex multiple times faster.
+        int vertexIndex;
 
-            do {
-                i++;
-                if (i < list.count() - 1) {
-                    next = list[i]->getEnd() - list[i]->getStart();
-                    length += next.length();
-                    straight = start.crossProduct(start.normalized(), next.normalized()).length() < 0.025;
+        // Try to map vbo
+        VertexData* data;
+        data = (VertexData*)m_vbo.map(QOpenGLBuffer::ReadWrite); // Already binded
+
+        // Direct vbo access
+        if (data) {
+            foreach (int i, m_indexes) {
+                // Update each vertex pair only once
+                if (i < 0 || i > list.count() - 1) continue;
+                vertexIndex = list[i]->vertexIndex();
+                if (vertexIndex >= 0 /*&& !updatedVertices.contains(vertexIndex)*/) {
+    //                updatedVertices.append(vertexIndex);
+                    // Update vertex array
+                    if (data[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
+                            && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
+                    else {
+                        data[vertexIndex].color = getSegmentColor(list[i]);
+                        data[vertexIndex + 1].color = data[vertexIndex].color;
+                    }
                 }
-            // Split short & straight lines
-            } while ((length < m_simplifyPrecision || straight) && i < list.count()
-                     && getSegmentType(list[i]) == getSegmentType(list[j]));
-            i--;
+            }
+            m_vbo.unmap();
+            return false;
+        // Update data
+        } else {
+            foreach (int i, m_indexes) {
+                // Update each vertex pair only once
+                if (i < 0 || i > list.count() - 1) continue;
+                vertexIndex = list[i]->vertexIndex();
+                if (vertexIndex >= 0 /*&& !updatedVertices.contains(vertexIndex)*/) {
+    //                updatedVertices.append(vertexIndex);
+                    // Update vertex array
+                    if (m_lines[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
+                            && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
+                    else {
+                        m_lines[vertexIndex].color = getSegmentColor(list[i]);
+                        m_lines[vertexIndex + 1].color = m_lines[vertexIndex].color;
+                    }
+                }
+            }
+            return true;
         }
-
-        // Set color
-        if (list[i]->drawn()) vertex.color = QVector3D(0.85, 0.85, 0.85);
-        else if (list[i]->isHightlight()) vertex.color = QVector3D(0.57, 0.51, 0.9);
-        else if (list[i]->isFastTraverse()) vertex.color = QVector3D(0.0, 0.0, 0.0);
-        else if (list[i]->isZMovement()) vertex.color = QVector3D(1.0, 0.0, 0.0);
-        else vertex.color = QVector3D(0.0, 0.0, 0.0);
-
-        // Line start
-        vertex.position = list[j]->getStart();
-        m_lines.append(vertex);
-
-        // Line end
-        vertex.position = list[i]->getEnd();
-        m_lines.append(vertex);
-
-        // Draw last toolpath point
-        if (i == list.count() - 1) {
-            vertex.color = list[i]->drawn() ? QVector3D(0.85, 0.85, 0.85) : QVector3D(0.0, 1.0, 0.0);
-            vertex.position = list[i]->getEnd();
-            vertex.start = QVector3D(sNan, sNan, sNan);
-            m_points.append(vertex);
-        }
+        m_indexes.clear();
+//        qDebug() << "segments updated:" << time.elapsed();
     }
+}
+
+QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
+{
+    if (segment->drawn()) return QVector3D(0.85, 0.85, 0.85);
+    else if (segment->isHightlight()) return QVector3D(0.57, 0.51, 0.9);
+    else if (segment->isFastTraverse()) return QVector3D(0.0, 0.0, 0.0);
+    else if (segment->isZMovement()) return QVector3D(1.0, 0.0, 0.0);
+    else return QVector3D(0.0, 0.0, 0.0);
 }
 
 int GcodeDrawer::getSegmentType(LineSegment* segment)

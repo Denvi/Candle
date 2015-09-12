@@ -1,6 +1,9 @@
 // This file is a part of "grblControl" application.
 // Copyright 2015 Hayrullin Denis Ravilevich
 
+//#define INITTIME //QTime time; time.start();
+//#define PRINTTIME(x) //qDebug() << "time elapse" << QString("%1:").arg(x) << time.elapsed(); time.start();
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
@@ -155,6 +158,8 @@ frmMain::frmMain(QWidget *parent) :
 
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
+
+//    ui->glwVisualizer->setVisible(false);
 }
 
 frmMain::~frmMain()
@@ -359,7 +364,7 @@ bool frmMain::saveChanges(bool heightMapMode)
         }
 
         m_fileChanged = false;
-        m_heightMapMode = false;
+//        m_heightMapMode = false;
     }
 
     return true;
@@ -578,18 +583,22 @@ void frmMain::onSerialPortReadyRead()
 
         // Status answer
         if (data[0] == '<') {
-//            QRegExp rx("<([^,]*),MPos:([^,]*),([^,]*),([^,]*),WPos:([^,]*),([^,]*),([^,]*)>");
-
             int statusIndex = -1;
 
             // Status
             QRegExp stx("<([^,^>]*)");
             if (stx.indexIn(data) != -1) {
+
+                static int previousStatus = -1;
+
                 statusIndex = m_status.indexOf(stx.cap(1));
 
-                ui->txtStatus->setText(m_statusCaptions[statusIndex]);
-                ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
-                                             .arg(m_statusBackColors[statusIndex]).arg(m_statusForeColors[statusIndex]));
+                if (statusIndex != previousStatus) {
+                    previousStatus = statusIndex;
+                    ui->txtStatus->setText(m_statusCaptions[statusIndex]);
+                    ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
+                                                 .arg(m_statusBackColors[statusIndex]).arg(m_statusForeColors[statusIndex]));
+                }
 
                 // Update controls
                 ui->cmdReturnXY->setEnabled(statusIndex == 0);
@@ -599,9 +608,6 @@ void frmMain::onSerialPortReadyRead()
 #ifdef WINDOWS
                 if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
 #endif
-
-                // Increase state query interval on check mode
-//                if (statusIndex == 6) m_timerStateQuery.setInterval(1000);
 
                 // Update "elapsed time" timer
                 if (m_transferringFile) {
@@ -620,10 +626,12 @@ void frmMain::onSerialPortReadyRead()
 
                     QList<LineSegment*> list = parser->getLineSegmentList();
 
+                    QList<int> indexes;
                     for (int i = m_lastDrawnLineIndex; i < list.length(); i++) {
                         list[i]->setDrawn(true);
+                        indexes.append(i);
                     }
-                    m_currentDrawer->update();
+                    m_currentDrawer->update(indexes);
 
                     updateControlsState();
 
@@ -679,7 +687,7 @@ void frmMain::onSerialPortReadyRead()
                         foreach (int i, drawnLines) {
                             list[i]->setDrawn(true);
                         }
-                        m_currentDrawer->update();
+                        if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                     } else if (m_lastDrawnLineIndex < list.count()) {
                         qDebug() << "tool missed:" << list[m_lastDrawnLineIndex]->getLineNumber()
                                  << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
@@ -695,11 +703,6 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtMPosZ->setText(mpx.cap(3));
             }
         } else if (data.length() > 0) {
-
-//            qDebug() << "data:" << data;
-
-            // Debug
-//            if (m_commands.length() > 0) foreach (CommandAttributes ca, m_commands) qDebug() << "command:" << ca.command;
 
             // Processed commands
             if (m_commands.length() > 0 && !dataIsFloating(data)
@@ -746,17 +749,8 @@ void frmMain::onSerialPortReadyRead()
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
                             int speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-//                            if (!ui->txtSpindleSpeed->hasFocus()) {
-                                if (ui->txtSpindleSpeed->value() == speed) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
-//                                if (ui->txtSpindleSpeed->value() != speed) {
-//                                    ui->txtSpindleSpeed->setValue(speed);
-//                                    m_programSpeed = true;
-//                                    ui->sliSpindleSpeed->setValue(speed / 100);
-//                                    m_programSpeed = false;
-//                                }
-//                            }
-//                            m_spindleCommandSpeed = false;
-                        } //else m_spindleCommandSpeed = true;
+                            if (ui->txtSpindleSpeed->value() == speed) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+                        }
                     }
 
                     // Store origin
@@ -804,11 +798,8 @@ void frmMain::onSerialPortReadyRead()
                             z = toMetric(rx.cap(3).toDouble());
                         }
 
-//                        z = 23 + (double)m_probeIndex / 10;
-
                         static double firstZ;
                         if (m_probeIndex == -1) {
-//                            z = 23 + (double)4 / 10;
                             firstZ = z;
                             z = 0;
                         } else {
@@ -917,12 +908,12 @@ void frmMain::onSerialPortReadyRead()
                         foreach (int i, drawnLines) {
                             list[i]->setDrawn(true);
                         }
-                        m_currentDrawer->update();
+                        if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                     }
                     response.clear();
                 } else {
                     response.append(data + "; ");
-                }
+                }                
 
             } else {
                 // response without commands in buffer
@@ -1065,7 +1056,7 @@ void frmMain::hideEvent(QHideEvent *he)
 
 void frmMain::resizeEvent(QResizeEvent *re)
 {
-//    placeVisualizerButtons();
+    placeVisualizerButtons();
     resizeCheckBoxes();
     resizeTableHeightMapSections();
 
@@ -1222,6 +1213,7 @@ void frmMain::loadFile(QString fileName)
     ui->tblProgram->setModel(NULL);
     m_programLoading = true;
     m_currentModel = &m_programModel;
+    m_currentDrawer = m_codeDrawer;
 
     GcodeParser gp;
     gp.setTraverseSpeed(m_rapidSpeed);
@@ -1485,7 +1477,8 @@ void frmMain::updateParser()
         parser->reset();
 
         updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
-        m_currentDrawer->update();
+        m_currentDrawer->updateData();
+        m_currentDrawer->update(QList<int>() << -1);
         ui->glwVisualizer->updateExtremes(m_currentDrawer);
         updateControlsState();        
 
@@ -1587,7 +1580,6 @@ void frmMain::on_txtSpindleSpeed_editingFinished()
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
     m_programSpeed = false;
-//    sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
     m_updateSpindleSpeed = true;
 }
 
@@ -1607,11 +1599,6 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 
 void frmMain::on_sliSpindleSpeed_sliderReleased()
 {
-//    if (!m_programSpeed) {
-//        ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
-//        ui->txtSpindleSpeed->setStyleSheet("color: red;");
-//        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
-//    }
 }
 
 void frmMain::on_cmdYPlus_clicked()
@@ -1675,9 +1662,12 @@ void frmMain::on_cmdFileReset_clicked()
 
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
 
+        QList<int> indexes;
         for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
             list[i]->setDrawn(false);
+            indexes.append(i);
         }
+        m_codeDrawer->update(indexes);
 
         qDebug() << "drawn false:" << time.elapsed();
 
@@ -1722,6 +1712,7 @@ void frmMain::on_actFileNew_triggered()
         m_probeModel.clear();
         m_programHeightmapModel.clear();
 
+        // Reset parsers
         m_viewParser.reset();
         m_probeParser.reset();
 
@@ -1732,6 +1723,15 @@ void frmMain::on_actFileNew_triggered()
 
         m_programFileName = "";
         ui->chkHeightMapUse->setChecked(false);
+
+        // Reset table
+        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+        ui->tblProgram->setModel(NULL);
+        m_currentModel = &m_programModel;
+        ui->tblProgram->setModel(&m_programModel);
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        ui->tblProgram->selectRow(0);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         resetHeightmap();
     } else {
@@ -2140,15 +2140,36 @@ void frmMain::onCboCommandReturnPressed()
 }
 
 void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
-{
+{    
+    // Update toolpath hightlighting
+    if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
+    if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
+
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> list = parser->getLineSegmentList();
+    int segmentLine;
+    int modelLine = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
+    int modelLinePrevious = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
+    QList<int> indexes;
 
     for (int i = 0; i < list.count(); i++) {
-        list[i]->setIsHightlight(list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+        segmentLine = list[i]->getLineNumber();
+        // Highlight
+        if (idx1.row() > idx2.row()) {
+            if (segmentLine > modelLinePrevious && segmentLine <= modelLine) {
+                list[i]->setIsHightlight(true);
+                indexes.append(i);
+            }
+        // Reset
+        } else {
+            if (segmentLine <= modelLinePrevious && segmentLine > modelLine) {
+                list[i]->setIsHightlight(false);
+                indexes.append(i);
+            }
+        }
     }
 
-    m_currentDrawer->update();
+    if (!indexes.isEmpty()) m_currentDrawer->update(indexes);
 }
 
 void frmMain::updateRecentFilesMenu()
@@ -2426,7 +2447,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
 
     // Reset/restore g-code program modification on edit mode enter/exit
     if (ui->chkHeightMapUse->isChecked()) {
-        on_chkHeightMapUse_toggled(!checked);
+        on_chkHeightMapUse_clicked(!checked);
     }
 
     if (checked) {
@@ -2445,18 +2466,21 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             resizeTableHeightMapSections();
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
-            bool fileChanged = m_fileChanged;
-            updateParser();
-            m_fileChanged = fileChanged;
+//            bool fileChanged = m_fileChanged;
+//            updateParser();
+//            m_fileChanged = fileChanged;
         }
     }
 
     // Shadow trajectory
     QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+    QList<int> indexes;
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);
+        list[i]->setIsHightlight(false);
+        indexes.append(i);
     }   
-    m_codeDrawer->update();
+    m_codeDrawer->update(indexes);
 
     updateRecentFilesMenu();
     updateControlsState();
@@ -2590,6 +2614,8 @@ void frmMain::on_cmdHeightMapLoad_clicked()
         addRecentHeightmap(fileName);
         loadHeightMap(fileName);
 
+        if (ui->chkHeightMapUse->isChecked() && !m_heightMapMode) on_chkHeightMapUse_clicked(true);
+
         updateRecentFilesMenu();
         updateControlsState(); // Enable 'cmdHeightMapMode' button
     }
@@ -2605,7 +2631,7 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
     updateHeightMapInterpolationDrawer();
 }
 
-void frmMain::on_chkHeightMapUse_toggled(bool checked)
+void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
 //    static bool fileChanged;
 

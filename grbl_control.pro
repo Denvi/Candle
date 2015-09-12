@@ -14,7 +14,7 @@ win32: {
 }
 
 unix: {
-    DEFINES += UNIX GL_GLEXT_PROTOTYPES
+    DEFINES += UNIX #GL_GLEXT_PROTOTYPES
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
@@ -26,7 +26,7 @@ contains(QT_CONFIG, opengles.) {
 }
 
 #DEFINES += sNan=\"std::numeric_limits<double>::quiet_NaN()\"
-DEFINES += sNan=\"0\"
+DEFINES += sNan=\"65536\"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

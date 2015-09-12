@@ -19,6 +19,7 @@ LineSegment::LineSegment(QObject *parent) :
     m_isMetric = true;
     m_isAbsolute = true;
     m_isHightlight = false;
+    m_vertexIndex = -1;
 }
 
 LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
@@ -47,6 +48,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_isMetric = initial->isMetric();
     m_isAbsolute = initial->isAbsolute();
     m_isHightlight = initial->isHightlight();
+    m_vertexIndex = initial->vertexIndex();
 }
 
 LineSegment::~LineSegment()
@@ -185,6 +187,16 @@ void LineSegment::setIsHightlight(bool isHightlight)
 {
     m_isHightlight = isHightlight;
 }
+int LineSegment::vertexIndex() const
+{
+    return m_vertexIndex;
+}
+
+void LineSegment::setVertexIndex(int vertexIndex)
+{
+    m_vertexIndex = vertexIndex;
+}
+
 
 
 

@@ -15,7 +15,7 @@ ScrollArea::ScrollArea(QWidget *parent) : QScrollArea(parent)
 
     connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onVerticalScrollBarValueChanged(int)));
 
-    this->setMouseTracking(true);
+//    this->setMouseTracking(true);
 }
 
 QSize ScrollArea::sizeHint() const
@@ -84,6 +84,11 @@ void ScrollArea::onPressed()
 
 void ScrollArea::updateBorders()
 {
+// Performance issue on changing stylesheet
+#ifdef GLES
+    return;
+#else
+
     QScrollBar* bar = this->verticalScrollBar();
     bool fitted = this->geometry().height() > this->widget()->sizeHint().height();
 
@@ -96,4 +101,5 @@ void ScrollArea::updateBorders()
                                                           : "transparent");
 
     this->setStyleSheet(style);
+#endif
 }

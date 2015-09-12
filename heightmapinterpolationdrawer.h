@@ -23,7 +23,7 @@ public:
     void setBorderRect(const QRectF &borderRect);
 
 protected:
-    void updateData();
+    bool updateData();
 
 private:
     QRectF m_borderRect;
