@@ -16,8 +16,8 @@ GcodeViewParse::GcodeViewParse(QObject *parent) :
     currentLine = 0;
     debug = true;
 
-    m_min = QVector3D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
-    m_max = QVector3D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+    m_min = QVector3D(NAN, NAN, NAN);
+    m_max = QVector3D(NAN, NAN, NAN);
 }
 
 GcodeViewParse::~GcodeViewParse()
@@ -72,8 +72,8 @@ void GcodeViewParse::reset()
     foreach (LineSegment *ls, lines) delete ls;
     lines.clear();
     currentLine = 0;
-    m_min = QVector3D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
-    m_max = QVector3D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+    m_min = QVector3D(NAN, NAN, NAN);
+    m_max = QVector3D(NAN, NAN, NAN);
 }
 
 QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcSegmentLength)

@@ -6,6 +6,7 @@ precision mediump float;
 
 uniform mat4 mvp_matrix;
 uniform mat4 mv_matrix;
+uniform float point_size;
 
 attribute vec4 a_position;
 attribute vec4 a_color;
@@ -33,4 +34,7 @@ void main()
 
     // Value will be automatically interpolated to fragments inside polygon faces
     v_color = a_color;
+
+    // Set point size
+    gl_PointSize = point_size;
 }

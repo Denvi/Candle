@@ -7,6 +7,8 @@ precision mediump float;
 //Dash grid (px) = factor * pi;
 const float factor = 2.0;
 
+uniform float point_size;
+
 varying vec4 v_color;
 varying vec2 v_position;
 varying vec2 v_start;
@@ -23,6 +25,11 @@ void main()
         vec2 sub = v_position - v_start;
         float coord = length(sub.x) > length(sub.y) ? gl_FragCoord.x : gl_FragCoord.y;
         if (cos(coord / factor) > 0.0) discard;
+    }
+
+    if (point_size > 0.0) {
+        vec2 coord = gl_PointCoord.st - vec2(0.5, 0.5);
+        if (length(coord) > 0.5) discard;
     }
 
     // Set fragment color from texture

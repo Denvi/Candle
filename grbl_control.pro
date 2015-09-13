@@ -25,7 +25,7 @@ contains(QT_CONFIG, opengles.) {
     target.path = /home/pi
 }
 
-#DEFINES += sNan=\"std::numeric_limits<double>::quiet_NaN()\"
+#DEFINES += sNan=\"NAN\"
 DEFINES += sNan=\"65536\"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

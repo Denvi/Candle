@@ -17,7 +17,7 @@ void HeightMapTableModel::resize(int cols, int rows)
     for (int i = 0; i < rows; i++) {
         QVector<double> row;
         for (int j = 0; j < cols; j++) {
-            row.append(std::numeric_limits<double>::quiet_NaN());
+            row.append(NAN);
         }
         m_data.append(row);
     }

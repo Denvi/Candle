@@ -135,9 +135,9 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVecto
 */
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode)
 {
-    double x = std::numeric_limits<double>::quiet_NaN();
-    double y = std::numeric_limits<double>::quiet_NaN();
-    double z = std::numeric_limits<double>::quiet_NaN();
+    double x = NAN;
+    double y = NAN;
+    double z = NAN;
     char c;
 
     for (int i = 0; i < commandArgs.length(); i++) {
@@ -185,10 +185,10 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
 
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
-    double i = std::numeric_limits<double>::quiet_NaN();
-    double j = std::numeric_limits<double>::quiet_NaN();
-    double k = std::numeric_limits<double>::quiet_NaN();
-    double r = std::numeric_limits<double>::quiet_NaN();
+    double i = NAN;
+    double j = NAN;
+    double k = NAN;
+    double r = NAN;
     char c;
 
     foreach (QString t, commandArgs)
@@ -301,7 +301,7 @@ double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
     {
         if (t.length() > 0 && t[0].toUpper() == c) return t.mid(1).toDouble();
     }
-    return std::numeric_limits<double>::quiet_NaN();
+    return NAN;
 }
 
 //static public List<String> convertArcsToLines(Point3d start, Point3d end) {

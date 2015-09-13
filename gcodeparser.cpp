@@ -91,9 +91,9 @@ void GcodeParser::reset()
     foreach (PointSegment *ps, this->m_points) delete ps;
     this->m_points.clear();
     // The unspoken home location.
-    m_currentPoint.setX(std::numeric_limits<double>::quiet_NaN());
-    m_currentPoint.setY(std::numeric_limits<double>::quiet_NaN());
-    m_currentPoint.setZ(std::numeric_limits<double>::quiet_NaN());
+    m_currentPoint.setX(NAN);
+    m_currentPoint.setY(NAN);
+    m_currentPoint.setZ(NAN);
     this->m_points.append(new PointSegment(&this->m_currentPoint, -1));
 }
 

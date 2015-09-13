@@ -794,7 +794,7 @@ void frmMain::onSerialPortReadyRead()
                         // Get probe Z coordinate
                         // "[PRB:0.000,0.000,0.000:0];ok"
                         QRegExp rx(".*PRB:([^,]*),([^,]*),([^]^:]*)");
-                        double z = std::numeric_limits<double>::quiet_NaN();
+                        double z = NAN;
                         if (rx.indexIn(response) != -1) {
                             qDebug() << "probing coordinates:" << rx.cap(1) << rx.cap(2) << rx.cap(3);
                             z = toMetric(rx.cap(3).toDouble());
@@ -1235,7 +1235,10 @@ void frmMain::loadFile(QString fileName)
             stripped = GcodePreprocessorUtils::removeComment(command);
             args = GcodePreprocessorUtils::splitCommand(stripped);
 
-            gp.addCommand(args);
+            PointSegment *ps = gp.addCommand(args);
+            //Quantum line (if disable pointsegment check some points will have NAN number on raspberry)
+            if (ps && (std::isnan(ps->point()->x()) || std::isnan(ps->point()->y()) || std::isnan(ps->point()->z())))
+                       qDebug() << "nan point segment added:" << *ps->point();
 
             m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
             m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
@@ -2447,7 +2450,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
             double x = interpolationStepX * j + borderRect.x();
             double y = interpolationStepY * i + borderRect.y();
 
-            row.append(reset ? std::numeric_limits<double>::quiet_NaN() : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
+            row.append(reset ? NAN : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
         }
         interpolationData->append(row);
     }   
@@ -2620,15 +2623,15 @@ void frmMain::loadHeightMap(QString fileName)
     m_settingsLoading = true;
 
     // Storing previous values
-    ui->txtHeightMapBorderX->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapBorderY->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapBorderWidth->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapBorderHeight->setValue(std::numeric_limits<double>::quiet_NaN());
+    ui->txtHeightMapBorderX->setValue(NAN);
+    ui->txtHeightMapBorderY->setValue(NAN);
+    ui->txtHeightMapBorderWidth->setValue(NAN);
+    ui->txtHeightMapBorderHeight->setValue(NAN);
 
-    ui->txtHeightMapGridX->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapGridY->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapGridZBottom->setValue(std::numeric_limits<double>::quiet_NaN());
-    ui->txtHeightMapGridZTop->setValue(std::numeric_limits<double>::quiet_NaN());
+    ui->txtHeightMapGridX->setValue(NAN);
+    ui->txtHeightMapGridY->setValue(NAN);
+    ui->txtHeightMapGridZBottom->setValue(NAN);
+    ui->txtHeightMapGridZTop->setValue(NAN);
 
     QList<QString> list = textStream.readLine().split(";");
     ui->txtHeightMapBorderX->setValue(list[0].toDouble());
@@ -2743,7 +2746,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
 
-        // Update program if not cached
+        // Update heightmap-modificated program if not cached
         if (m_programHeightmapModel.rowCount() == 0) {
 
             // Modifying linesegments
@@ -2807,6 +2810,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 } else {
                     // Get command codes
         //                codes = GcodePreprocessorUtils::splitCommand(command);
+                    // from cache
                     codes = m_programModel.data(m_programModel.index(i, 5)).toStringList();
                     newCommandPrefix.clear();
 

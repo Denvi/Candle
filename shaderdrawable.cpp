@@ -1,4 +1,4 @@
-﻿//#define sNan std::numeric_limits<double>::quiet_NaN();
+﻿//#define sNan NAN;
 
 #include "shaderdrawable.h"
 
@@ -145,12 +145,17 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
 
     glLineWidth(m_lineWidth);
     glDrawArrays(GL_LINES, 0, m_lines.count());
+#ifdef GLES
+    shaderProgram->setUniformValue("point_size", (GLfloat)m_pointSize);
+#else
     glPointSize(m_pointSize);
+#endif
     glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());
 
-#ifndef GLES
+#ifndef GLES    
     m_vao.release();
 #else
+    shaderProgram->setUniformValue("point_size", (GLfloat)0.0);
     m_vbo.release();
 #endif
 }
