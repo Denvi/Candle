@@ -32,6 +32,8 @@ public:
     double simplifyPrecision() const;
     void setSimplifyPrecision(double simplifyPrecision);
 
+    bool geometryUpdated();
+
 signals:
 
 public slots:
@@ -40,6 +42,7 @@ private:
     GcodeViewParse *m_viewParser;
     bool m_simplify;
     double m_simplifyPrecision;
+    bool m_geometryUpdated;
 
     QList<int> m_indexes;
 

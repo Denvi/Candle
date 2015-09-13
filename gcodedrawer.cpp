@@ -8,17 +8,20 @@
 
 GcodeDrawer::GcodeDrawer()
 {
+    m_geometryUpdated = false;
 }
 
 void GcodeDrawer::update()
 {
+    m_indexes.clear();
+    m_geometryUpdated = false;
     ShaderDrawable::update();
 }
 
 void GcodeDrawer::update(QList<int> indexes)
 {
     // Store segments to update
-    if (indexes[0] == -1) m_indexes = indexes; else m_indexes += indexes;
+    m_indexes += indexes;
     ShaderDrawable::update();
 }
 
@@ -103,64 +106,41 @@ bool GcodeDrawer::updateData()
             }
         }
         m_indexes.clear();
+        m_geometryUpdated = true;
         return true;
     } else {
-//        qDebug() << "updating segments" << m_indexes.count();
-//        QTime time;
-//        time.start();
-
-        // Path through to update vao/vbo with updated geometry
-        if (m_indexes[0] == -1) return true;
-
         // Update vertices
         QList<LineSegment*> list = m_viewParser->getLineSegmentList();
-//        QList<int> updatedVertices; // Check each vertex be updated to slow. Updating same vertex multiple times faster.
         int vertexIndex;
 
         // Try to map vbo
         VertexData* data;
         data = (VertexData*)m_vbo.map(QOpenGLBuffer::ReadWrite); // Already binded
 
-        // Direct vbo access
-        if (data) {
-            foreach (int i, m_indexes) {
-                // Update each vertex pair only once
-                if (i < 0 || i > list.count() - 1) continue;
-                vertexIndex = list[i]->vertexIndex();
-                if (vertexIndex >= 0 /*&& !updatedVertices.contains(vertexIndex)*/) {
-    //                updatedVertices.append(vertexIndex);
-                    // Update vertex array
-                    if (data[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
-                            && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
-                    else {
-                        data[vertexIndex].color = getSegmentColor(list[i]);
-                        data[vertexIndex + 1].color = data[vertexIndex].color;
-                    }
+        // Data to update
+        VertexData *vertices;
+        vertices = data ? data : m_lines.data();
+
+        foreach (int i, m_indexes) {
+            // Update each vertex pair only once
+            if (i < 0 || i > list.count() - 1) continue;
+            vertexIndex = list[i]->vertexIndex();
+            if (vertexIndex >= 0) {
+                // Update vertex array
+                if (vertices[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
+                        && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
+                else {
+                    vertices[vertexIndex].color = getSegmentColor(list[i]);
+                    vertices[vertexIndex + 1].color = vertices[vertexIndex].color;
                 }
             }
-            m_vbo.unmap();
-            return false;
-        // Update data
-        } else {
-            foreach (int i, m_indexes) {
-                // Update each vertex pair only once
-                if (i < 0 || i > list.count() - 1) continue;
-                vertexIndex = list[i]->vertexIndex();
-                if (vertexIndex >= 0 /*&& !updatedVertices.contains(vertexIndex)*/) {
-    //                updatedVertices.append(vertexIndex);
-                    // Update vertex array
-                    if (m_lines[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
-                            && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
-                    else {
-                        m_lines[vertexIndex].color = getSegmentColor(list[i]);
-                        m_lines[vertexIndex + 1].color = m_lines[vertexIndex].color;
-                    }
-                }
-            }
-            return true;
         }
         m_indexes.clear();
-//        qDebug() << "segments updated:" << time.elapsed();
+
+        if (data) {
+            m_vbo.unmap();
+            return false; // Update only vao
+        } else return true; // Update full vbo via allocate
     }
 }
 
@@ -222,6 +202,11 @@ double GcodeDrawer::simplifyPrecision() const
 void GcodeDrawer::setSimplifyPrecision(double simplifyPrecision)
 {
     m_simplifyPrecision = simplifyPrecision;
+}
+
+bool GcodeDrawer::geometryUpdated()
+{
+    return m_geometryUpdated;
 }
 
 

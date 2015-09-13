@@ -81,7 +81,7 @@ private slots:
     void on_cmdFileOpen_clicked();        
     void on_cmdFit_clicked();
     void on_cmdFileSend_clicked();
-    void onTblProgramCellChanged(QModelIndex i1, QModelIndex i2);
+    void onTableCellChanged(QModelIndex i1, QModelIndex i2);
     void on_actServiceSettings_triggered();
     void on_actFileOpen_triggered();
     void on_cmdCommandSend_clicked();
@@ -251,6 +251,8 @@ private:
     QStringList m_recentHeightmaps;
 
     bool m_heightMapMode;
+
+    bool m_cellChanged;
 
     void loadFile(QString fileName);
     void clearTable();
