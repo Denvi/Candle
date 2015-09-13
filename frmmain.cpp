@@ -128,6 +128,7 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tblProgram->hideColumn(4);
+    ui->tblProgram->hideColumn(5);
 //    ui->tblProgram->showColumn(4);
 
     m_programLoading = false;
@@ -1175,6 +1176,9 @@ void frmMain::loadFile(QString fileName)
         return;
     }    
 
+    QTime time;
+    time.start();
+
     // Reset tables
     clearTable();
     m_probeModel.clear();
@@ -1205,7 +1209,7 @@ void frmMain::loadFile(QString fileName)
     GcodeParser gp;
     gp.setTraverseSpeed(m_rapidSpeed);
 
-    QTime time;
+    qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
 
     // Block parser updates on table changes
@@ -1220,16 +1224,27 @@ void frmMain::loadFile(QString fileName)
 //        gp.reset();
 
         QString command;
+        QString stripped;
+        QList<QString> args;
 
         while (!textStream.atEnd())
         {
             command = textStream.readLine();
 
-            gp.addCommand(command);
+            // Trim & split command
+            stripped = GcodePreprocessorUtils::removeComment(command);
+            args = GcodePreprocessorUtils::splitCommand(stripped);
+
+            gp.addCommand(args);
 
             m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
             m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
             m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+            // Store splitted args to speed up future parser updates
+            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
+
+            // Test args
+//            qDebug() << m_programModel.data(m_programModel.index(m_programModel.rowCount() - 2, 5)).toStringList();
         }
 
 //        m_viewParser.reset();
@@ -1237,7 +1252,6 @@ void frmMain::loadFile(QString fileName)
 //    }
 
     qDebug() << "model filled:" << time.elapsed();
-
     time.start();
 
     m_programLoading = false;
@@ -1544,8 +1558,25 @@ void frmMain::updateParser()
 
         ui->tblProgram->setUpdatesEnabled(false);
 
+        QString stripped;
+        QList<QString> args;
+
         for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
-            gp.addCommand(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            // Get stored args
+            args = m_currentModel->data(m_currentModel->index(i, 5)).toStringList();
+
+            // Store args if none
+            if (args.isEmpty()) {
+//                qDebug() << "updating args";
+                stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+                args = GcodePreprocessorUtils::splitCommand(stripped);
+                m_currentModel->setData(m_currentModel->index(i, 5), QVariant(args));
+            }
+
+            // Add command to parser
+            gp.addCommand(args);
+
+            // Update table model
             m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
             m_currentModel->setData(m_currentModel->index(i, 3), "");
             m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
@@ -2431,6 +2462,9 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 
     // Heightmap changed by table user input
     if (sender() == &m_heightMapModel) m_heightMapChanged = true;
+
+    // Reset heightmapped program model
+    m_programHeightmapModel.clear();
 }
 
 void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
@@ -2705,138 +2739,143 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         // Store fileChanged state
 //        fileChanged = m_fileChanged;
 
-        // Modifying linesegments
-        QList<LineSegment*> *list = m_viewParser.getLines();
-        QRectF borderRect = borderRectFromTextboxes();
-        double x, y, z;
-
-        time.start();
-
-        for (int i = 0; i < list->count(); i++) {
-            if (!list->at(i)->isZMovement()) {
-                QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
-
-                if (subSegments.count() > 0) {
-                    delete list->at(i);
-                    list->removeAt(i);
-                    foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
-                    i--;
-                }
-            }
-        }
-
-        qDebug() << "Subdivide time: " << time.elapsed();
-
-        time.start();
-
-        for (int i = 0; i < list->count(); i++) {
-            x = list->at(i)->getStart().x();
-            y = list->at(i)->getStart().y();
-            z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-            list->at(i)->setStart(QVector3D(x, y, z));
-
-            x = list->at(i)->getEnd().x();
-            y = list->at(i)->getEnd().y();
-            z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-            list->at(i)->setEnd(QVector3D(x, y, z));
-        }
-
-        qDebug() << "Z update time (interpolation): " << time.elapsed();
-
-        time.start();
-
-        // Modifying g-code program
-        int lastSegmentIndex = 0;
-        int commandIndex;
-        int lastCommandIndex = -1;
-        QString command;
-        QString newCommandPrefix;
-        QStringList codes;
-
+        // Reset table view
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
 
-        m_programLoading = true;
-        m_programHeightmapModel.clear();
-        m_programHeightmapModel.insertRow(0);
+        // Update program if not cached
+        if (m_programHeightmapModel.rowCount() == 0) {
 
-        for (int i = 0; i < m_programModel.rowCount(); i++) {
-            commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
-            command = m_programModel.data(m_programModel.index(i, 1)).toString();
+            // Modifying linesegments
+            QList<LineSegment*> *list = m_viewParser.getLines();
+            QRectF borderRect = borderRectFromTextboxes();
+            double x, y, z;
 
-            if (commandIndex < 0 || commandIndex == lastCommandIndex) {
-                m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
-            } else {
-                // Get command codes
-                codes = GcodePreprocessorUtils::splitCommand(command);
-                newCommandPrefix.clear();
+            time.start();
 
-                // Remove coordinates codes
-                foreach (QString code, codes) if (code.contains(QRegExp("[XxYyZzIiJjKkRr]+"))) codes.removeOne(code);
-                else newCommandPrefix.append(code);
+            for (int i = 0; i < list->count(); i++) {
+                if (!list->at(i)->isZMovement()) {
+                    QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
 
-                // Replace arcs with lines
-                newCommandPrefix.replace(QRegExp("[Gg]0*2|[Gg]0*3"), "G1");
-
-                // Last motion code
-                static QString lastCode;
-
-                // Find first linesegment by command index
-                for (int j = lastSegmentIndex; j < list->count(); j++) {
-                    if (list->at(j)->getLineNumber() == commandIndex) {
-
-//                        qDebug() << "Updating line:" << commandIndex << list->at(j)->getEnd().length()
-//                                 << newCommandPrefix << lastCode;
-
-                        // If command is G0 or G1
-                        if (!std::isnan(list->at(j)->getEnd().length())
-                                && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
-                                    || (!newCommandPrefix.contains(QRegExp("[Gg]|[Mm]"))
-                                        && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
-
-                            // Store motion code
-                            if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
-                            else if (newCommandPrefix.contains(QRegExp("[Gg]0*1"))) lastCode = "G1";
-
-                            // Create new commands for each linesegment with given command index
-                            while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
-                                x = list->at(j)->getEnd().x();
-                                y = list->at(j)->getEnd().y();
-                                z = list->at(j)->getEnd().z();
-
-                                if (!list->at(j)->isAbsolute()) {
-                                    x -= list->at(j)->getStart().x();
-                                    y -= list->at(j)->getStart().y();
-                                    z -= list->at(j)->getStart().z();
-                                }
-
-                                if (!list->at(j)->isMetric()) {
-                                    x /= 25.4;
-                                    y /= 25.4;
-                                    z /= 25.4;
-                                }
-
-                                m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1)
-                                                       , newCommandPrefix + QString("X%1Y%2Z%3")
-                                                       .arg(x, 0, 'f', 3)
-                                                       .arg(y, 0, 'f', 3)
-                                                       .arg(z, 0, 'f', 3));
-                                if (!newCommandPrefix.isEmpty()) newCommandPrefix.clear();
-                                j++;
-                            }
-                        // Copy original command if not G0 or G1
-                        } else {
-                            m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
-                        }
-
-                        lastSegmentIndex = j;
-                        break;
+                    if (subSegments.count() > 0) {
+                        delete list->at(i);
+                        list->removeAt(i);
+                        foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
+                        i--;
                     }
                 }
             }
-            lastCommandIndex = commandIndex;
-        }
 
+            qDebug() << "Subdivide time: " << time.elapsed();
+
+            time.start();
+
+            for (int i = 0; i < list->count(); i++) {
+                x = list->at(i)->getStart().x();
+                y = list->at(i)->getStart().y();
+                z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                list->at(i)->setStart(QVector3D(x, y, z));
+
+                x = list->at(i)->getEnd().x();
+                y = list->at(i)->getEnd().y();
+                z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                list->at(i)->setEnd(QVector3D(x, y, z));
+            }
+
+            qDebug() << "Z update time (interpolation): " << time.elapsed();
+
+            time.start();
+
+            // Modifying g-code program
+            int lastSegmentIndex = 0;
+            int commandIndex;
+            int lastCommandIndex = -1;
+            QString command;
+            QString newCommandPrefix;
+            QStringList codes;
+
+            m_programLoading = true;
+        //        m_programHeightmapModel.clear();
+            m_programHeightmapModel.insertRow(0);
+
+            for (int i = 0; i < m_programModel.rowCount(); i++) {
+                commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
+                command = m_programModel.data(m_programModel.index(i, 1)).toString();
+
+                if (commandIndex < 0 || commandIndex == lastCommandIndex) {
+                    m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
+                } else {
+                    // Get command codes
+        //                codes = GcodePreprocessorUtils::splitCommand(command);
+                    codes = m_programModel.data(m_programModel.index(i, 5)).toStringList();
+                    newCommandPrefix.clear();
+
+                    // Remove coordinates codes
+                    foreach (QString code, codes) if (code.contains(QRegExp("[XxYyZzIiJjKkRr]+"))) codes.removeOne(code);
+                    else newCommandPrefix.append(code);
+
+                    // Replace arcs with lines
+                    newCommandPrefix.replace(QRegExp("[Gg]0*2|[Gg]0*3"), "G1");
+
+                    // Last motion code
+                    static QString lastCode;
+
+                    // Find first linesegment by command index
+                    for (int j = lastSegmentIndex; j < list->count(); j++) {
+                        if (list->at(j)->getLineNumber() == commandIndex) {
+
+        //                        qDebug() << "Updating line:" << commandIndex << list->at(j)->getEnd().length()
+        //                                 << newCommandPrefix << lastCode;
+
+                            // If command is G0 or G1
+                            if (!std::isnan(list->at(j)->getEnd().length())
+                                    && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
+                                        || (!newCommandPrefix.contains(QRegExp("[Gg]|[Mm]"))
+                                            && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
+
+                                // Store motion code
+                                if (newCommandPrefix.contains(QRegExp("[Gg]0+"))) lastCode = "G0";
+                                else if (newCommandPrefix.contains(QRegExp("[Gg]0*1"))) lastCode = "G1";
+
+                                // Create new commands for each linesegment with given command index
+                                while ((j < list->count()) && (list->at(j)->getLineNumber() == commandIndex)) {
+                                    x = list->at(j)->getEnd().x();
+                                    y = list->at(j)->getEnd().y();
+                                    z = list->at(j)->getEnd().z();
+
+                                    if (!list->at(j)->isAbsolute()) {
+                                        x -= list->at(j)->getStart().x();
+                                        y -= list->at(j)->getStart().y();
+                                        z -= list->at(j)->getStart().z();
+                                    }
+
+                                    if (!list->at(j)->isMetric()) {
+                                        x /= 25.4;
+                                        y /= 25.4;
+                                        z /= 25.4;
+                                    }
+
+                                    m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1)
+                                                           , newCommandPrefix + QString("X%1Y%2Z%3")
+                                                           .arg(x, 0, 'f', 3)
+                                                           .arg(y, 0, 'f', 3)
+                                                           .arg(z, 0, 'f', 3));
+                                    if (!newCommandPrefix.isEmpty()) newCommandPrefix.clear();
+                                    j++;
+                                }
+                            // Copy original command if not G0 or G1
+                            } else {
+                                m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
+                            }
+
+                            lastSegmentIndex = j;
+                            break;
+                        }
+                    }
+                }
+                lastCommandIndex = commandIndex;
+            }
+        }
         qDebug() << "Model modification time: " << time.elapsed();
 
         ui->tblProgram->setModel(&m_programHeightmapModel);        
@@ -2855,10 +2894,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
     } else {
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
-        m_programHeightmapModel.clear();
+//        m_programHeightmapModel.clear();
 
         m_currentModel = &m_programModel;
-        ui->tblProgram->setModel(&m_programModel);        
+        ui->tblProgram->setModel(&m_programModel);
+
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
         ui->tblProgram->selectRow(0);
         ui->tblProgram->horizontalHeader()->restoreState(headerState);

@@ -14,7 +14,7 @@
 GCodeTableModel::GCodeTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    m_headers << tr("#") << tr("Command") << tr("State") << tr("Response") << tr("Line");
+    m_headers << tr("#") << tr("Command") << tr("State") << tr("Response") << tr("Line") << tr("Args");
 }
 
 QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
@@ -31,6 +31,7 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
         case 2: return m_data.at(index.row())->state;
         case 3: return m_data.at(index.row())->status;
         case 4: return m_data.at(index.row())->line;
+        case 5: return QVariant(m_data.at(index.row())->args);
         }
     }
 
@@ -54,6 +55,7 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
         case 2: m_data.at(index.row())->state = value.toString(); break;
         case 3: m_data.at(index.row())->status = value.toString(); break;
         case 4: m_data.at(index.row())->line = value.toInt(); break;
+        case 5: m_data.at(index.row())->args = value.toStringList(); break;
         }
         emit dataChanged(index, index);
         return true;
@@ -98,7 +100,7 @@ int GCodeTableModel::rowCount(const QModelIndex &parent) const
 
 int GCodeTableModel::columnCount(const QModelIndex &parent) const
 {
-    return 5;
+    return 6;
 }
 
 QVariant GCodeTableModel::headerData(int section, Qt::Orientation orientation, int role) const
