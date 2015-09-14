@@ -16,8 +16,8 @@ Downloads:
 
 In development:
 --------------
-* OpenGL ES 2.0 based visualizer.
-* Test build for embedded systems.
+* OpenGL ES 2.0 based visualizer: done.
+* Test build for embedded systems: Raspberry Pi to slow, waiting for Raspberry Pi 2 arrival.
 
 Version 0.5 release:
 --------------------
