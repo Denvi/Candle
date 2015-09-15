@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 
     QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
     QFontDatabase::addApplicationFont(":/fonts/tahoma.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
 
     QGLFormat glf = QGLFormat::defaultFormat();
     glf.setSampleBuffers(true);
@@ -33,27 +34,23 @@ int main(int argc, char *argv[])
     QString translationFileName = translationsFolder + "grblControl_" + loc + ".qm";
 
     if(QFile::exists(translationFileName)) {
-
         QTranslator* translator = new QTranslator();
-
         if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
     }
 
     QString baseTranslationFileName = translationsFolder + "qt_" + loc + ".qm";
 
     if(QFile::exists(translationFileName)) {
-
         QTranslator* baseTranslator = new QTranslator();
-
         if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
     }   
 
     a.setApplicationVersion(APP_VERSION);
 
-#ifdef UNIX
-    foreach (QString str, QStyleFactory::keys()) {
+#ifdef UNIX     
+    if (!qApp->arguments().contains("-style")) foreach (QString str, QStyleFactory::keys()) {
         qDebug() << str;
-        if (str.contains("GTK")) {
+        if (str.contains("GTK+")) {
             a.setStyle(QStyleFactory::create(str));
             break;
         }
@@ -65,14 +62,14 @@ int main(int argc, char *argv[])
     QPalette palette;
     palette.setColor(QPalette::Highlight, QColor(204, 204, 254));
     palette.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
-    qApp->setPalette(palette);
+    a.setPalette(palette);
 
-    a.setStyleSheet("QWidget {font-family: \"Tahoma\"}\
-                    QMenuBar {background-color: black; padding-top: 4px; padding-bottom: 4px;}\
-                    QMenuBar::item {spacing: 3px; padding: 1px 8px; background: transparent; color: white}\
-                    QMenuBar::item:pressed {background: darkgray; color: black;}\
+    a.setStyleSheet("QWidget {font-family: \"Ubuntu\";}\
+                    QMenuBar {background-color: #303030; padding-top: 2px; padding-bottom: 2px;}\
+                    QMenuBar::item {spacing: 3px; padding: 2px 8px; background: transparent; color: white;}\
+                    QMenuBar::item:pressed {border: 1px solid #505050; border-bottom: 1px; border-top-left-radius: 3px; border-top-right-radius: 3px; background: #404040; color: white;}\
                     QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white;}\
-                    QDialog {border: 4px solid black; padding: 8px;}");
+                    QDialog {border: 1px solid palette(mid);}");
 #endif
 
     frmMain w;

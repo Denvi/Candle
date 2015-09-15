@@ -23,6 +23,8 @@ contains(QT_CONFIG, opengles.) {
     DEFINES += GLES
     INSTALLS += target
     target.path = /home/pi
+#    QMAKE_CXXFLAGS += -mno-unaligned-access
+#    QMAKE_LFLAGS += -mno-unaligned-access
 }
 
 #DEFINES += sNan=\"NAN\"
@@ -99,9 +101,9 @@ FORMS    += frmmain.ui \
 DEFINES += _USE_MATH_DEFINES
 
 RESOURCES += \
-    res.qrc \
     fonts.qrc \
-    shaders.qrc
+    shaders.qrc \
+    images.qrc
 
 CONFIG += c++11
 

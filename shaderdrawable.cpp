@@ -100,6 +100,8 @@ bool ShaderDrawable::updateData()
         {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)},
         {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)}
     };
+
+    return true;
 }
 
 bool ShaderDrawable::needsUpdateGeometry() const

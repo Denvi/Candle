@@ -1237,6 +1237,7 @@ void frmMain::loadFile(QString fileName)
 
             PointSegment *ps = gp.addCommand(args);
             //Quantum line (if disable pointsegment check some points will have NAN number on raspberry)
+            // code alignment?
             if (ps && (std::isnan(ps->point()->x()) || std::isnan(ps->point()->y()) || std::isnan(ps->point()->z())))
                        qDebug() << "nan point segment added:" << *ps->point();
 

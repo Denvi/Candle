@@ -10,18 +10,11 @@
     <height>826</height>
    </rect>
   </property>
-  <property name="palette">
-   <palette>
-    <active/>
-    <inactive/>
-    <disabled/>
-   </palette>
-  </property>
   <property name="windowTitle">
    <string>grblControl</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="images.qrc">
     <normaloff>:/images/icon3png.png</normaloff>:/images/icon3png.png</iconset>
   </property>
   <property name="styleSheet">
@@ -104,6 +97,11 @@ QSplitter::handle:horizontal {
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);
+}
+
+QSlider::horizontal {
+	padding-top: 1px;
+	padding-bottom: 1px;
 }
 
 QSlider::groove:horizontal {
@@ -201,7 +199,7 @@ QToolButton:checked { /* all types of tool button */
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="images.qrc">
            <normaloff>:/images/cube.png</normaloff>:/images/cube.png</iconset>
          </property>
          <property name="iconSize">
@@ -246,7 +244,7 @@ QToolButton:checked { /* all types of tool button */
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="images.qrc">
            <normaloff>:/images/cubeTop.png</normaloff>:/images/cubeTop.png</iconset>
          </property>
          <property name="iconSize">
@@ -291,7 +289,7 @@ QToolButton:checked { /* all types of tool button */
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="images.qrc">
            <normaloff>:/images/cubeFront.png</normaloff>:/images/cubeFront.png</iconset>
          </property>
          <property name="iconSize">
@@ -336,7 +334,7 @@ QToolButton:checked { /* all types of tool button */
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="images.qrc">
            <normaloff>:/images/cubeLeft.png</normaloff>:/images/cubeLeft.png</iconset>
          </property>
          <property name="iconSize">
@@ -381,7 +379,7 @@ QToolButton:checked { /* all types of tool button */
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="images.qrc">
            <normaloff>:/images/fit_1.png</normaloff>:/images/fit_1.png</iconset>
          </property>
          <property name="iconSize">
@@ -1367,7 +1365,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/search_for_home2.png</normaloff>:/images/search_for_home2.png</iconset>
                </property>
                <property name="iconSize">
@@ -1393,7 +1391,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/search_for_z.png</normaloff>:/images/search_for_z.png</iconset>
                </property>
                <property name="iconSize">
@@ -1419,7 +1417,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/axis_zero.png</normaloff>:/images/axis_zero.png</iconset>
                </property>
                <property name="iconSize">
@@ -1445,7 +1443,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/zero_z.png</normaloff>:/images/zero_z.png</iconset>
                </property>
                <property name="iconSize">
@@ -1474,7 +1472,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/axis_return.png</normaloff>:/images/axis_return.png</iconset>
                </property>
                <property name="iconSize">
@@ -1500,7 +1498,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/safe_z.png</normaloff>:/images/safe_z.png</iconset>
                </property>
                <property name="iconSize">
@@ -1526,7 +1524,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
                </property>
                <property name="iconSize">
@@ -1555,7 +1553,7 @@ color: black;</string>
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/unlock.png</normaloff>:/images/unlock.png</iconset>
                </property>
                <property name="iconSize">
@@ -1599,7 +1597,7 @@ color: black;</string>
            <x>0</x>
            <y>0</y>
            <width>240</width>
-           <height>651</height>
+           <height>655</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -1808,9 +1806,6 @@ color: black;</string>
                 </property>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_12">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
                     <item>
@@ -1877,7 +1872,7 @@ color: black;</string>
                    <string>Spindle on/off</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="res.qrc">
+                   <iconset resource="images.qrc">
                     <normaloff>:/images/cutter.png</normaloff>:/images/cutter.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1941,9 +1936,6 @@ color: black;</string>
                 </property>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,1">
                     <item>
@@ -2063,7 +2055,7 @@ color: black;</string>
                      <string>...</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="res.qrc">
+                     <iconset resource="images.qrc">
                       <normaloff>:/images/1401561986_chevron-left.png</normaloff>:/images/1401561986_chevron-left.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2100,7 +2092,7 @@ color: black;</string>
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="res.qrc">
+                       <iconset resource="images.qrc">
                         <normaloff>:/images/1401562173_chevron-down.png</normaloff>:/images/1401562173_chevron-down.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2134,7 +2126,7 @@ color: black;</string>
                      <string/>
                     </property>
                     <property name="icon">
-                     <iconset resource="res.qrc">
+                     <iconset resource="images.qrc">
                       <normaloff>:/images/1401562173_chevron-right.png</normaloff>:/images/1401562173_chevron-right.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2171,7 +2163,7 @@ color: black;</string>
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="res.qrc">
+                       <iconset resource="images.qrc">
                         <normaloff>:/images/1401562173_chevron-up.png</normaloff>:/images/1401562173_chevron-up.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2311,7 +2303,7 @@ QDoubleSpinBox:focus {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="res.qrc">
+                       <iconset resource="images.qrc">
                         <normaloff>:/images/1401562699_icon-arrow-up-b.png</normaloff>:/images/1401562699_icon-arrow-up-b.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2360,7 +2352,7 @@ QDoubleSpinBox:focus {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="res.qrc">
+                       <iconset resource="images.qrc">
                         <normaloff>:/images/1401562699_icon-arrow-down-b.png</normaloff>:/images/1401562699_icon-arrow-down-b.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2606,7 +2598,7 @@ QDoubleSpinBox:focus {
                 <string>Send command</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
                </property>
                <property name="iconSize">
@@ -2623,7 +2615,7 @@ QDoubleSpinBox:focus {
                 <string>Clear console</string>
                </property>
                <property name="icon">
-                <iconset resource="res.qrc">
+                <iconset resource="images.qrc">
                  <normaloff>:/images/erase_1.png</normaloff>:/images/erase_1.png</iconset>
                </property>
                <property name="iconSize">
@@ -2842,7 +2834,7 @@ QDoubleSpinBox:focus {
   <tabstop>grpHeightMap</tabstop>
  </tabstops>
  <resources>
-  <include location="res.qrc"/>
+  <include location="images.qrc"/>
  </resources>
  <connections>
   <connection>

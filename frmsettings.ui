@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>387</width>
-    <height>548</height>
+    <width>350</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,7 +76,7 @@ QSpinBox, QDoubleSpinBox {
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="res.qrc">
+           <iconset resource="images.qrc">
             <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
           </property>
          </widget>
@@ -941,7 +941,7 @@ padding-top: 3;</string>
   <tabstop>cmdCancel</tabstop>
  </tabstops>
  <resources>
-  <include location="res.qrc"/>
+  <include location="images.qrc"/>
  </resources>
  <connections>
   <connection>
