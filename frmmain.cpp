@@ -1194,6 +1194,9 @@ void frmMain::loadFile(QString fileName)
 
     // Update interface
     ui->chkHeightMapUse->setChecked(false);
+    ui->grpHeightMap->setProperty("overrided", false);
+    style()->unpolish(ui->grpHeightMap);
+    ui->grpHeightMap->ensurePolished();
 
     // Reset tableview
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -1842,6 +1845,9 @@ void frmMain::on_actFileNew_triggered()
 
         m_programFileName = "";
         ui->chkHeightMapUse->setChecked(false);
+        ui->grpHeightMap->setProperty("overrided", false);
+        style()->unpolish(ui->grpHeightMap);
+        ui->grpHeightMap->ensurePolished();
 
         // Reset tableview
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
