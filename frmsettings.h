@@ -5,6 +5,7 @@
 #define FRMSETTINGS_H
 
 #include <QDialog>
+#include <QListWidgetItem>
 
 namespace Ui {
 class frmSettings;
@@ -69,12 +70,17 @@ public:
     double simplifyPrecision();
     void setSimplifyPrecision(double simplifyPrecision);
 
+protected:
+    void showEvent(QShowEvent *se);
+
 private slots:
+    void onScrollBarValueChanged(int value);
+
     void on_cmdRefresh_clicked();
     void on_cmdOK_clicked();
     void on_cmdCancel_clicked();
-
     void on_cboToolType_currentIndexChanged(int index);
+    void on_listCategories_currentRowChanged(int currentRow);
 
 private:
     Ui::frmSettings *ui;

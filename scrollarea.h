@@ -18,6 +18,7 @@ public:
 
     QSize sizeHint() const;
     void setWidget(QWidget *widget);
+    void updateMinimumWidth();
 
 public slots:
 

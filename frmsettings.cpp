@@ -6,19 +6,22 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
+#include <QScrollBar>
 
 frmSettings::frmSettings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::frmSettings)
 {
     ui->setupUi(this);
-
-//    foreach (QAbstractSpinBox* sb, this->findChildren<QAbstractSpinBox*>())
-//    {
-//        sb->setLocale(QLocale::C);
-//    }
-
     this->setLocale(QLocale::C);
+
+    foreach (QGroupBox *box, this->findChildren<QGroupBox*>()) {
+        ui->listCategories->addItem(box->title());
+        ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
+    }
+
+    ui->listCategories->item(0)->setSelected(true);
+    connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onScrollBarValueChanged(int)));
 
     searchPorts();
 }
@@ -26,6 +29,30 @@ frmSettings::frmSettings(QWidget *parent) :
 frmSettings::~frmSettings()
 {
     delete ui;
+}
+
+void frmSettings::on_listCategories_currentRowChanged(int currentRow)
+{
+    // Scroll to selected groupbox
+    QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(currentRow)->data(Qt::UserRole).toString());
+    if (box) {
+        ui->scrollSettings->ensureWidgetVisible(box);
+    }
+}
+
+void frmSettings::onScrollBarValueChanged(int value)
+{
+    // Search for first full visible groupbox
+    for (int i = 0; i < ui->listCategories->count(); i++) {
+        QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(i)->data(Qt::UserRole).toString());
+        if (box) {
+            if (!box->visibleRegion().isEmpty() && box->visibleRegion().boundingRect().y() == 0) {
+                // Select corresponding item in categories list
+                ui->listCategories->setCurrentRow(i);
+                return;
+            }
+        }
+    }
 }
 
 QString frmSettings::port()
@@ -276,6 +303,11 @@ double frmSettings::simplifyPrecision()
 void frmSettings::setSimplifyPrecision(double simplifyPrecision)
 {
     ui->txtSimplifyPrecision->setValue(simplifyPrecision);
+}
+
+void frmSettings::showEvent(QShowEvent *se)
+{
+    ui->scrollSettings->updateMinimumWidth();
 }
 
 void frmSettings::searchPorts()

@@ -14,8 +14,6 @@ ScrollArea::ScrollArea(QWidget *parent) : QScrollArea(parent)
     m_width = 0;
 
     connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onVerticalScrollBarValueChanged(int)));
-
-//    this->setMouseTracking(true);
 }
 
 QSize ScrollArea::sizeHint() const
@@ -30,15 +28,18 @@ QSize ScrollArea::sizeHint() const
 void ScrollArea::setWidget(QWidget *widget)
 {
     connect(static_cast<Widget*>(widget), SIGNAL(sizeChanged(QSize)), this, SLOT(onContentSizeChanged(QSize)));
+    QScrollArea::setWidget(widget);
+}
 
-    QList<GroupBox*> list = widget->findChildren<GroupBox*>();
+void ScrollArea::updateMinimumWidth()
+{
+    QList<GroupBox*> list = this->widget()->findChildren<GroupBox*>();
     foreach (GroupBox *box, list) {
         connect(box, SIGNAL(mouseMoved(int,int)), this, SLOT(onScroll(int,int)));
         connect(box, SIGNAL(mousePressed()), this, SLOT(onPressed()));
-        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left() + 4); // 1 * margin
-    }   
-
-    QScrollArea::setWidget(widget);
+        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left() + box->layout()->contentsMargins().right()); // 1 * margin
+    }
+    onContentSizeChanged(QSize());
 }
 
 void ScrollArea::resizeEvent(QResizeEvent *re)

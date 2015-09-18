@@ -38,6 +38,7 @@ frmMain::frmMain(QWidget *parent) :
 #ifndef UNIX
     ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
+    ui->scrollArea->updateMinimumWidth();
 
     ui->chkHeightMapBorderAuto->hide();
 
@@ -71,7 +72,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
 
 //    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
-    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
+//    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
 
     m_originDrawer = new OriginDrawer();
 
@@ -225,6 +226,7 @@ void frmMain::loadSettings()
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
+    m_frmSettings.resize(set.value("formSettingsSize", m_frmSettings.size()).toSize());
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
     if (splitterState.length() == 0) {
@@ -305,6 +307,7 @@ void frmMain::saveSettings()
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
     set.setValue("formGeometry", this->saveGeometry());
+    set.setValue("formSettingsSize", m_frmSettings.size());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
     set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
     set.setValue("feed", ui->txtFeed->value());

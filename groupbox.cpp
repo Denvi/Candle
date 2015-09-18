@@ -3,6 +3,7 @@
 
 #include <QMouseEvent>
 #include <QDebug>
+#include <QCheckBox>
 #include "groupbox.h"
 
 GroupBox::GroupBox(QWidget *parent) : QGroupBox(parent)
