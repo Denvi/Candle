@@ -209,7 +209,12 @@ void frmMain::loadSettings()
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
     m_frmSettings.setFps(set.value("fps", 60).toInt());
-    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());
+    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());    
+    m_frmSettings.setPanelHeightmap(set.value("panelHeightmapVisible", true).toBool());
+    m_frmSettings.setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
+    m_frmSettings.setPanelFeed(set.value("panelFeedVisible", true).toBool());
+    m_frmSettings.setPanelJog(set.value("panelJogVisible", true).toBool());
+
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
     ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
@@ -324,6 +329,10 @@ void frmMain::saveSettings()
     set.setValue("recentFiles", m_recentFiles);
     set.setValue("recentHeightmaps", m_recentHeightmaps);
     set.setValue("touchCommand", m_frmSettings.touchCommand());
+    set.setValue("panelHeightmapVisible", m_frmSettings.panelHeightmap());
+    set.setValue("panelSpindleVisible", m_frmSettings.panelSpindle());
+    set.setValue("panelFeedVisible", m_frmSettings.panelFeed());
+    set.setValue("panelJogVisible", m_frmSettings.panelJog());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -1547,6 +1556,14 @@ void frmMain::applySettings() {
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
     ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
+    ui->grpHeightMap->setVisible(m_frmSettings.panelHeightmap());
+    ui->grpSpindle->setVisible(m_frmSettings.panelSpindle());
+    ui->grpFeed->setVisible(m_frmSettings.panelFeed());
+    ui->grpJog->setVisible(m_frmSettings.panelJog());
+
+    ui->scrollArea->setVisible(m_frmSettings.panelHeightmap() || m_frmSettings.panelFeed()
+                               || m_frmSettings.panelJog() || m_frmSettings.panelSpindle());
+
     ui->cboCommand->setAutoCompletion(m_frmSettings.autoCompletion());
     m_codeDrawer->setSimplify(m_frmSettings.simplify());
     m_codeDrawer->setSimplifyPrecision(m_frmSettings.simplifyPrecision());

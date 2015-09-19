@@ -305,6 +305,46 @@ void frmSettings::setSimplifyPrecision(double simplifyPrecision)
     ui->txtSimplifyPrecision->setValue(simplifyPrecision);
 }
 
+bool frmSettings::panelHeightmap()
+{
+    return ui->chkPanelHeightmap->isChecked();
+}
+
+void frmSettings::setPanelHeightmap(bool panelHeightmap)
+{
+    ui->chkPanelHeightmap->setChecked(panelHeightmap);
+}
+
+bool frmSettings::panelSpindle()
+{
+    return ui->chkPanelSpindle->isChecked();
+}
+
+void frmSettings::setPanelSpindle(bool panelSpindle)
+{
+    ui->chkPanelSpindle->setChecked(panelSpindle);
+}
+
+bool frmSettings::panelFeed()
+{
+    return ui->chkPanelFeed->isChecked();
+}
+
+void frmSettings::setPanelFeed(bool panelFeed)
+{
+    ui->chkPanelFeed->setChecked(panelFeed);
+}
+
+bool frmSettings::panelJog()
+{
+    return ui->chkPanelJog->isChecked();
+}
+
+void frmSettings::setPanelJog(bool panelJog)
+{
+    ui->chkPanelJog->setChecked(panelJog);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     ui->scrollSettings->updateMinimumWidth();

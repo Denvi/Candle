@@ -69,6 +69,14 @@ public:
     void setSimplify(bool simplify);
     double simplifyPrecision();
     void setSimplifyPrecision(double simplifyPrecision);
+    bool panelHeightmap();
+    void setPanelHeightmap(bool panelHeightmap);
+    bool panelSpindle();
+    void setPanelSpindle(bool panelSpindle);
+    bool panelFeed();
+    void setPanelFeed(bool panelFeed);
+    bool panelJog();
+    void setPanelJog(bool panelJog);
 
 protected:
     void showEvent(QShowEvent *se);
