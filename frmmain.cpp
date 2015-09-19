@@ -375,10 +375,11 @@ bool frmMain::saveChanges(bool heightMapMode)
         else if (res == QMessageBox::Yes) {
             m_heightMapMode = true;
             on_actFileSave_triggered();
+            m_heightMapMode = heightMapMode;
+            updateRecentFilesMenu(); // Restore g-code files recent menu
         }
 
         m_fileChanged = false;
-//        m_heightMapMode = false;
     }
 
     return true;
