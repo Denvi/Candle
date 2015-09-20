@@ -100,9 +100,9 @@ QScrollArea QScrollBar::sub-line:vertical {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-572</y>
           <width>344</width>
-          <height>803</height>
+          <height>1009</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -941,6 +941,19 @@ padding-top: 3;</string>
              </widget>
             </item>
            </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="grpColors">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>200</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Colors</string>
+           </property>
           </widget>
          </item>
         </layout>
