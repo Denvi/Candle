@@ -71,7 +71,7 @@ QScrollArea QScrollBar::sub-line:vertical {
       <widget class="QListWidget" name="listCategories">
        <property name="styleSheet">
         <string notr="true">QListWidget::item {
-	height: 3ex;
+	height: 1.75em;
 }</string>
        </property>
        <property name="spacing">
@@ -100,7 +100,7 @@ QScrollArea QScrollBar::sub-line:vertical {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-366</y>
+          <y>0</y>
           <width>344</width>
           <height>803</height>
          </rect>

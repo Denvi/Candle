@@ -47,8 +47,8 @@ int main(int argc, char *argv[])
 
     a.setApplicationVersion(APP_VERSION);
 
-#ifdef UNIX     
-    if (!qApp->arguments().contains("-style")) foreach (QString str, QStyleFactory::keys()) {
+#ifdef UNIX
+    foreach (QString str, QStyleFactory::keys()) {
         qDebug() << str;
         if (str.contains("GTK+")) {
             a.setStyle(QStyleFactory::create(str));
