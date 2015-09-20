@@ -20,6 +20,9 @@ public:
     explicit frmSettings(QWidget *parent = 0);
     ~frmSettings();
 
+    int exec();
+    void undo();
+
     QString port();
     void setPort(QString port);
     int baud();
@@ -98,6 +101,11 @@ private slots:
 private:
     Ui::frmSettings *ui;
     void searchPorts();
+
+    QList<double> m_storedValues;
+    QList<bool> m_storedChecks;
+    QList<QString> m_storedCombos;
+    QList<QColor> m_storedColors;
 };
 
 #endif // FRMSETTINGS_H

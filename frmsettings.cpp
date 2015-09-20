@@ -32,6 +32,58 @@ frmSettings::~frmSettings()
     delete ui;
 }
 
+int frmSettings::exec()
+{
+    // Store settings to undo
+    m_storedValues.clear();
+    m_storedChecks.clear();
+    m_storedCombos.clear();
+    m_storedColors.clear();
+
+    foreach (QAbstractSpinBox* sb, this->findChildren<QAbstractSpinBox*>())
+    {
+        m_storedValues.append(sb->property("value").toDouble());
+    }
+
+    foreach (QAbstractButton* cb, this->findChildren<QAbstractButton*>())
+    {
+        m_storedChecks.append(cb->isChecked());
+    }
+
+    foreach (QComboBox* cb, this->findChildren<QComboBox*>())
+    {
+        m_storedCombos.append(cb->currentText());
+    }
+
+    foreach (ColorPicker* pick, this->findChildren<ColorPicker*>())
+    {
+        m_storedColors.append(pick->color());
+    }
+
+    return QDialog::exec();
+}
+
+void frmSettings::undo()
+{
+    foreach (QAbstractSpinBox* sb, this->findChildren<QAbstractSpinBox*>())
+    {
+        sb->setProperty("value", m_storedValues.takeFirst());
+    }
+
+    foreach (QAbstractButton* cb, this->findChildren<QAbstractButton*>())
+    {
+        cb->setChecked(m_storedChecks.takeFirst());
+    }
+    foreach (QComboBox* cb, this->findChildren<QComboBox*>())
+    {
+        cb->setCurrentText(m_storedCombos.takeFirst());
+    }
+    foreach (ColorPicker* pick, this->findChildren<ColorPicker*>())
+    {
+        pick->setColor(m_storedColors.takeFirst());
+    }
+}
+
 void frmSettings::on_listCategories_currentRowChanged(int currentRow)
 {
     // Scroll to selected groupbox

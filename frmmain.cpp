@@ -1486,27 +1486,6 @@ void frmMain::onTableDeleteLines()
 
 void frmMain::on_actServiceSettings_triggered()
 {
-    QList<double> storedValues;
-    QList<bool> storedChecks;
-    QList<QString> storedCombos;    
-
-    // TODO: store colors
-
-    foreach (QAbstractSpinBox* sb, m_frmSettings.findChildren<QAbstractSpinBox*>())
-    {
-        storedValues.append(sb->property("value").toDouble());
-    }
-
-    foreach (QAbstractButton* cb, m_frmSettings.findChildren<QAbstractButton*>())
-    {
-        storedChecks.append(cb->isChecked());
-    }
-
-    foreach (QComboBox* cb, m_frmSettings.findChildren<QComboBox*>())
-    {
-        storedCombos.append(cb->currentText());
-    }
-
     if (m_frmSettings.exec()) {
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_frmSettings.port() << "Baud:" << m_frmSettings.baud();
@@ -1522,19 +1501,7 @@ void frmMain::on_actServiceSettings_triggered()
         updateControlsState();
         applySettings();
     } else {
-        foreach (QAbstractSpinBox* sb, m_frmSettings.findChildren<QAbstractSpinBox*>())
-        {
-            sb->setProperty("value", storedValues.takeFirst());
-        }
-
-        foreach (QAbstractButton* cb, m_frmSettings.findChildren<QAbstractButton*>())
-        {
-            cb->setChecked(storedChecks.takeFirst());
-        }
-        foreach (QComboBox* cb, m_frmSettings.findChildren<QComboBox*>())
-        {
-            cb->setCurrentText(storedCombos.takeFirst());
-        }
+        m_frmSettings.undo();
     }
 }
 
