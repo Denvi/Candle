@@ -46,6 +46,12 @@ public:
     QColor colorDrawn() const;
     void setColorDrawn(const QColor &colorDrawn);
 
+    QColor colorStart() const;
+    void setColorStart(const QColor &colorStart);
+
+    QColor colorEnd() const;
+    void setColorEnd(const QColor &colorEnd);
+
 signals:
 
 public slots:
@@ -60,6 +66,8 @@ private:
     QColor m_colorDrawn;
     QColor m_colorHighlight;
     QColor m_colorZMovement;
+    QColor m_colorStart;
+    QColor m_colorEnd;
 
     QList<int> m_indexes;
 

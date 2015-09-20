@@ -6,8 +6,6 @@
 #include <GLES/gl.h>
 #endif
 
-#include <QTime>
-
 ShaderDrawable::ShaderDrawable()
 {
     m_needsUpdateGeometry = true;

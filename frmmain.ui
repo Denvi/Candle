@@ -2726,22 +2726,6 @@ QDoubleSpinBox:focus {
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>StyledToolButton</class>
-   <extends>QToolButton</extends>
-   <header>styledtoolbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>GLWidget</class>
-   <extends>QWidget</extends>
-   <header>glwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ComboBox</class>
-   <extends>QComboBox</extends>
-   <header>combobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>ScrollArea</class>
    <extends>QScrollArea</extends>
    <header>scrollarea.h</header>
@@ -2758,6 +2742,22 @@ QDoubleSpinBox:focus {
    <extends>QGroupBox</extends>
    <header>groupbox.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StyledToolButton</class>
+   <extends>QToolButton</extends>
+   <header>styledtoolbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GLWidget</class>
+   <extends>QWidget</extends>
+   <header>glwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>combobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -1534,6 +1534,8 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
     ui->glwVisualizer->setFps(m_frmSettings.fps());
+    ui->glwVisualizer->setColorBackground(m_frmSettings.colors("VisualizerBackground"));
+    ui->glwVisualizer->setColorText(m_frmSettings.colors("VisualizerText"));
 
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
@@ -1556,6 +1558,9 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorDrawn(m_frmSettings.colors("ToolpathDrawn"));
     m_codeDrawer->setColorHighlight(m_frmSettings.colors("ToolpathHighlight"));
     m_codeDrawer->setColorZMovement(m_frmSettings.colors("ToolpathZMovement"));
+    m_codeDrawer->setColorStart(m_frmSettings.colors("ToolpathStart"));
+    m_codeDrawer->setColorEnd(m_frmSettings.colors("ToolpathEnd"));
+
     m_codeDrawer->update();
 }
 

@@ -484,8 +484,14 @@ void frmSettings::on_cmdDefaults_clicked()
     setPanelSpindle(true);
 
     ui->clpTool->setColor(QColor(255, 153, 0));
+
+    ui->clpVisualizerBackground->setColor(QColor(255, 255, 255));
+    ui->clpVisualizerText->setColor(QColor(0, 0, 0));
+
     ui->clpToolpathNormal->setColor(QColor(0, 0, 0));
     ui->clpToolpathDrawn->setColor(QColor(217, 217, 217));
     ui->clpToolpathHighlight->setColor(QColor(145, 130, 230));
     ui->clpToolpathZMovement->setColor(QColor(255, 0, 0));
+    ui->clpToolpathStart->setColor(QColor(255, 0, 0));
+    ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
 }

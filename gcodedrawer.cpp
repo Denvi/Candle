@@ -49,7 +49,7 @@ bool GcodeDrawer::updateData()
                 if (std::isnan(list->at(i)->getEnd().x()) || std::isnan(list->at(i)->getEnd().y())) continue;
 
                 // Draw first toolpath point
-                vertex.color = /*list->at(i)->drawn() ? QVector3D(0.85, 0.85, 0.85) : */QVector3D(1.0, 0.0, 0.0);
+                vertex.color = Util::colorToVector(m_colorStart);
                 vertex.position = list->at(i)->getEnd();
                 vertex.start = QVector3D(sNan, sNan, sNan);
                 m_points.append(vertex);
@@ -99,7 +99,7 @@ bool GcodeDrawer::updateData()
 
             // Draw last toolpath point
             if (i == list->count() - 1) {
-                vertex.color = /*list->at(i)->drawn() ? QVector3D(0.85, 0.85, 0.85) : */QVector3D(0.0, 1.0, 0.0);
+                vertex.color = Util::colorToVector(m_colorEnd);
                 vertex.position = list->at(i)->getEnd();
                 vertex.start = QVector3D(sNan, sNan, sNan);
                 m_points.append(vertex);
@@ -251,6 +251,26 @@ void GcodeDrawer::setColorDrawn(const QColor &colorDrawn)
 {
     m_colorDrawn = colorDrawn;
 }
+QColor GcodeDrawer::colorStart() const
+{
+    return m_colorStart;
+}
+
+void GcodeDrawer::setColorStart(const QColor &colorStart)
+{
+    m_colorStart = colorStart;
+}
+QColor GcodeDrawer::colorEnd() const
+{
+    return m_colorEnd;
+}
+
+void GcodeDrawer::setColorEnd(const QColor &colorEnd)
+{
+    m_colorEnd = colorEnd;
+}
+
+
 
 
 

@@ -62,6 +62,12 @@ public:
     bool msaa() const;
     void setMsaa(bool msaa);
 
+    QColor colorBackground() const;
+    void setColorBackground(const QColor &colorBackground);
+
+    QColor colorText() const;
+    void setColorText(const QColor &colorText);
+
 signals:
     void rotationChanged();
     void resized();
@@ -90,7 +96,6 @@ private:
     int m_animationFrame;
     QTime m_spendTime;
     QTime m_estimatedTime;    
-//    QTimer m_changeViewTimer;
     QBasicTimer m_timerAnimation;
     double m_xRotTarget, m_yRotTarget;
     double m_xRotStored, m_yRotStored;
@@ -108,6 +113,9 @@ private:
     QOpenGLShaderProgram *m_shaderProgram;
     QMatrix4x4 m_projectionMatrix;
     QMatrix4x4 m_viewMatrix;
+
+    QColor m_colorBackground;
+    QColor m_colorText;
 
 protected:
     void initializeGL();

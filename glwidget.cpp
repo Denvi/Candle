@@ -272,6 +272,26 @@ void GLWidget::beginViewAnimation() {
 void GLWidget::stopViewAnimation() {
     m_animateView = false;
 }
+QColor GLWidget::colorText() const
+{
+    return m_colorText;
+}
+
+void GLWidget::setColorText(const QColor &colorText)
+{
+    m_colorText = colorText;
+}
+
+QColor GLWidget::colorBackground() const
+{
+    return m_colorBackground;
+}
+
+void GLWidget::setColorBackground(const QColor &colorBackground)
+{
+    m_colorBackground = colorBackground;
+}
+
 
 void GLWidget::setFps(int fps)
 {
@@ -307,14 +327,12 @@ void GLWidget::initializeGL()
 
     if (m_shaderProgram) {
         // Compile vertex shader
-        qDebug() << m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vshader.glsl");
+        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vshader.glsl");
         // Compile fragment shader
-        qDebug() << m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fshader.glsl");
+        m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fshader.glsl");
         // Link shader pipeline
-        qDebug() << m_shaderProgram->link();
+        m_shaderProgram->link();
         qDebug() << "shader program created";
-    } else {
-        qDebug() << "error creating shader program";
     }
 }
 
@@ -370,7 +388,7 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     painter.beginNativePainting();
 
     // Clear viewport
-    glClearColor(1.0, 1.0, 1.0, 1);
+    glClearColor(m_colorBackground.redF(), m_colorBackground.greenF(), m_colorBackground.blueF(), 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Update settings
@@ -417,6 +435,9 @@ void GLWidget::paintEvent(QPaintEvent *pe)
     glDisable(GL_BLEND);
 
     painter.endNativePainting();
+
+    QPen pen(m_colorText);
+    painter.setPen(pen);
 
     double x = 10;
     double y = this->height() - 60;
