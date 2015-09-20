@@ -1271,17 +1271,16 @@ QToolButton:checked { /* all types of tool button */
                 <bool>false</bool>
                </property>
                <property name="styleSheet">
-                <string notr="true">/*border: 1px solid lightgray;*/
-color: black;</string>
-               </property>
-               <property name="text">
-                <string>Not connected</string>
+                <string notr="true">QLineEdit {color: palette(text);}</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
+               </property>
+               <property name="status" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>

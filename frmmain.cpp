@@ -416,6 +416,7 @@ void frmMain::updateControlsState() {
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
     if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
+    ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 
     this->setWindowTitle(m_programFileName.isEmpty() ? "grblControl"
                                                      : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - grblControl");
@@ -443,13 +444,10 @@ void frmMain::updateControlsState() {
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
-    if (m_heightMapMode) {
-        ui->grpProgram->setTitle(tr("Heightmap"));
-        ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: red;}");
-    } else {
-        ui->grpProgram->setTitle(tr("G-code program"));
-        ui->grpProgram->setStyleSheet("QGroupBox#grpProgram::title {color: palette(text);}");
-    }
+    ui->grpProgram->setTitle(m_heightMapMode ? tr("Heightmap") : tr("G-code program"));
+    ui->grpProgram->setProperty("overrided", m_heightMapMode);
+    style()->unpolish(ui->grpProgram);
+    ui->grpProgram->ensurePolished();
 
     ui->grpHeightMapSettings->setVisible(m_heightMapMode);
     ui->grpHeightMapSettings->setEnabled(!m_transferringFile);
@@ -472,6 +470,7 @@ void frmMain::openPort()
 {
     if (m_serialPort.open(QIODevice::ReadWrite)) {
         ui->txtStatus->setText(tr("Connected"));
+        ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 //        updateControlsState();
         grblReset();
     }
