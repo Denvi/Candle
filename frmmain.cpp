@@ -272,6 +272,10 @@ void frmMain::loadSettings()
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
 
+    foreach (ColorPicker* pick, m_frmSettings.colors()) {
+        pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
+    }
+
     updateRecentFilesMenu();   
 
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
@@ -351,6 +355,10 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
+
+    foreach (ColorPicker* pick, m_frmSettings.colors()) {
+        set.setValue(pick->objectName().mid(3), pick->color().name());
+    }
 
     QStringList list;
 
@@ -1480,7 +1488,9 @@ void frmMain::on_actServiceSettings_triggered()
 {
     QList<double> storedValues;
     QList<bool> storedChecks;
-    QList<QString> storedCombos;
+    QList<QString> storedCombos;    
+
+    // TODO: store colors
 
     foreach (QAbstractSpinBox* sb, m_frmSettings.findChildren<QAbstractSpinBox*>())
     {
@@ -1548,15 +1558,21 @@ void frmMain::applySettings() {
     m_safeZ = m_frmSettings.safeZ();
     m_rapidSpeed = m_frmSettings.rapidSpeed();
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
+
     m_toolDrawer.setToolAngle(m_frmSettings.toolType() == 0 ? 180 : m_frmSettings.toolAngle());
+    m_toolDrawer.setColor(m_frmSettings.colors("Tool"));
+    m_toolDrawer.update();
+
     ui->glwVisualizer->setAntialiasing(m_frmSettings.antialiasing());
     ui->glwVisualizer->setMsaa(m_frmSettings.msaa());
     ui->glwVisualizer->setZBuffer(m_frmSettings.zBuffer());
     ui->glwVisualizer->setFps(m_frmSettings.fps());
+
     ui->txtSpindleSpeed->setMinimum(m_frmSettings.spindleSpeedMin());
     ui->txtSpindleSpeed->setMaximum(m_frmSettings.spindleSpeedMax());
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
     ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
+
     ui->grpHeightMap->setVisible(m_frmSettings.panelHeightmap());
     ui->grpSpindle->setVisible(m_frmSettings.panelSpindle());
     ui->grpFeed->setVisible(m_frmSettings.panelFeed());
@@ -1566,8 +1582,13 @@ void frmMain::applySettings() {
                                || m_frmSettings.panelJog() || m_frmSettings.panelSpindle());
 
     ui->cboCommand->setAutoCompletion(m_frmSettings.autoCompletion());
+
     m_codeDrawer->setSimplify(m_frmSettings.simplify());
     m_codeDrawer->setSimplifyPrecision(m_frmSettings.simplifyPrecision());
+    m_codeDrawer->setColorNormal(m_frmSettings.colors("ToolpathNormal"));
+    m_codeDrawer->setColorDrawn(m_frmSettings.colors("ToolpathDrawn"));
+    m_codeDrawer->setColorHighlight(m_frmSettings.colors("ToolpathHighlight"));
+    m_codeDrawer->setColorZMovement(m_frmSettings.colors("ToolpathZMovement"));
     m_codeDrawer->update();
 }
 

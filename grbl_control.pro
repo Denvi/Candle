@@ -64,7 +64,8 @@ SOURCES += main.cpp\
     widget.cpp \
     groupbox.cpp \
     shaderdrawable.cpp \
-    origindrawer.cpp
+    origindrawer.cpp \
+    colorpicker.cpp
 
 HEADERS  += frmmain.h \
     glwidget.h \
@@ -92,7 +93,8 @@ HEADERS  += frmmain.h \
     widget.h \
     groupbox.h \
     shaderdrawable.h \
-    origindrawer.h
+    origindrawer.h \
+    colorpicker.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

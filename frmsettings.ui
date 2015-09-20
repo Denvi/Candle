@@ -100,9 +100,9 @@ QScrollArea QScrollBar::sub-line:vertical {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-572</y>
+          <y>-486</y>
           <width>344</width>
-          <height>1009</height>
+          <height>923</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -945,15 +945,72 @@ padding-top: 3;</string>
          </item>
          <item>
           <widget class="GroupBox" name="grpColors">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>200</height>
-            </size>
-           </property>
            <property name="title">
             <string>Colors</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_6" columnstretch="0,0,0,0">
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>Normal:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Toolpath</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Drawn:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="ColorPicker" name="clpTool" native="true"/>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string>Tool:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_25">
+                <property name="text">
+                 <string>Highlight:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="ColorPicker" name="clpToolpathNormal" native="true"/>
+              </item>
+              <item row="3" column="1">
+               <widget class="ColorPicker" name="clpToolpathHighlight" native="true"/>
+              </item>
+              <item row="2" column="3">
+               <widget class="ColorPicker" name="clpToolpathDrawn" native="true"/>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>Z-movement:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="ColorPicker" name="clpToolpathZMovement" native="true"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -964,6 +1021,13 @@ padding-top: 3;</string>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="cmdDefaults">
+       <property name="text">
+        <string>Set to defaults</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -1012,6 +1076,12 @@ padding-top: 3;</string>
    <class>GroupBox</class>
    <extends>QGroupBox</extends>
    <header>groupbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QWidget</extends>
+   <header>colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

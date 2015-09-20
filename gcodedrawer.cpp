@@ -121,14 +121,19 @@ bool GcodeDrawer::updateData()
         VertexData *vertices;
         vertices = data ? data : m_lines.data();
 
+        // Prepare colors
+        QVector3D drawnColor = Util::colorToVector(m_colorDrawn);
+        QVector3D highlightColor = Util::colorToVector(m_colorHighlight);
+
+        // Update vertices for each line segment
         foreach (int i, m_indexes) {
-            // Update each vertex pair only once
+            // Update vertex pair
             if (i < 0 || i > list.count() - 1) continue;
             vertexIndex = list[i]->vertexIndex();
             if (vertexIndex >= 0) {
                 // Update vertex array
-                if (vertices[vertexIndex].color == QVector3D(0.85, 0.85, 0.85) // If vertex of drawn segment
-                        && getSegmentColor(list[i]) == QVector3D(0.57, 0.51, 0.9)); // dont highlight
+                if (vertices[vertexIndex].color == drawnColor // If vertex of drawn segment
+                        && getSegmentColor(list[i]) == highlightColor); // dont highlight
                 else {
                     vertices[vertexIndex].color = getSegmentColor(list[i]);
                     vertices[vertexIndex + 1].color = vertices[vertexIndex].color;
@@ -146,11 +151,11 @@ bool GcodeDrawer::updateData()
 
 QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
 {
-    if (segment->drawn()) return QVector3D(0.85, 0.85, 0.85);
-    else if (segment->isHightlight()) return QVector3D(0.57, 0.51, 0.9);
-    else if (segment->isFastTraverse()) return QVector3D(0.0, 0.0, 0.0);
-    else if (segment->isZMovement()) return QVector3D(1.0, 0.0, 0.0);
-    else return QVector3D(0.0, 0.0, 0.0);
+    if (segment->drawn()) return Util::colorToVector(m_colorDrawn);//QVector3D(0.85, 0.85, 0.85);
+    else if (segment->isHightlight()) return Util::colorToVector(m_colorHighlight);//QVector3D(0.57, 0.51, 0.9);
+    else if (segment->isFastTraverse()) return Util::colorToVector(m_colorNormal);// QVector3D(0.0, 0.0, 0.0);
+    else if (segment->isZMovement()) return Util::colorToVector(m_colorZMovement);//QVector3D(1.0, 0.0, 0.0);
+    else return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);
 }
 
 int GcodeDrawer::getSegmentType(LineSegment* segment)
@@ -208,5 +213,48 @@ bool GcodeDrawer::geometryUpdated()
 {
     return m_geometryUpdated;
 }
+QColor GcodeDrawer::colorNormal() const
+{
+    return m_colorNormal;
+}
+
+void GcodeDrawer::setColorNormal(const QColor &colorNormal)
+{
+    m_colorNormal = colorNormal;
+}
+
+QColor GcodeDrawer::colorHighlight() const
+{
+    return m_colorHighlight;
+}
+
+void GcodeDrawer::setColorHighlight(const QColor &colorHighlight)
+{
+    m_colorHighlight = colorHighlight;
+}
+QColor GcodeDrawer::colorZMovement() const
+{
+    return m_colorZMovement;
+}
+
+void GcodeDrawer::setColorZMovement(const QColor &colorZMovement)
+{
+    m_colorZMovement = colorZMovement;
+}
+
+QColor GcodeDrawer::colorDrawn() const
+{
+    return m_colorDrawn;
+}
+
+void GcodeDrawer::setColorDrawn(const QColor &colorDrawn)
+{
+    m_colorDrawn = colorDrawn;
+}
+
+
+
+
+
 
 

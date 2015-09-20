@@ -7,6 +7,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 #include <QScrollBar>
+#include <QColorDialog>
 
 frmSettings::frmSettings(QWidget *parent) :
     QDialog(parent),
@@ -345,6 +346,17 @@ void frmSettings::setPanelJog(bool panelJog)
     ui->chkPanelJog->setChecked(panelJog);
 }
 
+QList<ColorPicker *> frmSettings::colors()
+{
+    return this->findChildren<ColorPicker*>();
+}
+
+QColor frmSettings::colors(QString name)
+{
+    ColorPicker *pick = this->findChildren<ColorPicker*>("clp" + name).at(0);
+    if (pick) return pick->color(); else return QColor();
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     ui->scrollSettings->updateMinimumWidth();
@@ -379,4 +391,49 @@ void frmSettings::on_cboToolType_currentIndexChanged(int index)
 {
     ui->lblToolAngle->setEnabled(index == 1);
     ui->txtToolAngle->setEnabled(index == 1);
+}
+
+void frmSettings::on_cmdDefaults_clicked()
+{
+    setPort("");
+    setBaud(115200);
+
+    setQueryStateTime(40);
+    setSafeZ(10.0);
+    setRapidSpeed(2000);
+    setAcceleration(100);
+    setSpindleSpeedMin(0);
+    setSpindleSpeedMax(10000);
+    setTouchCommand("");
+    setHeightmapProbingFeed(10);
+    setUnits(0);
+
+    setArcPrecision(0.0);
+
+    setLineWidth(1.5);
+    setAntialiasing(true);
+    setMsaa(true);
+    setSimplify(true);
+    setSimplifyPrecision(0.0);
+    setFps(60);
+    setZBuffer(false);
+
+    setToolType(1);
+    setToolAngle(15.0);
+    setToolDiameter(3.0);
+    setToolLength(30.0);
+
+    setShowAllCommands(false);
+    setAutoCompletion(true);
+
+    setPanelFeed(true);
+    setPanelHeightmap(true);
+    setPanelJog(true);
+    setPanelSpindle(true);
+
+    ui->clpTool->setColor(QColor(255, 153, 0));
+    ui->clpToolpathNormal->setColor(QColor(0, 0, 0));
+    ui->clpToolpathDrawn->setColor(QColor(217, 217, 217));
+    ui->clpToolpathHighlight->setColor(QColor(145, 130, 230));
+    ui->clpToolpathZMovement->setColor(QColor(255, 0, 0));
 }

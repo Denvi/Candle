@@ -34,6 +34,18 @@ public:
 
     bool geometryUpdated();
 
+    QColor colorNormal() const;
+    void setColorNormal(const QColor &colorNormal);
+
+    QColor colorHighlight() const;
+    void setColorHighlight(const QColor &colorHighlight);
+
+    QColor colorZMovement() const;
+    void setColorZMovement(const QColor &colorZMovement);
+
+    QColor colorDrawn() const;
+    void setColorDrawn(const QColor &colorDrawn);
+
 signals:
 
 public slots:
@@ -43,6 +55,11 @@ private:
     bool m_simplify;
     double m_simplifyPrecision;
     bool m_geometryUpdated;
+
+    QColor m_colorNormal;
+    QColor m_colorDrawn;
+    QColor m_colorHighlight;
+    QColor m_colorZMovement;
 
     QList<int> m_indexes;
 

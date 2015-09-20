@@ -22,7 +22,7 @@ bool ToolDrawer::updateData()
 
     // Prepare vertex
     VertexData vertex;
-    vertex.color = QVector3D(1.0, 0.6, 0.0);
+    vertex.color = Util::colorToVector(m_color);//QVector3D(1.0, 0.6, 0.0);
     vertex.start = QVector3D(sNan, sNan, sNan);
 
     // Draw lines
@@ -64,6 +64,16 @@ bool ToolDrawer::updateData()
 
     return true;
 }
+QColor ToolDrawer::color() const
+{
+    return m_color;
+}
+
+void ToolDrawer::setColor(const QColor &color)
+{
+    m_color = color;
+}
+
 
 QVector<VertexData> ToolDrawer::createCircle(QVector3D center, double radius, int arcs, QVector3D color)
 {

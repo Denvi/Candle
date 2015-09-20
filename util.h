@@ -4,6 +4,9 @@
 #ifndef UTIL
 #define UTIL
 
+#include <QColor>
+#include <QVector3D>
+
 class Util
 {
 public:
@@ -21,6 +24,11 @@ public:
         else if (!std::isnan(v1)) return v1;
         else if (!std::isnan(v2)) return v2;
         else return NAN;
+    }
+
+    static QVector3D colorToVector(QColor color)
+    {
+        return QVector3D(color.redF(), color.greenF(), color.blueF());
     }
 };
 

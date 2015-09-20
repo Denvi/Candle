@@ -6,6 +6,7 @@
 
 #include <QDialog>
 #include <QListWidgetItem>
+#include "colorpicker.h"
 
 namespace Ui {
 class frmSettings;
@@ -77,6 +78,8 @@ public:
     void setPanelFeed(bool panelFeed);
     bool panelJog();
     void setPanelJog(bool panelJog);
+    QList<ColorPicker*> colors();
+    QColor colors(QString name);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -89,6 +92,8 @@ private slots:
     void on_cmdCancel_clicked();
     void on_cboToolType_currentIndexChanged(int index);
     void on_listCategories_currentRowChanged(int currentRow);
+
+    void on_cmdDefaults_clicked();
 
 private:
     Ui::frmSettings *ui;
