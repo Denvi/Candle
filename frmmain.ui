@@ -22,26 +22,6 @@
 	font-size: 9pt;
 }
 
-QScrollArea#scrollArea QScrollBar:vertical {
-/*	background-color: transparent;*/
-	border: none;
-    width: 2px;
-	padding-top: 8px;
-}
-QScrollArea#scrollArea QScrollBar::handle:vertical {
-    background: darkgray;
-}
-QScrollArea#scrollArea QScrollBar::add-line:vertical {
-	border: none;
-    background: none;
-    height: 0px;
-}
-QScrollArea#scrollArea QScrollBar::sub-line:vertical {
-    border: none;
-    background: none;
-    height: 0px;
-}
-
 QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
 	padding-bottom: 1px;
@@ -669,16 +649,6 @@ QToolButton:checked { /* all types of tool button */
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_18">
-              <item>
-               <widget class="QCheckBox" name="chkHeightMapBorderAuto">
-                <property name="text">
-                 <string>Auto</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
               <item>
                <widget class="QCheckBox" name="chkHeightMapBorderShow">
                 <property name="text">
@@ -1587,6 +1557,9 @@ color: black;</string>
         </property>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
         </property>
         <property name="widgetResizable">
          <bool>true</bool>
@@ -2778,7 +2751,6 @@ QDoubleSpinBox:focus {
   <tabstop>txtHeightMapBorderY</tabstop>
   <tabstop>txtHeightMapBorderWidth</tabstop>
   <tabstop>txtHeightMapBorderHeight</tabstop>
-  <tabstop>chkHeightMapBorderAuto</tabstop>
   <tabstop>chkHeightMapBorderShow</tabstop>
   <tabstop>cmdHeightMapBorderAuto</tabstop>
   <tabstop>txtHeightMapGridX</tabstop>
@@ -2837,70 +2809,6 @@ QDoubleSpinBox:focus {
   <include location="images.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>chkHeightMapBorderAuto</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtHeightMapBorderX</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>79</x>
-     <y>1080</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>129</x>
-     <y>1027</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkHeightMapBorderAuto</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtHeightMapBorderY</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>79</x>
-     <y>1080</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>230</x>
-     <y>1027</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkHeightMapBorderAuto</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtHeightMapBorderWidth</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>79</x>
-     <y>1080</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>129</x>
-     <y>1053</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkHeightMapBorderAuto</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtHeightMapBorderHeight</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>79</x>
-     <y>1080</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>230</x>
-     <y>1053</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>chkKeyboardControl</sender>
    <signal>toggled(bool)</signal>

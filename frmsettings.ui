@@ -27,26 +27,6 @@ QGroupBox {
 	border: none;
 	padding-top: 16;
 	font-weight: bold;
-}
-
-QScrollArea QScrollBar:vertical {
-/*	background-color: transparent;*/
-	border: none;
-    width: 2px;
-	padding-top: 8px;
-}
-QScrollArea QScrollBar::handle:vertical {
-    background: darkgray;
-}
-QScrollArea QScrollBar::add-line:vertical {
-	border: none;
-    background: none;
-    height: 0px;
-}
-QScrollArea QScrollBar::sub-line:vertical {
-    border: none;
-    background: none;
-    height: 0px;
 }</string>
   </property>
   <property name="modal">
@@ -90,6 +70,9 @@ QScrollArea QScrollBar::sub-line:vertical {
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
        <property name="horizontalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
@@ -100,7 +83,7 @@ QScrollArea QScrollBar::sub-line:vertical {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-528</y>
+          <y>0</y>
           <width>344</width>
           <height>986</height>
          </rect>

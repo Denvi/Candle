@@ -127,7 +127,6 @@ private slots:
     void on_actRecentClear_triggered();
     void on_sliSpindleSpeed_sliderReleased();
     void on_grpHeightMap_toggled(bool arg1);
-    void on_chkHeightMapBorderAuto_toggled(bool checked);
     void on_chkHeightMapBorderShow_toggled(bool checked);
     void on_txtHeightMapBorderX_valueChanged(double arg1);
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);

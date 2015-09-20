@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     foreach (QString str, QStyleFactory::keys()) {
         qDebug() << str;
         if (str.contains("GTK+")) {
-            a.setStyle(QStyleFactory::create(str));
+//            a.setStyle(QStyleFactory::create(str));
             break;
         }
     }

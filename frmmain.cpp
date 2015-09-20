@@ -40,13 +40,11 @@ frmMain::frmMain(QWidget *parent) :
 #endif
     ui->scrollArea->updateMinimumWidth();
 
-    ui->chkHeightMapBorderAuto->hide();
-
     m_heightMapMode = false;
     m_lastDrawnLineIndex = 0;
     m_fileProcessedCommandIndex = 0;
     m_cellChanged = false;
-
+    m_programLoading = false;
     m_currentModel = &m_programModel;
 
     ui->txtJogStep->setLocale(QLocale::C);
@@ -69,29 +67,17 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
-    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
-
-//    m_frmSettings.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
-//    m_frmSettings.layout()->setSizeConstraint(QLayout::SetFixedSize);
+    connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
     m_originDrawer = new OriginDrawer();
-
     m_codeDrawer = new GcodeDrawer();
     m_codeDrawer->setViewParser(&m_viewParser);
-//    m_codeDrawer->setObjectName("codeDrawer");
-
     m_probeDrawer = new GcodeDrawer();
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
-
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
-
     m_currentDrawer = m_codeDrawer;
-
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
-
-    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
-    loadSettings();
 
     foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
     {
@@ -126,43 +112,41 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
     ui->tblProgram->setModel(&m_programModel);
-
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tblProgram->hideColumn(4);
     ui->tblProgram->hideColumn(5);
 //    ui->tblProgram->showColumn(4);
-
-    m_programLoading = false;
+    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
     clearTable();
 
+    // Loading settings
+    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
+    loadSettings();
+
+    // Setup serial port
     m_serialPort.setParity(QSerialPort::NoParity);
     m_serialPort.setDataBits(QSerialPort::Data8);
     m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort.setStopBits(QSerialPort::OneStop);
-
     if (m_frmSettings.port() != "") {
         m_serialPort.setPortName(m_frmSettings.port());
         m_serialPort.setBaudRate(m_frmSettings.baud());
     }
-
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()));
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
-    connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
-    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
-
-    connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
-
+    // Apply settings
+    show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
 
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
 
+    connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
+    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
-
-//    ui->glwVisualizer->setVisible(false);
 }
 
 frmMain::~frmMain()
@@ -209,7 +193,8 @@ void frmMain::loadSettings()
     m_frmSettings.setToolAngle(set.value("toolAngle", 0).toDouble());
     m_frmSettings.setToolType(set.value("toolType", 0).toInt());
     m_frmSettings.setFps(set.value("fps", 60).toInt());
-    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());    
+    m_frmSettings.setQueryStateTime(set.value("queryStateTime", 250).toInt());
+
     m_frmSettings.setPanelHeightmap(set.value("panelHeightmapVisible", true).toBool());
     m_frmSettings.setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
     m_frmSettings.setPanelFeed(set.value("panelFeedVisible", true).toBool());
@@ -246,6 +231,7 @@ void frmMain::loadSettings()
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
+
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
 
     ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
@@ -258,7 +244,6 @@ void frmMain::loadSettings()
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
     ui->txtHeightMapBorderWidth->setValue(set.value("heightmapBorderWidth", 1).toDouble());
     ui->txtHeightMapBorderHeight->setValue(set.value("heightmapBorderHeight", 1).toDouble());
-    ui->chkHeightMapBorderAuto->setChecked(set.value("heightmapBorderAuto", false).toBool());
     ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", false).toBool());
 
     ui->txtHeightMapGridX->setValue(set.value("heightmapGridX", 1).toDouble());
@@ -342,7 +327,6 @@ void frmMain::saveSettings()
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
     set.setValue("heightmapBorderWidth", ui->txtHeightMapBorderWidth->value());
     set.setValue("heightmapBorderHeight", ui->txtHeightMapBorderHeight->value());
-    set.setValue("heightmapBorderAuto", ui->chkHeightMapBorderAuto->isChecked());
     set.setValue("heightmapBorderShow", ui->chkHeightMapBorderShow->isChecked());
 
     set.setValue("heightmapGridX", ui->txtHeightMapGridX->value());
@@ -2335,20 +2319,6 @@ QRectF frmMain::borderRectFromExtremes()
     rect.setHeight(m_codeDrawer->getSizes().y());
 
     return rect;
-}
-
-void frmMain::on_chkHeightMapBorderAuto_toggled(bool checked)
-{
-    if (checked) {
-//        QRectF rect = borderRectFromExtremes();
-
-//        if (!std::isnan(rect.width()) && !std::isnan(rect.height())) {
-//            ui->txtHeightMapBorderX->setValue(rect.x());
-//            ui->txtHeightMapBorderY->setValue(rect.y());
-//            ui->txtHeightMapBorderWidth->setValue(rect.width());
-//            ui->txtHeightMapBorderHeight->setValue(rect.height());
-//        }
-    }
 }
 
 void frmMain::updateHeightMapBorderDrawer()
