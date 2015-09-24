@@ -1269,11 +1269,11 @@ void frmMain::loadFile(QString fileName)
 
     // Set table model
     ui->tblProgram->setModel(&m_programModel);
+    ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
     // Update tableview
     connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     ui->tblProgram->selectRow(0);
-    ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
     qDebug() << "view parser filled:" << time.elapsed();
 
@@ -1381,11 +1381,19 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
     } /*else if (i1.row() != (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() == "") {
         ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
         m_tableModel.removeRow(i1.row());
-    }*/
-
-    updateParser();
+    }*/   
 
     if (!m_programLoading) {
+
+        // Clear cached args
+        model->setData(model->index(i1.row(), 5), QVariant());
+
+        // Drop heightmap cache
+        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+
+        // Update visualizer
+        updateParser();
+
         // Hightlight w/o current cell changed event (double hightlight on current cell changed)
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
         for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(i1.row(), 4)).toInt(); i++) {
@@ -1461,6 +1469,9 @@ void frmMain::onTableDeleteLines()
     for (int i = 0; i < rowsCount && firstRow.row() != m_currentModel->rowCount() - 1; i++) {
         m_currentModel->removeRow(firstRow.row());
     }
+
+    // Drop heightmap cache
+    if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
     updateParser();
     m_cellChanged = true;
@@ -1549,56 +1560,54 @@ void frmMain::applySettings() {
 
 void frmMain::updateParser()
 {       
-    if (!m_programLoading) {
-        QTime time;
+    QTime time;
 
-        qDebug() << "updating parser:" << m_currentModel << m_currentDrawer;
-        time.start();
+    qDebug() << "updating parser:" << m_currentModel << m_currentDrawer;
+    time.start();
 
-        GcodeViewParse *parser = m_currentDrawer->viewParser();
+    GcodeViewParse *parser = m_currentDrawer->viewParser();
 
-        GcodeParser gp;
-        gp.setTraverseSpeed(m_rapidSpeed);
+    GcodeParser gp;
+    gp.setTraverseSpeed(m_rapidSpeed);
 
-        ui->tblProgram->setUpdatesEnabled(false);
+    ui->tblProgram->setUpdatesEnabled(false);
 
-        QString stripped;
-        QList<QString> args;
+    QString stripped;
+    QList<QString> args;
 
-        for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
-            // Get stored args
-            args = m_currentModel->data(m_currentModel->index(i, 5)).toStringList();
+    for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
+        // Get stored args
+        args = m_currentModel->data(m_currentModel->index(i, 5)).toStringList();
 
-            // Store args if none
-            if (args.isEmpty()) {
+        // Store args if none
+        if (args.isEmpty()) {
 //                qDebug() << "updating args";
-                stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data(m_currentModel->index(i, 1)).toString());
-                args = GcodePreprocessorUtils::splitCommand(stripped);
-                m_currentModel->setData(m_currentModel->index(i, 5), QVariant(args));
-            }
-
-            // Add command to parser
-            gp.addCommand(args);
-
-            // Update table model
-            m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
-            m_currentModel->setData(m_currentModel->index(i, 3), "");
-            m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
+            stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            args = GcodePreprocessorUtils::splitCommand(stripped);
+            m_currentModel->setData(m_currentModel->index(i, 5), QVariant(args));
         }
 
-        ui->tblProgram->setUpdatesEnabled(true);
+        // Add command to parser
+        gp.addCommand(args);
 
-        parser->reset();
-
-        updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
-        m_currentDrawer->update();
-        ui->glwVisualizer->updateExtremes(m_currentDrawer);
-        updateControlsState();        
-
-        if (m_currentModel == &m_programModel) m_fileChanged = true;
-
-        qDebug() << "Update parser time: " << time.elapsed();
+        // Update table model
+        m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
+        m_currentModel->setData(m_currentModel->index(i, 3), "");
+        m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
     }
+
+    ui->tblProgram->setUpdatesEnabled(true);
+
+    parser->reset();
+
+    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
+    m_currentDrawer->update();
+    ui->glwVisualizer->updateExtremes(m_currentDrawer);
+    updateControlsState();
+
+    if (m_currentModel == &m_programModel) m_fileChanged = true;
+
+    qDebug() << "Update parser time: " << time.elapsed();
 }
 
 void frmMain::on_cmdCommandSend_clicked()
@@ -1852,11 +1861,11 @@ void frmMain::on_actFileNew_triggered()
 
         // Set table model
         ui->tblProgram->setModel(&m_programModel);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         // Update tableview
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
         ui->tblProgram->selectRow(0);
-        ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         resetHeightmap();
     } else {
@@ -2546,6 +2555,8 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             resizeTableHeightMapSections();
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
+
+            if (!ui->chkHeightMapUse->isChecked()) updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
         }
     }
 
@@ -2736,6 +2747,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
 
+        // Set current model to prevent reseting heightmap cache
+        m_currentModel = &m_programHeightmapModel;
+
         // Update heightmap-modificated program if not cached
         if (m_programHeightmapModel.rowCount() == 0) {
 
@@ -2799,9 +2813,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                 } else {
                     // Get command codes
-        //                codes = GcodePreprocessorUtils::splitCommand(command);
+//                    codes = GcodePreprocessorUtils::splitCommand(command);
+//                    qDebug() << "codes from split:" << codes;
                     // from cache
                     codes = m_programModel.data(m_programModel.index(i, 5)).toStringList();
+//                    qDebug() << "codes from cache:" << codes;
                     newCommandPrefix.clear();
 
                     // Remove coordinates codes
@@ -2873,15 +2889,14 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         qDebug() << "Model modification time: " << time.elapsed();
 
         ui->tblProgram->setModel(&m_programHeightmapModel);        
-        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
-        ui->tblProgram->selectRow(0);
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
-        m_currentModel = &m_programHeightmapModel;
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        ui->tblProgram->selectRow(0);
+
         m_programLoading = false;        
 
         // Update parser
-
         m_currentDrawer = m_codeDrawer;
         updateParser();
 
@@ -2891,11 +2906,12 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 //        m_programHeightmapModel.clear();
 
         m_currentModel = &m_programModel;
+
         ui->tblProgram->setModel(&m_programModel);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
         ui->tblProgram->selectRow(0);
-        ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         bool fileChanged = m_fileChanged;
         updateParser();
