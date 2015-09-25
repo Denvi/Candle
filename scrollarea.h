@@ -29,6 +29,7 @@ protected:
     void resizeEvent(QResizeEvent *re);
     void mouseMoveEvent(QMouseEvent *me);
     void mousePressEvent(QMouseEvent *me);
+    void mouseReleaseEvent(QMouseEvent *me);
 
 private slots:
     void onContentSizeChanged(QSize newSize);

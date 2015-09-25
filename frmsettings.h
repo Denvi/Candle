@@ -83,6 +83,8 @@ public:
     void setPanelJog(bool panelJog);
     QList<ColorPicker*> colors();
     QColor colors(QString name);
+    int fontSize();
+    void setFontSize(int fontSize);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -98,6 +100,8 @@ private slots:
 
     void on_cmdDefaults_clicked();
 
+    void on_cboFontSize_currentTextChanged(const QString &arg1);
+
 private:
     Ui::frmSettings *ui;
     void searchPorts();
@@ -106,6 +110,8 @@ private:
     QList<bool> m_storedChecks;
     QList<QString> m_storedCombos;
     QList<QColor> m_storedColors;
+
+    QIntValidator m_intValidator;
 };
 
 #endif // FRMSETTINGS_H

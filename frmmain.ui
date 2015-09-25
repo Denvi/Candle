@@ -18,9 +18,9 @@
     <normaloff>:/images/icon3png.png</normaloff>:/images/icon3png.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
+   <string notr="true">/*QWidget {
 	font-size: 9pt;
-}
+}*/
 
 QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
@@ -1568,12 +1568,12 @@ QToolButton:checked { /* all types of tool button */
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>240</width>
-           <height>655</height>
+           <width>228</width>
+           <height>609</height>
           </rect>
          </property>
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2241,10 +2241,16 @@ QDoubleSpinBox:focus {
                   </item>
                   <item row="0" column="3">
                    <layout class="QHBoxLayout" name="horizontalLayout_25">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
                     <item>
                      <spacer name="horizontalSpacer">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::Expanding</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -2290,10 +2296,16 @@ QDoubleSpinBox:focus {
                   </item>
                   <item row="2" column="3">
                    <layout class="QHBoxLayout" name="horizontalLayout_26">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
                     <item>
                      <spacer name="horizontalSpacer_2">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::Expanding</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -2615,7 +2627,7 @@ QDoubleSpinBox:focus {
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

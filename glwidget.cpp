@@ -295,6 +295,7 @@ void GLWidget::setColorBackground(const QColor &colorBackground)
 
 void GLWidget::setFps(int fps)
 {
+    if (fps <= 0) return;
     m_targetFps = fps;
     m_timerAnimation.stop();
     m_timerAnimation.start(1000 / fps, Qt::PreciseTimer, this);

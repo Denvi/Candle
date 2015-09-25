@@ -79,12 +79,6 @@ frmMain::frmMain(QWidget *parent) :
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
 
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
-    {
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogStepClicked()));
-        button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
-    }    
-
     QShortcut *insertShortcut = new QShortcut(QKeySequence(Qt::Key_Insert), ui->tblProgram);
     QShortcut *deleteShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->tblProgram);
 
@@ -135,7 +129,13 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()));
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
-    // Apply settings
+    // Apply settings    
+    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
+    {
+        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogStepClicked()));
+        button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
+    }
+
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -199,6 +199,8 @@ void frmMain::loadSettings()
     m_frmSettings.setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
     m_frmSettings.setPanelFeed(set.value("panelFeedVisible", true).toBool());
     m_frmSettings.setPanelJog(set.value("panelJogVisible", true).toBool());
+
+    m_frmSettings.setFontSize(set.value("fontSize", 8).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
@@ -322,6 +324,7 @@ void frmMain::saveSettings()
     set.setValue("panelSpindleVisible", m_frmSettings.panelSpindle());
     set.setValue("panelFeedVisible", m_frmSettings.panelFeed());
     set.setValue("panelJogVisible", m_frmSettings.panelJog());
+    set.setValue("fontSize", m_frmSettings.fontSize());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -415,8 +418,10 @@ void frmMain::updateControlsState() {
                                                          QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
                                                          | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
-    if (!portOpened) ui->txtStatus->setText(tr("Not connected"));
-    ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
+    if (!portOpened) {
+        ui->txtStatus->setText(tr("Not connected"));
+        ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
+    }
 
     this->setWindowTitle(m_programFileName.isEmpty() ? "grblControl"
                                                      : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - grblControl");

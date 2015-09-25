@@ -18,7 +18,7 @@ ScrollArea::ScrollArea(QWidget *parent) : QScrollArea(parent)
                         QScrollArea[topBorder=\"true\"] {border-top: 2px solid qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white);}\
                         QScrollArea[bottomBorder=\"true\"] {border-bottom: 2px solid qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:1 #D5DFE5, stop:0 white);}");
 
-    this->verticalScrollBar()->setStyleSheet("QScrollBar:vertical {border: none; width: 2px; padding-top: 8px;} \
+    this->verticalScrollBar()->setStyleSheet("QScrollBar:vertical {border: none; width: 2px; padding-top: 8px;}\
                                              QScrollBar::handle:vertical {background: darkgray;}\
                                              QScrollBar::add-line:vertical {border: none; background: none; height: 0px;}\
                                              QScrollBar::sub-line:vertical {border: none; background: none; height: 0px;}");
@@ -43,6 +43,7 @@ void ScrollArea::setWidget(QWidget *widget)
 
 void ScrollArea::updateMinimumWidth()
 {
+    m_width = 0;
     QList<GroupBox*> list = this->widget()->findChildren<GroupBox*>();
     foreach (GroupBox *box, list) {
         connect(box, SIGNAL(mouseMoved(int,int)), this, SLOT(onScroll(int,int)));
@@ -54,19 +55,34 @@ void ScrollArea::updateMinimumWidth()
 
 void ScrollArea::resizeEvent(QResizeEvent *re)
 {
+    QScrollArea::resizeEvent(re);
+
     updateBorders();
 }
 
 void ScrollArea::mouseMoveEvent(QMouseEvent *me)
 {
-    QPoint delta = me->globalPos() - m_pressedPos;
-    onScroll(delta.x(), delta.y());
+    QScrollArea::mouseMoveEvent(me);
+
+    if (!m_pressedPos.isNull()) {
+        QPoint delta = me->globalPos() - m_pressedPos;
+        onScroll(delta.x(), delta.y());
+    }
 }
 
 void ScrollArea::mousePressEvent(QMouseEvent *me)
 {
+    QScrollArea::mousePressEvent(me);
+
     m_pressedPos = me->globalPos();
     m_pressedValue = this->verticalScrollBar()->value();
+}
+
+void ScrollArea::mouseReleaseEvent(QMouseEvent *me)
+{
+    QScrollArea::mouseReleaseEvent(me);
+
+    m_pressedPos = QPoint();
 }
 
 void ScrollArea::onContentSizeChanged(QSize newSize)

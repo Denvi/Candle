@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
                     QDialog {border: 1px solid palette(mid);}");
 #endif
 
+    a.setStyleSheet(a.styleSheet() + "QWidget {font-size: 8pt}");
+
     frmMain w;
     w.show();
 

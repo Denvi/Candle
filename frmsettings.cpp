@@ -16,6 +16,11 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->setupUi(this);
     this->setLocale(QLocale::C);
 
+    m_intValidator.setBottom(1);
+    m_intValidator.setTop(999);
+    ui->cboFps->setValidator(&m_intValidator);
+    ui->cboFontSize->setValidator(&m_intValidator);
+
     foreach (QGroupBox *box, this->findChildren<QGroupBox*>()) {
         ui->listCategories->addItem(box->title());
         ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
@@ -409,6 +414,16 @@ QColor frmSettings::colors(QString name)
     if (pick) return pick->color(); else return QColor();
 }
 
+int frmSettings::fontSize()
+{
+    return ui->cboFontSize->currentText().toInt();
+}
+
+void frmSettings::setFontSize(int fontSize)
+{
+    ui->cboFontSize->setCurrentText(QString::number(fontSize));
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     ui->scrollSettings->updateMinimumWidth();
@@ -494,4 +509,9 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->clpToolpathZMovement->setColor(QColor(255, 0, 0));
     ui->clpToolpathStart->setColor(QColor(255, 0, 0));
     ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
+}
+
+void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
+{
+    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }
