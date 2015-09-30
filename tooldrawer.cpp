@@ -47,6 +47,12 @@ bool ToolDrawer::updateData()
         m_lines.append(vertex);
         vertex.position = QVector3D(x, y, m_toolPosition.z() + m_toolLength);
         m_lines.append(vertex);
+
+        // Zero Z lines
+        vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0);
+        m_lines.append(vertex);
+        vertex.position = QVector3D(x, y, 0);
+        m_lines.append(vertex);
     }
 
     // Draw circles
@@ -58,9 +64,11 @@ bool ToolDrawer::updateData()
     m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength),
                             m_toolDiameter / 2, 20, vertex.color);
 
-    // Zero Z point
-    vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0);
-    m_points.append(vertex);
+    // Zero Z circle
+    if (m_endLength == 0) {
+        m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0),
+                                m_toolDiameter / 2, 20, vertex.color);
+    }
 
     return true;
 }

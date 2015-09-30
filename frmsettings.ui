@@ -84,7 +84,7 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>-522</y>
-          <width>336</width>
+          <width>306</width>
           <height>963</height>
          </rect>
         </property>
@@ -1087,7 +1087,7 @@ padding-top: 3;</string>
                <bool>true</bool>
               </property>
               <property name="currentText">
-               <string>-1</string>
+               <string>8</string>
               </property>
               <property name="maxCount">
                <number>10</number>
@@ -1130,9 +1130,15 @@ padding-top: 3;</string>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_14">
+             <spacer name="horizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
               </property>
              </spacer>
             </item>
@@ -1150,6 +1156,12 @@ padding-top: 3;</string>
              <spacer name="horizontalSpacer_3">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
               </property>
              </spacer>
             </item>
