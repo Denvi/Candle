@@ -921,10 +921,6 @@ Time elapsed: %1</source>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1090"/>
-        <source>-1</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../frmsettings.ui" line="1100"/>
         <source>8</source>
         <translation></translation>
@@ -955,12 +951,12 @@ Time elapsed: %1</source>
         <translation>пт</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="1154"/>
+        <location filename="../frmsettings.ui" line="1151"/>
         <source>(restart needed)</source>
         <translation>(необходим перезапуск)</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="1185"/>
+        <location filename="../frmsettings.ui" line="1182"/>
         <source>Set to defaults</source>
         <translation>По умолчанию</translation>
     </message>
@@ -1209,12 +1205,12 @@ Time elapsed: %1</source>
         <translation type="vanished">Отображать команды G-code программы в консоли</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="1205"/>
+        <location filename="../frmsettings.ui" line="1202"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="1212"/>
+        <location filename="../frmsettings.ui" line="1209"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>

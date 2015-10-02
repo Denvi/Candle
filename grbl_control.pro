@@ -111,7 +111,7 @@ CONFIG += c++11
 
 RC_ICONS += images/grblControl2.ico
 
-TRANSLATIONS = translations/grblControl_ru.ts
+TRANSLATIONS += translations/grblControl_ru.ts translations/grblControl_es.ts
 
 win32: {
     QMAKE_CXXFLAGS_DEBUG += -g3 -pg
