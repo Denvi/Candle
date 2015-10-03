@@ -1553,13 +1553,13 @@ void frmMain::applySettings() {
     ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
     ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
 
+    ui->scrollArea->setVisible(m_frmSettings.panelHeightmap() || m_frmSettings.panelFeed()
+                               || m_frmSettings.panelJog() || m_frmSettings.panelSpindle());
+
     ui->grpHeightMap->setVisible(m_frmSettings.panelHeightmap());
     ui->grpSpindle->setVisible(m_frmSettings.panelSpindle());
     ui->grpFeed->setVisible(m_frmSettings.panelFeed());
     ui->grpJog->setVisible(m_frmSettings.panelJog());
-
-    ui->scrollArea->setVisible(m_frmSettings.panelHeightmap() || m_frmSettings.panelFeed()
-                               || m_frmSettings.panelJog() || m_frmSettings.panelSpindle());
 
     ui->cboCommand->setAutoCompletion(m_frmSettings.autoCompletion());
 

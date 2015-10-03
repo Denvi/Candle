@@ -11,6 +11,7 @@ Supported functions:
 Downloads:
 ----------
 * Windows: [grblControl_0.6.zip](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.zip)
+* Linux: [grblControl_0.6.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.tar.gz)
 
 Previous versions:
 * Windows 7: [grblControl_0.5.2.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.zip)
