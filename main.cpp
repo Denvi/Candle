@@ -18,20 +18,35 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef UNIX
+    bool styleOverrided = false;
+    for (int i = 0; i < argc; i++) if (QString(argv[i]).toUpper() == "-STYLE") {
+        styleOverrided = true;
+        break;
+    }
+#endif
+
     QApplication a(argc, argv);
 
     QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
     QFontDatabase::addApplicationFont(":/fonts/tahoma.ttf");
+
+#ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
+#endif
 
     QGLFormat glf = QGLFormat::defaultFormat();
     glf.setSampleBuffers(true);
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
+//    QLocale::setDefault(QLocale("es"));
+
     QString loc = QLocale().name().left(2);
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
     QString translationFileName = translationsFolder + "grblControl_" + loc + ".qm";
+
+    qDebug() << "locale:" << loc;
 
     if(QFile::exists(translationFileName)) {
         QTranslator* translator = new QTranslator();
@@ -47,11 +62,10 @@ int main(int argc, char *argv[])
 
     a.setApplicationVersion(APP_VERSION);
 
-#ifdef UNIX
-    foreach (QString str, QStyleFactory::keys()) {
-        qDebug() << str;
+#ifdef UNIX    
+    if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {
         if (str.contains("GTK+")) {
-//            a.setStyle(QStyleFactory::create(str));
+            a.setStyle(QStyleFactory::create(str));
             break;
         }
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="es_ES">
+<TS version="2.1" language="es_ES">
 <context>
     <name>GCodeTableModel</name>
     <message>
@@ -197,7 +197,7 @@
         <location filename="../frmmain.ui" line="1050"/>
         <location filename="../frmmain.cpp" line="1085"/>
         <source>Autoscroll</source>
-        <translation></translation>
+        <translation>Desplazamiento automático</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1070"/>

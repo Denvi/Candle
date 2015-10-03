@@ -31,8 +31,10 @@ frmMain::frmMain(QWidget *parent) :
     ui->setupUi(this);
 
 #ifdef WINDOWS
-    m_taskBarButton = NULL;
-    m_taskBarProgress = NULL;
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+        m_taskBarButton = NULL;
+        m_taskBarProgress = NULL;
+    }
 #endif
 
 #ifndef UNIX
@@ -431,7 +433,9 @@ void frmMain::updateControlsState() {
     if (!m_transferringFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
 #ifdef WINDOWS
-    if (!m_transferringFile && m_taskBarProgress) m_taskBarProgress->hide();
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+        if (!m_transferringFile && m_taskBarProgress) m_taskBarProgress->hide();
+    }
 #endif
 
     style()->unpolish(ui->cmdFileOpen);
@@ -617,7 +621,9 @@ void frmMain::onSerialPortReadyRead()
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
 #ifdef WINDOWS
-                if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
+                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+                    if (m_taskBarProgress) m_taskBarProgress->setPaused(statusIndex == 4 || statusIndex == 5);
+                }
 #endif
 
                 // Update "elapsed time" timer
@@ -884,7 +890,9 @@ void frmMain::onSerialPortReadyRead()
 
                         // Update taskbar progress
 #ifdef WINDOWS
-                        if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
+                        if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+                            if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
+                        }
 #endif
 
                         // Send next program commands
@@ -1018,10 +1026,12 @@ void frmMain::showEvent(QShowEvent *se)
     placeVisualizerButtons();
 
 #ifdef WINDOWS
-    if (m_taskBarButton == NULL) {
-        m_taskBarButton = new QWinTaskbarButton(this);
-        m_taskBarButton->setWindow(this->windowHandle());
-        m_taskBarProgress = m_taskBarButton->progress();
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+        if (m_taskBarButton == NULL) {
+            m_taskBarButton = new QWinTaskbarButton(this);
+            m_taskBarButton->setWindow(this->windowHandle());
+            m_taskBarProgress = m_taskBarButton->progress();
+        }
     }
 #endif
 
@@ -1347,10 +1357,12 @@ void frmMain::on_cmdFileSend_clicked()
     ui->chkKeyboardControl->setChecked(false);
 
 #ifdef WINDOWS
-    if (m_taskBarProgress) {
-        m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
-        m_taskBarProgress->setValue(0);
-        m_taskBarProgress->show();
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+        if (m_taskBarProgress) {
+            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+            m_taskBarProgress->setValue(0);
+            m_taskBarProgress->show();
+        }
     }
 #endif
 
