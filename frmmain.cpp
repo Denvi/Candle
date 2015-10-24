@@ -1151,7 +1151,7 @@ void frmMain::on_cmdFileOpen_clicked()
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.tap);;All files (*.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)"));
 
         if (fileName != "") {
             addRecentFile(fileName);
@@ -1367,6 +1367,7 @@ void frmMain::on_cmdFileSend_clicked()
 #endif
 
     updateControlsState();
+    ui->cmdFilePause->setFocus();
     sendNextFileCommands();
 }
 
@@ -1377,7 +1378,7 @@ void frmMain::sendNextFileCommands() {
     QString command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_currentModel->rowCount() - 1) {
-        m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sended"));
+        m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sent"));
         sendCommand(command, m_fileCommandIndex);
         m_fileCommandIndex++;
         command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
@@ -1931,7 +1932,7 @@ void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
 
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc;*.ncc;*.tap)")));
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
 
         if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
             m_programFileName = fileName;
