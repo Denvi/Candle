@@ -410,6 +410,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileReset->setEnabled(!m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdFilePause->setEnabled(m_transferringFile);
+    ui->cmdFileAbort->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->mnuRecent->setEnabled(!m_transferringFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)
                                                       || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
@@ -539,6 +540,8 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
 void frmMain::grblReset()
 {
+    qDebug() << "grbl reset";
+
     m_serialPort.write(QByteArray(1, (char)24));
     m_serialPort.flush();
 
@@ -600,6 +603,14 @@ void frmMain::onSerialPortReadyRead()
         if (data[0] == '<') {
             int statusIndex = -1;
 
+            // Update machine coordinates
+            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
+            if (mpx.indexIn(data) != -1) {
+                ui->txtMPosX->setText(mpx.cap(1));
+                ui->txtMPosY->setText(mpx.cap(2));
+                ui->txtMPosZ->setText(mpx.cap(3));
+            }
+
             // Status
             QRegExp stx("<([^,^>]*)");
             if (stx.indexIn(data) != -1) {
@@ -634,7 +645,9 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Test for job complete
-                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) && m_fileCommandIndex == m_currentModel->rowCount() - 1 && m_transferringFile) {
+                if (m_transferCompleted && (statusIndex == 0 || statusIndex == 6) /*&& m_fileCommandIndex == m_currentModel->rowCount() - 1*/ && m_transferringFile) {
+                    qDebug() << "job completed:" << m_fileCommandIndex << m_currentModel->rowCount() - 1;
+
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
                     m_transferringFile = false;
@@ -664,8 +677,29 @@ void frmMain::onSerialPortReadyRead()
                     m_timerConnection.start();
                     m_timerStateQuery.start();
                 }
+
+                // Abort
+                if (m_aborting) {
+                    switch (statusIndex) {
+                    case 0: // Idle
+                        if (!m_transferringFile && m_resetCompleted) {
+                            m_aborting = false;
+                            sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedX)
+                                                               .arg(ui->txtMPosY->text().toDouble() - m_storedY)
+                                                               .arg(ui->txtMPosZ->text().toDouble() - m_storedZ));
+                            if (!m_storedParserStatus.isEmpty()) sendCommand(m_storedParserStatus);
+                            return;
+                        }
+                        break;
+                    case 4: // Hold
+                        Util::waitEvents(250);
+                        grblReset();
+                        break;
+                    }
+                }
             }
 
+            // Update work coordinates
             QRegExp wpx("WPos:([^,]*),([^,]*),([^,^>]*)");
             if (wpx.indexIn(data) != -1)
             {
@@ -713,12 +747,6 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
-            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
-            if (mpx.indexIn(data) != -1) {
-                ui->txtMPosX->setText(mpx.cap(1));
-                ui->txtMPosY->setText(mpx.cap(2));
-                ui->txtMPosZ->setText(mpx.cap(3));
-            }
         } else if (data.length() > 0) {
 
             // Processed commands
@@ -747,6 +775,9 @@ void frmMain::onSerialPortReadyRead()
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -3) {
                         // Update status in visualizer window
                         ui->glwVisualizer->setParserStatus(response.left(response.indexOf("; ")));
+
+                        // Store parser status
+                        if (m_transferringFile) m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
 
                         // Process spindle state
                         if (!response.contains("M5")) {
@@ -1352,9 +1383,11 @@ void frmMain::on_cmdFileSend_clicked()
     m_startTime.start();
 
     m_transferCompleted = false;
-    m_transferringFile = true;
-    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
+    m_transferringFile = true;        
+    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();    
     ui->chkKeyboardControl->setChecked(false);
+
+    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
 
 #ifdef WINDOWS
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
@@ -1367,8 +1400,14 @@ void frmMain::on_cmdFileSend_clicked()
 #endif
 
     updateControlsState();
-    ui->cmdFilePause->setFocus();
+    ui->cmdFilePause->setFocus();        
     sendNextFileCommands();
+}
+
+void frmMain::on_cmdFileAbort_clicked()
+{
+    m_serialPort.write("!");
+    m_aborting = true;
 }
 
 void frmMain::sendNextFileCommands() {

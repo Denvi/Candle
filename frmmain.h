@@ -147,6 +147,8 @@ private slots:
     void on_cmdHeightMapMode_clicked(bool checked);
     void on_cmdHeightMapBorderAuto_clicked();
 
+    void on_cmdFileAbort_clicked();
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -212,6 +214,8 @@ private:
     double m_storedX = 0;
     double m_storedY = 0;
     double m_storedZ = 0;
+    QString m_storedParserStatus;
+
     double m_safeZ = 0;
     double m_rapidSpeed = 0;
 
@@ -237,6 +241,8 @@ private:
 
     bool m_reseting = false;
     bool m_resetCompleted = true;
+
+    bool m_aborting = false;
 
     bool m_keyPressed = false;
     bool m_jogBlock = false;

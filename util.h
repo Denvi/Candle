@@ -6,6 +6,8 @@
 
 #include <QColor>
 #include <QVector3D>
+#include <QEventLoop>
+#include <QTimer>
 
 class Util
 {
@@ -29,6 +31,14 @@ public:
     static QVector3D colorToVector(QColor color)
     {
         return QVector3D(color.redF(), color.greenF(), color.blueF());
+    }
+
+    static void waitEvents(int ms)
+    {
+        QEventLoop loop;
+
+        QTimer::singleShot(ms, &loop, SLOT(quit()));
+        loop.exec();
     }
 };
 

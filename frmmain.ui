@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>870</width>
-    <height>826</height>
+    <height>845</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1095,6 +1095,13 @@ QToolButton:checked { /* all types of tool button */
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="cmdFileAbort">
+           <property name="text">
+            <string>Abort</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -1568,8 +1575,8 @@ QToolButton:checked { /* all types of tool button */
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>228</width>
-           <height>609</height>
+           <width>231</width>
+           <height>644</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -2627,7 +2634,7 @@ QDoubleSpinBox:focus {
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
