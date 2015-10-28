@@ -215,6 +215,7 @@ private:
     double m_storedY = 0;
     double m_storedZ = 0;
     QString m_storedParserStatus;
+    double m_storedOffsets[1][3];
 
     double m_safeZ = 0;
     double m_rapidSpeed = 0;
@@ -300,6 +301,10 @@ private:
     void resizeTableHeightMapSections();
     void updateHeightMapGrid(double arg1);
     void resetHeightmap();
+    void storeParserState();
+    void restoreParserState();
+    void storeOffsets();
+    void restoreOffsets();
 };
 
 #endif // FRMMAIN_H

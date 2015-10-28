@@ -629,6 +629,7 @@ void frmMain::onSerialPortReadyRead()
                 // Update controls
                 ui->cmdReturnXY->setEnabled(statusIndex == 0);
                 ui->cmdTopZ->setEnabled(statusIndex == 0);
+                ui->chkTestMode->setEnabled(statusIndex != 2 && !m_transferringFile);
                 ui->chkTestMode->setChecked(statusIndex == 6);
                 ui->cmdFilePause->setChecked(statusIndex == 4 || statusIndex == 5);
 #ifdef WINDOWS
@@ -684,10 +685,8 @@ void frmMain::onSerialPortReadyRead()
                     case 0: // Idle
                         if (!m_transferringFile && m_resetCompleted) {
                             m_aborting = false;
-                            sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedX)
-                                                               .arg(ui->txtMPosY->text().toDouble() - m_storedY)
-                                                               .arg(ui->txtMPosZ->text().toDouble() - m_storedZ));
-                            if (!m_storedParserStatus.isEmpty()) sendCommand(m_storedParserStatus);
+                            restoreOffsets();
+                            restoreParserState();
                             return;
                         }
                         break;
@@ -777,7 +776,7 @@ void frmMain::onSerialPortReadyRead()
                         ui->glwVisualizer->setParserStatus(response.left(response.indexOf("; ")));
 
                         // Store parser status
-                        if (m_transferringFile) m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
+                        if (m_transferringFile) storeParserState();
 
                         // Process spindle state
                         if (!response.contains("M5")) {
@@ -803,11 +802,10 @@ void frmMain::onSerialPortReadyRead()
 
                     // Store origin
                     if (ca.command == "$#" && ca.tableIndex == -2) {
-                        qDebug() << "store origin" << response;
-                        QRegExp rx(".*G92:([^,]*),([^,]*),([^]]*)");
+                        qDebug() << "Received offsets:" << response;
+                        QRegExp rx(".*G92:([^,]*),([^,]*),([^\\]]*)");
 
                         if (rx.indexIn(response) != -1) {
-                            qDebug() << "storing origin:" << rx.capturedTexts();
                             if (m_settingZeroXY) {
                                 m_settingZeroXY = false;
                                 m_storedX = rx.cap(1).toDouble();
@@ -815,6 +813,11 @@ void frmMain::onSerialPortReadyRead()
                             } else if (m_settingZeroZ) {
                                 m_settingZeroZ = false;
                                 m_storedZ = rx.cap(3).toDouble();
+                            } else {
+                                // Save offsets
+                                m_storedOffsets[0][0] = rx.cap(1).toDouble();
+                                m_storedOffsets[0][1] = rx.cap(2).toDouble();
+                                m_storedOffsets[0][2] = rx.cap(3).toDouble();
                             }
                             ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
@@ -1387,7 +1390,8 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();    
     ui->chkKeyboardControl->setChecked(false);
 
-    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
+    storeOffsets();
+    storeParserState();
 
 #ifdef WINDOWS
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
@@ -1412,6 +1416,28 @@ void frmMain::on_cmdFileAbort_clicked()
     } else {
         grblReset();
     }
+}
+
+void frmMain::storeParserState()
+{
+    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
+}
+
+void frmMain::restoreParserState()
+{
+    if (!m_storedParserStatus.isEmpty()) sendCommand(m_storedParserStatus, 0);
+}
+
+void frmMain::storeOffsets()
+{
+    sendCommand("$#", -2);
+}
+
+void frmMain::restoreOffsets()
+{
+    sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedOffsets[0][0])
+                                       .arg(ui->txtMPosY->text().toDouble() - m_storedOffsets[0][1])
+                                       .arg(ui->txtMPosZ->text().toDouble() - m_storedOffsets[0][2]));
 }
 
 void frmMain::sendNextFileCommands() {
@@ -1825,7 +1851,14 @@ void frmMain::on_cmdZMinus_clicked()
 
 void frmMain::on_chkTestMode_clicked(bool checked)
 {
-    sendCommand("$C");
+    if (checked) {
+        storeOffsets();
+        storeParserState();
+        sendCommand("$C");
+    } else {
+        m_aborting = true;
+        grblReset();
+    };
 }
 
 void frmMain::on_cmdFilePause_clicked(bool checked)
