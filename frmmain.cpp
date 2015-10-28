@@ -409,7 +409,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(!m_transferringFile);
     ui->cmdFileReset->setEnabled(!m_transferringFile && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && !m_transferringFile && m_programModel.rowCount() > 1);
-    ui->cmdFilePause->setEnabled(m_transferringFile);
+    ui->cmdFilePause->setEnabled(m_transferringFile && !ui->chkTestMode->isChecked());
     ui->cmdFileAbort->setEnabled(m_transferringFile);
     ui->actFileOpen->setEnabled(!m_transferringFile);
     ui->mnuRecent->setEnabled(!m_transferringFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)
@@ -1406,8 +1406,12 @@ void frmMain::on_cmdFileSend_clicked()
 
 void frmMain::on_cmdFileAbort_clicked()
 {
-    m_serialPort.write("!");
     m_aborting = true;
+    if (!ui->chkTestMode->isChecked()) {
+        m_serialPort.write("!");
+    } else {
+        grblReset();
+    }
 }
 
 void frmMain::sendNextFileCommands() {
