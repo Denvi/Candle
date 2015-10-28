@@ -654,6 +654,7 @@ void frmMain::onSerialPortReadyRead()
                     m_transferringFile = false;
                     m_fileProcessedCommandIndex = 0;
                     m_lastDrawnLineIndex = 0;
+                    m_storedParserStatus.clear();
 
                     QList<LineSegment*> list = parser->getLineSegmentList();
 
