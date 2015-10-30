@@ -47,6 +47,7 @@ struct CommandAttributes {
 struct CommandQueue {
     QString command;
     int tableIndex;
+    bool showInConsole;
 };
 
 class frmMain : public QMainWindow
@@ -125,7 +126,6 @@ private slots:
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
     void on_splitter_splitterMoved(int pos, int index);
     void on_actRecentClear_triggered();
-    void on_sliSpindleSpeed_sliderReleased();
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkHeightMapBorderShow_toggled(bool checked);
     void on_txtHeightMapBorderX_valueChanged(double arg1);
@@ -267,7 +267,7 @@ private:
     bool saveChanges(bool heightMapMode);
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int tableIndex = -1);
+    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true);
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();

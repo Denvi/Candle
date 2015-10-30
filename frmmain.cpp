@@ -185,7 +185,8 @@ void frmMain::loadSettings()
     m_programSpeed = false;
     m_frmSettings.setLineWidth(set.value("lineWidth", 1).toDouble());
     m_frmSettings.setArcPrecision(set.value("arcPrecision", 0).toDouble());
-    m_frmSettings.setShowAllCommands(set.value("showAllCommands", 0).toBool());
+    m_frmSettings.setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
+    m_frmSettings.setShowUICommands(set.value("showUICommands", 0).toBool());
     m_frmSettings.setSafeZ(set.value("safeZ", 0).toDouble());
     m_frmSettings.setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
     m_frmSettings.setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
@@ -290,7 +291,8 @@ void frmMain::saveSettings()
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_frmSettings.lineWidth());
     set.setValue("arcPrecision", m_frmSettings.arcPrecision());
-    set.setValue("showAllCommands", m_frmSettings.showAllCommands());
+    set.setValue("showProgramCommands", m_frmSettings.showProgramCommands());
+    set.setValue("showUICommands", m_frmSettings.showUICommands());
     set.setValue("safeZ", m_frmSettings.safeZ());
     set.setValue("spindleSpeedMin", m_frmSettings.spindleSpeedMin());
     set.setValue("spindleSpeedMax", m_frmSettings.spindleSpeedMax());
@@ -486,7 +488,7 @@ void frmMain::openPort()
     }
 }
 
-void frmMain::sendCommand(QString command, int tableIndex)
+void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
 {
     if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
@@ -500,6 +502,7 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
         cq.command = command;
         cq.tableIndex = tableIndex;
+        cq.showInConsole = showInConsole;
 
         m_queue.append(cq);
         return;
@@ -507,8 +510,9 @@ void frmMain::sendCommand(QString command, int tableIndex)
 
     CommandAttributes ca;
 
-    if (!(command == "$G" && tableIndex < -1) && !(command == "$#" && tableIndex < -1)
-            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex < 0)) {
+//    if (!(command == "$G" && tableIndex < -1) && !(command == "$#" && tableIndex < -1)
+//            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex < 0)) {
+    if (showInConsole) {
         ui->txtConsole->appendPlainText(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
@@ -556,6 +560,7 @@ void frmMain::grblReset()
     m_reseting = true;
     m_homing = false;
     m_resetCompleted = false;
+    m_updateSpindleSpeed = true;
 
     // Drop all remaining commands in buffer
     m_commands.clear();
@@ -592,7 +597,8 @@ void frmMain::onSerialPortReadyRead()
         // Filter prereset responses
         if (m_reseting) {
             qDebug() << "reseting filter:" << data;
-            if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
+//            if (data[0] == '[' || data[0] == '<' || dataIsEnd(data)) continue;
+            if (!data.contains("'$' for help")) continue;
             else {
                 m_reseting = false;
                 m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
@@ -768,7 +774,7 @@ void frmMain::onSerialPortReadyRead()
                     // Restore absolute/relative coordinate system after jog
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -2) {
                         if (ui->chkKeyboardControl->isChecked()) m_absoluteCoordinates = response.contains("G90");
-                        else if (response.contains("G90")) sendCommand("G90");
+                        else if (response.contains("G90")) sendCommand("G90", -1, m_frmSettings.showUICommands());
                     }
 
                     // Process parser status
@@ -902,7 +908,7 @@ void frmMain::onSerialPortReadyRead()
                     if (m_queue.length() > 0) {
                         CommandQueue cq = m_queue.takeFirst();
                         while ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
-                            sendCommand(cq.command, cq.tableIndex);
+                            sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
                             if (m_queue.isEmpty()) break; else cq = m_queue.takeFirst();
                         }
                     }
@@ -1005,9 +1011,9 @@ void frmMain::onTimerConnection()
 //        qDebug() << "sending $G";
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
-            sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2);
+            sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2, m_frmSettings.showUICommands());
         }
-        if (m_queue.length() == 0) sendCommand("$G", -3);
+        if (m_queue.length() == 0) sendCommand("$G", -3, false);
     }
 }
 
@@ -1421,24 +1427,24 @@ void frmMain::on_cmdFileAbort_clicked()
 
 void frmMain::storeParserState()
 {
-    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[034]+\\s"));
+    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[0345]+\\s|\\sS[\\d\\.]+"));
 }
 
 void frmMain::restoreParserState()
 {
-    if (!m_storedParserStatus.isEmpty()) sendCommand(m_storedParserStatus, 0);
+    if (!m_storedParserStatus.isEmpty()) sendCommand(m_storedParserStatus, -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::storeOffsets()
 {
-    sendCommand("$#", -2);
+    sendCommand("$#", -2, m_frmSettings.showUICommands());
 }
 
 void frmMain::restoreOffsets()
 {
     sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedOffsets[0][0])
                                        .arg(ui->txtMPosY->text().toDouble() - m_storedOffsets[0][1])
-                                       .arg(ui->txtMPosZ->text().toDouble() - m_storedOffsets[0][2]));
+                                       .arg(ui->txtMPosZ->text().toDouble() - m_storedOffsets[0][2]), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::sendNextFileCommands() {
@@ -1449,7 +1455,7 @@ void frmMain::sendNextFileCommands() {
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH && m_fileCommandIndex < m_currentModel->rowCount() - 1) {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sent"));
-        sendCommand(command, m_fileCommandIndex);
+        sendCommand(command, m_fileCommandIndex, m_frmSettings.showProgramCommands());
         m_fileCommandIndex++;
         command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
     }
@@ -1603,7 +1609,7 @@ void frmMain::applySettings() {
     m_heightMapInterpolationDrawer.setLineWidth(m_frmSettings.lineWidth());
     m_arcPrecision = m_frmSettings.arcPrecision();
     ui->glwVisualizer->setLineWidth(m_frmSettings.lineWidth());
-    m_showAllCommands = m_frmSettings.showAllCommands();
+    m_showAllCommands = m_frmSettings.showProgramCommands();
     m_safeZ = m_frmSettings.safeZ();
     m_rapidSpeed = m_frmSettings.rapidSpeed();
     m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
@@ -1716,7 +1722,7 @@ void frmMain::on_actFileOpen_triggered()
 void frmMain::on_cmdHome_clicked()
 {
     m_homing = true;
-    sendCommand("$H");
+    sendCommand("$H", -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdTouch_clicked()
@@ -1726,29 +1732,29 @@ void frmMain::on_cmdTouch_clicked()
     QStringList list = m_frmSettings.touchCommand().split(";");
 
     foreach (QString cmd, list) {
-        sendCommand(cmd.trimmed());
+        sendCommand(cmd.trimmed(), -1, m_frmSettings.showUICommands());
     }
 }
 
 void frmMain::on_cmdZeroXY_clicked()
 {
     m_settingZeroXY = true;
-    sendCommand("G92X0Y0");
-    sendCommand("$#", -2);
+    sendCommand("G92X0Y0", -1, m_frmSettings.showUICommands());
+    sendCommand("$#", -2, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdZeroZ_clicked()
 {
     m_settingZeroZ = true;
-    sendCommand("G92Z0");
-    sendCommand("$#", -2);
+    sendCommand("G92Z0", -1, m_frmSettings.showUICommands());
+    sendCommand("$#", -2, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdReturnXY_clicked()
 {    
-    sendCommand(QString("G21"));
-    sendCommand(QString("G53G90G0X%1Y%2").arg(m_storedX).arg(m_storedY));
-    sendCommand(QString("G92X0Y0Z%1").arg(ui->txtMPosZ->text().toDouble() - m_storedZ));
+    sendCommand(QString("G21"), -1, m_frmSettings.showUICommands());
+    sendCommand(QString("G53G90G0X%1Y%2").arg(m_storedX).arg(m_storedY), -1, m_frmSettings.showUICommands());
+    sendCommand(QString("G92X0Y0Z%1").arg(ui->txtMPosZ->text().toDouble() - m_storedZ), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdReset_clicked()
@@ -1758,19 +1764,19 @@ void frmMain::on_cmdReset_clicked()
 
 void frmMain::on_cmdUnlock_clicked()
 {
-    sendCommand("$X");
+    sendCommand("$X", -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdTopZ_clicked()
 {
 
-    sendCommand(QString("G21"));
-    sendCommand(QString("G53G90G0Z%1").arg(m_safeZ));
+    sendCommand(QString("G21"), -1, m_frmSettings.showUICommands());
+    sendCommand(QString("G53G90G0Z%1").arg(m_safeZ), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
 {    
-    if (!m_programSpeed) sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5");
+    if (!m_programSpeed) sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5", -1, m_frmSettings.showUICommands());
     ui->grpSpindle->setProperty("overrided", checked);
     style()->unpolish(ui->grpSpindle);
     ui->grpSpindle->ensurePolished();
@@ -1809,45 +1815,41 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
 }
 
-void frmMain::on_sliSpindleSpeed_sliderReleased()
-{
-}
-
 void frmMain::on_cmdYPlus_clicked()
 {
     // Query parser state to restore coordinate system, hide from table and console
-    sendCommand("$G", -2);
-    sendCommand("G91G0Y" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdYMinus_clicked()
 {
-    sendCommand("$G", -2);
-    sendCommand("G91G0Y-" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdXPlus_clicked()
 {
-    sendCommand("$G", -2);
-    sendCommand("G91G0X" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdXMinus_clicked()
 {    
-    sendCommand("$G", -2);
-    sendCommand("G91G0X-" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdZPlus_clicked()
 {
-    sendCommand("$G", -2);
-    sendCommand("G91G0Z" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_cmdZMinus_clicked()
 {
-    sendCommand("$G", -2);
-    sendCommand("G91G0Z-" + ui->txtJogStep->text());
+    sendCommand("$G", -2, m_frmSettings.showUICommands());
+    sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
 }
 
 void frmMain::on_chkTestMode_clicked(bool checked)
@@ -1855,7 +1857,7 @@ void frmMain::on_chkTestMode_clicked(bool checked)
     if (checked) {
         storeOffsets();
         storeParserState();
-        sendCommand("$C");
+        sendCommand("$C", -1, m_frmSettings.showUICommands());
     } else {
         m_aborting = true;
         grblReset();
@@ -2208,22 +2210,22 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
                 switch (keyEvent->key()) {
                 case Qt::Key_4:
-                    sendCommand("G91G0X-" + ui->txtJogStep->text());
+                    sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 case Qt::Key_6:
-                    sendCommand("G91G0X" + ui->txtJogStep->text());
+                    sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 case Qt::Key_8:
-                    sendCommand("G91G0Y" + ui->txtJogStep->text());
+                    sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 case Qt::Key_2:
-                    sendCommand("G91G0Y-" + ui->txtJogStep->text());
+                    sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 case Qt::Key_9:
-                    sendCommand("G91G0Z" + ui->txtJogStep->text());
+                    sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 case Qt::Key_3:
-                    sendCommand("G91G0Z-" + ui->txtJogStep->text());
+                    sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_frmSettings.showUICommands());
                     break;
                 }
             }
@@ -2283,10 +2285,10 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
 
     // Store/restore coordinate system
     if (checked) {
-        sendCommand("$G", -2);
+        sendCommand("$G", -2, m_frmSettings.showUICommands());
         if (!ui->grpJog->isChecked()) ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
     } else {
-        if (m_absoluteCoordinates) sendCommand("G90");
+        if (m_absoluteCoordinates) sendCommand("G90", -1, m_frmSettings.showUICommands());
         ui->grpJog->setTitle(tr("Jog"));
     }
 
