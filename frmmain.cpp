@@ -568,9 +568,9 @@ void frmMain::grblReset()
 
     // Prepare reset response catch
     CommandAttributes ca;
-    ca.command = "[CTRL+X]";
-    ui->txtConsole->appendPlainText(ca.command);
-    ca.consoleIndex = ui->txtConsole->blockCount() - 1;
+    ca.command = "[CTRL+X]";    
+    if (m_frmSettings.showUICommands()) ui->txtConsole->appendPlainText(ca.command);
+    ca.consoleIndex = m_frmSettings.showUICommands() ? ui->txtConsole->blockCount() - 1 : -1;
     ca.tableIndex = -1;
     ca.length = ca.command.length() + 1;
     m_commands.append(ca);
