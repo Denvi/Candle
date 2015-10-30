@@ -17,6 +17,12 @@ class PointSegment : public QObject
 {
     Q_OBJECT
 public:
+    enum planes {
+        XY,
+        ZX,
+        YZ
+    };
+
     PointSegment(QObject *parent = 0);
     PointSegment(PointSegment *ps);
     PointSegment(const QVector3D *b, int num);
@@ -52,6 +58,9 @@ public:
     bool isAbsolute() const;
     void setIsAbsolute(bool isAbsolute);
 
+    planes plane() const;
+    void setPlane(const planes &plane);
+
 signals:
 
 public slots:
@@ -67,6 +76,7 @@ private:
     bool m_isFastTraverse;
     bool m_isAbsolute;
     int m_lineNumber;
+    planes m_plane;
 };
 
 #endif // POINTSEGMENT_H

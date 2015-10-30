@@ -207,3 +207,14 @@ void PointSegment::setIsAbsolute(bool isAbsolute)
     m_isAbsolute = isAbsolute;
 }
 
+PointSegment::planes PointSegment::plane() const
+{
+    return m_plane;
+}
+
+void PointSegment::setPlane(const planes &plane)
+{
+    m_plane = plane;
+}
+
+

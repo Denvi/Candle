@@ -155,12 +155,13 @@ QList<PointSegment*> GcodeParser::expandArc()
     QVector3D *center = lastSegment->center();
     double radius = lastSegment->getRadius();
     bool clockwise = lastSegment->isClockwise();
+    PointSegment::planes plane = startSegment->plane();
 
     //
     // Start expansion.
     //
 
-    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(*start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength);
+    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength);
 
     // Validate output of expansion.
     if (expandedPoints.length() == 0) {
@@ -293,6 +294,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     ps->setIsClockwise(clockwise);
     ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(this->m_lastSpeed);
+    ps->setPlane(m_currentPlane);
     this->m_points.append(ps);
 
     // Save off the endpoint.
@@ -320,6 +322,9 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     else if (code == "38.2") ps = addLinearPointSegment(nextPoint, false);
     else if (code == "2") ps = addArcPointSegment(nextPoint, true, args);
     else if (code == "3") ps = addArcPointSegment(nextPoint, false, args);
+    else if (code == "17") this->m_currentPlane = PointSegment::XY;
+    else if (code == "18") this->m_currentPlane = PointSegment::ZX;
+    else if (code == "19") this->m_currentPlane = PointSegment::YZ;
     else if (code == "20") this->m_isMetric = false;
     else if (code == "21") this->m_isMetric = true;
     else if (code == "90") this->m_inAbsoluteMode = true;

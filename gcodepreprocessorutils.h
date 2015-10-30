@@ -9,11 +9,13 @@
 #define GCODEPREPROCESSORUTILS_H
 
 #include <QObject>
+#include <QMatrix4x4>
+#include "pointsegment.h"
 
 class GcodePreprocessorUtils : public QObject
 {
     Q_OBJECT
-public:    
+public:
     static QString overrideSpeed(QString command, double speed);
     static QString removeComment(QString command);
     static QString parseComment(QString command);
@@ -32,8 +34,8 @@ public:
     static QString generateG1FromPoints(QVector3D start, QVector3D end, bool absoluteMode, int precision);
     static double getAngle(QVector3D start, QVector3D end);
     static double calculateSweep(double startAngle, double endAngle, bool isCw);
-    static QList<QVector3D> generatePointsAlongArcBDring(QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength);
-    static QList<QVector3D> generatePointsAlongArcBDring(QVector3D p1, QVector3D p2, QVector3D center, bool isCw, double radius, double startAngle, double sweep, int numPoints);
+    static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength);
+    static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D p1, QVector3D p2, QVector3D center, bool isCw, double radius, double startAngle, double sweep, int numPoints);
     static inline bool isDigit(char c);
     static inline bool isLetter(char c);
     static inline char toUpper(char c);

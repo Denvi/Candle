@@ -8,7 +8,6 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QVector3D>
 #include <QGLWidget>
 #include <QLocale>
 #include <QTranslator>
