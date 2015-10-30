@@ -625,12 +625,12 @@ void frmMain::onSerialPortReadyRead()
 
                 statusIndex = m_status.indexOf(stx.cap(1));
 
-                if (statusIndex != previousStatus) {
-                    previousStatus = statusIndex;
+//                if (statusIndex != previousStatus) {
+//                    previousStatus = statusIndex;
                     ui->txtStatus->setText(m_statusCaptions[statusIndex]);
                     ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
                                                  .arg(m_statusBackColors[statusIndex]).arg(m_statusForeColors[statusIndex]));
-                }
+//                }
 
                 // Update controls
                 ui->cmdReturnXY->setEnabled(statusIndex == 0);
@@ -1397,7 +1397,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();    
     ui->chkKeyboardControl->setChecked(false);
 
-    storeOffsets();
+    if (!ui->chkTestMode->isChecked()) storeOffsets(); // Allready stored on check
     storeParserState();
 
 #ifdef WINDOWS
