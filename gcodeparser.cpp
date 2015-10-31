@@ -249,7 +249,7 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
 }
 
 PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastTraverse)
-{
+{    
     PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
 
     bool zOnly = false;
@@ -305,11 +305,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
 PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
-    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
-
-//    Point3d nextPoint =
-//        GcodePreprocessorUtils.updatePointWithCommand(
-//        args, this.currentPoint, this.inAbsoluteMode);    
+    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);  
 
     if (code.length() > 1 && code.startsWith("0"))
         code = code.mid(1);

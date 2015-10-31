@@ -233,12 +233,15 @@ private:
 
     int m_lastDrawnLineIndex;
 
+    int m_lastGrblStatus;
+
     QList<CommandAttributes> m_commands;
     QList<CommandQueue> m_queue;
 
     QTime m_startTime;
-    bool m_transferringFile = false;
+    bool m_processingFile = false;
     bool m_transferCompleted = false;
+    bool m_fileEndSent = false;
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;
     int m_probeIndex;
