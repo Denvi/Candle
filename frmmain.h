@@ -13,6 +13,8 @@
 #include <QList>
 #include <QTime>
 #include <QMenu>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include "gcodeviewparse.h"
 #include "origindrawer.h"
 #include "gcodedrawer.h"
@@ -155,6 +157,8 @@ protected:
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
     void closeEvent(QCloseEvent *ce);
+    void dragEnterEvent(QDragEnterEvent *dee);
+    void dropEvent(QDropEvent *de);
 
 private:
     const int BUFFERLENGTH = 127;
@@ -305,6 +309,8 @@ private:
     void restoreParserState();
     void storeOffsets();
     void restoreOffsets();
+    bool isGCodeFile(QString fileName);
+    bool isHeightmapFile(QString fileName);
 };
 
 #endif // FRMMAIN_H

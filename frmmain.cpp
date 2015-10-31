@@ -149,6 +149,11 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
+
+    // Handle file drop
+    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
+        loadFile(qApp->arguments().last());
+    }
 }
 
 frmMain::~frmMain()
@@ -156,6 +161,19 @@ frmMain::~frmMain()
     saveSettings();
 
     delete ui;
+}
+
+bool frmMain::isGCodeFile(QString fileName)
+{
+    return fileName.endsWith(".txt", Qt::CaseInsensitive)
+          || fileName.endsWith(".nc", Qt::CaseInsensitive)
+          || fileName.endsWith(".ncc", Qt::CaseInsensitive)
+          || fileName.endsWith(".tap", Qt::CaseInsensitive);
+}
+
+bool frmMain::isHeightmapFile(QString fileName)
+{
+    return fileName.endsWith(".map", Qt::CaseInsensitive);
 }
 
 double frmMain::toolZPosition()
@@ -1179,6 +1197,37 @@ void frmMain::closeEvent(QCloseEvent *ce)
     if (m_queue.length() > 0) {
         m_commands.clear();
         m_queue.clear();
+    }
+}
+
+void frmMain::dragEnterEvent(QDragEnterEvent *dee)
+{
+    if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
+        QString fileName = dee->mimeData()->urls().at(0).toLocalFile();
+
+        if ((!m_heightMapMode && isGCodeFile(fileName))
+        || (m_heightMapMode && isHeightmapFile(fileName)))
+            dee->acceptProposedAction();
+    }
+}
+
+void frmMain::dropEvent(QDropEvent *de)
+{
+    QString fileName = de->mimeData()->urls().at(0).toLocalFile();
+
+    if (!m_heightMapMode) {
+        if (!saveChanges(false)) return;
+
+        addRecentFile(fileName);
+        updateRecentFilesMenu();
+
+        loadFile(fileName);
+    } else {
+        if (!saveChanges(true)) return;
+
+        addRecentHeightmap(fileName);
+        updateRecentFilesMenu();
+        loadHeightMap(fileName);
     }
 }
 
