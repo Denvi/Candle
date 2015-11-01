@@ -1211,7 +1211,7 @@ void frmMain::closeEvent(QCloseEvent *ce)
 
 void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 {
-    if (dee->mimeData()->hasFormat("text/plain")) dee->acceptProposedAction();
+    if (dee->mimeData()->hasFormat("text/plain") && !m_heightMapMode) dee->acceptProposedAction();
     else if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
         QString fileName = dee->mimeData()->urls().at(0).toLocalFile();
 
@@ -1228,13 +1228,21 @@ void frmMain::dropEvent(QDropEvent *de)
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
-        addRecentFile(fileName);
-        updateRecentFilesMenu();
-
-        loadFile(fileName);
+        // Load dropped g-code file
+        if (!fileName.isEmpty()) {
+            addRecentFile(fileName);
+            updateRecentFilesMenu();
+            loadFile(fileName);
+        // Load dropped text
+        } else {
+            m_programFileName.clear();
+            m_fileChanged = true;
+            loadFile(de->mimeData()->text().split("\n"));
+        }
     } else {
         if (!saveChanges(true)) return;
 
+        // Load dropped heightmap file
         addRecentHeightmap(fileName);
         updateRecentFilesMenu();
         loadHeightMap(fileName);
@@ -1286,15 +1294,8 @@ void frmMain::resetHeightmap()
     m_heightMapChanged = false;
 }
 
-void frmMain::loadFile(QString fileName)
+void frmMain::loadFile(QList<QString> data)
 {
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
-        return;
-    }    
-
     QTime time;
     time.start();
 
@@ -1321,12 +1322,6 @@ void frmMain::loadFile(QString fileName)
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
     ui->tblProgram->setModel(NULL);
 
-    // Set filename
-    m_programFileName = fileName;
-
-    // Prepare text stream
-    QTextStream textStream(&file);
-
     // Prepare parser
     GcodeParser gp;
     gp.setTraverseSpeed(m_rapidSpeed);
@@ -1337,45 +1332,32 @@ void frmMain::loadFile(QString fileName)
     // Block parser updates on table changes
     m_programLoading = true;
 
-//    // Test memory leakage
-//    for (int i = 0; i < 1; i++) {
+    QString command;
+    QString stripped;
+    QList<QString> args;
 
-//        textStream.seek(0);
+    while (!data.isEmpty())
+    {
+        command = data.takeFirst();
 
-//        clearTable();
-//        gp.reset();
+        // Trim & split command
+        stripped = GcodePreprocessorUtils::removeComment(command);
+        args = GcodePreprocessorUtils::splitCommand(stripped);
 
-        QString command;
-        QString stripped;
-        QList<QString> args;
+        PointSegment *ps = gp.addCommand(args);
+        // Quantum line (if disable pointsegment check some points will have NAN number on raspberry)
+        // code alignment?
+        if (ps && (std::isnan(ps->point()->x()) || std::isnan(ps->point()->y()) || std::isnan(ps->point()->z())))
+                   qDebug() << "nan point segment added:" << *ps->point();
 
-        while (!textStream.atEnd())
-        {
-            command = textStream.readLine();
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+        // Store splitted args to speed up future parser updates
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
+    }
 
-            // Trim & split command
-            stripped = GcodePreprocessorUtils::removeComment(command);
-            args = GcodePreprocessorUtils::splitCommand(stripped);
-
-            PointSegment *ps = gp.addCommand(args);
-            //Quantum line (if disable pointsegment check some points will have NAN number on raspberry)
-            // code alignment?
-            if (ps && (std::isnan(ps->point()->x()) || std::isnan(ps->point()->y()) || std::isnan(ps->point()->z())))
-                       qDebug() << "nan point segment added:" << *ps->point();
-
-            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
-            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
-            // Store splitted args to speed up future parser updates
-            m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
-
-            // Test args
-//            qDebug() << m_programModel.data(m_programModel.index(m_programModel.rowCount() - 2, 5)).toStringList();
-        }
-
-//        m_viewParser.reset();
-        updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
-//    }
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
 
     qDebug() << "model filled:" << time.elapsed();
     time.start();
@@ -1400,11 +1382,36 @@ void frmMain::loadFile(QString fileName)
     updateControlsState();
 }
 
+void frmMain::loadFile(QString fileName)
+{
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+        return;
+    }
+
+    // Set filename
+    m_programFileName = fileName;
+
+    // Prepare text stream
+    QTextStream textStream(&file);
+
+    // Read lines
+    QList<QString> data;
+    while (!textStream.atEnd()) data.append(textStream.readLine());
+
+    // Load lines
+    loadFile(data);
+}
+
 QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
     double time = 0;
 
-    foreach (LineSegment *ls, lines) {
+    for (int i = 0; i < lines.count(); i++) {
+        LineSegment *ls = lines[i];
+    //    foreach (LineSegment *ls, lines) {
         double length = (ls->getEnd() - ls->getStart()).length();
 
         if (!std::isnan(length) && !std::isnan(ls->getSpeed()) && ls->getSpeed() != 0) time +=
@@ -1415,7 +1422,7 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 //                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
 //                 << time;
 
-        if (std::isnan(length)) qDebug() << "length nan:" << ls->getStart() << ls->getEnd();
+        if (std::isnan(length)) qDebug() << "length nan:" << i << ls->getLineNumber() << ls->getStart() << ls->getEnd();
         if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
     }
 

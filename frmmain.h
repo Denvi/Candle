@@ -268,6 +268,7 @@ private:
     bool m_cellChanged;
 
     void loadFile(QString fileName);
+    void loadFile(QList<QString> data);
     void clearTable();
     void loadSettings();
     void saveSettings();

@@ -430,6 +430,9 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
     end = m * end;
     center = m * center;
 
+    // Check center
+    if (std::isnan(center.length())) return QList<QVector3D>();
+
     // Calculate radius if necessary.
     if (radius == 0) {
         radius = sqrt(pow((double)(start.x() - center.x()), 2.0) + pow((double)(end.y() - center.y()), 2.0));

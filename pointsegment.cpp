@@ -20,6 +20,7 @@ PointSegment::PointSegment(QObject *parent) : QObject(parent)
     m_lineNumber = -1;
     m_arcProperties = NULL;
     m_speed = 0;
+    m_plane = XY;
 }
 
 PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
@@ -35,6 +36,7 @@ PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->get
         this->setArcCenter(ps->center());
         this->setRadius(ps->getRadius());
         this->setIsClockwise(ps->isClockwise());
+        this->setPlane(ps->plane());
     }
 }
 
