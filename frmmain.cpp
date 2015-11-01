@@ -1211,7 +1211,8 @@ void frmMain::closeEvent(QCloseEvent *ce)
 
 void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 {
-    if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
+    if (dee->mimeData()->hasFormat("text/plain")) dee->acceptProposedAction();
+    else if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
         QString fileName = dee->mimeData()->urls().at(0).toLocalFile();
 
         if ((!m_heightMapMode && isGCodeFile(fileName))
@@ -1501,6 +1502,9 @@ void frmMain::storeOffsets()
 
 void frmMain::restoreOffsets()
 {
+    sendCommand(QString("G90X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble())
+                                       .arg(ui->txtMPosY->text().toDouble())
+                                       .arg(ui->txtMPosZ->text().toDouble()), -1, m_frmSettings.showUICommands());
     sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedOffsets[0][0])
                                        .arg(ui->txtMPosY->text().toDouble() - m_storedOffsets[0][1])
                                        .arg(ui->txtMPosZ->text().toDouble() - m_storedOffsets[0][2]), -1, m_frmSettings.showUICommands());
@@ -1813,7 +1817,7 @@ void frmMain::on_cmdZeroZ_clicked()
 void frmMain::on_cmdReturnXY_clicked()
 {    
     sendCommand(QString("G21"), -1, m_frmSettings.showUICommands());
-    sendCommand(QString("G53G90G0X%1Y%2").arg(m_storedX).arg(m_storedY), -1, m_frmSettings.showUICommands());
+    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(ui->txtMPosZ->text().toDouble()), -1, m_frmSettings.showUICommands());
     sendCommand(QString("G92X0Y0Z%1").arg(ui->txtMPosZ->text().toDouble() - m_storedZ), -1, m_frmSettings.showUICommands());
 }
 
