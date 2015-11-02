@@ -155,12 +155,12 @@
     <message>
         <location filename="../frmmain.ui" line="818"/>
         <source>Zb:</source>
-        <translation>Zн:</translation>
+        <translation type="unfinished">Zb:</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="832"/>
         <source>Zt:</source>
-        <translation>Zв:</translation>
+        <translation type="unfinished">Zt:</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="843"/>
@@ -622,13 +622,13 @@
         <location filename="../frmmain.cpp" line="673"/>
         <source>Job done.
 Time elapsed: %1</source>
-        <translation>Usinage terminé.
-Temps d&apos;usinage: %1</translation>
+        <translation type="unfinished">Travail terminé.
+Temps écoulé: %1</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="911"/>
         <source>Processed</source>
-        <translation>Traiter</translation>
+        <translation type="unfinished">Traité</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="985"/>
@@ -857,7 +857,7 @@ Temps d&apos;usinage: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="448"/>
         <source>Parser</source>
-        <translation>Analiser</translation>
+        <translation type="unfinished">Analyser</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="456"/>
