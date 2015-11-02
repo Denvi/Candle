@@ -8,13 +8,13 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QVector3D>
 #include <QGLWidget>
 #include <QLocale>
 #include <QTranslator>
 #include <QFile>
 #include <QStyleFactory>
 #include <QFontDatabase>
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
-//    QLocale::setDefault(QLocale("es"));
+//    QLocale::setDefault(QLocale("fr"));
 
     QString loc = QLocale().name().left(2);
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";

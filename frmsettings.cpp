@@ -193,14 +193,24 @@ void frmSettings::setArcPrecision(double arcPrecision)
     ui->txtArcPrecision->setValue(arcPrecision);
 }
 
-bool frmSettings::showAllCommands()
+bool frmSettings::showProgramCommands()
 {
-    return ui->chkShowAllCommands->isChecked();
+    return ui->chkShowProgramCommands->isChecked();
 }
 
-void frmSettings::setShowAllCommands(bool showAllCommands)
+void frmSettings::setShowProgramCommands(bool showAllCommands)
 {
-    ui->chkShowAllCommands->setChecked(showAllCommands);
+    ui->chkShowProgramCommands->setChecked(showAllCommands);
+}
+
+bool frmSettings::showUICommands()
+{
+    return ui->chkShowUICommands->isChecked();
+}
+
+void frmSettings::setShowUICommands(bool showUICommands)
+{
+    ui->chkShowUICommands->setChecked(showUICommands);
 }
 
 double frmSettings::safeZ()
@@ -490,7 +500,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setToolDiameter(3.0);
     setToolLength(30.0);
 
-    setShowAllCommands(false);
+    setShowProgramCommands(false);
     setAutoCompletion(true);
 
     setPanelFeed(true);

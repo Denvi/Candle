@@ -39,8 +39,10 @@ public:
     void setLineWidth(double lineWidth);
     double arcPrecision();
     void setArcPrecision(double arcPrecision);
-    bool showAllCommands();
-    void setShowAllCommands(bool showAllCommands);
+    bool showProgramCommands();
+    void setShowProgramCommands(bool showProgramCommands);
+    bool showUICommands();
+    void setShowUICommands(bool showUICommands);
     double safeZ();
     void setSafeZ(double safeZ);
     int spindleSpeedMin();

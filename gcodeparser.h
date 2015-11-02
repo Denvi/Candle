@@ -58,6 +58,7 @@ private:
     QString m_lastGcodeCommand;
     QVector3D m_currentPoint;
     int m_commandNumber;
+    PointSegment::planes m_currentPlane;
 
     // Settings
     double m_speedOverride;

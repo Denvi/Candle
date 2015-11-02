@@ -155,12 +155,13 @@ QList<PointSegment*> GcodeParser::expandArc()
     QVector3D *center = lastSegment->center();
     double radius = lastSegment->getRadius();
     bool clockwise = lastSegment->isClockwise();
+    PointSegment::planes plane = startSegment->plane();
 
     //
     // Start expansion.
     //
 
-    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(*start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength);
+    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength);
 
     // Validate output of expansion.
     if (expandedPoints.length() == 0) {
@@ -248,7 +249,7 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
 }
 
 PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastTraverse)
-{
+{    
     PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
 
     bool zOnly = false;
@@ -282,8 +283,9 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
 
     // Calculate radius if necessary.
     if (std::isnan(radius)) {
-        radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
-                        + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
+//        radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
+//                        + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
+        radius = 0;
     }
 
     ps->setIsMetric(this->m_isMetric);
@@ -293,6 +295,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     ps->setIsClockwise(clockwise);
     ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(this->m_lastSpeed);
+    ps->setPlane(m_currentPlane);
     this->m_points.append(ps);
 
     // Save off the endpoint.
@@ -303,11 +306,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
 PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
-    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
-
-//    Point3d nextPoint =
-//        GcodePreprocessorUtils.updatePointWithCommand(
-//        args, this.currentPoint, this.inAbsoluteMode);    
+    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);  
 
     if (code.length() > 1 && code.startsWith("0"))
         code = code.mid(1);
@@ -320,6 +319,9 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     else if (code == "38.2") ps = addLinearPointSegment(nextPoint, false);
     else if (code == "2") ps = addArcPointSegment(nextPoint, true, args);
     else if (code == "3") ps = addArcPointSegment(nextPoint, false, args);
+    else if (code == "17") this->m_currentPlane = PointSegment::XY;
+    else if (code == "18") this->m_currentPlane = PointSegment::ZX;
+    else if (code == "19") this->m_currentPlane = PointSegment::YZ;
     else if (code == "20") this->m_isMetric = false;
     else if (code == "21") this->m_isMetric = true;
     else if (code == "90") this->m_inAbsoluteMode = true;

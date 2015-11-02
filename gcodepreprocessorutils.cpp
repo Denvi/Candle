@@ -409,9 +409,29 @@ double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle
 /**
 * Generates the points along an arc including the start and end points.
 */
-QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength)
+QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength)
 {
     double radius = R;
+
+    // Rotate vectors according to plane
+    QMatrix4x4 m;
+    m.setToIdentity();
+    switch (plane) {
+    case PointSegment::XY:
+        break;
+    case PointSegment::ZX:
+        m.rotate(90, 1.0, 0.0, 0.0);
+        break;
+    case PointSegment::YZ:
+        m.rotate(-90, 0.0, 1.0, 0.0);
+        break;
+    }
+    start = m * start;
+    end = m * end;
+    center = m * center;
+
+    // Check center
+    if (std::isnan(center.length())) return QList<QVector3D>();
 
     // Calculate radius if necessary.
     if (radius == 0) {
@@ -441,17 +461,31 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D 
         numPoints = (int)ceil(arcLength/arcSegmentLength);
     }
 
-    return generatePointsAlongArcBDring(start, end, center, clockwise, radius, startAngle, sweep, numPoints);
+    return generatePointsAlongArcBDring(plane, start, end, center, clockwise, radius, startAngle, sweep, numPoints);
 }
 
 /**
 * Generates the points along an arc including the start and end points.
 */
-QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D p1, QVector3D p2,
+QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D p1, QVector3D p2,
                                                                       QVector3D center, bool isCw,
                                                                       double radius, double startAngle,
                                                                       double sweep, int numPoints)
 {
+    // Prepare rotation matrix to restore plane
+    QMatrix4x4 m;
+    m.setToIdentity();
+    switch (plane) {
+    case PointSegment::XY:
+        break;
+    case PointSegment::ZX:
+        m.rotate(-90, 1.0, 0.0, 0.0);
+        break;
+    case PointSegment::YZ:
+        m.rotate(90, 0.0, 1.0, 0.0);
+        break;
+    }
+
     QVector3D lineEnd(p2.x(), p2.y(), p1.z());
     QList<QVector3D> segments;
     double angle;
@@ -478,10 +512,10 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(QVector3D 
         lineEnd.setY(sin(angle) * radius + center.y());
         lineEnd.setZ(lineEnd.z() + zIncrement);
 
-        segments.append(lineEnd);
+        segments.append(m * lineEnd);
     }
 
-    segments.append(p2);
+    segments.append(m * p2);
 
     return segments;
 }

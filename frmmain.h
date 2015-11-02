@@ -13,6 +13,8 @@
 #include <QList>
 #include <QTime>
 #include <QMenu>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include "gcodeviewparse.h"
 #include "origindrawer.h"
 #include "gcodedrawer.h"
@@ -47,6 +49,7 @@ struct CommandAttributes {
 struct CommandQueue {
     QString command;
     int tableIndex;
+    bool showInConsole;
 };
 
 class frmMain : public QMainWindow
@@ -125,7 +128,6 @@ private slots:
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
     void on_splitter_splitterMoved(int pos, int index);
     void on_actRecentClear_triggered();
-    void on_sliSpindleSpeed_sliderReleased();
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkHeightMapBorderShow_toggled(bool checked);
     void on_txtHeightMapBorderX_valueChanged(double arg1);
@@ -155,6 +157,8 @@ protected:
     void resizeEvent(QResizeEvent *re);
     void timerEvent(QTimerEvent *);
     void closeEvent(QCloseEvent *ce);
+    void dragEnterEvent(QDragEnterEvent *dee);
+    void dropEvent(QDropEvent *de);
 
 private:
     const int BUFFERLENGTH = 127;
@@ -215,6 +219,7 @@ private:
     double m_storedY = 0;
     double m_storedZ = 0;
     QString m_storedParserStatus;
+    double m_storedOffsets[1][3];
 
     double m_safeZ = 0;
     double m_rapidSpeed = 0;
@@ -228,12 +233,15 @@ private:
 
     int m_lastDrawnLineIndex;
 
+    int m_lastGrblStatus;
+
     QList<CommandAttributes> m_commands;
     QList<CommandQueue> m_queue;
 
     QTime m_startTime;
-    bool m_transferringFile = false;
+    bool m_processingFile = false;
     bool m_transferCompleted = false;
+    bool m_fileEndSent = false;
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;
     int m_probeIndex;
@@ -260,13 +268,14 @@ private:
     bool m_cellChanged;
 
     void loadFile(QString fileName);
+    void loadFile(QList<QString> data);
     void clearTable();
     void loadSettings();
     void saveSettings();
     bool saveChanges(bool heightMapMode);
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int tableIndex = -1);
+    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true);
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();
@@ -300,6 +309,12 @@ private:
     void resizeTableHeightMapSections();
     void updateHeightMapGrid(double arg1);
     void resetHeightmap();
+    void storeParserState();
+    void restoreParserState();
+    void storeOffsets();
+    void restoreOffsets();
+    bool isGCodeFile(QString fileName);
+    bool isHeightmapFile(QString fileName);
 };
 
 #endif // FRMMAIN_H

@@ -104,7 +104,7 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
             // Expand arc for graphics.
             if (ps->isArc()) {
                 QList<QVector3D> points =
-                    GcodePreprocessorUtils::generatePointsAlongArcBDring(
+                    GcodePreprocessorUtils::generatePointsAlongArcBDring(ps->plane(),
                     *start, *end, *ps->center(), ps->isClockwise(), ps->getRadius(), minArcLength, arcSegmentLength);
                 // Create line segments from points.
                 if (points.length() > 0) {
