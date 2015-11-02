@@ -570,6 +570,7 @@ void frmMain::grblReset()
     m_serialPort.flush();
 
     m_processingFile = false;
+    m_transferCompleted = true;
     m_fileCommandIndex = 0;
 
 //    m_programSpeed = true;

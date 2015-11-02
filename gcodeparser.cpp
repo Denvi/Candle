@@ -283,8 +283,9 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
 
     // Calculate radius if necessary.
     if (std::isnan(radius)) {
-        radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
-                        + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
+//        radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
+//                        + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
+        radius = 0;
     }
 
     ps->setIsMetric(this->m_isMetric);
