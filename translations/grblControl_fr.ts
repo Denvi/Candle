@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>GCodeTableModel</name>
     <message>
@@ -106,7 +106,7 @@
     <message>
         <location filename="../frmmain.ui" line="488"/>
         <source>Heightmap settings</source>
-        <translation type="unfinished">Raramètres palpage surfacique</translation>
+        <translation type="unfinished">Paramètres palpage surfacique</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="511"/>
@@ -692,7 +692,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation type="vanished">Envoyé</translation>
+        <translation>Envoyé</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1630"/>
@@ -964,7 +964,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="888"/>
         <source>Show UI commands</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Montrer les commandes de l&apos;interface utilisateur</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="895"/>
