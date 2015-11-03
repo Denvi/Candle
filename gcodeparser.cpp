@@ -281,11 +281,24 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
 
-    // Calculate radius if necessary.
+    // Calculate radius if necessary.    
     if (std::isnan(radius)) {
-//        radius = sqrt(pow((double)(this->m_currentPoint.x() - center.x()), 2.0)
-//                        + pow((double)(this->m_currentPoint.y() - center.y()), 2.0));
-        radius = 0;
+
+        QMatrix4x4 m;
+        m.setToIdentity();
+        switch (m_currentPlane) {
+        case PointSegment::XY:
+            break;
+        case PointSegment::ZX:
+            m.rotate(90, 1.0, 0.0, 0.0);
+            break;
+        case PointSegment::YZ:
+            m.rotate(-90, 0.0, 1.0, 0.0);
+            break;
+        }
+
+        radius = sqrt(pow((double)((m * this->m_currentPoint).x() - (m * center).x()), 2.0)
+                        + pow((double)((m * this->m_currentPoint).y() - (m * center).y()), 2.0));
     }
 
     ps->setIsMetric(this->m_isMetric);
