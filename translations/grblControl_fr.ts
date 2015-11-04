@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>GCodeTableModel</name>
     <message>
@@ -692,7 +692,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation>Envoyé</translation>
+        <translation type="vanished">Envoyé</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1630"/>

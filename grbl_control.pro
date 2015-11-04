@@ -103,7 +103,6 @@ FORMS    += frmmain.ui \
 DEFINES += _USE_MATH_DEFINES
 
 RESOURCES += \
-    fonts.qrc \
     shaders.qrc \
     images.qrc
 

@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/tahoma.ttf");
+//    QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
+//    QFontDatabase::addApplicationFont(":/fonts/tahoma.ttf");
 
 #ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
