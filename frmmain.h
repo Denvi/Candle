@@ -281,15 +281,17 @@ private:
     void sendNextFileCommands();
     void applySettings();
     void updateParser();
+    bool dataIsFloating(QString data);
+    bool dataIsEnd(QString data);
+    bool dataIsReset(QString data);
+
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     bool saveProgramToFile(QString fileName);
-    bool dataIsEnd(QString data);
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
     void blockJogForRapidMovement();
     bool keyIsMovement(int key);
-    bool dataIsFloating(QString data);
     void resizeCheckBoxes();
     void updateLayouts();
     void updateRecentFilesMenu();

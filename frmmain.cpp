@@ -619,7 +619,7 @@ void frmMain::onSerialPortReadyRead()
         // Filter prereset responses
         if (m_reseting) {
             qDebug() << "reseting filter:" << data;
-            if (!data.contains("'$' for help")) continue;
+            if (!dataIsReset(data)) continue;
             else {
                 m_reseting = false;
                 m_timerStateQuery.setInterval(m_frmSettings.queryStateTime());
@@ -777,12 +777,12 @@ void frmMain::onSerialPortReadyRead()
 
             // Processed commands
             if (m_commands.length() > 0 && !dataIsFloating(data)
-                    && !(m_commands[0].command != "[CTRL+X]" && data.contains("'$' for help"))) {
+                    && !(m_commands[0].command != "[CTRL+X]" && dataIsReset(data))) {
 
                 static QString response; // Full response string
 
                 if ((m_commands[0].command != "[CTRL+X]" && dataIsEnd(data))
-                        || (m_commands[0].command == "[CTRL+X]" && data.contains("'$' for help"))) {
+                        || (m_commands[0].command == "[CTRL+X]" && dataIsReset(data))) {
 
                     response.append(data);
 
@@ -1004,9 +1004,27 @@ void frmMain::onSerialPortReadyRead()
                 }                
 
             } else {
-                // response without commands in buffer
-                ui->txtConsole->appendPlainText(data);
+                // Unprocessed responses
                 qDebug() << "floating response:" << data;
+
+                // Handle hardware reset
+                if (dataIsReset(data)) {
+                    m_processingFile = false;
+                    m_transferCompleted = true;
+                    m_fileCommandIndex = 0;
+
+                    m_reseting = false;
+                    m_homing = false;
+                    m_updateSpindleSpeed = true;
+                    m_lastGrblStatus = -1;
+
+                    m_commands.clear();
+                    m_queue.clear();
+                    m_serialPort.clear();
+
+                    updateControlsState();
+                }
+                ui->txtConsole->appendPlainText(data);
             }
         } else {
             // Blank response
@@ -2181,6 +2199,10 @@ bool frmMain::dataIsFloating(QString data) {
     }
 
     return false;
+}
+
+bool frmMain::dataIsReset(QString data) {
+    return data.contains("'$' for help");
 }
 
 QString frmMain::feedOverride(QString command)
