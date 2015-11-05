@@ -825,6 +825,16 @@ void frmMain::onSerialPortReadyRead()
                             int speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
                             if (ui->txtSpindleSpeed->value() == speed) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
                         }
+
+                        // Feed
+                        rx.setPattern(".*F([\\d\\.]+)");
+                        if (rx.indexIn(response) != -1) {
+                            int feed = toMetric(rx.cap(1).toDouble());
+                            if (feed == ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value() : m_originalFeed)
+                                ui->txtFeed->setStyleSheet("color: palette(text);");
+                        }
+
+                        m_updateParserStatus = true;
                     }
 
                     // Store origin
@@ -854,7 +864,10 @@ void frmMain::onSerialPortReadyRead()
                     if ((ca.command.toUpper() == "$H" || ca.command.toUpper() == "$T") && m_homing) m_homing = false;
 
                     // Reset complete
-                    if (ca.command == "[CTRL+X]") m_resetCompleted = true;
+                    if (ca.command == "[CTRL+X]") {
+                        m_resetCompleted = true;
+                        m_updateParserStatus = true;
+                    }
 
                     // Clear command buffer on "M2" & "M30" command (old firmwares)
                     if ((ca.command.contains("M2") || ca.command.contains("M30")) && response.contains("ok") && !response.contains("[Pgm End]")) {
@@ -1015,12 +1028,13 @@ void frmMain::onSerialPortReadyRead()
 
                     m_reseting = false;
                     m_homing = false;
-                    m_updateSpindleSpeed = true;
                     m_lastGrblStatus = -1;
+
+//                    m_updateSpindleSpeed = true;
+                    m_updateParserStatus = true;
 
                     m_commands.clear();
                     m_queue.clear();
-                    m_serialPort.clear();
 
                     updateControlsState();
                 }
@@ -1052,14 +1066,20 @@ void frmMain::onTimerConnection()
 {
     if (!m_serialPort.isOpen()) {
         openPort();
-    } else if (!m_homing/* && !m_reseting*/ && !ui->cmdFilePause->isChecked()) {
-
-//        qDebug() << "sending $G";
+    } else if (!m_homing/* && !m_reseting*/ && !ui->cmdFilePause->isChecked() && m_queue.length() == 0) {
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
             sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2, m_frmSettings.showUICommands());
         }
-        if (m_queue.length() == 0) sendCommand("$G", -3, false);
+        if (m_updateParserStatus) {
+            m_updateParserStatus = false;
+            sendCommand("$G", -3, false);
+        }
+        if (m_updateFeed) {
+            m_updateFeed = false;
+            sendCommand(QString("F%1").arg(ui->chkFeedOverride->isChecked() ?
+                m_originalFeed / 100 * ui->txtFeed->value() : m_originalFeed), -1, m_frmSettings.showUICommands());
+        }
     }
 }
 
@@ -1541,7 +1561,7 @@ void frmMain::sendNextFileCommands() {
 
     QString command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
 
-    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
+    while ((bufferLength() + command.length() + BUFFERRESERVE + 1) <= BUFFERLENGTH
            && m_fileCommandIndex < m_currentModel->rowCount() - 1
            && !(!m_commands.isEmpty() && m_commands.last().command.contains(QRegExp("M0*2|M30")))) {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sent"));
@@ -1812,6 +1832,7 @@ void frmMain::on_actFileOpen_triggered()
 void frmMain::on_cmdHome_clicked()
 {
     m_homing = true;
+    m_updateSpindleSpeed = true;
     sendCommand("$H", -1, m_frmSettings.showUICommands());
 }
 
@@ -1854,6 +1875,7 @@ void frmMain::on_cmdReset_clicked()
 
 void frmMain::on_cmdUnlock_clicked()
 {
+    m_updateSpindleSpeed = true;
     sendCommand("$X", -1, m_frmSettings.showUICommands());
 }
 
@@ -1876,10 +1898,6 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
     } else {
         ui->grpSpindle->setTitle(tr("Spindle"));
     }
-}
-
-void frmMain::on_txtSpindleSpeed_valueChanged(const QString &arg1)
-{
 }
 
 void frmMain::on_txtSpindleSpeed_editingFinished()
@@ -2208,7 +2226,7 @@ bool frmMain::dataIsReset(QString data) {
 QString frmMain::feedOverride(QString command)
 {
     // Feed override
-    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value());
+    if (ui->chkFeedOverride->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->txtFeed->value(), &m_originalFeed);
 
     return command;
 }
@@ -2222,14 +2240,22 @@ void frmMain::on_sliFeed_valueChanged(int value)
 {
     ui->txtFeed->setValue(value);
     updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    if (m_processingFile) {
+        ui->txtFeed->setStyleSheet("color: red;");
+        m_updateFeed = true;
+    }
 }
 
 void frmMain::on_chkFeedOverride_toggled(bool checked)
 {
     ui->grpFeed->setProperty("overrided", checked);
     style()->unpolish(ui->grpFeed);
-    ui->grpFeed->ensurePolished();
+    ui->grpFeed->ensurePolished();    
     updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    if (m_processingFile) {
+        ui->txtFeed->setStyleSheet("color: red;");
+        m_updateFeed = true;
+    }
 }
 
 void frmMain::on_grpFeed_toggled(bool checked)
