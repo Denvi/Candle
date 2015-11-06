@@ -707,6 +707,8 @@ void frmMain::onSerialPortReadyRead()
                 if (statusIndex != m_lastGrblStatus) m_lastGrblStatus = statusIndex;
 
                 // Abort
+                static int delay = 0;
+
                 if (m_aborting) {
                     switch (statusIndex) {
                     case 0: // Idle
@@ -718,8 +720,10 @@ void frmMain::onSerialPortReadyRead()
                         }
                         break;
                     case 4: // Hold
-                        Util::waitEvents(500);
-                        if (!m_reseting) grblReset();
+                        if (!m_reseting && (delay++ >= ABORTDELAY / m_frmSettings.queryStateTime())) {
+                            delay = 0;
+                            grblReset();
+                        }
                         break;
                     }
                 }
