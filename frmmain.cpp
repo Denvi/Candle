@@ -718,8 +718,8 @@ void frmMain::onSerialPortReadyRead()
                         }
                         break;
                     case 4: // Hold
-                        Util::waitEvents(250);
-                        grblReset();
+                        Util::waitEvents(500);
+                        if (!m_reseting) grblReset();
                         break;
                     }
                 }
@@ -1561,7 +1561,7 @@ void frmMain::sendNextFileCommands() {
 
     QString command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
 
-    while ((bufferLength() + command.length() + BUFFERRESERVE + 1) <= BUFFERLENGTH
+    while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
            && m_fileCommandIndex < m_currentModel->rowCount() - 1
            && !(!m_commands.isEmpty() && m_commands.last().command.contains(QRegExp("M0*2|M30")))) {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sent"));

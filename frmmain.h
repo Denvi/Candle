@@ -161,7 +161,6 @@ protected:
 
 private:
     const int BUFFERLENGTH = 127;
-    const int BUFFERRESERVE = 10;
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
