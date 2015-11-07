@@ -842,16 +842,20 @@ void frmMain::onSerialPortReadyRead()
                         // Spindle speed
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
-                            int speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-                            if (ui->txtSpindleSpeed->value() == speed) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+                            double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
+                            qDebug() << "speed:" << speed;
+                            if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
                         }
 
                         // Feed
                         rx.setPattern(".*F([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
-                            int feed = toMetric(rx.cap(1).toDouble());
-                            if (feed == ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value() : m_originalFeed)
-                                ui->txtFeed->setStyleSheet("color: palette(text);");
+                            double feed = toMetric(rx.cap(1).toDouble());
+                            double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
+                                                                          : m_originalFeed;
+                            if (response.contains("G20")) set *= 25.4;
+                            qDebug() << "feed:" << feed;
+                            if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
                         }
 
                         m_updateParserStatus = true;
@@ -865,16 +869,16 @@ void frmMain::onSerialPortReadyRead()
                         if (rx.indexIn(response) != -1) {
                             if (m_settingZeroXY) {
                                 m_settingZeroXY = false;
-                                m_storedX = rx.cap(1).toDouble();
-                                m_storedY = rx.cap(2).toDouble();
+                                m_storedX = toMetric(rx.cap(1).toDouble());
+                                m_storedY = toMetric(rx.cap(2).toDouble());
                             } else if (m_settingZeroZ) {
                                 m_settingZeroZ = false;
-                                m_storedZ = rx.cap(3).toDouble();
+                                m_storedZ = toMetric(rx.cap(3).toDouble());
                             } else {
                                 // Save offsets
-                                m_storedOffsets[0][0] = rx.cap(1).toDouble();
-                                m_storedOffsets[0][1] = rx.cap(2).toDouble();
-                                m_storedOffsets[0][2] = rx.cap(3).toDouble();
+                                m_storedOffsets[0][0] = toMetric(rx.cap(1).toDouble());
+                                m_storedOffsets[0][1] = toMetric(rx.cap(2).toDouble());
+                                m_storedOffsets[0][2] = toMetric(rx.cap(3).toDouble());
                             }
                             ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
@@ -1553,7 +1557,8 @@ void frmMain::on_cmdFileAbort_clicked()
 
 void frmMain::storeParserState()
 {
-    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("\\[|\\]|M[0345]+\\s|\\sS[\\d\\.]+"));
+    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
+                QRegExp("\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
 }
 
 void frmMain::restoreParserState()
@@ -1568,12 +1573,12 @@ void frmMain::storeOffsets()
 
 void frmMain::restoreOffsets()
 {
-    sendCommand(QString("G90X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble())
-                                       .arg(ui->txtMPosY->text().toDouble())
-                                       .arg(ui->txtMPosZ->text().toDouble()), -1, m_settings.showUICommands());
-    sendCommand(QString("G92X%1Y%2Z%3").arg(ui->txtMPosX->text().toDouble() - m_storedOffsets[0][0])
-                                       .arg(ui->txtMPosY->text().toDouble() - m_storedOffsets[0][1])
-                                       .arg(ui->txtMPosZ->text().toDouble() - m_storedOffsets[0][2]), -1, m_settings.showUICommands());
+    sendCommand(QString("G21G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
+                                       .arg(toMetric(ui->txtMPosY->text().toDouble()))
+                                       .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings.showUICommands());
+    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedOffsets[0][0])
+                                       .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedOffsets[0][1])
+                                       .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedOffsets[0][2]), -1, m_settings.showUICommands());
 }
 
 void frmMain::sendNextFileCommands() {    
@@ -1884,8 +1889,9 @@ void frmMain::on_cmdZeroZ_clicked()
 void frmMain::on_cmdReturnXY_clicked()
 {    
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
-    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(ui->txtMPosZ->text().toDouble()), -1, m_settings.showUICommands());
-    sendCommand(QString("G92X0Y0Z%1").arg(ui->txtMPosZ->text().toDouble() - m_storedZ), -1, m_settings.showUICommands());
+    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(toMetric(ui->txtMPosZ->text().toDouble())),
+                -1, m_settings.showUICommands());
+    sendCommand(QString("G92X0Y0Z%1").arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings.showUICommands());
 }
 
 void frmMain::on_cmdReset_clicked()
