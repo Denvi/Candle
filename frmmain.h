@@ -189,7 +189,7 @@ private:
 
     QSerialPort m_serialPort;
 
-    frmSettings m_frmSettings;
+    frmSettings m_settings;
     frmAbout m_frmAbout;
 
     QString m_settingsFileName;
@@ -323,6 +323,7 @@ private:
     void restoreOffsets();
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
+    bool compareCoordinates(double x, double y, double z);
 };
 
 #endif // FRMMAIN_H
