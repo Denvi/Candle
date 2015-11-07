@@ -843,7 +843,6 @@ void frmMain::onSerialPortReadyRead()
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
                             double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-                            qDebug() << "speed:" << speed;
                             if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
                         }
 
@@ -854,7 +853,6 @@ void frmMain::onSerialPortReadyRead()
                             double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
                                                                           : m_originalFeed;
                             if (response.contains("G20")) set *= 25.4;
-                            qDebug() << "feed:" << feed;
                             if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
                         }
 
@@ -2267,7 +2265,7 @@ void frmMain::on_sliFeed_valueChanged(int value)
 {
     ui->txtFeed->setValue(value);
     updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-    if (m_processingFile) {
+    if (m_processingFile && ui->chkFeedOverride->isChecked()) {
         ui->txtFeed->setStyleSheet("color: red;");
         m_updateFeed = true;
     }
