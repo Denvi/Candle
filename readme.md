@@ -14,6 +14,7 @@ Downloads:
 * Linux: [grblControl_0.7.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.tar.gz)
 
 Previous versions:
+
 0.6:
 * Windows: [grblControl_0.6.zip](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.zip)
 * Linux: [grblControl_0.6.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.tar.gz)
