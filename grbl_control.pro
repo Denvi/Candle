@@ -32,7 +32,7 @@ DEFINES += sNan=\"65536\"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 0.6
+VERSION = 0.7
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 

@@ -24,6 +24,7 @@
 #include <QShortcut>
 #include <QAction>
 #include <QLayout>
+#include <QMimeData>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
