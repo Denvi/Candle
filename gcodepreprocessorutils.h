@@ -16,7 +16,7 @@ class GcodePreprocessorUtils : public QObject
 {
     Q_OBJECT
 public:
-    static QString overrideSpeed(QString command, double speed);
+    static QString overrideSpeed(QString command, double speed, double *original = NULL);
     static QString removeComment(QString command);
     static QString parseComment(QString command);
     static QString truncateDecimals(int length, QString command);

@@ -83,7 +83,7 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-495</y>
+          <y>0</y>
           <width>361</width>
           <height>1130</height>
          </rect>
@@ -730,7 +730,7 @@ padding-top: 3;</string>
          <item>
           <widget class="GroupBox" name="grpTool">
            <property name="title">
-            <string>Tool graphic representation</string>
+            <string>Tool model</string>
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
@@ -1287,34 +1287,18 @@ padding-top: 3;</string>
  </resources>
  <connections>
   <connection>
-   <sender>chkAntialiasing</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>radMSAA</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>417</x>
-     <y>190</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>492</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>chkSimplify</sender>
    <signal>toggled(bool)</signal>
    <receiver>label_8</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>315</x>
-     <y>227</y>
+     <x>343</x>
+     <y>200</y>
     </hint>
     <hint type="destinationlabel">
-     <x>447</x>
-     <y>224</y>
+     <x>458</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>
@@ -1325,12 +1309,28 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>279</x>
-     <y>225</y>
+     <x>343</x>
+     <y>200</y>
     </hint>
     <hint type="destinationlabel">
-     <x>529</x>
-     <y>216</y>
+     <x>514</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAntialiasing</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>radMSAA</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>301</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>494</x>
+     <y>261</y>
     </hint>
    </hints>
   </connection>

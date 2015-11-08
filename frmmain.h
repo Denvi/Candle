@@ -97,7 +97,6 @@ private slots:
     void on_cmdUnlock_clicked();
     void on_cmdTopZ_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_txtSpindleSpeed_valueChanged(const QString &arg1);
     void on_txtSpindleSpeed_editingFinished();
     void on_sliSpindleSpeed_valueChanged(int value);
     void on_cmdYPlus_clicked();
@@ -162,6 +161,7 @@ protected:
 
 private:
     const int BUFFERLENGTH = 127;
+    const int ABORTDELAY = 500;
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
@@ -189,7 +189,7 @@ private:
 
     QSerialPort m_serialPort;
 
-    frmSettings m_frmSettings;
+    frmSettings m_settings;
     frmAbout m_frmAbout;
 
     QString m_settingsFileName;
@@ -214,6 +214,9 @@ private:
 #endif
 
     QMenu *m_tableMenu;
+    QList<CommandAttributes> m_commands;
+    QList<CommandQueue> m_queue;
+    QTime m_startTime;
 
     double m_storedX = 0;
     double m_storedY = 0;
@@ -221,51 +224,54 @@ private:
     QString m_storedParserStatus;
     double m_storedOffsets[1][3];
 
+    // ? settings
+    double m_arcPrecision;
     double m_safeZ = 0;
     double m_rapidSpeed = 0;
+    bool m_showAllCommands = false;
 
+    // Flags
     bool m_settingZeroXY = false;
     bool m_settingZeroZ = false;
     bool m_homing = false;
     bool m_programSpeed = false;
     bool m_updateSpindleSpeed = false;
-    double m_arcPrecision;
-
-    int m_lastDrawnLineIndex;
-
-    int m_lastGrblStatus;
-
-    QList<CommandAttributes> m_commands;
-    QList<CommandQueue> m_queue;
-
-    QTime m_startTime;
-    bool m_processingFile = false;
-    bool m_transferCompleted = false;
-    bool m_fileEndSent = false;
-    int m_fileCommandIndex;
-    int m_fileProcessedCommandIndex;
-    int m_probeIndex;
-    bool m_showAllCommands = false;
+    bool m_updateParserStatus = false;
+    bool m_updateFeed = false;
 
     bool m_reseting = false;
     bool m_resetCompleted = true;
-
     bool m_aborting = false;
 
+    bool m_processingFile = false;
+    bool m_transferCompleted = false;
+    bool m_fileEndSent = false;
+
+    bool m_heightMapMode;
+    bool m_cellChanged;
+
+    // Indices
+    int m_fileCommandIndex;
+    int m_fileProcessedCommandIndex;
+    int m_probeIndex;
+
+    // Current values
+    int m_lastDrawnLineIndex;
+    int m_lastGrblStatus;
+    double m_originalFeed;
+
+    // Keyboard
     bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;      
 
+    // Spindle
     bool m_spindleCW = true;
     bool m_spindleCommandSpeed = false;
 
     QStringList m_recentFiles;
     QStringList m_recentHeightmaps;
-
-    bool m_heightMapMode;
-
-    bool m_cellChanged;
 
     void loadFile(QString fileName);
     void loadFile(QList<QString> data);
@@ -317,6 +323,7 @@ private:
     void restoreOffsets();
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
+    bool compareCoordinates(double x, double y, double z);
 };
 
 #endif // FRMMAIN_H

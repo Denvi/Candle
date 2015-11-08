@@ -10,10 +10,16 @@ Supported functions:
 
 Downloads:
 ----------
+* Windows: [grblControl_0.7.zip](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.zip)
+* Linux: [grblControl_0.7.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.tar.gz)
+
+Previous versions:
+
+0.6:
 * Windows: [grblControl_0.6.zip](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.zip)
 * Linux: [grblControl_0.6.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.tar.gz)
 
-Previous versions:
+0.5.2:
 * Windows 7: [grblControl_0.5.2.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.zip)
 * Windows XP: [grblControl_0.5.2_xp.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2_xp.zip)
 * Linux: [grblControl_0.5.2.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.tar.gz)
@@ -21,6 +27,14 @@ Previous versions:
 In development:
 --------------
 * ~~Test build for embedded systems: Raspberry Pi to slow, waiting for Raspberry Pi 2 arrival.~~ (postponed for a winter vacation)
+
+Version 0.7 release:
+--------------------
+* Drag & Drop mechanism support added. You can drop files & plain text to main program window to open them.
+* "Abort" button added. File transfer can be interrupted without loss of work coordinates offsets now.
+* M2, M30, M18, M19 commands support added.
+* French translation added.
+* Some bugs fixed.
 
 Version 0.6 release:
 --------------------
