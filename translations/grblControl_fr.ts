@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>GCodeTableModel</name>
     <message>
@@ -191,13 +191,13 @@
         <location filename="../frmmain.ui" line="1034"/>
         <location filename="../frmmain.cpp" line="1230"/>
         <source>Check mode</source>
-        <translation>Mode vérification ($C)</translation>
+        <translation type="unfinished">Mode simulation</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1053"/>
         <location filename="../frmmain.cpp" line="1224"/>
         <source>Autoscroll</source>
-        <translation>Deplacement auto</translation>
+        <translation type="unfinished">Défilement auto</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1073"/>
@@ -573,7 +573,7 @@
         <location filename="../frmmain.cpp" line="1215"/>
         <location filename="../frmmain.cpp" line="1229"/>
         <source>Check</source>
-        <translation>Verifier</translation>
+        <translation type="unfinished">Vérifié</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="100"/>
@@ -692,7 +692,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation type="vanished">Envoyé</translation>
+        <translation>Envoyé</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1691"/>
@@ -918,7 +918,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Tool graphic representation</source>
-        <translation type="vanished">Représentation de l&apos;outil</translation>
+        <translation>Représentation de l&apos;outil</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="739"/>
