@@ -119,15 +119,15 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-    ui->tblProgram->hideColumn(4);
-    ui->tblProgram->hideColumn(5);
-//    ui->tblProgram->showColumn(4);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
     clearTable();
 
     // Loading settings
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
+//    ui->tblProgram->hideColumn(4);
+//    ui->tblProgram->hideColumn(5);
+//    ui->tblProgram->showColumn(4);
 
     // Setup serial port
     m_serialPort.setParity(QSerialPort::NoParity);
@@ -3048,11 +3048,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         //        m_programHeightmapModel.clear();
             m_programHeightmapModel.insertRow(0);
 
-            for (int i = 0; i < m_programModel.rowCount(); i++) {
+            for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
                 commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
                 command = m_programModel.data(m_programModel.index(i, 1)).toString();
 
-                if (commandIndex < 0 || commandIndex == lastCommandIndex) {
+                if (commandIndex <= 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count()) {
                     m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                 } else {
                     // Get command codes
