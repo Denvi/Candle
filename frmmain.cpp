@@ -148,6 +148,9 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
+    QFontMetrics fm(ui->txtConsole->font());
+    ui->txtConsole->setMinimumHeight(fm.height() * 2 + 8);
+
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -3052,7 +3055,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
                 command = m_programModel.data(m_programModel.index(i, 1)).toString();
 
-                if (commandIndex <= 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count()) {
+                if (commandIndex < 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count()) {
                     m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                 } else {
                     // Get command codes
