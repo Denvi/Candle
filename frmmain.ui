@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>870</width>
-    <height>845</height>
+    <height>1053</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -2807,7 +2807,6 @@ QDoubleSpinBox:focus {
   <tabstop>chkFeedOverride</tabstop>
   <tabstop>txtFeed</tabstop>
   <tabstop>sliFeed</tabstop>
-  <tabstop>grpJog</tabstop>
   <tabstop>txtJogStep</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
@@ -2824,7 +2823,6 @@ QDoubleSpinBox:focus {
   <tabstop>cboCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
-  <tabstop>grpHeightMap</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

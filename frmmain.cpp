@@ -474,10 +474,12 @@ void frmMain::updateControlsState() {
     style()->unpolish(ui->cmdFileReset);
     style()->unpolish(ui->cmdFileSend);
     style()->unpolish(ui->cmdFilePause);
+    style()->unpolish(ui->cmdFileAbort);
     ui->cmdFileOpen->ensurePolished();
     ui->cmdFileReset->ensurePolished();
     ui->cmdFileSend->ensurePolished();
     ui->cmdFilePause->ensurePolished();
+    ui->cmdFileAbort->ensurePolished();
 
     // Heightmap
 
@@ -2253,8 +2255,8 @@ bool frmMain::dataIsReset(QString data) {
 
 QString frmMain::feedOverride(QString command)
 {
-    // Feed override
-    command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
+    // Feed override if not in heightmap probing mode
+    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
         ui->txtFeed->value() : 100, &m_originalFeed);
 
     return command;
@@ -2802,7 +2804,10 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
 
-            if (!ui->chkHeightMapUse->isChecked()) updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+            if (!ui->chkHeightMapUse->isChecked()) {
+                ui->glwVisualizer->updateExtremes(m_codeDrawer);
+                updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+            }
         }
     }
 
@@ -3216,10 +3221,6 @@ void frmMain::on_cmdHeightMapCreate_clicked()
 {
     ui->cmdHeightMapMode->setChecked(true);
     on_actFileNew_triggered();
-}
-
-void frmMain::on_cmdHeightMapMode_clicked(bool checked)
-{
 }
 
 void frmMain::on_cmdHeightMapBorderAuto_clicked()
