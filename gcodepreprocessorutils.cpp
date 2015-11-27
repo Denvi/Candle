@@ -455,15 +455,14 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
 
     int numPoints;
 
-    if (arcDegreeMode) numPoints = qMax(1.0, sweep / (M_PI * arcPrecision / 180));
-    else {
+    if (arcDegreeMode && arcPrecision > 0) {
+        numPoints = qMax(1.0, sweep / (M_PI * arcPrecision / 180));
+    } else {
         if (arcPrecision <= 0 && minArcLength > 0) {
-            arcPrecision = (sweep * radius) / minArcLength;
+            arcPrecision = minArcLength;
         }
         numPoints = (int)ceil(arcLength/arcPrecision);
     }
-
-    qDebug() << "arcPrecision" << arcPrecision << arcDegreeMode << numPoints;
 
     return generatePointsAlongArcBDring(plane, start, end, center, clockwise, radius, startAngle, sweep, numPoints);
 }
