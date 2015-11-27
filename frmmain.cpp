@@ -1695,7 +1695,7 @@ void frmMain::onConsoleMouseMove(int dx, int dy)
 
 void frmMain::onConsoleMousePress()
 {
-    m_pressedConsoleMinHeight = ui->txtConsole->minimumHeight();
+    m_pressedConsoleMinHeight = ui->txtConsole->height();
 }
 
 void frmMain::onTableInsertLine()
