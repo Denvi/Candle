@@ -215,7 +215,9 @@ void frmMain::loadSettings()
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
     m_programSpeed = false;
     m_settings.setLineWidth(set.value("lineWidth", 1).toDouble());
-    m_settings.setArcPrecision(set.value("arcPrecision", 0).toDouble());
+    m_settings.setArcLength(set.value("arcLength", 0).toDouble());
+    m_settings.setArcDegree(set.value("arcDegree", 0).toDouble());
+    m_settings.setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
     m_settings.setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
     m_settings.setShowUICommands(set.value("showUICommands", 0).toBool());
     m_settings.setSafeZ(set.value("safeZ", 0).toDouble());
@@ -321,7 +323,9 @@ void frmMain::saveSettings()
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_settings.lineWidth());
-    set.setValue("arcPrecision", m_settings.arcPrecision());
+    set.setValue("arcLength", m_settings.arcLength());
+    set.setValue("arcDegree", m_settings.arcDegree());
+    set.setValue("arcDegreeMode", m_settings.arcDegreeMode());
     set.setValue("showProgramCommands", m_settings.showProgramCommands());
     set.setValue("showUICommands", m_settings.showUICommands());
     set.setValue("safeZ", m_settings.safeZ());
@@ -1424,7 +1428,7 @@ void frmMain::loadFile(QList<QString> data)
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
     }
 
-    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
 
     qDebug() << "model filled:" << time.elapsed();
     time.start();
@@ -1746,7 +1750,7 @@ void frmMain::applySettings() {
     m_heightMapBorderDrawer.setLineWidth(m_settings.lineWidth());
     m_heightMapGridDrawer.setLineWidth(0.1);
     m_heightMapInterpolationDrawer.setLineWidth(m_settings.lineWidth());
-    m_arcPrecision = m_settings.arcPrecision();
+    m_arcPrecision = m_settings.arcLength();
     ui->glwVisualizer->setLineWidth(m_settings.lineWidth());
     m_showAllCommands = m_settings.showProgramCommands();
     m_safeZ = m_settings.safeZ();
@@ -1833,7 +1837,7 @@ void frmMain::updateParser()
 
     parser->reset();
 
-    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
+    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
     m_currentDrawer->update();
     ui->glwVisualizer->updateExtremes(m_currentDrawer);
     updateControlsState();

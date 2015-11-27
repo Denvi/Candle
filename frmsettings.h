@@ -37,8 +37,13 @@ public:
     void setZBuffer(bool zBuffer);
     double lineWidth();
     void setLineWidth(double lineWidth);
+    double arcLength();
+    void setArcLength(double arcLength);
+    double arcDegree();
+    void setArcDegree(double arcDegree);
     double arcPrecision();
-    void setArcPrecision(double arcPrecision);
+    bool arcDegreeMode();
+    void setArcDegreeMode(bool arcDegreeMode);
     bool showProgramCommands();
     void setShowProgramCommands(bool showProgramCommands);
     bool showUICommands();
