@@ -79,6 +79,8 @@ private slots:
     void onActRecentFileTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
+    void onConsoleMouseMove(int dx, int dy);
+    void onConsoleMousePress();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -223,11 +225,7 @@ private:
     QString m_storedParserStatus;
     double m_storedOffsets[1][3];
 
-    // ? settings
-    double m_arcPrecision;
-    double m_safeZ = 0;
-    double m_rapidSpeed = 0;
-    bool m_showAllCommands = false;
+    int m_pressedConsoleMinHeight;
 
     // Flags
     bool m_settingZeroXY = false;

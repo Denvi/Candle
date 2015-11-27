@@ -148,9 +148,6 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
-    QFontMetrics fm(ui->txtConsole->font());
-    ui->txtConsole->setMinimumHeight(fm.height() * 2 + 8);
-
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -162,6 +159,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
+
+    // Console window mouse move handling
+    connect(ui->grpConsole, SIGNAL(mouseMoved(int,int)), this, SLOT(onConsoleMouseMove(int,int)));
+    connect(ui->grpConsole, SIGNAL(mousePressed()), this, SLOT(onConsoleMousePress()));
 
     // Handle file drop
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
@@ -237,6 +238,7 @@ void frmMain::loadSettings()
     m_settings.setPanelJog(set.value("panelJogVisible", true).toBool());
 
     m_settings.setFontSize(set.value("fontSize", 8).toInt());
+    ui->txtConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
@@ -364,6 +366,7 @@ void frmMain::saveSettings()
     set.setValue("panelFeedVisible", m_settings.panelFeed());
     set.setValue("panelJogVisible", m_settings.panelJog());
     set.setValue("fontSize", m_settings.fontSize());
+    set.setValue("consoleMinHeight", ui->txtConsole->minimumHeight());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -1395,7 +1398,7 @@ void frmMain::loadFile(QList<QString> data)
 
     // Prepare parser
     GcodeParser gp;
-    gp.setTraverseSpeed(m_rapidSpeed);
+    gp.setTraverseSpeed(m_settings.rapidSpeed());
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1681,6 +1684,20 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     }
 }
 
+void frmMain::onConsoleMouseMove(int dx, int dy)
+{
+    QFontMetrics fm(ui->txtConsole->font());
+    int minHeight = fm.height() * 2 + 8;
+    int maxHeight = 300;
+
+    ui->txtConsole->setMinimumHeight(qBound(minHeight, m_pressedConsoleMinHeight - dy, maxHeight));
+}
+
+void frmMain::onConsoleMousePress()
+{
+    m_pressedConsoleMinHeight = ui->txtConsole->minimumHeight();
+}
+
 void frmMain::onTableInsertLine()
 {
     if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_processingFile) return;
@@ -1750,11 +1767,7 @@ void frmMain::applySettings() {
     m_heightMapBorderDrawer.setLineWidth(m_settings.lineWidth());
     m_heightMapGridDrawer.setLineWidth(0.1);
     m_heightMapInterpolationDrawer.setLineWidth(m_settings.lineWidth());
-    m_arcPrecision = m_settings.arcLength();
     ui->glwVisualizer->setLineWidth(m_settings.lineWidth());
-    m_showAllCommands = m_settings.showProgramCommands();
-    m_safeZ = m_settings.safeZ();
-    m_rapidSpeed = m_settings.rapidSpeed();
     m_timerStateQuery.setInterval(m_settings.queryStateTime());
 
     m_toolDrawer.setToolAngle(m_settings.toolType() == 0 ? 180 : m_settings.toolAngle());
@@ -1805,7 +1818,7 @@ void frmMain::updateParser()
     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
     GcodeParser gp;
-    gp.setTraverseSpeed(m_rapidSpeed);
+    gp.setTraverseSpeed(m_settings.rapidSpeed());
 
     ui->tblProgram->setUpdatesEnabled(false);
 
@@ -1917,7 +1930,7 @@ void frmMain::on_cmdTopZ_clicked()
 {
 
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
-    sendCommand(QString("G53G90G0Z%1").arg(m_safeZ), -1, m_settings.showUICommands());
+    sendCommand(QString("G53G90G0Z%1").arg(m_settings.safeZ()), -1, m_settings.showUICommands());
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
