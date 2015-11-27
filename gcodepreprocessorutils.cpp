@@ -448,10 +448,10 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
     double arcLength = sweep * radius;
 
     // If this arc doesn't meet the minimum threshold, don't expand.
-    if (minArcLength > 0 && arcLength < minArcLength) {
-        QList<QVector3D> empty;
-        return empty;
-    }
+//    if (minArcLength > 0 && arcLength < minArcLength) {
+//        QList<QVector3D> empty;
+//        return empty;
+//    }
 
     int numPoints;
 
