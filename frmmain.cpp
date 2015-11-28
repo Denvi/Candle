@@ -160,7 +160,7 @@ frmMain::frmMain(QWidget *parent) :
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
 
-    // Console window mouse move handling
+    // Console window handling
     connect(ui->grpConsole, SIGNAL(mouseMoved(int,int)), this, SLOT(onConsoleMouseMove(int,int)));
     connect(ui->grpConsole, SIGNAL(mousePressed()), this, SLOT(onConsoleMousePress()));
 
@@ -1686,11 +1686,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 
 void frmMain::onConsoleMouseMove(int dx, int dy)
 {
-    QFontMetrics fm(ui->txtConsole->font());
-    int minHeight = fm.height() * 2 + 8;
-    int maxHeight = 300;
-
-    ui->txtConsole->setMinimumHeight(qBound(minHeight, m_pressedConsoleMinHeight - dy, maxHeight));
+    ui->txtConsole->setMinimumHeight(qBound(1, m_pressedConsoleMinHeight - dy, 300));
 }
 
 void frmMain::onConsoleMousePress()

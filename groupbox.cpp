@@ -36,3 +36,9 @@ void GroupBox::mouseReleaseEvent(QMouseEvent *event)
     m_pressedPos = QPoint();
 }
 
+void GroupBox::resizeEvent(QResizeEvent *event)
+{
+    QGroupBox::resizeEvent(event);
+    emit resized(event->size());
+}
+
