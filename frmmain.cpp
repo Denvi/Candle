@@ -148,6 +148,18 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
+    // Console window handling
+    connect(ui->grpConsole, SIGNAL(mouseMoved(int,int)), this, SLOT(onConsoleMouseMove(int,int)));
+    connect(ui->grpConsole, SIGNAL(mousePressed()), this, SLOT(onConsoleMousePress()));
+    connect(ui->grpConsole, SIGNAL(mouseReleased()), this, SLOT(onConsoleMouseRelease()));
+    connect(ui->grpConsole, SIGNAL(resized(QSize)), this, SLOT(onConsoleResized(QSize)));
+
+    ui->txtConsole->setMinimumHeight(1);
+
+    ui->splitPanels->setCollapsible(1, false);
+    connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
+    connect(ui->splitPanels, SIGNAL(splitterMoved(int,int)), this, SLOT(onPanelsSplitterMoved(int,int)));
+
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -159,10 +171,6 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
-
-    // Console window handling
-    connect(ui->grpConsole, SIGNAL(mouseMoved(int,int)), this, SLOT(onConsoleMouseMove(int,int)));
-    connect(ui->grpConsole, SIGNAL(mousePressed()), this, SLOT(onConsoleMousePress()));
 
     // Handle file drop
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
@@ -238,7 +246,7 @@ void frmMain::loadSettings()
     m_settings.setPanelJog(set.value("panelJogVisible", true).toBool());
 
     m_settings.setFontSize(set.value("fontSize", 8).toInt());
-    ui->txtConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
+//    ui->txtConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
@@ -1193,6 +1201,9 @@ void frmMain::resizeEvent(QResizeEvent *re)
     resizeCheckBoxes();
     resizeTableHeightMapSections();
 
+    int a = ui->splitPanels->height() - m_storedPanelsHeight - 6;
+    ui->splitPanels->setSizes(QList<int>() << m_storedPanelsHeight + 3 << a);
+
 //    ui->scrollArea->setMinimumSize(ui->scrollAreaWidgetContents->sizeHint());
 //    qDebug() << "viewport sizeHint:" << ui->scrollArea->viewport()->sizeHint() << ;
 }
@@ -1330,6 +1341,10 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
+    ui->grpConsole->setMinimumHeight(ui->grpConsole->minimumHeight() + 20);
+
+    return;
+
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
@@ -1685,13 +1700,47 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 }
 
 void frmMain::onConsoleMouseMove(int dx, int dy)
-{
-    ui->txtConsole->setMinimumHeight(qBound(1, m_pressedConsoleMinHeight - dy, 300));
+{    
+    qDebug() << "mouse move";
+//    ui->grpConsole->setMinimumHeight(qBound(1, m_pressedConsoleMinHeight - dy, 300));
+//    if (ui->txtConsole->minimumHeight() > 1 && !ui->txtConsole->isVisible()) ui->txtConsole->setVisible(true);
+    int a = m_pressedHeight - dy;
+
+    if (a < m_pressedHeight && !ui->scrollArea->verticalScrollBar()->isVisible()) return;
+    ui->splitPanels->setSizes(QList<int>() << ui->splitPanels->height() - a << a);
 }
 
 void frmMain::onConsoleMousePress()
 {
-    m_pressedConsoleMinHeight = ui->txtConsole->height();
+    qDebug() << "mouse press";
+//    m_pressedConsoleMinHeight = ui->grpConsole->height();
+    m_pressedHeight = ui->splitPanels->sizes().at(1);
+    ui->splitPanels->setSizes(QList<int>() << ui->splitPanels->height() - ui->grpConsole->height() << ui->grpConsole->height());
+    ui->txtConsole->setMinimumHeight(1);
+}
+
+void frmMain::onConsoleMouseRelease()
+{
+    if (ui->scrollArea->verticalScrollBar()->isVisible()) ui->txtConsole->setMinimumHeight(ui->txtConsole->height());
+}
+
+void frmMain::onConsoleResized(QSize size)
+{
+    int pureHeight = ui->grpConsole->layout()->spacing() + ui->grpConsole->layout()->margin() * 2 + ui->cboCommand->height() + 3;
+    bool visible = ui->grpConsole->contentsRect().height() > pureHeight;
+    //    if (ui->txtConsole->isVisible() != visible) ui->txtConsole->setVisible(visible);
+}
+
+void frmMain::onPanelsSizeChanged(QSize size)
+{
+    qDebug() << "panels resized" << size.height() << ui->splitPanels->height();
+    int a = ui->splitPanels->height() - size.height() - 6;
+    ui->splitPanels->setSizes(QList<int>() << size.height() + 3 << a);
+    m_storedPanelsHeight = size.height();
+}
+
+void frmMain::onPanelsSplitterMoved(int pos, int index)
+{
 }
 
 void frmMain::onTableInsertLine()

@@ -16,6 +16,7 @@ public:
 signals:
     void mouseMoved(int dx, int dy);
     void mousePressed();
+    void mouseReleased();
     void resized(QSize size);
 
 protected:

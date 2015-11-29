@@ -81,6 +81,10 @@ private slots:
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onConsoleMouseMove(int dx, int dy);
     void onConsoleMousePress();
+    void onConsoleMouseRelease();
+    void onConsoleResized(QSize size);
+    void onPanelsSizeChanged(QSize size);
+    void onPanelsSplitterMoved(int pos, int index);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -224,7 +228,9 @@ private:
     QString m_storedParserStatus;
     double m_storedOffsets[1][3];
 
-    int m_pressedConsoleMinHeight;
+    int m_consoleMinHeight;
+    int m_pressedHeight;
+    int m_storedPanelsHeight;
 
     // Flags
     bool m_settingZeroXY = false;
