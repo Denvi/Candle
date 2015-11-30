@@ -111,7 +111,19 @@ QSlider::handle:horizontal:hover {
 }*/</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="100,1">
+    <property name="leftMargin">
+     <number>9</number>
+    </property>
+    <property name="topMargin">
+     <number>9</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>9</number>
+    </property>
     <item>
      <widget class="QGroupBox" name="grpProgram">
       <property name="title">
@@ -1540,11 +1552,19 @@ QToolButton:checked { /* all types of tool button */
       </item>
       <item>
        <widget class="QSplitter" name="splitPanels">
+        <property name="styleSheet">
+         <string notr="true">QSplitter::handle {
+	background-image: url(&quot;:/images/handle_small.png&quot;);
+}</string>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
         <property name="handleWidth">
-         <number>0</number>
+         <number>10</number>
+        </property>
+        <property name="childrenCollapsible">
+         <bool>false</bool>
         </property>
         <widget class="ScrollArea" name="scrollArea">
          <property name="sizePolicy">
@@ -1573,8 +1593,8 @@ QToolButton:checked { /* all types of tool button */
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>238</width>
-            <height>644</height>
+            <width>228</width>
+            <height>609</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2540,7 +2560,10 @@ QDoubleSpinBox:focus {
             <property name="title">
              <string>Console</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
+            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0">
+             <property name="spacing">
+              <number>0</number>
+             </property>
              <property name="leftMargin">
               <number>8</number>
              </property>
@@ -2555,6 +2578,12 @@ QDoubleSpinBox:focus {
              </property>
              <item>
               <widget class="QPlainTextEdit" name="txtConsole">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>1</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>9</pointsize>
@@ -2564,6 +2593,22 @@ QDoubleSpinBox:focus {
                 <bool>true</bool>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="spacerConsole">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>6</height>
+                </size>
+               </property>
+              </spacer>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
@@ -2636,7 +2681,7 @@ QDoubleSpinBox:focus {
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

@@ -33,5 +33,6 @@
         <file>images/expand_disabled.png</file>
         <file>images/small_arrow.png</file>
         <file>images/shadow.png</file>
+        <file>images/handle_small.png</file>
     </qresource>
 </RCC>
