@@ -323,6 +323,7 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
+    int getConsoleMinHeight();
 };
 
 #endif // FRMMAIN_H

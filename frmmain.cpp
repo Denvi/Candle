@@ -2438,10 +2438,8 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->height() << ui->grpConsole->height());
 
             // Set new console mimimum height
-            int pureHeight = ui->grpConsole->height() - ui->grpConsole->contentsRect().height()
-                    + ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
-                    + ui->cboCommand->height();
-            ui->grpConsole->setMinimumHeight(qMax(pureHeight, ui->splitPanels->height()
+            int minHeight = getConsoleMinHeight();
+            ui->grpConsole->setMinimumHeight(qMax(minHeight, ui->splitPanels->height()
                 - ui->scrollAreaWidgetContents->sizeHint().height() - ui->splitPanels->handleWidth() - 4));
         }
     } else if (event->type() == QEvent::MouseButtonRelease) {
@@ -2458,16 +2456,34 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             // Resize splited widgets
             onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
         }
+    } else if (event->type() == QEvent::MouseButtonDblClick) {
+        if (obj == ui->splitPanels->handle(1)) {
+            // Switch to min/max console size
+            int minHeight = getConsoleMinHeight();
+            if (ui->grpConsole->height() == minHeight || !ui->scrollArea->verticalScrollBar()->isVisible()) {
+                ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->minimumHeight()
+                << ui->splitPanels->height() - ui->splitPanels->handleWidth() - ui->scrollArea->minimumHeight());
+            } else {
+                ui->grpConsole->setMinimumHeight(minHeight);
+                onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
+            }
+        }
     }
 
     return QMainWindow::eventFilter(obj, event);
 }
 
+int frmMain::getConsoleMinHeight()
+{
+    return ui->grpConsole->height() - ui->grpConsole->contentsRect().height()
+            + ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
+            + ui->cboCommand->height();
+}
+
 void frmMain::onConsoleResized(QSize size)
 {
-    int pureHeight = ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
-            + ui->cboCommand->height();
-    bool visible = ui->grpConsole->contentsRect().height() > pureHeight;
+    int minHeight = getConsoleMinHeight();
+    bool visible = ui->grpConsole->height() > minHeight;
     if (ui->txtConsole->isVisible() != visible) {
         ui->txtConsole->setVisible(visible);
     }
