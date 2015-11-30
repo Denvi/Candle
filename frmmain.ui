@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
+    <width>913</width>
     <height>899</height>
    </rect>
   </property>
@@ -1593,8 +1593,8 @@ QToolButton:checked { /* all types of tool button */
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>228</width>
-            <height>609</height>
+            <width>231</width>
+            <height>638</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1641,7 +1641,7 @@ QToolButton:checked { /* all types of tool button */
                <widget class="QWidget" name="widgetHeightMap" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_15">
                  <property name="spacing">
-                  <number>9</number>
+                  <number>7</number>
                  </property>
                  <property name="leftMargin">
                   <number>0</number>
@@ -2605,7 +2605,7 @@ QDoubleSpinBox:focus {
                <property name="sizeHint" stdset="0">
                 <size>
                  <width>20</width>
-                 <height>6</height>
+                 <height>7</height>
                 </size>
                </property>
               </spacer>
@@ -2614,6 +2614,11 @@ QDoubleSpinBox:focus {
               <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
                <item>
                 <widget class="ComboBox" name="cboCommand">
+                 <property name="styleSheet">
+                  <string notr="true">padding-top: 3;
+padding-bottom: 3;
+padding-right: 8;</string>
+                 </property>
                  <property name="editable">
                   <bool>true</bool>
                  </property>
@@ -2680,8 +2685,8 @@ QDoubleSpinBox:focus {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>870</width>
-     <height>21</height>
+     <width>913</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

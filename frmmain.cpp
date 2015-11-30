@@ -269,6 +269,10 @@ void frmMain::loadSettings()
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
     resizeCheckBoxes();
 
+    ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
+    ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
+    ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
+
     ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
@@ -1793,8 +1797,11 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorZMovement(m_settings.colors("ToolpathZMovement"));
     m_codeDrawer->setColorStart(m_settings.colors("ToolpathStart"));
     m_codeDrawer->setColorEnd(m_settings.colors("ToolpathEnd"));
-
     m_codeDrawer->update();
+
+    ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
+    ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
+    ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 }
 
 void frmMain::updateParser()
@@ -2437,7 +2444,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             // Set new console mimimum height
             int pureHeight = ui->grpConsole->height() - ui->grpConsole->contentsRect().height()
                     + ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
-                    + ui->cboCommand->height() + 2;
+                    + ui->cboCommand->height();
             ui->grpConsole->setMinimumHeight(qMax(pureHeight, ui->splitPanels->height()
                 - ui->scrollAreaWidgetContents->sizeHint().height() - ui->splitPanels->handleWidth() - 4));
         }
@@ -2462,9 +2469,12 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
 void frmMain::onConsoleResized(QSize size)
 {
-    int pureHeight = ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2 + ui->cboCommand->height() + 2;
+    int pureHeight = ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
+            + ui->cboCommand->height();
     bool visible = ui->grpConsole->contentsRect().height() > pureHeight;
-    if (ui->txtConsole->isVisible() != visible) ui->txtConsole->setVisible(visible);
+    if (ui->txtConsole->isVisible() != visible) {
+        ui->txtConsole->setVisible(visible);
+    }
 }
 
 void frmMain::onPanelsSizeChanged(QSize size)
