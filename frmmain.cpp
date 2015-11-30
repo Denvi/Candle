@@ -1333,10 +1333,6 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
-    ui->grpConsole->setMinimumHeight(ui->grpConsole->minimumHeight() + 20);
-
-    return;
-
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 

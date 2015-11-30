@@ -83,9 +83,9 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-274</y>
-          <width>399</width>
-          <height>1184</height>
+          <y>0</y>
+          <width>436</width>
+          <height>1186</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -113,6 +113,15 @@ QGroupBox {
               </item>
               <item>
                <widget class="QToolButton" name="cmdRefresh">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">padding: 0 1 0 2;</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
