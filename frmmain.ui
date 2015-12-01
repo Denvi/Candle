@@ -1592,9 +1592,9 @@ QToolButton:checked { /* all types of tool button */
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>231</width>
-            <height>638</height>
+            <y>-305</y>
+            <width>228</width>
+            <height>603</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2686,7 +2686,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>913</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2804,6 +2804,13 @@ padding-right: 8;</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>chkTestMode</tabstop>
+  <tabstop>chkAutoScroll</tabstop>
+  <tabstop>cmdFileOpen</tabstop>
+  <tabstop>cmdFileReset</tabstop>
+  <tabstop>cmdFileSend</tabstop>
+  <tabstop>cmdFilePause</tabstop>
+  <tabstop>cmdFileAbort</tabstop>
   <tabstop>cmdTop</tabstop>
   <tabstop>cmdIsometric</tabstop>
   <tabstop>cmdFront</tabstop>
@@ -2811,21 +2818,15 @@ padding-right: 8;</string>
   <tabstop>cmdFit</tabstop>
   <tabstop>tblProgram</tabstop>
   <tabstop>tblHeightMap</tabstop>
-  <tabstop>chkTestMode</tabstop>
-  <tabstop>chkAutoScroll</tabstop>
-  <tabstop>cmdFileOpen</tabstop>
-  <tabstop>cmdFileReset</tabstop>
-  <tabstop>cmdFileSend</tabstop>
-  <tabstop>cmdFilePause</tabstop>
   <tabstop>txtHeightMapBorderX</tabstop>
-  <tabstop>txtHeightMapBorderY</tabstop>
   <tabstop>txtHeightMapBorderWidth</tabstop>
+  <tabstop>txtHeightMapBorderY</tabstop>
   <tabstop>txtHeightMapBorderHeight</tabstop>
   <tabstop>chkHeightMapBorderShow</tabstop>
   <tabstop>cmdHeightMapBorderAuto</tabstop>
   <tabstop>txtHeightMapGridX</tabstop>
-  <tabstop>txtHeightMapGridY</tabstop>
   <tabstop>txtHeightMapGridZTop</tabstop>
+  <tabstop>txtHeightMapGridY</tabstop>
   <tabstop>txtHeightMapGridZBottom</tabstop>
   <tabstop>chkHeightMapGridShow</tabstop>
   <tabstop>txtHeightMapInterpolationStepX</tabstop>
@@ -2848,6 +2849,10 @@ padding-right: 8;</string>
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
   <tabstop>scrollArea</tabstop>
+  <tabstop>chkHeightMapUse</tabstop>
+  <tabstop>cmdHeightMapCreate</tabstop>
+  <tabstop>cmdHeightMapLoad</tabstop>
+  <tabstop>cmdHeightMapMode</tabstop>
   <tabstop>grpSpindle</tabstop>
   <tabstop>txtSpindleSpeed</tabstop>
   <tabstop>cmdSpindle</tabstop>
@@ -2856,11 +2861,14 @@ padding-right: 8;</string>
   <tabstop>chkFeedOverride</tabstop>
   <tabstop>txtFeed</tabstop>
   <tabstop>sliFeed</tabstop>
-  <tabstop>txtJogStep</tabstop>
+  <tabstop>grpJog</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
+  <tabstop>txtJogStep</tabstop>
+  <tabstop>cmdZPlus</tabstop>
+  <tabstop>cmdZMinus</tabstop>
   <tabstop>cmdJogStep1</tabstop>
   <tabstop>cmdJogStep2</tabstop>
   <tabstop>cmdJogStep3</tabstop>
@@ -2872,6 +2880,7 @@ padding-right: 8;</string>
   <tabstop>cboCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>
   <tabstop>cmdClearConsole</tabstop>
+  <tabstop>grpHeightMap</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

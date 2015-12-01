@@ -680,6 +680,8 @@ void frmMain::onSerialPortReadyRead()
                 // Update controls
                 ui->cmdReturnXY->setEnabled(status == IDLE);
                 ui->cmdTopZ->setEnabled(status == IDLE);
+                ui->cmdZeroXY->setEnabled(status == IDLE);
+                ui->cmdZeroZ->setEnabled(status == IDLE);
                 ui->chkTestMode->setEnabled(status != RUN && !m_processingFile);
                 ui->chkTestMode->setChecked(status == CHECK);
                 ui->cmdFilePause->setChecked(status == HOLD || status == QUEUE);
@@ -2356,80 +2358,92 @@ void frmMain::blockJogForRapidMovement() {
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {    
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    // Main form events
+    if (obj == this || obj == ui->tblProgram) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
-            ui->chkKeyboardControl->toggle();
-        }
-
-        if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
-            // Block only autorepeated keypresses
-            if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
-                blockJogForRapidMovement();
-
-                switch (keyEvent->key()) {
-                case Qt::Key_4:
-                    sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_6:
-                    sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_8:
-                    sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_2:
-                    sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_9:
-                    sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_3:
-                    sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                }
+            if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
+                ui->chkKeyboardControl->toggle();
             }
-            else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
-                QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
-                std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
 
-                for (int i = 0; i < stepButtons.count(); i++) {
-                    if (stepButtons[i]->isChecked()) {
+            if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
+                // Block only autorepeated keypresses
+                if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
+                    blockJogForRapidMovement();
 
-                        StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
-                                ? (i == stepButtons.length() - 1 ? 0 : i + 1)
-                                : (i == 0 ? stepButtons.length() - 1 : i - 1)];
-
-                        ui->txtJogStep->setValue(button->text().toDouble());
-                        foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
-                        {
-                            button->setChecked(false);
-                        }
-                        button->setChecked(true);
-
-                        if (!ui->grpJog->isChecked()) {
-                            ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
-                        }
+                    switch (keyEvent->key()) {
+                    case Qt::Key_4:
+                        sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_6:
+                        sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_8:
+                        sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_2:
+                        sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_9:
+                        sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_3:
+                        sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
                         break;
                     }
                 }
-            } else if (keyEvent->key() == Qt::Key_0) {
-                ui->cmdSpindle->toggle();
-            } else if (keyEvent->key() == Qt::Key_7) {
-                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
-            } else if (keyEvent->key() == Qt::Key_1) {
-                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
+                else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
+                    QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
+                    std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
+
+                    for (int i = 0; i < stepButtons.count(); i++) {
+                        if (stepButtons[i]->isChecked()) {
+
+                            StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
+                                    ? (i == stepButtons.length() - 1 ? 0 : i + 1)
+                                    : (i == 0 ? stepButtons.length() - 1 : i - 1)];
+
+                            ui->txtJogStep->setValue(button->text().toDouble());
+                            foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
+                            {
+                                button->setChecked(false);
+                            }
+                            button->setChecked(true);
+
+                            if (!ui->grpJog->isChecked()) {
+                                ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
+                            }
+                            break;
+                        }
+                    }
+                } else if (keyEvent->key() == Qt::Key_0) {
+                    ui->cmdSpindle->toggle();
+                } else if (keyEvent->key() == Qt::Key_7) {
+                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
+                } else if (keyEvent->key() == Qt::Key_1) {
+                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
+                }
+            }
+
+            if (obj == ui->tblProgram && m_processingFile) {
+                if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
+                            || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
+                    ui->chkAutoScroll->setChecked(false);
+                }
             }
         }
 
-        if (obj == ui->tblProgram && m_processingFile) {
-            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
-                        || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
-                ui->chkAutoScroll->setChecked(false);
-            }
-        }
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        if (obj == ui->splitPanels->handle(1)) {
+    // Splitter events
+    } else if (obj == ui->splitPanels && event->type() == QEvent::Resize) {
+        // Resize splited widgets
+        onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
+
+    // Splitter handle events
+    } else if (obj == ui->splitPanels->handle(1)) {
+        int minHeight = getConsoleMinHeight();
+        switch (event->type()) {
+        case QEvent::MouseButtonPress:
             // Store current console group box minimum & real heights
             m_storedConsoleMinimumHeight = ui->grpConsole->minimumHeight();
             m_storedConsoleHeight = ui->grpConsole->height();
@@ -2438,28 +2452,19 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->height() << ui->grpConsole->height());
 
             // Set new console mimimum height
-            int minHeight = getConsoleMinHeight();
             ui->grpConsole->setMinimumHeight(qMax(minHeight, ui->splitPanels->height()
                 - ui->scrollAreaWidgetContents->sizeHint().height() - ui->splitPanels->handleWidth() - 4));
-        }
-    } else if (event->type() == QEvent::MouseButtonRelease) {
-        if (obj == ui->splitPanels->handle(1)) {
+            break;
+        case QEvent::MouseButtonRelease:
             // Store new console minimum height if height was changed with split handle
             if (ui->grpConsole->height() != m_storedConsoleHeight) {
                 ui->grpConsole->setMinimumHeight(ui->grpConsole->height());
             } else {
                 ui->grpConsole->setMinimumHeight(m_storedConsoleMinimumHeight);
             }
-        }
-    } else if (event->type() == QEvent::Resize) {
-        if (obj == ui->splitPanels) {
-            // Resize splited widgets
-            onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
-        }
-    } else if (event->type() == QEvent::MouseButtonDblClick) {
-        if (obj == ui->splitPanels->handle(1)) {
+            break;
+        case QEvent::MouseButtonDblClick:
             // Switch to min/max console size
-            int minHeight = getConsoleMinHeight();
             if (ui->grpConsole->height() == minHeight || !ui->scrollArea->verticalScrollBar()->isVisible()) {
                 ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->minimumHeight()
                 << ui->splitPanels->height() - ui->splitPanels->handleWidth() - ui->scrollArea->minimumHeight());
@@ -2467,6 +2472,9 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 ui->grpConsole->setMinimumHeight(minHeight);
                 onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
             }
+            break;
+        default:
+            break;
         }
     }
 
@@ -3133,7 +3141,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
                 command = m_programModel.data(m_programModel.index(i, 1)).toString();
 
-                if (commandIndex < 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count()) {
+                if (commandIndex < 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count() - 1) {
                     m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                 } else {
                     // Get command codes

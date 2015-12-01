@@ -83,9 +83,9 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>399</width>
-          <height>1183</height>
+          <y>-595</y>
+          <width>347</width>
+          <height>1034</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1289,6 +1289,9 @@ padding-top: 3;</string>
        <property name="text">
         <string>Set to defaults</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -1309,12 +1312,18 @@ padding-top: 3;</string>
        <property name="text">
         <string>OK</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="cmdCancel">
        <property name="text">
         <string>Cancel</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -1363,6 +1372,8 @@ padding-top: 3;</string>
   <tabstop>txtTouchCommand</tabstop>
   <tabstop>txtHeightMapProbingFeed</tabstop>
   <tabstop>cboUnits</tabstop>
+  <tabstop>radArcLengthMode</tabstop>
+  <tabstop>txtArcLength</tabstop>
   <tabstop>radArcDegreeMode</tabstop>
   <tabstop>txtArcDegree</tabstop>
   <tabstop>txtLineWidth</tabstop>
@@ -1384,9 +1395,9 @@ padding-top: 3;</string>
   <tabstop>chkPanelSpindle</tabstop>
   <tabstop>chkPanelJog</tabstop>
   <tabstop>cboFontSize</tabstop>
+  <tabstop>cmdDefaults</tabstop>
   <tabstop>cmdOK</tabstop>
   <tabstop>cmdCancel</tabstop>
-  <tabstop>cmdDefaults</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
