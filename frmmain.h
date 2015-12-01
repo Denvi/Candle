@@ -114,6 +114,7 @@ private slots:
     void on_cmdClearConsole_clicked();
     void on_actFileSaveAs_triggered();
     void on_actFileSave_triggered();
+    void on_actFileSaveTransformedAs_triggered();
     void on_cmdTop_clicked();
     void on_cmdFront_clicked();
     void on_cmdLeft_clicked();
@@ -148,7 +149,6 @@ private slots:
     void on_chkHeightMapUse_clicked(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
-
     void on_cmdFileAbort_clicked();
 
 protected:
@@ -291,7 +291,7 @@ private:
     bool dataIsReset(QString data);
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
-    bool saveProgramToFile(QString fileName);
+    bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);

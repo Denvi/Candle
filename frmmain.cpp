@@ -495,7 +495,6 @@ void frmMain::updateControlsState() {
     ui->cmdFileAbort->ensurePolished();
 
     // Heightmap
-
     m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
@@ -520,6 +519,8 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
+
+    ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 }
 
 void frmMain::openPort()
@@ -2134,36 +2135,44 @@ void frmMain::on_cmdClearConsole_clicked()
     ui->txtConsole->clear();
 }
 
-bool frmMain::saveProgramToFile(QString fileName)
+bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 {
     QFile file(fileName);
     QDir dir;
 
     qDebug() << "Saving program";
 
-    m_fileChanged = false;
-
     if (file.exists()) dir.remove(file.fileName());
-
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
 
-    for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
-        textStream << m_programModel.data(m_programModel.index(i, 1)).toString() << "\r\n";
+    for (int i = 0; i < model->rowCount() - 1; i++) {
+        textStream << model->data(model->index(i, 1)).toString() << "\r\n";
     }
 
+    file.close();
+
     return true;
+}
+
+void frmMain::on_actFileSaveTransformedAs_triggered()
+{
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
+
+    if (!fileName.isEmpty()) {
+        saveProgramToFile(fileName, &m_programHeightmapModel);
+    }
 }
 
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-
         QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
 
-        if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
+        if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
+            m_fileChanged = false;
 
             addRecentFile(fileName);
             updateRecentFilesMenu();
@@ -2181,9 +2190,6 @@ void frmMain::on_actFileSaveAs_triggered()
             addRecentHeightmap(fileName);
             updateRecentFilesMenu();
 
-//            addRecentFile(fileName);
-//            updateRecentFilesMenu();
-
             updateControlsState();
         }
     }
@@ -2193,7 +2199,10 @@ void frmMain::on_actFileSave_triggered()
 {
     if (!m_heightMapMode) {
         // G-code saving
-        if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveProgramToFile(m_programFileName);
+        if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else {
+            saveProgramToFile(m_programFileName, &m_programModel);
+            m_fileChanged = false;
+        }
     } else {
         // Height map saving
         if (m_heightMapFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveHeightMap(m_heightMapFileName);
@@ -3230,8 +3239,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         // Update parser
         m_currentDrawer = m_codeDrawer;
-        updateParser();
-
+        updateParser();        
     } else {
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
@@ -3249,6 +3257,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         updateParser();
         m_fileChanged = fileChanged;
     }
+
+    // Update menu
+    ui->actFileSaveTransformedAs->setVisible(checked);
 }
 
 QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)

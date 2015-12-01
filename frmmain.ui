@@ -1592,9 +1592,9 @@ QToolButton:checked { /* all types of tool button */
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-305</y>
-            <width>228</width>
-            <height>603</height>
+            <y>0</y>
+            <width>231</width>
+            <height>638</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2686,7 +2686,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>913</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2706,6 +2706,7 @@ padding-right: 8;</string>
     <addaction name="separator"/>
     <addaction name="actFileSave"/>
     <addaction name="actFileSaveAs"/>
+    <addaction name="actFileSaveTransformedAs"/>
     <addaction name="separator"/>
     <addaction name="actFileExit"/>
    </widget>
@@ -2763,6 +2764,11 @@ padding-right: 8;</string>
   <action name="actRecentClear">
    <property name="text">
     <string>&amp;Clear</string>
+   </property>
+  </action>
+  <action name="actFileSaveTransformedAs">
+   <property name="text">
+    <string>Save &amp;transformed as...</string>
    </property>
   </action>
  </widget>
