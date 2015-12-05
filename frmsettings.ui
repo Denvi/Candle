@@ -83,9 +83,9 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-595</y>
-          <width>347</width>
-          <height>1034</height>
+          <y>-181</y>
+          <width>399</width>
+          <height>1199</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -577,7 +577,7 @@ padding-top: 3;</string>
                  <string notr="true">color: blue;</string>
                 </property>
                 <property name="text">
-                 <string>(used in visualizer and heightmap modification procedure)</string>
+                 <string>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>

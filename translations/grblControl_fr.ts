@@ -1027,6 +1027,11 @@ Temps écoulé: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../frmsettings.ui" line="580"/>
+        <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../frmsettings.ui" line="1151"/>
         <source>Drawn:</source>
         <translation>Dessin:</translation>
@@ -1044,11 +1049,6 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="534"/>
         <source>by angle (deg.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frmsettings.ui" line="580"/>
-        <source>(used in visualizer and heightmap modification procedure)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
