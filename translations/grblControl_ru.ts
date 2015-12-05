@@ -923,6 +923,10 @@ Time elapsed: %1</source>
         <translation>Z-перемещения:</translation>
     </message>
     <message>
+        <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map)</source>
+        <translation type="vanished">(Используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
+    </message>
+    <message>
         <location filename="../frmsettings.ui" line="1088"/>
         <source>Start point:</source>
         <translation>Начало:</translation>
@@ -1088,6 +1092,11 @@ Time elapsed: %1</source>
         <translation>Имперские</translation>
     </message>
     <message>
+        <location filename="../frmsettings.ui" line="580"/>
+        <source>(used in the visualizer and the procedure of transformation files in accordance with the height map)</source>
+        <translation>(используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
+    </message>
+    <message>
         <location filename="../frmsettings.ui" line="993"/>
         <source>Command auto-completion</source>
         <translation>Автозавершение команды</translation>
@@ -1226,9 +1235,8 @@ Time elapsed: %1</source>
         <translation>по длине</translation>
     </message>
     <message>
-        <location filename="../frmsettings.ui" line="580"/>
         <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</source>
-        <translation>(используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
+        <translation type="vanished">(используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1003"/>

@@ -1032,7 +1032,7 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="580"/>
-        <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</source>
+        <source>(used in the visualizer and the procedure of transformation files in accordance with the height map)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -83,7 +83,7 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-181</y>
+          <y>-159</y>
           <width>399</width>
           <height>1199</height>
          </rect>
@@ -577,7 +577,7 @@ padding-top: 3;</string>
                  <string notr="true">color: blue;</string>
                 </property>
                 <property name="text">
-                 <string>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</string>
+                 <string>(used in the visualizer and the procedure of transformation files in accordance with the height map)</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
