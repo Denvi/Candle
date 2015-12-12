@@ -8,12 +8,25 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
+Version 0.8 release:
+--------------------
+* You can save files, transformed according to heightmap.
+* Console window have adjustable size now.
+* Added "Degree" minimum arc size to parser settings.
+* Some minor bugs fixed.
+
 Downloads:
 ----------
-* Windows: [grblControl_0.7.zip](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.zip)
-* Linux: [grblControl_0.7.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.tar.gz)
+* Windows: [grblControl_0.8.zip](https://github.com/Denvi/grblControl/releases/download/0.8/grblControl_0.8.zip)
+* Linux: [grblControl_0.8.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.8/grblControl_0.8.tar.gz)
+
+Translations will be available from here: [translations](https://github.com/Denvi/grblControl/tree/0.8/translations)
 
 Previous versions:
+
+0.7:
+* Windows: [grblControl_0.7.zip](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.zip)
+* Linux: [grblControl_0.7.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.tar.gz)
 
 0.6:
 * Windows: [grblControl_0.6.zip](https://github.com/Denvi/grblControl/releases/download/0.6/grblControl_0.6.zip)
@@ -24,9 +37,6 @@ Previous versions:
 * Windows XP: [grblControl_0.5.2_xp.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2_xp.zip)
 * Linux: [grblControl_0.5.2.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.tar.gz)
 
-In development:
---------------
-* ~~Test build for embedded systems: Raspberry Pi to slow, waiting for Raspberry Pi 2 arrival.~~ (postponed for a winter vacation)
 
 Version 0.7 release:
 --------------------
