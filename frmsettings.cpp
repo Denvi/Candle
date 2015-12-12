@@ -511,6 +511,8 @@ void frmSettings::on_cmdDefaults_clicked()
     setUnits(0);
 
     setArcLength(0.0);
+    setArcDegreeMode(true);
+    setArcDegree(5.0);
 
     setLineWidth(1.5);
     setAntialiasing(true);

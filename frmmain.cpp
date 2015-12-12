@@ -129,8 +129,8 @@ frmMain::frmMain(QWidget *parent) :
     // Loading settings
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
-//    ui->tblProgram->hideColumn(4);
-//    ui->tblProgram->hideColumn(5);
+    ui->tblProgram->hideColumn(4);
+    ui->tblProgram->hideColumn(5);
 //    ui->tblProgram->showColumn(4);
 
     // Setup serial port
