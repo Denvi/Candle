@@ -411,7 +411,7 @@ double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle
 /**
 * Generates the points along an arc including the start and end points.
 */
-QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcSegmentLength)
+QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode)
 {
     double radius = R;
 
@@ -448,19 +448,20 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
     double arcLength = sweep * radius;
 
     // If this arc doesn't meet the minimum threshold, don't expand.
-    if (minArcLength > 0 && arcLength < minArcLength) {
-        QList<QVector3D> empty;
-        return empty;
-    }
+//    if (minArcLength > 0 && arcLength < minArcLength) {
+//        QList<QVector3D> empty;
+//        return empty;
+//    }
 
-    int numPoints = 50 / M_PI * sweep + 1;
+    int numPoints;
 
-    if (arcSegmentLength <= 0 && minArcLength > 0) {
-        arcSegmentLength = (sweep * radius) / minArcLength;
-    }
-
-    if (arcSegmentLength > 0) {
-        numPoints = (int)ceil(arcLength/arcSegmentLength);
+    if (arcDegreeMode && arcPrecision > 0) {
+        numPoints = qMax(1.0, sweep / (M_PI * arcPrecision / 180));
+    } else {
+        if (arcPrecision <= 0 && minArcLength > 0) {
+            arcPrecision = minArcLength;
+        }
+        numPoints = (int)ceil(arcLength/arcPrecision);
     }
 
     return generatePointsAlongArcBDring(plane, start, end, center, clockwise, radius, startAngle, sweep, numPoints);

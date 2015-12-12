@@ -161,7 +161,7 @@ QList<PointSegment*> GcodeParser::expandArc()
     // Start expansion.
     //
 
-    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength);
+    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength, false);
 
     // Validate output of expansion.
     if (expandedPoints.length() == 0) {

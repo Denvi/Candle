@@ -119,15 +119,19 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-    ui->tblProgram->hideColumn(4);
-    ui->tblProgram->hideColumn(5);
-//    ui->tblProgram->showColumn(4);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
     clearTable();
+
+    // Console window handling
+    connect(ui->grpConsole, SIGNAL(resized(QSize)), this, SLOT(onConsoleResized(QSize)));
+    connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
     // Loading settings
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
+    ui->tblProgram->hideColumn(4);
+    ui->tblProgram->hideColumn(5);
+//    ui->tblProgram->showColumn(4);
 
     // Setup serial port
     m_serialPort.setParity(QSerialPort::NoParity);
@@ -153,7 +157,9 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     this->installEventFilter(this);
-    ui->tblProgram->installEventFilter(this);
+    ui->tblProgram->installEventFilter(this);   
+    ui->splitPanels->handle(1)->installEventFilter(this);
+    ui->splitPanels->installEventFilter(this);
 
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
@@ -212,7 +218,9 @@ void frmMain::loadSettings()
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
     m_programSpeed = false;
     m_settings.setLineWidth(set.value("lineWidth", 1).toDouble());
-    m_settings.setArcPrecision(set.value("arcPrecision", 0).toDouble());
+    m_settings.setArcLength(set.value("arcLength", 0).toDouble());
+    m_settings.setArcDegree(set.value("arcDegree", 0).toDouble());
+    m_settings.setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
     m_settings.setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
     m_settings.setShowUICommands(set.value("showUICommands", 0).toBool());
     m_settings.setSafeZ(set.value("safeZ", 0).toDouble());
@@ -232,6 +240,7 @@ void frmMain::loadSettings()
     m_settings.setPanelJog(set.value("panelJogVisible", true).toBool());
 
     m_settings.setFontSize(set.value("fontSize", 8).toInt());
+    ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
@@ -259,6 +268,10 @@ void frmMain::loadSettings()
 
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
     resizeCheckBoxes();
+
+    ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
+    ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
+    ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
     ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
@@ -318,7 +331,9 @@ void frmMain::saveSettings()
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_settings.lineWidth());
-    set.setValue("arcPrecision", m_settings.arcPrecision());
+    set.setValue("arcLength", m_settings.arcLength());
+    set.setValue("arcDegree", m_settings.arcDegree());
+    set.setValue("arcDegreeMode", m_settings.arcDegreeMode());
     set.setValue("showProgramCommands", m_settings.showProgramCommands());
     set.setValue("showUICommands", m_settings.showUICommands());
     set.setValue("safeZ", m_settings.safeZ());
@@ -357,6 +372,7 @@ void frmMain::saveSettings()
     set.setValue("panelFeedVisible", m_settings.panelFeed());
     set.setValue("panelJogVisible", m_settings.panelJog());
     set.setValue("fontSize", m_settings.fontSize());
+    set.setValue("consoleMinHeight", ui->grpConsole->minimumHeight());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -471,13 +487,14 @@ void frmMain::updateControlsState() {
     style()->unpolish(ui->cmdFileReset);
     style()->unpolish(ui->cmdFileSend);
     style()->unpolish(ui->cmdFilePause);
+    style()->unpolish(ui->cmdFileAbort);
     ui->cmdFileOpen->ensurePolished();
     ui->cmdFileReset->ensurePolished();
     ui->cmdFileSend->ensurePolished();
     ui->cmdFilePause->ensurePolished();
+    ui->cmdFileAbort->ensurePolished();
 
     // Heightmap
-
     m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
@@ -502,6 +519,8 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
+
+    ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 }
 
 void frmMain::openPort()
@@ -662,6 +681,8 @@ void frmMain::onSerialPortReadyRead()
                 // Update controls
                 ui->cmdReturnXY->setEnabled(status == IDLE);
                 ui->cmdTopZ->setEnabled(status == IDLE);
+                ui->cmdZeroXY->setEnabled(status == IDLE);
+                ui->cmdZeroZ->setEnabled(status == IDLE);
                 ui->chkTestMode->setEnabled(status != RUN && !m_processingFile);
                 ui->chkTestMode->setChecked(status == CHECK);
                 ui->cmdFilePause->setChecked(status == HOLD || status == QUEUE);
@@ -1180,9 +1201,6 @@ void frmMain::resizeEvent(QResizeEvent *re)
     placeVisualizerButtons();
     resizeCheckBoxes();
     resizeTableHeightMapSections();
-
-//    ui->scrollArea->setMinimumSize(ui->scrollAreaWidgetContents->sizeHint());
-//    qDebug() << "viewport sizeHint:" << ui->scrollArea->viewport()->sizeHint() << ;
 }
 
 void frmMain::resizeTableHeightMapSections()
@@ -1386,7 +1404,7 @@ void frmMain::loadFile(QList<QString> data)
 
     // Prepare parser
     GcodeParser gp;
-    gp.setTraverseSpeed(m_rapidSpeed);
+    gp.setTraverseSpeed(m_settings.rapidSpeed());
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1419,7 +1437,7 @@ void frmMain::loadFile(QList<QString> data)
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
     }
 
-    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_arcPrecision));
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
 
     qDebug() << "model filled:" << time.elapsed();
     time.start();
@@ -1741,11 +1759,7 @@ void frmMain::applySettings() {
     m_heightMapBorderDrawer.setLineWidth(m_settings.lineWidth());
     m_heightMapGridDrawer.setLineWidth(0.1);
     m_heightMapInterpolationDrawer.setLineWidth(m_settings.lineWidth());
-    m_arcPrecision = m_settings.arcPrecision();
     ui->glwVisualizer->setLineWidth(m_settings.lineWidth());
-    m_showAllCommands = m_settings.showProgramCommands();
-    m_safeZ = m_settings.safeZ();
-    m_rapidSpeed = m_settings.rapidSpeed();
     m_timerStateQuery.setInterval(m_settings.queryStateTime());
 
     m_toolDrawer.setToolAngle(m_settings.toolType() == 0 ? 180 : m_settings.toolAngle());
@@ -1782,8 +1796,11 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorZMovement(m_settings.colors("ToolpathZMovement"));
     m_codeDrawer->setColorStart(m_settings.colors("ToolpathStart"));
     m_codeDrawer->setColorEnd(m_settings.colors("ToolpathEnd"));
-
     m_codeDrawer->update();
+
+    ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
+    ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
+    ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 }
 
 void frmMain::updateParser()
@@ -1796,7 +1813,7 @@ void frmMain::updateParser()
     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
     GcodeParser gp;
-    gp.setTraverseSpeed(m_rapidSpeed);
+    gp.setTraverseSpeed(m_settings.rapidSpeed());
 
     ui->tblProgram->setUpdatesEnabled(false);
 
@@ -1828,7 +1845,7 @@ void frmMain::updateParser()
 
     parser->reset();
 
-    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_arcPrecision));
+    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
     m_currentDrawer->update();
     ui->glwVisualizer->updateExtremes(m_currentDrawer);
     updateControlsState();
@@ -1908,7 +1925,7 @@ void frmMain::on_cmdTopZ_clicked()
 {
 
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
-    sendCommand(QString("G53G90G0Z%1").arg(m_safeZ), -1, m_settings.showUICommands());
+    sendCommand(QString("G53G90G0Z%1").arg(m_settings.safeZ()), -1, m_settings.showUICommands());
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
@@ -2118,36 +2135,44 @@ void frmMain::on_cmdClearConsole_clicked()
     ui->txtConsole->clear();
 }
 
-bool frmMain::saveProgramToFile(QString fileName)
+bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 {
     QFile file(fileName);
     QDir dir;
 
     qDebug() << "Saving program";
 
-    m_fileChanged = false;
-
     if (file.exists()) dir.remove(file.fileName());
-
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
 
-    for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
-        textStream << m_programModel.data(m_programModel.index(i, 1)).toString() << "\r\n";
+    for (int i = 0; i < model->rowCount() - 1; i++) {
+        textStream << model->data(model->index(i, 1)).toString() << "\r\n";
     }
 
+    file.close();
+
     return true;
+}
+
+void frmMain::on_actFileSaveTransformedAs_triggered()
+{
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
+
+    if (!fileName.isEmpty()) {
+        saveProgramToFile(fileName, &m_programHeightmapModel);
+    }
 }
 
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-
         QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
 
-        if (!fileName.isEmpty()) if (saveProgramToFile(fileName)) {
+        if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
+            m_fileChanged = false;
 
             addRecentFile(fileName);
             updateRecentFilesMenu();
@@ -2165,9 +2190,6 @@ void frmMain::on_actFileSaveAs_triggered()
             addRecentHeightmap(fileName);
             updateRecentFilesMenu();
 
-//            addRecentFile(fileName);
-//            updateRecentFilesMenu();
-
             updateControlsState();
         }
     }
@@ -2177,7 +2199,10 @@ void frmMain::on_actFileSave_triggered()
 {
     if (!m_heightMapMode) {
         // G-code saving
-        if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveProgramToFile(m_programFileName);
+        if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else {
+            saveProgramToFile(m_programFileName, &m_programModel);
+            m_fileChanged = false;
+        }
     } else {
         // Height map saving
         if (m_heightMapFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveHeightMap(m_heightMapFileName);
@@ -2250,8 +2275,8 @@ bool frmMain::dataIsReset(QString data) {
 
 QString frmMain::feedOverride(QString command)
 {
-    // Feed override
-    command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
+    // Feed override if not in heightmap probing mode
+    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
         ui->txtFeed->value() : 100, &m_originalFeed);
 
     return command;
@@ -2342,80 +2367,150 @@ void frmMain::blockJogForRapidMovement() {
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {    
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    // Main form events
+    if (obj == this || obj == ui->tblProgram) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
-            ui->chkKeyboardControl->toggle();
-        }
-
-        if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
-            // Block only autorepeated keypresses
-            if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
-                blockJogForRapidMovement();
-
-                switch (keyEvent->key()) {
-                case Qt::Key_4:
-                    sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_6:
-                    sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_8:
-                    sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_2:
-                    sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_9:
-                    sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                case Qt::Key_3:
-                    sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
-                    break;
-                }
+            if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
+                ui->chkKeyboardControl->toggle();
             }
-            else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
-                QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
-                std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
 
-                for (int i = 0; i < stepButtons.count(); i++) {
-                    if (stepButtons[i]->isChecked()) {
+            if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
+                // Block only autorepeated keypresses
+                if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
+                    blockJogForRapidMovement();
 
-                        StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
-                                ? (i == stepButtons.length() - 1 ? 0 : i + 1)
-                                : (i == 0 ? stepButtons.length() - 1 : i - 1)];
-
-                        ui->txtJogStep->setValue(button->text().toDouble());
-                        foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
-                        {
-                            button->setChecked(false);
-                        }
-                        button->setChecked(true);
-
-                        if (!ui->grpJog->isChecked()) {
-                            ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
-                        }
+                    switch (keyEvent->key()) {
+                    case Qt::Key_4:
+                        sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_6:
+                        sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_8:
+                        sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_2:
+                        sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_9:
+                        sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
+                        break;
+                    case Qt::Key_3:
+                        sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
                         break;
                     }
                 }
-            } else if (keyEvent->key() == Qt::Key_0) {
-                ui->cmdSpindle->toggle();
-            } else if (keyEvent->key() == Qt::Key_7) {
-                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
-            } else if (keyEvent->key() == Qt::Key_1) {
-                ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
+                else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
+                    QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d"));
+                    std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
+
+                    for (int i = 0; i < stepButtons.count(); i++) {
+                        if (stepButtons[i]->isChecked()) {
+
+                            StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
+                                    ? (i == stepButtons.length() - 1 ? 0 : i + 1)
+                                    : (i == 0 ? stepButtons.length() - 1 : i - 1)];
+
+                            ui->txtJogStep->setValue(button->text().toDouble());
+                            foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
+                            {
+                                button->setChecked(false);
+                            }
+                            button->setChecked(true);
+
+                            if (!ui->grpJog->isChecked()) {
+                                ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogStep->text()));
+                            }
+                            break;
+                        }
+                    }
+                } else if (keyEvent->key() == Qt::Key_0) {
+                    ui->cmdSpindle->toggle();
+                } else if (keyEvent->key() == Qt::Key_7) {
+                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
+                } else if (keyEvent->key() == Qt::Key_1) {
+                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
+                }
+            }
+
+            if (obj == ui->tblProgram && m_processingFile) {
+                if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
+                            || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
+                    ui->chkAutoScroll->setChecked(false);
+                }
             }
         }
 
-        if (obj == ui->tblProgram && m_processingFile) {
-            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
-                        || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
-                ui->chkAutoScroll->setChecked(false);
+    // Splitter events
+    } else if (obj == ui->splitPanels && event->type() == QEvent::Resize) {
+        // Resize splited widgets
+        onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
+
+    // Splitter handle events
+    } else if (obj == ui->splitPanels->handle(1)) {
+        int minHeight = getConsoleMinHeight();
+        switch (event->type()) {
+        case QEvent::MouseButtonPress:
+            // Store current console group box minimum & real heights
+            m_storedConsoleMinimumHeight = ui->grpConsole->minimumHeight();
+            m_storedConsoleHeight = ui->grpConsole->height();
+
+            // Update splited sizes
+            ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->height() << ui->grpConsole->height());
+
+            // Set new console mimimum height
+            ui->grpConsole->setMinimumHeight(qMax(minHeight, ui->splitPanels->height()
+                - ui->scrollAreaWidgetContents->sizeHint().height() - ui->splitPanels->handleWidth() - 4));
+            break;
+        case QEvent::MouseButtonRelease:
+            // Store new console minimum height if height was changed with split handle
+            if (ui->grpConsole->height() != m_storedConsoleHeight) {
+                ui->grpConsole->setMinimumHeight(ui->grpConsole->height());
+            } else {
+                ui->grpConsole->setMinimumHeight(m_storedConsoleMinimumHeight);
             }
+            break;
+        case QEvent::MouseButtonDblClick:
+            // Switch to min/max console size
+            if (ui->grpConsole->height() == minHeight || !ui->scrollArea->verticalScrollBar()->isVisible()) {
+                ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->minimumHeight()
+                << ui->splitPanels->height() - ui->splitPanels->handleWidth() - ui->scrollArea->minimumHeight());
+            } else {
+                ui->grpConsole->setMinimumHeight(minHeight);
+                onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
+            }
+            break;
+        default:
+            break;
         }
     }
+
     return QMainWindow::eventFilter(obj, event);
+}
+
+int frmMain::getConsoleMinHeight()
+{
+    return ui->grpConsole->height() - ui->grpConsole->contentsRect().height()
+            + ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2
+            + ui->cboCommand->height();
+}
+
+void frmMain::onConsoleResized(QSize size)
+{
+    int minHeight = getConsoleMinHeight();
+    bool visible = ui->grpConsole->height() > minHeight;
+    if (ui->txtConsole->isVisible() != visible) {
+        ui->txtConsole->setVisible(visible);
+    }
+}
+
+void frmMain::onPanelsSizeChanged(QSize size)
+{
+    ui->splitPanels->setSizes(QList<int>() << size.height() + 4
+                              << ui->splitPanels->height() - size.height()
+                              - 4 - ui->splitPanels->handleWidth());
 }
 
 bool frmMain::keyIsMovement(int key)
@@ -2799,7 +2894,10 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
 
-            if (!ui->chkHeightMapUse->isChecked()) updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+            if (!ui->chkHeightMapUse->isChecked()) {
+                ui->glwVisualizer->updateExtremes(m_codeDrawer);
+                updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+            }
         }
     }
 
@@ -3048,11 +3146,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         //        m_programHeightmapModel.clear();
             m_programHeightmapModel.insertRow(0);
 
-            for (int i = 0; i < m_programModel.rowCount(); i++) {
+            for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
                 commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
                 command = m_programModel.data(m_programModel.index(i, 1)).toString();
 
-                if (commandIndex < 0 || commandIndex == lastCommandIndex) {
+                if (commandIndex < 0 || commandIndex == lastCommandIndex || lastSegmentIndex == list->count() - 1) {
                     m_programHeightmapModel.setData(m_programHeightmapModel.index(m_programHeightmapModel.rowCount() - 1, 1), command);
                 } else {
                     // Get command codes
@@ -3141,8 +3239,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         // Update parser
         m_currentDrawer = m_codeDrawer;
-        updateParser();
-
+        updateParser();        
     } else {
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);
@@ -3160,6 +3257,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         updateParser();
         m_fileChanged = fileChanged;
     }
+
+    // Update menu
+    ui->actFileSaveTransformedAs->setVisible(checked);
 }
 
 QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
@@ -3213,10 +3313,6 @@ void frmMain::on_cmdHeightMapCreate_clicked()
 {
     ui->cmdHeightMapMode->setChecked(true);
     on_actFileNew_triggered();
-}
-
-void frmMain::on_cmdHeightMapMode_clicked(bool checked)
-{
 }
 
 void frmMain::on_cmdHeightMapBorderAuto_clicked()

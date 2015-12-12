@@ -79,6 +79,8 @@ private slots:
     void onActRecentFileTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
+    void onConsoleResized(QSize size);
+    void onPanelsSizeChanged(QSize size);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();        
@@ -112,6 +114,7 @@ private slots:
     void on_cmdClearConsole_clicked();
     void on_actFileSaveAs_triggered();
     void on_actFileSave_triggered();
+    void on_actFileSaveTransformedAs_triggered();
     void on_cmdTop_clicked();
     void on_cmdFront_clicked();
     void on_cmdLeft_clicked();
@@ -145,9 +148,7 @@ private slots:
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
     void on_chkHeightMapUse_clicked(bool checked);
     void on_cmdHeightMapCreate_clicked();
-    void on_cmdHeightMapMode_clicked(bool checked);
     void on_cmdHeightMapBorderAuto_clicked();
-
     void on_cmdFileAbort_clicked();
 
 protected:
@@ -161,7 +162,6 @@ protected:
 
 private:
     const int BUFFERLENGTH = 127;
-    const int ABORTDELAY = 500;
 
     Ui::frmMain *ui;
     GcodeViewParse m_viewParser;
@@ -224,11 +224,10 @@ private:
     QString m_storedParserStatus;
     double m_storedOffsets[1][3];
 
-    // ? settings
-    double m_arcPrecision;
-    double m_safeZ = 0;
-    double m_rapidSpeed = 0;
-    bool m_showAllCommands = false;
+    // Console window
+    int m_storedConsoleMinimumHeight;
+    int m_storedConsoleHeight;
+    int m_consolePureHeight;
 
     // Flags
     bool m_settingZeroXY = false;
@@ -292,7 +291,7 @@ private:
     bool dataIsReset(QString data);
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
-    bool saveProgramToFile(QString fileName);
+    bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
@@ -324,6 +323,7 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
+    int getConsoleMinHeight();
 };
 
 #endif // FRMMAIN_H

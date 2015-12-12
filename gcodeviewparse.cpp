@@ -51,7 +51,7 @@ void GcodeViewParse::testExtremes(double x, double y, double z)
     m_max.setZ(Util::nMax(m_max.z(), z));
 }
 
-QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcSegmentLength)
+QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode)
 {
     GcodeParser gp;
 
@@ -59,7 +59,7 @@ QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcS
         gp.addCommand(s);
     }
 
-    return getLinesFromParser(&gp, arcSegmentLength);
+    return getLinesFromParser(&gp, arcPrecision, arcDegreeMode);
 }
 
 QList<LineSegment *> GcodeViewParse::getLineSegmentList()
@@ -76,11 +76,11 @@ void GcodeViewParse::reset()
     m_max = QVector3D(NAN, NAN, NAN);
 }
 
-QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcSegmentLength)
+QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
-    double minArcLength = 0;
+    double minArcLength = 0.1;
 
 //    Point3d start = null;
 //    Point3d end = null;
@@ -105,7 +105,7 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
             if (ps->isArc()) {
                 QList<QVector3D> points =
                     GcodePreprocessorUtils::generatePointsAlongArcBDring(ps->plane(),
-                    *start, *end, *ps->center(), ps->isClockwise(), ps->getRadius(), minArcLength, arcSegmentLength);
+                    *start, *end, *ps->center(), ps->isClockwise(), ps->getRadius(), minArcLength, arcPrecision, arcDegreeMode);
                 // Create line segments from points.
                 if (points.length() > 0) {
                     QVector3D startPoint = *start;

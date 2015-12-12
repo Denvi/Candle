@@ -183,14 +183,39 @@ void frmSettings::setLineWidth(double lineWidth)
     ui->txtLineWidth->setValue(lineWidth);
 }
 
-double frmSettings::arcPrecision()
+double frmSettings::arcLength()
 {
-    return ui->txtArcPrecision->value();
+    return ui->txtArcLength->value();
 }
 
-void frmSettings::setArcPrecision(double arcPrecision)
+void frmSettings::setArcLength(double arcPrecision)
 {
-    ui->txtArcPrecision->setValue(arcPrecision);
+    ui->txtArcLength->setValue(arcPrecision);
+}
+
+double frmSettings::arcDegree()
+{
+    return ui->txtArcDegree->value();
+}
+
+void frmSettings::setArcDegree(double arcDegree)
+{
+    ui->txtArcDegree->setValue(arcDegree);
+}
+
+double frmSettings::arcPrecision()
+{
+    return ui->radArcDegreeMode->isChecked() ? ui->txtArcDegree->value() : ui->txtArcLength->value();
+}
+
+bool frmSettings::arcDegreeMode()
+{
+    return ui->radArcDegreeMode->isChecked();
+}
+
+void frmSettings::setArcDegreeMode(bool arcDegreeMode)
+{
+    ui->radArcDegreeMode->setChecked(arcDegreeMode);
 }
 
 bool frmSettings::showProgramCommands()
@@ -485,7 +510,9 @@ void frmSettings::on_cmdDefaults_clicked()
     setHeightmapProbingFeed(10);
     setUnits(0);
 
-    setArcPrecision(0.0);
+    setArcLength(0.0);
+    setArcDegreeMode(true);
+    setArcDegree(5.0);
 
     setLineWidth(1.5);
     setAntialiasing(true);

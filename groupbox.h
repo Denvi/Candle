@@ -16,11 +16,14 @@ public:
 signals:
     void mouseMoved(int dx, int dy);
     void mousePressed();
+    void mouseReleased();
+    void resized(QSize size);
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     QPoint m_pressedPos;
