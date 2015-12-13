@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>GCodeTableModel</name>
     <message>
@@ -191,13 +191,13 @@
         <location filename="../frmmain.ui" line="1034"/>
         <location filename="../frmmain.cpp" line="1249"/>
         <source>Check mode</source>
-        <translation type="unfinished">Mode simulation</translation>
+        <translation>Simulation d&apos;usinage</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1053"/>
         <location filename="../frmmain.cpp" line="1243"/>
         <source>Autoscroll</source>
-        <translation type="unfinished">Défilement auto</translation>
+        <translation>Défilement auto</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1073"/>
@@ -578,7 +578,7 @@
         <location filename="../frmmain.cpp" line="1234"/>
         <location filename="../frmmain.cpp" line="1248"/>
         <source>Check</source>
-        <translation type="unfinished">Vérifié</translation>
+        <translation>Vérifié</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="101"/>
@@ -698,7 +698,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation type="vanished">Envoyé</translation>
+        <translation>Envoyé</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1710"/>
@@ -860,11 +860,11 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="457"/>
         <source>Parser</source>
-        <translation>Analyser</translation>
+        <translation>Analyseur</translation>
     </message>
     <message>
         <source>Arc approximation segment length:</source>
-        <translation type="vanished">Largeur de segment des arcs:</translation>
+        <translation>Largeur de segment des arcs:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="595"/>
@@ -924,7 +924,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Tool graphic representation</source>
-        <translation type="vanished">Représentation de l&apos;outil</translation>
+        <translation>Représentation de l&apos;outil</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="837"/>
@@ -954,7 +954,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="881"/>
         <source>Length:</source>
-        <translation>Largeur:</translation>
+        <translation>Longueur:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="973"/>
@@ -1024,7 +1024,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="489"/>
         <source>by length</source>
-        <translation type="unfinished"></translation>
+        <translation>Par longueur</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="580"/>
@@ -1044,12 +1044,12 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="465"/>
         <source>Arc approximation segment size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Largeur de segment des arcs:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="534"/>
         <source>by angle (deg.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Par Angle</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="831"/>
