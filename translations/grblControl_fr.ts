@@ -191,7 +191,7 @@
         <location filename="../frmmain.ui" line="1034"/>
         <location filename="../frmmain.cpp" line="1249"/>
         <source>Check mode</source>
-        <translation type="unfinished">Simulation d&apos;usinage</translation>
+        <translation>Simulation d&apos;usinage</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1053"/>
@@ -860,7 +860,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="457"/>
         <source>Parser</source>
-        <translation type="unfinished">Analyseur</translation>
+        <translation>Analyseur</translation>
     </message>
     <message>
         <source>Arc approximation segment length:</source>
@@ -895,7 +895,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="702"/>
         <source>Segment length:</source>
-        <translation type="unfinished">Longueur de segment:</translation>
+        <translation>Largeur de segment:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="758"/>
@@ -954,7 +954,7 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmsettings.ui" line="881"/>
         <source>Length:</source>
-        <translation type="unfinished">Longueur:</translation>
+        <translation>Longueur:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="973"/>
