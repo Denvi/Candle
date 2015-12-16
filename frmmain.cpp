@@ -611,6 +611,7 @@ void frmMain::grblReset()
     m_resetCompleted = false;
     m_updateSpindleSpeed = true;
     m_lastGrblStatus = -1;
+    m_statusReceived = true;
 
     // Drop all remaining commands in buffer
     m_commands.clear();
@@ -657,6 +658,8 @@ void frmMain::onSerialPortReadyRead()
         // Status response
         if (data[0] == '<') {
             int status = -1;
+
+            m_statusReceived = true;
 
             // Update machine coordinates
             QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
@@ -743,7 +746,7 @@ void frmMain::onSerialPortReadyRead()
 
                 if (m_aborting) {
                     switch (status) {
-                    case 0: // Idle
+                    case IDLE: // Idle
                         if (!m_processingFile && m_resetCompleted) {
                             m_aborting = false;
                             restoreOffsets();
@@ -751,7 +754,8 @@ void frmMain::onSerialPortReadyRead()
                             return;
                         }
                         break;
-                    case 4: // Hold
+                    case HOLD: // Hold
+                    case QUEUE:
                         if (!m_reseting && compareCoordinates(x, y, z)) {
                             x = sNan;
                             y = sNan;
@@ -1129,8 +1133,9 @@ void frmMain::onTimerConnection()
 
 void frmMain::onTimerStateQuery()
 {
-    if (m_serialPort.isOpen() && m_resetCompleted) {
+    if (m_serialPort.isOpen() && m_resetCompleted && m_statusReceived) {
         m_serialPort.write(QByteArray(1, '?'));
+        m_statusReceived = false;
     }
 
     ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
@@ -2270,7 +2275,8 @@ bool frmMain::dataIsFloating(QString data) {
 }
 
 bool frmMain::dataIsReset(QString data) {
-    return data.contains("'$' for help");
+//    return data.contains("'$' for help");
+    return data.toUpper().contains(QRegExp("^GRBL \\d\\.\\d."));
 }
 
 QString frmMain::feedOverride(QString command)

@@ -239,8 +239,9 @@ private:
     bool m_updateFeed = false;
 
     bool m_reseting = false;
-    bool m_resetCompleted = true;
+    bool m_resetCompleted = true;    
     bool m_aborting = false;
+    bool m_statusReceived = false;
 
     bool m_processingFile = false;
     bool m_transferCompleted = false;
