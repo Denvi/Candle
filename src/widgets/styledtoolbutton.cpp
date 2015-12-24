@@ -20,16 +20,22 @@ bool StyledToolButton::isHover()
 
 void StyledToolButton::enterEvent(QEvent *e)
 {
+    Q_UNUSED(e)
+
     m_hovered = true;
 }
 
 void StyledToolButton::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e)
+
     m_hovered = false;
 }
 
 void StyledToolButton::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e)
+
     const int borderWidth = 4;
     const int borderRadius = 5;
 

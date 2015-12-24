@@ -2547,7 +2547,7 @@ QDoubleSpinBox:focus {
           </layout>
          </widget>
         </widget>
-        <widget class="QWidget" name="layoutWidget">
+        <widget class="QWidget" name="layoutWidget1">
          <layout class="QHBoxLayout" name="horizontalLayout_29">
           <property name="rightMargin">
            <number>4</number>
@@ -2777,36 +2777,36 @@ padding-right: 8;</string>
   <customwidget>
    <class>ScrollArea</class>
    <extends>QScrollArea</extends>
-   <header>scrollarea.h</header>
+   <header location="global">widgets/scrollarea.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Widget</class>
    <extends>QWidget</extends>
-   <header>widget.h</header>
+   <header location="global">widgets/widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GroupBox</class>
    <extends>QGroupBox</extends>
-   <header>groupbox.h</header>
+   <header location="global">widgets/groupbox.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>StyledToolButton</class>
    <extends>QToolButton</extends>
-   <header>styledtoolbutton.h</header>
+   <header location="global">widgets/styledtoolbutton.h</header>
   </customwidget>
   <customwidget>
    <class>GLWidget</class>
    <extends>QWidget</extends>
-   <header>glwidget.h</header>
+   <header location="global">widgets/glwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
-   <header>combobox.h</header>
+   <header location="global">widgets/combobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

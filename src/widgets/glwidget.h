@@ -12,7 +12,7 @@
 
 #include <QTimer>
 #include <QTime>
-#include "shaderdrawable.h"
+#include "drawers/shaderdrawable.h"
 
 #ifdef GLES
 class GLWidget : public QOpenGLWidget

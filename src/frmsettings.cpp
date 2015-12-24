@@ -100,6 +100,8 @@ void frmSettings::on_listCategories_currentRowChanged(int currentRow)
 
 void frmSettings::onScrollBarValueChanged(int value)
 {
+    Q_UNUSED(value)
+
     // Search for first full visible groupbox
     for (int i = 0; i < ui->listCategories->count(); i++) {
         QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(i)->data(Qt::UserRole).toString());
@@ -461,6 +463,8 @@ void frmSettings::setFontSize(int fontSize)
 
 void frmSettings::showEvent(QShowEvent *se)
 {
+    Q_UNUSED(se)
+
     ui->scrollSettings->updateMinimumWidth();
 }
 

@@ -4,7 +4,6 @@
 #include <QDebug>
 #include "gcodedrawer.h"
 #include "math.h"
-#include "frmmain.h"
 
 GcodeDrawer::GcodeDrawer()
 {

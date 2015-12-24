@@ -12,7 +12,7 @@
 #include <QVector3D>
 #include "linesegment.h"
 #include "gcodeparser.h"
-#include "util.h"
+#include "utils/util.h"
 
 class GcodeViewParse : public QObject
 {

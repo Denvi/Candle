@@ -55,12 +55,16 @@ bool HeightMapTableModel::setData(const QModelIndex &index, const QVariant &valu
 
 bool HeightMapTableModel::insertRow(int row, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
+
     m_data.insert(row, QVector<double>());
     return true;
 }
 
 bool HeightMapTableModel::removeRow(int row, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
+
     m_data.remove(row);
     return true;
 }
@@ -72,16 +76,22 @@ void HeightMapTableModel::clear()
 
 int HeightMapTableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return m_data.count();
 }
 
 int HeightMapTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return m_data[0].count();
 }
 
 QVariant HeightMapTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_UNUSED(orientation)
+
     if (role != Qt::DisplayRole) return QVariant();
     return QString::number(section + 1);
 }

@@ -109,6 +109,8 @@ bool ShaderDrawable::needsUpdateGeometry() const
 
 void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
 {
+    Q_UNUSED(shaderProgram)
+
     if (!m_visible) return;
 
 #ifndef GLES

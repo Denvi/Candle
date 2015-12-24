@@ -1,11 +1,6 @@
 // This file is a part of "grblControl" application.
 // Copyright 2015 Hayrullin Denis Ravilevich
 
-#include "frmmain.h"
-#include "gcodepreprocessorutils.h"
-#include "gcodeparser.h"
-#include "gcodeviewparse.h"
-
 #include <QApplication>
 #include <QDebug>
 #include <QGLWidget>
@@ -15,6 +10,12 @@
 #include <QStyleFactory>
 #include <QFontDatabase>
 #include <QMessageBox>
+
+#include "parser/gcodepreprocessorutils.h"
+#include "parser/gcodeparser.h"
+#include "parser/gcodeviewparse.h"
+
+#include "frmmain.h"
 
 int main(int argc, char *argv[])
 {

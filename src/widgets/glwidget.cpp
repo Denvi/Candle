@@ -2,7 +2,7 @@
 // Copyright 2015 Hayrullin Denis Ravilevich
 
 #include "glwidget.h"
-#include "tooldrawer.h"
+#include "drawers/tooldrawer.h"
 #include <QDebug>
 #include <QtWidgets>
 #include <QPainter>
@@ -376,11 +376,11 @@ void GLWidget::updateView()
 }
 
 #ifdef GLES
-void GLWidget::paintGL()
+void GLWidget::paintGL() {
 #else
-void GLWidget::paintEvent(QPaintEvent *pe)
+void GLWidget::paintEvent(QPaintEvent *pe) {
+    Q_UNUSED(pe)
 #endif
-{
     QPainter painter(this);
 
     // Segment counter

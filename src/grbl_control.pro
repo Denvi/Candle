@@ -41,60 +41,58 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         frmmain.cpp \
-    glwidget.cpp \
-    pointsegment.cpp \
-    gcodepreprocessorutils.cpp \
-    gcodeparser.cpp \
-    arcproperties.cpp \
-    linesegment.cpp \
-    gcodeviewparse.cpp \
-    gcodedrawer.cpp \
-    tooldrawer.cpp \
-    tablewidget.cpp \
-    gcodetablemodel.cpp \
     frmsettings.cpp \
-    styledtoolbutton.cpp \
     frmabout.cpp \
-    combobox.cpp \
-    heightmapborderdrawer.cpp \
-    heightmapgriddrawer.cpp \
-    heightmaptablemodel.cpp \
-    heightmapinterpolationdrawer.cpp \
-    scrollarea.cpp \
-    widget.cpp \
-    groupbox.cpp \
-    shaderdrawable.cpp \
-    origindrawer.cpp \
-    colorpicker.cpp
+    drawers/gcodedrawer.cpp \
+    drawers/heightmapborderdrawer.cpp \
+    drawers/heightmapgriddrawer.cpp \
+    drawers/heightmapinterpolationdrawer.cpp \
+    drawers/origindrawer.cpp \
+    drawers/shaderdrawable.cpp \
+    drawers/tooldrawer.cpp \
+    parser/arcproperties.cpp \
+    parser/gcodeparser.cpp \
+    parser/gcodepreprocessorutils.cpp \
+    parser/gcodeviewparse.cpp \
+    parser/linesegment.cpp \
+    parser/pointsegment.cpp \
+    tables/gcodetablemodel.cpp \
+    tables/heightmaptablemodel.cpp \
+    widgets/colorpicker.cpp \
+    widgets/combobox.cpp \
+    widgets/groupbox.cpp \
+    widgets/scrollarea.cpp \
+    widgets/styledtoolbutton.cpp \
+    widgets/widget.cpp \
+    widgets/glwidget.cpp
 
 HEADERS  += frmmain.h \
-    glwidget.h \
-    pointsegment.h \
-    gcodepreprocessorutils.h \
-    gcodeparser.h \
-    arcproperties.h \
-    linesegment.h \
-    gcodeviewparse.h \
-    gcodedrawer.h \
-    tooldrawer.h \
-    tablewidget.h \
-    gcodetablemodel.h \
     frmsettings.h \
-    styledtoolbutton.h \
     frmabout.h \
-    combobox.h \
-    heightmapborderdrawer.h \
-    heightmapgriddrawer.h \
-    heightmaptablemodel.h \
-    heightmapinterpolationdrawer.h \
-    util.h \
-    interpolation.h \
-    scrollarea.h \
-    widget.h \
-    groupbox.h \
-    shaderdrawable.h \
-    origindrawer.h \
-    colorpicker.h
+    drawers/gcodedrawer.h \
+    drawers/heightmapborderdrawer.h \
+    drawers/heightmapgriddrawer.h \
+    drawers/heightmapinterpolationdrawer.h \
+    drawers/origindrawer.h \
+    drawers/shaderdrawable.h \
+    drawers/tooldrawer.h \
+    parser/arcproperties.h \
+    parser/gcodeparser.h \
+    parser/gcodepreprocessorutils.h \
+    parser/gcodeviewparse.h \
+    parser/linesegment.h \
+    parser/pointsegment.h \
+    tables/gcodetablemodel.h \
+    tables/heightmaptablemodel.h \
+    utils/interpolation.h \
+    utils/util.h \
+    widgets/colorpicker.h \
+    widgets/combobox.h \
+    widgets/groupbox.h \
+    widgets/scrollarea.h \
+    widgets/styledtoolbutton.h \
+    widgets/widget.h \
+    widgets/glwidget.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

@@ -95,11 +95,15 @@ void GCodeTableModel::clear()
 
 int GCodeTableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return m_data.size();
 }
 
 int GCodeTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return 6;
 }
 

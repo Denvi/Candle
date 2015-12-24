@@ -1335,25 +1335,25 @@ padding-top: 3;</string>
   <customwidget>
    <class>ScrollArea</class>
    <extends>QScrollArea</extends>
-   <header>scrollarea.h</header>
+   <header>widgets/scrollarea.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Widget</class>
    <extends>QWidget</extends>
-   <header>widget.h</header>
+   <header>widgets/widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GroupBox</class>
    <extends>QGroupBox</extends>
-   <header>groupbox.h</header>
+   <header>widgets/groupbox.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ColorPicker</class>
    <extends>QWidget</extends>
-   <header>colorpicker.h</header>
+   <header>widgets/colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

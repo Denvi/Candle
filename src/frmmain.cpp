@@ -1159,6 +1159,8 @@ void frmMain::onVisualizatorRotationChanged()
 
 void frmMain::onScroolBarAction(int action)
 {
+    Q_UNUSED(action)
+
     if (m_processingFile) ui->chkAutoScroll->setChecked(false);
 }
 
@@ -1179,6 +1181,8 @@ void frmMain::placeVisualizerButtons()
 
 void frmMain::showEvent(QShowEvent *se)
 {
+    Q_UNUSED(se)
+
     placeVisualizerButtons();
 
 #ifdef WINDOWS
@@ -1198,11 +1202,15 @@ void frmMain::showEvent(QShowEvent *se)
 
 void frmMain::hideEvent(QHideEvent *he)
 {
+    Q_UNUSED(he)
+
     ui->glwVisualizer->setUpdatesEnabled(false);
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
 {
+    Q_UNUSED(re)
+
     placeVisualizerButtons();
     resizeCheckBoxes();
     resizeTableHeightMapSections();
@@ -1620,6 +1628,8 @@ void frmMain::sendNextFileCommands() {
 
 void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
 {
+    Q_UNUSED(i2)
+
     GCodeTableModel *model = (GCodeTableModel*)sender();
 
     if (i1.column() != 1) return;
@@ -1958,6 +1968,8 @@ void frmMain::on_txtSpindleSpeed_editingFinished()
 
 void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
+    Q_UNUSED(value)
+
     if (!m_programSpeed) {
         ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
 //        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
@@ -2505,6 +2517,8 @@ int frmMain::getConsoleMinHeight()
 
 void frmMain::onConsoleResized(QSize size)
 {
+    Q_UNUSED(size)
+
     int minHeight = getConsoleMinHeight();
     bool visible = ui->grpConsole->height() > minHeight;
     if (ui->txtConsole->isVisible() != visible) {
@@ -2560,6 +2574,9 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 
 void frmMain::on_splitter_splitterMoved(int pos, int index)
 {
+    Q_UNUSED(pos)
+    Q_UNUSED(index)
+
     static bool tableCollapsed = ui->splitter->sizes()[1] == 0;
 
     if ((ui->splitter->sizes()[1] == 0) != tableCollapsed) {
@@ -2815,6 +2832,8 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 
 void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
 {
+    Q_UNUSED(checked)
+
     updateControlsState();
 }
 
@@ -2844,6 +2863,8 @@ void frmMain::on_txtHeightMapBorderHeight_valueChanged(double arg1)
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
 {
+    Q_UNUSED(checked)
+
     updateControlsState();
 }
 
@@ -3036,6 +3057,8 @@ void frmMain::loadHeightMap(QString fileName)
 
 void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
+    Q_UNUSED(checked)
+
     updateControlsState();    
 }
 
@@ -3066,11 +3089,15 @@ void frmMain::on_cmdHeightMapLoad_clicked()
 
 void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
 {
+    Q_UNUSED(arg1)
+
     updateHeightMapInterpolationDrawer();
 }
 
 void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
 {
+    Q_UNUSED(arg1)
+
     updateHeightMapInterpolationDrawer();
 }
 

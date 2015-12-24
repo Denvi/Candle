@@ -15,20 +15,26 @@
 #include <QMenu>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include "gcodeviewparse.h"
-#include "origindrawer.h"
-#include "gcodedrawer.h"
-#include "tooldrawer.h"
-#include "heightmapborderdrawer.h"
-#include "heightmapgriddrawer.h"
-#include "heightmapinterpolationdrawer.h"
-#include "shaderdrawable.h"
-#include "gcodetablemodel.h"
-#include "heightmaptablemodel.h"
+
+#include "parser/gcodeviewparse.h"
+
+#include "drawers/origindrawer.h"
+#include "drawers/gcodedrawer.h"
+#include "drawers/tooldrawer.h"
+#include "drawers/heightmapborderdrawer.h"
+#include "drawers/heightmapgriddrawer.h"
+#include "drawers/heightmapinterpolationdrawer.h"
+#include "drawers/shaderdrawable.h"
+
+#include "tables/gcodetablemodel.h"
+#include "tables/heightmaptablemodel.h"
+
+#include "utils/interpolation.h"
+
+#include "widgets/styledtoolbutton.h"
+
 #include "frmsettings.h"
 #include "frmabout.h"
-#include "styledtoolbutton.h"
-#include "interpolation.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>

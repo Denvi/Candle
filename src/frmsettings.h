@@ -6,7 +6,7 @@
 
 #include <QDialog>
 #include <QListWidgetItem>
-#include "colorpicker.h"
+#include "widgets/colorpicker.h"
 
 namespace Ui {
 class frmSettings;
