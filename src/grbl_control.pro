@@ -13,7 +13,7 @@ win32: {
     LIBS += -L"C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Lib" -lopengl32
 }
 
-unix: {
+unix:!macx {
     DEFINES += UNIX #GL_GLEXT_PROTOTYPES
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
@@ -27,7 +27,7 @@ contains(QT_CONFIG, opengles.) {
 #    QMAKE_LFLAGS += -mno-unaligned-access
 }
 
-#DEFINES += sNan=\"qQNaN()\"
+#DEFINES += sNan=\"NAN\"
 DEFINES += sNan=\"65536\"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

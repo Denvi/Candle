@@ -1,7 +1,6 @@
 // This file is a part of "grblControl" application.
 // Copyright 2015 Hayrullin Denis Ravilevich
 
-#include <QDebug>
 #include "gcodedrawer.h"
 
 GcodeDrawer::GcodeDrawer()

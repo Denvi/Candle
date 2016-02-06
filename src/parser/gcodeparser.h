@@ -10,6 +10,7 @@
 
 #include <QObject>
 #include <QVector3D>
+#include <cmath>
 #include "pointsegment.h"
 #include "gcodepreprocessorutils.h"
 
