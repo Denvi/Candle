@@ -508,7 +508,7 @@ void frmMain::updateControlsState() {
     ui->grpHeightMapSettings->setEnabled(!m_processingFile);
 
     ui->chkTestMode->setVisible(!m_heightMapMode);
-    ui->chkAutoScroll->setVisible(!m_heightMapMode);
+    ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !m_heightMapMode);
 
     ui->tblHeightMap->setVisible(m_heightMapMode);
     ui->tblProgram->setVisible(!m_heightMapMode);
@@ -600,11 +600,6 @@ void frmMain::grblReset()
     m_processingFile = false;
     m_transferCompleted = true;
     m_fileCommandIndex = 0;
-
-//    m_programSpeed = true;
-//    ui->cmdSpindle->setChecked(false);
-//    m_programSpeed = false;
-//    m_timerToolAnimation.stop();
 
     m_reseting = true;
     m_homing = false;
@@ -704,7 +699,7 @@ void frmMain::onSerialPortReadyRead()
 
                 // Test for job complete
                 if (m_processingFile && m_transferCompleted &&
-                        ((status == IDLE && m_lastGrblStatus == 2) || status == CHECK)) {
+                        ((status == IDLE && m_lastGrblStatus == RUN) || status == CHECK)) {
                     qDebug() << "job completed:" << m_fileCommandIndex << m_currentModel->rowCount() - 1;
 
                     // Shadow last segment
@@ -749,8 +744,8 @@ void frmMain::onSerialPortReadyRead()
                     case IDLE: // Idle
                         if (!m_processingFile && m_resetCompleted) {
                             m_aborting = false;
-                            restoreOffsets();
                             restoreParserState();
+                            restoreOffsets();
                             return;
                         }
                         break;
@@ -1070,6 +1065,8 @@ void frmMain::onSerialPortReadyRead()
 
                 // Handle hardware reset
                 if (dataIsReset(data)) {
+                    qDebug() << "hardware reset";
+
                     m_processingFile = false;
                     m_transferCompleted = true;
                     m_fileCommandIndex = 0;
@@ -1078,7 +1075,6 @@ void frmMain::onSerialPortReadyRead()
                     m_homing = false;
                     m_lastGrblStatus = -1;
 
-//                    m_updateSpindleSpeed = true;
                     m_updateParserStatus = true;
 
                     m_commands.clear();
@@ -2616,10 +2612,11 @@ void frmMain::addRecentHeightmap(QString fileName)
 void frmMain::onActRecentFileTriggered()
 {
     QAction *action = static_cast<QAction*>(sender());
+    QString fileName = action->text();
 
     if (action != NULL) {
         if (!saveChanges(m_heightMapMode)) return;
-        if (!m_heightMapMode) loadFile(action->text()); else loadHeightMap(action->text());
+        if (!m_heightMapMode) loadFile(fileName); else loadHeightMap(fileName);
     }
 }
 
