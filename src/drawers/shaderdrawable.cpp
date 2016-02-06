@@ -1,4 +1,4 @@
-﻿//#define sNan NAN;
+﻿//#define sNan qQNaN();
 
 #include "shaderdrawable.h"
 

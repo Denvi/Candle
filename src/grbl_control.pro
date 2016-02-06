@@ -27,7 +27,7 @@ contains(QT_CONFIG, opengles.) {
 #    QMAKE_LFLAGS += -mno-unaligned-access
 }
 
-#DEFINES += sNan=\"NAN\"
+#DEFINES += sNan=\"qQNaN()\"
 DEFINES += sNan=\"65536\"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

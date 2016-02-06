@@ -16,8 +16,8 @@ GcodeViewParse::GcodeViewParse(QObject *parent) :
     currentLine = 0;
     debug = true;
 
-    m_min = QVector3D(NAN, NAN, NAN);
-    m_max = QVector3D(NAN, NAN, NAN);
+    m_min = QVector3D(qQNaN(), qQNaN(), qQNaN());
+    m_max = QVector3D(qQNaN(), qQNaN(), qQNaN());
 }
 
 GcodeViewParse::~GcodeViewParse()
@@ -72,8 +72,8 @@ void GcodeViewParse::reset()
     foreach (LineSegment *ls, lines) delete ls;
     lines.clear();
     currentLine = 0;
-    m_min = QVector3D(NAN, NAN, NAN);
-    m_max = QVector3D(NAN, NAN, NAN);
+    m_min = QVector3D(qQNaN(), qQNaN(), qQNaN());
+    m_max = QVector3D(qQNaN(), qQNaN(), qQNaN());
 }
 
 QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)

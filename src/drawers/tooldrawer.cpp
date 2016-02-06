@@ -2,7 +2,6 @@
 // Copyright 2015 Hayrullin Denis Ravilevich
 
 #include "tooldrawer.h"
-#include "math.h"
 
 ToolDrawer::ToolDrawer()
 {

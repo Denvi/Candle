@@ -123,12 +123,12 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
 
 void GLWidget::updateExtremes(ShaderDrawable *drawable)
 {
-    if (!std::isnan(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
-    if (!std::isnan(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
-    if (!std::isnan(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
-    if (!std::isnan(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
+    if (!qIsNaN(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
+    if (!qIsNaN(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
+    if (!qIsNaN(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
+    if (!qIsNaN(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
+    if (!qIsNaN(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
+    if (!qIsNaN(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
 
     m_xSize = m_xMax - m_xMin;
     m_ySize = m_yMax - m_yMin;
