@@ -342,7 +342,7 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     else if (code == "91") this->m_inAbsoluteMode = false;
     else if (code == "91.1") this->m_inAbsoluteIJKMode = false;
 
-    this->m_lastGcodeCommand = code;
+    if (code.indexOf(QRegExp("0|1|2|3|38.2")) != -1) this->m_lastGcodeCommand = code;
 
     return ps;
 }
