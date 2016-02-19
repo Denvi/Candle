@@ -228,7 +228,6 @@ private:
     double m_storedY = 0;
     double m_storedZ = 0;
     QString m_storedParserStatus;
-    double m_storedOffsets[1][3];
 
     // Console window
     int m_storedConsoleMinimumHeight;

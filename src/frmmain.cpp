@@ -893,11 +893,6 @@ void frmMain::onSerialPortReadyRead()
                             } else if (m_settingZeroZ) {
                                 m_settingZeroZ = false;
                                 m_storedZ = toMetric(rx.cap(3).toDouble());
-                            } else {
-                                // Save offsets
-                                m_storedOffsets[0][0] = toMetric(rx.cap(1).toDouble());
-                                m_storedOffsets[0][1] = toMetric(rx.cap(2).toDouble());
-                                m_storedOffsets[0][2] = toMetric(rx.cap(3).toDouble());
                             }
                             ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
@@ -1599,17 +1594,13 @@ void frmMain::storeOffsets()
 
 void frmMain::restoreOffsets()
 {
+    // Still have pre-reset working position
     sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
                                        .arg(toMetric(ui->txtMPosY->text().toDouble()))
                                        .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings.showUICommands());
-    // Still have actual working position
     sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->text().toDouble()))
                                        .arg(toMetric(ui->txtWPosY->text().toDouble()))
                                        .arg(toMetric(ui->txtWPosZ->text().toDouble())), -1, m_settings.showUICommands());
-
-//    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->text().toDouble()) - m_storedOffsets[0][0])
-//                                       .arg(toMetric(ui->txtWPosY->text().toDouble()) - m_storedOffsets[0][1])
-//                                       .arg(toMetric(ui->txtWPosZ->text().toDouble()) - m_storedOffsets[0][2]), -1, m_settings.showUICommands());
 }
 
 void frmMain::sendNextFileCommands() {    
