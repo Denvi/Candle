@@ -744,8 +744,8 @@ void frmMain::onSerialPortReadyRead()
                     case IDLE: // Idle
                         if (!m_processingFile && m_resetCompleted) {
                             m_aborting = false;
-                            restoreParserState();
                             restoreOffsets();
+                            restoreParserState();
                             return;
                         }
                         break;
@@ -1594,17 +1594,22 @@ void frmMain::restoreParserState()
 
 void frmMain::storeOffsets()
 {
-    sendCommand("$#", -2, m_settings.showUICommands());
+//    sendCommand("$#", -2, m_settings.showUICommands());
 }
 
 void frmMain::restoreOffsets()
 {
-    sendCommand(QString("G21G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
+    sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
                                        .arg(toMetric(ui->txtMPosY->text().toDouble()))
                                        .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings.showUICommands());
-    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedOffsets[0][0])
-                                       .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedOffsets[0][1])
-                                       .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedOffsets[0][2]), -1, m_settings.showUICommands());
+    // Still have actual working position
+    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->text().toDouble()))
+                                       .arg(toMetric(ui->txtWPosY->text().toDouble()))
+                                       .arg(toMetric(ui->txtWPosZ->text().toDouble())), -1, m_settings.showUICommands());
+
+//    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->text().toDouble()) - m_storedOffsets[0][0])
+//                                       .arg(toMetric(ui->txtWPosY->text().toDouble()) - m_storedOffsets[0][1])
+//                                       .arg(toMetric(ui->txtWPosZ->text().toDouble()) - m_storedOffsets[0][2]), -1, m_settings.showUICommands());
 }
 
 void frmMain::sendNextFileCommands() {    
