@@ -134,19 +134,21 @@ frmMain::frmMain(QWidget *parent) :
 //    ui->tblProgram->showColumn(4);
 
     // Setup serial port
+    connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
+
     if (m_settings.port() != "") {
         m_serialPort.setPortName(m_settings.port());
     }
-    if (!m_serialPort.isOpen()) {
-        openPort();
-    }
+
+    openPort();
+
     m_serialPort.setBaudRate(m_settings.baud());
     m_serialPort.setParity(QSerialPort::NoParity);
     m_serialPort.setDataBits(QSerialPort::Data8);
     m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort.setStopBits(QSerialPort::OneStop);
+
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()));
-    connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
     // Apply settings    
     foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
