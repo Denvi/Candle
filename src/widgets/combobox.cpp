@@ -27,7 +27,7 @@ void ComboBox::keyPressEvent(QKeyEvent *e)
     }
     QComboBox::keyPressEvent(e);
 
-    if (e->key() == Qt::Key_Return) {
+    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         emit returnPressed();
         this->setCurrentIndex(-1);
     }
