@@ -3150,10 +3150,12 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
             time.start();
 
             for (int i = 0; i < list->count(); i++) {
-                x = list->at(i)->getStart().x();
-                y = list->at(i)->getStart().y();
-                z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
-                list->at(i)->setStart(QVector3D(x, y, z));
+                if (i == 0) {
+                    x = list->at(i)->getStart().x();
+                    y = list->at(i)->getStart().y();
+                    z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                    list->at(i)->setStart(QVector3D(x, y, z));
+                } else list->at(i)->setStart(list->at(i - 1)->getEnd());
 
                 x = list->at(i)->getEnd().x();
                 y = list->at(i)->getEnd().y();
