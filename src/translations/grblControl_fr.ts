@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>GCodeTableModel</name>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Command</source>
         <translation>Comande</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>State</source>
         <translation>Etât</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Response</source>
         <translation>Réponse</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Line</source>
         <translation>Ligne</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Args</source>
         <translation>Arcs</translation>
     </message>
@@ -37,7 +37,7 @@
 <context>
     <name>GLWidget</name>
     <message>
-        <location filename="../glwidget.cpp" line="455"/>
+        <location filename="../widgets/glwidget.cpp" line="455"/>
         <source>Vertices: %1</source>
         <translation>Vertices: %1</translation>
     </message>
@@ -74,7 +74,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="130"/>
-        <location filename="../frmmain.cpp" line="502"/>
+        <location filename="../frmmain.cpp" line="507"/>
         <source>G-code program</source>
         <translation>Programme G-Code</translation>
     </message>
@@ -189,22 +189,22 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1034"/>
-        <location filename="../frmmain.cpp" line="1249"/>
+        <location filename="../frmmain.cpp" line="1258"/>
         <source>Check mode</source>
         <translation>Simulation d&apos;usinage</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1053"/>
-        <location filename="../frmmain.cpp" line="1243"/>
+        <location filename="../frmmain.cpp" line="1252"/>
         <source>Autoscroll</source>
         <translation>Défilement auto</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1073"/>
         <location filename="../frmmain.ui" line="1731"/>
-        <location filename="../frmmain.cpp" line="1342"/>
-        <location filename="../frmmain.cpp" line="1353"/>
-        <location filename="../frmmain.cpp" line="3042"/>
+        <location filename="../frmmain.cpp" line="1351"/>
+        <location filename="../frmmain.cpp" line="1362"/>
+        <location filename="../frmmain.cpp" line="3069"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
@@ -216,7 +216,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1087"/>
-        <location filename="../frmmain.cpp" line="519"/>
+        <location filename="../frmmain.cpp" line="524"/>
         <source>Send</source>
         <translation>Envoyer</translation>
     </message>
@@ -316,7 +316,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1622"/>
-        <location filename="../frmmain.cpp" line="502"/>
+        <location filename="../frmmain.cpp" line="507"/>
         <source>Heightmap</source>
         <translation>Palpage surfacique</translation>
     </message>
@@ -347,11 +347,11 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1771"/>
-        <location filename="../frmmain.cpp" line="1939"/>
-        <location filename="../frmmain.cpp" line="1941"/>
-        <location filename="../frmmain.cpp" line="1965"/>
-        <location filename="../frmmain.cpp" line="2327"/>
-        <location filename="../frmmain.cpp" line="2329"/>
+        <location filename="../frmmain.cpp" line="1951"/>
+        <location filename="../frmmain.cpp" line="1953"/>
+        <location filename="../frmmain.cpp" line="1979"/>
+        <location filename="../frmmain.cpp" line="2342"/>
+        <location filename="../frmmain.cpp" line="2344"/>
         <source>Spindle</source>
         <translation>Broche</translation>
     </message>
@@ -367,8 +367,8 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1898"/>
-        <location filename="../frmmain.cpp" line="2315"/>
-        <location filename="../frmmain.cpp" line="2317"/>
+        <location filename="../frmmain.cpp" line="2330"/>
+        <location filename="../frmmain.cpp" line="2332"/>
         <source>Feed</source>
         <translation>Avance</translation>
     </message>
@@ -384,11 +384,11 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1990"/>
-        <location filename="../frmmain.cpp" line="2339"/>
-        <location filename="../frmmain.cpp" line="2341"/>
-        <location filename="../frmmain.cpp" line="2424"/>
-        <location filename="../frmmain.cpp" line="2530"/>
-        <location filename="../frmmain.cpp" line="2533"/>
+        <location filename="../frmmain.cpp" line="2354"/>
+        <location filename="../frmmain.cpp" line="2356"/>
+        <location filename="../frmmain.cpp" line="2439"/>
+        <location filename="../frmmain.cpp" line="2547"/>
+        <location filename="../frmmain.cpp" line="2550"/>
         <source>Jog</source>
         <translation>Contrôle Manuel </translation>
     </message>
@@ -574,9 +574,9 @@
     </message>
     <message>
         <location filename="../frmmain.cpp" line="36"/>
-        <location filename="../frmmain.cpp" line="1228"/>
-        <location filename="../frmmain.cpp" line="1234"/>
-        <location filename="../frmmain.cpp" line="1248"/>
+        <location filename="../frmmain.cpp" line="1237"/>
+        <location filename="../frmmain.cpp" line="1243"/>
+        <location filename="../frmmain.cpp" line="1257"/>
         <source>Check</source>
         <translation>Vérifié</translation>
     </message>
@@ -591,47 +591,46 @@
         <translation>&amp;Effacer ligne</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="255"/>
-        <location filename="../frmmain.cpp" line="903"/>
+        <location filename="../frmmain.cpp" line="260"/>
+        <location filename="../frmmain.cpp" line="902"/>
         <source>Restore XYZ:
 %1, %2, %3</source>
         <translation>Retour XYZ:
 %1, %2, %3</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="407"/>
+        <location filename="../frmmain.cpp" line="412"/>
         <source>G-code program file was changed. Save?</source>
         <translation>Le programme G-code à changé. Sauvegarder?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="415"/>
+        <location filename="../frmmain.cpp" line="420"/>
         <source>Heightmap file was changed. Save?</source>
         <translation>Le fichier surface de palpage a changé. Sauvegarder?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="471"/>
+        <location filename="../frmmain.cpp" line="476"/>
         <source>Not connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="519"/>
+        <location filename="../frmmain.cpp" line="524"/>
         <source>Probe</source>
         <translation>Palper</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="529"/>
         <source>Connected</source>
-        <translation>Connecté</translation>
+        <translation type="vanished">Connecté</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="728"/>
+        <location filename="../frmmain.cpp" line="731"/>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Travail terminé.
 Temps écoulé: %1</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="995"/>
+        <location filename="../frmmain.cpp" line="994"/>
         <source>Processed</source>
         <translation>Traité</translation>
     </message>
@@ -641,95 +640,100 @@ Temps écoulé: %1</translation>
         <translation>Erreur port serie </translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1136"/>
+        <location filename="../frmmain.cpp" line="1137"/>
         <source>Buffer: %1 / %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1236"/>
-        <location filename="../frmmain.cpp" line="1242"/>
+        <location filename="../frmmain.cpp" line="1245"/>
+        <location filename="../frmmain.cpp" line="1251"/>
         <source>Scroll</source>
         <translation>Déplacement</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1278"/>
+        <location filename="../frmmain.cpp" line="1287"/>
         <source>File sending in progress. Terminate and exit?</source>
         <translation>Envoi de fichier en cours. Terminer et Sortir?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1342"/>
+        <location filename="../frmmain.cpp" line="1351"/>
         <source>G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1609"/>
+        <location filename="../frmmain.cpp" line="1619"/>
         <source>Sent</source>
         <translation>Envoyé</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2161"/>
-        <location filename="../frmmain.cpp" line="2171"/>
+        <location filename="../frmmain.cpp" line="2175"/>
+        <location filename="../frmmain.cpp" line="2185"/>
         <source>G-Code files (*.nc *.ncc *.tap *.txt)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1353"/>
-        <location filename="../frmmain.cpp" line="2183"/>
-        <location filename="../frmmain.cpp" line="3042"/>
+        <location filename="../frmmain.cpp" line="1362"/>
+        <location filename="../frmmain.cpp" line="2197"/>
+        <location filename="../frmmain.cpp" line="3069"/>
         <source>Heightmap files (*.map)</source>
         <translation>Fichier de palpage (*.map)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1470"/>
-        <location filename="../frmmain.cpp" line="2960"/>
+        <location filename="../frmmain.cpp" line="534"/>
+        <source>Port opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="1479"/>
+        <location filename="../frmmain.cpp" line="2985"/>
         <source>Can&apos;t open file:
 </source>
         <translation>Impossible d&apos;ouvrir du fichier:
 </translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1434"/>
-        <location filename="../frmmain.cpp" line="1623"/>
-        <location filename="../frmmain.cpp" line="1700"/>
-        <location filename="../frmmain.cpp" line="1839"/>
-        <location filename="../frmmain.cpp" line="2049"/>
+        <location filename="../frmmain.cpp" line="1443"/>
+        <location filename="../frmmain.cpp" line="1635"/>
+        <location filename="../frmmain.cpp" line="1712"/>
+        <location filename="../frmmain.cpp" line="1851"/>
+        <location filename="../frmmain.cpp" line="2063"/>
         <source>In queue</source>
         <translation>En attente</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation>Envoyé</translation>
+        <translation type="vanished">Envoyé</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1710"/>
+        <location filename="../frmmain.cpp" line="1722"/>
         <source>Delete lines?</source>
         <translation>Effacer ligne?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1939"/>
-        <location filename="../frmmain.cpp" line="1965"/>
-        <location filename="../frmmain.cpp" line="2317"/>
-        <location filename="../frmmain.cpp" line="2329"/>
-        <location filename="../frmmain.cpp" line="2341"/>
-        <location filename="../frmmain.cpp" line="2424"/>
-        <location filename="../frmmain.cpp" line="2530"/>
+        <location filename="../frmmain.cpp" line="1951"/>
+        <location filename="../frmmain.cpp" line="1979"/>
+        <location filename="../frmmain.cpp" line="2332"/>
+        <location filename="../frmmain.cpp" line="2344"/>
+        <location filename="../frmmain.cpp" line="2356"/>
+        <location filename="../frmmain.cpp" line="2439"/>
+        <location filename="../frmmain.cpp" line="2547"/>
         <source> (%1)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2121"/>
+        <location filename="../frmmain.cpp" line="2135"/>
         <source>Untitled</source>
         <translation>Sans titre</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2161"/>
-        <location filename="../frmmain.cpp" line="2171"/>
-        <location filename="../frmmain.cpp" line="2183"/>
+        <location filename="../frmmain.cpp" line="2175"/>
+        <location filename="../frmmain.cpp" line="2185"/>
+        <location filename="../frmmain.cpp" line="2197"/>
         <source>Save file as</source>
         <translation>Enregistrer le fichier sous</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2700"/>
+        <location filename="../frmmain.cpp" line="2721"/>
         <source>Changing grid settings will reset probe data. Continue?</source>
         <translation>Changer les paramètres de la grille, réinitialise les données de palpage. Continuer?</translation>
     </message>
@@ -864,7 +868,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Arc approximation segment length:</source>
-        <translation>Largeur de segment des arcs:</translation>
+        <translation type="vanished">Largeur de segment des arcs:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="595"/>
@@ -924,7 +928,7 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Tool graphic representation</source>
-        <translation>Représentation de l&apos;outil</translation>
+        <translation type="vanished">Représentation de l&apos;outil</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="837"/>

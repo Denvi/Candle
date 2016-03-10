@@ -531,7 +531,7 @@ void frmMain::updateControlsState() {
 void frmMain::openPort()
 {
     if (m_serialPort.open(QIODevice::ReadWrite)) {
-        ui->txtStatus->setText(tr("Connected"));
+        ui->txtStatus->setText(tr("Port opened"));
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 //        updateControlsState();
         grblReset();

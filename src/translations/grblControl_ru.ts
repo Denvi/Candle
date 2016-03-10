@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>GCodeTableModel</name>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>#</source>
         <translation>№</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Command</source>
         <translation>Команда</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>State</source>
         <translation>Состояние</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Response</source>
         <translation>Ответ</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Args</source>
         <translation>Аргументы</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="vanished">Статус</translation>
+        <translation>Статус</translation>
     </message>
     <message>
-        <location filename="../gcodetablemodel.cpp" line="17"/>
+        <location filename="../tables/gcodetablemodel.cpp" line="17"/>
         <source>Line</source>
         <translation>Строка</translation>
     </message>
@@ -42,14 +42,14 @@
     <name>GLWidget</name>
     <message>
         <source>Lines: %1</source>
-        <translation type="vanished">Сегменты: %1</translation>
+        <translation>Сегменты: %1</translation>
     </message>
     <message>
         <source>Segments: %1</source>
-        <translation type="vanished">Сегменты: %1</translation>
+        <translation>Сегменты: %1</translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="455"/>
+        <location filename="../widgets/glwidget.cpp" line="455"/>
         <source>Vertices: %1</source>
         <translation>Вершины: %1</translation>
     </message>
@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Version: 0.2&lt;br/&gt;License: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Visit: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Hayrullin Denis Ravilevich&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Версия: 0.2&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Сайт: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Хайруллин Денис Равильевич&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Версия: 0.2&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Сайт: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Хайруллин Денис Равильевич&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Version: 0.1&lt;br/&gt;License: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Visit: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Hayrullin Denis Ravilevich&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Версия: 0.1&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Сайт: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Хайруллин Денис Равильевич&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grblControl&lt;br/&gt;Версия: 0.1&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Сайт: &lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;© 2015 Хайруллин Денис Равильевич&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../frmabout.ui" line="86"/>
@@ -81,7 +81,7 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Version: 0.1&lt;br/&gt;License: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Visit: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Версия: 0.1&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Посетите: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;grblControl&lt;br/&gt;Версия: 0.1&lt;br/&gt;Лицензия: GNU GENERAL PUBLIC LICENSE&lt;br/&gt;Посетите: &lt;/span&gt;&lt;a href=&quot;https://github.com/Denvi/grblControl/&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Denvi/grblControl/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../frmabout.ui" line="123"/>
@@ -98,7 +98,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="130"/>
-        <location filename="../frmmain.cpp" line="502"/>
+        <location filename="../frmmain.cpp" line="507"/>
         <source>G-code program</source>
         <translation>G-code программа</translation>
     </message>
@@ -213,13 +213,13 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1034"/>
-        <location filename="../frmmain.cpp" line="1249"/>
+        <location filename="../frmmain.cpp" line="1258"/>
         <source>Check mode</source>
         <translation>Режим проверки</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1053"/>
-        <location filename="../frmmain.cpp" line="1243"/>
+        <location filename="../frmmain.cpp" line="1252"/>
         <source>Autoscroll</source>
         <translation>Автопрокрутка</translation>
     </message>
@@ -235,7 +235,7 @@
     </message>
     <message>
         <source>Probing Z</source>
-        <translation type="vanished">Z-щуп</translation>
+        <translation>Z-щуп</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1448"/>
@@ -254,17 +254,17 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1087"/>
-        <location filename="../frmmain.cpp" line="519"/>
+        <location filename="../frmmain.cpp" line="524"/>
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
     <message>
         <source>Test mode</source>
-        <translation type="vanished">Режим проверки</translation>
+        <translation>Режим проверки</translation>
     </message>
     <message>
         <source>Auto scroll</source>
-        <translation type="vanished">Автопрокрутка</translation>
+        <translation>Автопрокрутка</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1080"/>
@@ -303,7 +303,7 @@
         <translation>Статус:</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="471"/>
+        <location filename="../frmmain.cpp" line="476"/>
         <source>Not connected</source>
         <translation>Нет соединения</translation>
     </message>
@@ -322,7 +322,7 @@
     </message>
     <message>
         <source>Table touch</source>
-        <translation type="vanished">Поиск стола</translation>
+        <translation>Поиск стола</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1393"/>
@@ -336,7 +336,7 @@
     </message>
     <message>
         <source>Return XY(Z)</source>
-        <translation type="vanished">Вернуться в XY(Z)</translation>
+        <translation>Вернуться в XY(Z)</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1367"/>
@@ -355,7 +355,7 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1622"/>
-        <location filename="../frmmain.cpp" line="502"/>
+        <location filename="../frmmain.cpp" line="507"/>
         <source>Heightmap</source>
         <translation>Карта высот</translation>
     </message>
@@ -386,11 +386,11 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1771"/>
-        <location filename="../frmmain.cpp" line="1939"/>
-        <location filename="../frmmain.cpp" line="1941"/>
-        <location filename="../frmmain.cpp" line="1965"/>
-        <location filename="../frmmain.cpp" line="2327"/>
-        <location filename="../frmmain.cpp" line="2329"/>
+        <location filename="../frmmain.cpp" line="1951"/>
+        <location filename="../frmmain.cpp" line="1953"/>
+        <location filename="../frmmain.cpp" line="1979"/>
+        <location filename="../frmmain.cpp" line="2342"/>
+        <location filename="../frmmain.cpp" line="2344"/>
         <source>Spindle</source>
         <translation>Шпиндель</translation>
     </message>
@@ -406,8 +406,8 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1898"/>
-        <location filename="../frmmain.cpp" line="2315"/>
-        <location filename="../frmmain.cpp" line="2317"/>
+        <location filename="../frmmain.cpp" line="2330"/>
+        <location filename="../frmmain.cpp" line="2332"/>
         <source>Feed</source>
         <translation>Подача</translation>
     </message>
@@ -423,11 +423,11 @@
     </message>
     <message>
         <location filename="../frmmain.ui" line="1990"/>
-        <location filename="../frmmain.cpp" line="2339"/>
-        <location filename="../frmmain.cpp" line="2341"/>
-        <location filename="../frmmain.cpp" line="2424"/>
-        <location filename="../frmmain.cpp" line="2530"/>
-        <location filename="../frmmain.cpp" line="2533"/>
+        <location filename="../frmmain.cpp" line="2354"/>
+        <location filename="../frmmain.cpp" line="2356"/>
+        <location filename="../frmmain.cpp" line="2439"/>
+        <location filename="../frmmain.cpp" line="2547"/>
+        <location filename="../frmmain.cpp" line="2550"/>
         <source>Jog</source>
         <translation>Перемещение</translation>
     </message>
@@ -614,9 +614,9 @@
     </message>
     <message>
         <location filename="../frmmain.cpp" line="36"/>
-        <location filename="../frmmain.cpp" line="1228"/>
-        <location filename="../frmmain.cpp" line="1234"/>
-        <location filename="../frmmain.cpp" line="1248"/>
+        <location filename="../frmmain.cpp" line="1237"/>
+        <location filename="../frmmain.cpp" line="1243"/>
+        <location filename="../frmmain.cpp" line="1257"/>
         <source>Check</source>
         <translation>Проверка</translation>
     </message>
@@ -631,8 +631,8 @@
         <translation>&amp;Удалить строки</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="255"/>
-        <location filename="../frmmain.cpp" line="903"/>
+        <location filename="../frmmain.cpp" line="260"/>
+        <location filename="../frmmain.cpp" line="902"/>
         <source>Restore XYZ:
 %1, %2, %3</source>
         <translation>Восстановить XYZ:
@@ -640,114 +640,118 @@
     </message>
     <message>
         <source>File was changed. Save?</source>
-        <translation type="vanished">Файл был изменен. Сохранить?</translation>
+        <translation>Файл был изменен. Сохранить?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="728"/>
+        <location filename="../frmmain.cpp" line="731"/>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Задание выполнено.
 Времени затрачено: %1</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1136"/>
+        <location filename="../frmmain.cpp" line="1137"/>
         <source>Buffer: %1 / %2</source>
         <translation>Буфер: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1342"/>
+        <location filename="../frmmain.cpp" line="1351"/>
         <source>G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)</source>
         <translation>Файлы G-Code (*.nc *.ncc *.tap *.txt);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1710"/>
+        <location filename="../frmmain.cpp" line="1722"/>
         <source>Delete lines?</source>
         <translation>Удалить строки?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1236"/>
-        <location filename="../frmmain.cpp" line="1242"/>
+        <location filename="../frmmain.cpp" line="1245"/>
+        <location filename="../frmmain.cpp" line="1251"/>
         <source>Scroll</source>
         <translation>Прокрутка</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1278"/>
+        <location filename="../frmmain.cpp" line="1287"/>
         <source>File sending in progress. Terminate and exit?</source>
         <translation>Идет процесс отправки файла. Прервать и выйти из программы?</translation>
     </message>
     <message>
         <source>G-Code files (*.nc *.ncc *.tap);;All files (*.*)</source>
-        <translation type="vanished">Файлы G-Code (*.nc *.ncc *.tap);;Все файлы (*.*)</translation>
+        <translation>Файлы G-Code (*.nc *.ncc *.tap);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1353"/>
-        <location filename="../frmmain.cpp" line="2183"/>
-        <location filename="../frmmain.cpp" line="3042"/>
+        <location filename="../frmmain.cpp" line="1362"/>
+        <location filename="../frmmain.cpp" line="2197"/>
+        <location filename="../frmmain.cpp" line="3069"/>
         <source>Heightmap files (*.map)</source>
         <translation>Файлы карт высот (*.map)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1470"/>
-        <location filename="../frmmain.cpp" line="2960"/>
+        <location filename="../frmmain.cpp" line="1479"/>
+        <location filename="../frmmain.cpp" line="2985"/>
         <source>Can&apos;t open file:
 </source>
         <translation>Ошибка при открытии файла:
 </translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1609"/>
+        <location filename="../frmmain.cpp" line="1619"/>
         <source>Sent</source>
         <translation>Отправлена</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1939"/>
-        <location filename="../frmmain.cpp" line="1965"/>
-        <location filename="../frmmain.cpp" line="2317"/>
-        <location filename="../frmmain.cpp" line="2329"/>
-        <location filename="../frmmain.cpp" line="2341"/>
-        <location filename="../frmmain.cpp" line="2424"/>
-        <location filename="../frmmain.cpp" line="2530"/>
+        <location filename="../frmmain.cpp" line="1951"/>
+        <location filename="../frmmain.cpp" line="1979"/>
+        <location filename="../frmmain.cpp" line="2332"/>
+        <location filename="../frmmain.cpp" line="2344"/>
+        <location filename="../frmmain.cpp" line="2356"/>
+        <location filename="../frmmain.cpp" line="2439"/>
+        <location filename="../frmmain.cpp" line="2547"/>
         <source> (%1)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2121"/>
+        <location filename="../frmmain.cpp" line="2135"/>
         <source>Untitled</source>
         <translation>Без имени</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2161"/>
-        <location filename="../frmmain.cpp" line="2171"/>
+        <location filename="../frmmain.cpp" line="2175"/>
+        <location filename="../frmmain.cpp" line="2185"/>
         <source>G-Code files (*.nc *.ncc *.tap *.txt)</source>
         <translation>Файлы G-Code (*.nc *.ncc *.tap *.txt)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2700"/>
+        <location filename="../frmmain.cpp" line="2721"/>
         <source>Changing grid settings will reset probe data. Continue?</source>
         <translation>Изменение сетки зондирования приведет к очистке табличных данных. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="529"/>
         <source>Connected</source>
         <translation>Подключен</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="407"/>
+        <location filename="../frmmain.cpp" line="412"/>
         <source>G-code program file was changed. Save?</source>
         <translation>Файл G-code программы был изменен. Сохранить?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="415"/>
+        <location filename="../frmmain.cpp" line="420"/>
         <source>Heightmap file was changed. Save?</source>
         <translation>Файл карты высот был изменен. Сохранить?</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="519"/>
+        <location filename="../frmmain.cpp" line="524"/>
         <source>Probe</source>
         <translation>Зонд</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="995"/>
+        <location filename="../frmmain.cpp" line="534"/>
+        <source>Port opened</source>
+        <translation>Порт открыт</translation>
+    </message>
+    <message>
+        <location filename="../frmmain.cpp" line="994"/>
         <source>Processed</source>
         <translation>Обработана</translation>
     </message>
@@ -758,40 +762,40 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Buffer/queue: %1 / %2</source>
-        <translation type="vanished">Буфер/очередь: %1 / %2</translation>
+        <translation>Буфер/очередь: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="2161"/>
-        <location filename="../frmmain.cpp" line="2171"/>
-        <location filename="../frmmain.cpp" line="2183"/>
+        <location filename="../frmmain.cpp" line="2175"/>
+        <location filename="../frmmain.cpp" line="2185"/>
+        <location filename="../frmmain.cpp" line="2197"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1073"/>
         <location filename="../frmmain.ui" line="1731"/>
-        <location filename="../frmmain.cpp" line="1342"/>
-        <location filename="../frmmain.cpp" line="1353"/>
-        <location filename="../frmmain.cpp" line="3042"/>
+        <location filename="../frmmain.cpp" line="1351"/>
+        <location filename="../frmmain.cpp" line="1362"/>
+        <location filename="../frmmain.cpp" line="3069"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
         <source>G-Code files (*.nc;*.ncc;*.tap)</source>
-        <translation type="vanished">Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
+        <translation>Файлы G-Code (*.nc;*.ncc;*.tap)</translation>
     </message>
     <message>
-        <location filename="../frmmain.cpp" line="1434"/>
-        <location filename="../frmmain.cpp" line="1623"/>
-        <location filename="../frmmain.cpp" line="1700"/>
-        <location filename="../frmmain.cpp" line="1839"/>
-        <location filename="../frmmain.cpp" line="2049"/>
+        <location filename="../frmmain.cpp" line="1443"/>
+        <location filename="../frmmain.cpp" line="1635"/>
+        <location filename="../frmmain.cpp" line="1712"/>
+        <location filename="../frmmain.cpp" line="1851"/>
+        <location filename="../frmmain.cpp" line="2063"/>
         <source>In queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
         <source>Sended</source>
-        <translation type="vanished">Отправлена</translation>
+        <translation>Отправлена</translation>
     </message>
 </context>
 <context>
@@ -859,7 +863,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Arc approximation segment length:</source>
-        <translation type="vanished">Точность аппроксимации дуг:</translation>
+        <translation>Точность аппроксимации дуг:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="595"/>
@@ -924,7 +928,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map)</source>
-        <translation type="vanished">(Используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
+        <translation>(Используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1088"/>
@@ -948,7 +952,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>by length (mm)</source>
-        <translation type="vanished">по длине (мм)</translation>
+        <translation>по длине (мм)</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="534"/>
@@ -957,11 +961,11 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>(used in visualizer and heightmap modification procedure)</source>
-        <translation type="vanished">(используется визуализатором и процедурой модификации по карте высот)</translation>
+        <translation>(используется визуализатором и процедурой модификации по карте высот)</translation>
     </message>
     <message>
         <source>Segment length (mm):</source>
-        <translation type="vanished">Длина сегмента (мм):</translation>
+        <translation>Длина сегмента (мм):</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1118"/>
@@ -1021,7 +1025,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Line</source>
-        <translation type="vanished">Линии</translation>
+        <translation>Линии</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="652"/>
@@ -1035,7 +1039,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Min length:</source>
-        <translation type="vanished">Точность:</translation>
+        <translation>Точность:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="378"/>
@@ -1054,23 +1058,23 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Probing Z commands:</source>
-        <translation type="vanished">Команды Z-щупа:</translation>
+        <translation>Команды Z-щупа:</translation>
     </message>
     <message>
         <source>Table touch commands:</source>
-        <translation type="vanished">Команды поиска стола:</translation>
+        <translation>Команды поиска стола:</translation>
     </message>
     <message>
         <source>Table touch command:</source>
-        <translation type="vanished">Команда поиска стола:</translation>
+        <translation>Команда поиска стола:</translation>
     </message>
     <message>
         <source>Z probe:</source>
-        <translation type="vanished">Поиск Z:</translation>
+        <translation>Поиск Z:</translation>
     </message>
     <message>
         <source>Distance:</source>
-        <translation type="vanished">Расстояние:</translation>
+        <translation>Расстояние:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="425"/>
@@ -1079,7 +1083,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Units:</source>
-        <translation type="vanished">Единицы измерения:</translation>
+        <translation>Единицы измерения:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="439"/>
@@ -1133,19 +1137,19 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Max.:</source>
-        <translation type="vanished">макс.:</translation>
+        <translation>макс.:</translation>
     </message>
     <message>
         <source>Rapid movements speed:</source>
-        <translation type="vanished">Ускоренная подача:</translation>
+        <translation>Ускоренная подача:</translation>
     </message>
     <message>
         <source>Arcs precision:</source>
-        <translation type="vanished">Точность дуг:</translation>
+        <translation>Точность дуг:</translation>
     </message>
     <message>
         <source>Line smoothing</source>
-        <translation type="vanished">Сглаживание линий</translation>
+        <translation>Сглаживание линий</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="758"/>
@@ -1169,7 +1173,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Tool graphic representation</source>
-        <translation type="vanished">Модель фрезы</translation>
+        <translation>Модель фрезы</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="837"/>
@@ -1208,7 +1212,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Query state time period:</source>
-        <translation type="vanished">Период опроса состояния:</translation>
+        <translation>Период опроса состояния:</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="979"/>
@@ -1217,7 +1221,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>GRBL Control</source>
-        <translation type="vanished">Управление GRBL</translation>
+        <translation>Управление GRBL</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="204"/>
@@ -1236,7 +1240,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>(Used in the visualizer and the procedure of transformation files in accordance with the height map.)</source>
-        <translation type="vanished">(используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
+        <translation>(используется визуализатором и процедурой преобразования файлов в соответствии с картой высот)</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1003"/>
@@ -1265,7 +1269,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Keyboard control</source>
-        <translation type="vanished">Управление с клавиатуры</translation>
+        <translation>Управление с клавиатуры</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="973"/>
@@ -1274,7 +1278,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Show G-code program commands in console</source>
-        <translation type="vanished">Отображать команды G-code программы в консоли</translation>
+        <translation>Отображать команды G-code программы в консоли</translation>
     </message>
     <message>
         <location filename="../frmsettings.ui" line="1313"/>
