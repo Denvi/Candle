@@ -159,25 +159,6 @@ QSlider::handle:horizontal:hover {
          <property name="toolTip">
           <string>Isometric view</string>
          </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton { /* all types of tool button */
-	color: lightgray;
-	border: 1px solid lightgray;
-	border-radius: 0px;
-	background-color: white;
-}
-
-QToolButton:hover { /* all types of tool button */
-	border: 1px solid gray;
-	color: gray;
-}
-
-QToolButton:pressed {
-}
-
-QToolButton:checked { /* all types of tool button */
-}</string>
-         </property>
          <property name="text">
           <string/>
          </property>
@@ -203,25 +184,6 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="toolTip">
           <string>Top view</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton { /* all types of tool button */
-	color: lightgray;
-	border: 1px solid lightgray;
-	border-radius: 0px;
-	background-color: white;
-}
-
-QToolButton:hover { /* all types of tool button */
-	border: 1px solid gray;
-	color: gray;
-}
-
-QToolButton:pressed {
-}
-
-QToolButton:checked { /* all types of tool button */
-}</string>
          </property>
          <property name="text">
           <string/>
@@ -249,25 +211,6 @@ QToolButton:checked { /* all types of tool button */
          <property name="toolTip">
           <string>Front view</string>
          </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton { /* all types of tool button */
-	color: lightgray;
-	border: 1px solid lightgray;
-	border-radius: 0px;
-	background-color: white;
-}
-
-QToolButton:hover { /* all types of tool button */
-	border: 1px solid gray;
-	color: gray;
-}
-
-QToolButton:pressed {
-}
-
-QToolButton:checked { /* all types of tool button */
-}</string>
-         </property>
          <property name="text">
           <string/>
          </property>
@@ -294,25 +237,6 @@ QToolButton:checked { /* all types of tool button */
          <property name="toolTip">
           <string>Left view</string>
          </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton { /* all types of tool button */
-	color: lightgray;
-	border: 1px solid lightgray;
-	border-radius: 0px;
-	background-color: white;
-}
-
-QToolButton:hover { /* all types of tool button */
-	border: 1px solid gray;
-	color: gray;
-}
-
-QToolButton:pressed {
-}
-
-QToolButton:checked { /* all types of tool button */
-}</string>
-         </property>
          <property name="text">
           <string/>
          </property>
@@ -338,25 +262,6 @@ QToolButton:checked { /* all types of tool button */
          </property>
          <property name="toolTip">
           <string>Fit</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton { /* all types of tool button */
-	color: lightgray;
-	border: 1px solid lightgray;
-	border-radius: 0px;
-	background-color: white;
-}
-
-QToolButton:hover { /* all types of tool button */
-	border: 1px solid gray;
-	color: gray;
-}
-
-QToolButton:pressed {
-}
-
-QToolButton:checked { /* all types of tool button */
-}</string>
          </property>
          <property name="text">
           <string/>

@@ -1810,6 +1810,37 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorEnd(m_settings.colors("ToolpathEnd"));
     m_codeDrawer->update();
 
+    // Adapt visualizer buttons colors
+    const int LIGHTBOUND = 127;
+    const int NORMALSHIFT = 40;
+    const int HIGHLIGHTSHIFT = 80;
+
+    QColor base = m_settings.colors("VisualizerBackground");
+    bool light = base.value() > LIGHTBOUND;
+    QColor normal, highlight;
+
+    normal.setHsv(base.hue(), base.saturation(), base.value() + (light ? -NORMALSHIFT : NORMALSHIFT));
+    highlight.setHsv(base.hue(), base.saturation(), base.value() + (light ? -HIGHLIGHTSHIFT : HIGHLIGHTSHIFT));
+
+    ui->glwVisualizer->setStyleSheet(QString("QToolButton {border: 1px solid %1; \
+                background-color: %3} QToolButton:hover {border: 1px solid %2;}")
+                .arg(normal.name()).arg(highlight.name())
+                .arg(base.name()));
+
+    ui->cmdFit->setIcon(QIcon(":/images/fit_1.png"));
+    ui->cmdIsometric->setIcon(QIcon(":/images/cube.png"));
+    ui->cmdFront->setIcon(QIcon(":/images/cubeFront.png"));
+    ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
+    ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
+
+    if (!light) {
+        Util::invertButtonIconColors(ui->cmdFit);
+        Util::invertButtonIconColors(ui->cmdIsometric);
+        Util::invertButtonIconColors(ui->cmdFront);
+        Util::invertButtonIconColors(ui->cmdLeft);
+        Util::invertButtonIconColors(ui->cmdTop);
+    }
+
     ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());

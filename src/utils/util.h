@@ -5,6 +5,9 @@
 #define UTIL
 
 #include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QAbstractButton>
 #include <QVector3D>
 #include <QEventLoop>
 #include <QTimer>
@@ -39,6 +42,19 @@ public:
 
         QTimer::singleShot(ms, &loop, SLOT(quit()));
         loop.exec();
+    }
+
+    static QIcon invertIconColors(QIcon icon)
+    {
+        QImage img = icon.pixmap(icon.actualSize(QSize(64, 64))).toImage();
+        img.invertPixels();
+
+        return QIcon(QPixmap::fromImage(img));
+    }
+
+    static void invertButtonIconColors(QAbstractButton *button)
+    {
+        button->setIcon(invertIconColors(button->icon()));
     }
 };
 
