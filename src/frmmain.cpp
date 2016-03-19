@@ -189,6 +189,7 @@ bool frmMain::isGCodeFile(QString fileName)
     return fileName.endsWith(".txt", Qt::CaseInsensitive)
           || fileName.endsWith(".nc", Qt::CaseInsensitive)
           || fileName.endsWith(".ncc", Qt::CaseInsensitive)
+          || fileName.endsWith(".ngc", Qt::CaseInsensitive)
           || fileName.endsWith(".tap", Qt::CaseInsensitive);
 }
 
@@ -1348,7 +1349,7 @@ void frmMain::on_cmdFileOpen_clicked()
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
 
         if (fileName != "") {
             addRecentFile(fileName);
@@ -2203,7 +2204,7 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 
 void frmMain::on_actFileSaveTransformedAs_triggered()
 {
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
 
     if (!fileName.isEmpty()) {
         saveProgramToFile(fileName, &m_programHeightmapModel);
@@ -2213,7 +2214,7 @@ void frmMain::on_actFileSaveTransformedAs_triggered()
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.tap *.txt)")));
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), "", tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
 
         if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
