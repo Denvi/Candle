@@ -17,8 +17,8 @@ Version 0.8 release:
 
 Downloads:
 ----------
-* Windows: [grblControl_0.8.2.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.2/grblControl_0.8.2.zip)
-* Linux: [grblControl_0.8.2.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.2/grblControl_0.8.2.tar.gz)
+* Windows: [grblControl_0.8.3.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.3/grblControl_0.8.3.zip)
+* Linux: [grblControl_0.8.3.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.3/grblControl_0.8.3.tar.gz)
 
 Previous versions:
 
