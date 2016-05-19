@@ -4,13 +4,15 @@
 //#define INITTIME //QTime time; time.start();
 //#define PRINTTIME(x) //qDebug() << "time elapse" << QString("%1:").arg(x) << time.elapsed(); time.start();
 
-#define IDLE 0
-#define ALARM 1
-#define RUN 2
-#define HOME 3
-#define HOLD 4
-#define QUEUE 5
-#define CHECK 6
+#define UNKNOWN 0
+#define IDLE 1
+#define ALARM 2
+#define RUN 3
+#define HOME 4
+#define HOLD 5
+#define QUEUE 6
+#define CHECK 7
+#define DOOR 8
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -32,10 +34,10 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
-    m_status << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check";
-    m_statusCaptions << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check");
-    m_statusBackColors << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)";
-    m_statusForeColors << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)";
+    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door";
+    m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
+    m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
+    m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
 
     ui->setupUi(this);
 
@@ -598,7 +600,7 @@ void frmMain::grblReset()
     qDebug() << "grbl reset";
 
     m_serialPort.write(QByteArray(1, (char)24));
-    m_serialPort.flush();
+//    m_serialPort.flush();
 
     m_processingFile = false;
     m_transferCompleted = true;
@@ -671,6 +673,9 @@ void frmMain::onSerialPortReadyRead()
             QRegExp stx("<([^,^>]*)");
             if (stx.indexIn(data) != -1) {
                 status = m_status.indexOf(stx.cap(1));
+
+                // Undetermined status
+                if (status == -1) status = 0;
 
                 // Update status
                 if (status != m_lastGrblStatus) {
@@ -1946,9 +1951,14 @@ void frmMain::on_cmdZeroZ_clicked()
 void frmMain::on_cmdReturnXY_clicked()
 {    
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
-    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(toMetric(ui->txtMPosZ->text().toDouble())),
-                -1, m_settings.showUICommands());
-    sendCommand(QString("G92X0Y0Z%1").arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings.showUICommands());
+//    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(toMetric(ui->txtMPosZ->text().toDouble())),
+//                -1, m_settings.showUICommands());
+    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
+                                            .arg(toMetric(ui->txtMPosY->text().toDouble()))
+                                            .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings.showUICommands());
+    sendCommand(QString("G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
+                                        .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
+                                        .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings.showUICommands());
 }
 
 void frmMain::on_cmdReset_clicked()
@@ -2304,6 +2314,7 @@ bool frmMain::dataIsFloating(QString data) {
     ends << "Reset to continue";
     ends << "'$H'|'$X' to unlock";
     ends << "ALARM: Hard limit. MPos?";
+    ends << "Check Door";
 
     foreach (QString str, ends) {
         if (data.contains(str)) return true;
