@@ -2324,8 +2324,6 @@ bool frmMain::dataIsFloating(QString data) {
 }
 
 bool frmMain::dataIsReset(QString data) {
-//    return data.contains("'$' for help");
-    return data.toUpper().contains(QRegExp("^GRBL \\d\\.\\d."));
 }
 
 QString frmMain::feedOverride(QString command)
