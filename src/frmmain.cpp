@@ -2324,6 +2324,7 @@ bool frmMain::dataIsFloating(QString data) {
 }
 
 bool frmMain::dataIsReset(QString data) {
+    return QRegExp("^GRBL|GCARVIN\\s\\d\\.\\d.").indexIn(data.toUpper()) != -1;
 }
 
 QString frmMain::feedOverride(QString command)
