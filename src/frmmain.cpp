@@ -926,7 +926,7 @@ void frmMain::onSerialPortReadyRead()
                         // Get probe Z coordinate
                         // "[PRB:0.000,0.000,0.000:0];ok"
                         QRegExp rx(".*PRB:([^,]*),([^,]*),([^]^:]*)");
-                        double z = NAN;
+                        double z = qQNaN();
                         if (rx.indexIn(response) != -1) {
                             qDebug() << "probing coordinates:" << rx.cap(1) << rx.cap(2) << rx.cap(3);
                             z = toMetric(rx.cap(3).toDouble());
@@ -1049,7 +1049,7 @@ void frmMain::onSerialPortReadyRead()
                             if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                         } else {
                             foreach (LineSegment* s, list) {
-                                if (!std::isnan(s->getEnd().length())) {
+                                if (!qIsNaN(s->getEnd().length())) {
                                     m_toolDrawer.setToolPosition(s->getEnd());
                                     break;
                                 }
@@ -1437,9 +1437,9 @@ void frmMain::loadFile(QList<QString> data)
         args = GcodePreprocessorUtils::splitCommand(stripped);
 
         PointSegment *ps = gp.addCommand(args);
-        // Quantum line (if disable pointsegment check some points will have NAN number on raspberry)
+        // Quantum line (if disable pointsegment check some points will have qQNaN() number on raspberry)
         // code alignment?
-        if (ps && (std::isnan(ps->point()->x()) || std::isnan(ps->point()->y()) || std::isnan(ps->point()->z())))
+        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
                    qDebug() << "nan point segment added:" << *ps->point();
 
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
@@ -1506,7 +1506,7 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
     //    foreach (LineSegment *ls, lines) {
         double length = (ls->getEnd() - ls->getStart()).length();
 
-        if (!std::isnan(length) && !std::isnan(ls->getSpeed()) && ls->getSpeed() != 0) time +=
+        if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
                 length / ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
                           ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed());
 
@@ -1514,8 +1514,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 //                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
 //                 << time;
 
-        if (std::isnan(length)) qDebug() << "length nan:" << i << ls->getLineNumber() << ls->getStart() << ls->getEnd();
-        if (std::isnan(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
+        if (qIsNaN(length)) qDebug() << "length nan:" << i << ls->getLineNumber() << ls->getStart() << ls->getEnd();
+        if (qIsNaN(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
     }
 
     time *= 60;
@@ -2753,7 +2753,7 @@ bool frmMain::updateHeightMapGrid()
     bool nan = true;
     for (int i = 0; i < m_heightMapModel.rowCount(); i++)
         for (int j = 0; j < m_heightMapModel.columnCount(); j++)
-            if (!std::isnan(m_heightMapModel.data(m_heightMapModel.index(i, j), Qt::UserRole).toDouble())) {
+            if (!qIsNaN(m_heightMapModel.data(m_heightMapModel.index(i, j), Qt::UserRole).toDouble())) {
                 nan = false;
                 break;
             }
@@ -2847,7 +2847,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
             double x = interpolationStepX * j + borderRect.x();
             double y = interpolationStepY * i + borderRect.y();
 
-            row.append(reset ? NAN : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
+            row.append(reset ? qQNaN() : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
         }
         interpolationData->append(row);
     }   
@@ -3029,15 +3029,15 @@ void frmMain::loadHeightMap(QString fileName)
     m_settingsLoading = true;
 
     // Storing previous values
-    ui->txtHeightMapBorderX->setValue(NAN);
-    ui->txtHeightMapBorderY->setValue(NAN);
-    ui->txtHeightMapBorderWidth->setValue(NAN);
-    ui->txtHeightMapBorderHeight->setValue(NAN);
+    ui->txtHeightMapBorderX->setValue(qQNaN());
+    ui->txtHeightMapBorderY->setValue(qQNaN());
+    ui->txtHeightMapBorderWidth->setValue(qQNaN());
+    ui->txtHeightMapBorderHeight->setValue(qQNaN());
 
-    ui->txtHeightMapGridX->setValue(NAN);
-    ui->txtHeightMapGridY->setValue(NAN);
-    ui->txtHeightMapGridZBottom->setValue(NAN);
-    ui->txtHeightMapGridZTop->setValue(NAN);
+    ui->txtHeightMapGridX->setValue(qQNaN());
+    ui->txtHeightMapGridY->setValue(qQNaN());
+    ui->txtHeightMapGridZBottom->setValue(qQNaN());
+    ui->txtHeightMapGridZTop->setValue(qQNaN());
 
     QList<QString> list = textStream.readLine().split(";");
     ui->txtHeightMapBorderX->setValue(list[0].toDouble());
@@ -3251,7 +3251,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         //                                 << newCommandPrefix << lastCode;
 
                             // If command is G0 or G1
-                            if (!std::isnan(list->at(j)->getEnd().length())
+                            if (!qIsNaN(list->at(j)->getEnd().length())
                                     && (newCommandPrefix.contains(QRegExp("[Gg]0+|[Gg]0*1"))
                                         || (!newCommandPrefix.contains(QRegExp("[Gg]|[Mm]"))
                                             && lastCode.contains(QRegExp("[Gg]0+|[Gg]0*1"))))) {
@@ -3347,14 +3347,14 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 
     QVector3D vec = segment->getEnd() - segment->getStart();
 
-    if (std::isnan(vec.length())) return QList<LineSegment*>();
+    if (qIsNaN(vec.length())) return QList<LineSegment*>();
 
     if (fabs(vec.x()) / fabs(vec.y()) < interpolationStepX / interpolationStepY) length = interpolationStepY / (vec.y() / vec.length());
     else length = interpolationStepX / (vec.x() / vec.length());
 
     length = fabs(length);
 
-    if (std::isnan(length)) {
+    if (qIsNaN(length)) {
         qDebug() << "ERROR length:" << segment->getStart() << segment->getEnd();
         return QList<LineSegment*>();
     }
@@ -3391,7 +3391,7 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
 {
     QRectF rect = borderRectFromExtremes();
 
-    if (!std::isnan(rect.width()) && !std::isnan(rect.height())) {
+    if (!qIsNaN(rect.width()) && !qIsNaN(rect.height())) {
         ui->txtHeightMapBorderX->setValue(rect.x());
         ui->txtHeightMapBorderY->setValue(rect.y());
         ui->txtHeightMapBorderWidth->setValue(rect.width());

@@ -13,7 +13,7 @@ win32: {
     LIBS += -L"C:\\Program Files\\Microsoft SDKs\\Windows\\v7.1\\Lib" -lopengl32
 }
 
-unix: {
+unix:!macx {
     DEFINES += UNIX #GL_GLEXT_PROTOTYPES
     QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }

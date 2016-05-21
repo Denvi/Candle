@@ -1,9 +1,7 @@
 // This file is a part of "grblControl" application.
 // Copyright 2015 Hayrullin Denis Ravilevich
 
-#include <QDebug>
 #include "gcodedrawer.h"
-#include "math.h"
 
 GcodeDrawer::GcodeDrawer()
 {
@@ -40,12 +38,12 @@ bool GcodeDrawer::updateData()
         bool drawFirstPoint = true;
         for (int i = 0; i < list->count(); i++) {
 
-            if (std::isnan(list->at(i)->getEnd().z())) continue;
+            if (qIsNaN(list->at(i)->getEnd().z())) continue;
 
             // Find first point of toolpath
             if (drawFirstPoint) {
 
-                if (std::isnan(list->at(i)->getEnd().x()) || std::isnan(list->at(i)->getEnd().y())) continue;
+                if (qIsNaN(list->at(i)->getEnd().x()) || qIsNaN(list->at(i)->getEnd().y())) continue;
 
                 // Draw first toolpath point
                 vertex.color = Util::colorToVector(m_colorStart);

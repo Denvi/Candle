@@ -17,7 +17,7 @@ void HeightMapTableModel::resize(int cols, int rows)
     for (int i = 0; i < rows; i++) {
         QVector<double> row;
         for (int j = 0; j < cols; j++) {
-            row.append(NAN);
+            row.append(qQNaN());
         }
         m_data.append(row);
     }

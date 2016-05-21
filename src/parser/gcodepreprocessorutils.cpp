@@ -9,7 +9,6 @@
 #include <QDebug>
 #include <QVector3D>
 #include "gcodepreprocessorutils.h"
-#include "math.h"
 #include "limits"
 
 /**
@@ -137,9 +136,9 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVecto
 */
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode)
 {
-    double x = NAN;
-    double y = NAN;
-    double z = NAN;
+    double x = qQNaN();
+    double y = qQNaN();
+    double z = qQNaN();
     char c;
 
     for (int i = 0; i < commandArgs.length(); i++) {
@@ -173,13 +172,13 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
     QVector3D newPoint(initial.x(), initial.y(), initial.z());
 
     if (absoluteMode) {
-        if (!std::isnan(x)) newPoint.setX(x);
-        if (!std::isnan(y)) newPoint.setY(y);
-        if (!std::isnan(z)) newPoint.setZ(z);
+        if (!qIsNaN(x)) newPoint.setX(x);
+        if (!qIsNaN(y)) newPoint.setY(y);
+        if (!qIsNaN(z)) newPoint.setZ(z);
     } else {
-        if (!std::isnan(x)) newPoint.setX(newPoint.x() + x);
-        if (!std::isnan(y)) newPoint.setY(newPoint.y() + y);
-        if (!std::isnan(z)) newPoint.setZ(newPoint.z() + z);
+        if (!qIsNaN(x)) newPoint.setX(newPoint.x() + x);
+        if (!qIsNaN(y)) newPoint.setY(newPoint.y() + y);
+        if (!qIsNaN(z)) newPoint.setZ(newPoint.z() + z);
     }
 
     return newPoint;
@@ -187,10 +186,10 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
 
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
-    double i = NAN;
-    double j = NAN;
-    double k = NAN;
-    double r = NAN;
+    double i = qQNaN();
+    double j = qQNaN();
+    double k = qQNaN();
+    double r = qQNaN();
     char c;
 
     foreach (QString t, commandArgs)
@@ -214,7 +213,7 @@ QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> command
         }
     }
 
-    if (std::isnan(i) && std::isnan(j) && std::isnan(k)) {
+    if (qIsNaN(i) && qIsNaN(j) && qIsNaN(k)) {
         return convertRToCenter(initial, nextPoint, r, absoluteIJKMode, clockwise);
     }
 
@@ -226,13 +225,13 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
     QString sb("G1");
 
     if (absoluteMode) {
-        if (!std::isnan(end.x())) sb.append("X" + QString::number(end.x(), 'f', precision));
-        if (!std::isnan(end.y())) sb.append("Y" + QString::number(end.y(), 'f', precision));
-        if (!std::isnan(end.z())) sb.append("Z" + QString::number(end.z(), 'f', precision));
+        if (!qIsNaN(end.x())) sb.append("X" + QString::number(end.x(), 'f', precision));
+        if (!qIsNaN(end.y())) sb.append("Y" + QString::number(end.y(), 'f', precision));
+        if (!qIsNaN(end.z())) sb.append("Z" + QString::number(end.z(), 'f', precision));
     } else {
-        if (!std::isnan(end.x())) sb.append("X" + QString::number(end.x() - start.x(), 'f', precision));
-        if (!std::isnan(end.y())) sb.append("Y" + QString::number(end.y() - start.y(), 'f', precision));
-        if (!std::isnan(end.z())) sb.append("Z" + QString::number(end.z() - start.z(), 'f', precision));
+        if (!qIsNaN(end.x())) sb.append("X" + QString::number(end.x() - start.x(), 'f', precision));
+        if (!qIsNaN(end.y())) sb.append("Y" + QString::number(end.y() - start.y(), 'f', precision));
+        if (!qIsNaN(end.z())) sb.append("Z" + QString::number(end.z() - start.z(), 'f', precision));
     }
 
     return sb;
@@ -303,7 +302,7 @@ double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
     {
         if (t.length() > 0 && t[0].toUpper() == c) return t.mid(1).toDouble();
     }
-    return NAN;
+    return qQNaN();
 }
 
 //static public List<String> convertArcsToLines(Point3d start, Point3d end) {
@@ -433,7 +432,7 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
     center = m * center;
 
     // Check center
-    if (std::isnan(center.length())) return QList<QVector3D>();
+    if (qIsNaN(center.length())) return QList<QVector3D>();
 
     // Calculate radius if necessary.
     if (radius == 0) {

@@ -10,6 +10,7 @@
 
 #include <QObject>
 #include <QMatrix4x4>
+#include <cmath>
 #include "pointsegment.h"
 
 class GcodePreprocessorUtils : public QObject

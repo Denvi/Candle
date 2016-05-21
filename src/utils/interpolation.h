@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QRectF>
 #include <QAbstractTableModel>
+#include <cmath>
 
 class Interpolation
 {

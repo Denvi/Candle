@@ -8,7 +8,6 @@
 #include <QListIterator>
 #include <QDebug>
 #include "gcodeparser.h"
-#include "math.h"
 
 GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
 {
@@ -91,9 +90,9 @@ void GcodeParser::reset()
     foreach (PointSegment *ps, this->m_points) delete ps;
     this->m_points.clear();
     // The unspoken home location.
-    m_currentPoint.setX(NAN);
-    m_currentPoint.setY(NAN);
-    m_currentPoint.setZ(NAN);
+    m_currentPoint.setX(qQNaN());
+    m_currentPoint.setY(qQNaN());
+    m_currentPoint.setZ(qQNaN());
     this->m_points.append(new PointSegment(&this->m_currentPoint, -1));
 }
 
@@ -230,7 +229,7 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
 
 //    foreach (QString code, fCodes) {
 //        double speed = GcodePreprocessorUtils::parseCoord(QList<QString>() << code, 'F');
-//        if (!std::isnan(speed)) this->m_lastSpeed = speed;
+//        if (!qIsNaN(speed)) this->m_lastSpeed = speed;
 //    }
 
     // handle G codes.
@@ -282,7 +281,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
 
     // Calculate radius if necessary.    
-    if (std::isnan(radius)) {
+    if (qIsNaN(radius)) {
 
         QMatrix4x4 m;
         m.setToIdentity();
@@ -325,7 +324,7 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
         code = code.mid(1);
 
     double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
-    if (!std::isnan(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
+    if (!qIsNaN(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);

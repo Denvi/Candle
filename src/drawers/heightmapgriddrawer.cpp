@@ -29,7 +29,7 @@ bool HeightMapGridDrawer::updateData()
     // Probe path / dots
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 0; j < gridPointsX; j++) {
-            if (m_model == NULL || std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
+            if (m_model == NULL || qIsNaN(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
                 vertex.color = QVector3D(1.0, 0.6, 0.0);
                 vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
                 m_lines.append(vertex);
@@ -47,7 +47,7 @@ bool HeightMapGridDrawer::updateData()
     vertex.color = QVector3D(0.0, 0.0, 1.0);
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 1; j < gridPointsX; j++) {
-            if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
+            if (qIsNaN(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
 
             vertex.position = QVector3D(m_borderRect.x() + gridStepX * (j - 1), m_borderRect.y() + gridStepY * i, m_model->data(m_model->index(i, j - 1), Qt::UserRole).toDouble());
             m_lines.append(vertex);
@@ -61,7 +61,7 @@ bool HeightMapGridDrawer::updateData()
     vertex.color = QVector3D(0.0, 0.0, 1.0);
     for (int j = 0; j < gridPointsX; j++) {
         for (int i = 1; i < gridPointsY; i++) {
-            if (std::isnan(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
+            if (qIsNaN(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) continue;
 
             vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * (i - 1), m_model->data(m_model->index(i - 1, j), Qt::UserRole).toDouble());
             m_lines.append(vertex);
