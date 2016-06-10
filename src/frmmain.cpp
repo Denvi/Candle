@@ -1078,7 +1078,8 @@ void frmMain::onSerialPortReadyRead()
                     m_homing = false;
                     m_lastGrblStatus = -1;
 
-                    m_updateParserStatus = true;
+                    m_updateParserStatus = true;        
+                    m_statusReceived = true;
 
                     m_commands.clear();
                     m_queue.clear();
@@ -2313,7 +2314,8 @@ bool frmMain::dataIsFloating(QString data) {
 
     ends << "Reset to continue";
     ends << "'$H'|'$X' to unlock";
-    ends << "ALARM: Hard limit. MPos?";
+    ends << "ALARM: Soft limit";
+    ends << "ALARM: Hard limit";
     ends << "Check Door";
 
     foreach (QString str, ends) {
