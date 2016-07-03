@@ -20,6 +20,10 @@ Downloads:
 * Windows: [grblControl_0.8.4.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.zip)
 * Linux: [grblControl_0.8.4.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.tar.gz)
 
+Build requirements:
+------------------
+Qt 5.4.2 with MinGW 4.9.1 compiler
+
 Previous versions:
 
 0.7:
