@@ -2466,8 +2466,8 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                         if (stepButtons[i]->isChecked()) {
 
                             StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
-                                    ? (i == stepButtons.length() - 1 ? 0 : i + 1)
-                                    : (i == 0 ? stepButtons.length() - 1 : i - 1)];
+                                    ? (i == stepButtons.length() - 1 ? stepButtons.length() - 1 : i + 1)
+                                    : (i == 0 ? 0 : i - 1)];
 
                             ui->txtJogStep->setValue(button->text().toDouble());
                             foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
