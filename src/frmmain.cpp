@@ -1023,7 +1023,7 @@ void frmMain::onSerialPortReadyRead()
                     if (ca.command.contains("M30")) ui->tblProgram->setCurrentIndex(m_currentModel->index(0, 1));
 
                     // Toolpath shadowing on check mode
-                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == 6) {
+                    if (m_statusCaptions.indexOf(ui->txtStatus->text()) == CHECK) {
                         GcodeViewParse *parser = m_currentDrawer->viewParser();
                         QList<LineSegment*> list = parser->getLineSegmentList();
 
