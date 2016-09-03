@@ -323,6 +323,11 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 
 void GLWidget::initializeGL()
 {
+#ifndef GLES
+    // Initialize functions
+    initializeOpenGLFunctions();
+#endif
+
     // Create shader program
     m_shaderProgram = new QOpenGLShaderProgram();
 

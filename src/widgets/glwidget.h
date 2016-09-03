@@ -17,7 +17,7 @@
 #ifdef GLES
 class GLWidget : public QOpenGLWidget
 #else
-class GLWidget : public QGLWidget
+class GLWidget : public QGLWidget, protected QOpenGLFunctions
 #endif
 {
     Q_OBJECT
