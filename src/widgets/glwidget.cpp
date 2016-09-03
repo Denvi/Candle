@@ -50,6 +50,8 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_ySize = 0;
     m_zSize = 0;
 
+//    setFormat(QGLFormat(QGL::SampleBuffers));
+
     updateProjection();
     updateView();
 
@@ -410,7 +412,7 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         }
     }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
+    glEnable(GL_PROGRAM_POINT_SIZE);
 
     if (m_shaderProgram) {
         // Draw 3d
@@ -434,7 +436,6 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     }    
 
     // Draw 2D
-    glShadeModel(GL_FLAT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_LINE_SMOOTH);

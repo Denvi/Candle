@@ -1,3 +1,5 @@
+//#version 110
+
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
@@ -26,12 +28,6 @@ void main()
         float coord = length(sub.x) > length(sub.y) ? gl_FragCoord.x : gl_FragCoord.y;
         if (cos(coord / factor) > 0.0) discard;
     }
-#ifdef GL_ES
-    if (point_size > 0.0) {
-        vec2 coord = gl_PointCoord.st - vec2(0.5, 0.5);
-        if (length(coord) > 0.5) discard;
-    }
-#endif
 
     // Set fragment color from texture
     gl_FragColor = v_color;

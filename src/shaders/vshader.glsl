@@ -1,3 +1,5 @@
+//#version 110
+
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
