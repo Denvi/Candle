@@ -233,13 +233,14 @@ void frmMain::loadSettings()
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
     m_programSpeed = false;
+    m_settings.setMoveOnRestore(set.value("moveOnRestore", false).toBool());
+    m_settings.setRestoreMode(set.value("restoreMode", 0).toInt());
     m_settings.setLineWidth(set.value("lineWidth", 1).toDouble());
     m_settings.setArcLength(set.value("arcLength", 0).toDouble());
     m_settings.setArcDegree(set.value("arcDegree", 0).toDouble());
     m_settings.setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
     m_settings.setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
     m_settings.setShowUICommands(set.value("showUICommands", 0).toBool());
-    m_settings.setSafeZ(set.value("safeZ", 0).toDouble());
     m_settings.setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
     m_settings.setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
     m_settings.setRapidSpeed(set.value("rapidSpeed", 0).toInt());
@@ -267,7 +268,7 @@ void frmMain::loadSettings()
     m_storedY = set.value("storedY", 0).toDouble();
     m_storedZ = set.value("storedZ", 0).toDouble();
 
-    ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+    ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
@@ -299,7 +300,8 @@ void frmMain::loadSettings()
     ui->cboCommand->setCurrentIndex(-1);
 
     m_settings.setAutoCompletion(set.value("autoCompletion", true).toBool());
-    m_settings.setTouchCommand(set.value("touchCommand", "G21G38.2Z-30F100; G92Z0; G0Z25").toString());
+    m_settings.setTouchCommand(set.value("touchCommand").toString());
+    m_settings.setSafePositionCommand(set.value("safePositionCommand").toString());
 
     ui->txtHeightMapBorderX->setValue(set.value("heightmapBorderX", 0).toDouble());
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
@@ -351,9 +353,10 @@ void frmMain::saveSettings()
     set.setValue("arcDegreeMode", m_settings.arcDegreeMode());
     set.setValue("showProgramCommands", m_settings.showProgramCommands());
     set.setValue("showUICommands", m_settings.showUICommands());
-    set.setValue("safeZ", m_settings.safeZ());
     set.setValue("spindleSpeedMin", m_settings.spindleSpeedMin());
     set.setValue("spindleSpeedMax", m_settings.spindleSpeedMax());
+    set.setValue("moveOnRestore", m_settings.moveOnRestore());
+    set.setValue("restoreMode", m_settings.restoreMode());
     set.setValue("rapidSpeed", m_settings.rapidSpeed());
     set.setValue("heightmapProbingFeed", m_settings.heightmapProbingFeed());
     set.setValue("acceleration", m_settings.acceleration());
@@ -382,6 +385,7 @@ void frmMain::saveSettings()
     set.setValue("recentFiles", m_recentFiles);
     set.setValue("recentHeightmaps", m_recentHeightmaps);
     set.setValue("touchCommand", m_settings.touchCommand());
+    set.setValue("safePositionCommand", m_settings.safePositionCommand());
     set.setValue("panelHeightmapVisible", m_settings.panelHeightmap());
     set.setValue("panelSpindleVisible", m_settings.panelSpindle());
     set.setValue("panelFeedVisible", m_settings.panelFeed());
@@ -460,8 +464,8 @@ void frmMain::updateControlsState() {
     ui->cmdTouch->setEnabled(!m_processingFile);
     ui->cmdZeroXY->setEnabled(!m_processingFile);
     ui->cmdZeroZ->setEnabled(!m_processingFile);
-    ui->cmdReturnXY->setEnabled(!m_processingFile);
-    ui->cmdTopZ->setEnabled(!m_processingFile);
+    ui->cmdRestoreOrigin->setEnabled(!m_processingFile);
+    ui->cmdSafePosition->setEnabled(!m_processingFile);
     ui->cmdUnlock->setEnabled(!m_processingFile);
     ui->cmdSpindle->setEnabled(!m_processingFile);
 
@@ -550,7 +554,7 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
 {
-    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
+//    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
     command = command.toUpper();
 
@@ -695,8 +699,8 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Update controls
-                ui->cmdReturnXY->setEnabled(status == IDLE);
-                ui->cmdTopZ->setEnabled(status == IDLE);
+                ui->cmdRestoreOrigin->setEnabled(status == IDLE);
+                ui->cmdSafePosition->setEnabled(status == IDLE);
                 ui->cmdZeroXY->setEnabled(status == IDLE);
                 ui->cmdZeroZ->setEnabled(status == IDLE);
                 ui->chkTestMode->setEnabled(status != RUN && !m_processingFile);
@@ -912,7 +916,7 @@ void frmMain::onSerialPortReadyRead()
                                 m_settingZeroZ = false;
                                 m_storedZ = toMetric(rx.cap(3).toDouble());
                             }
-                            ui->cmdReturnXY->setToolTip(QString(tr("Restore XYZ:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+                            ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
                     }
 
@@ -1959,17 +1963,26 @@ void frmMain::on_cmdZeroZ_clicked()
     sendCommand("$#", -2, m_settings.showUICommands());
 }
 
-void frmMain::on_cmdReturnXY_clicked()
+void frmMain::on_cmdRestoreOrigin_clicked()
 {
+    // Restore offset
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
-//    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(toMetric(ui->txtMPosZ->text().toDouble())),
-//                -1, m_settings.showUICommands());
     sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
                                             .arg(toMetric(ui->txtMPosY->text().toDouble()))
                                             .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings.showUICommands());
     sendCommand(QString("G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings.showUICommands());
+
+    // Move tool
+    if (m_settings.moveOnRestore()) switch (m_settings.restoreMode()) {
+    case 0:
+        sendCommand("G0X0Y0", -1, m_settings.showUICommands());
+        break;
+    case 1:
+        sendCommand("G0X0Y0Z0", -1, m_settings.showUICommands());
+        break;
+    }
 }
 
 void frmMain::on_cmdReset_clicked()
@@ -1983,11 +1996,13 @@ void frmMain::on_cmdUnlock_clicked()
     sendCommand("$X", -1, m_settings.showUICommands());
 }
 
-void frmMain::on_cmdTopZ_clicked()
+void frmMain::on_cmdSafePosition_clicked()
 {
+    QStringList list = m_settings.safePositionCommand().split(";");
 
-    sendCommand(QString("G21"), -1, m_settings.showUICommands());
-    sendCommand(QString("G53G90G0Z%1").arg(m_settings.safeZ()), -1, m_settings.showUICommands());
+    foreach (QString cmd, list) {
+        sendCommand(cmd.trimmed(), -1, m_settings.showUICommands());
+    }
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)

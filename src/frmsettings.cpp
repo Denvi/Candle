@@ -240,14 +240,34 @@ void frmSettings::setShowUICommands(bool showUICommands)
     ui->chkShowUICommands->setChecked(showUICommands);
 }
 
-double frmSettings::safeZ()
+QString frmSettings::safePositionCommand()
 {
-    return ui->txtSafeZ->value();
+    return ui->txtSafeCommand->text();
 }
 
-void frmSettings::setSafeZ(double safeZ)
+void frmSettings::setSafePositionCommand(QString command)
 {
-    ui->txtSafeZ->setValue(safeZ);
+    ui->txtSafeCommand->setText(command);
+}
+
+bool frmSettings::moveOnRestore()
+{
+    return ui->chkMoveOnRestore->isChecked();
+}
+
+void frmSettings::setMoveOnRestore(bool value)
+{
+    ui->chkMoveOnRestore->setChecked(value);
+}
+
+int frmSettings::restoreMode()
+{
+    return ui->cboRestoreMode->currentIndex();
+}
+
+void frmSettings::setRestoreMode(int value)
+{
+    ui->cboRestoreMode->setCurrentIndex(value);
 }
 
 int frmSettings::spindleSpeedMin()
@@ -501,16 +521,21 @@ void frmSettings::on_cboToolType_currentIndexChanged(int index)
 
 void frmSettings::on_cmdDefaults_clicked()
 {
+    if (QMessageBox::warning(this, qApp->applicationDisplayName(), "Reset settings to default values?",
+                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
+
     setPort("");
     setBaud(115200);
 
     setQueryStateTime(40);
-    setSafeZ(10.0);
     setRapidSpeed(2000);
     setAcceleration(100);
     setSpindleSpeedMin(0);
     setSpindleSpeedMax(10000);
-    setTouchCommand("");
+    setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F10");
+    setSafePositionCommand("G21G53G90; G0Z10");
+    setMoveOnRestore(false);
+    setRestoreMode(0);
     setHeightmapProbingFeed(10);
     setUnits(0);
 
@@ -556,6 +581,5 @@ void frmSettings::on_cmdDefaults_clicked()
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
 {
-    // TODO: Move to preload settings
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }

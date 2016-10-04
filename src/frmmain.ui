@@ -1339,7 +1339,7 @@ QSlider::handle:horizontal:hover {
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="StyledToolButton" name="cmdReturnXY">
+              <widget class="StyledToolButton" name="cmdRestoreOrigin">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -1350,14 +1350,14 @@ QSlider::handle:horizontal:hover {
                 </size>
                </property>
                <property name="toolTip">
-                <string>Restore XYZ</string>
+                <string>Restore origin</string>
                </property>
                <property name="text">
                 <string>...</string>
                </property>
                <property name="icon">
                 <iconset resource="images.qrc">
-                 <normaloff>:/images/axis_return.png</normaloff>:/images/axis_return.png</iconset>
+                 <normaloff>:/images/origin.png</normaloff>:/images/origin.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1368,7 +1368,7 @@ QSlider::handle:horizontal:hover {
               </widget>
              </item>
              <item row="1" column="2">
-              <widget class="StyledToolButton" name="cmdTopZ">
+              <widget class="StyledToolButton" name="cmdSafePosition">
                <property name="minimumSize">
                 <size>
                  <width>44</width>
@@ -1376,14 +1376,14 @@ QSlider::handle:horizontal:hover {
                 </size>
                </property>
                <property name="toolTip">
-                <string>Safe Z</string>
+                <string>Safe position</string>
                </property>
                <property name="text">
                 <string>...</string>
                </property>
                <property name="icon">
                 <iconset resource="images.qrc">
-                 <normaloff>:/images/safe_z.png</normaloff>:/images/safe_z.png</iconset>
+                 <normaloff>:/images/guard.png</normaloff>:/images/guard.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1497,7 +1497,7 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-305</y>
+            <y>0</y>
             <width>228</width>
             <height>603</height>
            </rect>
@@ -2749,8 +2749,8 @@ padding-right: 8;</string>
   <tabstop>cmdTouch</tabstop>
   <tabstop>cmdZeroXY</tabstop>
   <tabstop>cmdZeroZ</tabstop>
-  <tabstop>cmdReturnXY</tabstop>
-  <tabstop>cmdTopZ</tabstop>
+  <tabstop>cmdRestoreOrigin</tabstop>
+  <tabstop>cmdSafePosition</tabstop>
   <tabstop>cmdReset</tabstop>
   <tabstop>cmdUnlock</tabstop>
   <tabstop>scrollArea</tabstop>
@@ -2798,12 +2798,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>798</x>
-     <y>779</y>
+     <x>680</x>
+     <y>775</y>
     </hint>
    </hints>
   </connection>
@@ -2814,12 +2814,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>902</x>
-     <y>620</y>
+     <x>786</x>
+     <y>616</y>
     </hint>
    </hints>
   </connection>
@@ -2830,12 +2830,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>903</x>
-     <y>646</y>
+     <x>787</x>
+     <y>644</y>
     </hint>
    </hints>
   </connection>
@@ -2846,12 +2846,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>852</x>
-     <y>533</y>
+     <x>736</x>
+     <y>528</y>
     </hint>
    </hints>
   </connection>
@@ -2862,12 +2862,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>853</x>
-     <y>559</y>
+     <x>737</x>
+     <y>556</y>
     </hint>
    </hints>
   </connection>
@@ -2878,12 +2878,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>904</x>
-     <y>933</y>
+     <x>788</x>
+     <y>928</y>
     </hint>
     <hint type="destinationlabel">
-     <x>474</x>
-     <y>700</y>
+     <x>493</x>
+     <y>576</y>
     </hint>
    </hints>
   </connection>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
-    <height>490</height>
+    <width>579</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,19 +32,7 @@ QGroupBox {
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
-   <property name="leftMargin">
-    <number>9</number>
-   </property>
-   <property name="topMargin">
-    <number>9</number>
-   </property>
-   <property name="rightMargin">
-    <number>9</number>
-   </property>
-   <property name="bottomMargin">
-    <number>9</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_17">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -84,8 +72,8 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>347</width>
-          <height>1013</height>
+          <width>353</width>
+          <height>1193</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -184,24 +172,73 @@ QGroupBox {
           </widget>
          </item>
          <item>
-          <widget class="GroupBox" name="grpGRBL">
-           <property name="title">
-            <string>GRBL</string>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="title">
+            <string>Common</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
-             <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_11">
+             <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,2">
+              <item>
+               <widget class="QLabel" name="label_34">
                 <property name="text">
-                 <string>Query period:</string>
+                 <string>Application measurement units:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="label_9">
+              <item>
+               <spacer name="horizontalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>6</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cboUnitsCommon">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Metric</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Imperial</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="grpGRBL">
+           <property name="title">
+            <string>Machine information</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0,0,1">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_11">
                 <property name="text">
-                 <string>Safe Z:</string>
+                 <string>Status query period:</string>
                 </property>
                </widget>
               </item>
@@ -224,22 +261,23 @@ QGroupBox {
                </widget>
               </item>
               <item row="0" column="4">
-               <widget class="QDoubleSpinBox" name="txtSafeZ">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+               <widget class="QComboBox" name="cboUnits">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>3</number>
-                </property>
-                <property name="minimum">
-                 <double>-999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>999.000000000000000</double>
-                </property>
+                <item>
+                 <property name="text">
+                  <string>Metric</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Imperial</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="0" column="2">
@@ -258,18 +296,21 @@ QGroupBox {
                 </property>
                </spacer>
               </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0,0">
-              <item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Units:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
                <widget class="QLabel" name="label_10">
                 <property name="text">
                  <string>Rapid speed:</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="1" column="1">
                <widget class="QSpinBox" name="txtRapidSpeed">
                 <property name="font">
                  <font>
@@ -287,14 +328,14 @@ QGroupBox {
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="1" column="3">
                <widget class="QLabel" name="label_14">
                 <property name="text">
                  <string>Acceleration:</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="1" column="4">
                <widget class="QSpinBox" name="txtAcceleration">
                 <property name="font">
                  <font>
@@ -314,16 +355,111 @@ QGroupBox {
               </item>
              </layout>
             </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Control</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
-              <item>
-               <widget class="QLabel" name="label_12">
-                <property name="text">
-                 <string>Spindle speed min.:</string>
+             <widget class="QLabel" name="label_17">
+              <property name="styleSheet">
+               <string notr="true">padding-left: -4;
+padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Probe commands:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtTouchCommand">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_33">
+              <property name="styleSheet">
+               <string notr="true">padding-left: -4;
+padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Safe position commands:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtSafeCommand">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,1,2">
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <item>
+                 <widget class="QCheckBox" name="chkMoveOnRestore">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>&quot;Restore origin&quot; moves tool in:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="2">
+               <widget class="QComboBox" name="cboRestoreMode">
+                <property name="enabled">
+                 <bool>false</bool>
                 </property>
+                <item>
+                 <property name="text">
+                  <string>Plane</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Space</string>
+                 </property>
+                </item>
                </widget>
               </item>
-              <item>
+              <item row="3" column="1">
+               <spacer name="horizontalSpacer_16">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout_8" columnstretch="0,1,0,0,1">
+              <item row="0" column="1">
                <widget class="QSpinBox" name="txtSpindleSpeedMin">
                 <property name="font">
                  <font>
@@ -341,14 +477,21 @@ QGroupBox {
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="3">
                <widget class="QLabel" name="label_13">
                 <property name="text">
                  <string>max.:</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>Spindle speed min.:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
                <widget class="QSpinBox" name="txtSpindleSpeedMax">
                 <property name="font">
                  <font>
@@ -366,42 +509,56 @@ QGroupBox {
                 </property>
                </widget>
               </item>
+              <item row="0" column="2">
+               <spacer name="horizontalSpacer_9">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>6</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Heightmap</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
             <item>
-             <widget class="QLabel" name="label_17">
-              <property name="styleSheet">
-               <string notr="true">padding-left: -4;
-padding-top: 3;</string>
-              </property>
-              <property name="text">
-               <string>Z-probe commands:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="txtTouchCommand">
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="placeholderText">
-               <string>Command 1; command 2; ...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QGridLayout" name="gridLayout_4">
-              <property name="horizontalSpacing">
-               <number>12</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_18">
+             <layout class="QGridLayout" name="gridLayout_9" columnstretch="0,1,1">
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_38">
                 <property name="text">
                  <string>Heightmap probing feed:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
+              <item row="3" column="1">
+               <spacer name="horizontalSpacer_8">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="2">
                <widget class="QSpinBox" name="txtHeightMapProbingFeed">
                 <property name="font">
                  <font>
@@ -417,33 +574,6 @@ padding-top: 3;</string>
                 <property name="maximum">
                  <number>99999</number>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>Report units:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="cboUnits">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Metric</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Imperial</string>
-                 </property>
-                </item>
                </widget>
               </item>
              </layout>
@@ -482,8 +612,8 @@ padding-top: 3;</string>
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <item row="0" column="0">
                <widget class="QRadioButton" name="radArcLengthMode">
                 <property name="text">
                  <string>by length</string>
@@ -493,7 +623,23 @@ padding-top: 3;</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="2">
+               <spacer name="horizontalSpacer_15">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>6</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="0" column="1">
                <widget class="QDoubleSpinBox" name="txtArcLength">
                 <property name="enabled">
                  <bool>true</bool>
@@ -512,30 +658,14 @@ padding-top: 3;</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <spacer name="horizontalSpacer_15">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
+              <item row="0" column="3">
                <widget class="QRadioButton" name="radArcDegreeMode">
                 <property name="text">
                  <string>by angle (deg.)</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="4">
                <widget class="QDoubleSpinBox" name="txtArcDegree">
                 <property name="enabled">
                  <bool>false</bool>
@@ -554,19 +684,6 @@ padding-top: 3;</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <spacer name="horizontalSpacer_11">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
              </layout>
             </item>
            </layout>
@@ -579,88 +696,139 @@ padding-top: 3;</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <item>
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Line width:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="txtLineWidth">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <double>9.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkAntialiasing">
-                <property name="text">
-                 <string>Smoothing</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="radMSAA">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>MSAA</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_12">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <item row="1" column="0">
                <widget class="QCheckBox" name="chkSimplify">
                 <property name="text">
                  <string>Simplify geometry</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="label_5">
+                  <property name="text">
+                   <string>Line width:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="txtLineWidth">
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <double>9.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>FPS lock:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="cboFps">
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhDigitsOnly|Qt::ImhFormattedNumbersOnly</set>
+                  </property>
+                  <property name="editable">
+                   <bool>true</bool>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>30</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>60</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>120</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QCheckBox" name="chkAntialiasing">
+                  <property name="text">
+                   <string>Smoothing</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="radMSAA">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>MSAA</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>Segment length:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>2</number>
+                  </property>
+                  <property name="maximum">
+                   <double>99.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="3">
+               <widget class="QCheckBox" name="chkZBuffer">
+                <property name="text">
+                 <string>Z-buffer</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
                <spacer name="horizontalSpacer_5">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -671,133 +839,6 @@ padding-top: 3;</string>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_8">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Segment length:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="maximum">
-                 <double>99.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_13">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_9">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item>
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>FPS lock:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cboFps">
-                <property name="inputMethodHints">
-                 <set>Qt::ImhDigitsOnly|Qt::ImhFormattedNumbersOnly</set>
-                </property>
-                <property name="editable">
-                 <bool>true</bool>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>30</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>60</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>120</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_8">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkZBuffer">
-                <property name="text">
-                 <string>Z-buffer</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>0</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -1346,26 +1387,6 @@ padding-top: 3;</string>
   <tabstop>cboPort</tabstop>
   <tabstop>cmdRefresh</tabstop>
   <tabstop>cboBaud</tabstop>
-  <tabstop>txtQueryStateTime</tabstop>
-  <tabstop>txtSafeZ</tabstop>
-  <tabstop>txtRapidSpeed</tabstop>
-  <tabstop>txtAcceleration</tabstop>
-  <tabstop>txtSpindleSpeedMin</tabstop>
-  <tabstop>txtSpindleSpeedMax</tabstop>
-  <tabstop>txtTouchCommand</tabstop>
-  <tabstop>txtHeightMapProbingFeed</tabstop>
-  <tabstop>cboUnits</tabstop>
-  <tabstop>radArcLengthMode</tabstop>
-  <tabstop>txtArcLength</tabstop>
-  <tabstop>radArcDegreeMode</tabstop>
-  <tabstop>txtArcDegree</tabstop>
-  <tabstop>txtLineWidth</tabstop>
-  <tabstop>chkAntialiasing</tabstop>
-  <tabstop>radMSAA</tabstop>
-  <tabstop>chkSimplify</tabstop>
-  <tabstop>txtSimplifyPrecision</tabstop>
-  <tabstop>cboFps</tabstop>
-  <tabstop>chkZBuffer</tabstop>
   <tabstop>cboToolType</tabstop>
   <tabstop>txtToolAngle</tabstop>
   <tabstop>txtToolDiameter</tabstop>
@@ -1387,34 +1408,18 @@ padding-top: 3;</string>
  </resources>
  <connections>
   <connection>
-   <sender>chkSimplify</sender>
+   <sender>chkMoveOnRestore</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_8</receiver>
+   <receiver>cboRestoreMode</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>364</y>
+     <x>344</x>
+     <y>113</y>
     </hint>
     <hint type="destinationlabel">
-     <x>372</x>
-     <y>363</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkSimplify</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtSimplifyPrecision</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>257</x>
-     <y>364</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>428</x>
-     <y>363</y>
+     <x>433</x>
+     <y>119</y>
     </hint>
    </hints>
   </connection>
@@ -1425,12 +1430,44 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>347</x>
-     <y>333</y>
+     <x>417</x>
+     <y>355</y>
     </hint>
     <hint type="destinationlabel">
-     <x>415</x>
-     <y>333</y>
+     <x>502</x>
+     <y>357</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_8</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>298</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtSimplifyPrecision</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>526</x>
+     <y>387</y>
     </hint>
    </hints>
   </connection>
@@ -1441,28 +1478,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>211</x>
-     <y>270</y>
+     <x>407</x>
+     <y>288</y>
     </hint>
     <hint type="destinationlabel">
-     <x>310</x>
-     <y>271</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radArcLengthMode</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtArcLength</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>402</x>
-     <y>277</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>475</x>
-     <y>277</y>
+     <x>496</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>

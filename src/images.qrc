@@ -34,5 +34,7 @@
         <file>images/small_arrow.png</file>
         <file>images/shadow.png</file>
         <file>images/handle_small.png</file>
+        <file>images/guard.png</file>
+        <file>images/origin.png</file>
     </qresource>
 </RCC>

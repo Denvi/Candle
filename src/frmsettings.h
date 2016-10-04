@@ -5,6 +5,7 @@
 #define FRMSETTINGS_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include <QListWidgetItem>
 #include "widgets/colorpicker.h"
 
@@ -48,8 +49,12 @@ public:
     void setShowProgramCommands(bool showProgramCommands);
     bool showUICommands();
     void setShowUICommands(bool showUICommands);
-    double safeZ();
-    void setSafeZ(double safeZ);
+    QString safePositionCommand();
+    void setSafePositionCommand(QString command);
+    bool moveOnRestore();
+    void setMoveOnRestore(bool value);
+    int restoreMode();
+    void setRestoreMode(int value);
     int spindleSpeedMin();
     void setSpindleSpeedMin(int speed);
     int spindleSpeedMax();

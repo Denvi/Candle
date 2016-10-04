@@ -100,10 +100,10 @@ private slots:
     void on_cmdTouch_clicked();
     void on_cmdZeroXY_clicked();
     void on_cmdZeroZ_clicked();
-    void on_cmdReturnXY_clicked();
+    void on_cmdRestoreOrigin_clicked();
     void on_cmdReset_clicked();
     void on_cmdUnlock_clicked();
-    void on_cmdTopZ_clicked();
+    void on_cmdSafePosition_clicked();
     void on_cmdSpindle_toggled(bool checked);
     void on_txtSpindleSpeed_editingFinished();
     void on_sliSpindleSpeed_valueChanged(int value);
