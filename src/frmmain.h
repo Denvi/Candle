@@ -64,11 +64,11 @@ class frmMain : public QMainWindow
 
 public:
     explicit frmMain(QWidget *parent = 0);
-    ~frmMain();    
+    ~frmMain();
 
     double toolZPosition();
 
-private slots:    
+private slots:
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
 
@@ -89,7 +89,7 @@ private slots:
     void onPanelsSizeChanged(QSize size);
 
     void on_actFileExit_triggered();
-    void on_cmdFileOpen_clicked();        
+    void on_cmdFileOpen_clicked();
     void on_cmdFit_clicked();
     void on_cmdFileSend_clicked();
     void onTableCellChanged(QModelIndex i1, QModelIndex i2);
@@ -244,7 +244,7 @@ private:
     bool m_updateFeed = false;
 
     bool m_reseting = false;
-    bool m_resetCompleted = true;    
+    bool m_resetCompleted = true;
     bool m_aborting = false;
     bool m_statusReceived = false;
 
@@ -269,7 +269,7 @@ private:
     bool m_keyPressed = false;
     bool m_jogBlock = false;
     bool m_absoluteCoordinates;
-    bool m_storedKeyboardControl;      
+    bool m_storedKeyboardControl;
 
     // Spindle
     bool m_spindleCW = true;
@@ -281,6 +281,7 @@ private:
     void loadFile(QString fileName);
     void loadFile(QList<QString> data);
     void clearTable();
+    void preloadSettings();
     void loadSettings();
     void saveSettings();
     bool saveChanges(bool heightMapMode);

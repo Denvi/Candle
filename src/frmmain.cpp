@@ -39,6 +39,10 @@ frmMain::frmMain(QWidget *parent) :
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
     m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
 
+    // Loading settings
+    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
+    preloadSettings();
+
     ui->setupUi(this);
 
 #ifdef WINDOWS
@@ -129,7 +133,6 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
     // Loading settings
-    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
     ui->tblProgram->hideColumn(4);
     ui->tblProgram->hideColumn(5);
@@ -202,6 +205,14 @@ double frmMain::toolZPosition()
     return m_toolDrawer.toolPosition().z();
 }
 
+void frmMain::preloadSettings()
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    m_settings.setFontSize(set.value("fontSize", 8).toInt());
+}
+
 void frmMain::loadSettings()
 {
     QSettings set(m_settingsFileName, QSettings::IniFormat);
@@ -244,7 +255,6 @@ void frmMain::loadSettings()
     m_settings.setPanelFeed(set.value("panelFeedVisible", true).toBool());
     m_settings.setPanelJog(set.value("panelJogVisible", true).toBool());
 
-    m_settings.setFontSize(set.value("fontSize", 8).toInt());
     ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());

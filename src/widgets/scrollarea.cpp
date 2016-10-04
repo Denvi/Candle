@@ -38,7 +38,7 @@ QSize ScrollArea::sizeHint() const
 void ScrollArea::setWidget(QWidget *widget)
 {
     connect(static_cast<Widget*>(widget), SIGNAL(sizeChanged(QSize)), this, SLOT(onContentSizeChanged(QSize)));
-    QScrollArea::setWidget(widget);    
+    QScrollArea::setWidget(widget);
 }
 
 void ScrollArea::updateMinimumWidth()
@@ -48,7 +48,9 @@ void ScrollArea::updateMinimumWidth()
     foreach (GroupBox *box, list) {
         connect(box, SIGNAL(mouseMoved(int,int)), this, SLOT(onScroll(int,int)));
         connect(box, SIGNAL(mousePressed()), this, SLOT(onPressed()));
-        m_width = qMax<int>(m_width, box->sizeHint().width() + box->layout()->contentsMargins().left() + box->layout()->contentsMargins().right()); // 1 * margin
+        m_width = qMax<int>(m_width, box->sizeHint().width()
+                        + static_cast<QWidget*>(box->parent())->layout()->contentsMargins().left()
+                        + static_cast<QWidget*>(box->parent())->layout()->contentsMargins().right()); // 1 * margin
     }
     onContentSizeChanged(QSize());
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>913</width>
+    <width>808</width>
     <height>899</height>
    </rect>
   </property>
@@ -1497,9 +1497,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>231</width>
-            <height>638</height>
+            <y>-305</y>
+            <width>228</width>
+            <height>603</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2179,13 +2179,10 @@ QDoubleSpinBox:focus {
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Expanding</enum>
-                       </property>
                        <property name="sizeHint" stdset="0">
                         <size>
                          <width>0</width>
-                         <height>0</height>
+                         <height>20</height>
                         </size>
                        </property>
                       </spacer>
@@ -2234,13 +2231,10 @@ QDoubleSpinBox:focus {
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Expanding</enum>
-                       </property>
                        <property name="sizeHint" stdset="0">
                         <size>
                          <width>0</width>
-                         <height>0</height>
+                         <height>20</height>
                         </size>
                        </property>
                       </spacer>
@@ -2590,8 +2584,8 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>913</width>
-     <height>26</height>
+     <width>808</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
