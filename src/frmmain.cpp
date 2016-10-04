@@ -39,6 +39,10 @@ frmMain::frmMain(QWidget *parent) :
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
     m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
 
+    // Loading settings
+    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
+    preloadSettings();
+
     ui->setupUi(this);
 
 #ifdef WINDOWS
@@ -129,7 +133,6 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
     // Loading settings
-    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     loadSettings();
     ui->tblProgram->hideColumn(4);
     ui->tblProgram->hideColumn(5);
@@ -149,7 +152,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()));
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
-    // Apply settings    
+    // Apply settings
     foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogStep\\d")))
     {
         connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogStepClicked()));
@@ -161,7 +164,7 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     this->installEventFilter(this);
-    ui->tblProgram->installEventFilter(this);   
+    ui->tblProgram->installEventFilter(this);
     ui->splitPanels->handle(1)->installEventFilter(this);
     ui->splitPanels->installEventFilter(this);
 
@@ -177,7 +180,7 @@ frmMain::frmMain(QWidget *parent) :
 }
 
 frmMain::~frmMain()
-{    
+{
     saveSettings();
 
     delete ui;
@@ -200,6 +203,14 @@ bool frmMain::isHeightmapFile(QString fileName)
 double frmMain::toolZPosition()
 {
     return m_toolDrawer.toolPosition().z();
+}
+
+void frmMain::preloadSettings()
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    m_settings.setFontSize(set.value("fontSize", 8).toInt());
 }
 
 void frmMain::loadSettings()
@@ -244,7 +255,6 @@ void frmMain::loadSettings()
     m_settings.setPanelFeed(set.value("panelFeedVisible", true).toBool());
     m_settings.setPanelJog(set.value("panelJogVisible", true).toBool());
 
-    m_settings.setFontSize(set.value("fontSize", 8).toInt());
     ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
@@ -312,7 +322,7 @@ void frmMain::loadSettings()
         pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
     }
 
-    updateRecentFilesMenu();   
+    updateRecentFilesMenu();
 
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
 
@@ -433,7 +443,7 @@ bool frmMain::saveChanges(bool heightMapMode)
     return true;
 }
 
-void frmMain::updateControlsState() {    
+void frmMain::updateControlsState() {
     bool portOpened = m_serialPort.isOpen();
 
     ui->grpState->setEnabled(portOpened);
@@ -619,7 +629,7 @@ void frmMain::grblReset()
 
     // Prepare reset response catch
     CommandAttributes ca;
-    ca.command = "[CTRL+X]";    
+    ca.command = "[CTRL+X]";
     if (m_settings.showUICommands()) ui->txtConsole->appendPlainText(ca.command);
     ca.consoleIndex = m_settings.showUICommands() ? ui->txtConsole->blockCount() - 1 : -1;
     ca.tableIndex = -1;
@@ -641,7 +651,7 @@ int frmMain::bufferLength()
 }
 
 void frmMain::onSerialPortReadyRead()
-{    
+{
     while (m_serialPort.canReadLine()) {
         QString data = m_serialPort.readLine().trimmed();
 
@@ -782,7 +792,7 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtWPosY->setText(wpx.cap(2));
                 ui->txtWPosZ->setText(wpx.cap(3));
 
-                // Update tool position                
+                // Update tool position
                 if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
                     m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
                                                            toMetric(ui->txtWPosY->text().toDouble()),
@@ -1060,7 +1070,7 @@ void frmMain::onSerialPortReadyRead()
                     response.clear();
                 } else {
                     response.append(data + "; ");
-                }                
+                }
 
             } else {
                 // Unprocessed responses
@@ -1078,7 +1088,7 @@ void frmMain::onSerialPortReadyRead()
                     m_homing = false;
                     m_lastGrblStatus = -1;
 
-                    m_updateParserStatus = true;        
+                    m_updateParserStatus = true;
                     m_statusReceived = true;
 
                     m_commands.clear();
@@ -1360,7 +1370,7 @@ void frmMain::on_cmdFileOpen_clicked()
 
             loadFile(fileName);
         }
-    } else {        
+    } else {
         if (!saveChanges(true)) return;
 
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Heightmap files (*.map)"));
@@ -1544,7 +1554,7 @@ void frmMain::on_cmdFit_clicked()
 }
 
 void frmMain::on_cmdFileSend_clicked()
-{    
+{
     if (m_currentModel->rowCount() == 1) return;
 
     on_cmdFileReset_clicked();
@@ -1554,7 +1564,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_transferCompleted = false;
     m_processingFile = true;
     m_fileEndSent = false;
-    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();    
+    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
     if (!ui->chkTestMode->isChecked()) storeOffsets(); // Allready stored on check
@@ -1571,7 +1581,7 @@ void frmMain::on_cmdFileSend_clicked()
 #endif
 
     updateControlsState();
-    ui->cmdFilePause->setFocus();        
+    ui->cmdFilePause->setFocus();
     sendNextFileCommands();
 }
 
@@ -1612,7 +1622,7 @@ void frmMain::restoreOffsets()
                                        .arg(toMetric(ui->txtWPosZ->text().toDouble())), -1, m_settings.showUICommands());
 }
 
-void frmMain::sendNextFileCommands() {    
+void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
     QString command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
@@ -1643,7 +1653,7 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
     } /*else if (i1.row() != (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() == "") {
         ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
         m_tableModel.removeRow(i1.row());
-    }*/   
+    }*/
 
     if (!m_programLoading) {
 
@@ -1851,7 +1861,7 @@ void frmMain::applySettings() {
 }
 
 void frmMain::updateParser()
-{       
+{
     QTime time;
 
     qDebug() << "updating parser:" << m_currentModel << m_currentDrawer;
@@ -1873,7 +1883,7 @@ void frmMain::updateParser()
 
         // Store args if none
         if (args.isEmpty()) {
-//                qDebug() << "updating args";
+            qDebug() << "updating args" << i;
             stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data(m_currentModel->index(i, 1)).toString());
             args = GcodePreprocessorUtils::splitCommand(stripped);
             m_currentModel->setData(m_currentModel->index(i, 5), QVariant(args));
@@ -1950,7 +1960,7 @@ void frmMain::on_cmdZeroZ_clicked()
 }
 
 void frmMain::on_cmdReturnXY_clicked()
-{    
+{
     sendCommand(QString("G21"), -1, m_settings.showUICommands());
 //    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(m_storedX).arg(m_storedY).arg(toMetric(ui->txtMPosZ->text().toDouble())),
 //                -1, m_settings.showUICommands());
@@ -1981,7 +1991,7 @@ void frmMain::on_cmdTopZ_clicked()
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
-{    
+{
     if (!m_programSpeed) sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5", -1, m_settings.showUICommands());
     ui->grpSpindle->setProperty("overrided", checked);
     style()->unpolish(ui->grpSpindle);
@@ -2039,7 +2049,7 @@ void frmMain::on_cmdXPlus_clicked()
 }
 
 void frmMain::on_cmdXMinus_clicked()
-{    
+{
     sendCommand("$G", -2, m_settings.showUICommands());
     sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings.showUICommands());
 }
@@ -2127,7 +2137,7 @@ void frmMain::on_cmdFileReset_clicked()
 }
 
 void frmMain::on_actFileNew_triggered()
-{    
+{
     qDebug() << "changes:" << m_fileChanged << m_heightMapChanged;
 
     if (!saveChanges(m_heightMapMode)) return;
@@ -2357,7 +2367,7 @@ void frmMain::on_chkFeedOverride_toggled(bool checked)
 {
     ui->grpFeed->setProperty("overrided", checked);
     style()->unpolish(ui->grpFeed);
-    ui->grpFeed->ensurePolished();    
+    ui->grpFeed->ensurePolished();
     updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
     if (m_processingFile) {
         ui->txtFeed->setStyleSheet("color: red;");
@@ -2422,7 +2432,7 @@ void frmMain::blockJogForRapidMovement() {
 }
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
-{    
+{
     // Main form events
     if (obj == this || obj == ui->tblProgram) {
         if (event->type() == QEvent::KeyPress) {
@@ -2746,7 +2756,7 @@ void frmMain::updateHeightMapGrid(double arg1)
 }
 
 bool frmMain::updateHeightMapGrid()
-{    
+{
     if (m_settingsLoading) return true;
 
     qDebug() << "updating heightmap grid drawer";
@@ -2827,7 +2837,7 @@ bool frmMain::updateHeightMapGrid()
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
-    if (m_settingsLoading) return;    
+    if (m_settingsLoading) return;
 
     qDebug() << "Updating interpolation";
 
@@ -2852,7 +2862,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
             row.append(reset ? qQNaN() : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
         }
         interpolationData->append(row);
-    }   
+    }
 
     if (m_heightMapInterpolationDrawer.data() != NULL) {
         delete m_heightMapInterpolationDrawer.data();
@@ -2908,7 +2918,7 @@ void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
 }
 
 void frmMain::on_txtHeightMapGridX_valueChanged(double arg1)
-{    
+{
     updateHeightMapGrid(arg1);
 }
 
@@ -2974,7 +2984,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
         list[i]->setDrawn(checked);
         list[i]->setIsHightlight(false);
         indexes.append(i);
-    }   
+    }
     // Update only vertex color.
     // If chkHeightMapUse was checked codeDrawer updated via updateParser
     if (!ui->chkHeightMapUse->isChecked()) m_codeDrawer->update(indexes);
@@ -3045,7 +3055,7 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapBorderX->setValue(list[0].toDouble());
     ui->txtHeightMapBorderY->setValue(list[1].toDouble());
     ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
-    ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());    
+    ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
 
     list = textStream.readLine().split(";");
     ui->txtHeightMapGridX->setValue(list[0].toDouble());
@@ -3098,7 +3108,7 @@ void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
     Q_UNUSED(checked)
 
-    updateControlsState();    
+    updateControlsState();
 }
 
 void frmMain::on_cmdHeightMapLoad_clicked()
@@ -3303,17 +3313,17 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         }
         qDebug() << "Model modification time: " << time.elapsed();
 
-        ui->tblProgram->setModel(&m_programHeightmapModel);        
+        ui->tblProgram->setModel(&m_programHeightmapModel);
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
         ui->tblProgram->selectRow(0);
 
-        m_programLoading = false;        
+        m_programLoading = false;
 
         // Update parser
         m_currentDrawer = m_codeDrawer;
-        updateParser();        
+        updateParser();
     } else {
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
         ui->tblProgram->setModel(NULL);

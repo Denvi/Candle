@@ -7,7 +7,7 @@
 
 #include "arcproperties.h"
 
-ArcProperties::ArcProperties(QObject *parent) : QObject(parent)
+ArcProperties::ArcProperties()
 {
     radius = 0;
     center = NULL;

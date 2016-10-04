@@ -8,8 +8,7 @@
 #include "linesegment.h"
 #include <QDebug>
 
-LineSegment::LineSegment(QObject *parent) :
-    QObject(parent)
+LineSegment::LineSegment()
 {
     m_toolhead = 0; //DEFAULT TOOLHEAD ASSUMED TO BE 0!
     m_isZMovement = false;

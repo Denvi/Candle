@@ -11,11 +11,10 @@
 #include <QObject>
 #include <QVector3D>
 
-class ArcProperties : public QObject
+class ArcProperties
 {
-    Q_OBJECT
 public:
-    explicit ArcProperties(QObject *parent = 0);
+    explicit ArcProperties();
     bool isClockwise;
     double radius;
     QVector3D *center;

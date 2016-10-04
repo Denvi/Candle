@@ -6,6 +6,7 @@
 GcodeDrawer::GcodeDrawer()
 {
     m_geometryUpdated = false;
+    m_pointSize = 6;
 }
 
 void GcodeDrawer::update()
@@ -30,6 +31,8 @@ bool GcodeDrawer::updateData()
         QList<LineSegment*> *list = m_viewParser->getLines();
         VertexData vertex;
 
+        qDebug() << "lines count" << list->count();
+
         // Create vertices array
         // Clear all vertex data
         m_lines.clear();
@@ -38,7 +41,10 @@ bool GcodeDrawer::updateData()
         bool drawFirstPoint = true;
         for (int i = 0; i < list->count(); i++) {
 
-            if (qIsNaN(list->at(i)->getEnd().z())) continue;
+            if (qIsNaN(list->at(i)->getEnd().z())) {
+                qDebug() << "nan point" << list->at(i)->getEnd();
+                continue;
+            }
 
             // Find first point of toolpath
             if (drawFirstPoint) {
@@ -73,7 +79,7 @@ bool GcodeDrawer::updateData()
                     if (i < list->count() - 1) {
                         next = list->at(i)->getEnd() - list->at(i)->getStart();
                         length += next.length();
-                        straight = start.crossProduct(start.normalized(), next.normalized()).length() < 0.025;
+//                        straight = start.crossProduct(start.normalized(), next.normalized()).length() < 0.025;
                     }
                 // Split short & straight lines
                 } while ((length < m_simplifyPrecision || straight) && i < list->count()

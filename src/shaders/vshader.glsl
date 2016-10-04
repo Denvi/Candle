@@ -6,7 +6,7 @@ precision mediump float;
 
 uniform mat4 mvp_matrix;
 uniform mat4 mv_matrix;
-uniform float point_size;
+uniform float m_point_size;
 
 attribute vec4 a_position;
 attribute vec4 a_color;
@@ -36,5 +36,5 @@ void main()
     v_color = a_color;
 
     // Set point size
-    gl_PointSize = point_size;
+    gl_PointSize = m_point_size;
 }

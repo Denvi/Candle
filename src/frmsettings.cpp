@@ -14,8 +14,8 @@ frmSettings::frmSettings(QWidget *parent) :
     ui(new Ui::frmSettings)
 {
     ui->setupUi(this);
-    this->setLocale(QLocale::C);
 
+    this->setLocale(QLocale::C);
     m_intValidator.setBottom(1);
     m_intValidator.setTop(999);
     ui->cboFps->setValidator(&m_intValidator);
@@ -475,7 +475,7 @@ void frmSettings::searchPorts()
     foreach (QSerialPortInfo info ,QSerialPortInfo::availablePorts()) {
 //        ui->cboPort->addItem(info.portName());
         ui->cboPort->insertItem(0, info.portName());
-    }    
+    }
 }
 
 void frmSettings::on_cmdRefresh_clicked()
@@ -556,5 +556,6 @@ void frmSettings::on_cmdDefaults_clicked()
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
 {
+    // TODO: Move to preload settings
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }
