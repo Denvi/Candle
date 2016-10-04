@@ -11,11 +11,10 @@
 #include <QObject>
 #include <QVector3D>
 
-class LineSegment : public QObject
+class LineSegment
 {
-    Q_OBJECT
 public:
-    LineSegment(QObject *parent = 0);
+    LineSegment();
     LineSegment(QVector3D a, QVector3D b, int num);
     LineSegment(LineSegment *initial);
     ~LineSegment();

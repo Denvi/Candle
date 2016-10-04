@@ -68,6 +68,9 @@ public:
     QColor colorText() const;
     void setColorText(const QColor &colorText);
 
+    double pointSize() const;
+    void setPointSize(double pointSize);
+
 signals:
     void rotationChanged();
     void resized();
@@ -87,6 +90,7 @@ private:
     double m_distance;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     double m_lineWidth;
+    double m_pointSize;
     bool m_antialiasing;
     bool m_msaa;
     bool m_zBuffer;
@@ -95,7 +99,7 @@ private:
     int m_targetFps;
     int m_animationFrame;
     QTime m_spendTime;
-    QTime m_estimatedTime;    
+    QTime m_estimatedTime;
     QBasicTimer m_timerAnimation;
     double m_xRotTarget, m_yRotTarget;
     double m_xRotStored, m_yRotStored;
@@ -105,7 +109,7 @@ private:
     bool m_updatesEnabled;
 
     double normalizeAngle(double angle);
-    double calculateVolume(QVector3D size);    
+    double calculateVolume(QVector3D size);
     void beginViewAnimation();
     void stopViewAnimation();
 

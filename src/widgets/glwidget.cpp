@@ -50,8 +50,6 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_ySize = 0;
     m_zSize = 0;
 
-//    setFormat(QGLFormat(QGL::SampleBuffers));
-
     updateProjection();
     updateView();
 
@@ -59,7 +57,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_estimatedTime.setHMS(0, 0, 0);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
-    setFps(60);      
+    setFps(60);
 }
 
 GLWidget::~GLWidget()
@@ -391,13 +389,16 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     QPainter painter(this);
 
     // Segment counter
-    int vertices = 0;  
+    int vertices = 0;
 
     painter.beginNativePainting();
 
     // Clear viewport
     glClearColor(m_colorBackground.redF(), m_colorBackground.greenF(), m_colorBackground.blueF(), 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Shader drawable points
+    glEnable(GL_PROGRAM_POINT_SIZE);
 
     // Update settings
     if (m_antialiasing) {
@@ -412,7 +413,6 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         }
     }
     if (m_zBuffer) glEnable(GL_DEPTH_TEST);
-    glEnable(GL_PROGRAM_POINT_SIZE);
 
     if (m_shaderProgram) {
         // Draw 3d
@@ -433,7 +433,7 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         }
 
         m_shaderProgram->release();
-    }    
+    }
 
     // Draw 2D
     glDisable(GL_DEPTH_TEST);

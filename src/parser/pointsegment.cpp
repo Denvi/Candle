@@ -9,7 +9,7 @@
 
 #include "pointsegment.h"
 
-PointSegment::PointSegment(QObject *parent) : QObject(parent)
+PointSegment::PointSegment()
 {
     m_toolhead = 0;
     m_isMetric = true;

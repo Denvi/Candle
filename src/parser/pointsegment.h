@@ -13,9 +13,8 @@
 
 #include "arcproperties.h"
 
-class PointSegment : public QObject
+class PointSegment
 {
-    Q_OBJECT
 public:
     enum planes {
         XY,
@@ -23,7 +22,7 @@ public:
         YZ
     };
 
-    PointSegment(QObject *parent = 0);
+    PointSegment();
     PointSegment(PointSegment *ps);
     PointSegment(const QVector3D *b, int num);
     PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise);

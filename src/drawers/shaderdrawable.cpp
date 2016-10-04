@@ -11,7 +11,7 @@ ShaderDrawable::ShaderDrawable()
     m_needsUpdateGeometry = true;
     m_visible = true;
     m_lineWidth = 1.0;
-    m_pointSize = 6.0;
+    m_pointSize = 1.0;
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -111,8 +111,6 @@ bool ShaderDrawable::needsUpdateGeometry() const
 
 void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
 {
-    Q_UNUSED(shaderProgram)
-
     if (!m_visible) return;
 
     if (m_vao.isCreated()) {
@@ -147,19 +145,17 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
         shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
     }
 
-    glLineWidth(m_lineWidth);
-    shaderProgram->setUniformValue("point_size", (GLfloat)0.0);
-    glDrawArrays(GL_LINES, 0, m_lines.count());
+    if (!m_lines.isEmpty()) {
+        glLineWidth(m_lineWidth);
+        glDrawArrays(GL_LINES, 0, m_lines.count());
+    }
 
-    shaderProgram->setUniformValue("point_size", (GLfloat)m_pointSize);
-    glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());    
+    if (!m_points.isEmpty()) {
+        shaderProgram->setUniformValue("m_point_size", (GLfloat)m_pointSize);
+        glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());
+    }
 
-#ifndef GLES    
-    m_vao.release();
-#else
-//    shaderProgram->setUniformValue("point_size", (GLfloat)0.0);
-    m_vbo.release();
-#endif
+    if (m_vao.isCreated()) m_vao.release(); else m_vbo.release();
 }
 
 QVector3D ShaderDrawable::getSizes()
@@ -201,6 +197,7 @@ void ShaderDrawable::setVisible(bool visible)
 {
     m_visible = visible;
 }
+
 double ShaderDrawable::pointSize() const
 {
     return m_pointSize;

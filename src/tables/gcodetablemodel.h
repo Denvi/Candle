@@ -13,7 +13,7 @@ struct GCodeItem
     QString state;
     QString status;
     int line;
-    QList<QString> args;
+    QStringList args;
 };
 
 class GCodeTableModel : public QAbstractTableModel

@@ -556,5 +556,6 @@ void frmSettings::on_cmdDefaults_clicked()
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
 {
+    // TODO: Move to preload settings
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }
