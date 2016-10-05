@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="origin.svg"
+   inkscape:export-filename="D:\prj\Qt\grblControl\src\images\origin.png"
+   inkscape:export-xdpi="67.5"
+   inkscape:export-ydpi="67.5">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5895108"
+     inkscape:cx="33.745857"
+     inkscape:cy="19.995915"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3776"
+     showgrid="true"
+     showborder="true"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:object-nodes="false"
+     inkscape:object-paths="false"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:snap-midpoints="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-grids="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2993"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       dotted="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-988.36218)">
+    <g
+       id="g3786"
+       transform="matrix(0.7173913,0,0,0.7173913,16.304348,291.10235)">
+      <g
+         id="g3776"
+         transform="matrix(-1,0,0,1,44.454545,0)">
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:8.36363641;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect5110"
+           width="69.125679"
+           height="69.125687"
+           x="-56.441628"
+           y="981.28418"
+           transform="scale(-1,1)"
+           ry="6.2841539" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:5.74390841;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:11.48781657, 5.74390829;stroke-dashoffset:0"
+           d="m 21.929973,1047.04 0,-66.56773"
+           id="path5114"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:5.74390841;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:11.48781711, 5.74390856;stroke-dashoffset:0"
+           d="m 53.071738,1016.1477 -66.567719,0"
+           id="path5134"
+           inkscape:connector-curvature="0" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#000000;fill-opacity:1;stroke:none"
+           id="path5139"
+           sodipodi:cx="-27.5"
+           sodipodi:cy="46.5"
+           sodipodi:rx="3.2683446"
+           sodipodi:ry="3.2683446"
+           d="m -24.231655,46.5 a 3.2683446,3.2683446 0 1 1 -6.53669,0 3.2683446,3.2683446 0 1 1 6.53669,0 z"
+           transform="matrix(-2.7878788,0,0,2.7878788,-54.986079,886.36419)"
+           inkscape:transform-center-x="105"
+           inkscape:transform-center-y="35.000001" />
+      </g>
+    </g>
+  </g>
+</svg>
