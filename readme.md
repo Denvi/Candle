@@ -1,4 +1,4 @@
-grblControl
+Candle
 -----------
 GRBL controller application with G-Code visualizer written in Qt.
 
