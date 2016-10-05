@@ -14,11 +14,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>grblControl</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="images.qrc">
-    <normaloff>:/images/icon3png.png</normaloff>:/images/icon3png.png</iconset>
+   <string>Candle</string>
   </property>
   <property name="styleSheet">
    <string notr="true">/*QWidget {

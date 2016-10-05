@@ -1,5 +1,5 @@
-// This file is a part of "grblControl" application.
-// Copyright 2015 Hayrullin Denis Ravilevich
+// This file is a part of "Candle" application.
+// Copyright 2015-2016 Hayrullin Denis Ravilevich
 
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
@@ -71,6 +71,9 @@ public:
     double pointSize() const;
     void setPointSize(double pointSize);
 
+    bool vsync() const;
+    void setVsync(bool vsync);
+
 signals:
     void rotationChanged();
     void resized();
@@ -93,6 +96,7 @@ private:
     double m_pointSize;
     bool m_antialiasing;
     bool m_msaa;
+    bool m_vsync;
     bool m_zBuffer;
     int m_frames = 0;
     int m_fps = 0;
@@ -100,7 +104,7 @@ private:
     int m_animationFrame;
     QTime m_spendTime;
     QTime m_estimatedTime;
-    QBasicTimer m_timerAnimation;
+    QBasicTimer m_timerPaint;
     double m_xRotTarget, m_yRotTarget;
     double m_xRotStored, m_yRotStored;
     bool m_animateView;

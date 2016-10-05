@@ -73,7 +73,7 @@ QGroupBox {
           <x>0</x>
           <y>0</y>
           <width>353</width>
-          <height>1193</height>
+          <height>1191</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -367,11 +367,13 @@ QGroupBox {
             <item>
              <widget class="QLabel" name="label_17">
               <property name="styleSheet">
-               <string notr="true">padding-left: -4;
-padding-top: 3;</string>
+               <string notr="true">padding-top: 3;</string>
               </property>
               <property name="text">
                <string>Probe commands:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -388,11 +390,13 @@ padding-top: 3;</string>
             <item>
              <widget class="QLabel" name="label_33">
               <property name="styleSheet">
-               <string notr="true">padding-left: -4;
-padding-top: 3;</string>
+               <string notr="true">padding-top: 3;</string>
               </property>
               <property name="text">
                <string>Safe position commands:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -447,9 +451,12 @@ padding-top: 3;</string>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>40</width>
+                  <width>9</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -697,41 +704,59 @@ padding-top: 3;</string>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="chkSimplify">
-                <property name="text">
-                 <string>Simplify geometry</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item row="0" column="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
-                 <widget class="QLabel" name="label_5">
+                 <widget class="QCheckBox" name="chkAntialiasing">
                   <property name="text">
-                   <string>Line width:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDoubleSpinBox" name="txtLineWidth">
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="buttonSymbols">
-                   <enum>QAbstractSpinBox::NoButtons</enum>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>9.000000000000000</double>
+                   <string>Smoothing</string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
-              <item row="2" column="0">
+              <item row="2" column="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>Precision:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="2">
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>6</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="1" column="3">
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <item>
+                 <widget class="QCheckBox" name="chkVSync">
+                  <property name="text">
+                   <string>V-sync</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
                  <widget class="QLabel" name="label_7">
@@ -767,44 +792,24 @@ padding-top: 3;</string>
                 </item>
                </layout>
               </item>
-              <item row="0" column="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QCheckBox" name="chkAntialiasing">
-                  <property name="text">
-                   <string>Smoothing</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="radMSAA">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>MSAA</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+              <item row="2" column="0">
+               <widget class="QCheckBox" name="chkSimplify">
+                <property name="text">
+                 <string>Simplify geometry</string>
+                </property>
+               </widget>
               </item>
-              <item row="1" column="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item row="0" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
-                 <widget class="QLabel" name="label_8">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
+                 <widget class="QLabel" name="label_5">
                   <property name="text">
-                   <string>Segment length:</string>
+                   <string>Line width:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
+                 <widget class="QDoubleSpinBox" name="txtLineWidth">
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
@@ -812,37 +817,50 @@ padding-top: 3;</string>
                    <enum>QAbstractSpinBox::NoButtons</enum>
                   </property>
                   <property name="decimals">
-                   <number>2</number>
+                   <number>1</number>
                   </property>
                   <property name="maximum">
-                   <double>99.000000000000000</double>
+                   <double>9.000000000000000</double>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
-              <item row="2" column="3">
+              <item row="0" column="4">
+               <widget class="QCheckBox" name="radMSAA">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>MSAA</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
                <widget class="QCheckBox" name="chkZBuffer">
                 <property name="text">
                  <string>Z-buffer</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2">
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+              <item row="2" column="4">
+               <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
+                <property name="enabled">
+                 <bool>false</bool>
                 </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
-               </spacer>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="maximum">
+                 <double>99.000000000000000</double>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -1414,12 +1432,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>344</x>
-     <y>113</y>
+     <x>357</x>
+     <y>23</y>
     </hint>
     <hint type="destinationlabel">
-     <x>433</x>
-     <y>119</y>
+     <x>522</x>
+     <y>22</y>
     </hint>
    </hints>
   </connection>
@@ -1430,12 +1448,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>417</x>
-     <y>355</y>
+     <x>437</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>502</x>
-     <y>357</y>
+     <x>521</x>
+     <y>295</y>
     </hint>
    </hints>
   </connection>
@@ -1446,12 +1464,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>380</y>
+     <x>328</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
-     <x>447</x>
-     <y>386</y>
+     <x>444</x>
+     <y>325</y>
     </hint>
    </hints>
   </connection>
@@ -1462,12 +1480,12 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>265</x>
-     <y>384</y>
+     <x>328</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
-     <x>526</x>
-     <y>387</y>
+     <x>521</x>
+     <y>325</y>
     </hint>
    </hints>
   </connection>
@@ -1478,12 +1496,44 @@ padding-top: 3;</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>407</x>
-     <y>288</y>
+     <x>445</x>
+     <y>225</y>
     </hint>
     <hint type="destinationlabel">
-     <x>496</x>
-     <y>293</y>
+     <x>522</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkVSync</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cboFps</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>390</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>372</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkVSync</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_7</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>369</x>
+     <y>359</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>179</x>
+     <y>365</y>
     </hint>
    </hints>
   </connection>

@@ -1,5 +1,5 @@
-// This file is a part of "grblControl" application.
-// Copyright 2015 Hayrullin Denis Ravilevich
+// This file is a part of "Candle" application.
+// Copyright 2015-2016 Hayrullin Denis Ravilevich
 
 //#define INITTIME //QTime time; time.start();
 //#define PRINTTIME(x) //qDebug() << "time elapse" << QString("%1:").arg(x) << time.elapsed(); time.start();
@@ -159,6 +159,11 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
+    // Update v-sync in glformat
+    QGLFormat fmt = QGLFormat::defaultFormat();
+    fmt.setSwapInterval(m_settings.vsync() ? 1 : 0);
+    ui->glwVisualizer->setFormat(fmt);
+
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -226,6 +231,7 @@ void frmMain::loadSettings()
     m_settings.setToolLength(set.value("toolLength", 15).toDouble());
     m_settings.setAntialiasing(set.value("antialiasing", true).toBool());
     m_settings.setMsaa(set.value("msaa", true).toBool());
+    m_settings.setVsync(set.value("vsync", false).toBool());
     m_settings.setZBuffer(set.value("zBuffer", false).toBool());
     m_settings.setSimplify(set.value("simplify", false).toBool());
     m_settings.setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
@@ -342,6 +348,7 @@ void frmMain::saveSettings()
     set.setValue("toolLength", m_settings.toolLength());
     set.setValue("antialiasing", m_settings.antialiasing());
     set.setValue("msaa", m_settings.msaa());
+    set.setValue("vsync", m_settings.vsync());
     set.setValue("zBuffer", m_settings.zBuffer());
     set.setValue("simplify", m_settings.simplify());
     set.setValue("simplifyPrecision", m_settings.simplifyPrecision());
@@ -491,8 +498,8 @@ void frmMain::updateControlsState() {
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
     }
 
-    this->setWindowTitle(m_programFileName.isEmpty() ? "grblControl"
-                                                     : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - grblControl");
+    this->setWindowTitle(m_programFileName.isEmpty() ? qApp->applicationDisplayName()
+                                                     : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - " + qApp->applicationDisplayName());
 
     if (!m_processingFile) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
@@ -745,7 +752,7 @@ void frmMain::onSerialPortReadyRead()
                     m_timerStateQuery.stop();
                     m_timerConnection.stop();
 
-                    QMessageBox::information(this, "grblControl", tr("Job done.\nTime elapsed: %1")
+                    QMessageBox::information(this, qApp->applicationDisplayName(), tr("Job done.\nTime elapsed: %1")
                                              .arg(ui->glwVisualizer->spendTime().toString("hh:mm:ss")));
 
                     m_timerStateQuery.setInterval(m_settings.queryStateTime());
@@ -1799,6 +1806,7 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setAntialiasing(m_settings.antialiasing());
     ui->glwVisualizer->setMsaa(m_settings.msaa());
     ui->glwVisualizer->setZBuffer(m_settings.zBuffer());
+    ui->glwVisualizer->setVsync(m_settings.vsync());
     ui->glwVisualizer->setFps(m_settings.fps());
     ui->glwVisualizer->setColorBackground(m_settings.colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings.colors("VisualizerText"));

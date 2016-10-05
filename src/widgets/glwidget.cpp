@@ -1,5 +1,5 @@
-// This file is a part of "grblControl" application.
-// Copyright 2015 Hayrullin Denis Ravilevich
+// This file is a part of "Candle" application.
+// Copyright 2015-2016 Hayrullin Denis Ravilevich
 
 #include "glwidget.h"
 #include "drawers/tooldrawer.h"
@@ -57,7 +57,6 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_estimatedTime.setHMS(0, 0, 0);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
-    setFps(60);
 }
 
 GLWidget::~GLWidget()
@@ -155,9 +154,9 @@ void GLWidget::onFramesTimer()
 
 void GLWidget::viewAnimation()
 {
-    double t = (double)m_animationFrame++ / (m_targetFps * 0.2);
+    double t = (double)m_animationFrame++ / (m_fps * 0.2);
 
-    if (t == 1) stopViewAnimation();
+    if (t >= 1) stopViewAnimation();
 
     QEasingCurve ec(QEasingCurve::OutExpo);
     double val = ec.valueForProgress(t);
@@ -166,6 +165,16 @@ void GLWidget::viewAnimation()
     m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
 
     updateView();
+}
+
+bool GLWidget::vsync() const
+{
+    return m_vsync;
+}
+
+void GLWidget::setVsync(bool vsync)
+{
+    m_vsync = vsync;
 }
 
 bool GLWidget::msaa() const
@@ -297,8 +306,8 @@ void GLWidget::setFps(int fps)
 {
     if (fps <= 0) return;
     m_targetFps = fps;
-    m_timerAnimation.stop();
-    m_timerAnimation.start(1000 / fps, Qt::PreciseTimer, this);
+    m_timerPaint.stop();
+    m_timerPaint.start(m_vsync ? 0 : 1000 / fps, Qt::PreciseTimer, this);
 }
 
 QTime GLWidget::estimatedTime() const
@@ -531,7 +540,7 @@ void GLWidget::wheelEvent(QWheelEvent *we)
 
 void GLWidget::timerEvent(QTimerEvent *te)
 {
-    if (te->timerId() == m_timerAnimation.timerId()) {
+    if (te->timerId() == m_timerPaint.timerId()) {
         if (m_animateView) viewAnimation();
 #ifndef GLES
         if (m_updatesEnabled) update();

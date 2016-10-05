@@ -1,5 +1,5 @@
-// This file is a part of "grblControl" application.
-// Copyright 2015 Hayrullin Denis Ravilevich
+// This file is a part of "Candle" application.
+// Copyright 2015-2016 Hayrullin Denis Ravilevich
 
 #ifndef FRMSETTINGS_H
 #define FRMSETTINGS_H
@@ -73,6 +73,8 @@ public:
     void setToolAngle(double toolAngle);
     int fps();
     void setFps(int fps);
+    bool vsync();
+    void setVsync(bool value);
     bool msaa();
     void setMsaa(bool msaa);
     bool autoCompletion();

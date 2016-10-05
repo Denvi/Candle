@@ -1,5 +1,5 @@
-// This file is a part of "grblControl" application.
-// Copyright 2015 Hayrullin Denis Ravilevich
+// This file is a part of "Candle" application.
+// Copyright 2015-2016 Hayrullin Denis Ravilevich
 
 #include "frmsettings.h"
 #include "ui_frmsettings.h"
@@ -360,6 +360,16 @@ void frmSettings::setFps(int fps)
     ui->cboFps->setCurrentText(QString::number(fps));
 }
 
+bool frmSettings::vsync()
+{
+    return ui->chkVSync->isChecked();
+}
+
+void frmSettings::setVsync(bool value)
+{
+    ui->chkVSync->setChecked(value);
+}
+
 bool frmSettings::msaa()
 {
     return ui->radMSAA->isChecked();
@@ -521,7 +531,7 @@ void frmSettings::on_cboToolType_currentIndexChanged(int index)
 
 void frmSettings::on_cmdDefaults_clicked()
 {
-    if (QMessageBox::warning(this, qApp->applicationDisplayName(), "Reset settings to default values?",
+    if (QMessageBox::warning(this, qApp->applicationDisplayName(), tr("Reset settings to default values?"),
                              QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
 
     setPort("");
@@ -533,7 +543,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setSpindleSpeedMin(0);
     setSpindleSpeedMax(10000);
     setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F10");
-    setSafePositionCommand("G21G53G90; G0Z10");
+    setSafePositionCommand("G21G90; G53G0Z0");
     setMoveOnRestore(false);
     setRestoreMode(0);
     setHeightmapProbingFeed(10);
