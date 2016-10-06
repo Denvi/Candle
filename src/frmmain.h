@@ -302,7 +302,7 @@ private:
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
-    void blockJogForRapidMovement();
+    void blockJogForRapidMovement(bool repeated = false);
     bool keyIsMovement(int key);
     void resizeCheckBoxes();
     void updateLayouts();

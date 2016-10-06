@@ -561,7 +561,7 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
 {
-//    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
+    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
     command = command.toUpper();
 
@@ -2434,7 +2434,7 @@ void frmMain::on_grpJog_toggled(bool checked)
     ui->widgetJog->setVisible(checked);
 }
 
-void frmMain::blockJogForRapidMovement() {
+void frmMain::blockJogForRapidMovement(bool repeated) {
     m_jogBlock = true;
 
     const double acc = m_settings.acceleration();    // Acceleration mm/sec^2
@@ -2444,10 +2444,14 @@ void frmMain::blockJogForRapidMovement() {
     double time;
     double step = ui->txtJogStep->text().toDouble();
 
-    if (2 * s > step) {
-        time = sqrt(step / acc);
+    if (repeated) {
+        time = step / v;
     } else {
-        time = (step - 2 * s) / v + 2 * at;
+        if (2 * s > step) {
+            time = sqrt(step / acc);
+        } else {
+            time = (step - 2 * s) / v + 1 * at;
+        }
     }
 
     qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
@@ -2468,7 +2472,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
                 // Block only autorepeated keypresses
                 if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
-                    blockJogForRapidMovement();
+                    blockJogForRapidMovement(keyEvent->isAutoRepeat());
 
                     switch (keyEvent->key()) {
                     case Qt::Key_4:
