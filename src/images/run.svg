@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="run.svg"
+   inkscape:export-filename="D:\prj\Qt\candle\src\images\run.png"
+   inkscape:export-xdpi="67.5"
+   inkscape:export-ydpi="67.5">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.952381"
+     inkscape:cx="63.934446"
+     inkscape:cy="22.83804"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3776"
+     showgrid="true"
+     showborder="true"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:object-nodes="false"
+     inkscape:object-paths="false"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:snap-midpoints="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-grids="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2993"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       dotted="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-988.36218)">
+    <g
+       id="g3786"
+       transform="matrix(0.7173913,0,0,0.7173913,16.304348,291.10235)">
+      <g
+         id="g3776"
+         transform="matrix(-1,0,0,1,44.454545,0)">
+        <path
+           sodipodi:type="arc"
+           style="fill:#000000;fill-opacity:1;stroke:none"
+           id="path3442-1"
+           sodipodi:cx="154.57524"
+           sodipodi:cy="-8.0098791"
+           sodipodi:rx="6.5300884"
+           sodipodi:ry="6.5300884"
+           d="m 161.10533,-8.0098791 a 6.5300884,6.5300884 0 1 1 -13.06018,0 6.5300884,6.5300884 0 1 1 13.06018,0 z"
+           transform="matrix(-1.3229915,0,0,1.3229915,210.62793,997.42189)" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:none"
+           d="m 17.971964,992.06197 -12.2349904,8.82423 0.0152,11.75 -11.17694,0.1247 c 0,0 -2.22307,0.091 -2.31125,2.8679 -0.0881,2.8656 2.22177,3.2193 2.22177,3.2193 l 15.4435899,0.1474 c 1.3092905,0 2.1937105,-0.9328 2.1002005,-2.3044 l -0.0112,-7.0163 6.57751,10.443 -10.9729404,7.3568 -0.24931,23.6604 c 0,0 0.56112,3.242 4.6136204,3.3979 4.17719,-0.1247 4.5201,-3.6473 4.5201,-3.6473 l -0.0312,-18.7974 9.227241,-5.6111 -0.09339,12.5627 c -0.03122,1.8392 0.935194,2.7433 2.649711,2.7121 l 19.233814,-0.062 c 0,0 3.647242,0.2183 3.616074,-4.3642 4.1e-5,-4.5824 -3.803113,-4.4577 -3.803113,-4.4577 l -12.749807,-0.1559 0.24939,-13.4668 -12.282206,-19.38967 10.723549,10e-6 4.211506,6.46286 c 0,0 2.381945,2.3167 5.171594,0.6135 2.231669,-1.8295 1.285021,-4.4713 1.285021,-4.4713 l -6.740311,-10.33599 z"
+           id="path4212-7"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccccccccccccccccccccccccccccc" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -37,6 +37,10 @@ QGroupBox[overrided=&quot;true&quot;] {
 	color: red;
 }
 
+QGroupBox[overrided=&quot;false&quot;] {
+	color: palette(windowtext);
+}
+
 QGroupBox[checkable=&quot;true&quot;]::title {
 	margin-top: 1px;
 }
@@ -1023,6 +1027,9 @@ QSlider::handle:horizontal:hover {
           <property name="title">
            <string>State</string>
           </property>
+          <property name="overrided" stdset="0">
+           <bool>false</bool>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <property name="leftMargin">
             <number>8</number>
@@ -1211,6 +1218,9 @@ QSlider::handle:horizontal:hover {
          <widget class="QGroupBox" name="grpControl">
           <property name="title">
            <string>Control</string>
+          </property>
+          <property name="overrided" stdset="0">
+           <bool>false</bool>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
            <property name="leftMargin">
@@ -1525,6 +1535,9 @@ QSlider::handle:horizontal:hover {
              <property name="checkable">
               <bool>true</bool>
              </property>
+             <property name="overrided" stdset="0">
+              <bool>false</bool>
+             </property>
              <layout class="QVBoxLayout" name="verticalLayout_16">
               <property name="leftMargin">
                <number>8</number>
@@ -1673,6 +1686,9 @@ QSlider::handle:horizontal:hover {
              </property>
              <property name="checkable">
               <bool>true</bool>
+             </property>
+             <property name="overrided" stdset="0">
+              <bool>false</bool>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <property name="leftMargin">
@@ -1892,6 +1908,9 @@ QSlider::handle:horizontal:hover {
              </property>
              <property name="checkable">
               <bool>true</bool>
+             </property>
+             <property name="overrided" stdset="0">
+              <bool>false</bool>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
               <property name="leftMargin">
