@@ -159,11 +159,6 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
-    // Update v-sync in glformat
-    QGLFormat fmt = QGLFormat::defaultFormat();
-    fmt.setSwapInterval(m_settings.vsync() ? 1 : 0);
-    ui->glwVisualizer->setFormat(fmt);
-
     show(); // Visibility bug workaround
     applySettings();
     updateControlsState();
@@ -216,6 +211,11 @@ void frmMain::preloadSettings()
     set.setIniCodec("UTF-8");
 
     m_settings.setFontSize(set.value("fontSize", 8).toInt());
+
+    // Update v-sync in glformat
+    QGLFormat fmt = QGLFormat::defaultFormat();
+    fmt.setSwapInterval(set.value("vsync", false).toBool() ? 1 : 0);
+    QGLFormat::setDefaultFormat(fmt);
 }
 
 void frmMain::loadSettings()

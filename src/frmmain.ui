@@ -1379,7 +1379,7 @@ QSlider::handle:horizontal:hover {
                </property>
                <property name="icon">
                 <iconset resource="images.qrc">
-                 <normaloff>:/images/guard.png</normaloff>:/images/guard.png</iconset>
+                 <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
                </property>
                <property name="iconSize">
                 <size>

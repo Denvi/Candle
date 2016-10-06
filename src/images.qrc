@@ -37,5 +37,6 @@
         <file>images/guard.png</file>
         <file>images/origin.png</file>
         <file>images/candle_256.png</file>
+        <file>images/run.png</file>
     </qresource>
 </RCC>

@@ -56,6 +56,9 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_spendTime.setHMS(0, 0, 0);
     m_estimatedTime.setHMS(0, 0, 0);
 
+    m_vsync = false;
+    m_targetFps = 60;
+
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
 
