@@ -2454,7 +2454,7 @@ void frmMain::blockJogForRapidMovement(bool repeated) {
         }
     }
 
-    qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
+//    qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
     QTimer::singleShot(time * 1000, Qt::PreciseTimer, this, SLOT(onJogTimer()));
 }
 
