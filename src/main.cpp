@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
-    QLocale::setDefault(QLocale("es"));
+//    QLocale::setDefault(QLocale("es"));
 
     QString loc = QLocale().name().left(2);
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
