@@ -8,17 +8,17 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-Version 0.8 release:
+Version 0.9 release:
 --------------------
-* You can save files, transformed according to heightmap.
-* Console window have adjustable size now.
-* Added "Degree" minimum arc size to parser settings.
-* Some minor bugs fixed.
+* "Restore origin" function has "move tool in plane/space" setting now.
+* "Safe position" function can be customized with command list.
+* Visualizer works with OpenGL/Angle/Software renderer.
+* Some bugs fixed.
 
 Downloads:
 ----------
-* Windows: [grblControl_0.8.4.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.zip)
-* Linux: [grblControl_0.8.4.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.tar.gz)
+* Windows: [candle_0.9.zip](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.zip)
+* Linux: [candle_0.9.tar.gz](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.tar.gz)
 
 Build requirements:
 ------------------
@@ -26,6 +26,10 @@ Qt 5.5.0 with MinGW compiler
 
 Previous versions:
 -----------------
+0.8.4
+* Windows: [grblControl_0.8.4.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.zip)
+* Linux: [grblControl_0.8.4.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.tar.gz)
+
 0.7:
 * Windows: [grblControl_0.7.zip](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.zip)
 * Linux: [grblControl_0.7.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.7/grblControl_0.7.tar.gz)
