@@ -34,7 +34,7 @@ RC_ICONS += images/candle.ico
 DEFINES += sNan=\"65536\"
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-TRANSLATIONS += translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts
+TRANSLATIONS += translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts translations/candle_pt.ts
 
 SOURCES += main.cpp\
         frmmain.cpp \

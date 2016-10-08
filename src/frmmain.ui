@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>808</width>
+    <width>834</width>
     <height>899</height>
    </rect>
   </property>
@@ -112,6 +112,9 @@ QSlider::handle:horizontal:hover {
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="100,1">
+    <property name="spacing">
+     <number>9</number>
+    </property>
     <property name="leftMargin">
      <number>9</number>
     </property>
@@ -1504,8 +1507,8 @@ QSlider::handle:horizontal:hover {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>228</width>
-            <height>603</height>
+            <width>231</width>
+            <height>638</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2599,8 +2602,8 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>808</width>
-     <height>21</height>
+     <width>834</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
