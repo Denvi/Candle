@@ -40,6 +40,9 @@ public:
     double pointSize() const;
     void setPointSize(double pointSize);
 
+    QVector3D origin() const;
+    void setOrigin(const QVector3D &origin);
+
 signals:
 
 public slots:
@@ -47,6 +50,7 @@ public slots:
 protected:
     double m_lineWidth;
     double m_pointSize;
+    QVector3D m_origin;
     bool m_visible;
     QVector<VertexData> m_lines;
     QVector<VertexData> m_points;

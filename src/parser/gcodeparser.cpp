@@ -213,6 +213,11 @@ int GcodeParser::getCommandNumber() const
     return m_commandNumber - 1;
 }
 
+QVector3D GcodeParser::getReferencePoint() const
+{
+    return m_referencePoint;
+}
+
 
 
 PointSegment *GcodeParser::processCommand(QList<QString> args)
@@ -319,6 +324,12 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);  
+
+    if (qIsNaN(nextPoint.length())) {
+        qDebug() << "nan nextPoint" << code << nextPoint;
+        m_referencePoint = nextPoint;
+        nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, QVector3D(0, 0, 0), this->m_inAbsoluteMode);
+    }
 
     if (code.length() > 1 && code.startsWith("0"))
         code = code.mid(1);

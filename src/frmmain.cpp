@@ -810,6 +810,9 @@ void frmMain::onSerialPortReadyRead()
                                                            toMetric(ui->txtWPosZ->text().toDouble())));
                 }
 
+                // Update gcode-program position
+                updateDrawerReference();
+
                 // toolpath shadowing
                 if (m_processingFile && status != CHECK) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
@@ -1471,6 +1474,8 @@ void frmMain::loadFile(QList<QString> data)
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
     }
 
+    qDebug() << "parser reference point" << gp.getReferencePoint();
+
     updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
 
     qDebug() << "model filled:" << time.elapsed();
@@ -1488,9 +1493,13 @@ void frmMain::loadFile(QList<QString> data)
 
     qDebug() << "view parser filled:" << time.elapsed();
 
-    //  Update code drawer
+    // Update code drawer
     m_codeDrawer->update();
-    ui->glwVisualizer->fitDrawable(m_codeDrawer);
+
+    // Update reference point
+    updateDrawerReference();
+
+    ui->glwVisualizer->fitDrawable(m_codeDrawer);    
 
     resetHeightmap();
     updateControlsState();
@@ -1922,6 +1931,19 @@ void frmMain::updateParser()
     if (m_currentModel == &m_programModel) m_fileChanged = true;
 
     qDebug() << "Update parser time: " << time.elapsed();
+}
+
+void frmMain::updateDrawerReference()
+{
+    QVector3D origin = m_toolDrawer.toolPosition() * m_currentDrawer->viewParser()->referenceMask();
+
+    m_codeDrawer->setOrigin(origin);
+    m_probeDrawer->setOrigin(origin);
+    m_heightMapBorderDrawer.setOrigin(origin);
+    m_heightMapGridDrawer.setOrigin(origin);
+    m_heightMapInterpolationDrawer.setOrigin(origin);
+
+    ui->glwVisualizer->updateExtremes(m_currentDrawer);
 }
 
 void frmMain::on_cmdCommandSend_clicked()

@@ -76,6 +76,11 @@ void GcodeViewParse::reset()
     m_max = QVector3D(qQNaN(), qQNaN(), qQNaN());
 }
 
+QVector3D GcodeViewParse::referenceMask() const
+{
+    return m_referenceMask;
+}
+
 QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
@@ -98,6 +103,8 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
         ps->convertToMetric();
 
         end = ps->point();
+
+        qDebug() << "point segment" << ps->point()->x() << ps->point()->y() << ps->point()->z();
 
         // start is null for the first iteration.
         if (start != NULL) {
@@ -139,6 +146,10 @@ QList<LineSegment *> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double 
         }
         start = end;
     }
+
+    m_referenceMask.setX(qIsNaN(gp->getReferencePoint().x()) ? 1 : 0);
+    m_referenceMask.setY(qIsNaN(gp->getReferencePoint().y()) ? 1 : 0);
+    m_referenceMask.setZ(qIsNaN(gp->getReferencePoint().z()) ? 1 : 0);
 
     return lines;
 }

@@ -26,10 +26,11 @@ public:
     QList<LineSegment *> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
     QList<LineSegment *> getLineSegmentList();
     QList<LineSegment *> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
-
     QList<LineSegment *> *getLines();
 
     void reset();
+    QVector3D referenceMask() const;
+
 signals:
 
 public slots:
@@ -44,6 +45,7 @@ private:
 
     // Parsing state.
     QVector3D lastPoint;
+    QVector3D m_referenceMask;
     int currentLine; // for assigning line numbers to segments.
 
     // Debug

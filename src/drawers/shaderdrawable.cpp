@@ -12,6 +12,7 @@ ShaderDrawable::ShaderDrawable()
     m_visible = true;
     m_lineWidth = 1.0;
     m_pointSize = 1.0;
+    m_origin = QVector3D(0, 0, 0);
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -206,6 +207,16 @@ double ShaderDrawable::pointSize() const
 void ShaderDrawable::setPointSize(double pointSize)
 {
     m_pointSize = pointSize;
+}
+
+QVector3D ShaderDrawable::origin() const
+{
+    return m_origin;
+}
+
+void ShaderDrawable::setOrigin(const QVector3D &origin)
+{
+    m_origin = origin;
 }
 
 

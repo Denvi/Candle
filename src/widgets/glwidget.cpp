@@ -132,6 +132,13 @@ void GLWidget::updateExtremes(ShaderDrawable *drawable)
     if (!qIsNaN(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
     if (!qIsNaN(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
 
+    m_xMin += drawable->origin().x();
+    m_xMax += drawable->origin().x();
+    m_yMin += drawable->origin().y();
+    m_yMax += drawable->origin().y();
+    m_zMin += drawable->origin().z();
+    m_zMax += drawable->origin().z();
+
     m_xSize = m_xMax - m_xMin;
     m_ySize = m_yMax - m_yMin;
     m_zSize = m_zMax - m_zMin;
@@ -430,16 +437,21 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         // Draw 3d
         m_shaderProgram->bind();
 
-        // Set modelview-projection matrix
-        m_shaderProgram->setUniformValue("mvp_matrix", m_projectionMatrix * m_viewMatrix);
-        m_shaderProgram->setUniformValue("mv_matrix", m_viewMatrix);
-
         // Update geometries in current opengl context
         foreach (ShaderDrawable *drawable, m_shaderDrawables)
             if (drawable->needsUpdateGeometry()) drawable->updateGeometry(m_shaderProgram);
 
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {
+
+            // Update viewmatrix
+            QMatrix4x4 viewMatrix = m_viewMatrix;
+            viewMatrix.translate(drawable->origin());
+
+            // Set modelview-projection matrix
+            m_shaderProgram->setUniformValue("mvp_matrix", m_projectionMatrix * viewMatrix);
+            m_shaderProgram->setUniformValue("mv_matrix", viewMatrix);
+
             drawable->draw(m_shaderProgram);
             if (drawable->visible()) vertices += drawable->getVertexCount();
         }
