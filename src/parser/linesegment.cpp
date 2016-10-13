@@ -196,6 +196,16 @@ void LineSegment::setVertexIndex(int vertexIndex)
     m_vertexIndex = vertexIndex;
 }
 
+double LineSegment::getSpindleSpeed() const
+{
+    return m_spindleSpeed;
+}
+
+void LineSegment::setSpindleSpeed(double spindleSpeed)
+{
+    m_spindleSpeed = spindleSpeed;
+}
+
 
 
 

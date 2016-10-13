@@ -26,6 +26,7 @@ GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
     // Not configurable outside, but maybe it should be.
     m_smallArcSegmentLength = 0.3;
     m_lastSpeed = 0;
+    m_lastSpindleSpeed = 0;
     m_traverseSpeed = 300;
 
     reset();
@@ -270,6 +271,7 @@ PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastT
     ps->setIsFastTraverse(fastTraverse);
     ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(fastTraverse ? this->m_traverseSpeed : this->m_lastSpeed);
+    ps->setSpindleSpeed(this->m_lastSpindleSpeed);
     this->m_points.append(ps);
 
     // Save off the endpoint.
@@ -312,6 +314,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     ps->setIsClockwise(clockwise);
     ps->setIsAbsolute(this->m_inAbsoluteMode);
     ps->setSpeed(this->m_lastSpeed);
+    ps->setSpindleSpeed(this->m_lastSpindleSpeed);
     ps->setPlane(m_currentPlane);
     this->m_points.append(ps);
 
@@ -336,6 +339,9 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
 
     double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
     if (!qIsNaN(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
+
+    double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
+    if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);

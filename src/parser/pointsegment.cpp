@@ -20,6 +20,7 @@ PointSegment::PointSegment()
     m_lineNumber = -1;
     m_arcProperties = NULL;
     m_speed = 0;
+    m_spindleSpeed = 0;
     m_plane = XY;
 }
 
@@ -217,6 +218,16 @@ PointSegment::planes PointSegment::plane() const
 void PointSegment::setPlane(const planes &plane)
 {
     m_plane = plane;
+}
+
+double PointSegment::getSpindleSpeed() const
+{
+    return m_spindleSpeed;
+}
+
+void PointSegment::setSpindleSpeed(double spindleSpeed)
+{
+    m_spindleSpeed = spindleSpeed;
 }
 
 

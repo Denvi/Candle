@@ -60,6 +60,9 @@ public:
     planes plane() const;
     void setPlane(const planes &plane);
 
+    double getSpindleSpeed() const;
+    void setSpindleSpeed(double spindleSpeed);
+
 signals:
 
 public slots:
@@ -68,6 +71,7 @@ private:
     ArcProperties *m_arcProperties;
     int m_toolhead;
     double m_speed;
+    double m_spindleSpeed;
     QVector3D *m_point;
     bool m_isMetric;
     bool m_isZMovement;

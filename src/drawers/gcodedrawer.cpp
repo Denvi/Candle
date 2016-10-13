@@ -92,14 +92,18 @@ bool GcodeDrawer::updateData()
             }
 
             // Set color
-            vertex.color = getSegmentColor(list->at(i));
+//            vertex.color = getSegmentColor(list->at(i));
+//            vertex.color = Util::colorToVector(QColor::fromHsl(0, 0, 255 - list->at(i)->getSpindleSpeed()));
+            vertex.color = Util::colorToVector(QColor::fromHsl(0, 0, 255 - list->at(i)->getStart().z()));
 
             // Line start
             vertex.position = list->at(j)->getStart();
+            vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Line end
             vertex.position = list->at(i)->getEnd();
+            vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Draw last toolpath point
@@ -183,7 +187,10 @@ QVector3D GcodeDrawer::getMinimumExtremes()
 
 QVector3D GcodeDrawer::getMaximumExtremes()
 {
-    return m_viewParser->getMaximumExtremes();
+    QVector3D vec = m_viewParser->getMaximumExtremes();
+    vec.setZ(0);
+
+    return vec;
 }
 
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)

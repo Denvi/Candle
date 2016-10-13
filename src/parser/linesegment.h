@@ -57,6 +57,9 @@ public:
     int vertexIndex() const;
     void setVertexIndex(int vertexIndex);
 
+    double getSpindleSpeed() const;
+    void setSpindleSpeed(double spindleSpeed);
+
 signals:
 
 public slots:
@@ -64,6 +67,7 @@ public slots:
 private:
     int m_toolhead;
     double m_speed;
+    double m_spindleSpeed;
     QVector3D m_first, m_second;
 
     // Line properties

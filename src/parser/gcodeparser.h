@@ -74,6 +74,7 @@ private:
 
     double m_lastSpeed;
     double m_traverseSpeed;
+    double m_lastSpindleSpeed;
 
     // The gcode.
     QList<PointSegment*> m_points;
