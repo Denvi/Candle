@@ -21,6 +21,7 @@ PointSegment::PointSegment()
     m_arcProperties = NULL;
     m_speed = 0;
     m_spindleSpeed = 0;
+    m_dwell = 0;
     m_plane = XY;
 }
 
@@ -228,6 +229,16 @@ double PointSegment::getSpindleSpeed() const
 void PointSegment::setSpindleSpeed(double spindleSpeed)
 {
     m_spindleSpeed = spindleSpeed;
+}
+
+double PointSegment::getDwell() const
+{
+    return m_dwell;
+}
+
+void PointSegment::setDwell(double dwell)
+{
+    m_dwell = dwell;
 }
 
 

@@ -13,6 +13,8 @@
 class GcodeDrawer : public ShaderDrawable
 {
 public:
+    enum ColorizeType { S, Z, P };
+
     explicit GcodeDrawer();
 
     void update();
@@ -52,6 +54,9 @@ public:
     QColor colorEnd() const;
     void setColorEnd(const QColor &colorEnd);
 
+    bool getIgnoreZ() const;
+    void setIgnoreZ(bool ignoreZ);
+
 signals:
 
 public slots:
@@ -60,6 +65,11 @@ private:
     GcodeViewParse *m_viewParser;
     bool m_simplify;
     double m_simplifyPrecision;
+
+    bool m_ignoreZ;
+    bool m_colorizeSegments;
+    ColorizeType m_colorizeType;
+
     bool m_geometryUpdated;
 
     QColor m_colorNormal;

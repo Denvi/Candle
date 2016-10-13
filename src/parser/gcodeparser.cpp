@@ -224,19 +224,15 @@ QVector3D GcodeParser::getReferencePoint() const
 PointSegment *GcodeParser::processCommand(QList<QString> args)
 {
     QList<QString> gCodes;
+    QList<QString> mCodes;
     PointSegment *ps = NULL;
 
-    // handle M codes.
-    //codes = GcodePreprocessorUtils.parseCodes(args, 'M');
-    //handleMCode(for each codes);
+    // handle G codes.
+    mCodes = GcodePreprocessorUtils::parseCodes(args, 'M');
 
-    // handle F code.
-//    QList<QString> fCodes = GcodePreprocessorUtils::parseCodes(args, 'F');
-
-//    foreach (QString code, fCodes) {
-//        double speed = GcodePreprocessorUtils::parseCoord(QList<QString>() << code, 'F');
-//        if (!qIsNaN(speed)) this->m_lastSpeed = speed;
-//    }
+    foreach (QString i, mCodes) {
+        handleMCode(i, args);
+    }
 
     // handle G codes.
     gCodes = GcodePreprocessorUtils::parseCodes(args, 'G');
@@ -323,6 +319,11 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     return ps;
 }
 
+void GcodeParser::handleMCode(QString code, QList<QString> &args) {
+    double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
+    if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
+}
+
 PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
@@ -342,6 +343,9 @@ PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
 
     double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
     if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
+
+    double dwell = GcodePreprocessorUtils::parseCoord(args, 'P');
+    if (!qIsNaN(dwell)) this->m_points.last()->setDwell(dwell);
 
     if (code == "0") ps = addLinearPointSegment(nextPoint, true);
     else if (code == "1") ps = addLinearPointSegment(nextPoint, false);

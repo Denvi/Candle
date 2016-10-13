@@ -60,6 +60,9 @@ public:
     double getSpindleSpeed() const;
     void setSpindleSpeed(double spindleSpeed);
 
+    double getDwell() const;
+    void setDwell(double dwell);
+
 signals:
 
 public slots:
@@ -68,6 +71,7 @@ private:
     int m_toolhead;
     double m_speed;
     double m_spindleSpeed;
+    double m_dwell;
     QVector3D m_first, m_second;
 
     // Line properties

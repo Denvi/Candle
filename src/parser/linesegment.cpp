@@ -206,6 +206,16 @@ void LineSegment::setSpindleSpeed(double spindleSpeed)
     m_spindleSpeed = spindleSpeed;
 }
 
+double LineSegment::getDwell() const
+{
+    return m_dwell;
+}
+
+void LineSegment::setDwell(double dwell)
+{
+    m_dwell = dwell;
+}
+
 
 
 

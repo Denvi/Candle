@@ -7,6 +7,9 @@ GcodeDrawer::GcodeDrawer()
 {
     m_geometryUpdated = false;
     m_pointSize = 6;
+    m_ignoreZ = true;
+    m_colorizeSegments = true;
+    m_colorizeType = GcodeDrawer::S;
 }
 
 void GcodeDrawer::update()
@@ -92,18 +95,16 @@ bool GcodeDrawer::updateData()
             }
 
             // Set color
-//            vertex.color = getSegmentColor(list->at(i));
-//            vertex.color = Util::colorToVector(QColor::fromHsl(0, 0, 255 - list->at(i)->getSpindleSpeed()));
-            vertex.color = Util::colorToVector(QColor::fromHsl(0, 0, 255 - list->at(i)->getStart().z()));
+            vertex.color = getSegmentColor(list->at(i));
 
             // Line start
             vertex.position = list->at(j)->getStart();
-            vertex.position.setZ(0);
+            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Line end
             vertex.position = list->at(i)->getEnd();
-            vertex.position.setZ(0);
+            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Draw last toolpath point
@@ -164,6 +165,14 @@ QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
     else if (segment->isHightlight()) return Util::colorToVector(m_colorHighlight);//QVector3D(0.57, 0.51, 0.9);
     else if (segment->isFastTraverse()) return Util::colorToVector(m_colorNormal);// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return Util::colorToVector(m_colorZMovement);//QVector3D(1.0, 0.0, 0.0);
+    else if (m_colorizeSegments) switch (m_colorizeType) {
+    case ColorizeType::S:
+        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getSpindleSpeed()));
+    case ColorizeType::Z:
+        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getStart().z()));
+    case ColorizeType::P:
+        break;
+    }
     else return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);
 }
 
@@ -182,13 +191,16 @@ QVector3D GcodeDrawer::getSizes()
 
 QVector3D GcodeDrawer::getMinimumExtremes()
 {
-    return m_viewParser->getMinimumExtremes();
+    QVector3D vec = m_viewParser->getMinimumExtremes();
+    if (m_ignoreZ) vec.setZ(0);
+
+    return vec;
 }
 
 QVector3D GcodeDrawer::getMaximumExtremes()
 {
     QVector3D vec = m_viewParser->getMaximumExtremes();
-    vec.setZ(0);
+    if (m_ignoreZ) vec.setZ(0);
 
     return vec;
 }
@@ -280,6 +292,16 @@ QColor GcodeDrawer::colorEnd() const
 void GcodeDrawer::setColorEnd(const QColor &colorEnd)
 {
     m_colorEnd = colorEnd;
+}
+
+bool GcodeDrawer::getIgnoreZ() const
+{
+    return m_ignoreZ;
+}
+
+void GcodeDrawer::setIgnoreZ(bool ignoreZ)
+{
+    m_ignoreZ = ignoreZ;
 }
 
 

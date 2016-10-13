@@ -33,7 +33,7 @@
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
-{
+{  
     m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door";
     m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
