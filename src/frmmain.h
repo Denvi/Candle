@@ -228,7 +228,6 @@ private:
     double m_storedY = 0;
     double m_storedZ = 0;
     QString m_storedParserStatus;
-    QVector3D m_referencePoint;
 
     // Console window
     int m_storedConsoleMinimumHeight;
@@ -294,8 +293,6 @@ private:
     void sendNextFileCommands();
     void applySettings();
     void updateParser();
-    void updateDrawerReference();
-
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);

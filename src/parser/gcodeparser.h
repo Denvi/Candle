@@ -37,7 +37,6 @@ public:
     PointSegment *addCommand(QString command);
     PointSegment *addCommand(QList<QString> args);
     QVector3D* getCurrentPoint();
-    QVector3D getReferencePoint() const;
     QList<PointSegment *> expandArc();
     QList<QString> preprocessCommands(QList<QString> commands);
     QList<QString> preprocessCommand(QString command);
@@ -59,7 +58,6 @@ private:
     bool m_inAbsoluteIJKMode;
     QString m_lastGcodeCommand;
     QVector3D m_currentPoint;
-    QVector3D m_referencePoint;
     int m_commandNumber;
     PointSegment::planes m_currentPlane;
 

@@ -44,8 +44,6 @@ bool GcodeDrawer::updateData()
         bool drawFirstPoint = true;
         for (int i = 0; i < list->count(); i++) {
 
-            qDebug() << "line" << i << list->at(i)->getStart() << list->at(i)->getEnd();
-
             if (qIsNaN(list->at(i)->getEnd().z())) {
                 qDebug() << "nan point" << list->at(i)->getEnd();
                 continue;
@@ -58,12 +56,12 @@ bool GcodeDrawer::updateData()
 
                 // Draw first toolpath point
                 vertex.color = Util::colorToVector(m_colorStart);
-                vertex.position = list->at(i)->getStart();
+                vertex.position = list->at(i)->getEnd();
                 vertex.start = QVector3D(sNan, sNan, sNan);
                 m_points.append(vertex);
 
                 drawFirstPoint = false;
-//                continue;
+                continue;
             }
 
             // Prepare vertices
