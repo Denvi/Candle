@@ -7,8 +7,6 @@ precision mediump float;
 //Dash grid (px) = factor * pi;
 const float factor = 2.0;
 
-uniform float point_size;
-
 varying vec4 v_color;
 varying vec2 v_position;
 varying vec2 v_start;

@@ -54,7 +54,7 @@ bool GcodeDrawer::updateData()
                 // Draw first toolpath point
                 vertex.color = Util::colorToVector(m_colorStart);
                 vertex.position = list->at(i)->getEnd();
-                vertex.start = QVector3D(sNan, sNan, sNan);
+                vertex.start = QVector3D(sNan, sNan, m_pointSize);
                 m_points.append(vertex);
 
                 drawFirstPoint = false;
@@ -104,7 +104,7 @@ bool GcodeDrawer::updateData()
             if (i == list->count() - 1) {
                 vertex.color = Util::colorToVector(m_colorEnd);
                 vertex.position = list->at(i)->getEnd();
-                vertex.start = QVector3D(sNan, sNan, sNan);
+                vertex.start = QVector3D(sNan, sNan, m_pointSize);
                 m_points.append(vertex);
             }
         }
