@@ -97,12 +97,10 @@ bool GcodeDrawer::updateData()
 
             // Line start
             vertex.position = list->at(j)->getStart();
-            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Line end
             vertex.position = list->at(i)->getEnd();
-            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Draw last toolpath point
@@ -189,18 +187,12 @@ QVector3D GcodeDrawer::getSizes()
 
 QVector3D GcodeDrawer::getMinimumExtremes()
 {
-    QVector3D vec = m_viewParser->getMinimumExtremes();
-    if (m_ignoreZ) vec.setZ(0);
-
-    return vec;
+    return m_viewParser->getMinimumExtremes();;
 }
 
 QVector3D GcodeDrawer::getMaximumExtremes()
 {
-    QVector3D vec = m_viewParser->getMaximumExtremes();
-    if (m_ignoreZ) vec.setZ(0);
-
-    return vec;
+    return m_viewParser->getMaximumExtremes();;
 }
 
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)

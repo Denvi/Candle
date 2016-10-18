@@ -8,7 +8,6 @@
 #ifndef ARCPROPERTIES_H
 #define ARCPROPERTIES_H
 
-#include <QObject>
 #include <QVector3D>
 
 class ArcProperties
@@ -18,11 +17,6 @@ public:
     bool isClockwise;
     double radius;
     QVector3D *center;
-
-signals:
-
-public slots:
-
 };
 
 #endif // ARCPROPERTIES_H

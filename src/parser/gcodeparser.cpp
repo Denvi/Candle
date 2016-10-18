@@ -86,14 +86,12 @@ void GcodeParser::setTruncateDecimalLength(int truncateDecimalLength) {
 }
 
 // Resets the current state.
-void GcodeParser::reset()
+void GcodeParser::reset(QVector3D initialPoint)
 {
     foreach (PointSegment *ps, this->m_points) delete ps;
     this->m_points.clear();
     // The unspoken home location.
-    m_currentPoint.setX(qQNaN());
-    m_currentPoint.setY(qQNaN());
-    m_currentPoint.setZ(qQNaN());
+    m_currentPoint = initialPoint;
     this->m_points.append(new PointSegment(&this->m_currentPoint, -1));
 }
 
@@ -245,7 +243,7 @@ PointSegment *GcodeParser::processCommand(QList<QString> args)
 }
 
 PointSegment *GcodeParser::addLinearPointSegment(QVector3D nextPoint, bool fastTraverse)
-{    
+{
     PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
 
     bool zOnly = false;
@@ -278,7 +276,7 @@ PointSegment *GcodeParser::addArcPointSegment(QVector3D nextPoint, bool clockwis
     QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
 
-    // Calculate radius if necessary.    
+    // Calculate radius if necessary.
     if (qIsNaN(radius)) {
 
         QMatrix4x4 m;
@@ -322,7 +320,7 @@ void GcodeParser::handleMCode(QString code, QList<QString> &args) {
 PointSegment * GcodeParser::handleGCode(QString code, QList<QString> &args) {
     PointSegment *ps = NULL;
 
-    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);  
+    QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
 
     if (code.length() > 1 && code.startsWith("0"))
         code = code.mid(1);

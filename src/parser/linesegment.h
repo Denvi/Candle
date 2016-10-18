@@ -8,7 +8,6 @@
 #ifndef LINESEGMENT_H
 #define LINESEGMENT_H
 
-#include <QObject>
 #include <QVector3D>
 
 class LineSegment
@@ -62,10 +61,6 @@ public:
 
     double getDwell() const;
     void setDwell(double dwell);
-
-signals:
-
-public slots:
 
 private:
     int m_toolhead;
