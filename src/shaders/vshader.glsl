@@ -6,7 +6,6 @@ precision mediump float;
 
 uniform mat4 mvp_matrix;
 uniform mat4 mv_matrix;
-uniform float m_point_size;
 
 attribute vec4 a_position;
 attribute vec4 a_color;
@@ -26,15 +25,17 @@ void main()
     // Calculate interpolated vertex position & line start point
     v_position = (mv_matrix * a_position).xy;
 
-    if (!isNan(a_start.x)) v_start = (mv_matrix * a_start).xy;
-    else v_start = a_start.xy;
+    if (!isNan(a_start.x) && !isNan(a_start.y)) v_start = (mv_matrix * a_start).xy;
+    else {
+        // a_start.x should be Nan to draw solid lines
+        v_start = a_start.xy;
+
+        // a_start.z should contain point size
+        if (!isNan(a_start.z)) gl_PointSize = a_start.z;
+    }
 
     // Calculate vertex position in screen space
     gl_Position = mvp_matrix * a_position;
 
-    // Value will be automatically interpolated to fragments inside polygon faces
     v_color = a_color;
-
-    // Set point size
-    gl_PointSize = m_point_size;
 }

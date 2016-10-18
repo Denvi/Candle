@@ -126,6 +126,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     clearTable();
 
     // Console window handling
@@ -1121,14 +1122,13 @@ void frmMain::onSerialPortError(QSerialPort::SerialPortError error)
     static QSerialPort::SerialPortError previousError;
 
     if (error != QSerialPort::NoError && error != previousError) {
+        previousError = error;
         ui->txtConsole->appendPlainText(tr("Serial port error ") + QString::number(error) + ": " + m_serialPort.errorString());
         if (m_serialPort.isOpen()) {
             m_serialPort.close();
             updateControlsState();
         }
-        previousError = error;
     }
-//    if (error == QSerialPort::ResourceError) m_serialPort.close();
 }
 
 void frmMain::onTimerConnection()

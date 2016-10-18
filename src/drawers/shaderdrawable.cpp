@@ -151,7 +151,6 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
     }
 
     if (!m_points.isEmpty()) {
-        shaderProgram->setUniformValue("m_point_size", (GLfloat)m_pointSize);
         glDrawArrays(GL_POINTS, m_lines.count(), m_points.count());
     }
 
