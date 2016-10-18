@@ -1485,10 +1485,10 @@ void frmMain::loadFile(QList<QString> data)
 
         item->state = GCodeItemLight::InQueue;
         item->line = gp.getCommandNumber();
-        item->argsLength = GcodePreprocessorUtils::parseArgs(args, &(item->args));
+        item->args = GcodePreprocessorUtils::parseArgs(args);
 
-        item->comment = "comment";
-        item->status = "ok";
+//        item->comment = "comment";
+//        item->status = "ok";
 
         m_testItems.append(item);
 

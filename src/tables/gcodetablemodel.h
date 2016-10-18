@@ -35,8 +35,9 @@ struct GCodeItemLight
     char state;
     int line;
 
-    GCodeArg *args;
-    char argsLength;
+//    GCodeArg *args;
+//    char argsLength;
+    QVector<GCodeArg> args;
 };
 
 class GCodeTableModel : public QAbstractTableModel

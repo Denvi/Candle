@@ -29,6 +29,7 @@ public:
     static QList<int> parseMCodes(QString command);
     static QList<QString> splitCommand(QString command);
     static char parseArgs(QStringList inArgs, GCodeArg **outArgs);
+    static QVector<GCodeArg> parseArgs(QStringList args);
     static double parseCoord(QList<QString> argList, char c);
     static QVector3D updatePointWithCommand(QVector3D initial, double x, double y, double z, bool absoluteMode);
     static QVector3D updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode);

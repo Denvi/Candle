@@ -310,6 +310,24 @@ char GcodePreprocessorUtils::parseArgs(QStringList inArgs, GCodeArg **outArgs)
     return inArgs.count();
 }
 
+QVector<GCodeArg> GcodePreprocessorUtils::parseArgs(QStringList inArgs)
+{
+    if (inArgs.isEmpty()) return QVector<GCodeArg>();
+
+    QVector<GCodeArg> list;
+
+    for (int i = 0; i < inArgs.count(); i++) {
+        GCodeArg arg;
+
+        arg.code = 0;
+        arg.value = 0;
+
+        list.append(arg);
+    }
+
+    return list;
+}
+
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
 double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
