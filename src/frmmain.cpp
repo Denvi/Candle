@@ -827,9 +827,9 @@ void frmMain::onSerialPortReadyRead()
                     QList<LineSegment*> list = parser->getLineSegmentList();
 
                     for (int i = m_lastDrawnLineIndex; i < list.count()
-                         && list[i]->getLineNumber()
+                         && list.at(i)->getLineNumber()
                          <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                        if (list[i]->contains(m_toolDrawer.toolPosition())) {
+                        if (list.at(i)->contains(m_toolDrawer.toolPosition())) {
                             toolOntoolpath = true;
                             m_lastDrawnLineIndex = i;
                             break;
@@ -839,11 +839,11 @@ void frmMain::onSerialPortReadyRead()
 
                     if (toolOntoolpath) {
                         foreach (int i, drawnLines) {
-                            list[i]->setDrawn(true);
+                            list.at(i)->setDrawn(true);
                         }
                         if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                     } else if (m_lastDrawnLineIndex < list.count()) {
-                        qDebug() << "tool missed:" << list[m_lastDrawnLineIndex]->getLineNumber()
+                        qDebug() << "tool missed:" << list.at(m_lastDrawnLineIndex)->getLineNumber()
                                  << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
                                  << m_fileProcessedCommandIndex;
                     }
@@ -1060,19 +1060,19 @@ void frmMain::onSerialPortReadyRead()
                             QList<int> drawnLines;
 
                             for (i = m_lastDrawnLineIndex; i < list.count()
-                                 && list[i]->getLineNumber()
+                                 && list.at(i)->getLineNumber()
                                  <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()); i++) {
                                 drawnLines << i;
                             }
 
                             if (!drawnLines.isEmpty() && (i < list.count())) {
                                 m_lastDrawnLineIndex = i;
-                                QVector3D vec = list[i]->getEnd();
+                                QVector3D vec = list.at(i)->getEnd();
                                 m_toolDrawer.setToolPosition(vec);
                             }
 
                             foreach (int i, drawnLines) {
-                                list[i]->setDrawn(true);
+                                list.at(i)->setDrawn(true);
                             }
                             if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                         } else {
@@ -1740,13 +1740,12 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         int lineFirst = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
         int lineLast = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
         if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
-
-        qDebug() << "table current changed" << idx1.row() << idx2.row() << lineFirst << lineLast;
+//        qDebug() << "table current changed" << idx1.row() << idx2.row() << lineFirst << lineLast;
 
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
             foreach (int l, lineIndexes.at(i)) {
-                list[l]->setIsHightlight(idx1.row() > idx2.row());
+                list.at(l)->setIsHightlight(idx1.row() > idx2.row());
                 indexes.append(l);
             }
         }

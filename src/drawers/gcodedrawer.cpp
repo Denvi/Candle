@@ -3,13 +3,16 @@
 
 #include "gcodedrawer.h"
 
-GcodeDrawer::GcodeDrawer()
-{
+GcodeDrawer::GcodeDrawer() : QObject()
+{   
     m_geometryUpdated = false;
     m_pointSize = 6;
     m_ignoreZ = true;
     m_colorizeSegments = true;
     m_colorizeType = GcodeDrawer::S;
+
+    connect(&m_timerVertexUpdate, SIGNAL(timeout()), SLOT(onTimerVertexUpdate()));
+    m_timerVertexUpdate.start(100);
 }
 
 void GcodeDrawer::update()
@@ -23,7 +26,7 @@ void GcodeDrawer::update(QList<int> indexes)
 {
     // Store segments to update
     m_indexes += indexes;
-    ShaderDrawable::update();
+//    ShaderDrawable::update();
 }
 
 bool GcodeDrawer::updateData()
@@ -121,8 +124,8 @@ bool GcodeDrawer::updateData()
         // Get vertices indexes
         auto mm = std::minmax_element(m_indexes.begin(), m_indexes.end());
 
-        int vertexIndexFirst = qMax(list[*mm.first]->vertexIndex(), 0);
-        int vertexIndexLast = qMax(list[*mm.second]->vertexIndex(), 0);
+        int vertexIndexFirst = qMax(list.at(*mm.first)->vertexIndex(), 0);
+        int vertexIndexLast = qMax(list.at(*mm.second)->vertexIndex(), 0);
         int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
 
         qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast << vertexCount;
@@ -146,13 +149,13 @@ bool GcodeDrawer::updateData()
         foreach (int i, m_indexes) {
             // Update vertex pair
             if (i < 0 || i > list.count() - 1) continue;
-            vertexIndex = list[i]->vertexIndex() - vertexIndexFirst;
+            vertexIndex = list.at(i)->vertexIndex() - vertexIndexFirst;
             if (vertexIndex >= 0) {
                 // Update vertex array
                 if (data[vertexIndex].color == drawnColor // If vertex of drawn segment
-                        && getSegmentColor(list[i]) == highlightColor); // dont highlight
+                        && getSegmentColor(list.at(i)) == highlightColor); // dont highlight
                 else {
-                    data[vertexIndex].color = getSegmentColor(list[i]);
+                    data[vertexIndex].color = getSegmentColor(list.at(i));
                     data[vertexIndex + 1].color = data[vertexIndex].color;
                 }
             }
@@ -303,6 +306,11 @@ bool GcodeDrawer::getIgnoreZ() const
 void GcodeDrawer::setIgnoreZ(bool ignoreZ)
 {
     m_ignoreZ = ignoreZ;
+}
+
+void GcodeDrawer::onTimerVertexUpdate()
+{
+    if (!m_indexes.isEmpty()) ShaderDrawable::update();
 }
 
 

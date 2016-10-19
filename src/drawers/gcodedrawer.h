@@ -10,8 +10,9 @@
 #include "parser/gcodeviewparse.h"
 #include "shaderdrawable.h"
 
-class GcodeDrawer : public ShaderDrawable
+class GcodeDrawer : public QObject, public ShaderDrawable
 {
+    Q_OBJECT
 public:
     enum ColorizeType { S, Z, P };
 
@@ -61,6 +62,9 @@ signals:
 
 public slots:
 
+private slots:
+    void onTimerVertexUpdate();
+
 private:
     GcodeViewParse *m_viewParser;
     bool m_simplify;
@@ -71,6 +75,8 @@ private:
     ColorizeType m_colorizeType;
 
     bool m_geometryUpdated;
+
+    QTimer m_timerVertexUpdate;
 
     QColor m_colorNormal;
     QColor m_colorDrawn;

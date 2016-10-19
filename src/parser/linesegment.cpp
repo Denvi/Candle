@@ -186,6 +186,7 @@ void LineSegment::setIsHightlight(bool isHightlight)
 {
     m_isHightlight = isHightlight;
 }
+
 int LineSegment::vertexIndex() const
 {
     return m_vertexIndex;
