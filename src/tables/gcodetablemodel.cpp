@@ -28,8 +28,15 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
         {
         case 0: return index.row() == this->rowCount() - 1 ? QString() : QString::number(index.row() + 1);
         case 1: return m_data.at(index.row())->command;
-        case 2: return m_data.at(index.row())->state;
-        case 3: return m_data.at(index.row())->status;
+        case 2:
+            if (index.row() == this->rowCount() - 1) return QString();
+            switch (m_data.at(index.row())->state) {
+            case GCodeItem::InQueue: return tr("In queue");
+            case GCodeItem::Sent: return tr("Sent");
+            case GCodeItem::Processed: return tr("Processed");
+            }
+            return tr("Unknown");
+        case 3: return m_data.at(index.row())->response;
         case 4: return m_data.at(index.row())->line;
         case 5: return QVariant(m_data.at(index.row())->args);
         }
@@ -52,8 +59,8 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
         {
         case 0: return false;
         case 1: m_data.at(index.row())->command = value.toString(); break;
-        case 2: m_data.at(index.row())->state = value.toString(); break;
-        case 3: m_data.at(index.row())->status = value.toString(); break;
+        case 2: m_data.at(index.row())->state = value.toInt(); break;
+        case 3: m_data.at(index.row())->response = value.toString(); break;
         case 4: m_data.at(index.row())->line = value.toInt(); break;
         case 5: m_data.at(index.row())->args = value.toStringList(); break;
         }

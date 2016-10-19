@@ -1022,7 +1022,7 @@ void frmMain::onSerialPortReadyRead()
 
                         // Only if command from table
                         if (ca.tableIndex > -1) {
-                            m_currentModel->setData(m_currentModel->index(ca.tableIndex, 2), tr("Processed"));
+                            m_currentModel->setData(m_currentModel->index(ca.tableIndex, 2), GCodeItem::Processed);
                             m_currentModel->setData(m_currentModel->index(ca.tableIndex, 3), response);
 
                             m_fileProcessedCommandIndex = ca.tableIndex;
@@ -1452,7 +1452,7 @@ void frmMain::loadFile(QList<QString> data)
     // Prepare parser
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings.rapidSpeed());
-    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0), data.count());
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1667,7 +1667,7 @@ void frmMain::sendNextFileCommands() {
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
            && m_fileCommandIndex < m_currentModel->rowCount() - 1
            && !(!m_commands.isEmpty() && m_commands.last().command.contains(QRegExp("M0*2|M30")))) {
-        m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), tr("Sent"));
+        m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), GCodeItem::Sent);
         sendCommand(command, m_fileCommandIndex, m_settings.showProgramCommands());
         m_fileCommandIndex++;
         command = feedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
@@ -1683,7 +1683,7 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
     if (i1.column() != 1) return;
     // Inserting new line at end
     if (i1.row() == (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() != "") {
-        model->setData(model->index(model->rowCount() - 1, 2), tr("In queue"));
+        model->setData(model->index(model->rowCount() - 1, 2), GCodeItem::InQueue);
         model->insertRow(model->rowCount());
         if (!m_programLoading) ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
     // Remove last line
@@ -1760,7 +1760,7 @@ void frmMain::onTableInsertLine()
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
     m_currentModel->insertRow(row);
-    m_currentModel->setData(m_currentModel->index(row, 2), tr("In queue"));
+    m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
 
     updateParser();
     m_cellChanged = true;
@@ -1941,7 +1941,7 @@ void frmMain::updateParser()
         gp.addCommand(args);
 
         // Update table model
-        m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
+        m_currentModel->setData(m_currentModel->index(i, 2), GCodeItem::InQueue);
         m_currentModel->setData(m_currentModel->index(i, 3), "");
         m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
 
@@ -2175,8 +2175,8 @@ void frmMain::on_cmdFileReset_clicked()
 
         ui->tblProgram->setUpdatesEnabled(false);
         for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
-            m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
-            m_currentModel->setData(m_currentModel->index(i, 3), "");
+            m_currentModel->setData(m_currentModel->index(i, 2), GCodeItem::InQueue);
+            m_currentModel->setData(m_currentModel->index(i, 3), QString());
         }
         ui->tblProgram->setUpdatesEnabled(true);
 

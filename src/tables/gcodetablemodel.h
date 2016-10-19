@@ -9,9 +9,11 @@
 
 struct GCodeItem
 {
+    enum States { InQueue, Sent, Processed };
+
     QString command;
-    QString state;
-    QString status;
+    char state;
+    QString response;
     int line;
     QStringList args;
 };
