@@ -3306,6 +3306,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         //        m_programHeightmapModel.clear();
             m_programHeightmapModel.insertRow(0);
 
+            // TODO: Remove QRegExp, use direct model data access
             for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
                 commandIndex = m_programModel.data(m_programModel.index(i, 4)).toInt();
                 command = m_programModel.data(m_programModel.index(i, 1)).toString();
