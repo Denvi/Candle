@@ -2169,7 +2169,7 @@ void frmMain::on_cmdFileReset_clicked()
             list[i]->setDrawn(false);
             indexes.append(i);
         }
-//        m_codeDrawer->update(indexes);
+        m_codeDrawer->update(indexes);
 
         qDebug() << "drawn false:" << time.elapsed();
 

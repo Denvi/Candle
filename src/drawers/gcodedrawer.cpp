@@ -22,7 +22,7 @@ void GcodeDrawer::update()
 void GcodeDrawer::update(QList<int> indexes)
 {
     // Store segments to update
-    m_indexes += indexes;
+    m_indexes.append(indexes);
     ShaderDrawable::update();
 }
 
@@ -118,50 +118,53 @@ bool GcodeDrawer::updateData()
         // Update vertices
         QList<LineSegment*> list = m_viewParser->getLineSegmentList();
 
-        // Get vertices indexes
-        int vertexIndexFirst = qMax(list[m_indexes.first()]->vertexIndex(), 0);
-        int vertexIndexLast = qMax(list[m_indexes.last()]->vertexIndex(), 0);
-        if (vertexIndexLast < vertexIndexFirst) qSwap<int>(vertexIndexLast, vertexIndexFirst);
-        int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
+        // Update vertices ranges
+        while (!m_indexes.isEmpty()) {
+            QList<int> indexes = m_indexes.takeFirst();
 
-        // Allocate buffer
-        VertexData *data = (VertexData*)malloc(vertexCount * sizeof(VertexData));
+            // Get vertices indexes
+            int vertexIndexFirst = qMax(list[indexes.first()]->vertexIndex(), 0);
+            int vertexIndexLast = qMax(list[indexes.last()]->vertexIndex(), 0);
+            if (vertexIndexLast < vertexIndexFirst) qSwap<int>(vertexIndexLast, vertexIndexFirst);
+            int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
 
-        // Read current vertices
-        if (data) m_vbo.read(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
-        else vertexIndexFirst = 0;
+            qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast;
 
-        // Data to update
-        VertexData *vertices;
-        vertices = data ? data : m_lines.data();
+            // Allocate buffer
+            VertexData *data = (VertexData*)malloc(vertexCount * sizeof(VertexData));
 
-        // Prepare colors
-        QVector3D drawnColor = Util::colorToVector(m_colorDrawn);
-        QVector3D highlightColor = Util::colorToVector(m_colorHighlight);
+            // Read current vertices
+            if (data) m_vbo.read(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
+            else {           // Can't read vbo
+                m_indexes.clear();
+                return true; // Update full vbo via allocate;
+            }
 
-        // Update vertices for each line segment
-        int vertexIndex;
-        foreach (int i, m_indexes) {
-            // Update vertex pair
-            if (i < 0 || i > list.count() - 1) continue;
-            vertexIndex = list[i]->vertexIndex() - vertexIndexFirst;
-            if (vertexIndex >= 0) {
-                // Update vertex array
-                if (vertices[vertexIndex].color == drawnColor // If vertex of drawn segment
-                        && getSegmentColor(list[i]) == highlightColor); // dont highlight
-                else {
-                    vertices[vertexIndex].color = getSegmentColor(list[i]);
-                    vertices[vertexIndex + 1].color = vertices[vertexIndex].color;
+            // Prepare colors
+            QVector3D drawnColor = Util::colorToVector(m_colorDrawn);
+            QVector3D highlightColor = Util::colorToVector(m_colorHighlight);
+
+            // Update vertices for each line segment
+            int vertexIndex;
+            foreach (int i, indexes) {
+                // Update vertex pair
+                if (i < 0 || i > list.count() - 1) continue;
+                vertexIndex = list[i]->vertexIndex() - vertexIndexFirst;
+                if (vertexIndex >= 0) {
+                    // Update vertex array
+                    if (data[vertexIndex].color == drawnColor // If vertex of drawn segment
+                            && getSegmentColor(list[i]) == highlightColor); // dont highlight
+                    else {
+                        data[vertexIndex].color = getSegmentColor(list[i]);
+                        data[vertexIndex + 1].color = data[vertexIndex].color;
+                    }
                 }
             }
-        }
-        m_indexes.clear();
 
-        if (data) {
             m_vbo.write(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
             free(data);
-            return false; // Update only vao
-        } else return true; // Update full vbo via allocate
+        }
+        return false; // Update only vao
     }
 }
 
