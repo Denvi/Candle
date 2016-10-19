@@ -1492,8 +1492,6 @@ void frmMain::loadFile(QList<QString> data)
 //        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
 //                   qDebug() << "nan point segment added:" << *ps->point();
 
-        continue;
-
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
 

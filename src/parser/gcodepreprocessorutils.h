@@ -25,7 +25,7 @@ public:
     static QList<float> parseCodes(const QStringList &args, char code);
     static QList<int> parseGCodes(QString command);
     static QList<int> parseMCodes(QString command);
-    static QStringList splitCommand(QString command);
+    static QStringList splitCommand(const QString &command);
     static double parseCoord(QStringList argList, char c);
     static QVector3D updatePointWithCommand(const QVector3D &initial, double x, double y, double z, bool absoluteMode);
     static QVector3D updatePointWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode);

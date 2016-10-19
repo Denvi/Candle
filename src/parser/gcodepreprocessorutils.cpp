@@ -40,10 +40,10 @@ QString GcodePreprocessorUtils::removeComment(QString command)
     static QRegExp rx2(";.*");
 
     // Remove any comments within ( parentheses ) using regex "\([^\(]*\)"
-    command.remove(rx1);
+    if (command.contains('(')) command.remove(rx1);
 
     // Remove any comment beginning with ';' using regex ";.*"
-    command.remove(rx2);
+    if (command.contains(';')) command.remove(rx2);
 
     return command.trimmed();
 }
@@ -246,7 +246,7 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
 //* This command is about the same speed as the string.split(" ") command,
 //* but might be a little faster using precompiled regex.
 //*/
-QStringList GcodePreprocessorUtils::splitCommand(QString command) {
+QStringList GcodePreprocessorUtils::splitCommand(const QString &command) {
     QStringList l;
     bool readNumeric = false;
     QString sb;
