@@ -23,11 +23,12 @@ public:
 
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
-    QList<LineSegment *> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
-    QList<LineSegment *> getLineSegmentList();
-    QList<LineSegment *> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
+    QList<LineSegment*> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
+    QList<LineSegment*> getLineSegmentList();
+    QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
 
-    QList<LineSegment *> *getLines();
+    QList<LineSegment*> *getLines();
+    QVector<QList<int>> &getLinesIndexes();
 
     void reset();
 signals:
@@ -40,7 +41,8 @@ private:
 
     // Parsed object
     QVector3D m_min, m_max;
-    QList<LineSegment*> lines;
+    QList<LineSegment*> m_lines;
+    QVector<QList<int>> m_lineIndexes;
 
     // Parsing state.
     QVector3D lastPoint;

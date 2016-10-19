@@ -1735,26 +1735,17 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     } else {
         GcodeViewParse *parser = m_currentDrawer->viewParser();
         QList<LineSegment*> list = parser->getLineSegmentList();
-        int segmentLine;
-        int modelLine = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
-        int modelLinePrevious = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
-        QList<int> indexes;
+        QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
-        // TODO: Make indexing in viewparse
-        for (int i = 0; i < list.count(); i++) {
-            segmentLine = list[i]->getLineNumber();
-            // Highlight
-            if (idx1.row() > idx2.row()) {
-                if (segmentLine > modelLinePrevious && segmentLine <= modelLine) {
-                    list[i]->setIsHightlight(true);
-                    indexes.append(i);
-                }
-            // Reset
-            } else {
-                if (segmentLine <= modelLinePrevious && segmentLine > modelLine) {
-                    list[i]->setIsHightlight(false);
-                    indexes.append(i);
-                }
+        int lineFirst = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
+        int lineLast = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
+        if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
+
+        QList<int> indexes;
+        for (int i = lineFirst + 1; i <= lineLast; i++) {
+            foreach (int l, lineIndexes.at(i)) {
+                list[l]->setIsHightlight(idx1.row() > idx2.row());
+                indexes.append(l);
             }
         }
 

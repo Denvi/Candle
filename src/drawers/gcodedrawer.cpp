@@ -125,9 +125,7 @@ bool GcodeDrawer::updateData()
         int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
 
         // Allocate buffer
-        VertexData *data;// = (VertexData*)malloc(vertexCount * sizeof(VertexData));
-
-        qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast << data;
+        VertexData *data = (VertexData*)malloc(vertexCount * sizeof(VertexData));
 
         // Read current vertices
         if (data) m_vbo.read(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
