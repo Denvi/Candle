@@ -201,6 +201,7 @@ private:
     QString m_settingsFileName;
     QString m_programFileName;
     QString m_heightMapFileName;
+    QString m_lastFolder;
 
     bool m_fileChanged = false;
     bool m_heightMapChanged = false;

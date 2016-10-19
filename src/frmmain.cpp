@@ -279,6 +279,7 @@ void frmMain::loadSettings()
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
+    m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
     m_settings.resize(set.value("formSettingsSize", m_settings.size()).toSize());
@@ -392,6 +393,7 @@ void frmMain::saveSettings()
     set.setValue("storedZ", m_storedZ);
     set.setValue("recentFiles", m_recentFiles);
     set.setValue("recentHeightmaps", m_recentHeightmaps);
+    set.setValue("lastFolder", m_lastFolder);
     set.setValue("touchCommand", m_settings.touchCommand());
     set.setValue("safePositionCommand", m_settings.safePositionCommand());
     set.setValue("panelHeightmapVisible", m_settings.panelHeightmap());
@@ -1373,7 +1375,15 @@ void frmMain::on_cmdFileOpen_clicked()
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+        QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
+                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+//        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
+//                                                        tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+
+        if (!fileName.isEmpty()) {
+            m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
+            qDebug() << "last folder" << m_lastFolder;
+        }
 
         if (fileName != "") {
             addRecentFile(fileName);
@@ -1461,11 +1471,11 @@ void frmMain::loadFile(QList<QString> data)
         PointSegment *ps = gp.addCommand(args);
         // Quantum line (if disable pointsegment check some points will have qQNaN() number on raspberry)
         // code alignment?
-        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-                   qDebug() << "nan point segment added:" << *ps->point();
+//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+//                   qDebug() << "nan point segment added:" << *ps->point();
 
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
         // Store splitted args to speed up future parser updates
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
