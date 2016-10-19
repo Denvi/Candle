@@ -117,11 +117,21 @@ bool GcodeDrawer::updateData()
     } else {
         // Update vertices
         QList<LineSegment*> list = m_viewParser->getLineSegmentList();
-        int vertexIndex;
 
-        // Try to map vbo
-        VertexData* data;
-        data = (VertexData*)m_vbo.map(QOpenGLBuffer::ReadWrite); // Already binded
+        // Get vertices indexes
+        int vertexIndexFirst = qMax(list[m_indexes.first()]->vertexIndex(), 0);
+        int vertexIndexLast = qMax(list[m_indexes.last()]->vertexIndex(), 0);
+        if (vertexIndexLast < vertexIndexFirst) qSwap<int>(vertexIndexLast, vertexIndexFirst);
+        int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
+
+        // Allocate buffer
+        VertexData *data;// = (VertexData*)malloc(vertexCount * sizeof(VertexData));
+
+        qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast << data;
+
+        // Read current vertices
+        if (data) m_vbo.read(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
+        else vertexIndexFirst = 0;
 
         // Data to update
         VertexData *vertices;
@@ -132,10 +142,11 @@ bool GcodeDrawer::updateData()
         QVector3D highlightColor = Util::colorToVector(m_colorHighlight);
 
         // Update vertices for each line segment
+        int vertexIndex;
         foreach (int i, m_indexes) {
             // Update vertex pair
             if (i < 0 || i > list.count() - 1) continue;
-            vertexIndex = list[i]->vertexIndex();
+            vertexIndex = list[i]->vertexIndex() - vertexIndexFirst;
             if (vertexIndex >= 0) {
                 // Update vertex array
                 if (vertices[vertexIndex].color == drawnColor // If vertex of drawn segment
@@ -149,7 +160,8 @@ bool GcodeDrawer::updateData()
         m_indexes.clear();
 
         if (data) {
-            m_vbo.unmap();
+            m_vbo.write(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
+            free(data);
             return false; // Update only vao
         } else return true; // Update full vbo via allocate
     }
@@ -170,7 +182,7 @@ QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
         return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getDwell()));
         break;
     }
-    else return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);
+    return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);
 }
 
 int GcodeDrawer::getSegmentType(LineSegment* segment)

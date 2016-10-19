@@ -1740,6 +1740,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         int modelLinePrevious = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
         QList<int> indexes;
 
+        // TODO: Make indexing in viewparse
         for (int i = 0; i < list.count(); i++) {
             segmentLine = list[i]->getLineNumber();
             // Highlight

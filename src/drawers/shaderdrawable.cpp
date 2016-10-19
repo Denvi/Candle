@@ -38,7 +38,7 @@ void ShaderDrawable::update()
 void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 {
     // Init in context
-    if (!m_vao.isCreated()) init();
+    if (!m_vbo.isCreated()) init();
 
     if (m_vao.isCreated()) {
         // Prepare vao
@@ -53,6 +53,11 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
         QVector<VertexData> vertexData(m_lines);
         vertexData += m_points;
         m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
+    } else {
+        m_vbo.release();
+        if (m_vao.isCreated()) m_vao.release();
+        m_needsUpdateGeometry = false;
+        return;
     }
 
     if (m_vao.isCreated()) {
@@ -79,7 +84,6 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
         int start = shaderProgram->attributeLocation("a_start");
         shaderProgram->enableAttributeArray(start);
         shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
-
 
         m_vao.release();
     }
