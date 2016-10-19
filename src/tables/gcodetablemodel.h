@@ -7,13 +7,37 @@
 #include <QAbstractTableModel>
 #include <QString>
 
+struct GCodeArg
+{
+    enum Codes { G, X, Y, Z };
+    char code;
+    float value;
+};
+
 struct GCodeItem
 {
+    enum States { InQueue, Sent, Processed };
+
     QString command;
     QString state;
     QString status;
     int line;
     QStringList args;
+};
+
+struct GCodeItemLight
+{
+    enum States { InQueue, Sent, Processed };
+
+    QString comment;
+    QString status;
+
+    char state;
+    int line;
+
+//    GCodeArg *args;
+//    char argsLength;
+    QVector<GCodeArg> args;
 };
 
 class GCodeTableModel : public QAbstractTableModel

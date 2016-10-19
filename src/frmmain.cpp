@@ -33,7 +33,7 @@
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
-{  
+{
     m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door";
     m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
@@ -808,6 +808,7 @@ void frmMain::onSerialPortReadyRead()
                 if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
                     m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
                                                            toMetric(ui->txtWPosY->text().toDouble()),
+                                                           m_codeDrawer->getIgnoreZ() ? 0 :
                                                            toMetric(ui->txtWPosZ->text().toDouble())));
                 }
 
@@ -1370,6 +1371,7 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
+    // TODO: Store/restore last folder
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
@@ -1439,6 +1441,7 @@ void frmMain::loadFile(QList<QString> data)
     // Prepare parser
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings.rapidSpeed());
+    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1450,6 +1453,13 @@ void frmMain::loadFile(QList<QString> data)
     QString stripped;
     QList<QString> args;
 
+    // Clear test item array
+//    qDebug() << "clearing items" << m_testItems.count();
+//    foreach (GCodeItem *item, m_testItems) delete item;
+//    m_testItems.clear();
+
+    int cnt = 0;
+
     while (!data.isEmpty())
     {
         command = data.takeFirst();
@@ -1457,21 +1467,45 @@ void frmMain::loadFile(QList<QString> data)
         // Trim & split command
         stripped = GcodePreprocessorUtils::removeComment(command);
         args = GcodePreprocessorUtils::splitCommand(stripped);
+//        args = ;
+//        qDebug() << "args" << args;
 
-        PointSegment *ps = gp.addCommand(args);
+//        PointSegment *ps = gp.addCommand(args);
         // Quantum line (if disable pointsegment check some points will have qQNaN() number on raspberry)
         // code alignment?
-        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-                   qDebug() << "nan point segment added:" << *ps->point();
+//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+//                   qDebug() << "nan point segment added:" << *ps->point();
 
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
-        // Store splitted args to speed up future parser updates
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
+        GCodeItemLight *item = new GCodeItemLight();
+
+//        item->command = command;
+//        item->state = "In queue";
+//        item->line = gp.getCommandNumber();
+//        item->args = args;
+
+        item->state = GCodeItemLight::InQueue;
+        item->line = gp.getCommandNumber();
+        item->args = GcodePreprocessorUtils::parseArgs(args);
+
+//        item->comment = "comment";
+//        item->status = "ok";
+
+        m_testItems.append(item);
+
+//        gp.reset(QVector3D(0, 0, 0));
+
+//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
+//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+//        // Store splitted args to speed up future parser updates
+//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
+        if (++cnt == 100000) {
+            qDebug() << "items count:" << m_testItems.count();/*gp.getPointSegmentList().count();*/
+            cnt = 0;
+        }
     }
 
-    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
+//    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
 
     qDebug() << "model filled:" << time.elapsed();
     time.start();

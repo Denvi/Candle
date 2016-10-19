@@ -8,7 +8,6 @@
 #ifndef POINTSEGMENT_H
 #define POINTSEGMENT_H
 
-#include <QObject>
 #include <QVector3D>
 
 #include "arcproperties.h"
@@ -65,10 +64,6 @@ public:
 
     double getDwell() const;
     void setDwell(double dwell);
-
-signals:
-
-public slots:
 
 private:
     ArcProperties *m_arcProperties;

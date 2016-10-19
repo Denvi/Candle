@@ -10,6 +10,7 @@
 #include <QVector3D>
 #include "gcodepreprocessorutils.h"
 #include "limits"
+#include "../tables/gcodetablemodel.h"
 
 /**
 * Searches the command string for an 'f' and replaces the speed value
@@ -19,7 +20,7 @@
 */
 QString GcodePreprocessorUtils::overrideSpeed(QString command, double speed, double *original)
 {
-    QRegExp re("[Ff]([0-9.]+)");
+    static QRegExp re("[Ff]([0-9.]+)");
 
     if (re.indexIn(command) != -1) {
         command.replace(re, QString("F%1").arg(re.cap(1).toDouble() / 100 * speed));
@@ -35,11 +36,14 @@ QString GcodePreprocessorUtils::overrideSpeed(QString command, double speed, dou
 */
 QString GcodePreprocessorUtils::removeComment(QString command)
 {
+    static QRegExp rx1("\\(+[^\\(]*\\)+");
+    static QRegExp rx2(";.*");
+
     // Remove any comments within ( parentheses ) using regex "\([^\(]*\)"
-    command.replace(QRegExp("\\(+[^\\(]*\\)+"), "");
+    command.remove(rx1);
 
     // Remove any comment beginning with ';' using regex ";.*"
-    command.replace(QRegExp(";.*"), "");
+    command.remove(rx2);
 
     return command.trimmed();
 }
@@ -53,7 +57,7 @@ QString GcodePreprocessorUtils::parseComment(QString command)
     // "(?<=\()[^\(\)]*|(?<=\;)[^;]*"
     // "(?<=\\()[^\\(\\)]*|(?<=\\;)[^;]*"
 
-    QRegExp re("(\\([^\\(\\)]*\\)|;[^;].*)");
+    static QRegExp re("(\\([^\\(\\)]*\\)|;[^;].*)");
 
     if (re.indexIn(command) != -1) {
         return re.cap(1);
@@ -63,7 +67,7 @@ QString GcodePreprocessorUtils::parseComment(QString command)
 
 QString GcodePreprocessorUtils::truncateDecimals(int length, QString command)
 {
-    QRegExp re("(\\d*\\.\\d*)");
+    static QRegExp re("(\\d*\\.\\d*)");
     int pos = 0;
 
     while ((pos = re.indexIn(command, pos)) != -1)
@@ -78,7 +82,9 @@ QString GcodePreprocessorUtils::truncateDecimals(int length, QString command)
 
 QString GcodePreprocessorUtils::removeAllWhitespace(QString command)
 {
-    return command.replace(QRegExp("\\s"),"");
+    static QRegExp rx("\\s");
+
+    return command.remove(rx);
 }
 
 QList<QString> GcodePreprocessorUtils::parseCodes(QList<QString> args, char code)
@@ -94,7 +100,7 @@ QList<QString> GcodePreprocessorUtils::parseCodes(QList<QString> args, char code
 
 QList<int> GcodePreprocessorUtils::parseGCodes(QString command)
 {
-    QRegExp re("[Gg]0*(\\d+)");
+    static QRegExp re("[Gg]0*(\\d+)");
 
     QList<int> codes;
     int pos = 0;
@@ -109,7 +115,7 @@ QList<int> GcodePreprocessorUtils::parseGCodes(QString command)
 
 QList<int> GcodePreprocessorUtils::parseMCodes(QString command)
 {
-    QRegExp re("[Mm]0*(\\d+)");
+    static QRegExp re("[Mm]0*(\\d+)");
 
     QList<int> codes;
     int pos = 0;
@@ -242,7 +248,7 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
 //* This command is about the same speed as the string.split(" ") command,
 //* but might be a little faster using precompiled regex.
 //*/
-QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {    
+QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
     QList<QString> l;
     bool readNumeric = false;
     QString sb;
@@ -286,6 +292,40 @@ QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
 //    if (sb.length() > 0) l.append(sb);
 
     return l;
+}
+
+char GcodePreprocessorUtils::parseArgs(QStringList inArgs, GCodeArg **outArgs)
+{
+    if (inArgs.isEmpty()) return 0;
+
+    *outArgs = (GCodeArg*)malloc(inArgs.count() * sizeof(GCodeArg));
+
+    for (int i = 0; i < inArgs.count(); i++) {
+//        outArgs[i]->code = inArgs.at(i).at(0).toLatin1();
+//        outArgs[i]->value = inArgs.at(i).mid(1).toDouble();
+        (*outArgs)[i].code = 0;
+        (*outArgs)[i].value = 0;
+    }
+
+    return inArgs.count();
+}
+
+QVector<GCodeArg> GcodePreprocessorUtils::parseArgs(QStringList inArgs)
+{
+    if (inArgs.isEmpty()) return QVector<GCodeArg>();
+
+    QVector<GCodeArg> list;
+
+    for (int i = 0; i < inArgs.count(); i++) {
+        GCodeArg arg;
+
+        arg.code = 0;
+        arg.value = 0;
+
+        list.append(arg);
+    }
+
+    return list;
 }
 
 // TODO: Replace everything that uses this with a loop that loops through
