@@ -1428,6 +1428,7 @@ void frmMain::loadFile(QList<QString> data)
     m_probeModel.clear();
     m_programHeightmapModel.clear();
     m_currentModel = &m_programModel;
+    m_programModel.reserveData(data.count());
 
     // Reset parsers
     m_viewParser.reset();
@@ -1452,7 +1453,7 @@ void frmMain::loadFile(QList<QString> data)
     // Prepare parser
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings.rapidSpeed());
-    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0), data.count());
+    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1476,26 +1477,28 @@ void frmMain::loadFile(QList<QString> data)
     {
         command = data.takeFirst();
 
+        if (progress.isVisible() && (data.count() % PROGRESSSTEP == 0)) {
+            progress.setValue(progress.maximum() - data.count());
+            qApp->processEvents();
+            if (progress.wasCanceled()) break;
+        }
+
         // Trim & split command
         stripped = GcodePreprocessorUtils::removeComment(command);
         args = GcodePreprocessorUtils::splitCommand(stripped);
 
         PointSegment *ps = gp.addCommand(args);
 
-        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-                   qDebug() << "nan point segment added:" << *ps->point();
+//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+//                   qDebug() << "nan point segment added:" << *ps->point();
+
+        continue;
 
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
 
         // Store splitted args to speed up future parser updates
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
-
-        if (progress.isVisible() && (data.count() % PROGRESSSTEP == 0)) {
-            progress.setValue(progress.maximum() - data.count());
-            qApp->processEvents();
-            if (progress.wasCanceled()) break;
-        }
     }
 
     qDebug() << "model filled:" << time.elapsed();

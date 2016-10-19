@@ -87,9 +87,9 @@ QString GcodePreprocessorUtils::removeAllWhitespace(QString command)
     return command.remove(rx);
 }
 
-QList<QString> GcodePreprocessorUtils::parseCodes(QList<QString> args, char code)
+QStringList GcodePreprocessorUtils::parseCodes(const QStringList &args, char code)
 {
-    QList<QString> l;
+    QStringList l;
 
     foreach (QString s, args) {
         if (s.length() > 0 && s[0].toUpper() == code) l.append(s.mid(1));
@@ -133,14 +133,14 @@ QList<int> GcodePreprocessorUtils::parseMCodes(QString command)
 */
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVector3D initial, bool absoluteMode)
 {
-    QList<QString> l = splitCommand(command);
+    QStringList l = splitCommand(command);
     return updatePointWithCommand(l, initial, absoluteMode);
 }
 
 /**
 * Update a point given the arguments of a command, using a pre-parsed list.
 */
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(QList<QString> commandArgs, QVector3D initial, bool absoluteMode)
+QVector3D GcodePreprocessorUtils::updatePointWithCommand(QStringList commandArgs, QVector3D initial, bool absoluteMode)
 {
     double x = qQNaN();
     double y = qQNaN();
@@ -190,7 +190,7 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, doub
     return newPoint;
 }
 
-QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QList<QString> commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
+QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
     double i = qQNaN();
     double j = qQNaN();
@@ -248,8 +248,8 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
 //* This command is about the same speed as the string.split(" ") command,
 //* but might be a little faster using precompiled regex.
 //*/
-QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
-    QList<QString> l;
+QStringList GcodePreprocessorUtils::splitCommand(QString command) {
+    QStringList l;
     bool readNumeric = false;
     QString sb;
 
@@ -296,7 +296,7 @@ QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
 
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
-double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
+double GcodePreprocessorUtils::parseCoord(QStringList argList, char c)
 {
 //    int n = argList.length();
 

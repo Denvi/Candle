@@ -36,13 +36,15 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    void reserveData(int size);
+
 signals:
 
 public slots:
 
 private:
-    QList<GCodeItem*> m_data;
-    QList<QString> m_headers;
+    QVector<GCodeItem> m_data;
+    QStringList m_headers;
 };
 
 #endif // GCODETABLEMODEL_H
