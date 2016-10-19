@@ -79,7 +79,7 @@ private:
     QColor m_colorStart;
     QColor m_colorEnd;
 
-    QList<QList<int>> m_indexes;
+    QList<int> m_indexes;
 
     int getSegmentType(LineSegment *segment);
     QVector3D getSegmentColor(LineSegment *segment);
