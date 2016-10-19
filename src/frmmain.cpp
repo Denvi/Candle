@@ -1453,11 +1453,6 @@ void frmMain::loadFile(QList<QString> data)
     QString stripped;
     QList<QString> args;
 
-    // Clear test item array
-//    qDebug() << "clearing items" << m_testItems.count();
-//    foreach (GCodeItem *item, m_testItems) delete item;
-//    m_testItems.clear();
-
     int cnt = 0;
 
     while (!data.isEmpty())
@@ -1467,48 +1462,30 @@ void frmMain::loadFile(QList<QString> data)
         // Trim & split command
         stripped = GcodePreprocessorUtils::removeComment(command);
         args = GcodePreprocessorUtils::splitCommand(stripped);
-//        args = ;
-//        qDebug() << "args" << args;
 
-//        PointSegment *ps = gp.addCommand(args);
+        PointSegment *ps = gp.addCommand(args);
         // Quantum line (if disable pointsegment check some points will have qQNaN() number on raspberry)
         // code alignment?
-//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-//                   qDebug() << "nan point segment added:" << *ps->point();
+        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+                   qDebug() << "nan point segment added:" << *ps->point();
 
-        GCodeItemLight *item = new GCodeItemLight();
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+        // Store splitted args to speed up future parser updates
+        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
 
-//        item->command = command;
-//        item->state = "In queue";
-//        item->line = gp.getCommandNumber();
-//        item->args = args;
-
-        item->state = GCodeItemLight::InQueue;
-        item->line = gp.getCommandNumber();
-        item->args = GcodePreprocessorUtils::parseArgs(args);
-
-//        item->comment = "comment";
-//        item->status = "ok";
-
-        m_testItems.append(item);
-
-//        gp.reset(QVector3D(0, 0, 0));
-
-//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
-//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
-//        // Store splitted args to speed up future parser updates
-//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
         if (++cnt == 100000) {
-            qDebug() << "items count:" << m_testItems.count();/*gp.getPointSegmentList().count();*/
+            qDebug() << "items count:" << gp.getPointSegmentList().count();
             cnt = 0;
         }
     }
 
-//    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
-
     qDebug() << "model filled:" << time.elapsed();
     time.start();
+
+    updateProgramEstimatedTime(m_viewParser.getLinesFromParser(&gp, m_settings.arcPrecision(), m_settings.arcDegreeMode()));
+    qDebug() << "view parser filled:" << time.elapsed();
 
     m_programLoading = false;
 
@@ -1519,8 +1496,6 @@ void frmMain::loadFile(QList<QString> data)
     // Update tableview
     connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     ui->tblProgram->selectRow(0);
-
-    qDebug() << "view parser filled:" << time.elapsed();
 
     //  Update code drawer
     m_codeDrawer->update();

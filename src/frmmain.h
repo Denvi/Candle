@@ -331,8 +331,6 @@ private:
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
     int getConsoleMinHeight();
-
-    QList<GCodeItemLight*> m_testItems;
 };
 
 #endif // FRMMAIN_H

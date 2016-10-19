@@ -167,6 +167,7 @@ QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
     case ColorizeType::Z:
         return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getStart().z()));
     case ColorizeType::P:
+        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getDwell()));
         break;
     }
     else return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);

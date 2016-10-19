@@ -294,40 +294,6 @@ QList<QString> GcodePreprocessorUtils::splitCommand(QString command) {
     return l;
 }
 
-char GcodePreprocessorUtils::parseArgs(QStringList inArgs, GCodeArg **outArgs)
-{
-    if (inArgs.isEmpty()) return 0;
-
-    *outArgs = (GCodeArg*)malloc(inArgs.count() * sizeof(GCodeArg));
-
-    for (int i = 0; i < inArgs.count(); i++) {
-//        outArgs[i]->code = inArgs.at(i).at(0).toLatin1();
-//        outArgs[i]->value = inArgs.at(i).mid(1).toDouble();
-        (*outArgs)[i].code = 0;
-        (*outArgs)[i].value = 0;
-    }
-
-    return inArgs.count();
-}
-
-QVector<GCodeArg> GcodePreprocessorUtils::parseArgs(QStringList inArgs)
-{
-    if (inArgs.isEmpty()) return QVector<GCodeArg>();
-
-    QVector<GCodeArg> list;
-
-    for (int i = 0; i < inArgs.count(); i++) {
-        GCodeArg arg;
-
-        arg.code = 0;
-        arg.value = 0;
-
-        list.append(arg);
-    }
-
-    return list;
-}
-
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
 double GcodePreprocessorUtils::parseCoord(QList<QString> argList, char c)
