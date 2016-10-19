@@ -147,21 +147,19 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QStringList &comm
     static double y = qQNaN();
     static double z = qQNaN();
     char c;
-    double value;
 
     for (int i = 0; i < commandArgs.length(); i++) {
         if (commandArgs.at(i).length() > 0) {
             c = commandArgs.at(i).at(0).toUpper().toLatin1();
-            value = commandArgs.at(i).mid(1).toDouble();
             switch (c) {
             case 'X':
-                x = value;
+                x = commandArgs.at(i).mid(1).toDouble();;
                 break;
             case 'Y':
-                y = value;
+                y = commandArgs.at(i).mid(1).toDouble();;
                 break;
             case 'Z':
-                z = value;
+                z = commandArgs.at(i).mid(1).toDouble();;
                 break;
             }
         }
@@ -192,10 +190,10 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QVector3D &initia
 
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
-    double i = qQNaN();
-    double j = qQNaN();
-    double k = qQNaN();
-    double r = qQNaN();
+    static double i = qQNaN();
+    static double j = qQNaN();
+    static double k = qQNaN();
+    static double r = qQNaN();
     char c;
 
     foreach (QString t, commandArgs)
