@@ -120,7 +120,7 @@ Qt::ItemFlags GCodeTableModel::flags(const QModelIndex &index) const
     else return QAbstractTableModel::flags(index);
 }
 
-void GCodeTableModel::reserveData(int size)
+QList<GCodeItem> &GCodeTableModel::data()
 {
-    m_data.reserve(size);
+    return m_data;
 }

@@ -36,7 +36,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    void reserveData(int size);
+    QList<GCodeItem> &data();
 
 signals:
 

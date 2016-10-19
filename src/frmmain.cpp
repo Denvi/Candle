@@ -1428,7 +1428,6 @@ void frmMain::loadFile(QList<QString> data)
     m_probeModel.clear();
     m_programHeightmapModel.clear();
     m_currentModel = &m_programModel;
-    m_programModel.reserveData(data.count());
 
     // Reset parsers
     m_viewParser.reset();
@@ -1464,6 +1463,11 @@ void frmMain::loadFile(QList<QString> data)
     QString command;
     QString stripped;
     QList<QString> args;
+    GCodeItem item;
+
+    // Prepare model
+    m_programModel.data().clear();
+    m_programModel.data().reserve(data.count());
 
     QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, data.count(), this);
     progress.setWindowModality(Qt::WindowModal);
@@ -1492,12 +1496,15 @@ void frmMain::loadFile(QList<QString> data)
 //        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
 //                   qDebug() << "nan point segment added:" << *ps->point();
 
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+        item.command = command;
+        item.state = GCodeItem::InQueue;
+        item.line = gp.getCommandNumber();
+        item.args = args;
 
-        // Store splitted args to speed up future parser updates
-        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
+        m_programModel.data().append(item);
     }
+
+    m_programModel.insertRow(m_programModel.rowCount());
 
     qDebug() << "model filled:" << time.elapsed();
     time.start();
