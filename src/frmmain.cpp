@@ -2181,9 +2181,10 @@ void frmMain::on_cmdFileReset_clicked()
         time.start();
 
         ui->tblProgram->setUpdatesEnabled(false);
-        for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
-            m_currentModel->setData(m_currentModel->index(i, 2), GCodeItem::InQueue);
-            m_currentModel->setData(m_currentModel->index(i, 3), QString());
+
+        for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
+            m_currentModel->data()[i].state = GCodeItem::InQueue;
+            m_currentModel->data()[i].response = QString();
         }
         ui->tblProgram->setUpdatesEnabled(true);
 
