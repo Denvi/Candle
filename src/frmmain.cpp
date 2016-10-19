@@ -14,6 +14,9 @@
 #define CHECK 7
 #define DOOR 8
 
+#define PROGRESSMINLINES 10000
+#define PROGRESSSTEP     1000
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
@@ -1432,6 +1435,9 @@ void frmMain::loadFile(QList<QString> data)
 
     // Reset code drawer
     m_currentDrawer = m_codeDrawer;
+    m_codeDrawer->update();
+    ui->glwVisualizer->fitDrawable(m_codeDrawer);
+    updateProgramEstimatedTime(QList<LineSegment*>());
 
     // Update interface
     ui->chkHeightMapUse->setChecked(false);
@@ -1461,8 +1467,10 @@ void frmMain::loadFile(QList<QString> data)
     QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, data.count(), this);
     progress.setWindowModality(Qt::WindowModal);
     progress.setFixedSize(progress.sizeHint());
-    progress.show();
-    progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
+    if (data.count() > PROGRESSMINLINES) {
+        progress.show();
+        progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
+    }
 
     while (!data.isEmpty())
     {
@@ -1483,8 +1491,9 @@ void frmMain::loadFile(QList<QString> data)
         // Store splitted args to speed up future parser updates
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
 
-        if (data.count() % 1000 == 0) {
+        if (progress.isVisible() && (data.count() % PROGRESSSTEP == 0)) {
             progress.setValue(progress.maximum() - data.count());
+            qApp->processEvents();
             if (progress.wasCanceled()) break;
         }
     }
@@ -1900,11 +1909,21 @@ void frmMain::updateParser()
 
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings.rapidSpeed());
+    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
 
     ui->tblProgram->setUpdatesEnabled(false);
 
     QString stripped;
     QList<QString> args;
+
+    QProgressDialog progress(tr("Updating..."), tr("Abort"), 0, m_currentModel->rowCount() - 2, this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setFixedSize(progress.sizeHint());
+
+    if (m_currentModel->rowCount() > PROGRESSMINLINES) {
+        progress.show();
+        progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
+    }
 
     for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
         // Get stored args
@@ -1925,6 +1944,12 @@ void frmMain::updateParser()
         m_currentModel->setData(m_currentModel->index(i, 2), tr("In queue"));
         m_currentModel->setData(m_currentModel->index(i, 3), "");
         m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
+
+        if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+            progress.setValue(i);
+            qApp->processEvents();
+            if (progress.wasCanceled()) break;
+        }
     }
 
     ui->tblProgram->setUpdatesEnabled(true);
@@ -2197,8 +2222,7 @@ void frmMain::on_actFileNew_triggered()
         m_codeDrawer->update();
         m_currentDrawer = m_codeDrawer;
         ui->glwVisualizer->fitDrawable();
-        ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
-        ui->glwVisualizer->setEstimatedTime(QTime(0, 0, 0));
+        updateProgramEstimatedTime(QList<LineSegment*>());
 
         m_programFileName = "";
         ui->chkHeightMapUse->setChecked(false);
