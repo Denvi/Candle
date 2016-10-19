@@ -56,7 +56,7 @@ private:
     bool m_isMetric;
     bool m_inAbsoluteMode;
     bool m_inAbsoluteIJKMode;
-    QString m_lastGcodeCommand;
+    float m_lastGcodeCommand;
     QVector3D m_currentPoint;
     int m_commandNumber;
     PointSegment::planes m_currentPlane;
@@ -78,11 +78,11 @@ private:
     QList<PointSegment*> m_points;
 
     PointSegment *processCommand(const QStringList &args);
-    void handleMCode(QString code, const QStringList &args);
-    PointSegment *handleGCode(QString code, const QStringList &args);
-    PointSegment *addLinearPointSegment(QVector3D nextPoint, bool fastTraverse);
-    PointSegment *addArcPointSegment(QVector3D nextPoint, bool clockwise, QStringList args);
-    void setLastGcodeCommand(QString num);
+    void handleMCode(float code, const QStringList &args);
+    PointSegment *handleGCode(float code, const QStringList &args);
+    PointSegment *addLinearPointSegment(const QVector3D &nextPoint, bool fastTraverse);
+    PointSegment *addArcPointSegment(const QVector3D &nextPoint, bool clockwise, const QStringList &args);
+    void setLastGcodeCommand(float num);
 };
 
 #endif // GCODEPARSER_H

@@ -87,12 +87,12 @@ QString GcodePreprocessorUtils::removeAllWhitespace(QString command)
     return command.remove(rx);
 }
 
-QStringList GcodePreprocessorUtils::parseCodes(const QStringList &args, char code)
+QList<float> GcodePreprocessorUtils::parseCodes(const QStringList &args, char code)
 {
-    QStringList l;
+    QList<float> l;
 
     foreach (QString s, args) {
-        if (s.length() > 0 && s[0].toUpper() == code) l.append(s.mid(1));
+        if (s.length() > 0 && s[0].toUpper() == code) l.append(s.mid(1).toDouble());
     }
 
     return l;
@@ -131,7 +131,7 @@ QList<int> GcodePreprocessorUtils::parseMCodes(QString command)
 /**
 * Update a point given the arguments of a command.
 */
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVector3D initial, bool absoluteMode)
+QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QString &command, const QVector3D &initial, bool absoluteMode)
 {
     QStringList l = splitCommand(command);
     return updatePointWithCommand(l, initial, absoluteMode);
@@ -140,28 +140,28 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QString command, QVecto
 /**
 * Update a point given the arguments of a command, using a pre-parsed list.
 */
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(QStringList commandArgs, QVector3D initial, bool absoluteMode)
+QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QStringList &commandArgs, const QVector3D &initial,
+                                                         bool absoluteMode)
 {
-    double x = qQNaN();
-    double y = qQNaN();
-    double z = qQNaN();
+    static double x = qQNaN();
+    static double y = qQNaN();
+    static double z = qQNaN();
     char c;
+    double value;
 
     for (int i = 0; i < commandArgs.length(); i++) {
-
-//    foreach (QString t, commandArgs)
-//    {
-        if (commandArgs[i].length() > 0) {
-            c = commandArgs[i][0].toUpper().toLatin1();
+        if (commandArgs.at(i).length() > 0) {
+            c = commandArgs.at(i).at(0).toUpper().toLatin1();
+            value = commandArgs.at(i).mid(1).toDouble();
             switch (c) {
             case 'X':
-                x = commandArgs[i].mid(1).toDouble();
+                x = value;
                 break;
             case 'Y':
-                y = commandArgs[i].mid(1).toDouble();
+                y = value;
                 break;
             case 'Z':
-                z = commandArgs[i].mid(1).toDouble();
+                z = value;
                 break;
             }
         }
@@ -173,7 +173,7 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(QStringList commandArgs
 /**
 * Update a point given the new coordinates.
 */
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(QVector3D initial, double x, double y, double z, bool absoluteMode)
+QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QVector3D &initial, double x, double y, double z, bool absoluteMode)
 {
     QVector3D newPoint(initial.x(), initial.y(), initial.z());
 

@@ -27,18 +27,18 @@ PointSegment::PointSegment()
 
 PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
 {
-    this->setToolHead(ps->getToolhead());
-    this->setSpeed(ps->getSpeed());
-    this->setIsMetric(ps->isMetric());
-    this->setIsZMovement(ps->isZMovement());
-    this->setIsFastTraverse(ps->isFastTraverse());
-    this->setIsAbsolute(ps->isAbsolute());
+    this->m_toolhead = ps->getToolhead();
+    this->m_speed = ps->getSpeed();
+    this->m_isMetric = ps->isMetric();
+    this->m_isZMovement = ps->isZMovement();
+    this->m_isFastTraverse = ps->isFastTraverse();
+    this->m_isAbsolute = ps->isAbsolute();
 
     if (ps->isArc()) {
         this->setArcCenter(ps->center());
         this->setRadius(ps->getRadius());
         this->setIsClockwise(ps->isClockwise());
-        this->setPlane(ps->plane());
+        this->m_plane = ps->plane();
     }
 }
 

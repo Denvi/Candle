@@ -43,7 +43,7 @@ signals:
 public slots:
 
 private:
-    QVector<GCodeItem> m_data;
+    QList<GCodeItem> m_data;
     QStringList m_headers;
 };
 
