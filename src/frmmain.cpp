@@ -1462,6 +1462,7 @@ void frmMain::loadFile(QList<QString> data)
 
     QString command;
     QString stripped;
+    QString trimmed;
     QList<QString> args;
     GCodeItem item;
 
@@ -1487,21 +1488,26 @@ void frmMain::loadFile(QList<QString> data)
             if (progress.wasCanceled()) break;
         }
 
-        // Trim & split command
-        stripped = GcodePreprocessorUtils::removeComment(command);
-        args = GcodePreprocessorUtils::splitCommand(stripped);
+        // Trim command
+        trimmed = command.trimmed();
 
-        PointSegment *ps = gp.addCommand(args);
+        if (!trimmed.isEmpty()) {
+            // Split command
+            stripped = GcodePreprocessorUtils::removeComment(command);
+            args = GcodePreprocessorUtils::splitCommand(stripped);
 
-//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-//                   qDebug() << "nan point segment added:" << *ps->point();
+            PointSegment *ps = gp.addCommand(args);
 
-        item.command = command;
-        item.state = GCodeItem::InQueue;
-        item.line = gp.getCommandNumber();
-        item.args = args;
+    //        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+    //                   qDebug() << "nan point segment added:" << *ps->point();
 
-        m_programModel.data().append(item);
+            item.command = trimmed;
+            item.state = GCodeItem::InQueue;
+            item.line = gp.getCommandNumber();
+            item.args = args;
+
+            m_programModel.data().append(item);
+        }
     }
 
     m_programModel.insertRow(m_programModel.rowCount());
