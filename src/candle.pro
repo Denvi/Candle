@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 win32: {
     QT += winextras
     DEFINES += WINDOWS
+    QMAKE_LFLAGS += "-Wl,--large-address-aware"
     QMAKE_CXXFLAGS_DEBUG += -g3 -pg
     QMAKE_LFLAGS_DEBUG += -pg -lgmon
 }
