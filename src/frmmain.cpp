@@ -1377,13 +1377,8 @@ void frmMain::on_cmdFileOpen_clicked()
 
         QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
                                    tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
-//        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
-//                                                        tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
 
-        if (!fileName.isEmpty()) {
-            m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
-            qDebug() << "last folder" << m_lastFolder;
-        }
+        if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
 
         if (fileName != "") {
             addRecentFile(fileName);
@@ -1469,14 +1464,13 @@ void frmMain::loadFile(QList<QString> data)
         args = GcodePreprocessorUtils::splitCommand(stripped);
 
         PointSegment *ps = gp.addCommand(args);
-        // Quantum line (if disable pointsegment check some points will have qQNaN() number on raspberry)
-        // code alignment?
-//        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
-//                   qDebug() << "nan point segment added:" << *ps->point();
+
+        if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
+                   qDebug() << "nan point segment added:" << *ps->point();
 
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 1, 1), command);
-//        m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 2), tr("In queue"));
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 4), gp.getCommandNumber());
+
         // Store splitted args to speed up future parser updates
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
     }
