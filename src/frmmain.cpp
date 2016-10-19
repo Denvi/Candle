@@ -1458,7 +1458,11 @@ void frmMain::loadFile(QList<QString> data)
     QString stripped;
     QList<QString> args;
 
-    int cnt = 0;
+    QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, data.count(), this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setFixedSize(progress.sizeHint());
+    progress.show();
+    progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
 
     while (!data.isEmpty())
     {
@@ -1479,9 +1483,9 @@ void frmMain::loadFile(QList<QString> data)
         // Store splitted args to speed up future parser updates
         m_programModel.setData(m_programModel.index(m_programModel.rowCount() - 2, 5), QVariant(args));
 
-        if (++cnt == 100000) {
-            qDebug() << "items count:" << gp.getPointSegmentList().count();
-            cnt = 0;
+        if (data.count() % 1000 == 0) {
+            progress.setValue(progress.maximum() - data.count());
+            if (progress.wasCanceled()) break;
         }
     }
 

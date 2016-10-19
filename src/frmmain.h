@@ -15,6 +15,7 @@
 #include <QMenu>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QProgressDialog>
 
 #include "parser/gcodeviewparse.h"
 
