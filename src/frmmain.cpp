@@ -1741,6 +1741,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         int lineLast = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
         if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
 
+        qDebug() << "table current changed" << idx1.row() << idx2.row() << lineFirst << lineLast;
+
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
             foreach (int l, lineIndexes.at(i)) {
@@ -2167,7 +2169,7 @@ void frmMain::on_cmdFileReset_clicked()
             list[i]->setDrawn(false);
             indexes.append(i);
         }
-        m_codeDrawer->update(indexes);
+//        m_codeDrawer->update(indexes);
 
         qDebug() << "drawn false:" << time.elapsed();
 
