@@ -1469,6 +1469,7 @@ void frmMain::loadFile(QList<QString> data)
         args = GcodePreprocessorUtils::splitCommand(stripped);
 
         PointSegment *ps = gp.addCommand(args);
+
         if (ps && (qIsNaN(ps->point()->x()) || qIsNaN(ps->point()->y()) || qIsNaN(ps->point()->z())))
                    qDebug() << "nan point segment added:" << *ps->point();
 
