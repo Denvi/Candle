@@ -26,7 +26,7 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column())
         {
-        case 0: return index.row() == this->rowCount() - 1 ? "" : QString::number(index.row() + 1);
+        case 0: return index.row() == this->rowCount() - 1 ? QString() : QString::number(index.row() + 1);
         case 1: return m_data.at(index.row())->command;
         case 2: return m_data.at(index.row())->state;
         case 3: return m_data.at(index.row())->status;
