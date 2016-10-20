@@ -290,6 +290,26 @@ void frmSettings::setSpindleSpeedMax(int speed)
     ui->txtSpindleSpeedMax->setValue(speed);
 }
 
+int frmSettings::laserPowerMin()
+{
+    return ui->txtLaserPowerMin->value();
+}
+
+void frmSettings::setLaserPowerMin(int value)
+{
+    ui->txtLaserPowerMin->setValue(value);
+}
+
+int frmSettings::laserPowerMax()
+{
+    return ui->txtLaserPowerMax->value();
+}
+
+void frmSettings::setLaserPowerMax(int value)
+{
+    ui->txtLaserPowerMax->setValue(value);
+}
+
 int frmSettings::rapidSpeed()
 {
     return ui->txtRapidSpeed->value();
@@ -491,6 +511,37 @@ void frmSettings::setFontSize(int fontSize)
     ui->cboFontSize->setCurrentText(QString::number(fontSize));
 }
 
+bool frmSettings::grayscaleSegments()
+{
+    return ui->chkGrayscale->isChecked();
+}
+
+void frmSettings::setGrayscaleSegments(bool value)
+{
+    ui->chkGrayscale->setChecked(value);
+}
+
+bool frmSettings::grayscaleSCode()
+{
+    return ui->radGrayscaleS->isChecked();
+}
+
+void frmSettings::setGrayscaleSCode(bool value)
+{
+    ui->radGrayscaleS->setChecked(value);
+    ui->radGrayscaleZ->setChecked(!value);
+}
+
+bool frmSettings::ignoreZ()
+{
+    return ui->chkIgnoreZ->isChecked();
+}
+
+void frmSettings::setIgnoreZ(bool value)
+{
+    ui->chkIgnoreZ->setChecked(value);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -542,6 +593,8 @@ void frmSettings::on_cmdDefaults_clicked()
     setAcceleration(100);
     setSpindleSpeedMin(0);
     setSpindleSpeedMax(10000);
+    setLaserPowerMin(0);
+    setLaserPowerMax(100);
     setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F10");
     setSafePositionCommand("G21G90; G53G0Z0");
     setMoveOnRestore(false);
@@ -560,6 +613,9 @@ void frmSettings::on_cmdDefaults_clicked()
     setSimplifyPrecision(0.0);
     setFps(60);
     setZBuffer(false);
+    setGrayscaleSegments(false);
+    setGrayscaleSCode(true);
+    setIgnoreZ(false);
 
     setToolType(1);
     setToolAngle(15.0);
@@ -572,7 +628,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setPanelFeed(true);
     setPanelHeightmap(true);
     setPanelJog(true);
-    setPanelSpindle(true);
+    setPanelSpindle(true);   
 
     ui->clpTool->setColor(QColor(255, 153, 0));
 

@@ -71,9 +71,9 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-845</y>
-          <width>456</width>
-          <height>1499</height>
+          <y>-412</y>
+          <width>414</width>
+          <height>1443</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -743,154 +743,6 @@ QGroupBox {
               </item>
              </layout>
             </item>
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Override origin:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_12">
-              <item>
-               <widget class="QCheckBox" name="chkOverrideX">
-                <property name="text">
-                 <string>X</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="txtOverrideX">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>3</number>
-                </property>
-                <property name="minimum">
-                 <double>-9999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>9999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_17">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkOverrideY">
-                <property name="text">
-                 <string>Y</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="txtOverrideY">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>3</number>
-                </property>
-                <property name="minimum">
-                 <double>-9999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>9999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_18">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>6</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkOverrideZ">
-                <property name="text">
-                 <string>Z</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="txtOverrideZ">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>3</number>
-                </property>
-                <property name="minimum">
-                 <double>-9999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>9999.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
            </layout>
           </widget>
          </item>
@@ -1061,7 +913,7 @@ QGroupBox {
                </layout>
               </item>
               <item row="3" column="0">
-               <widget class="QCheckBox" name="chkSimplify_2">
+               <widget class="QCheckBox" name="chkGrayscale">
                 <property name="text">
                  <string>Grayscale segments</string>
                 </property>
@@ -1091,38 +943,6 @@ QGroupBox {
                <widget class="QCheckBox" name="chkIgnoreZ">
                 <property name="text">
                  <string>Ignore Z-coordinate</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3">
-               <widget class="QLabel" name="label_9">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Tool position:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="4">
-               <widget class="QDoubleSpinBox" name="txtIgnoreZToolPosition">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>3</number>
-                </property>
-                <property name="minimum">
-                 <double>-9999.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>9999.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -1802,55 +1622,7 @@ QGroupBox {
    </hints>
   </connection>
   <connection>
-   <sender>chkOverrideX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtOverrideX</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>152</x>
-     <y>235</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>201</x>
-     <y>231</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkOverrideY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtOverrideY</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>280</x>
-     <y>232</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>328</x>
-     <y>235</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkOverrideZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtOverrideZ</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>401</x>
-     <y>225</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>467</x>
-     <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkSimplify_2</sender>
+   <sender>chkGrayscale</sender>
    <signal>toggled(bool)</signal>
    <receiver>radGrayscaleS</receiver>
    <slot>setEnabled(bool)</slot>
@@ -1866,7 +1638,7 @@ QGroupBox {
    </hints>
   </connection>
   <connection>
-   <sender>chkSimplify_2</sender>
+   <sender>chkGrayscale</sender>
    <signal>toggled(bool)</signal>
    <receiver>radGrayscaleZ</receiver>
    <slot>setEnabled(bool)</slot>
@@ -1878,38 +1650,6 @@ QGroupBox {
     <hint type="destinationlabel">
      <x>403</x>
      <y>383</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkIgnoreZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_9</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>413</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>362</x>
-     <y>421</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkIgnoreZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtIgnoreZToolPosition</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>178</x>
-     <y>413</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>462</x>
-     <y>422</y>
     </hint>
    </hints>
   </connection>

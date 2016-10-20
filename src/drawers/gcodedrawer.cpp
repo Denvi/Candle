@@ -7,9 +7,11 @@ GcodeDrawer::GcodeDrawer() : QObject()
 {   
     m_geometryUpdated = false;
     m_pointSize = 6;
-    m_ignoreZ = true;
-    m_colorizeSegments = true;
-    m_colorizeType = GcodeDrawer::S;
+    m_ignoreZ = false;
+    m_grayscaleSegments = false;
+    m_grayscaleCode = GcodeDrawer::S;
+    m_grayscaleMin = 0;
+    m_grayscaleMax = 255;
 
     connect(&m_timerVertexUpdate, SIGNAL(timeout()), SLOT(onTimerVertexUpdate()));
     m_timerVertexUpdate.start(100);
@@ -48,7 +50,7 @@ bool GcodeDrawer::updateData()
         for (int i = 0; i < list->count(); i++) {
 
             if (qIsNaN(list->at(i)->getEnd().z())) {
-                qDebug() << "nan point" << list->at(i)->getEnd();
+//                qDebug() << "nan point" << list->at(i)->getEnd();
                 continue;
             }
 
@@ -60,6 +62,7 @@ bool GcodeDrawer::updateData()
                 // Draw first toolpath point
                 vertex.color = Util::colorToVector(m_colorStart);
                 vertex.position = list->at(i)->getEnd();
+                if (m_ignoreZ) vertex.position.setZ(0);
                 vertex.start = QVector3D(sNan, sNan, m_pointSize);
                 m_points.append(vertex);
 
@@ -100,16 +103,19 @@ bool GcodeDrawer::updateData()
 
             // Line start
             vertex.position = list->at(j)->getStart();
+            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Line end
             vertex.position = list->at(i)->getEnd();
+            if (m_ignoreZ) vertex.position.setZ(0);
             m_lines.append(vertex);
 
             // Draw last toolpath point
             if (i == list->count() - 1) {
                 vertex.color = Util::colorToVector(m_colorEnd);
                 vertex.position = list->at(i)->getEnd();
+                if (m_ignoreZ) vertex.position.setZ(0);
                 vertex.start = QVector3D(sNan, sNan, m_pointSize);
                 m_points.append(vertex);
             }
@@ -128,7 +134,7 @@ bool GcodeDrawer::updateData()
         int vertexIndexLast = qMax(list.at(*mm.second)->vertexIndex(), 0);
         int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
 
-        qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast << vertexCount;
+//        qDebug() << "updating vertices" << vertexIndexFirst << vertexIndexLast << vertexCount;
 
         // Allocate buffer
         VertexData *data = (VertexData*)malloc(vertexCount * sizeof(VertexData));
@@ -174,14 +180,11 @@ QVector3D GcodeDrawer::getSegmentColor(LineSegment *segment)
     else if (segment->isHightlight()) return Util::colorToVector(m_colorHighlight);//QVector3D(0.57, 0.51, 0.9);
     else if (segment->isFastTraverse()) return Util::colorToVector(m_colorNormal);// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return Util::colorToVector(m_colorZMovement);//QVector3D(1.0, 0.0, 0.0);
-    else if (m_colorizeSegments) switch (m_colorizeType) {
-    case ColorizeType::S:
-        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getSpindleSpeed()));
-    case ColorizeType::Z:
-        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getStart().z()));
-    case ColorizeType::P:
-        return Util::colorToVector(QColor::fromHsl(0, 0, 255 - segment->getDwell()));
-        break;
+    else if (m_grayscaleSegments) switch (m_grayscaleCode) {
+    case GrayscaleCode::S:
+        return Util::colorToVector(QColor::fromHsl(0, 0, qBound<int>(0, 255 - 255 / (m_grayscaleMax - m_grayscaleMin) * segment->getSpindleSpeed(), 255)));
+    case GrayscaleCode::Z:
+        return Util::colorToVector(QColor::fromHsl(0, 0, qBound<int>(0, 255 - 255 / (m_grayscaleMax - m_grayscaleMin) * segment->getStart().z(), 255)));
     }
     return Util::colorToVector(m_colorNormal);//QVector3D(0.0, 0.0, 0.0);
 }
@@ -201,12 +204,18 @@ QVector3D GcodeDrawer::getSizes()
 
 QVector3D GcodeDrawer::getMinimumExtremes()
 {
-    return m_viewParser->getMinimumExtremes();;
+    QVector3D v = m_viewParser->getMinimumExtremes();
+    if (m_ignoreZ) v.setZ(0);
+
+    return v;
 }
 
 QVector3D GcodeDrawer::getMaximumExtremes()
 {
-    return m_viewParser->getMaximumExtremes();;
+    QVector3D v = m_viewParser->getMaximumExtremes();
+    if (m_ignoreZ) v.setZ(0);
+
+    return v;
 }
 
 void GcodeDrawer::setViewParser(GcodeViewParse* viewParser)
@@ -311,6 +320,46 @@ void GcodeDrawer::setIgnoreZ(bool ignoreZ)
 void GcodeDrawer::onTimerVertexUpdate()
 {
     if (!m_indexes.isEmpty()) ShaderDrawable::update();
+}
+
+int GcodeDrawer::grayscaleMax() const
+{
+    return m_grayscaleMax;
+}
+
+void GcodeDrawer::setGrayscaleMax(int grayscaleMax)
+{
+    m_grayscaleMax = grayscaleMax;
+}
+
+int GcodeDrawer::grayscaleMin() const
+{
+    return m_grayscaleMin;
+}
+
+void GcodeDrawer::setGrayscaleMin(int grayscaleMin)
+{
+    m_grayscaleMin = grayscaleMin;
+}
+
+GcodeDrawer::GrayscaleCode GcodeDrawer::grayscaleCode() const
+{
+    return m_grayscaleCode;
+}
+
+void GcodeDrawer::setGrayscaleCode(const GrayscaleCode &grayscaleCode)
+{
+    m_grayscaleCode = grayscaleCode;
+}
+
+bool GcodeDrawer::getGrayscaleSegments() const
+{
+    return m_grayscaleSegments;
+}
+
+void GcodeDrawer::setGrayscaleSegments(bool grayscaleSegments)
+{
+    m_grayscaleSegments = grayscaleSegments;
 }
 
 

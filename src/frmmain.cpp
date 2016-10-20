@@ -239,6 +239,9 @@ void frmMain::loadSettings()
     m_settings.setZBuffer(set.value("zBuffer", false).toBool());
     m_settings.setSimplify(set.value("simplify", false).toBool());
     m_settings.setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
+    m_settings.setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
+    m_settings.setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
+    m_settings.setIgnoreZ(set.value("ignoreZ", false).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
@@ -253,6 +256,8 @@ void frmMain::loadSettings()
     m_settings.setShowUICommands(set.value("showUICommands", 0).toBool());
     m_settings.setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
     m_settings.setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
+    m_settings.setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
+    m_settings.setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
     m_settings.setRapidSpeed(set.value("rapidSpeed", 0).toInt());
     m_settings.setHeightmapProbingFeed(set.value("heightmapProbingFeed", 0).toInt());
     m_settings.setAcceleration(set.value("acceleration", 10).toInt());
@@ -357,6 +362,9 @@ void frmMain::saveSettings()
     set.setValue("zBuffer", m_settings.zBuffer());
     set.setValue("simplify", m_settings.simplify());
     set.setValue("simplifyPrecision", m_settings.simplifyPrecision());
+    set.setValue("grayscaleSegments", m_settings.grayscaleSegments());
+    set.setValue("grayscaleSCode", m_settings.grayscaleSCode());
+    set.setValue("ignoreZ", m_settings.ignoreZ());
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_settings.lineWidth());
@@ -367,6 +375,8 @@ void frmMain::saveSettings()
     set.setValue("showUICommands", m_settings.showUICommands());
     set.setValue("spindleSpeedMin", m_settings.spindleSpeedMin());
     set.setValue("spindleSpeedMax", m_settings.spindleSpeedMax());
+    set.setValue("laserPowerMin", m_settings.laserPowerMin());
+    set.setValue("laserPowerMax", m_settings.laserPowerMax());
     set.setValue("moveOnRestore", m_settings.moveOnRestore());
     set.setValue("restoreMode", m_settings.restoreMode());
     set.setValue("rapidSpeed", m_settings.rapidSpeed());
@@ -1576,8 +1586,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 //                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
 //                 << time;
 
-        if (qIsNaN(length)) qDebug() << "length nan:" << i << ls->getLineNumber() << ls->getStart() << ls->getEnd();
-        if (qIsNaN(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
+//        if (qIsNaN(length)) qDebug() << "length nan:" << i << ls->getLineNumber() << ls->getStart() << ls->getEnd();
+//        if (qIsNaN(ls->getSpeed())) qDebug() << "speed nan:" << ls->getSpeed();
     }
 
     time *= 60;
@@ -1870,6 +1880,11 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorZMovement(m_settings.colors("ToolpathZMovement"));
     m_codeDrawer->setColorStart(m_settings.colors("ToolpathStart"));
     m_codeDrawer->setColorEnd(m_settings.colors("ToolpathEnd"));
+    m_codeDrawer->setIgnoreZ(m_settings.ignoreZ());
+    m_codeDrawer->setGrayscaleSegments(m_settings.grayscaleSegments());
+    m_codeDrawer->setGrayscaleCode(m_settings.grayscaleSCode() ? GcodeDrawer::S : GcodeDrawer::Z);
+    m_codeDrawer->setGrayscaleMin(m_settings.laserPowerMin());
+    m_codeDrawer->setGrayscaleMax(m_settings.laserPowerMax());
     m_codeDrawer->update();
 
     // Adapt visualizer buttons colors

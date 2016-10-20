@@ -59,6 +59,10 @@ public:
     void setSpindleSpeedMin(int speed);
     int spindleSpeedMax();
     void setSpindleSpeedMax(int speed);
+    int laserPowerMin();
+    void setLaserPowerMin(int value);
+    int laserPowerMax();
+    void setLaserPowerMax(int value);
     int rapidSpeed();
     void setRapidSpeed(int rapidSpeed);
     int heightmapProbingFeed();
@@ -99,6 +103,12 @@ public:
     QColor colors(QString name);
     int fontSize();
     void setFontSize(int fontSize);
+    bool grayscaleSegments();
+    void setGrayscaleSegments(bool value);
+    bool grayscaleSCode();
+    void setGrayscaleSCode(bool value);
+    bool ignoreZ();
+    void setIgnoreZ(bool value);
 
 protected:
     void showEvent(QShowEvent *se);

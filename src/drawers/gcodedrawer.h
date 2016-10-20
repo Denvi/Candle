@@ -14,7 +14,7 @@ class GcodeDrawer : public QObject, public ShaderDrawable
 {
     Q_OBJECT
 public:
-    enum ColorizeType { S, Z, P };
+    enum GrayscaleCode { S, Z };
 
     explicit GcodeDrawer();
 
@@ -58,6 +58,18 @@ public:
     bool getIgnoreZ() const;
     void setIgnoreZ(bool ignoreZ);
 
+    bool getGrayscaleSegments() const;
+    void setGrayscaleSegments(bool grayscaleSegments);
+
+    GrayscaleCode grayscaleCode() const;
+    void setGrayscaleCode(const GrayscaleCode &grayscaleCode);
+
+    int grayscaleMin() const;
+    void setGrayscaleMin(int grayscaleMin);
+
+    int grayscaleMax() const;
+    void setGrayscaleMax(int grayscaleMax);
+
 signals:
 
 public slots:
@@ -71,8 +83,10 @@ private:
     double m_simplifyPrecision;
 
     bool m_ignoreZ;
-    bool m_colorizeSegments;
-    ColorizeType m_colorizeType;
+    bool m_grayscaleSegments;
+    GrayscaleCode m_grayscaleCode;
+    int m_grayscaleMin;
+    int m_grayscaleMax;
 
     bool m_geometryUpdated;
 
