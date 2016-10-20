@@ -1376,7 +1376,6 @@ void frmMain::on_actFileExit_triggered()
 
 void frmMain::on_cmdFileOpen_clicked()
 {
-    // TODO: Store/restore last folder
     if (!m_heightMapMode) {
         if (!saveChanges(false)) return;
 
@@ -1781,10 +1780,17 @@ void frmMain::onTableDeleteLines()
 
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
+    if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
 
-    for (int i = 0; i < rowsCount && firstRow.row() != m_currentModel->rowCount() - 1; i++) {
-        m_currentModel->removeRow(firstRow.row());
-    }
+    qDebug() << "deleteLines" << firstRow.row() << rowsCount;
+
+    if (firstRow.row() != m_currentModel->rowCount() - 1) {
+        m_currentModel->removeRows(firstRow.row(), rowsCount);
+    } else return;
+
+//    for (int i = 0; i < rowsCount && firstRow.row() != m_currentModel->rowCount() - 1; i++) {
+//        m_currentModel->removeRow(firstRow.row());
+//    }
 
     // Drop heightmap cache
     if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
