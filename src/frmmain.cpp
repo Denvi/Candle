@@ -3240,17 +3240,26 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
 
-    if (checked) {
+    // Reset table view
+    QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+    ui->tblProgram->setModel(NULL);
+
+    CancelException cancel;
+
+    if (checked) try {
+
+        // Prepare progress dialog
+        QProgressDialog progress(tr("Applying heightmap..."), tr("Abort"), 0, 0, this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.setFixedSize(progress.sizeHint());
+        progress.show();
+        progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
 
         // Performance test
         QTime time;
 
         // Store fileChanged state
 //        fileChanged = m_fileChanged;
-
-        // Reset table view
-        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-        ui->tblProgram->setModel(NULL);
 
         // Set current model to prevent reseting heightmap cache
         m_currentModel = &m_programHeightmapModel;
@@ -3263,6 +3272,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
             QRectF borderRect = borderRectFromTextboxes();
             double x, y, z;
 
+            progress.setLabelText(tr("Subdividing segments..."));
+            progress.setMaximum(list->count() - 1);
             time.start();
 
             for (int i = 0; i < list->count(); i++) {
@@ -3276,11 +3287,20 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                         i--;
                     }
                 }
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
             }
 
             qDebug() << "Subdivide time: " << time.elapsed();
 
+            progress.setLabelText(tr("Updating Z-coordinates..."));
+            progress.setMaximum(list->count() - 1);
             time.start();
+
 
             for (int i = 0; i < list->count(); i++) {
                 if (i == 0) {
@@ -3294,10 +3314,18 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 y = list->at(i)->getEnd().y();
                 z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
                 list->at(i)->setEnd(QVector3D(x, y, z));
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
             }
 
             qDebug() << "Z update time (interpolation): " << time.elapsed();
 
+            progress.setLabelText(tr("Modifying G-code program..."));
+            progress.setMaximum(m_programModel.rowCount() - 2);
             time.start();
 
             // Modifying g-code program
@@ -3392,6 +3420,12 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     }
                 }
                 lastCommandIndex = commandIndex;
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
             }
         }
         qDebug() << "Model modification time: " << time.elapsed();
@@ -3407,11 +3441,18 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         // Update parser
         m_currentDrawer = m_codeDrawer;
         updateParser();
-    } else {
-        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-        ui->tblProgram->setModel(NULL);
-//        m_programHeightmapModel.clear();
+    }
+    catch (CancelException e) {
+        m_programHeightmapModel.clear();
+        m_currentModel = &m_programModel;
 
+        ui->tblProgram->setModel(&m_programModel);
+        ui->tblProgram->horizontalHeader()->restoreState(headerState);
+
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        ui->tblProgram->selectRow(0);
+        return;
+    } else {
         m_currentModel = &m_programModel;
 
         ui->tblProgram->setModel(&m_programModel);

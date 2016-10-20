@@ -16,6 +16,7 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QProgressDialog>
+#include <exception>
 
 #include "parser/gcodeviewparse.h"
 
@@ -57,6 +58,14 @@ struct CommandQueue {
     QString command;
     int tableIndex;
     bool showInConsole;
+};
+
+class CancelException : public std::exception {
+public:
+    const char* what() const _GLIBCXX_USE_NOEXCEPT
+    {
+        return "Operation was cancelled by user";
+    }
 };
 
 class frmMain : public QMainWindow
