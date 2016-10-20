@@ -143,9 +143,9 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QString &command,
 QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QStringList &commandArgs, const QVector3D &initial,
                                                          bool absoluteMode)
 {
-    static double x = qQNaN();
-    static double y = qQNaN();
-    static double z = qQNaN();
+    double x = qQNaN();
+    double y = qQNaN();
+    double z = qQNaN();
     char c;
 
     for (int i = 0; i < commandArgs.length(); i++) {
@@ -190,10 +190,10 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QVector3D &initia
 
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
-    static double i = qQNaN();
-    static double j = qQNaN();
-    static double k = qQNaN();
-    static double r = qQNaN();
+    double i = qQNaN();
+    double j = qQNaN();
+    double k = qQNaN();
+    double r = qQNaN();
     char c;
 
     foreach (QString t, commandArgs)

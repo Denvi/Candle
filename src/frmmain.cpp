@@ -1941,7 +1941,6 @@ void frmMain::updateParser()
 
         // Store args if none
         if (args.isEmpty()) {
-//            qDebug() << "updating args" << i;
             stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
             args = GcodePreprocessorUtils::splitCommand(stripped);
             m_currentModel->data()[i].args = args;
