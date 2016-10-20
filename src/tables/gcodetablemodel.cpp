@@ -85,7 +85,7 @@ bool GCodeTableModel::removeRow(int row, const QModelIndex &parent)
 bool GCodeTableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
-    for (int i = 0; i < count; i++) m_data.removeAt(row);
+    m_data.erase(m_data.begin() + row, m_data.begin() + row + count);
     endRemoveRows();
     return true;
 }

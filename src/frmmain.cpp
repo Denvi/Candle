@@ -1940,23 +1940,23 @@ void frmMain::updateParser()
 
     for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
         // Get stored args
-        args = m_currentModel->data(m_currentModel->index(i, 5)).toStringList();
+        args = m_currentModel->data().at(i).args;
 
         // Store args if none
         if (args.isEmpty()) {
 //            qDebug() << "updating args" << i;
-            stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
             args = GcodePreprocessorUtils::splitCommand(stripped);
-            m_currentModel->setData(m_currentModel->index(i, 5), QVariant(args));
+            m_currentModel->data()[i].args = args;
         }
 
         // Add command to parser
         gp.addCommand(args);
 
         // Update table model
-        m_currentModel->setData(m_currentModel->index(i, 2), GCodeItem::InQueue);
-        m_currentModel->setData(m_currentModel->index(i, 3), "");
-        m_currentModel->setData(m_currentModel->index(i, 4), gp.getCommandNumber());
+        m_currentModel->data()[i].state = GCodeItem::InQueue;
+        m_currentModel->data()[i].response = QString();
+        m_currentModel->data()[i].line = gp.getCommandNumber();
 
         if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
             progress.setValue(i);
