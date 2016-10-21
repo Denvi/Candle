@@ -22,10 +22,10 @@ public:
     QList<QVector3D> getPointArray();
     QList<double> getPoints();
 
-    QVector3D getStart();
+    QVector3D &getStart();
     void setStart(QVector3D vector);
 
-    QVector3D getEnd();
+    QVector3D &getEnd();
     void setEnd(QVector3D vector);
 
     void setToolHead(int head);

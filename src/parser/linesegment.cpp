@@ -79,7 +79,7 @@ QList<double> LineSegment::getPoints()
     return points;
 }
 
-QVector3D LineSegment::getStart() {
+QVector3D &LineSegment::getStart() {
     return this->m_first;
 }
 
@@ -88,7 +88,7 @@ void LineSegment::setStart(QVector3D vector)
     m_first = vector;
 }
 
-QVector3D LineSegment::getEnd() {
+QVector3D &LineSegment::getEnd() {
     return this->m_second;
 }
 

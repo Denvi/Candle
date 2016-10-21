@@ -99,6 +99,8 @@ frmMain::frmMain(QWidget *parent) :
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
+    m_ditherDrawer = new DitherDrawer();
+    m_ditherDrawer->setViewParser(&m_viewParser);
 
     QShortcut *insertShortcut = new QShortcut(QKeySequence(Qt::Key_Insert), ui->tblProgram);
     QShortcut *deleteShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->tblProgram);
@@ -111,8 +113,9 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), deleteShortcut->key());
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
-    ui->glwVisualizer->addDrawable(m_codeDrawer);
+//    ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(m_probeDrawer);
+    ui->glwVisualizer->addDrawable(m_ditherDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
@@ -1540,6 +1543,7 @@ void frmMain::loadFile(QList<QString> data)
 
     //  Update code drawer
     m_codeDrawer->update();
+    m_ditherDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
 
     resetHeightmap();

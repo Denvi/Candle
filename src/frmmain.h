@@ -27,6 +27,7 @@
 #include "drawers/heightmapgriddrawer.h"
 #include "drawers/heightmapinterpolationdrawer.h"
 #include "drawers/shaderdrawable.h"
+#include "drawers/ditherdrawer.h"
 
 #include "tables/gcodetablemodel.h"
 #include "tables/heightmaptablemodel.h"
@@ -185,9 +186,10 @@ private:
 
     OriginDrawer *m_originDrawer;
 
-    GcodeDrawer *m_codeDrawer;
+    GcodeDrawer *m_codeDrawer;    
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
+    DitherDrawer *m_ditherDrawer;
 
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
