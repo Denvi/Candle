@@ -207,14 +207,13 @@ bool GcodeDrawer::prepareRaster()
     qDebug() << "lines count" << list->count();
 
     double pixelSize = m_viewParser->getMinLength();
-    QSize resolution = m_viewParser->getResolution();
     QVector3D origin = m_viewParser->getMinimumExtremes();
 
     for (int i = 0; i < list->count(); i++) {
         if (!qIsNaN(list->at(i)->getEnd().length())) {
-            image.setPixel((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                           (resolution.height() - 1) - (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
-                           Qt::black);
+            image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
+                           (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
+                           getSegmentColor(list->at(i)));
         }
     }
 
@@ -256,7 +255,7 @@ bool GcodeDrawer::prepareRaster()
     vertices.append(vertex);
 
     if (!image.isNull()) {
-        m_texture = new QOpenGLTexture(image.mirrored());
+        m_texture = new QOpenGLTexture(image);
         m_triangles += vertices;
         m_image = image;
     } else {
@@ -277,14 +276,13 @@ bool GcodeDrawer::updateRaster()
         QList<LineSegment*> *list = m_viewParser->getLines();
 
         double pixelSize = m_viewParser->getMinLength();
-        QSize resolution = m_viewParser->getResolution();
         QVector3D origin = m_viewParser->getMinimumExtremes();
 
         foreach (int i, m_indexes) m_image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                                                         (resolution.height() - 1) - (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
+                                                         (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
                                                          getSegmentColor(list->at(i)));
 
-        if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.mirrored().bits());
+        if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.bits());
     }
 
     m_indexes.clear();
