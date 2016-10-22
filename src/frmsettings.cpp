@@ -532,14 +532,15 @@ void frmSettings::setGrayscaleSCode(bool value)
     ui->radGrayscaleZ->setChecked(!value);
 }
 
-bool frmSettings::ignoreZ()
+bool frmSettings::drawModeVectors()
 {
-    return ui->chkIgnoreZ->isChecked();
+    return ui->radDrawModeVectors->isChecked();
 }
 
-void frmSettings::setIgnoreZ(bool value)
+void frmSettings::setDrawModeVectors(bool value)
 {
-    ui->chkIgnoreZ->setChecked(value);
+    ui->radDrawModeVectors->setChecked(value);
+    ui->radDrawModeRaster->setChecked(!value);
 }
 
 void frmSettings::showEvent(QShowEvent *se)
@@ -615,7 +616,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setZBuffer(false);
     setGrayscaleSegments(false);
     setGrayscaleSCode(true);
-    setIgnoreZ(false);
+    setDrawModeVectors(true);
 
     setToolType(1);
     setToolAngle(15.0);
@@ -648,4 +649,32 @@ void frmSettings::on_cmdDefaults_clicked()
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
 {
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
+}
+
+void frmSettings::on_radDrawModeVectors_toggled(bool checked)
+{
+    ui->chkSimplify->setEnabled(checked);
+    ui->lblSimpilyPrecision->setEnabled(checked && ui->chkSimplify->isChecked());
+    ui->txtSimplifyPrecision->setEnabled(checked && ui->chkSimplify->isChecked());
+
+    ui->chkGrayscale->setEnabled(checked);
+    ui->radGrayscaleS->setEnabled(checked && ui->chkGrayscale->isChecked());
+    ui->radGrayscaleZ->setEnabled(checked && ui->chkGrayscale->isChecked());
+
+    ui->radDrawModeRaster->setChecked(!checked);
+}
+
+void frmSettings::on_radDrawModeRaster_toggled(bool checked)
+{
+    ui->radDrawModeVectors->setChecked(!checked);
+}
+
+void frmSettings::on_radGrayscaleS_toggled(bool checked)
+{
+    ui->radGrayscaleZ->setChecked(!checked);
+}
+
+void frmSettings::on_radGrayscaleZ_toggled(bool checked)
+{
+    ui->radGrayscaleS->setChecked(!checked);
 }

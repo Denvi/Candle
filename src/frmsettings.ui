@@ -71,7 +71,7 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-412</y>
+          <y>-530</y>
           <width>414</width>
           <height>1443</height>
          </rect>
@@ -754,25 +754,6 @@ QGroupBox {
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="2" column="4">
-               <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="maximum">
-                 <double>99.000000000000000</double>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="4">
                <widget class="QCheckBox" name="chkZBuffer">
                 <property name="text">
@@ -817,24 +798,6 @@ QGroupBox {
                 </item>
                </layout>
               </item>
-              <item row="1" column="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <item>
-                 <widget class="QCheckBox" name="chkVSync">
-                  <property name="text">
-                   <string>V-sync</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="chkSimplify">
-                <property name="text">
-                 <string>Simplify geometry</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
@@ -871,6 +834,36 @@ QGroupBox {
                 </item>
                </layout>
               </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Draw mode:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QRadioButton" name="radDrawModeVectors">
+                <property name="text">
+                 <string>Vectors</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QRadioButton" name="radDrawModeRaster">
+                <property name="text">
+                 <string>Raster</string>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="2">
                <spacer name="horizontalSpacer_5">
                 <property name="orientation">
@@ -887,49 +880,7 @@ QGroupBox {
                 </property>
                </spacer>
               </item>
-              <item row="2" column="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
-                <item>
-                 <widget class="QLabel" name="label_8">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Precision:</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="3">
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QCheckBox" name="chkAntialiasing">
-                  <property name="text">
-                   <string>Smoothing</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="3" column="0">
-               <widget class="QCheckBox" name="chkGrayscale">
-                <property name="text">
-                 <string>Grayscale segments</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="QRadioButton" name="radGrayscaleS">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>By 'S'-code</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="4">
+              <item row="4" column="4">
                <widget class="QRadioButton" name="radGrayscaleZ">
                 <property name="enabled">
                  <bool>false</bool>
@@ -937,12 +888,78 @@ QGroupBox {
                 <property name="text">
                  <string>By 'Z'-code</string>
                 </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QRadioButton" name="radGrayscaleS">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>By 'S'-code</string>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QCheckBox" name="chkIgnoreZ">
+               <widget class="QCheckBox" name="chkGrayscale">
                 <property name="text">
-                 <string>Ignore Z-coordinate</string>
+                 <string>Grayscale segments</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QDoubleSpinBox" name="txtSimplifyPrecision">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="maximum">
+                 <double>99.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="chkSimplify">
+                <property name="text">
+                 <string>Simplify geometry</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="lblSimpilyPrecision">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Precision:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QCheckBox" name="chkVSync">
+                <property name="text">
+                 <string>V-sync</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QCheckBox" name="chkAntialiasing">
+                <property name="text">
+                 <string>Smoothing</string>
                 </property>
                </widget>
               </item>
@@ -1510,114 +1527,18 @@ QGroupBox {
  </resources>
  <connections>
   <connection>
-   <sender>chkMoveOnRestore</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cboRestoreMode</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>333</x>
-     <y>-71</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>504</x>
-     <y>-72</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>chkAntialiasing</sender>
    <signal>toggled(bool)</signal>
    <receiver>radMSAA</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>393</x>
-     <y>293</y>
+     <x>363</x>
+     <y>240</y>
     </hint>
     <hint type="destinationlabel">
-     <x>504</x>
-     <y>293</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkSimplify</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_8</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>260</x>
-     <y>354</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>393</x>
-     <y>354</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkSimplify</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtSimplifyPrecision</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>260</x>
-     <y>354</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>504</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radArcDegreeMode</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtArcDegree</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>424</x>
-     <y>169</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>504</x>
-     <y>168</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkVSync</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cboFps</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>393</x>
-     <y>324</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>263</x>
-     <y>323</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkVSync</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_7</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>393</x>
-     <y>324</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>192</x>
-     <y>323</y>
+     <x>484</x>
+     <y>240</y>
     </hint>
    </hints>
   </connection>
@@ -1628,12 +1549,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>195</x>
-     <y>389</y>
+     <x>271</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>389</y>
+     <x>386</x>
+     <y>367</y>
     </hint>
    </hints>
   </connection>
@@ -1644,12 +1565,108 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>169</x>
-     <y>383</y>
+     <x>271</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
-     <x>403</x>
-     <y>383</y>
+     <x>487</x>
+     <y>367</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkVSync</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_7</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>271</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>184</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkVSync</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cboFps</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>271</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMoveOnRestore</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cboRestoreMode</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>333</x>
+     <y>-47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>498</x>
+     <y>-64</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radArcDegreeMode</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtArcDegree</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>421</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>498</x>
+     <y>169</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblSimpilyPrecision</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>338</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSimplify</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtSimplifyPrecision</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>487</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>

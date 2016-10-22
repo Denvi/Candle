@@ -107,8 +107,8 @@ public:
     void setGrayscaleSegments(bool value);
     bool grayscaleSCode();
     void setGrayscaleSCode(bool value);
-    bool ignoreZ();
-    void setIgnoreZ(bool value);
+    bool drawModeVectors();
+    void setDrawModeVectors(bool value);
 
 protected:
     void showEvent(QShowEvent *se);
@@ -125,6 +125,14 @@ private slots:
     void on_cmdDefaults_clicked();
 
     void on_cboFontSize_currentTextChanged(const QString &arg1);
+
+    void on_radDrawModeVectors_toggled(bool checked);
+
+    void on_radDrawModeRaster_toggled(bool checked);
+
+    void on_radGrayscaleS_toggled(bool checked);
+
+    void on_radGrayscaleZ_toggled(bool checked);
 
 private:
     Ui::frmSettings *ui;

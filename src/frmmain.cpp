@@ -99,8 +99,6 @@ frmMain::frmMain(QWidget *parent) :
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
-    m_ditherDrawer = new DitherDrawer();
-    m_ditherDrawer->setViewParser(&m_viewParser);
 
     QShortcut *insertShortcut = new QShortcut(QKeySequence(Qt::Key_Insert), ui->tblProgram);
     QShortcut *deleteShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->tblProgram);
@@ -113,9 +111,8 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), deleteShortcut->key());
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
-//    ui->glwVisualizer->addDrawable(m_codeDrawer);
+    ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(m_probeDrawer);
-    ui->glwVisualizer->addDrawable(m_ditherDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
@@ -244,7 +241,7 @@ void frmMain::loadSettings()
     m_settings.setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
     m_settings.setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
     m_settings.setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
-    m_settings.setIgnoreZ(set.value("ignoreZ", false).toBool());
+    m_settings.setDrawModeVectors(set.value("drawModeVectors", true).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
     m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
@@ -367,7 +364,7 @@ void frmMain::saveSettings()
     set.setValue("simplifyPrecision", m_settings.simplifyPrecision());
     set.setValue("grayscaleSegments", m_settings.grayscaleSegments());
     set.setValue("grayscaleSCode", m_settings.grayscaleSCode());
-    set.setValue("ignoreZ", m_settings.ignoreZ());
+    set.setValue("drawModeVectors", m_settings.drawModeVectors());
     set.setValue("jogStep", ui->txtJogStep->value());
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
     set.setValue("lineWidth", m_settings.lineWidth());
@@ -1543,7 +1540,6 @@ void frmMain::loadFile(QList<QString> data)
 
     //  Update code drawer
     m_codeDrawer->update();
-    m_ditherDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
 
     resetHeightmap();
@@ -1884,9 +1880,10 @@ void frmMain::applySettings() {
     m_codeDrawer->setColorZMovement(m_settings.colors("ToolpathZMovement"));
     m_codeDrawer->setColorStart(m_settings.colors("ToolpathStart"));
     m_codeDrawer->setColorEnd(m_settings.colors("ToolpathEnd"));
-    m_codeDrawer->setIgnoreZ(m_settings.ignoreZ());
+    m_codeDrawer->setIgnoreZ(m_settings.grayscaleSegments() || !m_settings.drawModeVectors());
     m_codeDrawer->setGrayscaleSegments(m_settings.grayscaleSegments());
     m_codeDrawer->setGrayscaleCode(m_settings.grayscaleSCode() ? GcodeDrawer::S : GcodeDrawer::Z);
+    m_codeDrawer->setDrawMode(m_settings.drawModeVectors() ? GcodeDrawer::Vectors : GcodeDrawer::Raster);
     m_codeDrawer->setGrayscaleMin(m_settings.laserPowerMin());
     m_codeDrawer->setGrayscaleMax(m_settings.laserPowerMax());
     m_codeDrawer->update();

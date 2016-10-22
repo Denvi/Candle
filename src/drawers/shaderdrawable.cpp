@@ -12,6 +12,7 @@ ShaderDrawable::ShaderDrawable()
     m_visible = true;
     m_lineWidth = 1.0;
     m_pointSize = 1.0;
+    m_texture = NULL;
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -28,7 +29,6 @@ void ShaderDrawable::init()
     // Create buffers
     m_vao.create();
     m_vbo.create();
-    m_indices.create();
 }
 
 void ShaderDrawable::update()
@@ -48,7 +48,6 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 
     // Prepare vbo
     m_vbo.bind();
-    m_indices.bind();
 
     // Update vertex buffer
     if (updateData()) {
@@ -57,17 +56,7 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
         vertexData += m_lines;
         vertexData += m_points;
         m_vbo.allocate(vertexData.constData(), vertexData.count() * sizeof(VertexData));
-
-        // Fill indices buffer
-//        if (!m_triangles.isEmpty()) {
-//            QVector<GLushort> indices;
-//            for (int i = 0; i < m_triangles.count(); i++) indices.append(i);
-
-//            qDebug() << "indices" << indices;
-//            m_indices.allocate(indices.constData(), indices.count() * sizeof(GLushort));
-//        }
     } else {
-        m_indices.release();
         m_vbo.release();        
         if (m_vao.isCreated()) m_vao.release();
         m_needsUpdateGeometry = false;
@@ -102,7 +91,6 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
         m_vao.release();
     }
 
-    m_indices.release();
     m_vbo.release();
 
     m_needsUpdateGeometry = false;
@@ -138,7 +126,6 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
     } else {
         // Prepare vbo
         m_vbo.bind();
-        m_indices.bind();
 
         // Offset for position
         quintptr offset = 0;
@@ -167,6 +154,10 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
 
     // TODO: Add triangles
     if (!m_triangles.isEmpty()) {
+        if (m_texture) {
+            m_texture->bind();
+            shaderProgram->setUniformValue("texture", 0);
+        }
         glDrawArrays(GL_TRIANGLES, 0, m_triangles.count());
     }
 
@@ -179,10 +170,7 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
         glDrawArrays(GL_POINTS, m_triangles.count() + m_lines.count(), m_points.count());
     }
 
-    if (m_vao.isCreated()) m_vao.release(); else {
-        m_indices.release();
-        m_vbo.release();
-    }
+    if (m_vao.isCreated()) m_vao.release(); else m_vbo.release();
 }
 
 QVector3D ShaderDrawable::getSizes()

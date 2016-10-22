@@ -189,7 +189,6 @@ private:
     GcodeDrawer *m_codeDrawer;    
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
-    DitherDrawer *m_ditherDrawer;
 
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;

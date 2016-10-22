@@ -62,8 +62,7 @@ SOURCES += main.cpp\
     widgets/scrollarea.cpp \
     widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
-    widgets/glwidget.cpp \
-    drawers/ditherdrawer.cpp
+    widgets/glwidget.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -91,8 +90,7 @@ HEADERS  += frmmain.h \
     widgets/scrollarea.h \
     widgets/styledtoolbutton.h \
     widgets/widget.h \
-    widgets/glwidget.h \
-    drawers/ditherdrawer.h
+    widgets/glwidget.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
