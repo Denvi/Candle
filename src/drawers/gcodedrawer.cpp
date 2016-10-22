@@ -143,13 +143,13 @@ bool GcodeDrawer::prepareVectors()
 bool GcodeDrawer::updateVectors()
 {
     // Update vertices
-    QList<LineSegment*> list = m_viewParser->getLineSegmentList();
+    QList<LineSegment*> *list = m_viewParser->getLines();
 
     // Get vertices indexes
     auto mm = std::minmax_element(m_indexes.begin(), m_indexes.end());
 
-    int vertexIndexFirst = qMax(list.at(*mm.first)->vertexIndex(), 0);
-    int vertexIndexLast = qMax(list.at(*mm.second)->vertexIndex(), 0);
+    int vertexIndexFirst = qMax(list->at(*mm.first)->vertexIndex(), 0);
+    int vertexIndexLast = qMax(list->at(*mm.second)->vertexIndex(), 0);
     int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
 
     // Allocate buffer
@@ -170,14 +170,14 @@ bool GcodeDrawer::updateVectors()
     int vertexIndex;
     foreach (int i, m_indexes) {
         // Update vertex pair
-        if (i < 0 || i > list.count() - 1) continue;
-        vertexIndex = list.at(i)->vertexIndex() - vertexIndexFirst;
+        if (i < 0 || i > list->count() - 1) continue;
+        vertexIndex = list->at(i)->vertexIndex() - vertexIndexFirst;
         if (vertexIndex >= 0) {
             // Update vertex array
             if (data[vertexIndex].color == drawnColor // If vertex of drawn segment
-                    && getSegmentColorVector(list.at(i)) == highlightColor); // dont highlight
+                    && getSegmentColorVector(list->at(i)) == highlightColor); // dont highlight
             else {
-                data[vertexIndex].color = getSegmentColorVector(list.at(i));
+                data[vertexIndex].color = getSegmentColorVector(list->at(i));
                 data[vertexIndex + 1].color = data[vertexIndex].color;
             }
         }
@@ -206,9 +206,15 @@ bool GcodeDrawer::prepareRaster()
     QList<LineSegment*> *list = m_viewParser->getLines();
     qDebug() << "lines count" << list->count();
 
+    double pixelSize = m_viewParser->getMinLength();
+    QSize resolution = m_viewParser->getResolution();
+    QVector3D origin = m_viewParser->getMinimumExtremes();
+
     for (int i = 0; i < list->count(); i++) {
         if (!qIsNaN(list->at(i)->getEnd().length())) {
-            image.setPixel(getCoords(list->at(i)), Qt::black);
+            image.setPixel((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
+                           (resolution.height() - 1) - (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
+                           Qt::black);
         }
     }
 
@@ -268,21 +274,21 @@ bool GcodeDrawer::updateRaster()
 {
     if (!m_image.isNull()) {
 
-        QList<LineSegment*> list = m_viewParser->getLineSegmentList();
+        QList<LineSegment*> *list = m_viewParser->getLines();
 
-        foreach (int i, m_indexes) m_image.setPixelColor(getCoords(list.at(i)), getSegmentColor(list.at(i)));
+        double pixelSize = m_viewParser->getMinLength();
+        QSize resolution = m_viewParser->getResolution();
+        QVector3D origin = m_viewParser->getMinimumExtremes();
+
+        foreach (int i, m_indexes) m_image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
+                                                         (resolution.height() - 1) - (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
+                                                         getSegmentColor(list->at(i)));
 
         if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.mirrored().bits());
     }
 
     m_indexes.clear();
     return false;
-}
-
-QPoint GcodeDrawer::getCoords(LineSegment *segment)
-{
-    return QPoint((segment->getEnd().x() + getMinimumExtremes().x()) / m_viewParser->getMinLength(),
-                  (m_viewParser->getResolution().height() - 1) - (segment->getEnd().y() + getMinimumExtremes().y()) / m_viewParser->getMinLength());
 }
 
 QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)

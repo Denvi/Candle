@@ -115,7 +115,6 @@ private:
     int getSegmentType(LineSegment *segment);
     QVector3D getSegmentColorVector(LineSegment *segment);
     QColor getSegmentColor(LineSegment *segment);
-    QPoint getCoords(LineSegment *segment);
 };
 
 #endif // GCODEDRAWER_H
