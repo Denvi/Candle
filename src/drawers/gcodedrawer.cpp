@@ -197,6 +197,8 @@ bool GcodeDrawer::prepareRaster()
     QImage image(m_viewParser->getResolution(), QImage::Format_RGB888);
     image.fill(Qt::white);
 
+    qDebug() << "image info" << m_viewParser->getResolution() << m_viewParser->getMinLength();
+
     // Create vertices array
     // Clear all vertex data
     m_lines.clear();
@@ -212,8 +214,8 @@ bool GcodeDrawer::prepareRaster()
     for (int i = 0; i < list->count(); i++) {
         if (!qIsNaN(list->at(i)->getEnd().length())) {
             image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                           (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
-                           getSegmentColor(list->at(i)));
+                                (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
+                                getSegmentColor(list->at(i)));
         }
     }
 

@@ -167,8 +167,6 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
         start = end;
     }
 
-    qDebug() << "viewparser info" << getMinLength() << getResolution();
-
     return m_lines;
 }
 

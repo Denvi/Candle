@@ -657,10 +657,6 @@ void frmSettings::on_radDrawModeVectors_toggled(bool checked)
     ui->lblSimpilyPrecision->setEnabled(checked && ui->chkSimplify->isChecked());
     ui->txtSimplifyPrecision->setEnabled(checked && ui->chkSimplify->isChecked());
 
-    ui->chkGrayscale->setEnabled(checked);
-    ui->radGrayscaleS->setEnabled(checked && ui->chkGrayscale->isChecked());
-    ui->radGrayscaleZ->setEnabled(checked && ui->chkGrayscale->isChecked());
-
     ui->radDrawModeRaster->setChecked(!checked);
 }
 
