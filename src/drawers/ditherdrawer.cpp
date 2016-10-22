@@ -15,6 +15,8 @@ DitherDrawer::DitherDrawer() : QObject()
 
     connect(&m_timerVertexUpdate, SIGNAL(timeout()), SLOT(onTimerVertexUpdate()));
     m_timerVertexUpdate.start(100);
+
+    m_texture = new QOpenGLTexture(QImage(QSize(1, 1), QImage::Format_RGB32));
 }
 
 void DitherDrawer::update()
@@ -34,6 +36,19 @@ void DitherDrawer::update(QList<int> indexes)
 bool DitherDrawer::updateData()
 {
     if (m_indexes.isEmpty()) {
+
+        QSize resolution = m_viewParser->getResolution();
+
+        if (resolution.width() < 0 || resolution.height() < 0) resolution = QSize(1, 1);
+
+        QSizeF size(m_viewParser->getMaximumExtremes().x() - m_viewParser->getMinimumExtremes().x(),
+                    m_viewParser->getMaximumExtremes().y() - m_viewParser->getMinimumExtremes().y());
+        double pixelSize = m_viewParser->getMinLength();
+
+        // Generate image
+        QImage image(resolution, QImage::Format_RGB32);
+        image.fill(Qt::white);
+
         qDebug() << "updating geometry" << this;
 
         QList<LineSegment*> *list = m_viewParser->getLines();
@@ -45,81 +60,51 @@ bool DitherDrawer::updateData()
         // Clear all vertex data
         m_lines.clear();
         m_points.clear();
+        m_triangles.clear();
 
-        bool drawFirstPoint = true;
         for (int i = 0; i < list->count(); i++) {
-
-            if (qIsNaN(list->at(i)->getEnd().z())) {
-//                qDebug() << "nan point" << list->at(i)->getEnd();
-                continue;
-            }
-
-            // Find first point of toolpath
-            if (drawFirstPoint) {
-
-                if (qIsNaN(list->at(i)->getEnd().x()) || qIsNaN(list->at(i)->getEnd().y())) continue;
-
-                // Draw first toolpath point
-                vertex.color = Util::colorToVector(m_colorStart);
-                vertex.position = list->at(i)->getEnd();
-                if (m_ignoreZ) vertex.position.setZ(0);
-                vertex.start = QVector3D(sNan, sNan, m_pointSize);
-                m_points.append(vertex);
-
-                drawFirstPoint = false;
-                continue;
-            }
-
-            // Prepare vertices
-            if (list->at(i)->isFastTraverse()) vertex.start = list->at(i)->getStart();
-            else vertex.start = QVector3D(sNan, sNan, sNan);
-
-            // Simplify geometry
-            int j = i;
-            if (m_simplify && i < list->count() - 1) {
-                QVector3D start = list->at(i)->getEnd() - list->at(i)->getStart();
-                QVector3D next;
-                double length = start.length();
-                bool straight = false;
-
-                do {
-                    list->at(i)->setVertexIndex(m_lines.count()); // Store vertex index
-                    i++;
-                    if (i < list->count() - 1) {
-                        next = list->at(i)->getEnd() - list->at(i)->getStart();
-                        length += next.length();
-//                        straight = start.crossProduct(start.normalized(), next.normalized()).length() < 0.025;
-                    }
-                // Split short & straight lines
-                } while ((length < m_simplifyPrecision || straight) && i < list->count()
-                         && getSegmentType(list->at(i)) == getSegmentType(list->at(j)));
-                i--;
-            } else {
-                list->at(i)->setVertexIndex(m_lines.count()); // Store vertex index
-            }
-
-            // Set color
-            vertex.color = getSegmentColor(list->at(i));
-
-            // Line start
-            vertex.position = list->at(j)->getStart();
-            if (m_ignoreZ) vertex.position.setZ(0);
-            m_lines.append(vertex);
-
-            // Line end
-            vertex.position = list->at(i)->getEnd();
-            if (m_ignoreZ) vertex.position.setZ(0);
-            m_lines.append(vertex);
-
-            // Draw last toolpath point
-            if (i == list->count() - 1) {
-                vertex.color = Util::colorToVector(m_colorEnd);
-                vertex.position = list->at(i)->getEnd();
-                if (m_ignoreZ) vertex.position.setZ(0);
-                vertex.start = QVector3D(sNan, sNan, m_pointSize);
-                m_points.append(vertex);
+            if (!qIsNaN(list->at(i)->getEnd().length())) {
+                image.setPixel(list->at(i)->getEnd().x() / pixelSize, resolution.height() - list->at(i)->getEnd().y() / pixelSize, Qt::black);
             }
         }
+
+        image.save("f:\\test.png", 0, 100);
+
+        if (m_texture) delete m_texture;
+        m_texture = new QOpenGLTexture(image.mirrored());
+
+        // Set color
+        vertex.color = Util::colorToVector(Qt::red);
+
+        // Rect
+        vertex.start = QVector3D(sNan, 0, 0);
+        vertex.position = QVector3D(0, 0, 0);
+        m_triangles.append(vertex);
+
+        vertex.start = QVector3D(sNan, 1, 1);
+        vertex.position = QVector3D(size.width(), size.height(), 0);
+        m_triangles.append(vertex);
+
+        vertex.start = QVector3D(sNan, 0, 1);
+        vertex.position = QVector3D(0, size.height(), 0);
+        m_triangles.append(vertex);
+
+        vertex.start = QVector3D(sNan, 0, 0);
+        vertex.position = QVector3D(0, 0, 0);
+        m_triangles.append(vertex);
+
+        vertex.start = QVector3D(sNan, 1, 0);
+        vertex.position = QVector3D(size.width(), 0, 0);
+        m_triangles.append(vertex);
+
+        vertex.start = QVector3D(sNan, 1, 1);
+        vertex.position = QVector3D(size.width(), size.height(), 0);
+        m_triangles.append(vertex);
+
+//        vertex.start = QVector3D(sNan, sNan, sNan);
+//        vertex.position = QVector3D(size.width(), 0, 0);
+//        m_triangles.append(vertex);
+
         m_indexes.clear();
         m_geometryUpdated = true;
         return true;
@@ -172,6 +157,15 @@ bool DitherDrawer::updateData()
         m_indexes.clear();
         return false; // Update only vao
     }
+}
+
+void DitherDrawer::draw(QOpenGLShaderProgram *shaderProgram)
+{
+    m_texture->bind();
+
+    shaderProgram->setUniformValue("texture", 0);
+
+    ShaderDrawable::draw(shaderProgram);
 }
 
 QVector3D DitherDrawer::getSegmentColor(LineSegment *segment)

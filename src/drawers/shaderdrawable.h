@@ -21,7 +21,7 @@ public:
     explicit ShaderDrawable();
     ~ShaderDrawable();
     void update();
-    void draw(QOpenGLShaderProgram *shaderProgram);
+    virtual void draw(QOpenGLShaderProgram *shaderProgram);
 
     bool needsUpdateGeometry() const;
     void updateGeometry(QOpenGLShaderProgram *shaderProgram = 0);
@@ -50,17 +50,18 @@ protected:
     bool m_visible;
     QVector<VertexData> m_lines;
     QVector<VertexData> m_points;
+    QVector<VertexData> m_triangles;
 
     QOpenGLBuffer m_vbo; // Protected for direct vbo access
 
     virtual bool updateData();
+    void init();
 
 private:
     QOpenGLVertexArrayObject m_vao;
+    QOpenGLBuffer m_indices;
 
     bool m_needsUpdateGeometry;
-
-    void init();
 };
 
 #endif // SHADERDRAWABLE_H

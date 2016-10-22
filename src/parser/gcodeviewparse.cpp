@@ -91,9 +91,9 @@ double GcodeViewParse::getMinLength() const
     return m_minLength;
 }
 
-QPoint GcodeViewParse::getResolution() const
+QSize GcodeViewParse::getResolution() const
 {
-    return QPoint((m_max.x() - m_min.x()) / m_minLength, (m_max.y() - m_min.y()) / m_minLength);
+    return QSize((m_max.x() - m_min.x()) / m_minLength, (m_max.y() - m_min.y()) / m_minLength);
 }
 
 QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)

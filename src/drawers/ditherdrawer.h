@@ -6,6 +6,8 @@
 
 #include <QObject>
 #include <QVector3D>
+#include <QImage>
+#include <QOpenGLTexture>
 #include "parser/linesegment.h"
 #include "parser/gcodeviewparse.h"
 #include "shaderdrawable.h"
@@ -21,6 +23,7 @@ public:
     void update();
     void update(QList<int> indexes);
     bool updateData();
+    void draw(QOpenGLShaderProgram *shaderProgram);
 
     QVector3D getSizes();
     QVector3D getMinimumExtremes();
@@ -103,6 +106,8 @@ private:
 
     int getSegmentType(LineSegment *segment);
     QVector3D getSegmentColor(LineSegment *segment);
+
+    QOpenGLTexture *m_texture;
 };
 
 #endif // DITHERDRAWER_H
