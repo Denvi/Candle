@@ -88,16 +88,11 @@ private:
 
     bool m_simplify;
     double m_simplifyPrecision;
-
     bool m_ignoreZ;
     bool m_grayscaleSegments;
     GrayscaleCode m_grayscaleCode;
     int m_grayscaleMin;
     int m_grayscaleMax;   
-
-    bool m_geometryUpdated;
-
-    QTimer m_timerVertexUpdate;
 
     QColor m_colorNormal;
     QColor m_colorDrawn;
@@ -106,7 +101,11 @@ private:
     QColor m_colorStart;
     QColor m_colorEnd;
 
+    QTimer m_timerVertexUpdate;
+
+    QImage m_image;
     QList<int> m_indexes;
+    bool m_geometryUpdated;
 
     bool prepareVectors();
     bool updateVectors();
@@ -114,7 +113,9 @@ private:
     bool updateRaster();
 
     int getSegmentType(LineSegment *segment);
-    QVector3D getSegmentColor(LineSegment *segment);
+    QVector3D getSegmentColorVector(LineSegment *segment);
+    QColor getSegmentColor(LineSegment *segment);
+    QPoint getCoords(LineSegment *segment);
 };
 
 #endif // GCODEDRAWER_H

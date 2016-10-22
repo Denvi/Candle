@@ -27,7 +27,6 @@
 #include "drawers/heightmapgriddrawer.h"
 #include "drawers/heightmapinterpolationdrawer.h"
 #include "drawers/shaderdrawable.h"
-#include "drawers/ditherdrawer.h"
 
 #include "tables/gcodetablemodel.h"
 #include "tables/heightmaptablemodel.h"
