@@ -243,9 +243,7 @@ void frmMain::loadSettings()
     m_settings.setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
     m_settings.setDrawModeVectors(set.value("drawModeVectors", true).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
-    m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
-    m_programSpeed = false;
     m_settings.setMoveOnRestore(set.value("moveOnRestore", false).toBool());
     m_settings.setRestoreMode(set.value("restoreMode", 0).toInt());
     m_settings.setLineWidth(set.value("lineWidth", 1).toDouble());
@@ -618,9 +616,7 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
         int speed = s.cap(1).toInt();
         if (ui->txtSpindleSpeed->value() != speed) {
             ui->txtSpindleSpeed->setValue(speed);
-            m_programSpeed = true;
             ui->sliSpindleSpeed->setValue(speed / 100);
-            m_programSpeed = false;
         }
     }
 
@@ -896,14 +892,10 @@ void frmMain::onSerialPortReadyRead()
                         if (!response.contains("M5")) {
                             m_spindleCW = response.contains("M3");
                             m_timerToolAnimation.start(25, this);
-                            m_programSpeed = true;
                             ui->cmdSpindle->setChecked(true);
-                            m_programSpeed = false;
                         } else {
                             m_timerToolAnimation.stop();
-                            m_programSpeed = true;
                             ui->cmdSpindle->setChecked(false);
-                            m_programSpeed = false;
                         }
 
                         // Spindle speed
@@ -2083,7 +2075,6 @@ void frmMain::on_cmdSafePosition_clicked()
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
 {
-    if (!m_programSpeed) sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5", -1, m_settings.showUICommands());
     ui->grpSpindle->setProperty("overrided", checked);
     style()->unpolish(ui->grpSpindle);
     ui->grpSpindle->ensurePolished();
@@ -2095,12 +2086,15 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
     }
 }
 
+void frmMain::on_cmdSpindle_clicked(bool checked)
+{
+    sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5", -1, m_settings.showUICommands());
+}
+
 void frmMain::on_txtSpindleSpeed_editingFinished()
 {
     ui->txtSpindleSpeed->setStyleSheet("color: red;");
-    m_programSpeed = true;
     ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
-    m_programSpeed = false;
     m_updateSpindleSpeed = true;
 }
 
@@ -2108,16 +2102,16 @@ void frmMain::on_sliSpindleSpeed_valueChanged(int value)
 {
     Q_UNUSED(value)
 
-    if (!m_programSpeed) {
-        ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->value() * 100);
-//        sendCommand(QString("S%1").arg(ui->sliSpindleSpeed->value() * 100), -2);
-        m_updateSpindleSpeed = true;
-    }
-
     ui->txtSpindleSpeed->setStyleSheet("color: red;");
 
     if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+}
+
+void frmMain::on_sliSpindleSpeed_actionTriggered(int action)
+{
+    ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->sliderPosition() * 100);
+    m_updateSpindleSpeed = true;
 }
 
 void frmMain::on_cmdYPlus_clicked()

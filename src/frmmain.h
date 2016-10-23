@@ -167,6 +167,10 @@ private slots:
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
 
+    void on_sliSpindleSpeed_actionTriggered(int action);
+
+    void on_cmdSpindle_clicked(bool checked);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
@@ -249,7 +253,6 @@ private:
     bool m_settingZeroXY = false;
     bool m_settingZeroZ = false;
     bool m_homing = false;
-    bool m_programSpeed = false;
     bool m_updateSpindleSpeed = false;
     bool m_updateParserStatus = false;
     bool m_updateFeed = false;
