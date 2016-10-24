@@ -8,7 +8,7 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-Version 1.0 release:
+Version 1.0 pre-release:
 --------------------
 
 * Added "Grayscale segments"-option and "Raster"-mode to visualize laser jobs.
