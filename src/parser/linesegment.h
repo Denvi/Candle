@@ -39,7 +39,7 @@ public:
     void setIsFastTraverse(bool isF);
     bool isFastTraverse();
 
-    bool contains(QVector3D point);
+    bool contains(const QVector3D &point);
 
     bool drawn() const;
     void setDrawn(bool drawn);

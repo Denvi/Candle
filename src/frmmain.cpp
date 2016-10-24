@@ -814,14 +814,16 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtWPosX->setText(wpx.cap(1));
                 ui->txtWPosY->setText(wpx.cap(2));
                 ui->txtWPosZ->setText(wpx.cap(3));
+                QVector3D toolPosition;
 
                 // Update tool position
                 if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
-                    m_toolDrawer.setToolPosition(QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
-                                                           toMetric(ui->txtWPosY->text().toDouble()),
-                                                           m_codeDrawer->getIgnoreZ() ? 0 :
-                                                           toMetric(ui->txtWPosZ->text().toDouble())));
+                    toolPosition = QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
+                                             toMetric(ui->txtWPosY->text().toDouble()),
+                                             toMetric(ui->txtWPosZ->text().toDouble()));
+                    m_toolDrawer.setToolPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
                 }
+
 
                 // toolpath shadowing
                 if (m_processingFile && status != CHECK) {
@@ -835,7 +837,7 @@ void frmMain::onSerialPortReadyRead()
                     for (int i = m_lastDrawnLineIndex; i < list.count()
                          && list.at(i)->getLineNumber()
                          <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                        if (list.at(i)->contains(m_toolDrawer.toolPosition())) {
+                        if (list.at(i)->contains(toolPosition)) {
                             toolOntoolpath = true;
                             m_lastDrawnLineIndex = i;
                             break;
@@ -1878,7 +1880,7 @@ void frmMain::applySettings() {
     m_codeDrawer->setDrawMode(m_settings.drawModeVectors() ? GcodeDrawer::Vectors : GcodeDrawer::Raster);
     m_codeDrawer->setGrayscaleMin(m_settings.laserPowerMin());
     m_codeDrawer->setGrayscaleMax(m_settings.laserPowerMax());
-    m_codeDrawer->update();
+    m_codeDrawer->update();    
 
     // Adapt visualizer buttons colors
     const int LIGHTBOUND = 127;

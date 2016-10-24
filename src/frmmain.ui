@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Candle</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>images/candle_256.png</normaloff>images/candle_256.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">/*QWidget {
 	font-size: 9pt;

@@ -139,7 +139,7 @@ bool LineSegment::isFastTraverse() {
     return this->m_isFastTraverse;
 }
 
-bool LineSegment::contains(QVector3D point)
+bool LineSegment::contains(const QVector3D &point)
 {
     double delta;
     QVector3D line = this->getEnd() - this->getStart();
