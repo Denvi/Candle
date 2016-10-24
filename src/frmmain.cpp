@@ -1335,6 +1335,8 @@ void frmMain::closeEvent(QCloseEvent *ce)
 
 void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 {
+    if (m_processingFile) return;
+
     if (dee->mimeData()->hasFormat("text/plain") && !m_heightMapMode) dee->acceptProposedAction();
     else if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
         QString fileName = dee->mimeData()->urls().at(0).toLocalFile();
@@ -1346,7 +1348,7 @@ void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 }
 
 void frmMain::dropEvent(QDropEvent *de)
-{
+{    
     QString fileName = de->mimeData()->urls().at(0).toLocalFile();
 
     if (!m_heightMapMode) {
