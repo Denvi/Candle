@@ -8,24 +8,30 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-Version 0.9 release:
+Version 1.0 release:
 --------------------
-* "Restore origin" function has "move tool in plane/space" setting now.
-* "Safe position" function can be customized with command list.
-* Visualizer works with OpenGL/Angle/Software renderer.
-* Some bugs fixed.
+
+* Added "Grayscale segments"-option and "Raster"-mode to visualize laser jobs.
+* Significantly improved performance of:
+ * File loading.
+ * G-code program modification by heightmap.
+ * "Autoscroll"-feature.
+* Programs with about 5 million lines can be loaded now.
 
 Downloads:
 ----------
-* Windows: [candle_0.9.zip](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.zip)
-* Linux: [candle_0.9.tar.gz](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.tar.gz)
+* Windows: [candle_1.0.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.zip)
 
 Build requirements:
 ------------------
-Qt 5.5.0 with MinGW compiler
+Qt 5.7.0 with MinGW compiler
 
 Previous versions:
 -----------------
+0.9
+* Windows: [candle_0.9.zip](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.zip)
+* Linux: [candle_0.9.tar.gz](https://github.com/Denvi/Candle/releases/download/v0.9/Candle_0.9.tar.gz)
+
 0.8.4
 * Windows: [grblControl_0.8.4.zip](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.zip)
 * Linux: [grblControl_0.8.4.tar.gz](https://github.com/Denvi/grblControl/releases/download/v0.8.4/grblControl_0.8.4.tar.gz)
@@ -43,6 +49,13 @@ Previous versions:
 * Windows XP: [grblControl_0.5.2_xp.zip](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2_xp.zip)
 * Linux: [grblControl_0.5.2.tar.gz](https://github.com/Denvi/grblControl/releases/download/0.5.2/grblControl_0.5.2.tar.gz)
 
+
+Version 0.9 release:
+--------------------
+* "Restore origin" function has "move tool in plane/space" setting now.
+* "Safe position" function can be customized with command list.
+* Visualizer works with OpenGL/Angle/Software renderer.
+* Some bugs fixed.
 
 Version 0.7 release:
 --------------------
