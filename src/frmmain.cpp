@@ -2586,11 +2586,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                         }
                     }
                 } else if (keyEvent->key() == Qt::Key_0) {
-                    ui->cmdSpindle->toggle();
+                    ui->cmdSpindle->click();
                 } else if (keyEvent->key() == Qt::Key_7) {
-                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() + 1);
+                    ui->sliSpindleSpeed->setSliderPosition(ui->sliSpindleSpeed->sliderPosition() + 1);
                 } else if (keyEvent->key() == Qt::Key_1) {
-                    ui->sliSpindleSpeed->setValue(ui->sliSpindleSpeed->value() - 1);
+                    ui->sliSpindleSpeed->setSliderPosition(ui->sliSpindleSpeed->sliderPosition() - 1);
                 }
             }
 
