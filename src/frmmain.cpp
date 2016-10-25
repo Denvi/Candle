@@ -3247,10 +3247,6 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
 //    static bool fileChanged;
 
-    ui->grpHeightMap->setProperty("overrided", checked);
-    style()->unpolish(ui->grpHeightMap);
-    ui->grpHeightMap->ensurePolished();
-
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
     ui->tblProgram->setModel(NULL);
@@ -3301,6 +3297,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 }
 
                 if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setMaximum(list->count() - 1);
                     progress.setValue(i);
                     qApp->processEvents();
                     if (progress.wasCanceled()) throw cancel;
@@ -3461,6 +3458,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
         ui->tblProgram->selectRow(0);
+
+        ui->chkHeightMapUse->setChecked(false);
+
         return;
     } else {                                        // Restore original program
         m_currentModel = &m_programModel;
@@ -3475,6 +3475,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         updateParser();
         m_fileChanged = fileChanged;
     }
+
+    // Update groupbox title
+    ui->grpHeightMap->setProperty("overrided", checked);
+    style()->unpolish(ui->grpHeightMap);
+    ui->grpHeightMap->ensurePolished();
 
     // Update menu
     ui->actFileSaveTransformedAs->setVisible(checked);

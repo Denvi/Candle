@@ -190,7 +190,7 @@ QVector3D ShaderDrawable::getMaximumExtremes()
 
 int ShaderDrawable::getVertexCount()
 {
-    return m_lines.count() + m_points.count();
+    return m_lines.count() + m_points.count() + m_triangles.count();
 }
 
 double ShaderDrawable::lineWidth() const
