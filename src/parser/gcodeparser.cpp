@@ -326,9 +326,6 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
 
-//    if (code.length() > 1 && code.startsWith("0"))
-//        code = code.mid(1);
-
     double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
     if (!qIsNaN(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
 
@@ -353,7 +350,6 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     else if (code == 91) this->m_inAbsoluteMode = false;
     else if (code == 91.1) this->m_inAbsoluteIJKMode = false;
 
-//    if (code.indexOf(QRegExp("0|1|2|3|38.2")) != -1) this->m_lastGcodeCommand = code;
     if (code == 0 || code == 1 || code == 2 || code == 3 || code == 38.2) this->m_lastGcodeCommand = code;
 
     return ps;

@@ -1073,6 +1073,9 @@ QSlider::handle:horizontal:hover {
                </property>
                <item>
                 <widget class="QLineEdit" name="txtWPosX">
+                 <property name="toolTip">
+                  <string>X</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
@@ -1086,6 +1089,9 @@ QSlider::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QLineEdit" name="txtWPosY">
+                 <property name="toolTip">
+                  <string>Y</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
@@ -1099,6 +1105,9 @@ QSlider::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QLineEdit" name="txtWPosZ">
+                 <property name="toolTip">
+                  <string>Z</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
@@ -1137,6 +1146,9 @@ QSlider::handle:horizontal:hover {
                </property>
                <item>
                 <widget class="QLineEdit" name="txtMPosX">
+                 <property name="toolTip">
+                  <string>X</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
@@ -1150,6 +1162,9 @@ QSlider::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QLineEdit" name="txtMPosY">
+                 <property name="toolTip">
+                  <string>Y</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
@@ -1163,6 +1178,9 @@ QSlider::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QLineEdit" name="txtMPosZ">
+                 <property name="toolTip">
+                  <string>Z</string>
+                 </property>
                  <property name="text">
                   <string>0</string>
                  </property>
