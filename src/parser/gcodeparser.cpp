@@ -219,15 +219,19 @@ int GcodeParser::getCommandNumber() const
 PointSegment *GcodeParser::processCommand(const QStringList &args)
 {
     QList<float> gCodes;
-    QList<float> mCodes;
     PointSegment *ps = NULL;
 
-    // handle G codes.
-    mCodes = GcodePreprocessorUtils::parseCodes(args, 'M');
+    // Handle F code
+    double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
+    if (!qIsNaN(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
 
-    foreach (float i, mCodes) {
-        handleMCode(i, args);
-    }
+    // Handle S code
+    double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
+    if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
+
+    // Handle P code
+    double dwell = GcodePreprocessorUtils::parseCoord(args, 'P');
+    if (!qIsNaN(dwell)) this->m_points.last()->setDwell(dwell);
 
     // handle G codes.
     gCodes = GcodePreprocessorUtils::parseCodes(args, 'G');
@@ -325,15 +329,6 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     PointSegment *ps = NULL;
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
-
-    double speed = GcodePreprocessorUtils::parseCoord(args, 'F');
-    if (!qIsNaN(speed)) this->m_lastSpeed = this->m_isMetric ? speed : speed * 25.4;
-
-    double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
-    if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
-
-    double dwell = GcodePreprocessorUtils::parseCoord(args, 'P');
-    if (!qIsNaN(dwell)) this->m_points.last()->setDwell(dwell);
 
     if (code == 0) ps = addLinearPointSegment(nextPoint, true);
     else if (code == 1) ps = addLinearPointSegment(nextPoint, false);
