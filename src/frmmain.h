@@ -209,7 +209,7 @@ private:
 
     QSerialPort m_serialPort;
 
-    frmSettings m_settings;
+    frmSettings *m_settings;
     frmAbout m_frmAbout;
 
     QString m_settingsFileName;

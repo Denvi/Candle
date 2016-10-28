@@ -209,11 +209,11 @@ void GcodeParser::setTraverseSpeed(double traverseSpeed)
 {
     m_traverseSpeed = traverseSpeed;
 }
+
 int GcodeParser::getCommandNumber() const
 {
     return m_commandNumber - 1;
 }
-
 
 
 PointSegment *GcodeParser::processCommand(const QStringList &args)
