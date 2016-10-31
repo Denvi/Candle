@@ -71,9 +71,9 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>414</width>
-          <height>1372</height>
+          <y>-884</y>
+          <width>402</width>
+          <height>1657</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -507,6 +507,107 @@ QGroupBox {
                </spacer>
               </item>
              </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="groupBox_5">
+           <property name="title">
+            <string>User commands</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <item>
+             <widget class="QLabel" name="label_34">
+              <property name="styleSheet">
+               <string notr="true">padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Button 1:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtUserCommand0">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_36">
+              <property name="styleSheet">
+               <string notr="true">padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Button 2:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtUserCommand1">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_37">
+              <property name="styleSheet">
+               <string notr="true">padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Button 3:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtUserCommand2">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_39">
+              <property name="styleSheet">
+               <string notr="true">padding-top: 3;</string>
+              </property>
+              <property name="text">
+               <string>Button 4:</string>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="txtUserCommand3">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Command 1; command 2; ...</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1071,16 +1172,23 @@ QGroupBox {
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
+             <widget class="QCheckBox" name="chkPanelUserCommands">
+              <property name="text">
+               <string>User commands</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
              <widget class="QCheckBox" name="chkPanelHeightmap">
               <property name="text">
                <string>Heightmap</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QCheckBox" name="chkPanelFeed">
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="chkPanelJog">
               <property name="text">
-               <string>Feed</string>
+               <string>Jog</string>
               </property>
              </widget>
             </item>
@@ -1092,9 +1200,9 @@ QGroupBox {
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QCheckBox" name="chkPanelJog">
+             <widget class="QCheckBox" name="chkPanelFeed">
               <property name="text">
-               <string>Jog</string>
+               <string>Feed</string>
               </property>
              </widget>
             </item>
@@ -1437,10 +1545,6 @@ QGroupBox {
   <tabstop>chkShowProgramCommands</tabstop>
   <tabstop>chkShowUICommands</tabstop>
   <tabstop>chkAutocompletion</tabstop>
-  <tabstop>chkPanelHeightmap</tabstop>
-  <tabstop>chkPanelFeed</tabstop>
-  <tabstop>chkPanelSpindle</tabstop>
-  <tabstop>chkPanelJog</tabstop>
   <tabstop>cboFontSize</tabstop>
   <tabstop>cmdDefaults</tabstop>
   <tabstop>cmdOK</tabstop>

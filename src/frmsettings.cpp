@@ -450,6 +450,16 @@ void frmSettings::setSimplifyPrecision(double simplifyPrecision)
     ui->txtSimplifyPrecision->setValue(simplifyPrecision);
 }
 
+bool frmSettings::panelUserCommands()
+{
+    return ui->chkPanelUserCommands->isChecked();
+}
+
+void frmSettings::setPanelUserCommands(bool value)
+{
+    ui->chkPanelUserCommands->setChecked(value);
+}
+
 bool frmSettings::panelHeightmap()
 {
     return ui->chkPanelHeightmap->isChecked();
@@ -541,6 +551,16 @@ void frmSettings::setDrawModeVectors(bool value)
 {
     ui->radDrawModeVectors->setChecked(value);
     ui->radDrawModeRaster->setChecked(!value);
+}
+
+QString frmSettings::userCommands(int index)
+{
+    return this->findChild<QLineEdit*>(QString("txtUserCommand%1").arg(index))->text();
+}
+
+void frmSettings::setUserCommands(int index, QString commands)
+{
+    this->findChild<QLineEdit*>(QString("txtUserCommand%1").arg(index))->setText(commands);
 }
 
 void frmSettings::showEvent(QShowEvent *se)

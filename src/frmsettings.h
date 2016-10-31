@@ -91,6 +91,8 @@ public:
     void setSimplify(bool simplify);
     double simplifyPrecision();
     void setSimplifyPrecision(double simplifyPrecision);
+    bool panelUserCommands();
+    void setPanelUserCommands(bool value);
     bool panelHeightmap();
     void setPanelHeightmap(bool panelHeightmap);
     bool panelSpindle();
@@ -109,6 +111,8 @@ public:
     void setGrayscaleSCode(bool value);
     bool drawModeVectors();
     void setDrawModeVectors(bool value);
+    QString userCommands(int index);
+    void setUserCommands(int index, QString commands);
 
 protected:
     void showEvent(QShowEvent *se);

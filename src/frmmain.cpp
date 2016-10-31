@@ -91,6 +91,10 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
+    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
+        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
+    }
+
     m_originDrawer = new OriginDrawer();
     m_codeDrawer = new GcodeDrawer();
     m_codeDrawer->setViewParser(&m_viewParser);
@@ -266,6 +270,7 @@ void frmMain::loadSettings()
     m_settings->setFps(set.value("fps", 60).toInt());
     m_settings->setQueryStateTime(set.value("queryStateTime", 250).toInt());
 
+    m_settings->setPanelUserCommands(set.value("panelUserCommandsVisible", true).toBool());
     m_settings->setPanelHeightmap(set.value("panelHeightmapVisible", true).toBool());
     m_settings->setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
     m_settings->setPanelFeed(set.value("panelFeedVisible", true).toBool());
@@ -305,6 +310,7 @@ void frmMain::loadSettings()
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
+    ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
     ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
     ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
@@ -318,6 +324,11 @@ void frmMain::loadSettings()
     m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
     m_settings->setTouchCommand(set.value("touchCommand").toString());
     m_settings->setSafePositionCommand(set.value("safePositionCommand").toString());
+
+    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
+        int i = button->objectName().right(1).toInt();
+        m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
+    }
 
     ui->txtHeightMapBorderX->setValue(set.value("heightmapBorderX", 0).toDouble());
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
@@ -394,6 +405,7 @@ void frmMain::saveSettings()
     set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
     set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
     set.setValue("feed", ui->txtFeed->value());
+    set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
     set.setValue("heightmapPanel", ui->grpHeightMap->isChecked());
     set.setValue("spindlePanel", ui->grpSpindle->isChecked());
     set.setValue("feedPanel", ui->grpFeed->isChecked());
@@ -409,12 +421,18 @@ void frmMain::saveSettings()
     set.setValue("lastFolder", m_lastFolder);
     set.setValue("touchCommand", m_settings->touchCommand());
     set.setValue("safePositionCommand", m_settings->safePositionCommand());
+    set.setValue("panelUserCommandsVisible", m_settings->panelUserCommands());
     set.setValue("panelHeightmapVisible", m_settings->panelHeightmap());
     set.setValue("panelSpindleVisible", m_settings->panelSpindle());
     set.setValue("panelFeedVisible", m_settings->panelFeed());
     set.setValue("panelJogVisible", m_settings->panelJog());
     set.setValue("fontSize", m_settings->fontSize());
     set.setValue("consoleMinHeight", ui->grpConsole->minimumHeight());
+
+    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
+        int i = button->objectName().right(1).toInt();
+        set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
+    }
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -1863,6 +1881,7 @@ void frmMain::applySettings() {
     ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelFeed()
                                || m_settings->panelJog() || m_settings->panelSpindle());
 
+    ui->grpUserCommands->setVisible(m_settings->panelUserCommands());
     ui->grpHeightMap->setVisible(m_settings->panelHeightmap());
     ui->grpSpindle->setVisible(m_settings->panelSpindle());
     ui->grpFeed->setVisible(m_settings->panelFeed());
@@ -1920,6 +1939,10 @@ void frmMain::applySettings() {
     ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
+
+    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
+        button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
+    }
 }
 
 void frmMain::updateParser()
@@ -2500,6 +2523,11 @@ void frmMain::on_grpJog_toggled(bool checked)
     updateLayouts();
 
     ui->widgetJog->setVisible(checked);
+}
+
+void frmMain::on_grpUserCommands_toggled(bool checked)
+{
+    ui->widgetUserCommands->setVisible(checked);
 }
 
 void frmMain::blockJogForRapidMovement(bool repeated) {
@@ -3555,4 +3583,15 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
 bool frmMain::compareCoordinates(double x, double y, double z)
 {
     return ui->txtMPosX->text().toDouble() == x && ui->txtMPosY->text().toDouble() == y && ui->txtMPosZ->text().toDouble() == z;
+}
+
+void frmMain::onCmdUserClicked(bool checked)
+{
+    int i = sender()->objectName().right(1).toInt();
+
+    QStringList list = m_settings->userCommands(i).split(";");
+
+    foreach (QString cmd, list) {
+        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+    }
 }

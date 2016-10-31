@@ -97,6 +97,7 @@ private slots:
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onConsoleResized(QSize size);
     void onPanelsSizeChanged(QSize size);
+    void onCmdUserClicked(bool checked);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();
@@ -142,6 +143,7 @@ private slots:
     void on_grpFeed_toggled(bool checked);
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
+    void on_grpUserCommands_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
     void on_splitter_splitterMoved(int pos, int index);
@@ -166,10 +168,8 @@ private slots:
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
-
     void on_sliSpindleSpeed_actionTriggered(int action);
-
-    void on_cmdSpindle_clicked(bool checked);
+    void on_cmdSpindle_clicked(bool checked);   
 
 protected:
     void showEvent(QShowEvent *se);
