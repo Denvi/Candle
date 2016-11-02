@@ -20,7 +20,7 @@ Version 1.0 pre-release:
 
 Downloads:
 ----------
-* Windows: [candle_1.0.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.zip)
+* Windows: [candle_1.0.5.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.5.zip)
 
 Build requirements:
 ------------------
