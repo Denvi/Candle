@@ -1616,13 +1616,14 @@ QSlider::handle:horizontal:hover {
                      <property name="toolTip">
                       <string>Spindle on/off</string>
                      </property>
-                     <property name="text">
-                      <string>2</string>
+                     <property name="icon">
+                      <iconset resource="images.qrc">
+                       <normaloff>:/images/num2.png</normaloff>:/images/num2.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>30</width>
+                       <height>30</height>
                       </size>
                      </property>
                     </widget>
@@ -1641,13 +1642,14 @@ QSlider::handle:horizontal:hover {
                      <property name="toolTip">
                       <string>Spindle on/off</string>
                      </property>
-                     <property name="text">
-                      <string>4</string>
+                     <property name="icon">
+                      <iconset resource="images.qrc">
+                       <normaloff>:/images/num4.png</normaloff>:/images/num4.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>30</width>
+                       <height>30</height>
                       </size>
                      </property>
                     </widget>
@@ -1666,13 +1668,14 @@ QSlider::handle:horizontal:hover {
                      <property name="toolTip">
                       <string>Spindle on/off</string>
                      </property>
-                     <property name="text">
-                      <string>3</string>
+                     <property name="icon">
+                      <iconset resource="images.qrc">
+                       <normaloff>:/images/num3.png</normaloff>:/images/num3.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>30</width>
+                       <height>30</height>
                       </size>
                      </property>
                     </widget>
@@ -1691,13 +1694,14 @@ QSlider::handle:horizontal:hover {
                      <property name="toolTip">
                       <string>Spindle on/off</string>
                      </property>
-                     <property name="text">
-                      <string>1</string>
+                     <property name="icon">
+                      <iconset resource="images.qrc">
+                       <normaloff>:/images/num1.png</normaloff>:/images/num1.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>30</width>
+                       <height>30</height>
                       </size>
                      </property>
                     </widget>

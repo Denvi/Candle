@@ -493,6 +493,7 @@ void frmMain::updateControlsState() {
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
+    ui->grpUserCommands->setEnabled(portOpened && !m_processingFile);
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && !m_processingFile);
 //    ui->grpConsole->setEnabled(portOpened);
@@ -1942,6 +1943,7 @@ void frmMain::applySettings() {
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
         button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
+        button->setEnabled(!button->toolTip().isEmpty());
     }
 }
 
