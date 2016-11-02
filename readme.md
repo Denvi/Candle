@@ -12,6 +12,7 @@ Version 1.0 pre-release:
 --------------------
 
 * Added "Grayscale segments"-option and "Raster"-mode to visualize laser jobs.
+* Added "User commands"-panel.
 * Significantly improved performance of:
  * File loading.
  * G-code program modification by heightmap.
