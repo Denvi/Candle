@@ -2727,7 +2727,7 @@ padding-right: 8;</string>
                   <number>5</number>
                  </property>
                  <property name="maxCount">
-                  <number>5</number>
+                  <number>10</number>
                  </property>
                  <property name="insertPolicy">
                   <enum>QComboBox::InsertAtTop</enum>
