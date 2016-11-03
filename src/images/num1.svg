@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="num1.svg"
-   inkscape:export-filename="F:\prjtemp\candle\src\images\num3.png"
+   inkscape:export-filename="F:\prjtemp\candle\src\images\num4.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8.4963299"
-     inkscape:cx="35.095421"
+     inkscape:cx="47.761808"
      inkscape:cy="27.203977"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -75,10 +75,10 @@
        sodipodi:cy="32.214287"
        sodipodi:rx="24.821428"
        sodipodi:ry="24.821428"
-       d="m 55.892857,32.214287 a 24.821428,24.821428 0 1 1 -49.642857,0 24.821428,24.821428 0 1 1 49.642857,0 z"
+       d="m 55.892857,32.214287 c 0,13.708496 -11.112932,24.821428 -24.821429,24.821428 C 17.362932,57.035715 6.25,45.922783 6.25,32.214287 6.25,18.50579 17.362932,7.3928585 31.071428,7.3928585 c 13.708497,0 24.821429,11.1129315 24.821429,24.8214285 z"
        transform="translate(0.9285717,988.14789)" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:5.59999999999999960;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
        id="rect3801"
        width="50.263649"
        height="50.478165"
@@ -87,7 +87,7 @@
        ry="6.9283872" />
     <text
        xml:space="preserve"
-       style="font-size:10.04277420000000000px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.67379557999999990;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+       style="font-size:10.0427742px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.67379558;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
        x="23"
        y="1032.3926"
        id="text3019"
@@ -96,6 +96,6 @@
          id="tspan3021"
          x="23"
          y="1032.3926"
-         style="font-size:33.47591400000000300px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.67379557999999990;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">3</tspan></text>
+         style="font-size:33.475914px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.67379558;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">4</tspan></text>
   </g>
 </svg>

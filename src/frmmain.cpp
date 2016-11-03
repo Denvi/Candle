@@ -493,7 +493,7 @@ void frmMain::updateControlsState() {
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
-    ui->grpUserCommands->setEnabled(portOpened && !m_processingFile);
+    ui->widgetUserCommands->setEnabled(portOpened && !m_processingFile);
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && !m_processingFile);
 //    ui->grpConsole->setEnabled(portOpened);
