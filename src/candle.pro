@@ -17,7 +17,7 @@ win32: {
 
 unix:!macx {
     DEFINES += UNIX #GL_GLEXT_PROTOTYPES
-    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
+    #QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
 contains(QT_CONFIG, opengles.) {
@@ -29,7 +29,7 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.0.5
+VERSION = 1.0.6
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"

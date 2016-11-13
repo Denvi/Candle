@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
+    <width>878</width>
     <height>899</height>
    </rect>
   </property>
@@ -17,8 +17,8 @@
    <string>Candle</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>images/candle_256.png</normaloff>images/candle_256.png</iconset>
+   <iconset resource="images.qrc">
+    <normaloff>:/images/candle_256.png</normaloff>:/images/candle_256.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">/*QWidget {
@@ -1529,8 +1529,8 @@ QSlider::handle:horizontal:hover {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>231</width>
-            <height>725</height>
+            <width>238</width>
+            <height>735</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2786,8 +2786,8 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>836</width>
-     <height>26</height>
+     <width>878</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

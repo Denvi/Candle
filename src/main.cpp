@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
 
 #ifdef UNIX
     if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {
+        qDebug() << "style" << str;
         if (str.contains("GTK+")) {
             a.setStyle(QStyleFactory::create(str));
             break;

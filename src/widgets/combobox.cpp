@@ -23,7 +23,7 @@ void ComboBox::storeText()
 void ComboBox::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Return) {
-        if (this->count() == this->maxCount()) this->removeItem(this->maxCount() - 1);
+        if (this->count() == this->maxCount()) this->removeItem(this->maxCount() - 1);  // TODO: Make removing selected item
     }
     QComboBox::keyPressEvent(e);
 
