@@ -62,6 +62,11 @@ struct CommandQueue {
 
 class CancelException : public std::exception {
 public:
+#ifdef Q_OS_MAC
+#undef _GLIBCXX_USE_NOEXCEPT
+#define _GLIBCXX_USE_NOEXCEPT _NOEXCEPT
+#endif
+
     const char* what() const _GLIBCXX_USE_NOEXCEPT
     {
         return "Operation was cancelled by user";
