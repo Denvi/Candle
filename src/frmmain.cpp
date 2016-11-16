@@ -715,8 +715,10 @@ void frmMain::onSerialPortReadyRead()
 
             m_statusReceived = true;
 
+            qDebug() << data;
+
             // Update machine coordinates
-            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
+            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
             if (mpx.indexIn(data) != -1) {
                 ui->txtMPosX->setText(mpx.cap(1));
                 ui->txtMPosY->setText(mpx.cap(2));
@@ -724,7 +726,7 @@ void frmMain::onSerialPortReadyRead()
             }
 
             // Status
-            QRegExp stx("<([^,^>]*)");
+            QRegExp stx("<([^,^>^|]*)");
             if (stx.indexIn(data) != -1) {
                 status = m_status.indexOf(stx.cap(1));
 
@@ -828,54 +830,59 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
-            // Update work coordinates
-            QRegExp wpx("WPos:([^,]*),([^,]*),([^,^>]*)");
+            // Store work offset
+            static QVector3D workOffset;
+            QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
+
             if (wpx.indexIn(data) != -1)
             {
-                ui->txtWPosX->setText(wpx.cap(1));
-                ui->txtWPosY->setText(wpx.cap(2));
-                ui->txtWPosZ->setText(wpx.cap(3));
-                QVector3D toolPosition;
+                workOffset = QVector3D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble());
+            }
 
-                // Update tool position
-                if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
-                    toolPosition = QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
-                                             toMetric(ui->txtWPosY->text().toDouble()),
-                                             toMetric(ui->txtWPosZ->text().toDouble()));
-                    m_toolDrawer.setToolPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
+            // Update work coordinates
+            ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', 3));
+            ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', 3));
+            ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', 3));
+
+            // Update tool position
+            QVector3D toolPosition;
+            if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
+                toolPosition = QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
+                                         toMetric(ui->txtWPosY->text().toDouble()),
+                                         toMetric(ui->txtWPosZ->text().toDouble()));
+                m_toolDrawer.setToolPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
+            }
+
+
+            // toolpath shadowing
+            if (m_processingFile && status != CHECK) {
+                GcodeViewParse *parser = m_currentDrawer->viewParser();
+
+                bool toolOntoolpath = false;
+
+                QList<int> drawnLines;
+                QList<LineSegment*> list = parser->getLineSegmentList();
+
+                for (int i = m_lastDrawnLineIndex; i < list.count()
+                     && list.at(i)->getLineNumber()
+                     <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
+                    if (list.at(i)->contains(toolPosition)) {
+                        toolOntoolpath = true;
+                        m_lastDrawnLineIndex = i;
+                        break;
+                    }
+                    drawnLines << i;
                 }
 
-
-                // toolpath shadowing
-                if (m_processingFile && status != CHECK) {
-                    GcodeViewParse *parser = m_currentDrawer->viewParser();
-
-                    bool toolOntoolpath = false;
-
-                    QList<int> drawnLines;
-                    QList<LineSegment*> list = parser->getLineSegmentList();
-
-                    for (int i = m_lastDrawnLineIndex; i < list.count()
-                         && list.at(i)->getLineNumber()
-                         <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                        if (list.at(i)->contains(toolPosition)) {
-                            toolOntoolpath = true;
-                            m_lastDrawnLineIndex = i;
-                            break;
-                        }
-                        drawnLines << i;
+                if (toolOntoolpath) {
+                    foreach (int i, drawnLines) {
+                        list.at(i)->setDrawn(true);
                     }
-
-                    if (toolOntoolpath) {
-                        foreach (int i, drawnLines) {
-                            list.at(i)->setDrawn(true);
-                        }
-                        if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
-                    } else if (m_lastDrawnLineIndex < list.count()) {
-                        qDebug() << "tool missed:" << list.at(m_lastDrawnLineIndex)->getLineNumber()
-                                 << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
-                                 << m_fileProcessedCommandIndex;
-                    }
+                    if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
+                } else if (m_lastDrawnLineIndex < list.count()) {
+                    qDebug() << "tool missed:" << list.at(m_lastDrawnLineIndex)->getLineNumber()
+                             << m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()
+                             << m_fileProcessedCommandIndex;
                 }
             }
 
