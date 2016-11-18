@@ -290,7 +290,12 @@ void frmMain::loadSettings()
     ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
+
+    ui->slbSpindle->setRatio(100);
+    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
+    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
     ui->slbSpindle->setValue(set.value("spindleSpeed", 100).toInt());
+
     ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
     ui->sliFeed->setValue(set.value("feed", 100).toInt());
     m_settings->setUnits(set.value("units", 0).toInt());

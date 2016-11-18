@@ -8,7 +8,7 @@ SliderBox::SliderBox(QWidget *parent) :
     ui->setupUi(this);    
 
     this->setCheckable(true);
-    this->setRatio(100);
+    this->setRatio(1);
     this->setMinimum(0);
     this->setMaximum(10000);
     this->setValue(0);
