@@ -1528,9 +1528,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>238</width>
-            <height>735</height>
+            <y>-217</y>
+            <width>231</width>
+            <height>725</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2058,22 +2058,22 @@ QSlider::handle:horizontal:hover {
                         <string>%</string>
                        </property>
                        <property name="minimum">
-                        <number>1</number>
+                        <number>10</number>
                        </property>
                        <property name="maximum">
-                        <number>500</number>
+                        <number>200</number>
                        </property>
                       </widget>
                      </item>
                     </layout>
                    </item>
                    <item>
-                    <widget class="QSlider" name="sliFeed">
+                    <widget class="Slider" name="sliFeed">
                      <property name="minimum">
-                      <number>0</number>
+                      <number>10</number>
                      </property>
                      <property name="maximum">
-                      <number>500</number>
+                      <number>200</number>
                      </property>
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
@@ -2787,7 +2787,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>878</width>
-     <height>19</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2908,6 +2908,11 @@ padding-right: 8;</string>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header location="global">widgets/combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>widgets/slider.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -179,8 +179,10 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
+    connect(&m_timerOverride, SIGNAL(timeout()), this, SLOT(onTimerOverride()));
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
+    m_timerOverride.start(100);
 
     // Handle file drop
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
@@ -715,8 +717,6 @@ void frmMain::onSerialPortReadyRead()
 
             m_statusReceived = true;
 
-            qDebug() << data;
-
             // Update machine coordinates
             QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
             if (mpx.indexIn(data) != -1) {
@@ -886,6 +886,53 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
+//            qDebug() << data;
+            // Get overridings
+            QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
+            if (ov.indexIn(data) != -1)
+            {
+
+                int feedOverride = ov.cap(1).toInt();
+                ui->sliFeed->setCurrentValue(feedOverride);
+
+                int target = ui->chkFeedOverride->isChecked() ? ui->sliFeed->value() : 100;
+
+//                const int speed = 100;
+//                int step = qMin(int(qMax(1.0, (double)m_settings->queryStateTime() / 1000 * speed)), abs(target - ui->sliFeed->currentValue()));
+
+                bool smallStep = abs(target - ui->sliFeed->currentValue()) < 10 | m_settings->queryStateTime() < 100;
+//                bool smallStep = true;
+
+                if (ui->sliFeed->currentValue() < target) {
+                    m_serialPort.write(QByteArray(1, char(smallStep ? 0x93 : 0x91)));
+                } else if (ui->sliFeed->currentValue() > target) {
+                    m_serialPort.write(QByteArray(1, char(smallStep ? 0x94 : 0x92)));
+                } else {
+                    ui->txtFeed->setStyleSheet("color: palette(text);");
+                }
+
+//                qDebug() << "step" << step;
+
+//                while (step >= 10) {
+//                    if (ui->sliFeed->currentValue() < target) {
+//                        m_serialPort.write(QByteArray(1, char(0x91)));
+//                    } else if (ui->sliFeed->currentValue() > target) {
+//                        m_serialPort.write(QByteArray(1, char(0x92)));
+//                    }
+//                    step -= 10;
+//                    qDebug() << "step" << step;
+//                }
+//                while (step >= 1) {
+//                    if (ui->sliFeed->currentValue() < target) {
+//                        m_serialPort.write(QByteArray(1, char(0x93)));
+//                    } else if (ui->sliFeed->currentValue() > target) {
+//                        m_serialPort.write(QByteArray(1, char(0x94)));
+//                    }
+//                    step -= 1;
+//                    qDebug() << "step" << step;
+//                }
+            }
+
         } else if (data.length() > 0) {
 
             // Processed commands
@@ -936,14 +983,14 @@ void frmMain::onSerialPortReadyRead()
                         }
 
                         // Feed
-                        rx.setPattern(".*F([\\d\\.]+)");
-                        if (rx.indexIn(response) != -1) {
-                            double feed = toMetric(rx.cap(1).toDouble());
-                            double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
-                                                                          : m_originalFeed;
-                            if (response.contains("G20")) set *= 25.4;
-                            if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
-                        }
+//                        rx.setPattern(".*F([\\d\\.]+)");
+//                        if (rx.indexIn(response) != -1) {
+//                            double feed = toMetric(rx.cap(1).toDouble());
+//                            double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
+//                                                                          : m_originalFeed;
+//                            if (response.contains("G20")) set *= 25.4;
+//                            if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
+//                        }
 
                         m_updateParserStatus = true;
                     }
@@ -1182,11 +1229,11 @@ void frmMain::onTimerConnection()
             m_updateParserStatus = false;
             sendCommand("$G", -3, false);
         }
-        if (m_updateFeed) {
-            m_updateFeed = false;
-            sendCommand(QString("F%1").arg(ui->chkFeedOverride->isChecked() ?
-                m_originalFeed / 100 * ui->txtFeed->value() : m_originalFeed), -1, m_settings->showUICommands());
-        }
+//        if (m_updateFeed) {
+//            m_updateFeed = false;
+//            sendCommand(QString("F%1").arg(ui->chkFeedOverride->isChecked() ?
+//                m_originalFeed / 100 * ui->txtFeed->value() : m_originalFeed), -1, m_settings->showUICommands());
+//        }
     }
 }
 
@@ -1198,6 +1245,11 @@ void frmMain::onTimerStateQuery()
     }
 
     ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
+}
+
+void frmMain::onTimerOverride()
+{
+    // TODO: Override feed by timer;
 }
 
 void frmMain::onCmdJogStepClicked()
@@ -2465,8 +2517,8 @@ bool frmMain::dataIsReset(QString data) {
 QString frmMain::feedOverride(QString command)
 {
     // Feed override if not in heightmap probing mode
-    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
-        ui->txtFeed->value() : 100, &m_originalFeed);
+//    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
+//        ui->txtFeed->value() : 100, &m_originalFeed);
 
     return command;
 }
@@ -2479,8 +2531,8 @@ void frmMain::on_txtFeed_editingFinished()
 void frmMain::on_sliFeed_valueChanged(int value)
 {
     ui->txtFeed->setValue(value);
-    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-    if (m_processingFile && ui->chkFeedOverride->isChecked()) {
+//    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    if (/*m_processingFile && */ui->chkFeedOverride->isChecked()) {
         ui->txtFeed->setStyleSheet("color: red;");
         m_updateFeed = true;
     }
@@ -2491,11 +2543,11 @@ void frmMain::on_chkFeedOverride_toggled(bool checked)
     ui->grpFeed->setProperty("overrided", checked);
     style()->unpolish(ui->grpFeed);
     ui->grpFeed->ensurePolished();
-    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-    if (m_processingFile) {
+//    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+//    if (m_processingFile) {
         ui->txtFeed->setStyleSheet("color: red;");
         m_updateFeed = true;
-    }
+//    }
 }
 
 void frmMain::on_grpFeed_toggled(bool checked)

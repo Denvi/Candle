@@ -91,6 +91,7 @@ private slots:
     void onSerialPortError(QSerialPort::SerialPortError);
     void onTimerConnection();
     void onTimerStateQuery();
+    void onTimerOverride();
     void onCmdJogStepClicked();
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
@@ -228,6 +229,7 @@ private:
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
+    QTimer m_timerOverride;
 
     QStringList m_status;
     QStringList m_statusCaptions;
