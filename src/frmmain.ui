@@ -1528,9 +1528,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-217</y>
+            <y>-241</y>
             <width>231</width>
-            <height>725</height>
+            <height>715</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1906,51 +1906,7 @@ QSlider::handle:horizontal:hover {
                   <number>0</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_12">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
-                     <item>
-                      <widget class="QLabel" name="lblSpindleSpeed">
-                       <property name="text">
-                        <string>Speed:</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="txtSpindleSpeed">
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="maximum">
-                        <number>20000</number>
-                       </property>
-                       <property name="value">
-                        <number>0</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="sliSpindleSpeed">
-                     <property name="minimum">
-                      <number>1</number>
-                     </property>
-                     <property name="maximum">
-                      <number>200</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="SliderBox" name="slbSpindle" native="true"/>
                  </item>
                  <item>
                   <widget class="StyledToolButton" name="cmdSpindle">
@@ -2022,7 +1978,7 @@ QSlider::handle:horizontal:hover {
               </property>
               <item>
                <widget class="QWidget" name="widgetFeed" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <layout class="QVBoxLayout" name="verticalLayout_22">
                  <property name="leftMargin">
                   <number>0</number>
                  </property>
@@ -2914,6 +2870,12 @@ padding-right: 8;</string>
    <extends>QSlider</extends>
    <header>widgets/slider.h</header>
   </customwidget>
+  <customwidget>
+   <class>SliderBox</class>
+   <extends>QWidget</extends>
+   <header>widgets/sliderbox.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>chkTestMode</tabstop>
@@ -2966,9 +2928,7 @@ padding-right: 8;</string>
   <tabstop>cmdHeightMapLoad</tabstop>
   <tabstop>cmdHeightMapMode</tabstop>
   <tabstop>grpSpindle</tabstop>
-  <tabstop>txtSpindleSpeed</tabstop>
   <tabstop>cmdSpindle</tabstop>
-  <tabstop>sliSpindleSpeed</tabstop>
   <tabstop>grpFeed</tabstop>
   <tabstop>chkFeedOverride</tabstop>
   <tabstop>txtFeed</tabstop>
@@ -3043,38 +3003,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>787</x>
      <y>644</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtSpindleSpeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>736</x>
-     <y>528</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sliSpindleSpeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>737</x>
-     <y>556</y>
     </hint>
    </hints>
   </connection>

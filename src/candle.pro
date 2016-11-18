@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
     widgets/glwidget.cpp \
-    widgets/slider.cpp
+    widgets/slider.cpp \
+    widgets/sliderbox.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -92,11 +93,13 @@ HEADERS  += frmmain.h \
     widgets/styledtoolbutton.h \
     widgets/widget.h \
     widgets/glwidget.h \
-    widgets/slider.h
+    widgets/slider.h \
+    widgets/sliderbox.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
-    frmabout.ui
+    frmabout.ui \
+    widgets/sliderbox.ui
 
 DEFINES += _USE_MATH_DEFINES
 

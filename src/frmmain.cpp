@@ -37,7 +37,7 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
-    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door";
+    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold:0" << "Queue" << "Check" << "Door";
     m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
     m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
@@ -172,6 +172,16 @@ frmMain::frmMain(QWidget *parent) :
     applySettings();
     updateControlsState();
 
+    // Setting up slider boxes
+    ui->slbSpindle->setTitle(tr("Speed:"));
+    ui->slbSpindle->setCheckable(false);
+
+    connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
+    connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
+        if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
+            ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
+    });
+
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
     ui->splitPanels->handle(1)->installEventFilter(this);
@@ -251,7 +261,6 @@ void frmMain::loadSettings()
     m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
     m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
     ui->txtJogStep->setValue(set.value("jogStep", 1).toDouble());
-    ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 0).toInt());
     m_settings->setMoveOnRestore(set.value("moveOnRestore", false).toBool());
     m_settings->setRestoreMode(set.value("restoreMode", 0).toInt());
     m_settings->setLineWidth(set.value("lineWidth", 1).toDouble());
@@ -281,8 +290,7 @@ void frmMain::loadSettings()
     ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
-    ui->sliSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt() / 100);
-    ui->txtSpindleSpeed->setValue(set.value("spindleSpeed", 100).toInt());
+    ui->slbSpindle->setValue(set.value("spindleSpeed", 100).toInt());
     ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
     ui->sliFeed->setValue(set.value("feed", 100).toInt());
     m_settings->setUnits(set.value("units", 0).toInt());
@@ -379,7 +387,7 @@ void frmMain::saveSettings()
     set.setValue("grayscaleSCode", m_settings->grayscaleSCode());
     set.setValue("drawModeVectors", m_settings->drawModeVectors());
     set.setValue("jogStep", ui->txtJogStep->value());
-    set.setValue("spindleSpeed", ui->txtSpindleSpeed->text());
+    set.setValue("spindleSpeed", ui->slbSpindle->value());
     set.setValue("lineWidth", m_settings->lineWidth());
     set.setValue("arcLength", m_settings->arcLength());
     set.setValue("arcDegree", m_settings->arcDegree());
@@ -404,7 +412,6 @@ void frmMain::saveSettings()
     set.setValue("splitter", ui->splitter->saveState());
     set.setValue("formGeometry", this->saveGeometry());
     set.setValue("formSettingsSize", m_settings->size());
-    set.setValue("spindleSpeed", ui->txtSpindleSpeed->value());
     set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
     set.setValue("feed", ui->txtFeed->value());
     set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
@@ -637,9 +644,8 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
     QRegExp s("[Ss]0*(\\d+)");
     if (s.indexIn(command) != -1 && ca.tableIndex > -2) {
         int speed = s.cap(1).toInt();
-        if (ui->txtSpindleSpeed->value() != speed) {
-            ui->txtSpindleSpeed->setValue(speed);
-            ui->sliSpindleSpeed->setValue(speed / 100);
+        if (ui->slbSpindle->value() != speed) {
+            ui->slbSpindle->setValue(speed);
         }
     }
 
@@ -979,7 +985,8 @@ void frmMain::onSerialPortReadyRead()
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
                             double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-                            if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+//                            if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
+                            ui->slbSpindle->setCurrentValue(speed);
                         }
 
                         // Feed
@@ -1223,7 +1230,8 @@ void frmMain::onTimerConnection()
     } else if (!m_homing/* && !m_reseting*/ && !ui->cmdFilePause->isChecked() && m_queue.length() == 0) {
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
-            sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2, m_settings->showUICommands());
+//            sendCommand(QString("S%1").arg(ui->txtSpindleSpeed->value()), -2, m_settings->showUICommands());
+            sendCommand(QString("S%1").arg(ui->slbSpindle->value()), -2, m_settings->showUICommands());
         }
         if (m_updateParserStatus) {
             m_updateParserStatus = false;
@@ -1381,8 +1389,8 @@ void frmMain::resizeCheckBoxes()
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->txtSpindleSpeed->value())
-                            / (ui->txtSpindleSpeed->maximum()));
+        m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
+                            / (ui->slbSpindle->maximum()));
     } else {
         QMainWindow::timerEvent(te);
     }
@@ -1933,10 +1941,8 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
 
-    ui->txtSpindleSpeed->setMinimum(m_settings->spindleSpeedMin());
-    ui->txtSpindleSpeed->setMaximum(m_settings->spindleSpeedMax());
-    ui->sliSpindleSpeed->setMinimum(ui->txtSpindleSpeed->minimum() / 100);
-    ui->sliSpindleSpeed->setMaximum(ui->txtSpindleSpeed->maximum() / 100);
+    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
+    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
     ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelFeed()
                                || m_settings->panelJog() || m_settings->panelSpindle());
@@ -2170,7 +2176,7 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
     ui->grpSpindle->ensurePolished();
 
     if (checked) {
-        if (!ui->grpSpindle->isChecked()) ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+        if (!ui->grpSpindle->isChecked()) ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
     } else {
         ui->grpSpindle->setTitle(tr("Spindle"));
     }
@@ -2178,30 +2184,7 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
 
 void frmMain::on_cmdSpindle_clicked(bool checked)
 {
-    sendCommand(checked ? QString("M3 S%1").arg(ui->txtSpindleSpeed->text()) : "M5", -1, m_settings->showUICommands());
-}
-
-void frmMain::on_txtSpindleSpeed_editingFinished()
-{
-    ui->txtSpindleSpeed->setStyleSheet("color: red;");
-    ui->sliSpindleSpeed->setValue(ui->txtSpindleSpeed->value() / 100);
-    m_updateSpindleSpeed = true;
-}
-
-void frmMain::on_sliSpindleSpeed_valueChanged(int value)
-{
-    Q_UNUSED(value)
-
-    ui->txtSpindleSpeed->setStyleSheet("color: red;");
-
-    if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
-        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
-}
-
-void frmMain::on_sliSpindleSpeed_actionTriggered(int action)
-{
-    ui->txtSpindleSpeed->setValue(ui->sliSpindleSpeed->sliderPosition() * 100);
-    m_updateSpindleSpeed = true;
+    sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
 }
 
 void frmMain::on_cmdYPlus_clicked()
@@ -2567,7 +2550,8 @@ void frmMain::on_grpSpindle_toggled(bool checked)
     if (checked) {
         ui->grpSpindle->setTitle(tr("Spindle"));
     } else if (ui->cmdSpindle->isChecked()) {
-        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+//        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->txtSpindleSpeed->text()));
+        ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
     }
     updateLayouts();
 
@@ -2679,9 +2663,9 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 } else if (keyEvent->key() == Qt::Key_0) {
                     ui->cmdSpindle->click();
                 } else if (keyEvent->key() == Qt::Key_7) {
-                    ui->sliSpindleSpeed->setSliderPosition(ui->sliSpindleSpeed->sliderPosition() + 1);
+                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
                 } else if (keyEvent->key() == Qt::Key_1) {
-                    ui->sliSpindleSpeed->setSliderPosition(ui->sliSpindleSpeed->sliderPosition() - 1);
+                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() - 1);
                 }
             }
 

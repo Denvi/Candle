@@ -1,0 +1,143 @@
+#include "sliderbox.h"
+#include "ui_sliderbox.h"
+
+SliderBox::SliderBox(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::SliderBox)
+{
+    ui->setupUi(this);    
+
+    this->setCheckable(true);
+    this->setRatio(100);
+    this->setMinimum(0);
+    this->setMaximum(10000);
+    this->setValue(0);
+    this->setCurrentValue(0);
+}
+
+SliderBox::~SliderBox()
+{
+    delete ui;
+}
+
+int SliderBox::value()
+{
+    return ui->txtValue->value();
+}
+
+void SliderBox::setValue(int value)
+{
+    ui->txtValue->setValue(value);
+    ui->sliValue->setValue(value / m_ratio);
+}
+
+int SliderBox::currentValue()
+{
+    return m_currentValue;
+}
+
+void SliderBox::setCurrentValue(int value)
+{
+    m_currentValue = value;
+
+    ui->sliValue->setCurrentValue(value / m_ratio);
+    ui->txtValue->setStyleSheet(value == ui->txtValue->value() ? "color: palette(text);" : "color: red;");
+}
+
+int SliderBox::sliderPosition()
+{
+    return ui->sliValue->sliderPosition();
+}
+
+void SliderBox::setSliderPosition(int position)
+{
+    ui->sliValue->setSliderPosition(position);
+}
+
+bool SliderBox::isCheckable() const
+{
+    return m_isCheckable;
+}
+
+void SliderBox::setCheckable(bool checkable)
+{
+    m_isCheckable = checkable;
+
+    ui->chkTitle->setVisible(checkable);
+    ui->lblTitle->setVisible(!checkable);
+}
+
+int SliderBox::ratio() const
+{
+    return m_ratio;
+}
+
+void SliderBox::setRatio(int ratio)
+{
+    m_ratio = ratio;
+}
+
+void SliderBox::on_txtValue_editingFinished()
+{
+    ui->sliValue->setValue(ui->txtValue->value() / this->ratio());
+    emit valueUserChanged();
+}
+
+void SliderBox::on_sliValue_actionTriggered(int action)
+{
+    ui->txtValue->setValue(ui->sliValue->sliderPosition() * this->ratio());
+    emit valueUserChanged();
+}
+
+void SliderBox::on_sliValue_valueChanged(int value)
+{
+    ui->txtValue->setStyleSheet("color: red;");
+    emit valueChanged();
+}
+
+int SliderBox::maximum() const
+{
+    return m_maximum;
+}
+
+void SliderBox::setMaximum(int maximum)
+{
+    m_maximum = maximum;
+
+    ui->txtValue->setMaximum(maximum);
+    ui->sliValue->setMaximum(maximum / m_ratio);
+}
+
+QString SliderBox::suffix()
+{
+    return ui->txtValue->suffix();
+}
+
+void SliderBox::setSuffix(QString suffix)
+{
+    ui->txtValue->setSuffix(suffix);
+}
+
+QString SliderBox::title()
+{
+    return ui->chkTitle->text();
+}
+
+void SliderBox::setTitle(QString title)
+{
+    ui->chkTitle->setText(title);
+    ui->lblTitle->setText(title);
+}
+
+int SliderBox::minimum() const
+{
+    return m_minimum;
+}
+
+void SliderBox::setMinimum(int minimum)
+{
+    m_minimum = minimum;
+
+    ui->txtValue->setMinimum(minimum);
+    ui->sliValue->setMinimum(minimum / m_ratio);
+}

@@ -122,8 +122,6 @@ private slots:
     void on_cmdUnlock_clicked();
     void on_cmdSafePosition_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_txtSpindleSpeed_editingFinished();
-    void on_sliSpindleSpeed_valueChanged(int value);
     void on_cmdYPlus_clicked();
     void on_cmdYMinus_clicked();
     void on_cmdXPlus_clicked();
@@ -174,7 +172,6 @@ private slots:
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
-    void on_sliSpindleSpeed_actionTriggered(int action);
     void on_cmdSpindle_clicked(bool checked);   
 
 protected:
