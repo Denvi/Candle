@@ -9,10 +9,11 @@
 #define ALARM 2
 #define RUN 3
 #define HOME 4
-#define HOLD 5
-#define QUEUE 6
-#define CHECK 7
-#define DOOR 8
+#define HOLD0 5
+#define HOLD1 6
+#define QUEUE 7
+#define CHECK 8
+#define DOOR 9
 
 #define PROGRESSMINLINES 10000
 #define PROGRESSSTEP     1000
@@ -37,10 +38,46 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
-    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold:0" << "Queue" << "Check" << "Door";
-    m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
-    m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
-    m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
+    m_status << "Unknown"
+             << "Idle"
+             << "Alarm"
+             << "Run"
+             << "Home"
+             << "Hold:0"
+             << "Hold:1"
+             << "Queue"
+             << "Check"
+             << "Door";                     // TODO: Update "Door" state
+    m_statusCaptions << tr("Unknown")
+                     << tr("Idle")
+                     << tr("Alarm")
+                     << tr("Run")
+                     << tr("Home")
+                     << tr("Hold")
+                     << tr("Hold")
+                     << tr("Queue")
+                     << tr("Check")
+                     << tr("Door");
+    m_statusBackColors << "red"
+                       << "palette(button)"
+                       << "red"
+                       << "lime"
+                       << "lime"
+                       << "yellow"
+                       << "yellow"
+                       << "yellow"
+                       << "palette(button)"
+                       << "red";
+    m_statusForeColors << "white"
+                       << "palette(text)"
+                       << "white"
+                       << "black"
+                       << "black"
+                       << "black"
+                       << "black"
+                       << "black"
+                       << "palette(text)"
+                       << "white";
 
     // Loading settings
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
@@ -795,10 +832,11 @@ void frmMain::onSerialPortReadyRead()
                 ui->cmdZeroZ->setEnabled(status == IDLE);
                 ui->chkTestMode->setEnabled(status != RUN && !m_processingFile);
                 ui->chkTestMode->setChecked(status == CHECK);
-                ui->cmdFilePause->setChecked(status == HOLD || status == QUEUE);
+                ui->cmdFilePause->setChecked(status == HOLD0 || status == HOLD1 || status == QUEUE);
+                ui->cmdSpindle->setEnabled(!m_processingFile || status == HOLD0);
 #ifdef WINDOWS
                 if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
-                    if (m_taskBarProgress) m_taskBarProgress->setPaused(status == HOLD || status == QUEUE);
+                    if (m_taskBarProgress) m_taskBarProgress->setPaused(status == HOLD0 || status == HOLD1 || status == QUEUE);
                 }
 #endif
 
@@ -861,7 +899,8 @@ void frmMain::onSerialPortReadyRead()
                             return;
                         }
                         break;
-                    case HOLD: // Hold
+                    case HOLD0: // Hold
+                    case HOLD1:
                     case QUEUE:
                         if (!m_reseting && compareCoordinates(x, y, z)) {
                             x = sNan;
@@ -888,9 +927,10 @@ void frmMain::onSerialPortReadyRead()
             }
 
             // Update work coordinates
-            ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', 3));
-            ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', 3));
-            ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', 3));
+            int prec = m_settings->units() == 0 ? 3 : 4;
+            ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', prec));
+            ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', prec));
+            ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', prec));
 
             // Update tool position
             QVector3D toolPosition;
@@ -933,6 +973,8 @@ void frmMain::onSerialPortReadyRead()
                              << m_fileProcessedCommandIndex;
                 }
             }
+
+            qDebug() << data;
 
             // Get overridings
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
@@ -2204,7 +2246,11 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
 
 void frmMain::on_cmdSpindle_clicked(bool checked)
 {
-    sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
+    if (ui->cmdFilePause->isChecked()) {
+        m_serialPort.write(QByteArray(1, char(0x9e)));
+    } else {
+        sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
+    }
 }
 
 void frmMain::on_cmdYPlus_clicked()
