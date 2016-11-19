@@ -1528,9 +1528,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-241</y>
+            <y>-258</y>
             <width>231</width>
-            <height>715</height>
+            <height>705</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1950,12 +1950,12 @@ QSlider::handle:horizontal:hover {
             </widget>
            </item>
            <item>
-            <widget class="GroupBox" name="grpFeed">
+            <widget class="GroupBox" name="grpOverriding">
              <property name="enabled">
               <bool>true</bool>
              </property>
              <property name="title">
-              <string>Feed</string>
+              <string>Overriding</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1992,51 +1992,13 @@ QSlider::handle:horizontal:hover {
                   <number>0</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,1">
-                     <item>
-                      <widget class="QCheckBox" name="chkFeedOverride">
-                       <property name="text">
-                        <string>Override:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="txtFeed">
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="suffix">
-                        <string>%</string>
-                       </property>
-                       <property name="minimum">
-                        <number>10</number>
-                       </property>
-                       <property name="maximum">
-                        <number>200</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="Slider" name="sliFeed">
-                     <property name="minimum">
-                      <number>10</number>
-                     </property>
-                     <property name="maximum">
-                      <number>200</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="SliderBox" name="slbFeedOverride" native="true"/>
+                 </item>
+                 <item>
+                  <widget class="SliderBox" name="slbRapidOverride" native="true"/>
+                 </item>
+                 <item>
+                  <widget class="SliderBox" name="slbSpindleOverride" native="true"/>
                  </item>
                 </layout>
                </widget>
@@ -2866,11 +2828,6 @@ padding-right: 8;</string>
    <header location="global">widgets/combobox.h</header>
   </customwidget>
   <customwidget>
-   <class>Slider</class>
-   <extends>QSlider</extends>
-   <header>widgets/slider.h</header>
-  </customwidget>
-  <customwidget>
    <class>SliderBox</class>
    <extends>QWidget</extends>
    <header>widgets/sliderbox.h</header>
@@ -2929,10 +2886,7 @@ padding-right: 8;</string>
   <tabstop>cmdHeightMapMode</tabstop>
   <tabstop>grpSpindle</tabstop>
   <tabstop>cmdSpindle</tabstop>
-  <tabstop>grpFeed</tabstop>
-  <tabstop>chkFeedOverride</tabstop>
-  <tabstop>txtFeed</tabstop>
-  <tabstop>sliFeed</tabstop>
+  <tabstop>grpOverriding</tabstop>
   <tabstop>grpJog</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
@@ -2971,38 +2925,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>680</x>
      <y>775</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtFeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>786</x>
-     <y>616</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sliFeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>787</x>
-     <y>644</y>
     </hint>
    </hints>
   </connection>

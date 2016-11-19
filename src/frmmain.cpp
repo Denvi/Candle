@@ -95,6 +95,31 @@ frmMain::frmMain(QWidget *parent) :
         connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
     }
 
+    // Setting up slider boxes
+    ui->slbFeedOverride->setRatio(1);
+    ui->slbFeedOverride->setMinimum(10);
+    ui->slbFeedOverride->setMaximum(200);
+    ui->slbFeedOverride->setCurrentValue(100);
+    ui->slbFeedOverride->setTitle(tr("Feed rate:"));
+    ui->slbFeedOverride->setSuffix("%");
+    connect(ui->slbFeedOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
+
+    ui->slbRapidOverride->setRatio(50);
+    ui->slbRapidOverride->setMinimum(25);
+    ui->slbRapidOverride->setMaximum(100);
+    ui->slbRapidOverride->setCurrentValue(100);
+    ui->slbRapidOverride->setTitle(tr("Rapid speed:"));
+    ui->slbRapidOverride->setSuffix("%");
+    connect(ui->slbRapidOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
+
+    ui->slbSpindleOverride->setRatio(1);
+    ui->slbSpindleOverride->setMinimum(50);
+    ui->slbSpindleOverride->setMaximum(200);
+    ui->slbSpindleOverride->setCurrentValue(100);
+    ui->slbSpindleOverride->setTitle(tr("Spindle speed:"));
+    ui->slbSpindleOverride->setSuffix("%");
+    connect(ui->slbSpindleOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
+
     m_originDrawer = new OriginDrawer();
     m_codeDrawer = new GcodeDrawer();
     m_codeDrawer->setViewParser(&m_viewParser);
@@ -172,10 +197,9 @@ frmMain::frmMain(QWidget *parent) :
     applySettings();
     updateControlsState();
 
-    // Setting up slider boxes
+    // Setting up spindle slider box
     ui->slbSpindle->setTitle(tr("Speed:"));
     ui->slbSpindle->setCheckable(false);
-
     connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
     connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
         if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
@@ -296,8 +320,15 @@ void frmMain::loadSettings()
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
     ui->slbSpindle->setValue(set.value("spindleSpeed", 100).toInt());
 
-    ui->chkFeedOverride->setChecked(set.value("feedOverride", false).toBool());
-    ui->sliFeed->setValue(set.value("feed", 100).toInt());
+    ui->slbFeedOverride->setChecked(set.value("feedOverride", false).toBool());
+    ui->slbFeedOverride->setValue(set.value("feedOverrideValue", 100).toInt());
+
+    ui->slbRapidOverride->setChecked(set.value("rapidOverride", false).toBool());
+    ui->slbRapidOverride->setValue(set.value("rapidOverrideValue", 100).toInt());
+
+    ui->slbSpindleOverride->setChecked(set.value("spindleOverride", false).toBool());
+    ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
+
     m_settings->setUnits(set.value("units", 0).toInt());
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
@@ -328,7 +359,7 @@ void frmMain::loadSettings()
     ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
     ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
     ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
-    ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
+    ui->grpOverriding->setChecked(set.value("feedPanel", true).toBool());
     ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
 
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
@@ -416,13 +447,11 @@ void frmMain::saveSettings()
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
     set.setValue("formGeometry", this->saveGeometry());
-    set.setValue("formSettingsSize", m_settings->size());
-    set.setValue("feedOverride", ui->chkFeedOverride->isChecked());
-    set.setValue("feed", ui->txtFeed->value());
+    set.setValue("formSettingsSize", m_settings->size());    
     set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
     set.setValue("heightmapPanel", ui->grpHeightMap->isChecked());
     set.setValue("spindlePanel", ui->grpSpindle->isChecked());
-    set.setValue("feedPanel", ui->grpFeed->isChecked());
+    set.setValue("feedPanel", ui->grpOverriding->isChecked());
     set.setValue("jogPanel", ui->grpJog->isChecked());
     set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
     set.setValue("autoCompletion", m_settings->autoCompletion());
@@ -442,6 +471,13 @@ void frmMain::saveSettings()
     set.setValue("panelJogVisible", m_settings->panelJog());
     set.setValue("fontSize", m_settings->fontSize());
     set.setValue("consoleMinHeight", ui->grpConsole->minimumHeight());
+
+    set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
+    set.setValue("feedOverrideValue", ui->slbFeedOverride->value());
+    set.setValue("rapidOverride", ui->slbRapidOverride->isChecked());
+    set.setValue("rapidOverrideValue", ui->slbRapidOverride->value());
+    set.setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
+    set.setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
         int i = button->objectName().right(1).toInt();
@@ -729,7 +765,7 @@ void frmMain::onSerialPortReadyRead()
             m_statusReceived = true;
 
             // Update machine coordinates
-            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
+            static QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
             if (mpx.indexIn(data) != -1) {
                 ui->txtMPosX->setText(mpx.cap(1));
                 ui->txtMPosY->setText(mpx.cap(2));
@@ -737,7 +773,7 @@ void frmMain::onSerialPortReadyRead()
             }
 
             // Status
-            QRegExp stx("<([^,^>^|]*)");
+            static QRegExp stx("<([^,^>^|]*)");
             if (stx.indexIn(data) != -1) {
                 status = m_status.indexOf(stx.cap(1));
 
@@ -843,7 +879,7 @@ void frmMain::onSerialPortReadyRead()
 
             // Store work offset
             static QVector3D workOffset;
-            QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
+            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
 
             if (wpx.indexIn(data) != -1)
             {
@@ -897,51 +933,29 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
-//            qDebug() << data;
             // Get overridings
-            QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
+            static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1)
-            {
+            {                
+                updateOverride(ui->slbFeedOverride, ov.cap(1).toInt(), 0x91);
+                updateOverride(ui->slbSpindleOverride, ov.cap(3).toInt(), 0x9a);
 
-                int feedOverride = ov.cap(1).toInt();
-                ui->sliFeed->setCurrentValue(feedOverride);
+                int rapid = ov.cap(2).toInt();
+                ui->slbRapidOverride->setCurrentValue(rapid);
 
-                int target = ui->chkFeedOverride->isChecked() ? ui->sliFeed->value() : 100;
+                int target = ui->slbRapidOverride->isChecked() ? ui->slbRapidOverride->value() : 100;
 
-//                const int speed = 100;
-//                int step = qMin(int(qMax(1.0, (double)m_settings->queryStateTime() / 1000 * speed)), abs(target - ui->sliFeed->currentValue()));
-
-                bool smallStep = abs(target - ui->sliFeed->currentValue()) < 10 | m_settings->queryStateTime() < 100;
-//                bool smallStep = true;
-
-                if (ui->sliFeed->currentValue() < target) {
-                    m_serialPort.write(QByteArray(1, char(smallStep ? 0x93 : 0x91)));
-                } else if (ui->sliFeed->currentValue() > target) {
-                    m_serialPort.write(QByteArray(1, char(smallStep ? 0x94 : 0x92)));
-                } else {
-                    ui->txtFeed->setStyleSheet("color: palette(text);");
+                if (rapid != target) switch (target) {
+                case 25:
+                    m_serialPort.write(QByteArray(1, char(0x97)));
+                    break;
+                case 50:
+                    m_serialPort.write(QByteArray(1, char(0x96)));
+                    break;
+                case 100:
+                    m_serialPort.write(QByteArray(1, char(0x95)));
+                    break;
                 }
-
-//                qDebug() << "step" << step;
-
-//                while (step >= 10) {
-//                    if (ui->sliFeed->currentValue() < target) {
-//                        m_serialPort.write(QByteArray(1, char(0x91)));
-//                    } else if (ui->sliFeed->currentValue() > target) {
-//                        m_serialPort.write(QByteArray(1, char(0x92)));
-//                    }
-//                    step -= 10;
-//                    qDebug() << "step" << step;
-//                }
-//                while (step >= 1) {
-//                    if (ui->sliFeed->currentValue() < target) {
-//                        m_serialPort.write(QByteArray(1, char(0x93)));
-//                    } else if (ui->sliFeed->currentValue() > target) {
-//                        m_serialPort.write(QByteArray(1, char(0x94)));
-//                    }
-//                    step -= 1;
-//                    qDebug() << "step" << step;
-//                }
             }
 
         } else if (data.length() > 0) {
@@ -1119,7 +1133,7 @@ void frmMain::onSerialPortReadyRead()
                             m_fileProcessedCommandIndex = ca.tableIndex;
 
                             if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
-                                ui->tblProgram->scrollTo(m_currentModel->index(ca.tableIndex + 1, 0));
+                                ui->tblProgram->scrollTo(m_currentModel->index(ca.tableIndex + 1, 0));      // TODO: Update by timer
                                 ui->tblProgram->setCurrentIndex(m_currentModel->index(ca.tableIndex, 1));
                             }
                         }
@@ -1668,8 +1682,8 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
         double length = (ls->getEnd() - ls->getStart()).length();
 
         if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
-                length / ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
-                          ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed());
+                length / ((ui->slbFeedOverride->isChecked() && !ls->isFastTraverse())
+                          ? (ls->getSpeed() * ui->slbFeedOverride->value() / 100) : ls->getSpeed());
 
 //        qDebug() << "length/time:" << length << ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
 //                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
@@ -1955,7 +1969,7 @@ void frmMain::applySettings() {
     ui->grpUserCommands->setVisible(m_settings->panelUserCommands());
     ui->grpHeightMap->setVisible(m_settings->panelHeightmap());
     ui->grpSpindle->setVisible(m_settings->panelSpindle());
-    ui->grpFeed->setVisible(m_settings->panelFeed());
+    ui->grpOverriding->setVisible(m_settings->panelFeed());
     ui->grpJog->setVisible(m_settings->panelJog());
 
     ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
@@ -2511,39 +2525,15 @@ QString frmMain::feedOverride(QString command)
     return command;
 }
 
-void frmMain::on_txtFeed_editingFinished()
-{
-    ui->sliFeed->setValue(ui->txtFeed->value());
-}
-
-void frmMain::on_sliFeed_valueChanged(int value)
-{
-    ui->txtFeed->setValue(value);
-//    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-    if (/*m_processingFile && */ui->chkFeedOverride->isChecked()) {
-        ui->txtFeed->setStyleSheet("color: red;");
-        m_updateFeed = true;
-    }
-}
-
-void frmMain::on_chkFeedOverride_toggled(bool checked)
-{
-    ui->grpFeed->setProperty("overrided", checked);
-    style()->unpolish(ui->grpFeed);
-    ui->grpFeed->ensurePolished();
-//    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-//    if (m_processingFile) {
-        ui->txtFeed->setStyleSheet("color: red;");
-        m_updateFeed = true;
-//    }
-}
-
-void frmMain::on_grpFeed_toggled(bool checked)
+void frmMain::on_grpOverriding_toggled(bool checked)
 {
     if (checked) {
-        ui->grpFeed->setTitle(tr("Feed"));
-    } else if (ui->chkFeedOverride->isChecked()) {
-        ui->grpFeed->setTitle(tr("Feed") + QString(tr(" (%1)")).arg(ui->txtFeed->text()));
+        ui->grpOverriding->setTitle(tr("Overriding"));
+    } else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() | ui->slbSpindleOverride->isChecked()) {
+        ui->grpOverriding->setTitle(tr("Overriding") + QString(tr(" (%1/%2/%3)"))
+                                    .arg(ui->slbFeedOverride->value())
+                                    .arg(ui->slbRapidOverride->value())
+                                    .arg(ui->slbSpindleOverride->value()));
     }
     updateLayouts();
 
@@ -3643,5 +3633,27 @@ void frmMain::onCmdUserClicked(bool checked)
 
     foreach (QString cmd, list) {
         sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+    }
+}
+
+void frmMain::onOverridingToggled(bool checked)
+{
+    ui->grpOverriding->setProperty("overrided", ui->slbFeedOverride->isChecked()
+                                   || ui->slbRapidOverride->isChecked() || ui->slbSpindleOverride->isChecked());
+    style()->unpolish(ui->grpOverriding);
+    ui->grpOverriding->ensurePolished();
+}
+
+void frmMain::updateOverride(SliderBox *slider, int value, char command)
+{
+    slider->setCurrentValue(value);
+
+    int target = slider->isChecked() ? slider->value() : 100;
+    bool smallStep = abs(target - slider->currentValue()) < 10 | m_settings->queryStateTime() < 100;
+
+    if (slider->currentValue() < target) {
+        m_serialPort.write(QByteArray(1, char(smallStep ? command + 2 : command)));
+    } else if (slider->currentValue() > target) {
+        m_serialPort.write(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
     }
 }

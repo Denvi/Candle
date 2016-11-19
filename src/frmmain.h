@@ -34,6 +34,7 @@
 #include "utils/interpolation.h"
 
 #include "widgets/styledtoolbutton.h"
+#include "widgets/sliderbox.h"
 
 #include "frmsettings.h"
 #include "frmabout.h"
@@ -104,6 +105,7 @@ private slots:
     void onConsoleResized(QSize size);
     void onPanelsSizeChanged(QSize size);
     void onCmdUserClicked(bool checked);
+    void onOverridingToggled(bool checked);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();
@@ -141,10 +143,7 @@ private slots:
     void on_cmdLeft_clicked();
     void on_cmdIsometric_clicked();
     void on_actAbout_triggered();
-    void on_txtFeed_editingFinished();
-    void on_sliFeed_valueChanged(int value);
-    void on_chkFeedOverride_toggled(bool checked);
-    void on_grpFeed_toggled(bool checked);
+    void on_grpOverriding_toggled(bool checked);
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
     void on_grpUserCommands_toggled(bool checked);
@@ -349,6 +348,7 @@ private:
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
     int getConsoleMinHeight();
+    void updateOverride(SliderBox *slider, int value, char command);
 };
 
 #endif // FRMMAIN_H

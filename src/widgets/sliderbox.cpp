@@ -8,6 +8,7 @@ SliderBox::SliderBox(QWidget *parent) :
     ui->setupUi(this);    
 
     this->setCheckable(true);
+    this->setChecked(true);
     this->setRatio(1);
     this->setMinimum(0);
     this->setMaximum(10000);
@@ -41,7 +42,7 @@ void SliderBox::setCurrentValue(int value)
     m_currentValue = value;
 
     ui->sliValue->setCurrentValue(value / m_ratio);
-    ui->txtValue->setStyleSheet(value == ui->txtValue->value() ? "color: palette(text);" : "color: red;");
+    ui->txtValue->setStyleSheet(value == ui->txtValue->value() || !this->isChecked() ? "color: palette(text);" : "color: red;");
 }
 
 int SliderBox::sliderPosition()
@@ -65,6 +66,16 @@ void SliderBox::setCheckable(bool checkable)
 
     ui->chkTitle->setVisible(checkable);
     ui->lblTitle->setVisible(!checkable);
+}
+
+bool SliderBox::isChecked()
+{
+    return ui->chkTitle->isChecked();
+}
+
+void SliderBox::setChecked(bool checked)
+{
+    ui->chkTitle->setChecked(checked);
 }
 
 int SliderBox::ratio() const
@@ -91,7 +102,7 @@ void SliderBox::on_sliValue_actionTriggered(int action)
 
 void SliderBox::on_sliValue_valueChanged(int value)
 {
-    ui->txtValue->setStyleSheet("color: red;");
+    if (this->isChecked()) ui->txtValue->setStyleSheet("color: red;");
     emit valueChanged();
 }
 
@@ -140,4 +151,9 @@ void SliderBox::setMinimum(int minimum)
 
     ui->txtValue->setMinimum(minimum);
     ui->sliValue->setMinimum(minimum / m_ratio);
+}
+
+void SliderBox::on_chkTitle_toggled(bool checked)
+{
+    emit toggled(checked);
 }

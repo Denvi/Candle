@@ -26,6 +26,9 @@ public:
     bool isCheckable() const;
     void setCheckable(bool checkable);
 
+    bool isChecked();
+    void setChecked(bool checked);
+
     int ratio() const;
     void setRatio(int ratio);
 
@@ -44,6 +47,7 @@ public:
 signals:
     void valueUserChanged();
     void valueChanged();
+    void toggled(bool checked);
 
 private slots:
     void on_txtValue_editingFinished();
@@ -51,6 +55,8 @@ private slots:
     void on_sliValue_actionTriggered(int action);
 
     void on_sliValue_valueChanged(int value);
+
+    void on_chkTitle_toggled(bool checked);
 
 private:
     Ui::SliderBox *ui;
