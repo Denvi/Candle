@@ -292,6 +292,9 @@ private:
     bool m_spindleCW = true;
     bool m_spindleCommandSpeed = false;
 
+    // Jog
+    QVector3D m_jogVector;
+
     QStringList m_recentFiles;
     QStringList m_recentHeightmaps;
 
@@ -349,6 +352,7 @@ private:
     bool compareCoordinates(double x, double y, double z);
     int getConsoleMinHeight();
     void updateOverride(SliderBox *slider, int value, char command);
+    void jogStep();
 };
 
 #endif // FRMMAIN_H

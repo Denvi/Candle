@@ -7,6 +7,8 @@ SliderBox::SliderBox(QWidget *parent) :
 {
     ui->setupUi(this);    
 
+    ui->chkTitle->setVisible(false);
+
     this->setCheckable(true);
     this->setRatio(1);
     this->setMinimum(0);

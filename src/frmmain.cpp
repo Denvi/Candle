@@ -14,6 +14,7 @@
 #define QUEUE 7
 #define CHECK 8
 #define DOOR 9
+#define JOG 10
 
 #define PROGRESSMINLINES 10000
 #define PROGRESSSTEP     1000
@@ -47,7 +48,8 @@ frmMain::frmMain(QWidget *parent) :
              << "Hold:1"
              << "Queue"
              << "Check"
-             << "Door";                     // TODO: Update "Door" state
+             << "Door"                     // TODO: Update "Door" state
+             << "Jog";
     m_statusCaptions << tr("Unknown")
                      << tr("Idle")
                      << tr("Alarm")
@@ -57,7 +59,8 @@ frmMain::frmMain(QWidget *parent) :
                      << tr("Hold")
                      << tr("Queue")
                      << tr("Check")
-                     << tr("Door");
+                     << tr("Door")
+                     << tr("Jog");
     m_statusBackColors << "red"
                        << "palette(button)"
                        << "red"
@@ -67,7 +70,8 @@ frmMain::frmMain(QWidget *parent) :
                        << "yellow"
                        << "yellow"
                        << "palette(button)"
-                       << "red";
+                       << "red"
+                       << "lime";
     m_statusForeColors << "white"
                        << "palette(text)"
                        << "white"
@@ -77,7 +81,8 @@ frmMain::frmMain(QWidget *parent) :
                        << "black"
                        << "black"
                        << "palette(text)"
-                       << "white";
+                       << "white"
+                       << "black";
 
     // Loading settings
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
@@ -974,6 +979,8 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
+//            qDebug() << data;
+
             // Get overridings
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1)
@@ -1021,6 +1028,11 @@ void frmMain::onSerialPortReadyRead()
                     if (ca.command.toUpper() == "$G" && ca.tableIndex == -2) {
                         if (ui->chkKeyboardControl->isChecked()) m_absoluteCoordinates = response.contains("G90");
                         else if (response.contains("G90")) sendCommand("G90", -1, m_settings->showUICommands());
+                    }
+
+                    // Jog
+                    if (ca.command.toUpper().contains("$J=") && ca.tableIndex == -2) {
+                        jogStep();
                     }
 
                     // Process parser status
@@ -2633,6 +2645,44 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
     // Main form events
     if (obj == this || obj == ui->tblProgram) {
+
+        // Update jog vector
+        if (!m_processingFile && ui->chkKeyboardControl->isChecked() &&
+                (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)
+                && !static_cast<QKeyEvent*>(event)->isAutoRepeat()) {
+
+            QVector3D vec;
+
+            switch (static_cast<QKeyEvent*>(event)->key()) {
+            case Qt::Key_4:
+                vec = QVector3D(-1, 0, 0);
+                break;
+            case Qt::Key_6:
+                vec = QVector3D(1, 0, 0);
+                break;
+            case Qt::Key_8:
+                vec = QVector3D(0, 1, 0);
+                break;
+            case Qt::Key_2:
+                vec = QVector3D(0, -1, 0);
+                break;
+            case Qt::Key_9:
+                vec = QVector3D(0, 0, 1);
+                break;
+            case Qt::Key_3:
+                vec = QVector3D(0, 0, -1);
+                break;
+            }
+
+            m_jogVector += event->type() == QEvent::KeyPress ? vec : -vec;
+
+            if (m_jogVector.length() > 0) {
+                jogStep();
+            } else {
+//                m_serialPort.write(QByteArray(1, char(0x85)));        // Flush commands
+            }
+        }
+
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
@@ -2646,24 +2696,24 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                     blockJogForRapidMovement(keyEvent->isAutoRepeat());
 
                     switch (keyEvent->key()) {
-                    case Qt::Key_4:
-                        sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_6:
-                        sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_8:
-                        sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_2:
-                        sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_9:
-                        sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_3:
-                        sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
+//                    case Qt::Key_4:
+//                        sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
+//                    case Qt::Key_6:
+//                        sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
+//                    case Qt::Key_8:
+//                        sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
+//                    case Qt::Key_2:
+//                        sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
+//                    case Qt::Key_9:
+//                        sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
+//                    case Qt::Key_3:
+//                        sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
+//                        break;
                     }
                 }
                 else if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
@@ -3691,4 +3741,25 @@ void frmMain::updateOverride(SliderBox *slider, int value, char command)
     } else if (slider->currentValue() > target) {
         m_serialPort.write(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
     }
+}
+
+void frmMain::jogStep()
+{
+    if (m_jogVector.length() == 0) return;
+
+    const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
+    int speed = ui->txtJogStep->value();                        // Speed mm/min
+    double v = (double)speed / 60;                              // Rapid speed mm/sec
+    int N = 15;                                                 // Planner blocks
+    double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1)));      // Single jog command time
+    double s = v * dt;                                          // Jog distance
+
+    QVector3D vec = m_jogVector.normalized() * s;
+
+//    qDebug() << "jog" << speed << v << acc << dt <<s;
+
+    sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4").arg(vec.x(), 0, 'g', 4)
+                .arg(vec.y(), 0, 'g', 4)
+                .arg(vec.z(), 0, 'g', 4)
+                .arg(speed), -2, true);
 }

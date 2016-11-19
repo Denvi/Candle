@@ -1528,8 +1528,8 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-258</y>
-            <width>231</width>
+            <y>-400</y>
+            <width>228</width>
             <height>705</height>
            </rect>
           </property>
@@ -2228,7 +2228,7 @@ QSlider::handle:horizontal:hover {
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>Step:</string>
+                        <string>Feed:</string>
                        </property>
                        <property name="alignment">
                         <set>Qt::AlignCenter</set>
@@ -2255,16 +2255,16 @@ QDoubleSpinBox:focus {
                         <enum>QAbstractSpinBox::NoButtons</enum>
                        </property>
                        <property name="decimals">
-                        <number>2</number>
+                        <number>0</number>
                        </property>
                        <property name="minimum">
-                        <double>0.010000000000000</double>
+                        <double>0.000000000000000</double>
                        </property>
                        <property name="maximum">
-                        <double>100.000000000000000</double>
+                        <double>10000.000000000000000</double>
                        </property>
                        <property name="singleStep">
-                        <double>0.010000000000000</double>
+                        <double>1.000000000000000</double>
                        </property>
                        <property name="value">
                         <double>99.000000000000000</double>
@@ -2423,7 +2423,7 @@ QDoubleSpinBox:focus {
                           </size>
                          </property>
                          <property name="text">
-                          <string>1</string>
+                          <string>100</string>
                          </property>
                          <property name="checkable">
                           <bool>true</bool>
@@ -2445,7 +2445,7 @@ QDoubleSpinBox:focus {
                           </size>
                          </property>
                          <property name="text">
-                          <string>5</string>
+                          <string>500</string>
                          </property>
                          <property name="checkable">
                           <bool>true</bool>
@@ -2473,7 +2473,7 @@ QDoubleSpinBox:focus {
                         </size>
                        </property>
                        <property name="text">
-                        <string>0.1</string>
+                        <string>50</string>
                        </property>
                        <property name="checkable">
                         <bool>true</bool>
@@ -2495,7 +2495,7 @@ QDoubleSpinBox:focus {
                         </size>
                        </property>
                        <property name="text">
-                        <string>0.01</string>
+                        <string>10</string>
                        </property>
                        <property name="checkable">
                         <bool>true</bool>
@@ -2517,7 +2517,7 @@ QDoubleSpinBox:focus {
                         </size>
                        </property>
                        <property name="text">
-                        <string>10</string>
+                        <string>1000</string>
                        </property>
                        <property name="checkable">
                         <bool>true</bool>
@@ -2539,7 +2539,7 @@ QDoubleSpinBox:focus {
                         </size>
                        </property>
                        <property name="text">
-                        <string>100</string>
+                        <string>2000</string>
                        </property>
                        <property name="checkable">
                         <bool>true</bool>
