@@ -1047,19 +1047,8 @@ void frmMain::onSerialPortReadyRead()
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
                             double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-//                            if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
                             ui->slbSpindle->setCurrentValue(speed);
                         }
-
-                        // Feed
-//                        rx.setPattern(".*F([\\d\\.]+)");
-//                        if (rx.indexIn(response) != -1) {
-//                            double feed = toMetric(rx.cap(1).toDouble());
-//                            double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
-//                                                                          : m_originalFeed;
-//                            if (response.contains("G20")) set *= 25.4;
-//                            if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
-//                        }
 
                         m_updateParserStatus = true;
                     }
