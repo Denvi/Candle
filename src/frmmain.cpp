@@ -1794,7 +1794,7 @@ void frmMain::on_cmdFileAbort_clicked()
 void frmMain::storeParserState()
 {
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
-                QRegExp("\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+                QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
 }
 
 void frmMain::restoreParserState()
