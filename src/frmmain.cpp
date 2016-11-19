@@ -200,6 +200,7 @@ frmMain::frmMain(QWidget *parent) :
     // Setting up spindle slider box
     ui->slbSpindle->setTitle(tr("Speed:"));
     ui->slbSpindle->setCheckable(false);
+    ui->slbSpindle->setChecked(true);
     connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
     connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
         if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
@@ -308,7 +309,7 @@ void frmMain::loadSettings()
     m_settings->setPanelUserCommands(set.value("panelUserCommandsVisible", true).toBool());
     m_settings->setPanelHeightmap(set.value("panelHeightmapVisible", true).toBool());
     m_settings->setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
-    m_settings->setPanelFeed(set.value("panelFeedVisible", true).toBool());
+    m_settings->setPanelOverriding(set.value("panelOverridingVisible", true).toBool());
     m_settings->setPanelJog(set.value("panelJogVisible", true).toBool());
 
     ui->grpConsole->setMinimumHeight(set.value("consoleMinHeight", 100).toInt());
@@ -467,7 +468,7 @@ void frmMain::saveSettings()
     set.setValue("panelUserCommandsVisible", m_settings->panelUserCommands());
     set.setValue("panelHeightmapVisible", m_settings->panelHeightmap());
     set.setValue("panelSpindleVisible", m_settings->panelSpindle());
-    set.setValue("panelFeedVisible", m_settings->panelFeed());
+    set.setValue("panelOverridingVisible", m_settings->panelOverriding());
     set.setValue("panelJogVisible", m_settings->panelJog());
     set.setValue("fontSize", m_settings->fontSize());
     set.setValue("consoleMinHeight", ui->grpConsole->minimumHeight());
@@ -1963,13 +1964,13 @@ void frmMain::applySettings() {
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
-    ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelFeed()
+    ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelOverriding()
                                || m_settings->panelJog() || m_settings->panelSpindle());
 
     ui->grpUserCommands->setVisible(m_settings->panelUserCommands());
     ui->grpHeightMap->setVisible(m_settings->panelHeightmap());
     ui->grpSpindle->setVisible(m_settings->panelSpindle());
-    ui->grpOverriding->setVisible(m_settings->panelFeed());
+    ui->grpOverriding->setVisible(m_settings->panelOverriding());
     ui->grpJog->setVisible(m_settings->panelJog());
 
     ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
@@ -2531,9 +2532,9 @@ void frmMain::on_grpOverriding_toggled(bool checked)
         ui->grpOverriding->setTitle(tr("Overriding"));
     } else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() | ui->slbSpindleOverride->isChecked()) {
         ui->grpOverriding->setTitle(tr("Overriding") + QString(tr(" (%1/%2/%3)"))
-                                    .arg(ui->slbFeedOverride->value())
-                                    .arg(ui->slbRapidOverride->value())
-                                    .arg(ui->slbSpindleOverride->value()));
+                                    .arg(ui->slbFeedOverride->isChecked() ? ui->slbFeedOverride->value() : 100)
+                                    .arg(ui->slbRapidOverride->isChecked() ? ui->slbRapidOverride->value() : 100)
+                                    .arg(ui->slbSpindleOverride->isChecked() ? ui->slbSpindleOverride->value() : 100));
     }
     updateLayouts();
 

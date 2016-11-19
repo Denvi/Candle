@@ -71,7 +71,7 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-884</y>
+          <y>-984</y>
           <width>402</width>
           <height>1657</height>
          </rect>
@@ -1200,9 +1200,9 @@ QGroupBox {
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QCheckBox" name="chkPanelFeed">
+             <widget class="QCheckBox" name="chkPanelOverriding">
               <property name="text">
-               <string>Feed</string>
+               <string>Overriding</string>
               </property>
              </widget>
             </item>
