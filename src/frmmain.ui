@@ -2236,7 +2236,7 @@ QSlider::handle:horizontal:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="txtJogStep">
+                      <widget class="QDoubleSpinBox" name="txtJogFeed">
                        <property name="styleSheet">
                         <string notr="true">QDoubleSpinBox {
 	border: 1px solid lightgray;
@@ -2409,7 +2409,7 @@ QDoubleSpinBox:focus {
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_6">
                        <item>
-                        <widget class="StyledToolButton" name="cmdJogStep3">
+                        <widget class="StyledToolButton" name="cmdJogFeed3">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -2431,7 +2431,7 @@ QDoubleSpinBox:focus {
                         </widget>
                        </item>
                        <item>
-                        <widget class="StyledToolButton" name="cmdJogStep4">
+                        <widget class="StyledToolButton" name="cmdJogFeed4">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -2458,30 +2458,8 @@ QDoubleSpinBox:focus {
                    </item>
                    <item>
                     <layout class="QGridLayout" name="gridLayout_2">
-                     <item row="0" column="1">
-                      <widget class="StyledToolButton" name="cmdJogStep2">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>42</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>50</string>
-                       </property>
-                       <property name="checkable">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
                      <item row="0" column="0">
-                      <widget class="StyledToolButton" name="cmdJogStep1">
+                      <widget class="StyledToolButton" name="cmdJogFeed1">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2502,8 +2480,30 @@ QDoubleSpinBox:focus {
                        </property>
                       </widget>
                      </item>
+                     <item row="0" column="1">
+                      <widget class="StyledToolButton" name="cmdJogFeed2">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>42</width>
+                         <height>25</height>
+                        </size>
+                       </property>
+                       <property name="text">
+                        <string>50</string>
+                       </property>
+                       <property name="checkable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
                      <item row="1" column="0">
-                      <widget class="StyledToolButton" name="cmdJogStep5">
+                      <widget class="StyledToolButton" name="cmdJogFeed5">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2525,7 +2525,7 @@ QDoubleSpinBox:focus {
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="StyledToolButton" name="cmdJogStep6">
+                      <widget class="StyledToolButton" name="cmdJogFeed6">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2539,7 +2539,7 @@ QDoubleSpinBox:focus {
                         </size>
                        </property>
                        <property name="text">
-                        <string>2000</string>
+                        <string>R</string>
                        </property>
                        <property name="checkable">
                         <bool>true</bool>
@@ -2892,15 +2892,15 @@ padding-right: 8;</string>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
-  <tabstop>txtJogStep</tabstop>
+  <tabstop>txtJogFeed</tabstop>
   <tabstop>cmdZPlus</tabstop>
   <tabstop>cmdZMinus</tabstop>
-  <tabstop>cmdJogStep1</tabstop>
-  <tabstop>cmdJogStep2</tabstop>
-  <tabstop>cmdJogStep3</tabstop>
-  <tabstop>cmdJogStep4</tabstop>
-  <tabstop>cmdJogStep5</tabstop>
-  <tabstop>cmdJogStep6</tabstop>
+  <tabstop>cmdJogFeed1</tabstop>
+  <tabstop>cmdJogFeed2</tabstop>
+  <tabstop>cmdJogFeed3</tabstop>
+  <tabstop>cmdJogFeed4</tabstop>
+  <tabstop>cmdJogFeed5</tabstop>
+  <tabstop>cmdJogFeed6</tabstop>
   <tabstop>chkKeyboardControl</tabstop>
   <tabstop>txtConsole</tabstop>
   <tabstop>cboCommand</tabstop>
@@ -2915,22 +2915,6 @@ padding-right: 8;</string>
   <connection>
    <sender>chkKeyboardControl</sender>
    <signal>toggled(bool)</signal>
-   <receiver>txtJogStep</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>680</x>
-     <y>775</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
    <receiver>tblProgram</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
@@ -2941,6 +2925,22 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>493</x>
      <y>576</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtJogFeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>788</x>
+     <y>928</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>680</x>
+     <y>775</y>
     </hint>
    </hints>
   </connection>

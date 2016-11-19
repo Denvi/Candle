@@ -92,8 +92,7 @@ private slots:
     void onSerialPortError(QSerialPort::SerialPortError);
     void onTimerConnection();
     void onTimerStateQuery();
-    void onTimerOverride();
-    void onCmdJogStepClicked();
+    void onCmdJogFeedClicked();
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
     void onJogTimer();
@@ -124,12 +123,6 @@ private slots:
     void on_cmdUnlock_clicked();
     void on_cmdSafePosition_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_cmdYPlus_clicked();
-    void on_cmdYMinus_clicked();
-    void on_cmdXPlus_clicked();
-    void on_cmdXMinus_clicked();
-    void on_cmdZPlus_clicked();
-    void on_cmdZMinus_clicked();
     void on_chkTestMode_clicked(bool checked);
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
@@ -172,6 +165,30 @@ private slots:
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
     void on_cmdSpindle_clicked(bool checked);   
+
+    void on_cmdYPlus_pressed();
+
+    void on_cmdYPlus_released();
+
+    void on_cmdYMinus_pressed();
+
+    void on_cmdYMinus_released();
+
+    void on_cmdXPlus_pressed();
+
+    void on_cmdXPlus_released();
+
+    void on_cmdXMinus_pressed();
+
+    void on_cmdXMinus_released();
+
+    void on_cmdZPlus_pressed();
+
+    void on_cmdZPlus_released();
+
+    void on_cmdZMinus_pressed();
+
+    void on_cmdZMinus_released();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -225,7 +242,6 @@ private:
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
-    QTimer m_timerOverride;
 
     QStringList m_status;
     QStringList m_statusCaptions;

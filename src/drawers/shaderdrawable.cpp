@@ -152,7 +152,6 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
         shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
     }
 
-    // TODO: Add triangles
     if (!m_triangles.isEmpty()) {
         if (m_texture) {
             m_texture->bind();
