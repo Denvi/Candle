@@ -988,8 +988,6 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
-//            qDebug() << data;
-
             // Get overridings
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1)
@@ -1012,6 +1010,20 @@ void frmMain::onSerialPortReadyRead()
                 case 100:
                     m_serialPort.write(QByteArray(1, char(0x95)));
                     break;
+                }
+
+                // Process spindle state
+                static QRegExp as("A:([^,^>^|]+)");
+                if (as.indexIn(data) != -1) {
+                    QString state = as.cap(1);
+                    m_spindleCW = state.contains("S");
+                    if (state.contains("S") || state.contains("C")) {
+                        m_timerToolAnimation.start(25, this);
+                        ui->cmdSpindle->setChecked(true);
+                    }
+                } else {
+                    m_timerToolAnimation.stop();
+                    ui->cmdSpindle->setChecked(false);
                 }
             }
 
@@ -1051,16 +1063,6 @@ void frmMain::onSerialPortReadyRead()
 
                         // Store parser status
                         if (m_processingFile) storeParserState();
-
-                        // Process spindle state
-                        if (!response.contains("M5")) {
-                            m_spindleCW = response.contains("M3");
-                            m_timerToolAnimation.start(25, this);
-                            ui->cmdSpindle->setChecked(true);
-                        } else {
-                            m_timerToolAnimation.stop();
-                            ui->cmdSpindle->setChecked(false);
-                        }
 
                         // Spindle speed
                         QRegExp rx(".*S([\\d\\.]+)");
@@ -3722,7 +3724,7 @@ void frmMain::jogStep()
     sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4").arg(vec.x(), 0, 'g', 4)
                 .arg(vec.y(), 0, 'g', 4)
                 .arg(vec.z(), 0, 'g', 4)
-                .arg(speed), -2, true);
+                .arg(speed), -2, false);
 }
 
 void frmMain::on_cmdYPlus_pressed()
