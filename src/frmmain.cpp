@@ -1001,6 +1001,13 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
+            // Update spindle speed value
+            static QRegExp ss("FS:([^,]*),([^,^>^|]*)");
+            if (ss.indexIn(data) != -1) {
+                double speed = toMetric(ss.cap(2).toDouble()); //RPM in imperial?
+                ui->slbSpindle->setCurrentValue(speed);
+            }
+
         } else if (data.length() > 0) {
 
             // Processed commands
@@ -1042,24 +1049,6 @@ void frmMain::onSerialPortReadyRead()
                             m_timerToolAnimation.stop();
                             ui->cmdSpindle->setChecked(false);
                         }
-
-                        // Spindle speed
-                        QRegExp rx(".*S([\\d\\.]+)");
-                        if (rx.indexIn(response) != -1) {
-                            double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
-//                            if (fabs(ui->txtSpindleSpeed->value() - speed) < 2.54) ui->txtSpindleSpeed->setStyleSheet("color: palette(text);");
-                            ui->slbSpindle->setCurrentValue(speed);
-                        }
-
-                        // Feed
-//                        rx.setPattern(".*F([\\d\\.]+)");
-//                        if (rx.indexIn(response) != -1) {
-//                            double feed = toMetric(rx.cap(1).toDouble());
-//                            double set = ui->chkFeedOverride->isChecked() ? m_originalFeed / 100 * ui->txtFeed->value()
-//                                                                          : m_originalFeed;
-//                            if (response.contains("G20")) set *= 25.4;
-//                            if (fabs(feed - set) < 2.54) ui->txtFeed->setStyleSheet("color: palette(text);");
-//                        }
 
                         m_updateParserStatus = true;
                     }
@@ -1805,7 +1794,7 @@ void frmMain::on_cmdFileAbort_clicked()
 void frmMain::storeParserState()
 {
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
-                QRegExp("\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+                QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
 }
 
 void frmMain::restoreParserState()
