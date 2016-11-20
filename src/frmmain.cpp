@@ -240,6 +240,7 @@ void frmMain::loadSettings()
     m_settings->setFontSize(set.value("fontSize", 8).toInt());
     m_settings->setPort(set.value("port").toString());
     m_settings->setBaud(set.value("baud").toInt());
+    m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
     m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
     m_settings->setToolLength(set.value("toolLength", 15).toDouble());
     m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
@@ -375,6 +376,7 @@ void frmMain::saveSettings()
 
     set.setValue("port", m_settings->port());
     set.setValue("baud", m_settings->baud());
+    set.setValue("ignoreErrors", m_settings->ignoreErrors());
     set.setValue("toolDiameter", m_settings->toolDiameter());
     set.setValue("toolLength", m_settings->toolLength());
     set.setValue("antialiasing", m_settings->antialiasing());
@@ -1078,7 +1080,7 @@ void frmMain::onSerialPortReadyRead()
                         static bool holding = false;
                         static QString errors;
 
-                        if (ca.tableIndex > -1 && response.toUpper().contains("ERROR") && !m_ignoreErrors) {
+                        if (ca.tableIndex > -1 && response.toUpper().contains("ERROR") && !m_settings->ignoreErrors()) {
                             errors.append(QString::number(ca.tableIndex + 1) + ": " + ca.command
                                           + " < " + response + "\n");
 
@@ -1093,7 +1095,7 @@ void frmMain::onSerialPortReadyRead()
 
                                 holding = false;
                                 errors.clear();
-                                if (m_senderErrorBox->checkBox()->isChecked()) m_ignoreErrors = true;
+                                if (m_senderErrorBox->checkBox()->isChecked()) m_settings->setIgnoreErrors(true);
                                 if (result == QMessageBox::Ignore) m_serialPort.write("~"); else on_cmdFileAbort_clicked();
                             }
                         }
@@ -1675,7 +1677,6 @@ void frmMain::on_cmdFileSend_clicked()
     m_transferCompleted = false;
     m_processingFile = true;
     m_fileEndSent = false;
-    m_ignoreErrors = false;
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 

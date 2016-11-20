@@ -73,7 +73,7 @@ QGroupBox {
           <x>0</x>
           <y>-884</y>
           <width>402</width>
-          <height>1657</height>
+          <height>1722</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -167,6 +167,22 @@ QGroupBox {
                </widget>
               </item>
              </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="GroupBox" name="grpConnection_2">
+           <property name="title">
+            <string>Sender</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QCheckBox" name="chkIgnoreErrors">
+              <property name="text">
+               <string>Ignore error responses</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
