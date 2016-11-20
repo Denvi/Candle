@@ -258,6 +258,9 @@ private:
     QList<CommandQueue> m_queue;
     QTime m_startTime;
 
+    QMessageBox* m_senderErrorBox;
+
+    // Stored origin
     double m_storedX = 0;
     double m_storedY = 0;
     double m_storedZ = 0;
@@ -287,6 +290,8 @@ private:
 
     bool m_heightMapMode;
     bool m_cellChanged;
+
+    bool m_ignoreErrors = false;
 
     // Indices
     int m_fileCommandIndex;

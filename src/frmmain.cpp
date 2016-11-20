@@ -213,11 +213,31 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->grpConsole, SIGNAL(resized(QSize)), this, SLOT(onConsoleResized(QSize)));
     connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
+    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(),
+                                       QMessageBox::Ignore | QMessageBox::Abort, this);
+    m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
+
     // Loading settings
     loadSettings();
     ui->tblProgram->hideColumn(4);
     ui->tblProgram->hideColumn(5);
-//    ui->tblProgram->showColumn(4);
+    updateControlsState();
+
+    // Prepare jog buttons
+    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
+    {
+        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
+    }
+
+    // Setting up spindle slider box
+    ui->slbSpindle->setTitle(tr("Speed:"));
+    ui->slbSpindle->setCheckable(false);
+    ui->slbSpindle->setChecked(true);
+    connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
+    connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
+        if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
+            ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
+    });
 
     // Setup serial port
     m_serialPort.setParity(QSerialPort::NoParity);
@@ -232,31 +252,6 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::AutoConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
-
-//    // Apply settings
-//    show(); // Visibility bug workaround
-//    applySettings();
-    updateControlsState();
-
-    bool selected = false;
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
-    {
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
-//        if (!selected && button->text().toDouble() == ui->txtJogStep->value()) {
-//            button->setChecked(true);
-//            selected = true;
-//        }
-    }
-
-    // Setting up spindle slider box
-    ui->slbSpindle->setTitle(tr("Speed:"));
-    ui->slbSpindle->setCheckable(false);
-    ui->slbSpindle->setChecked(true);
-    connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
-    connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
-        if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
-            ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
-    });
 
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
@@ -275,9 +270,10 @@ frmMain::frmMain(QWidget *parent) :
 }
 
 frmMain::~frmMain()
-{
+{    
     saveSettings();
 
+    delete m_senderErrorBox;
     delete ui;
 }
 
@@ -1211,11 +1207,35 @@ void frmMain::onSerialPortReadyRead()
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
 #endif                                               
+                        // Process error messages
+                        static bool holding = false;
+                        static QString errors;
+
+                        if (ca.tableIndex > -1 && response.toUpper().contains("ERROR") && !m_ignoreErrors) {
+                            errors.append(QString::number(ca.tableIndex + 1) + ": " + ca.command
+                                          + " < " + response + "\n");
+
+                            m_senderErrorBox->setText("Error message(s) received:\n" + errors);
+
+                            if (!holding) {
+                                holding = true;         // Hold transmit while messagebox is visible
+                                response.clear();
+
+                                m_serialPort.write("!");
+                                int result = m_senderErrorBox->exec();
+
+                                holding = false;
+                                errors.clear();
+                                if (m_senderErrorBox->checkBox()->isChecked()) m_ignoreErrors = true;
+                                if (result == QMessageBox::Ignore) m_serialPort.write("~"); else on_cmdFileAbort_clicked();
+                            }
+                        }
+
                         // Check transfer complete (last row always blank, last command row = rowcount - 2)
                         if (m_fileProcessedCommandIndex == m_currentModel->rowCount() - 2
                                 || ca.command.contains(QRegExp("M0*2|M30"))) m_transferCompleted = true;
                         // Send next program commands
-                        else if (!m_fileEndSent && (m_fileCommandIndex < m_currentModel->rowCount())) sendNextFileCommands();
+                        else if (!m_fileEndSent && (m_fileCommandIndex < m_currentModel->rowCount()) && !holding) sendNextFileCommands();
                     }
 
                     // Scroll to first line on "M30" command
@@ -1791,6 +1811,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_transferCompleted = false;
     m_processingFile = true;
     m_fileEndSent = false;
+    m_ignoreErrors = false;
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 

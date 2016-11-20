@@ -71,7 +71,7 @@ QGroupBox {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-984</y>
+          <y>0</y>
           <width>402</width>
           <height>1657</height>
          </rect>
