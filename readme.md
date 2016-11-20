@@ -8,7 +8,18 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
-Version 1.0 pre-release:
+Version 1.1 pre-release:
+--------------------
+
+* Moving to Grbl v1.1 firmware
+
+Downloads:
+----------
+* Windows: [candle_1.1.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.zip)
+* Linux: [candle_1.1.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.tar.gz)
+
+
+Version 1.0 release:
 --------------------
 
 * Added "Grayscale segments"-option and "Raster"-mode to visualize laser jobs.
