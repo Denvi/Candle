@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>878</width>
-    <height>899</height>
+    <height>847</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -1528,7 +1528,7 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-245</y>
             <width>228</width>
             <height>705</height>
            </rect>
@@ -2919,8 +2919,8 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>813</y>
     </hint>
     <hint type="destinationlabel">
      <x>493</x>
@@ -2935,12 +2935,60 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>813</y>
     </hint>
     <hint type="destinationlabel">
-     <x>680</x>
-     <y>775</y>
+     <x>750</x>
+     <y>656</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>slbSpindle</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>786</x>
+     <y>804</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>widgetFeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>807</x>
+     <y>799</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>773</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblHeightMap</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>799</x>
+     <y>803</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>790</y>
     </hint>
    </hints>
   </connection>
