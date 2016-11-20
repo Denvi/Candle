@@ -113,6 +113,8 @@ public:
     void setDrawModeVectors(bool value);
     QString userCommands(int index);
     void setUserCommands(int index, QString commands);
+    bool ignoreErrors();
+    void setIgnoreErrors(bool value);
 
 protected:
     void showEvent(QShowEvent *se);

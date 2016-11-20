@@ -291,8 +291,6 @@ private:
     bool m_heightMapMode;
     bool m_cellChanged;
 
-    bool m_ignoreErrors = false;
-
     // Indices
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;

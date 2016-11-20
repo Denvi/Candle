@@ -563,6 +563,16 @@ void frmSettings::setUserCommands(int index, QString commands)
     this->findChild<QLineEdit*>(QString("txtUserCommand%1").arg(index))->setText(commands);
 }
 
+bool frmSettings::ignoreErrors()
+{
+    return ui->chkIgnoreErrors->isChecked();
+}
+
+void frmSettings::setIgnoreErrors(bool value)
+{
+    ui->chkIgnoreErrors->setChecked(value);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -608,6 +618,8 @@ void frmSettings::on_cmdDefaults_clicked()
 
     setPort("");
     setBaud(115200);
+
+    setIgnoreErrors(false);
 
     setQueryStateTime(40);
     setRapidSpeed(2000);
