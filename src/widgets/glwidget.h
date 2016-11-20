@@ -74,6 +74,9 @@ public:
     bool vsync() const;
     void setVsync(bool vsync);
 
+    QString additionalStatus() const;
+    void setAdditionalStatus(const QString &additionalStatus);
+
 signals:
     void rotationChanged();
     void resized();
@@ -109,6 +112,7 @@ private:
     double m_xRotStored, m_yRotStored;
     bool m_animateView;
     QString m_parserStatus;
+    QString m_additionalStatus;
     QString m_bufferState;
     bool m_updatesEnabled;
 

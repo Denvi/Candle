@@ -1039,6 +1039,12 @@ void frmMain::onSerialPortReadyRead()
                 }
             }
 
+            // Get feed/spindle values
+            static QRegExp fs("FS:([^,]*),([^,^|^>]*)");
+            if (fs.indexIn(data) != -1) {
+                ui->glwVisualizer->setAdditionalStatus(QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(fs.cap(2)));
+            }
+
         } else if (data.length() > 0) {
 
             // Processed commands

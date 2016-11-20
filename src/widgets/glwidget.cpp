@@ -170,6 +170,16 @@ void GLWidget::viewAnimation()
     updateView();
 }
 
+QString GLWidget::additionalStatus() const
+{
+    return m_additionalStatus;
+}
+
+void GLWidget::setAdditionalStatus(const QString &additionalStatus)
+{
+    m_additionalStatus = additionalStatus;
+}
+
 bool GLWidget::vsync() const
 {
     return m_vsync;
@@ -469,6 +479,7 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     QFontMetrics fm(painter.font());
 
     painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
+    painter.drawText(QPoint(x, fm.height() * 2 + 10), m_additionalStatus);
 
     QString str = QString(tr("Vertices: %1")).arg(vertices);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);
