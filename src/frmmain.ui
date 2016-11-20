@@ -1528,9 +1528,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>238</width>
-            <height>735</height>
+            <y>-420</y>
+            <width>231</width>
+            <height>725</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2787,7 +2787,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>878</width>
-     <height>19</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -3000,12 +3000,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>680</x>
-     <y>775</y>
+     <x>750</x>
+     <y>501</y>
     </hint>
    </hints>
   </connection>
@@ -3016,12 +3016,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>786</x>
-     <y>616</y>
+     <x>856</x>
+     <y>332</y>
     </hint>
    </hints>
   </connection>
@@ -3032,12 +3032,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>787</x>
-     <y>644</y>
+     <x>857</x>
+     <y>361</y>
     </hint>
    </hints>
   </connection>
@@ -3048,12 +3048,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>736</x>
-     <y>528</y>
+     <x>805</x>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
@@ -3064,12 +3064,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>737</x>
-     <y>556</y>
+     <x>806</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -3080,12 +3080,44 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>928</y>
+     <x>858</x>
+     <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>493</x>
-     <y>576</y>
+     <x>512</x>
+     <y>570</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>grpHeightMapSettings</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>748</x>
+     <y>648</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>206</x>
+     <y>724</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblHeightMap</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>793</x>
+     <y>651</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>203</x>
+     <y>613</y>
     </hint>
    </hints>
   </connection>
