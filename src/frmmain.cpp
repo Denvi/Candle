@@ -1224,6 +1224,7 @@ void frmMain::onSerialPortReadyRead()
                                 response.clear();
 
                                 m_serialPort.write("!");
+                                m_senderErrorBox->checkBox()->setChecked(false);
                                 int result = m_senderErrorBox->exec();
 
                                 holding = false;
