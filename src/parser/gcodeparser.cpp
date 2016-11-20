@@ -331,19 +331,19 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
 
     if (code == 0) ps = addLinearPointSegment(nextPoint, true);
-    else if (code == 1) ps = addLinearPointSegment(nextPoint, false);
-    else if (code == 38.2) ps = addLinearPointSegment(nextPoint, false);
-    else if (code == 2) ps = addArcPointSegment(nextPoint, true, args);
-    else if (code == 3) ps = addArcPointSegment(nextPoint, false, args);
-    else if (code == 17) this->m_currentPlane = PointSegment::XY;
-    else if (code == 18) this->m_currentPlane = PointSegment::ZX;
-    else if (code == 19) this->m_currentPlane = PointSegment::YZ;
-    else if (code == 20) this->m_isMetric = false;
-    else if (code == 21) this->m_isMetric = true;
-    else if (code == 90) this->m_inAbsoluteMode = true;
-    else if (code == 90.1) this->m_inAbsoluteIJKMode = true;
-    else if (code == 91) this->m_inAbsoluteMode = false;
-    else if (code == 91.1) this->m_inAbsoluteIJKMode = false;
+    else if (code == 1.0f) ps = addLinearPointSegment(nextPoint, false);
+    else if (code == 38.2f) ps = addLinearPointSegment(nextPoint, false);
+    else if (code == 2.0f) ps = addArcPointSegment(nextPoint, true, args);
+    else if (code == 3.0f) ps = addArcPointSegment(nextPoint, false, args);
+    else if (code == 17.0f) this->m_currentPlane = PointSegment::XY;
+    else if (code == 18.0f) this->m_currentPlane = PointSegment::ZX;
+    else if (code == 19.0f) this->m_currentPlane = PointSegment::YZ;
+    else if (code == 20.0f) this->m_isMetric = false;
+    else if (code == 21.0f) this->m_isMetric = true;
+    else if (code == 90.0f) this->m_inAbsoluteMode = true;
+    else if (code == 90.1f) this->m_inAbsoluteIJKMode = true;
+    else if (code == 91.0f) this->m_inAbsoluteMode = false;
+    else if (code == 91.1f) this->m_inAbsoluteIJKMode = false;
 
     if (code == 0 || code == 1 || code == 2 || code == 3 || code == 38.2) this->m_lastGcodeCommand = code;
 

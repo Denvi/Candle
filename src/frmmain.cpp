@@ -144,6 +144,12 @@ frmMain::frmMain(QWidget *parent) :
     ui->slbFeedOverride->setTitle(tr("Feed rate:"));
     ui->slbFeedOverride->setSuffix("%");
     connect(ui->slbFeedOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
+    connect(ui->slbFeedOverride, &SliderBox::toggled, [=] {
+        updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    });
+    connect(ui->slbFeedOverride, &SliderBox::valueChanged, [=] {
+        updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    });
 
     ui->slbRapidOverride->setRatio(50);
     ui->slbRapidOverride->setMinimum(25);
