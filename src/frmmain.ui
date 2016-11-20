@@ -1528,7 +1528,7 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-400</y>
+            <y>0</y>
             <width>228</width>
             <height>705</height>
            </rect>
