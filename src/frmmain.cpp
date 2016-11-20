@@ -1084,7 +1084,7 @@ void frmMain::onSerialPortReadyRead()
                             errors.append(QString::number(ca.tableIndex + 1) + ": " + ca.command
                                           + " < " + response + "\n");
 
-                            m_senderErrorBox->setText("Error message(s) received:\n" + errors);
+                            m_senderErrorBox->setText(tr("Error message(s) received:\n") + errors);
 
                             if (!holding) {
                                 holding = true;         // Hold transmit while messagebox is visible
