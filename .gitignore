@@ -50,3 +50,6 @@ build-*
 
 # Binaries
 bin/*
+
+# Idea
+.idea
