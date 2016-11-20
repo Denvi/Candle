@@ -34,7 +34,6 @@
 #include <QMimeData>
 #include "frmmain.h"
 #include "ui_frmmain.h"
-#include "windows.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
