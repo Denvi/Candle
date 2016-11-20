@@ -141,6 +141,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->grpConsole, SIGNAL(resized(QSize)), this, SLOT(onConsoleResized(QSize)));
     connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
+    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(),
+                                       QMessageBox::Ignore | QMessageBox::Abort, this);
+    m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
+
     // Loading settings
     loadSettings();
     ui->tblProgram->hideColumn(4);
@@ -190,6 +194,7 @@ frmMain::~frmMain()
 {
     saveSettings();
 
+    delete m_senderErrorBox;
     delete ui;
 }
 
@@ -1069,11 +1074,35 @@ void frmMain::onSerialPortReadyRead()
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
 #endif
+                        // Process error messages
+                        static bool holding = false;
+                        static QString errors;
+
+                        if (ca.tableIndex > -1 && response.toUpper().contains("ERROR") && !m_ignoreErrors) {
+                            errors.append(QString::number(ca.tableIndex + 1) + ": " + ca.command
+                                          + " < " + response + "\n");
+
+                            m_senderErrorBox->setText("Error message(s) received:\n" + errors);
+
+                            if (!holding) {
+                                holding = true;         // Hold transmit while messagebox is visible
+                                response.clear();
+
+                                m_serialPort.write("!");
+                                int result = m_senderErrorBox->exec();
+
+                                holding = false;
+                                errors.clear();
+                                if (m_senderErrorBox->checkBox()->isChecked()) m_ignoreErrors = true;
+                                if (result == QMessageBox::Ignore) m_serialPort.write("~"); else on_cmdFileAbort_clicked();
+                            }
+                        }
+
                         // Check transfer complete (last row always blank, last command row = rowcount - 2)
                         if (m_fileProcessedCommandIndex == m_currentModel->rowCount() - 2
                                 || ca.command.contains(QRegExp("M0*2|M30"))) m_transferCompleted = true;
                         // Send next program commands
-                        else if (!m_fileEndSent && (m_fileCommandIndex < m_currentModel->rowCount())) sendNextFileCommands();
+                        else if (!m_fileEndSent && (m_fileCommandIndex < m_currentModel->rowCount()) && !holding) sendNextFileCommands();
                     }
 
                     // Scroll to first line on "M30" command
@@ -1646,6 +1675,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_transferCompleted = false;
     m_processingFile = true;
     m_fileEndSent = false;
+    m_ignoreErrors = false;
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
