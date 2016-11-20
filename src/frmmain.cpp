@@ -59,7 +59,7 @@ frmMain::frmMain(QWidget *parent) :
 #ifndef UNIX
     ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
 #endif
-    ui->scrollArea->updateMinimumWidth();
+//    ui->scrollArea->updateMinimumWidth();
 
     m_heightMapMode = false;
     m_lastDrawnLineIndex = 0;
@@ -168,8 +168,6 @@ frmMain::frmMain(QWidget *parent) :
         button->setChecked(button->text().toDouble() == ui->txtJogStep->value());
     }
 
-    show(); // Visibility bug workaround
-    applySettings();
     updateControlsState();
 
     this->installEventFilter(this);
@@ -310,16 +308,7 @@ void frmMain::loadSettings()
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
-    ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
-    ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
-    ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
-    ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
-    ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
-
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
-
-    ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
-    ui->cboCommand->setCurrentIndex(-1);
 
     m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
     m_settings->setTouchCommand(set.value("touchCommand").toString());
@@ -354,6 +343,22 @@ void frmMain::loadSettings()
     updateRecentFilesMenu();
 
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
+
+    // Update right panel width
+    applySettings();
+    show();
+    ui->scrollArea->updateMinimumWidth();
+
+    // Restore panels state
+    ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
+    ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
+    ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
+    ui->grpFeed->setChecked(set.value("feedPanel", true).toBool());
+    ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
+
+    // Restore last commands list
+    ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
+    ui->cboCommand->setCurrentIndex(-1);
 
     m_settingsLoading = false;
 }
@@ -1064,7 +1069,6 @@ void frmMain::onSerialPortReadyRead()
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
 #endif
-
                         // Check transfer complete (last row always blank, last command row = rowcount - 2)
                         if (m_fileProcessedCommandIndex == m_currentModel->rowCount() - 2
                                 || ca.command.contains(QRegExp("M0*2|M30"))) m_transferCompleted = true;
