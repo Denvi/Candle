@@ -2692,39 +2692,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
             if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
                 ui->chkKeyboardControl->toggle();
-                if (!ui->chkKeyboardControl->isChecked()) {
-                    ui->cboCommand->setFocus();
-                    ui->cboCommand->grabKeyboard();
-                }
+                if (!ui->chkKeyboardControl->isChecked()) ui->cboCommand->setFocus();
             }
 
             if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
-/*                // Block only autorepeated keypresses
-                if (keyIsMovement(keyEvent->key()) && !(m_jogBlock && keyEvent->isAutoRepeat())) {
-                    blockJogForRapidMovement(keyEvent->isAutoRepeat());
-
-                    switch (keyEvent->key()) {
-                    case Qt::Key_4:
-                        sendCommand("G91G0X-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_6:
-                        sendCommand("G91G0X" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_8:
-                        sendCommand("G91G0Y" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_2:
-                        sendCommand("G91G0Y-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_9:
-                        sendCommand("G91G0Z" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    case Qt::Key_3:
-                        sendCommand("G91G0Z-" + ui->txtJogStep->text(), -1, m_settings->showUICommands());
-                        break;
-                    }
-                }
-                else */if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
+                if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
                     QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d"));
                     std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
 
