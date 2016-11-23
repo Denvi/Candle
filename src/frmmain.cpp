@@ -2601,6 +2601,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
             if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
                 ui->chkKeyboardControl->toggle();
+                if (!ui->chkKeyboardControl->isChecked()) ui->cboCommand->setFocus();
             }
 
             if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
