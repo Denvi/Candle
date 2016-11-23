@@ -213,9 +213,8 @@ bool GcodeDrawer::prepareRaster()
 
     for (int i = 0; i < list->count(); i++) {
         if (!qIsNaN(list->at(i)->getEnd().length())) {
-            image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                                (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
-                                getSegmentColor(list->at(i)));
+            setImagePixelColor(image, (list->at(i)->getEnd().x() + origin.x()) / pixelSize,
+                               (list->at(i)->getEnd().y() + origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
         }
     }
 
@@ -280,15 +279,22 @@ bool GcodeDrawer::updateRaster()
         double pixelSize = m_viewParser->getMinLength();
         QVector3D origin = m_viewParser->getMinimumExtremes();
 
-        foreach (int i, m_indexes) m_image.setPixelColor((list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                                                         (list->at(i)->getEnd().y() + origin.y()) / pixelSize,
-                                                         getSegmentColor(list->at(i)));
+        foreach (int i, m_indexes) setImagePixelColor(m_image, (list->at(i)->getEnd().x() + origin.x()) / pixelSize,
+                                                      (list->at(i)->getEnd().y() + origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
 
         if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.bits());
     }
 
     m_indexes.clear();
     return false;
+}
+
+void GcodeDrawer::setImagePixelColor(QImage &image, int x, int y, QRgb color) const
+{
+    uchar* pixel = image.scanLine(y);
+    *(pixel + x * 3) = qRed(color);
+    *(pixel + x * 3 + 1) = qGreen(color);
+    *(pixel + x * 3 + 2) = qBlue(color);
 }
 
 QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)
