@@ -17,7 +17,7 @@ win32: {
 
 unix:!macx {
     DEFINES += UNIX #GL_GLEXT_PROTOTYPES
-    #QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
 contains(QT_CONFIG, opengles.) {
