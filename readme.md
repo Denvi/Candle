@@ -15,8 +15,8 @@ Version 1.1 pre-release:
 
 Downloads:
 ----------
-* Windows: [candle_1.1.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.zip)
-* Linux: [candle_1.1.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.tar.gz)
+* Windows: [candle_1.1.1.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.1.zip)
+* Linux: [candle_1.1.1.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.1.tar.gz)
 
 
 Version 1.0 release:
