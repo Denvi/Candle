@@ -37,7 +37,7 @@ Downloads:
 
 Build requirements:
 ------------------
-Qt 5.7.0 with MinGW compiler
+Qt 5.4.2 with MinGW/GCC compiler
 
 Previous versions:
 -----------------
