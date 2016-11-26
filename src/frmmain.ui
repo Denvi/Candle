@@ -1010,9 +1010,6 @@ QSlider::handle:horizontal:hover {
            <property name="text">
             <string>Send</string>
            </property>
-           <property name="popupMode">
-            <enum>QToolButton::MenuButtonPopup</enum>
-           </property>
           </widget>
          </item>
          <item>
@@ -1544,8 +1541,8 @@ QSlider::handle:horizontal:hover {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>228</width>
-            <height>705</height>
+            <width>240</width>
+            <height>709</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2720,7 +2717,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>952</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
