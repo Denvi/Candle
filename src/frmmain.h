@@ -174,7 +174,7 @@ private slots:
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
     void on_sliSpindleSpeed_actionTriggered(int action);
-    void on_cmdSpindle_clicked(bool checked);   
+    void on_cmdSpindle_clicked(bool checked);
 
 protected:
     void showEvent(QShowEvent *se);

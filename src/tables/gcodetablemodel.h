@@ -9,7 +9,7 @@
 
 struct GCodeItem
 {
-    enum States { InQueue, Sent, Processed };
+    enum States { InQueue, Sent, Processed, Skipped };
 
     QString command;
     char state;

@@ -26,6 +26,7 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
             case GCodeItem::InQueue: return tr("In queue");
             case GCodeItem::Sent: return tr("Sent");
             case GCodeItem::Processed: return tr("Processed");
+            case GCodeItem::Skipped: return tr("Skipped");
             }
             return tr("Unknown");
         case 3: return m_data.at(index.row()).response;
