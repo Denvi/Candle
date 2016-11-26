@@ -2417,7 +2417,6 @@ void frmMain::on_actFileNew_triggered()
 
         // Update tableview
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
-        connect(ui->tblProgram->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)));
         ui->tblProgram->selectRow(0);
 
         // Clear selection marker
