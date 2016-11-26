@@ -129,6 +129,12 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
+    // Prepare "Send"-button
+    ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
+    QMenu *menuSend = new QMenu();
+    menuSend->addAction(tr("Send from current line"), this, SLOT(onActSendFromLineTriggered()));
+    ui->cmdFileSend->setMenu(menuSend);
+
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
@@ -249,7 +255,7 @@ frmMain::frmMain(QWidget *parent) :
         m_serialPort.setBaudRate(m_settings->baud());
     }
 
-    connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::AutoConnection);
+    connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
     this->installEventFilter(this);
@@ -695,6 +701,8 @@ void frmMain::updateControlsState() {
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
 
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
+
+    ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::openPort()
@@ -1230,6 +1238,7 @@ void frmMain::onSerialPortReadyRead()
 
                                 m_serialPort.write("!");
                                 m_senderErrorBox->checkBox()->setChecked(false);
+                                qApp->beep();
                                 int result = m_senderErrorBox->exec();
 
                                 holding = false;
@@ -1837,6 +1846,66 @@ void frmMain::on_cmdFileSend_clicked()
 
     updateControlsState();
     ui->cmdFilePause->setFocus();
+
+    sendNextFileCommands();
+}
+
+void frmMain::onActSendFromLineTriggered()
+{
+    if (m_currentModel->rowCount() == 1) return;
+
+    //Line to start from
+    int commandIndex = ui->tblProgram->currentIndex().row();
+
+    m_fileCommandIndex = commandIndex;
+    m_fileProcessedCommandIndex = commandIndex;
+    m_lastDrawnLineIndex = 0;
+    m_probeIndex = -1;
+
+    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+
+    QList<int> indexes;
+    for (int i = 0; i < list.count(); i++) {
+        list[i]->setDrawn(list.at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
+        indexes.append(i);
+    }
+    m_codeDrawer->update(indexes);
+
+    ui->tblProgram->setUpdatesEnabled(false);
+
+    for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
+        m_currentModel->data()[i].state = i < commandIndex ? GCodeItem::Skipped : GCodeItem::InQueue;
+        m_currentModel->data()[i].response = QString();
+    }
+    ui->tblProgram->setUpdatesEnabled(true);
+    ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+
+    m_startTime.start();
+
+    m_transferCompleted = false;
+    m_processingFile = true;
+    m_fileEndSent = false;
+    m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
+    ui->chkKeyboardControl->setChecked(false);
+
+    if (!ui->chkTestMode->isChecked()) storeOffsets(); // Allready stored on check
+    storeParserState();
+
+#ifdef WINDOWS
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+        if (m_taskBarProgress) {
+            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+            m_taskBarProgress->setValue(commandIndex);
+            m_taskBarProgress->show();
+        }
+    }
+#endif
+
+    updateControlsState();
+    ui->cmdFilePause->setFocus();
+
+    m_fileCommandIndex = commandIndex;
+    m_fileProcessedCommandIndex = commandIndex;
     sendNextFileCommands();
 }
 
@@ -1853,7 +1922,8 @@ void frmMain::on_cmdFileAbort_clicked()
 void frmMain::storeParserState()
 {    
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
-                QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+//                QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+                QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sS[\\d\\.]+"));
 }
 
 void frmMain::restoreParserState()
@@ -2336,7 +2406,7 @@ void frmMain::on_cmdFileReset_clicked()
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
 
         QList<int> indexes;
-        for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
+        for (int i = 0; i < list.count(); i++) {
             list[i]->setDrawn(false);
             indexes.append(i);
         }

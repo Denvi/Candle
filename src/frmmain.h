@@ -105,6 +105,7 @@ private slots:
     void onPanelsSizeChanged(QSize size);
     void onCmdUserClicked(bool checked);
     void onOverridingToggled(bool checked);
+    void onActSendFromLineTriggered();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();

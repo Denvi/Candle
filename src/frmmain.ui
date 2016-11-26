@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
+    <width>952</width>
     <height>847</height>
    </rect>
   </property>
@@ -994,9 +994,24 @@ QSlider::handle:horizontal:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="cmdFileSend">
+          <widget class="QToolButton" name="cmdFileSend">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>93</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>Send</string>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::MenuButtonPopup</enum>
            </property>
           </widget>
          </item>
@@ -1528,7 +1543,7 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-245</y>
+            <y>0</y>
             <width>228</width>
             <height>705</height>
            </rect>
@@ -2704,7 +2719,7 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>878</width>
+     <width>952</width>
      <height>26</height>
     </rect>
    </property>
