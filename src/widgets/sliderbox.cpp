@@ -15,6 +15,9 @@ SliderBox::SliderBox(QWidget *parent) :
     this->setMaximum(10000);
     this->setValue(0);
     this->setCurrentValue(0);
+
+    connect(&m_timerValueChanged, SIGNAL(timeout()), this, SLOT(onTimerValueChanged()));
+    m_timerValueChanged.setInterval(250);
 }
 
 SliderBox::~SliderBox()
@@ -103,7 +106,15 @@ void SliderBox::on_sliValue_actionTriggered(int action)
 
 void SliderBox::on_sliValue_valueChanged(int value)
 {
-    if (this->isChecked()) ui->txtValue->setStyleSheet("color: red;");
+    if (this->isChecked()) {
+        ui->txtValue->setStyleSheet("color: red;");
+        m_timerValueChanged.start();
+    }
+}
+
+void SliderBox::onTimerValueChanged()
+{
+    m_timerValueChanged.stop();
     emit valueChanged();
 }
 

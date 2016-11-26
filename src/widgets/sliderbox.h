@@ -2,6 +2,7 @@
 #define SLIDERBOX_H
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui {
 class SliderBox;
@@ -50,6 +51,8 @@ signals:
     void toggled(bool checked);
 
 private slots:
+    void onTimerValueChanged();
+
     void on_txtValue_editingFinished();
 
     void on_sliValue_actionTriggered(int action);
@@ -66,6 +69,8 @@ private:
 
     int m_currentValue;
     int m_minimum, m_maximum;
+
+    QTimer m_timerValueChanged;
 };
 
 #endif // SLIDERBOX_H
