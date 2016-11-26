@@ -128,6 +128,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapInterpolationDrawer);
+    ui->glwVisualizer->addDrawable(&m_selectionDrawer);
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
@@ -140,7 +141,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
-    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));    
     clearTable();
 
     // Console window handling
@@ -602,6 +603,8 @@ void frmMain::updateControlsState() {
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
+
+    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::openPort()
@@ -1863,17 +1866,17 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
+    GcodeViewParse *parser = m_currentDrawer->viewParser();
+    QList<LineSegment*> list = parser->getLineSegmentList();
+    QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
+
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
-        QList<LineSegment*> list = m_viewParser.getLineSegmentList();
         for (int i = 0; i < list.count(); i++) {
-            list[i]->setIsHightlight(list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+            list.at(i)->setIsHightlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
         }
     // Update vertices on current cell changed
     } else {
-        GcodeViewParse *parser = m_currentDrawer->viewParser();
-        QList<LineSegment*> list = parser->getLineSegmentList();
-        QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
         int lineFirst = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
         int lineLast = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
@@ -1888,8 +1891,23 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
             }
         }
 
+        m_selectionDrawer.setEndPosition(indexes.isEmpty() ? QVector3D(sNan, sNan, sNan) :
+            (m_codeDrawer->getIgnoreZ() ? QVector3D(list.at(indexes.last())->getEnd().x(), list.at(indexes.last())->getEnd().y(), 0)
+                                        : list.at(indexes.last())->getEnd()));
+        m_selectionDrawer.update();
+
         if (!indexes.isEmpty()) m_currentDrawer->update(indexes);
     }
+
+    // Update selection marker
+    int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
+    if (line > 0) {
+        QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
+        m_selectionDrawer.setEndPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+    } else {
+        m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
+    }
+    m_selectionDrawer.update();
 }
 
 void frmMain::onTableInsertLine()
@@ -2010,6 +2028,8 @@ void frmMain::applySettings() {
     m_codeDrawer->setGrayscaleMin(m_settings->laserPowerMin());
     m_codeDrawer->setGrayscaleMax(m_settings->laserPowerMax());
     m_codeDrawer->update();    
+
+    m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
 
     // Adapt visualizer buttons colors
     const int LIGHTBOUND = 127;
@@ -2397,7 +2417,12 @@ void frmMain::on_actFileNew_triggered()
 
         // Update tableview
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        connect(ui->tblProgram->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)));
         ui->tblProgram->selectRow(0);
+
+        // Clear selection marker
+        m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
+        m_selectionDrawer.update();
 
         resetHeightmap();
     } else {

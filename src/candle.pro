@@ -17,7 +17,7 @@ win32: {
 
 unix:!macx {
     DEFINES += UNIX #GL_GLEXT_PROTOTYPES
-    #QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/libs\'"
 }
 
 contains(QT_CONFIG, opengles.) {
@@ -63,6 +63,7 @@ SOURCES += main.cpp\
     widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
     widgets/glwidget.cpp
+    drawers/selectiondrawer.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -90,7 +91,8 @@ HEADERS  += frmmain.h \
     widgets/scrollarea.h \
     widgets/styledtoolbutton.h \
     widgets/widget.h \
-    widgets/glwidget.h
+    widgets/glwidget.h \
+    drawers/selectiondrawer.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
