@@ -27,6 +27,7 @@
 #include "drawers/heightmapgriddrawer.h"
 #include "drawers/heightmapinterpolationdrawer.h"
 #include "drawers/shaderdrawable.h"
+#include "drawers/selectiondrawer.h"
 
 #include "tables/gcodetablemodel.h"
 #include "tables/heightmaptablemodel.h"
@@ -217,6 +218,8 @@ private:
     HeightMapBorderDrawer m_heightMapBorderDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
     HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
+
+    SelectionDrawer m_selectionDrawer;
 
     GCodeTableModel m_programModel;
     GCodeTableModel m_probeModel;
