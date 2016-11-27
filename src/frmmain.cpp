@@ -1042,6 +1042,13 @@ void frmMain::onSerialPortReadyRead()
                     break;
                 }
 
+                // Update pins state
+                QString pinState;
+                static QRegExp pn("Pn:([^|^>]*)");
+                if (pn.indexIn(data) != -1) {
+                    pinState.append(QString(tr("PS: %1")).arg(pn.cap(1)));
+                }
+
                 // Process spindle state
                 static QRegExp as("A:([^,^>^|]+)");
                 if (as.indexIn(data) != -1) {
@@ -1051,16 +1058,20 @@ void frmMain::onSerialPortReadyRead()
                         m_timerToolAnimation.start(25, this);
                         ui->cmdSpindle->setChecked(true);
                     }
+                    if (!pinState.isEmpty()) pinState.append(" / ");
+                    pinState.append(QString(tr("AS: %1")).arg(as.cap(1)));
                 } else {
                     m_timerToolAnimation.stop();
                     ui->cmdSpindle->setChecked(false);
                 }
+
+                ui->glwVisualizer->setPinState(pinState);
             }
 
             // Get feed/spindle values
-            static QRegExp fs("FS:([^,]*),([^,^|^>]*)");
+            static QRegExp fs("FS:([^,]*),([^,^|^>]*)");            
             if (fs.indexIn(data) != -1) {
-                ui->glwVisualizer->setAdditionalStatus(QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(fs.cap(2)));
+                ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(fs.cap(2))));
             }
 
         } else if (data.length() > 0) {
