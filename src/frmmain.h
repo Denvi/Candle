@@ -93,7 +93,6 @@ private slots:
     void onSerialPortError(QSerialPort::SerialPortError);
     void onTimerConnection();
     void onTimerStateQuery();
-    void onCmdJogFeedClicked();
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
     void onJogTimer();
@@ -191,6 +190,8 @@ private slots:
     void on_cmdZMinus_pressed();
 
     void on_cmdZMinus_released();
+
+    void on_cmdStop_clicked();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -345,7 +346,6 @@ private:
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
-    void blockJogForRapidMovement(bool repeated = false);
     bool keyIsMovement(int key);
     void resizeCheckBoxes();
     void updateLayouts();
@@ -376,6 +376,7 @@ private:
     int getConsoleMinHeight();
     void updateOverride(SliderBox *slider, int value, char command);
     void jogStep();
+    void updateJogTitle();
 };
 
 #endif // FRMMAIN_H

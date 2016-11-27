@@ -111,8 +111,6 @@ frmMain::frmMain(QWidget *parent) :
     m_currentModel = &m_programModel;
     m_transferCompleted = true;
 
-    ui->txtJogFeed->setLocale(QLocale::C);
-
     ui->cmdXMinus->setBackColor(QColor(153, 180, 209));
     ui->cmdXPlus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
@@ -128,6 +126,11 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+
+    ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
+    ui->cboJogFeed->setValidator(new QIntValidator(0, 100000));
+    connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, [=] (QString) {updateJogTitle();});
+    connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, [=] (QString) {updateJogTitle();});
 
     // Prepare "Send"-button
     ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
@@ -261,6 +264,8 @@ frmMain::frmMain(QWidget *parent) :
 
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
+    ui->cboJogStep->installEventFilter(this);
+    ui->cboJogFeed->installEventFilter(this);
     ui->splitPanels->handle(1)->installEventFilter(this);
     ui->splitPanels->installEventFilter(this);
 
@@ -381,10 +386,6 @@ void frmMain::loadSettings()
     ui->slbSpindleOverride->setChecked(set.value("spindleOverride", false).toBool());
     ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
 
-    ui->txtJogFeed->setValue(set.value("jogFeed", 1).toDouble());
-    ui->grpJog->findChild<StyledToolButton*>(QString("cmdJogFeed%1").arg(set.value("jogPreset", 1).toString()))->setChecked(true);
-//    ui->cmdJogStep6->setText(set.value("jogStepStored", 1).toString());
-
     m_settings->setUnits(set.value("units", 0).toInt());
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
@@ -422,6 +423,11 @@ void frmMain::loadSettings()
         int i = button->objectName().right(1).toInt();
         m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
     }
+
+    ui->cboJogStep->setItems(set.value("jogSteps").toStringList());
+    ui->cboJogStep->setCurrentIndex(ui->cboJogStep->findText(set.value("jogStep").toString()));
+    ui->cboJogFeed->setItems(set.value("jogFeeds").toStringList());
+    ui->cboJogFeed->setCurrentIndex(ui->cboJogFeed->findText(set.value("jogFeed").toString()));
 
     ui->txtHeightMapBorderX->setValue(set.value("heightmapBorderX", 0).toDouble());
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
@@ -486,12 +492,6 @@ void frmMain::saveSettings()
     set.setValue("grayscaleSegments", m_settings->grayscaleSegments());
     set.setValue("grayscaleSCode", m_settings->grayscaleSCode());
     set.setValue("drawModeVectors", m_settings->drawModeVectors());
-    set.setValue("jogFeed", ui->txtJogFeed->value());
-
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d"))) if (button->isChecked()) {
-        set.setValue("jogPreset", button->objectName().right(1));
-        break;
-    }
 
     set.setValue("spindleSpeed", ui->slbSpindle->value());
     set.setValue("lineWidth", m_settings->lineWidth());
@@ -553,6 +553,11 @@ void frmMain::saveSettings()
         int i = button->objectName().right(1).toInt();
         set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
     }
+
+    set.setValue("jogSteps", ui->cboJogStep->items());
+    set.setValue("jogStep", ui->cboJogStep->currentText());
+    set.setValue("jogFeeds", ui->cboJogFeed->items());
+    set.setValue("jogFeed", ui->cboJogFeed->currentText());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -688,6 +693,9 @@ void frmMain::updateControlsState() {
     ui->grpHeightMapSettings->setVisible(m_heightMapMode);
     ui->grpHeightMapSettings->setEnabled(!m_processingFile && !ui->chkKeyboardControl->isChecked());
 
+    ui->cboJogStep->setEditable(!ui->chkKeyboardControl->isChecked());
+    ui->cboJogFeed->setEditable(!ui->chkKeyboardControl->isChecked());
+
     ui->chkTestMode->setVisible(!m_heightMapMode);
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !m_heightMapMode);
 
@@ -705,7 +713,7 @@ void frmMain::updateControlsState() {
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
+    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());    
 }
 
 void frmMain::openPort()
@@ -1377,19 +1385,7 @@ void frmMain::onTimerStateQuery()
         m_statusReceived = false;
     }
 
-    ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2")).arg(bufferLength()).arg(m_queue.length()));
-}
-
-void frmMain::onCmdJogFeedClicked()
-{
-    double feed = static_cast<QPushButton*>(sender())->text().toDouble();
-    ui->txtJogFeed->setValue(feed);
-
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
-    {
-        button->setChecked(false);
-    }
-    static_cast<QPushButton*>(sender())->setChecked(true);
+    ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2 / %3")).arg(bufferLength()).arg(m_commands.length()).arg(m_queue.length()));
 }
 
 void frmMain::onVisualizatorRotationChanged()
@@ -2211,7 +2207,7 @@ void frmMain::applySettings() {
         button->setEnabled(!button->toolTip().isEmpty());
     }
 
-    ui->cmdJogFeed6->setText(QString::number(m_settings->rapidSpeed()));
+    ui->cboJogFeed->setItemText(5, QString::number(m_settings->rapidSpeed()));
 }
 
 void frmMain::updateParser()
@@ -2707,51 +2703,15 @@ void frmMain::on_grpSpindle_toggled(bool checked)
     ui->widgetSpindle->setVisible(checked);
 }
 
-void frmMain::on_grpJog_toggled(bool checked)
-{
-    if (checked) {
-        ui->grpJog->setTitle(tr("Jog"));
-    } else if (ui->chkKeyboardControl->isChecked()) {
-        ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogFeed->text()));
-    }
-    updateLayouts();
-
-    ui->widgetJog->setVisible(checked);
-}
-
 void frmMain::on_grpUserCommands_toggled(bool checked)
 {
     ui->widgetUserCommands->setVisible(checked);
 }
 
-void frmMain::blockJogForRapidMovement(bool repeated) {
-    m_jogBlock = true;
-
-    const double acc = m_settings->acceleration();    // Acceleration mm/sec^2
-    double v = m_settings->rapidSpeed() / 60;         // Rapid speed mm/sec
-    double at = v / acc;                                // Acceleration time
-    double s = acc * at * at / 2;                       // Distance on acceleration
-    double time;
-    double step = ui->txtJogFeed->text().toDouble();
-
-    if (repeated) {
-        time = step / v;
-    } else {
-        if (2 * s > step) {
-            time = sqrt(step / acc);
-        } else {
-            time = (step - 2 * s) / v + 1 * at;
-        }
-    }
-
-//    qDebug() << QString("acc: %1; v: %2; at: %3; s: %4; time: %5").arg(acc).arg(v).arg(at).arg(s).arg(time);
-    QTimer::singleShot(time * 1000, Qt::PreciseTimer, this, SLOT(onJogTimer()));
-}
-
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
     // Main form events
-    if (obj == this || obj == ui->tblProgram) {
+    if (obj == this || obj == ui->tblProgram || obj == ui->cboJogStep || obj == ui->cboJogFeed) {
 
         // Jog on keyboard control
         if (!m_processingFile && ui->chkKeyboardControl->isChecked() &&
@@ -2789,35 +2749,21 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             }
 
             if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
-                if (keyEvent->key() == Qt::Key_5 || keyEvent->key() == Qt::Key_Period) {
-                    QList<StyledToolButton*> stepButtons = ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d"));
-                    std::sort(stepButtons.begin(), stepButtons.end(), buttonLessThan);
-
-                    for (int i = 0; i < stepButtons.count(); i++) {
-                        if (stepButtons[i]->isChecked()) {
-
-                            StyledToolButton *button = stepButtons[keyEvent->key() == Qt::Key_5
-                                    ? (i == stepButtons.length() - 1 ? stepButtons.length() - 1 : i + 1)
-                                    : (i == 0 ? 0 : i - 1)];
-
-                            ui->txtJogFeed->setValue(button->text().toDouble());
-                            foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
-                            {
-                                button->setChecked(false);
-                            }
-                            button->setChecked(true);
-
-                            if (!ui->grpJog->isChecked()) {
-                                ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogFeed->text()));
-                            }
-                            break;
-                        }
-                    }
-                } else if (keyEvent->key() == Qt::Key_0) {
-                    ui->cmdSpindle->click();
-                } else if (keyEvent->key() == Qt::Key_7) {
-                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
+                if (keyEvent->key() == Qt::Key_7) {
+                    ui->cboJogStep->setCurrentPrevious();
                 } else if (keyEvent->key() == Qt::Key_1) {
+                    ui->cboJogStep->setCurrentNext();
+                } else if (keyEvent->key() == Qt::Key_Minus) {
+                    ui->cboJogFeed->setCurrentPrevious();
+                } else if (keyEvent->key() == Qt::Key_Plus) {
+                    ui->cboJogFeed->setCurrentNext();
+                } else if (keyEvent->key() == Qt::Key_5) {
+                    on_cmdStop_clicked();
+                } else if (keyEvent->key() == Qt::Key_0) {
+                    on_cmdSpindle_clicked(!ui->cmdSpindle->isChecked());
+                } else if (keyEvent->key() == Qt::Key_Asterisk) {
+                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
+                } else if (keyEvent->key() == Qt::Key_Slash) {
                     ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() - 1);
                 }
             }
@@ -2907,6 +2853,15 @@ bool frmMain::keyIsMovement(int key)
     return key == Qt::Key_4 || key == Qt::Key_6 || key == Qt::Key_8 || key == Qt::Key_2 || key == Qt::Key_9 || key == Qt::Key_3;
 }
 
+
+void frmMain::on_grpJog_toggled(bool checked)
+{
+    updateJogTitle();
+    updateLayouts();
+
+    ui->widgetJog->setVisible(checked);
+}
+
 void frmMain::on_chkKeyboardControl_toggled(bool checked)
 {
     ui->grpJog->setProperty("overrided", checked);
@@ -2916,15 +2871,25 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
     // Store/restore coordinate system
     if (checked) {
         sendCommand("$G", -2, m_settings->showUICommands());
-        if (!ui->grpJog->isChecked()) ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1)")).arg(ui->txtJogFeed->text()));
     } else {
         if (m_absoluteCoordinates) sendCommand("G90", -1, m_settings->showUICommands());
-        ui->grpJog->setTitle(tr("Jog"));
     }
 
     if (!m_processingFile) m_storedKeyboardControl = checked;
 
+    updateJogTitle();
     updateControlsState();
+}
+
+void frmMain::updateJogTitle()
+{
+    if (ui->grpJog->isChecked() || !ui->chkKeyboardControl->isChecked()) {
+        ui->grpJog->setTitle(tr("Jog"));
+    } else if (ui->chkKeyboardControl->isChecked()) {
+        ui->grpJog->setTitle(tr("Jog") + QString(tr(" (%1/%2)"))
+                             .arg(ui->cboJogStep->currentText().toDouble() > 0 ? ui->cboJogStep->currentText() : tr("C"))
+                             .arg(ui->cboJogFeed->currentText()));
+    }
 }
 
 void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
@@ -3807,7 +3772,7 @@ void frmMain::updateOverride(SliderBox *slider, int value, char command)
     slider->setCurrentValue(value);
 
     int target = slider->isChecked() ? slider->value() : 100;
-    bool smallStep = abs(target - slider->currentValue()) < 10 | m_settings->queryStateTime() < 100;
+    bool smallStep = abs(target - slider->currentValue()) < 10 || m_settings->queryStateTime() < 100;
 
     if (slider->currentValue() < target) {
         m_serialPort.write(QByteArray(1, char(smallStep ? command + 2 : command)));
@@ -3820,21 +3785,33 @@ void frmMain::jogStep()
 {
     if (m_jogVector.length() == 0) return;
 
-    const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
-    int speed = ui->txtJogFeed->value();                        // Speed mm/min
-    double v = (double)speed / 60;                              // Rapid speed mm/sec
-    int N = 15;                                                 // Planner blocks
-    double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1)));      // Single jog command time
-    double s = v * dt;                                          // Jog distance
+    if (ui->cboJogStep->currentIndex() == 0) {
+        const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
+        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
+        double v = (double)speed / 60;                              // Rapid speed mm/sec
+        int N = 15;                                                 // Planner blocks
+        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1)));      // Single jog command time
+        double s = v * dt;                                          // Jog distance
 
-    QVector3D vec = m_jogVector.normalized() * s;
+        QVector3D vec = m_jogVector.normalized() * s;
 
-//    qDebug() << "jog" << speed << v << acc << dt <<s;
+    //    qDebug() << "jog" << speed << v << acc << dt <<s;
 
-    sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4").arg(vec.x(), 0, 'g', 4)
-                .arg(vec.y(), 0, 'g', 4)
-                .arg(vec.z(), 0, 'g', 4)
-                .arg(speed), -2, false);
+        sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4")
+                    .arg(vec.x(), 0, 'g', 4)
+                    .arg(vec.y(), 0, 'g', 4)
+                    .arg(vec.z(), 0, 'g', 4)
+                    .arg(speed), -2, false);
+    } else {
+        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
+        QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
+
+        sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4")
+                    .arg(vec.x(), 0, 'g', 4)
+                    .arg(vec.y(), 0, 'g', 4)
+                    .arg(vec.z(), 0, 'g', 4)
+                    .arg(speed), -3, false);
+    }
 }
 
 void frmMain::on_cmdYPlus_pressed()
@@ -3907,4 +3884,10 @@ void frmMain::on_cmdZMinus_released()
 {
     m_jogVector -= QVector3D(0, 0, -1);
     jogStep();
+}
+
+void frmMain::on_cmdStop_clicked()
+{
+    m_queue.clear();
+    m_serialPort.write(QByteArray(1, char(0x85)));
 }

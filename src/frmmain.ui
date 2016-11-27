@@ -1540,9 +1540,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>240</width>
-            <height>709</height>
+            <y>-416</y>
+            <width>228</width>
+            <height>691</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2068,7 +2068,7 @@ QSlider::handle:horizontal:hover {
                    <property name="verticalSpacing">
                     <number>4</number>
                    </property>
-                   <item row="1" column="0">
+                   <item row="2" column="0">
                     <widget class="StyledToolButton" name="cmdXMinus">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2100,7 +2100,7 @@ QSlider::handle:horizontal:hover {
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="1">
+                   <item row="3" column="1">
                     <layout class="QHBoxLayout" name="horizontalLayout_13">
                      <property name="spacing">
                       <number>0</number>
@@ -2139,7 +2139,7 @@ QSlider::handle:horizontal:hover {
                      </item>
                     </layout>
                    </item>
-                   <item row="1" column="2">
+                   <item row="2" column="2">
                     <widget class="StyledToolButton" name="cmdXPlus">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2210,97 +2210,6 @@ QSlider::handle:horizontal:hover {
                      </item>
                     </layout>
                    </item>
-                   <item row="1" column="1">
-                    <layout class="QVBoxLayout" name="verticalLayout_10">
-                     <property name="spacing">
-                      <number>4</number>
-                     </property>
-                     <item>
-                      <spacer name="verticalSpacer">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Maximum</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>20</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_3">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Feed:</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QDoubleSpinBox" name="txtJogFeed">
-                       <property name="styleSheet">
-                        <string notr="true">QDoubleSpinBox {
-	border: 1px solid lightgray;
-	padding-left: -8;
-	padding-right: -8;
-}
-
-QDoubleSpinBox:focus {
-	border: 1px solid lightsteelblue;
-}</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="decimals">
-                        <number>0</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>10000.000000000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>1.000000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>99.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="verticalSpacer_2">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Maximum</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>20</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </item>
                    <item row="0" column="3">
                     <layout class="QHBoxLayout" name="horizontalLayout_25">
                      <property name="spacing">
@@ -2353,7 +2262,7 @@ QDoubleSpinBox:focus {
                      </item>
                     </layout>
                    </item>
-                   <item row="2" column="3">
+                   <item row="3" column="3">
                     <layout class="QHBoxLayout" name="horizontalLayout_26">
                      <property name="spacing">
                       <number>0</number>
@@ -2405,160 +2314,150 @@ QDoubleSpinBox:focus {
                      </item>
                     </layout>
                    </item>
+                   <item row="2" column="1">
+                    <layout class="QHBoxLayout" name="horizontalLayout_15">
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="StyledToolButton" name="cmdStop">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>44</width>
+                         <height>44</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Stop</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="images.qrc">
+                         <normaloff>:/images/brake.png</normaloff>:/images/brake.png</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>30</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout">
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_14">
+                  <layout class="QGridLayout" name="gridLayout_8">
+                   <property name="verticalSpacing">
+                    <number>7</number>
+                   </property>
+                   <item row="0" column="1">
+                    <widget class="ComboBoxKey" name="cboJogStep">
+                     <property name="editable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="insertPolicy">
+                      <enum>QComboBox::NoInsert</enum>
+                     </property>
                      <item>
-                      <widget class="QLabel" name="label_4">
-                       <property name="text">
-                        <string>Presets:</string>
-                       </property>
-                      </widget>
+                      <property name="text">
+                       <string>Continuously</string>
+                      </property>
                      </item>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_6">
-                       <item>
-                        <widget class="StyledToolButton" name="cmdJogFeed3">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>42</width>
-                           <height>25</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>100</string>
-                         </property>
-                         <property name="checkable">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="StyledToolButton" name="cmdJogFeed4">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>42</width>
-                           <height>25</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>500</string>
-                         </property>
-                         <property name="checkable">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
+                      <property name="text">
+                       <string>0.01</string>
+                      </property>
                      </item>
-                    </layout>
+                     <item>
+                      <property name="text">
+                       <string>0.1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>5</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>10</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>100</string>
+                      </property>
+                     </item>
+                    </widget>
                    </item>
-                   <item>
-                    <layout class="QGridLayout" name="gridLayout_2">
-                     <item row="0" column="0">
-                      <widget class="StyledToolButton" name="cmdJogFeed1">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>42</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>10</string>
-                       </property>
-                       <property name="checkable">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_20">
+                     <property name="text">
+                      <string>Step:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_22">
+                     <property name="text">
+                      <string>Feed:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="ComboBoxKey" name="cboJogFeed">
+                     <property name="editable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="insertPolicy">
+                      <enum>QComboBox::NoInsert</enum>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>10</string>
+                      </property>
                      </item>
-                     <item row="0" column="1">
-                      <widget class="StyledToolButton" name="cmdJogFeed2">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>42</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>50</string>
-                       </property>
-                       <property name="checkable">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
+                     <item>
+                      <property name="text">
+                       <string>50</string>
+                      </property>
                      </item>
-                     <item row="1" column="0">
-                      <widget class="StyledToolButton" name="cmdJogFeed5">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>42</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>1000</string>
-                       </property>
-                       <property name="checkable">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
+                     <item>
+                      <property name="text">
+                       <string>100</string>
+                      </property>
                      </item>
-                     <item row="1" column="1">
-                      <widget class="StyledToolButton" name="cmdJogFeed6">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>42</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>R</string>
-                       </property>
-                       <property name="checkable">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
+                     <item>
+                      <property name="text">
+                       <string>500</string>
+                      </property>
                      </item>
-                    </layout>
+                     <item>
+                      <property name="text">
+                       <string>1000</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>2000</string>
+                      </property>
+                     </item>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -2717,7 +2616,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>952</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -2845,6 +2744,11 @@ padding-right: 8;</string>
    <header>widgets/sliderbox.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>ComboBoxKey</class>
+   <extends>QComboBox</extends>
+   <header>widgets/comboboxkey.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>chkTestMode</tabstop>
@@ -2904,15 +2808,8 @@ padding-right: 8;</string>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYPlus</tabstop>
   <tabstop>cmdYMinus</tabstop>
-  <tabstop>txtJogFeed</tabstop>
   <tabstop>cmdZPlus</tabstop>
   <tabstop>cmdZMinus</tabstop>
-  <tabstop>cmdJogFeed1</tabstop>
-  <tabstop>cmdJogFeed2</tabstop>
-  <tabstop>cmdJogFeed3</tabstop>
-  <tabstop>cmdJogFeed4</tabstop>
-  <tabstop>cmdJogFeed5</tabstop>
-  <tabstop>cmdJogFeed6</tabstop>
   <tabstop>chkKeyboardControl</tabstop>
   <tabstop>txtConsole</tabstop>
   <tabstop>cboCommand</tabstop>
@@ -2937,22 +2834,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>493</x>
      <y>576</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtJogFeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>858</x>
-     <y>813</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>750</x>
-     <y>656</y>
     </hint>
    </hints>
   </connection>
