@@ -166,6 +166,12 @@ frmMain::frmMain(QWidget *parent) :
     ui->slbRapidOverride->setTitle(tr("Rapid speed:"));
     ui->slbRapidOverride->setSuffix("%");
     connect(ui->slbRapidOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
+    connect(ui->slbRapidOverride, &SliderBox::toggled, [=] {
+        updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    });
+    connect(ui->slbRapidOverride, &SliderBox::valueChanged, [=] {
+        updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    });
 
     ui->slbSpindleOverride->setRatio(1);
     ui->slbSpindleOverride->setMinimum(50);
@@ -1793,7 +1799,9 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
         if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
                 length / ((ui->slbFeedOverride->isChecked() && !ls->isFastTraverse())
-                          ? (ls->getSpeed() * ui->slbFeedOverride->value() / 100) : ls->getSpeed());
+                          ? (ls->getSpeed() * ui->slbFeedOverride->value() / 100) :
+                            (ui->slbRapidOverride->isChecked() && ls->isFastTraverse())
+                             ? (ls->getSpeed() * ui->slbRapidOverride->value() / 100) : ls->getSpeed());        // TODO: Update for rapid override
 
 //        qDebug() << "length/time:" << length << ((ui->chkFeedOverride->isChecked() && !ls->isFastTraverse())
 //                                                 ? (ls->getSpeed() * ui->txtFeed->value() / 100) : ls->getSpeed())
@@ -2692,9 +2700,9 @@ void frmMain::on_grpOverriding_toggled(bool checked)
         ui->grpOverriding->setTitle(tr("Overriding"));
     } else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() | ui->slbSpindleOverride->isChecked()) {
         ui->grpOverriding->setTitle(tr("Overriding") + QString(tr(" (%1/%2/%3)"))
-                                    .arg(ui->slbFeedOverride->isChecked() ? ui->slbFeedOverride->value() : 100)
-                                    .arg(ui->slbRapidOverride->isChecked() ? ui->slbRapidOverride->value() : 100)
-                                    .arg(ui->slbSpindleOverride->isChecked() ? ui->slbSpindleOverride->value() : 100));
+                                    .arg(ui->slbFeedOverride->isChecked() ? QString::number(ui->slbFeedOverride->value()) : "-")
+                                    .arg(ui->slbRapidOverride->isChecked() ? QString::number(ui->slbRapidOverride->value()) : "-")
+                                    .arg(ui->slbSpindleOverride->isChecked() ? QString::number(ui->slbSpindleOverride->value()) : "-"));
     }
     updateLayouts();
 
