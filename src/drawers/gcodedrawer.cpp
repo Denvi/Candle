@@ -191,32 +191,38 @@ bool GcodeDrawer::updateVectors()
 
 bool GcodeDrawer::prepareRaster()
 {
+    const int maxImageSize = 8192;
+
     qDebug() << "preparing raster" << this;
 
     // Generate image
-    QImage image(m_viewParser->getResolution(), QImage::Format_RGB888);
-    image.fill(Qt::white);
-
+    QImage image;
     qDebug() << "image info" << m_viewParser->getResolution() << m_viewParser->getMinLength();
+
+    if (m_viewParser->getResolution().width() <= maxImageSize && m_viewParser->getResolution().height() <= maxImageSize)
+    {
+        image = QImage(m_viewParser->getResolution(), QImage::Format_RGB888);
+        image.fill(Qt::white);
+
+        QList<LineSegment*> *list = m_viewParser->getLines();
+        qDebug() << "lines count" << list->count();
+
+        double pixelSize = m_viewParser->getMinLength();
+        QVector3D origin = m_viewParser->getMinimumExtremes();
+
+        for (int i = 0; i < list->count(); i++) {
+            if (!qIsNaN(list->at(i)->getEnd().length())) {
+                setImagePixelColor(image, (list->at(i)->getEnd().x() - origin.x()) / pixelSize,
+                                   (list->at(i)->getEnd().y() - origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
+            }
+        }
+    }
 
     // Create vertices array
     // Clear all vertex data
     m_lines.clear();
     m_points.clear();
     m_triangles.clear();
-
-    QList<LineSegment*> *list = m_viewParser->getLines();
-    qDebug() << "lines count" << list->count();
-
-    double pixelSize = m_viewParser->getMinLength();
-    QVector3D origin = m_viewParser->getMinimumExtremes();
-
-    for (int i = 0; i < list->count(); i++) {
-        if (!qIsNaN(list->at(i)->getEnd().length())) {
-            setImagePixelColor(image, (list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                               (list->at(i)->getEnd().y() + origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
-        }
-    }
 
     if (m_texture) {
         m_texture->destroy();
@@ -279,8 +285,8 @@ bool GcodeDrawer::updateRaster()
         double pixelSize = m_viewParser->getMinLength();
         QVector3D origin = m_viewParser->getMinimumExtremes();
 
-        foreach (int i, m_indexes) setImagePixelColor(m_image, (list->at(i)->getEnd().x() + origin.x()) / pixelSize,
-                                                      (list->at(i)->getEnd().y() + origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
+        foreach (int i, m_indexes) setImagePixelColor(m_image, (list->at(i)->getEnd().x() - origin.x()) / pixelSize,
+                                                      (list->at(i)->getEnd().y() - origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
 
         if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.bits());
     }
