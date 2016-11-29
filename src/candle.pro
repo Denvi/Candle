@@ -48,6 +48,7 @@ SOURCES += main.cpp\
     drawers/origindrawer.cpp \
     drawers/shaderdrawable.cpp \
     drawers/tooldrawer.cpp \
+    drawers/selectiondrawer.cpp \
     parser/arcproperties.cpp \
     parser/gcodeparser.cpp \
     parser/gcodepreprocessorutils.cpp \
@@ -63,7 +64,6 @@ SOURCES += main.cpp\
     widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
     widgets/glwidget.cpp
-    drawers/selectiondrawer.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
