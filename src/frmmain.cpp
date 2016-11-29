@@ -701,6 +701,8 @@ void frmMain::updateControlsState() {
 
     ui->cboJogStep->setEditable(!ui->chkKeyboardControl->isChecked());
     ui->cboJogFeed->setEditable(!ui->chkKeyboardControl->isChecked());
+    ui->cboJogStep->setStyleSheet(QString("font-size: %1").arg(m_settings->fontSize()));
+    ui->cboJogFeed->setStyleSheet(ui->cboJogStep->styleSheet());
 
     ui->chkTestMode->setVisible(!m_heightMapMode);
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !m_heightMapMode);
