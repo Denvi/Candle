@@ -98,6 +98,7 @@ private slots:
     void onTableInsertLine();
     void onTableDeleteLines();
     void onActRecentFileTriggered();
+    void onActSendFromLineTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onConsoleResized(QSize size);

@@ -994,7 +994,13 @@ QSlider::handle:horizontal:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="cmdFileSend">
+          <widget class="QToolButton" name="cmdFileSend">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>Send</string>
            </property>
@@ -1528,7 +1534,7 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-420</y>
+            <y>0</y>
             <width>231</width>
             <height>725</height>
            </rect>
@@ -2915,7 +2921,6 @@ padding-right: 8;</string>
   <tabstop>chkAutoScroll</tabstop>
   <tabstop>cmdFileOpen</tabstop>
   <tabstop>cmdFileReset</tabstop>
-  <tabstop>cmdFileSend</tabstop>
   <tabstop>cmdFilePause</tabstop>
   <tabstop>cmdFileAbort</tabstop>
   <tabstop>cmdTop</tabstop>
