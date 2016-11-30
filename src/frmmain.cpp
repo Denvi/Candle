@@ -2227,8 +2227,6 @@ void frmMain::applySettings() {
         button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
         button->setEnabled(!button->toolTip().isEmpty());
     }
-
-    ui->cboJogFeed->setItemText(5, QString::number(m_settings->rapidSpeed()));
 }
 
 void frmMain::updateParser()
@@ -3806,7 +3804,7 @@ void frmMain::jogStep()
 {
     if (m_jogVector.length() == 0) return;
 
-    if (ui->cboJogStep->currentIndex() == 0) {
+    if (ui->cboJogStep->currentText().toDouble() == 0) {
         const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
         int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
         double v = (double)speed / 60;                              // Rapid speed mm/sec
