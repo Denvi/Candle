@@ -573,6 +573,16 @@ void frmSettings::setIgnoreErrors(bool value)
     ui->chkIgnoreErrors->setChecked(value);
 }
 
+bool frmSettings::autoLine()
+{
+    return ui->chkAutoLine->isChecked();
+}
+
+void frmSettings::setAutoLine(bool value)
+{
+    ui->chkAutoLine->setChecked(value);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)

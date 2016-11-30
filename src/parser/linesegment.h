@@ -9,6 +9,7 @@
 #define LINESEGMENT_H
 
 #include <QVector3D>
+#include "pointsegment.h"
 
 class LineSegment
 {
@@ -62,6 +63,12 @@ public:
     double getDwell() const;
     void setDwell(double dwell);
 
+    bool isClockwise() const;
+    void setIsClockwise(bool isClockwise);
+
+    PointSegment::planes plane() const;
+    void setPlane(const PointSegment::planes &plane);
+
 private:
     int m_toolhead;
     double m_speed;
@@ -72,6 +79,7 @@ private:
     // Line properties
     bool m_isZMovement;
     bool m_isArc;
+    bool m_isClockwise;
     bool m_isFastTraverse;
     int m_lineNumber;
     bool m_drawn;
@@ -79,6 +87,8 @@ private:
     bool m_isAbsolute;
     bool m_isHightlight;
     int m_vertexIndex;
+
+    PointSegment::planes m_plane;
 };
 
 #endif // LINESEGMENT_H

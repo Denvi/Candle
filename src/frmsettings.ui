@@ -72,8 +72,8 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>402</width>
-          <height>1722</height>
+          <width>436</width>
+          <height>1749</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -181,6 +181,13 @@ QGroupBox {
              <widget class="QCheckBox" name="chkIgnoreErrors">
               <property name="text">
                <string>Ignore error responses</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="chkAutoLine">
+              <property name="text">
+               <string>Automatically set parser state before sending from selected line</string>
               </property>
              </widget>
             </item>
