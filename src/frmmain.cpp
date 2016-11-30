@@ -1738,7 +1738,7 @@ void frmMain::onActSendFromLineTriggered()
         }
         if (!segment->isMetric()) commands.append("G20");
         commands.append(segment->isAbsolute() ? "G90" : "G91");
-        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->slbSpindle->value())));
+        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->txtSpindleSpeed->value())));
 
         int res = QMessageBox::information(this, qApp->applicationDisplayName(), tr("Following commands will be sent before selected line:\n") +
                                            commands.join('\n'), QMessageBox::Ok | QMessageBox::Discard | QMessageBox::Cancel);
