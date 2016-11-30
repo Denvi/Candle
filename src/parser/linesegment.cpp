@@ -217,6 +217,26 @@ void LineSegment::setDwell(double dwell)
     m_dwell = dwell;
 }
 
+bool LineSegment::isClockwise() const
+{
+    return m_isClockwise;
+}
+
+void LineSegment::setIsClockwise(bool isClockwise)
+{
+    m_isClockwise = isClockwise;
+}
+
+PointSegment::planes LineSegment::plane() const
+{
+    return m_plane;
+}
+
+void LineSegment::setPlane(const PointSegment::planes &plane)
+{
+    m_plane = plane;
+}
+
 
 
 

@@ -248,6 +248,7 @@ void frmMain::loadSettings()
     m_settings->setPort(set.value("port").toString());
     m_settings->setBaud(set.value("baud").toInt());
     m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
+    m_settings->setAutoLine(set.value("autoLine", true).toBool());
     m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
     m_settings->setToolLength(set.value("toolLength", 15).toDouble());
     m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
@@ -384,6 +385,7 @@ void frmMain::saveSettings()
     set.setValue("port", m_settings->port());
     set.setValue("baud", m_settings->baud());
     set.setValue("ignoreErrors", m_settings->ignoreErrors());
+    set.setValue("autoLine", m_settings->autoLine());
     set.setValue("toolDiameter", m_settings->toolDiameter());
     set.setValue("toolLength", m_settings->toolLength());
     set.setValue("antialiasing", m_settings->antialiasing());
@@ -1718,6 +1720,36 @@ void frmMain::onActSendFromLineTriggered()
 
     //Line to start from
     int commandIndex = ui->tblProgram->currentIndex().row();
+
+    // Set parser state
+    if (m_settings->autoLine()) {
+        GcodeViewParse *parser = m_currentDrawer->viewParser();
+        QList<LineSegment*> list = parser->getLineSegmentList();
+        QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
+
+        int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
+        LineSegment* segment = list.at(lineIndexes.at(lineNumber).last());
+
+        QStringList commands;
+        commands.append(QString("G21F%2").arg(segment->getSpeed()));
+        if (segment->isArc()) {
+            commands.append(segment->plane() == PointSegment::XY ? "G17"
+            : segment->plane() == PointSegment::ZX ? "G18" : "G19");
+        }
+        if (!segment->isMetric()) commands.append("G20");
+        commands.append(segment->isAbsolute() ? "G90" : "G91");
+        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->slbSpindle->value())));
+
+        int res = QMessageBox::information(this, qApp->applicationDisplayName(), tr("Following commands will be sent before selected line:\n") +
+                                           commands.join('\n'), QMessageBox::Ok | QMessageBox::Discard | QMessageBox::Cancel);
+
+        if (res == QMessageBox::Cancel) return;
+        else if (res == QMessageBox::Ok) {
+            foreach (QString command, commands) {
+                sendCommand(command);
+            }
+        }
+    }
 
     m_fileCommandIndex = commandIndex;
     m_fileProcessedCommandIndex = commandIndex;

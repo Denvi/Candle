@@ -115,6 +115,8 @@ public:
     void setUserCommands(int index, QString commands);
     bool ignoreErrors();
     void setIgnoreErrors(bool value);
+    bool autoLine();
+    void setAutoLine(bool value);
 
 protected:
     void showEvent(QShowEvent *se);

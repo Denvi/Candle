@@ -94,6 +94,7 @@ void GcodeParser::reset(const QVector3D &initialPoint)
     this->m_points.clear();
     // The unspoken home location.
     m_currentPoint = initialPoint;
+    m_currentPlane = PointSegment::XY;
     this->m_points.append(new PointSegment(&this->m_currentPoint, -1));
 }
 

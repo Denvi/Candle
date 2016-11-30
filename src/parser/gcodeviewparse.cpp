@@ -133,6 +133,8 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                         if (nextPoint == startPoint) continue;
                         ls = new LineSegment(startPoint, nextPoint, lineIndex);
                         ls->setIsArc(ps->isArc());
+                        ls->setIsClockwise(ps->isClockwise());
+                        ls->setPlane(ps->plane());
                         ls->setIsFastTraverse(ps->isFastTraverse());
                         ls->setIsZMovement(ps->isZMovement());
                         ls->setIsMetric(isMetric);
