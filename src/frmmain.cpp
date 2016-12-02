@@ -1889,22 +1889,29 @@ void frmMain::onActSendFromLineTriggered()
         LineSegment* segment = list.at(lineIndexes.at(lineNumber).last());
 
         QStringList commands;
-        commands.append(QString("G21F%2").arg(segment->getSpeed()));
+        commands.append(QString("G%1G%2F%3")
+                        .arg(segment->isMetric() ? "21" : "20")
+                        .arg(segment->isFastTraverse() ? "0" : "1")
+                        .arg(segment->isMetric() ? segment->getSpeed() : segment->getSpeed() / 25.4));
         if (segment->isArc()) {
             commands.append(segment->plane() == PointSegment::XY ? "G17"
             : segment->plane() == PointSegment::ZX ? "G18" : "G19");
         }
-        if (!segment->isMetric()) commands.append("G20");
         commands.append(segment->isAbsolute() ? "G90" : "G91");
         commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->slbSpindle->value())));
 
-        int res = QMessageBox::information(this, qApp->applicationDisplayName(), tr("Following commands will be sent before selected line:\n") +
-                                           commands.join('\n'), QMessageBox::Ok | QMessageBox::Discard | QMessageBox::Cancel);
+        QMessageBox box(this);
+        box.setIcon(QMessageBox::Information);
+        box.setText(tr("Following commands will be sent before selected line:\n") + commands.join('\n'));
+        box.setWindowTitle(qApp->applicationDisplayName());
+        box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        box.addButton(tr("Skip"), QMessageBox::DestructiveRole);
 
+        int res = box.exec();
         if (res == QMessageBox::Cancel) return;
         else if (res == QMessageBox::Ok) {
             foreach (QString command, commands) {
-                sendCommand(command);
+                sendCommand(command, -1, m_settings->showUICommands());
             }
         }
     }
