@@ -1729,18 +1729,22 @@ void frmMain::onActSendFromLineTriggered()
 
         int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
         LineSegment* segment = list.at(lineIndexes.at(lineNumber).last());
+        LineSegment* feedSegment = segment;
+        while (feedSegment->isFastTraverse() && list.indexOf(feedSegment) > 0) feedSegment = list.at(qMax(0, list.indexOf(feedSegment) - 1));
 
         QStringList commands;
-        commands.append(QString("G%1G%2F%3")
-                        .arg(segment->isMetric() ? "21" : "20")
-                        .arg(segment->isFastTraverse() ? "0" : "1")
-                        .arg(segment->isMetric() ? segment->getSpeed() : segment->getSpeed() / 25.4));
+        commands.append(QString("%1F%2")
+                        .arg(segment->isMetric() ? "G21" : "G20")
+                        .arg(segment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+
         if (segment->isArc()) {
             commands.append(segment->plane() == PointSegment::XY ? "G17"
             : segment->plane() == PointSegment::ZX ? "G18" : "G19");
         }
-        commands.append(segment->isAbsolute() ? "G90" : "G91");
-        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->txtSpindleSpeed->value())));
+        commands.append(QString("%1%2")
+                       .arg(segment->isFastTraverse() ? "G0" : "G1")
+                       .arg(segment->isAbsolute() ? "G90" : "G91"));
+        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->slbSpindle->value())));
 
         QMessageBox box(this);
         box.setIcon(QMessageBox::Information);
