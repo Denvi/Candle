@@ -15,8 +15,8 @@ Version 1.1 pre-release:
 
 Downloads:
 ----------
-* Windows: [candle_1.1.4.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.4.zip)
-* Linux: [candle_1.1.4.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.4.tar.gz)
+* Windows: [candle_1.1.5.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.5.zip)
+* Linux: [candle_1.1.5.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.5.tar.gz)
 
 
 Version 1.0 release:
@@ -32,8 +32,8 @@ Version 1.0 release:
 
 Downloads:
 ----------
-* Windows: [candle_1.0.8.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.8.zip)
-* Linux: [candle_1.0.8.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.8.tar.gz)
+* Windows: [candle_1.0.9.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.9.zip)
+* Linux: [candle_1.0.9.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.9.tar.gz)
 
 Build requirements:
 ------------------
