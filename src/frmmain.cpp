@@ -1744,7 +1744,7 @@ void frmMain::onActSendFromLineTriggered()
         commands.append(QString("%1%2")
                        .arg(segment->isFastTraverse() ? "G0" : "G1")
                        .arg(segment->isAbsolute() ? "G90" : "G91"));
-        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->slbSpindle->value())));
+        commands.append(QString("M3S%1").arg(qMax<double>(segment->getSpindleSpeed(), ui->txtSpindleSpeed->value())));
 
         QMessageBox box(this);
         box.setIcon(QMessageBox::Information);
