@@ -1730,7 +1730,8 @@ void frmMain::onActSendFromLineTriggered()
         int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
         LineSegment* segment = list.at(lineIndexes.at(lineNumber).last());
         LineSegment* feedSegment = segment;
-        while (feedSegment->isFastTraverse() && list.indexOf(feedSegment) > 0) feedSegment = list.at(qMax(0, list.indexOf(feedSegment) - 1));
+        int segmentIndex = list.indexOf(feedSegment);
+        while (feedSegment->isFastTraverse() && segmentIndex > 0) feedSegment = list.at(--segmentIndex);
 
         QStringList commands;
         commands.append(QString("%1F%2")
