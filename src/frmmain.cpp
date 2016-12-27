@@ -259,9 +259,11 @@ frmMain::frmMain(QWidget *parent) :
     m_serialPort.setDataBits(QSerialPort::Data8);
     m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort.setStopBits(QSerialPort::OneStop);
-    m_serialPort.setSettingsRestoredOnClose(false);
 
-    if (!m_settings->port().isEmpty()) m_serialPort.setPortName(m_settings->port());
+    if (m_settings->port() != "") {
+        m_serialPort.setPortName(m_settings->port());
+        m_serialPort.setBaudRate(m_settings->baud());
+    }
 
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
@@ -726,15 +728,10 @@ void frmMain::updateControlsState() {
 
 void frmMain::openPort()
 {
-    if (m_serialPort.open(QIODevice::ReadWrite)) {        
-        // Set baud after port open to avoid DTR set & hard reset
-        m_serialPort.setDataTerminalReady(false);
-        m_serialPort.setBaudRate(m_settings->baud());
-
+    if (m_serialPort.open(QIODevice::ReadWrite)) {
         ui->txtStatus->setText(tr("Port opened"));
-        ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));        
-
-        // Soft reset
+        ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
+//        updateControlsState();
         grblReset();
     }
 }
@@ -2164,10 +2161,11 @@ void frmMain::on_actServiceSettings_triggered()
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_settings->port() << "Baud:" << m_settings->baud();
 
-        if (!m_settings->port().isEmpty() && (m_settings->port() != m_serialPort.portName() ||
+        if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
                                            m_settings->baud() != m_serialPort.baudRate())) {
             if (m_serialPort.isOpen()) m_serialPort.close();
             m_serialPort.setPortName(m_settings->port());
+            m_serialPort.setBaudRate(m_settings->baud());
             openPort();
         }
 
