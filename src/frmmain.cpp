@@ -3656,13 +3656,15 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
-        ui->tblProgram->selectRow(0);
 
         m_programLoading = false;
 
         // Update parser
         m_currentDrawer = m_codeDrawer;
         updateParser();
+
+        // Select first row
+        ui->tblProgram->selectRow(0);
     }
     catch (CancelException) {                       // Cancel modification
         m_programHeightmapModel.clear();
@@ -3684,10 +3686,17 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+
+        // Store changes flag
+        bool fileChanged = m_fileChanged;
+
+        // Update parser
+        updateParser();
+
+        // Select first row
         ui->tblProgram->selectRow(0);
 
-        bool fileChanged = m_fileChanged;
-        updateParser();
+        // Restore changes flag
         m_fileChanged = fileChanged;
     }
 
