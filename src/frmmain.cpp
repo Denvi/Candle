@@ -3591,15 +3591,23 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     foreach (QString arg, args) {                   // arg examples: G1, G2, M3, X100...
                         codeChar = arg.at(0).toLatin1();            // codeChar: G, M, X...
                         if (!coords.contains(codeChar)) {           // Not parameter
-                            codeNum = arg.mid(1).toDouble();                            
+                            codeNum = arg.mid(1).toDouble();
                             if (g.contains(codeChar)) {             // 'G'-command
                                 // Store 'G0' & 'G1'
-                                if (codeNum == 0 || codeNum == 1) {
+                                if (codeNum == 0.0f || codeNum == 1.0f) {
                                     lastCode = arg;
                                     isLinearMove = true;            // Store linear move
                                 }
+
                                 // Replace 'G2' & 'G3' with 'G1'
-                                if (codeNum == 2 || codeNum == 3) newCommand.append("G1"); else newCommand.append(arg);
+                                if (codeNum == 2.0f || codeNum == 3.0f) {
+                                    newCommand.append("G1");
+                                    isLinearMove = true;
+                                // Drop plane command for arcs
+                                } else if (codeNum != 17.0f && codeNum != 18.0f && codeNum != 19.0f) {
+                                    newCommand.append(arg);
+                                }
+
                                 hasCommand = true;                  // Command has 'G'
                             } else {
                                 if (m.contains(codeChar))
