@@ -29,7 +29,7 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.1.6
+VERSION = 1.1.7
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"
