@@ -2109,7 +2109,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 
     // Update selection marker
     int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
-    if (line > 0) {
+    if (line > 0 && !lineIndexes.at(line).isEmpty()) {
         QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
         m_selectionDrawer.setEndPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
     } else {
