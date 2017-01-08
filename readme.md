@@ -8,22 +8,30 @@ Supported functions:
 * Loading, editing, saving and sending of G-code files to cnc-machine.
 * Visualizing G-code files.
 
+System requirements:
+-------------------
+* Windows/Linux x86
+* CPU with SSE2 instruction set support
+* Graphics card with OpenGL 2.0 support
+* 120 MB free storage space
+
 Version 1.1 release:
 --------------------
 
-* Moving to Grbl v1.1 firmware
+* Reworked for GRBL v1.1 firmware
 
 Downloads:
 ----------
 * Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
 * Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
 
-
 Version 1.0 release:
 --------------------
 
 * Added "Grayscale segments"-option and "Raster"-mode to visualize laser jobs.
 * Added "User commands"-panel.
+* "Send from current line" feature added.
+* G-code program errors handling.
 * Significantly improved performance of:
  * File loading.
  * G-code program modification by heightmap.
