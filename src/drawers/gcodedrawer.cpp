@@ -145,48 +145,30 @@ bool GcodeDrawer::updateVectors()
     // Update vertices
     QList<LineSegment*> *list = m_viewParser->getLines();
 
-    // Get vertices indexes
-    auto mm = std::minmax_element(m_indexes.begin(), m_indexes.end());
-
-    int vertexIndexFirst = qMax(list->at(*mm.first)->vertexIndex(), 0);
-    int vertexIndexLast = qMax(list->at(*mm.second)->vertexIndex(), 0);
-    int vertexCount = (vertexIndexLast - vertexIndexFirst) + 2;
-
-    // Allocate buffer
-    VertexData *data = (VertexData*)malloc(vertexCount * sizeof(VertexData));
-
-    // Read current vertices
-    if (data) m_vbo.read(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
-    else {           // Can't read vbo
-        m_indexes.clear();
-        return true; // Update full vbo via allocate;
-    }
-
-    // Prepare colors
-    QVector3D drawnColor = Util::colorToVector(m_colorDrawn);
-    QVector3D highlightColor = Util::colorToVector(m_colorHighlight);
+    // Map buffer
+    VertexData *data = (VertexData*)m_vbo.map(QOpenGLBuffer::WriteOnly);
 
     // Update vertices for each line segment
     int vertexIndex;
     foreach (int i, m_indexes) {
         // Update vertex pair
         if (i < 0 || i > list->count() - 1) continue;
-        vertexIndex = list->at(i)->vertexIndex() - vertexIndexFirst;
+        vertexIndex = list->at(i)->vertexIndex();
         if (vertexIndex >= 0) {
-            // Update vertex array
-            if (data[vertexIndex].color == drawnColor // If vertex of drawn segment
-                    && getSegmentColorVector(list->at(i)) == highlightColor); // dont highlight
-            else {
+            // Update vertex array            
+            if (data) {
                 data[vertexIndex].color = getSegmentColorVector(list->at(i));
                 data[vertexIndex + 1].color = data[vertexIndex].color;
+            } else {
+                m_lines[vertexIndex].color = getSegmentColorVector(list->at(i));
+                m_lines[vertexIndex + 1].color = m_lines.at(vertexIndex).color;
             }
         }
     }
 
-    m_vbo.write(vertexIndexFirst * sizeof(VertexData), data, vertexCount * sizeof(VertexData));
-    free(data);
     m_indexes.clear();
-    return false;
+    if (data) m_vbo.unmap();
+    return !data;
 }
 
 bool GcodeDrawer::prepareRaster()
