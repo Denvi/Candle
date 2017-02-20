@@ -30,6 +30,8 @@
 #include <QAction>
 #include <QLayout>
 #include <QMimeData>
+#include <QStandardPaths>
+
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
@@ -43,7 +45,11 @@ frmMain::frmMain(QWidget *parent) :
     m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
 
     // Loading settings
+#ifdef UNIX
+    m_settingsFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+ "/candle/" + "/settings.ini";
+#else
     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
+#endif
     preloadSettings();
 
     m_settings = new frmSettings(this);
