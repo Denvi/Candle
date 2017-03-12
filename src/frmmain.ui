@@ -664,7 +664,7 @@ QSlider::handle:horizontal:hover {
                  <double>999.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>5.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -692,7 +692,7 @@ QSlider::handle:horizontal:hover {
                  <double>999.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>-1.000000000000000</double>
+                 <double>-10.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -822,10 +822,10 @@ QSlider::handle:horizontal:hover {
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="decimals">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <property name="minimum">
-                 <double>2.000000000000000</double>
+                 <double>0.100000000000000</double>
                 </property>
                 <property name="maximum">
                  <double>1000.000000000000000</double>
@@ -853,10 +853,10 @@ QSlider::handle:horizontal:hover {
                  <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="decimals">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <property name="minimum">
-                 <double>2.000000000000000</double>
+                 <double>0.100000000000000</double>
                 </property>
                 <property name="maximum">
                  <double>1000.000000000000000</double>
@@ -1540,9 +1540,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-416</y>
+            <y>0</y>
             <width>228</width>
-            <height>691</height>
+            <height>658</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2616,7 +2616,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>952</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

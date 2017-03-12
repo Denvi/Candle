@@ -67,6 +67,8 @@ public:
     void setRapidSpeed(int rapidSpeed);
     int heightmapProbingFeed();
     void setHeightmapProbingFeed(int heightmapProbingFeed);
+    double heightmapProbeHeight();
+    void setHeightmapProbeHeight(double heightmapProbeHeight);
     int acceleration();
     void setAcceleration(int acceleration);
     int queryStateTime();
@@ -141,6 +143,8 @@ private slots:
     void on_radGrayscaleS_toggled(bool checked);
 
     void on_radGrayscaleZ_toggled(bool checked);
+
+    void on_chkGrayscale_clicked();
 
 private:
     Ui::frmSettings *ui;

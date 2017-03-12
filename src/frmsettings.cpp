@@ -330,6 +330,17 @@ void frmSettings::setHeightmapProbingFeed(int heightmapProbingFeed)
     ui->txtHeightMapProbingFeed->setValue(heightmapProbingFeed);
 }
 
+double frmSettings::heightmapProbeHeight()
+{
+    return ui->txtHeightMapProbeHeight->value();
+}
+
+void frmSettings::setHeightmapProbeHeight(double heightmapProbeHeight)
+{
+    ui->txtHeightMapProbeHeight->setValue(heightmapProbeHeight);
+}
+
+
 int frmSettings::acceleration()
 {
     return ui->txtAcceleration->value();
@@ -638,11 +649,12 @@ void frmSettings::on_cmdDefaults_clicked()
     setSpindleSpeedMax(10000);
     setLaserPowerMin(0);
     setLaserPowerMax(100);
-    setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F10");
+    setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F1; G92Z0(change Z0 by your probe Height and delete this text); G1Z5F200");
     setSafePositionCommand("G21G90; G53G0Z0");
     setMoveOnRestore(false);
     setRestoreMode(0);
     setHeightmapProbingFeed(10);
+    setHeightmapProbeHeight(1.55);
     setUnits(0);
 
     setArcLength(0.0);
