@@ -193,6 +193,10 @@ private slots:
 
     void on_cmdStop_clicked();
 
+    void on_chkLaserMode_clicked();
+
+    void on_chkLaserMode_toggled(bool checked);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);

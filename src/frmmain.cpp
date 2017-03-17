@@ -455,6 +455,9 @@ void frmMain::loadSettings()
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
 
+    ui->chkLaserMode->setChecked(set.value("laserMode", false).toBool());
+    ui->chkUseProbeHeight->setChecked(set.value("useProbeHeight", false).toBool());
+
     foreach (ColorPicker* pick, m_settings->colors()) {
         pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
     }
@@ -586,6 +589,9 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
+
+    set.setValue("laserMode", ui->chkLaserMode->isChecked());
+    set.setValue("useProbeHeight", ui->chkUseProbeHeight->isChecked());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
         set.setValue(pick->objectName().mid(3), pick->color().name());
@@ -726,7 +732,12 @@ void frmMain::updateControlsState() {
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());    
+    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
+
+    if (ui->cmdHeightMapMode->isChecked()) ui->chkUseProbeHeight->setVisible(true);
+    else{
+        ui->chkUseProbeHeight->setVisible(false);
+    }
 }
 
 void frmMain::openPort()
@@ -3169,8 +3180,20 @@ bool frmMain::updateHeightMapGrid()
 //                         .arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
                          .arg(ui->txtHeightMapGridZBottom->value()));
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G92Z%1") // Set Z to Probe Height
-                         .arg(zoffset));
+
+    if (ui->chkUseProbeHeight->isChecked())
+    {
+        // Check if we have to set Z probe offset for non conductive materials
+        m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G92Z%1") // Set Z to Probe Height
+                             .arg(zoffset));
+        qDebug() << "Setting Z to Probe Height " << zoffset;
+
+    }else
+    {
+        m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G92Z0")); // Set Z as 0
+        qDebug() << "Setting Z to 0 as origin point";
+    }
+
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
                          .arg(ui->txtHeightMapGridZTop->value()));
 
@@ -3985,4 +4008,17 @@ void frmMain::on_cmdStop_clicked()
 {
     m_queue.clear();
     m_serialPort.write(QByteArray(1, char(0x85)));
+}
+
+void frmMain::on_chkLaserMode_toggled(bool checked)
+{
+    if(ui->chkLaserMode->isChecked())
+    {
+        sendCommand("$32=1",-1,1);
+    }else
+    {
+        sendCommand("$32=0",-1,1);
+    }
+
+    updateControlsState();
 }

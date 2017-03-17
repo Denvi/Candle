@@ -967,6 +967,31 @@ QSlider::handle:horizontal:hover {
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="chkUseProbeHeight">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Use Probe Height</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="spacerBot">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1540,9 +1565,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-416</y>
             <width>228</width>
-            <height>658</height>
+            <height>685</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2463,8 +2488,30 @@ QSlider::handle:horizontal:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="chkKeyboardControl">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Keyboard control</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="chkLaserMode">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Laser Mode</string>
                    </property>
                   </widget>
                  </item>
