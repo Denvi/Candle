@@ -37,8 +37,9 @@ frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
-    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door";
-    m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") << tr("Check") << tr("Door");
+    m_status << "Unknown" << "Idle" << "Alarm" << "Run" << "Home" << "Hold" << "Queue" << "Check" << "Door" << "Jog" << "Sleep";
+    m_statusCaptions << tr("Unknown") << tr("Idle") << tr("Alarm") << tr("Run") << tr("Home") << tr("Hold") << tr("Queue") 
+        << tr("Check") << tr("Door") << tr("Jog") << tr("Sleep");
     m_statusBackColors << "red" << "palette(button)" << "red" << "lime" << "lime" << "yellow" << "yellow" << "palette(button)" << "red";
     m_statusForeColors << "white" << "palette(text)" << "white" << "black" << "black" << "black" << "black" << "palette(text)" << "white";
 
@@ -721,6 +722,9 @@ int frmMain::bufferLength()
 
 void frmMain::onSerialPortReadyRead()
 {
+    bool has_mpos = false;
+    bool has_wpos = false;
+
     while (m_serialPort.canReadLine()) {
         QString data = m_serialPort.readLine().trimmed();
 
@@ -741,15 +745,31 @@ void frmMain::onSerialPortReadyRead()
             m_statusReceived = true;
 
             // Update machine coordinates
-            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>]*)");
+            QRegExp mpx("MPos:([^,]*),([^,]*),([^,^|,^>]*)");
             if (mpx.indexIn(data) != -1) {
                 ui->txtMPosX->setText(mpx.cap(1));
                 ui->txtMPosY->setText(mpx.cap(2));
                 ui->txtMPosZ->setText(mpx.cap(3));
+                has_mpos = true;
+            }
+
+            // Feed and speed for GRBL v1.1
+            QRegExp fsx("FS:([^,]*),([^,^>,^|]*)");
+            if (fsx.indexIn(data) != -1) {
+                ui->txtFeedInfo->setText(fsx.cap(1));
+                ui->txtSpeedInfo->setText(fsx.cap(2));
+            }
+
+            // WCO for GRBL v1.1
+            QRegExp wcox("WCO:([^,]*),([^,]*),([^,^>,^|]*)");
+            if (wcox.indexIn(data) != -1) {
+                m_wcoX = wcox.cap(1).toDouble();
+                m_wcoY = wcox.cap(2).toDouble();
+                m_wcoZ = wcox.cap(3).toDouble();
             }
 
             // Status
-            QRegExp stx("<([^,^>]*)");
+            QRegExp stx("<([^,^>,^|]*)");
             if (stx.indexIn(data) != -1) {
                 status = m_status.indexOf(stx.cap(1));
 
@@ -860,6 +880,25 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtWPosX->setText(wpx.cap(1));
                 ui->txtWPosY->setText(wpx.cap(2));
                 ui->txtWPosZ->setText(wpx.cap(3));
+                has_wpos = true;
+
+                // If there is no MPos, then we need to calculate it
+                if (!has_mpos)
+                {
+                    ui->txtMPosX->setText(QString::number(ui->txtWPosX->text().toDouble() + m_wcoX));
+                    ui->txtMPosY->setText(QString::number(ui->txtWPosY->text().toDouble() + m_wcoY));
+                    ui->txtMPosZ->setText(QString::number(ui->txtWPosZ->text().toDouble() + m_wcoZ));
+                }
+            } 
+            else if (has_mpos)
+            {
+                ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - m_wcoX));
+                ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - m_wcoY));
+                ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - m_wcoZ));
+                has_wpos = true;
+            }
+
+            if (has_wpos) {
                 QVector3D toolPosition;
 
                 // Update tool position

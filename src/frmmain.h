@@ -250,6 +250,11 @@ private:
 
     QMessageBox* m_senderErrorBox;
 
+    // Work coordinate offset from GRBL
+    double m_wcoX = 0;
+    double m_wcoY = 0;
+    double m_wcoZ = 0;
+
     // Stored origin
     double m_storedX = 0;
     double m_storedY = 0;

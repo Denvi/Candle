@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       = core gui opengl serialport
+QT       = core gui opengl widgets serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32: {
