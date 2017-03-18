@@ -3887,7 +3887,7 @@ void frmMain::jogStep()
                     .arg(vec.x(), 0, 'g', 4)
                     .arg(vec.y(), 0, 'g', 4)
                     .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed), -2, false);
+                    .arg(speed), -2, m_settings->showUICommands());
     } else {
         int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
         QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
@@ -3896,7 +3896,7 @@ void frmMain::jogStep()
                     .arg(vec.x(), 0, 'g', 4)
                     .arg(vec.y(), 0, 'g', 4)
                     .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed), -3, false);
+                    .arg(speed), -3, m_settings->showUICommands());
     }
 }
 
