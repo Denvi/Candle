@@ -277,12 +277,18 @@ bool GcodeDrawer::updateRaster()
     return false;
 }
 
-void GcodeDrawer::setImagePixelColor(QImage &image, int x, int y, QRgb color) const
+void GcodeDrawer::setImagePixelColor(QImage &image, double x, double y, QRgb color) const
 {
-    uchar* pixel = image.scanLine(y);
-    *(pixel + x * 3) = qRed(color);
-    *(pixel + x * 3 + 1) = qGreen(color);
-    *(pixel + x * 3 + 2) = qBlue(color);
+    if (qIsNaN(x) || qIsNaN(y)) {
+        qDebug() << "Error updating pixel" << x << y;
+        return;
+    };
+
+    uchar* pixel = image.scanLine((int)y);
+
+    *(pixel + (int)x * 3) = qRed(color);
+    *(pixel + (int)x * 3 + 1) = qGreen(color);
+    *(pixel + (int)x * 3 + 2) = qBlue(color);
 }
 
 QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)
