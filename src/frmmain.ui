@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
+    <width>997</width>
     <height>899</height>
    </rect>
   </property>
@@ -1203,6 +1203,67 @@ QSlider::handle:horizontal:hover {
             </layout>
            </item>
            <item>
+            <widget class="QFrame" name="horizontalFrame">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_33">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>Feed</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="txtFeedInfo">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Speed</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="txtSpeedInfo">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <layout class="QFormLayout" name="formLayout">
              <property name="horizontalSpacing">
               <number>14</number>
@@ -1535,8 +1596,8 @@ QSlider::handle:horizontal:hover {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>231</width>
-            <height>725</height>
+            <width>252</width>
+            <height>795</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -2792,8 +2853,8 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>878</width>
-     <height>26</height>
+     <width>997</width>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
