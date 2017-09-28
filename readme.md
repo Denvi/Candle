@@ -22,8 +22,12 @@ Version 1.1 release:
 
 Downloads:
 ----------
+For GRBL v1.1 firmware
+
 * Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
 * Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
+
+(for GRBL v0.9 and below use Candle 0.9)
 
 Version 1.0 release:
 --------------------
