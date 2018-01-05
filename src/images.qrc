@@ -44,5 +44,6 @@
         <file>images/num4.png</file>
         <file>images/handle2s1.png</file>
         <file>images/brake.png</file>
+        <file>images/candle.icns</file>
     </qresource>
 </RCC>
