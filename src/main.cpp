@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     QString loc = QLocale().name().left(2);
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
-    QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
+    QString translationFileName = translationsFolder + "candle_" + loc + ".qm";
 
     qDebug() << "locale:" << loc;
 
