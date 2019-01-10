@@ -138,11 +138,7 @@ protected:
     void resizeGL(int width, int height);
     void updateProjection();
     void updateView();
-#ifdef GLES
     void paintGL();
-#else
-    void paintEvent(QPaintEvent *pe);
-#endif
 
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

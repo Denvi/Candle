@@ -412,12 +412,7 @@ void GLWidget::updateView()
     m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
 }
 
-#ifdef GLES
 void GLWidget::paintGL() {
-#else
-void GLWidget::paintEvent(QPaintEvent *pe) {
-    Q_UNUSED(pe)
-#endif
     QPainter painter(this);
 
     // Segment counter
