@@ -30,8 +30,3 @@ For GRBL v1.1 firmware
 
 "Candle" main window:
 ![screenshot](/screenshots/screenshot_heightmap_original.png)
-
---------------------
-Support the "grblControl" project. If you'd like to donate, all proceeds will be used to help fund supporting hardware and testing equipment. Thank you.
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NQG6CB4VGTVZE) / [![Donate](https://www.paypalobjects.com/ru_RU/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6GRUNTKF2M4BU) 
