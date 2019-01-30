@@ -35,6 +35,7 @@
 #include "utils/interpolation.h"
 
 #include "widgets/styledtoolbutton.h"
+#include "widgets/sliderbox.h"
 
 #include "frmsettings.h"
 #include "frmabout.h"
@@ -92,19 +93,19 @@ private slots:
     void onSerialPortError(QSerialPort::SerialPortError);
     void onTimerConnection();
     void onTimerStateQuery();
-    void onCmdJogStepClicked();
     void onVisualizatorRotationChanged();
     void onScroolBarAction(int action);
     void onJogTimer();
     void onTableInsertLine();
     void onTableDeleteLines();
     void onActRecentFileTriggered();
-    void onActSendFromLineTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onConsoleResized(QSize size);
     void onPanelsSizeChanged(QSize size);
     void onCmdUserClicked(bool checked);
+    void onOverridingToggled(bool checked);
+    void onActSendFromLineTriggered();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();
@@ -123,14 +124,6 @@ private slots:
     void on_cmdUnlock_clicked();
     void on_cmdSafePosition_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_txtSpindleSpeed_editingFinished();
-    void on_sliSpindleSpeed_valueChanged(int value);
-    void on_cmdYPlus_clicked();
-    void on_cmdYMinus_clicked();
-    void on_cmdXPlus_clicked();
-    void on_cmdXMinus_clicked();
-    void on_cmdZPlus_clicked();
-    void on_cmdZMinus_clicked();
     void on_chkTestMode_clicked(bool checked);
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
@@ -144,10 +137,7 @@ private slots:
     void on_cmdLeft_clicked();
     void on_cmdIsometric_clicked();
     void on_actAbout_triggered();
-    void on_txtFeed_editingFinished();
-    void on_sliFeed_valueChanged(int value);
-    void on_chkFeedOverride_toggled(bool checked);
-    void on_grpFeed_toggled(bool checked);
+    void on_grpOverriding_toggled(bool checked);
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
     void on_grpUserCommands_toggled(bool checked);
@@ -175,8 +165,33 @@ private slots:
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
-    void on_sliSpindleSpeed_actionTriggered(int action);
-    void on_cmdSpindle_clicked(bool checked);
+    void on_cmdSpindle_clicked(bool checked);   
+
+    void on_cmdYPlus_pressed();
+
+    void on_cmdYPlus_released();
+
+    void on_cmdYMinus_pressed();
+
+    void on_cmdYMinus_released();
+
+    void on_cmdXPlus_pressed();
+
+    void on_cmdXPlus_released();
+
+    void on_cmdXMinus_pressed();
+
+    void on_cmdXMinus_released();
+
+    void on_cmdZPlus_pressed();
+
+    void on_cmdZPlus_released();
+
+    void on_cmdZMinus_pressed();
+
+    void on_cmdZMinus_released();
+
+    void on_cmdStop_clicked();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -301,6 +316,9 @@ private:
     bool m_spindleCW = true;
     bool m_spindleCommandSpeed = false;
 
+    // Jog
+    QVector3D m_jogVector;
+
     QStringList m_recentFiles;
     QStringList m_recentHeightmaps;
 
@@ -328,7 +346,6 @@ private:
     QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
-    void blockJogForRapidMovement(bool repeated = false);
     bool keyIsMovement(int key);
     void resizeCheckBoxes();
     void updateLayouts();
@@ -357,6 +374,9 @@ private:
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
     int getConsoleMinHeight();
+    void updateOverride(SliderBox *slider, int value, char command);
+    void jogStep();
+    void updateJogTitle();
 };
 
 #endif // FRMMAIN_H

@@ -170,6 +170,26 @@ void GLWidget::viewAnimation()
     updateView();
 }
 
+QString GLWidget::pinState() const
+{
+    return m_pinState;
+}
+
+void GLWidget::setPinState(const QString &pinState)
+{
+    m_pinState = pinState;
+}
+
+QString GLWidget::speedState() const
+{
+    return m_speedState;
+}
+
+void GLWidget::setSpeedState(const QString &additionalStatus)
+{
+    m_speedState = additionalStatus;
+}
+
 bool GLWidget::vsync() const
 {
     return m_vsync;
@@ -469,6 +489,8 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     QFontMetrics fm(painter.font());
 
     painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
+    painter.drawText(QPoint(x, fm.height() * 2 + 10), m_speedState);
+    painter.drawText(QPoint(x, fm.height() * 3 + 10), m_pinState);
 
     QString str = QString(tr("Vertices: %1")).arg(vertices);
     painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + 30), str);

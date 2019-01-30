@@ -331,7 +331,7 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
 
-    if (code == 0) ps = addLinearPointSegment(nextPoint, true);
+    if (code == 0.0f) ps = addLinearPointSegment(nextPoint, true);
     else if (code == 1.0f) ps = addLinearPointSegment(nextPoint, false);
     else if (code == 38.2f) ps = addLinearPointSegment(nextPoint, false);
     else if (code == 2.0f) ps = addArcPointSegment(nextPoint, true, args);
@@ -346,7 +346,7 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     else if (code == 91.0f) this->m_inAbsoluteMode = false;
     else if (code == 91.1f) this->m_inAbsoluteIJKMode = false;
 
-    if (code == 0 || code == 1 || code == 2 || code == 3 || code == 38.2) this->m_lastGcodeCommand = code;
+    if (code == 0.0f || code == 1.0f || code == 2.0f || code == 3.0f || code == 38.2f) this->m_lastGcodeCommand = code;
 
     return ps;
 }

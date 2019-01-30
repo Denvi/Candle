@@ -42,5 +42,7 @@
         <file>images/num2.png</file>
         <file>images/num3.png</file>
         <file>images/num4.png</file>
+        <file>images/handle2s1.png</file>
+        <file>images/brake.png</file>
     </qresource>
 </RCC>

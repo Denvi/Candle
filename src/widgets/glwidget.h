@@ -74,6 +74,12 @@ public:
     bool vsync() const;
     void setVsync(bool vsync);
 
+    QString speedState() const;
+    void setSpeedState(const QString &speedState);
+
+    QString pinState() const;
+    void setPinState(const QString &pinState);
+
 signals:
     void rotationChanged();
     void resized();
@@ -109,6 +115,8 @@ private:
     double m_xRotStored, m_yRotStored;
     bool m_animateView;
     QString m_parserStatus;
+    QString m_speedState;
+    QString m_pinState;
     QString m_bufferState;
     bool m_updatesEnabled;
 

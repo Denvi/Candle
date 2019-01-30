@@ -1223,9 +1223,9 @@ QGroupBox {
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QCheckBox" name="chkPanelFeed">
+             <widget class="QCheckBox" name="chkPanelOverriding">
               <property name="text">
-               <string>Feed</string>
+               <string>Overriding</string>
               </property>
              </widget>
             </item>

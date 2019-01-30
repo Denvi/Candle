@@ -29,13 +29,13 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.0.12
+VERSION = 1.1.8
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-TRANSLATIONS += translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts translations/candle_pt.ts
+TRANSLATIONS += translations/candle_en.ts translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts translations/candle_pt.ts
 
 SOURCES += main.cpp\
         frmmain.cpp \
@@ -48,7 +48,6 @@ SOURCES += main.cpp\
     drawers/origindrawer.cpp \
     drawers/shaderdrawable.cpp \
     drawers/tooldrawer.cpp \
-    drawers/selectiondrawer.cpp \
     parser/arcproperties.cpp \
     parser/gcodeparser.cpp \
     parser/gcodepreprocessorutils.cpp \
@@ -63,7 +62,11 @@ SOURCES += main.cpp\
     widgets/scrollarea.cpp \
     widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
-    widgets/glwidget.cpp
+    widgets/glwidget.cpp \
+    widgets/slider.cpp \
+    widgets/sliderbox.cpp \
+    drawers/selectiondrawer.cpp \
+    widgets/comboboxkey.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -92,11 +95,15 @@ HEADERS  += frmmain.h \
     widgets/styledtoolbutton.h \
     widgets/widget.h \
     widgets/glwidget.h \
-    drawers/selectiondrawer.h
+    widgets/slider.h \
+    widgets/sliderbox.h \
+    drawers/selectiondrawer.h \
+    widgets/comboboxkey.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
-    frmabout.ui
+    frmabout.ui \
+    widgets/sliderbox.ui
 
 DEFINES += _USE_MATH_DEFINES
 

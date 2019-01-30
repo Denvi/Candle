@@ -480,14 +480,14 @@ void frmSettings::setPanelSpindle(bool panelSpindle)
     ui->chkPanelSpindle->setChecked(panelSpindle);
 }
 
-bool frmSettings::panelFeed()
+bool frmSettings::panelOverriding()
 {
-    return ui->chkPanelFeed->isChecked();
+    return ui->chkPanelOverriding->isChecked();
 }
 
-void frmSettings::setPanelFeed(bool panelFeed)
+void frmSettings::setPanelOverriding(bool panelFeed)
 {
-    ui->chkPanelFeed->setChecked(panelFeed);
+    ui->chkPanelOverriding->setChecked(panelFeed);
 }
 
 bool frmSettings::panelJog()
@@ -668,7 +668,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setShowProgramCommands(false);
     setAutoCompletion(true);
 
-    setPanelFeed(true);
+    setPanelOverriding(true);
     setPanelHeightmap(true);
     setPanelJog(true);
     setPanelSpindle(true);   
