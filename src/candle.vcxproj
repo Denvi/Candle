@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{225C620D-C774-30C0-A16D-B392DA51D110}</ProjectGuid>
+    <RootNamespace>Candle</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <PlatformToolset>v141</PlatformToolset>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>Candle</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolset>v141</PlatformToolset>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>Candle</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\build-$(Platform)\$(Configuration)\Bin</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\build-$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Candle</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\build-$(Platform)\$(Configuration)\Bin</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\build-$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Candle</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtOpenGL;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtWidgets;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtWinExtras;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtGui;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtANGLE;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtSerialPort;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtCore;release;\include;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;APP_VERSION="1.1.8";_USE_MATH_DEFINES;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5WinExtras.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5SerialPort.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\qtmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;E:\QT\QT5.12.0\5.12.0\MSVC2017\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\Candle.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <Version>1.1</Version>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;sNan="65536";APP_VERSION=\"1.1.8\";_USE_MATH_DEFINES;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\moc_%(Filename).cpp</OutputFile>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;APP_VERSION="1.1.8";_USE_MATH_DEFINES;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <DynamicSource>output</DynamicSource>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;E:/QT/QT5.12.0/5.12.0/MSVC2017/mkspecs/$(Platform)-msvc;.;E:/QT/QT5.12.0/5.12.0/MSVC2017/include;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtOpenGL;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtWidgets;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtWinExtras;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtGui;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtANGLE;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtSerialPort;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio\VC98\atl\include;C:\Program Files (x86)\Microsoft Visual Studio\VC98\mfc\include;C:\Program Files (x86)\Microsoft Visual Studio\VC98\include;E:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;E:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt</IncludePath>
+    </QtMoc>
+    <QtRcc>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\qrc_%(Filename).cpp</OutputFile>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+    </QtRcc>
+    <QtUic>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\ui_%(Filename).h</OutputFile>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtOpenGL;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtWidgets;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtWinExtras;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtGui;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtANGLE;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtSerialPort;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\include\QtCore;debug;\include;..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;APP_VERSION="1.1.8";_USE_MATH_DEFINES;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\Qt5OpenGLd.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5WinExtrasd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5SerialPortd.lib;$(QTDIR)\lib\Qt5Cored.lib;$(QTDIR)\lib\qtmaind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;E:\QT\QT5.12.0\5.12.0\MSVC2017\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\Candle.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <Version>1.1</Version>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;APP_VERSION=\"1.1.8\";_USE_MATH_DEFINES;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\moc_%(Filename).cpp</OutputFile>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WINDOWS;APP_VERSION="1.1.8";_USE_MATH_DEFINES;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <DynamicSource>output</DynamicSource>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;E:/QT/QT5.12.0/5.12.0/MSVC2017/mkspecs/$(Platform)-msvc;.;E:/QT/QT5.12.0/5.12.0/MSVC2017/include;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtOpenGL;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtWidgets;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtWinExtras;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtGui;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtANGLE;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtSerialPort;E:/QT/QT5.12.0/5.12.0/MSVC2017/include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio\VC98\atl\include;C:\Program Files (x86)\Microsoft Visual Studio\VC98\mfc\include;C:\Program Files (x86)\Microsoft Visual Studio\VC98\include;E:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;E:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt</IncludePath>
+    </QtMoc>
+    <QtRcc>
+      <Compression>default</Compression>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\qrc_%(Filename).cpp</OutputFile>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+    </QtRcc>
+    <QtUic>
+      <QTDIR>E:\QT\QT5.12.0\5.12.0\MSVC2017</QTDIR>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>.\build-$(Platform)\$(Configuration)\ui_%(Filename).h</OutputFile>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="parser\arcproperties.cpp" />
+    <ClCompile Include="widgets\colorpicker.cpp" />
+    <ClCompile Include="widgets\combobox.cpp" />
+    <ClCompile Include="widgets\comboboxkey.cpp" />
+    <ClCompile Include="frmabout.cpp" />
+    <ClCompile Include="frmmain.cpp" />
+    <ClCompile Include="frmsettings.cpp" />
+    <ClCompile Include="drawers\gcodedrawer.cpp" />
+    <ClCompile Include="parser\gcodeparser.cpp" />
+    <ClCompile Include="parser\gcodepreprocessorutils.cpp" />
+    <ClCompile Include="tables\gcodetablemodel.cpp" />
+    <ClCompile Include="parser\gcodeviewparse.cpp" />
+    <ClCompile Include="widgets\glwidget.cpp" />
+    <ClCompile Include="widgets\groupbox.cpp" />
+    <ClCompile Include="drawers\heightmapborderdrawer.cpp" />
+    <ClCompile Include="drawers\heightmapgriddrawer.cpp" />
+    <ClCompile Include="drawers\heightmapinterpolationdrawer.cpp" />
+    <ClCompile Include="tables\heightmaptablemodel.cpp" />
+    <ClCompile Include="parser\linesegment.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="drawers\origindrawer.cpp" />
+    <ClCompile Include="parser\pointsegment.cpp" />
+    <ClCompile Include="widgets\scrollarea.cpp" />
+    <ClCompile Include="drawers\selectiondrawer.cpp" />
+    <ClCompile Include="drawers\shaderdrawable.cpp" />
+    <ClCompile Include="widgets\slider.cpp" />
+    <ClCompile Include="widgets\sliderbox.cpp" />
+    <ClCompile Include="widgets\styledtoolbutton.cpp" />
+    <ClCompile Include="drawers\tooldrawer.cpp" />
+    <ClCompile Include="widgets\widget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="parser\arcproperties.h" />
+    <QtMoc Include="widgets\colorpicker.h">
+    </QtMoc>
+    <QtMoc Include="widgets\combobox.h">
+    </QtMoc>
+    <ClInclude Include="widgets\comboboxkey.h" />
+    <QtMoc Include="frmabout.h">
+    </QtMoc>
+    <QtMoc Include="frmmain.h">
+    </QtMoc>
+    <QtMoc Include="frmsettings.h">
+    </QtMoc>
+    <QtMoc Include="drawers\gcodedrawer.h">
+    </QtMoc>
+    <QtMoc Include="parser\gcodeparser.h">
+    </QtMoc>
+    <QtMoc Include="parser\gcodepreprocessorutils.h">
+    </QtMoc>
+    <QtMoc Include="tables\gcodetablemodel.h">
+    </QtMoc>
+    <QtMoc Include="parser\gcodeviewparse.h">
+    </QtMoc>
+    <QtMoc Include="widgets\glwidget.h">
+    </QtMoc>
+    <QtMoc Include="widgets\groupbox.h">
+    </QtMoc>
+    <ClInclude Include="drawers\heightmapborderdrawer.h" />
+    <ClInclude Include="drawers\heightmapgriddrawer.h" />
+    <ClInclude Include="drawers\heightmapinterpolationdrawer.h" />
+    <QtMoc Include="tables\heightmaptablemodel.h">
+    </QtMoc>
+    <ClInclude Include="utils\interpolation.h" />
+    <ClInclude Include="parser\linesegment.h" />
+    <ClInclude Include="drawers\origindrawer.h" />
+    <ClInclude Include="parser\pointsegment.h" />
+    <QtMoc Include="widgets\scrollarea.h">
+    </QtMoc>
+    <ClInclude Include="drawers\selectiondrawer.h" />
+    <ClInclude Include="drawers\shaderdrawable.h" />
+    <QtMoc Include="widgets\slider.h">
+    </QtMoc>
+    <QtMoc Include="widgets\sliderbox.h">
+    </QtMoc>
+    <ClInclude Include="widgets\styledtoolbutton.h" />
+    <ClInclude Include="drawers\tooldrawer.h" />
+    <ClInclude Include="utils\util.h" />
+    <QtMoc Include="widgets\widget.h">
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Zi -MDd -g3 -pg -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\QT\QT5.12.0\5.12.0\MSVC2017\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_predefs.h;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClInclude Include="ui_frmabout.h" />
+    <ClInclude Include="ui_frmmain.h" />
+    <ClInclude Include="ui_frmsettings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="translations\candle_en.ts" />
+    <None Include="translations\candle_es.ts" />
+    <None Include="translations\candle_fr.ts" />
+    <None Include="translations\candle_pt.ts" />
+    <None Include="translations\candle_ru.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="frmabout.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ui_frmabout.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ui_frmabout.h</OutputFile>
+    </QtUic>
+    <QtUic Include="frmmain.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ui_frmmain.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ui_frmmain.h</OutputFile>
+    </QtUic>
+    <QtUic Include="frmsettings.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ui_frmsettings.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ui_frmsettings.h</OutputFile>
+    </QtUic>
+    <QtUic Include="widgets\sliderbox.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ui_sliderbox.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ui_sliderbox.h</OutputFile>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\1401561986_chevron-left.png" />
+    <None Include="images\1401562173_chevron-down.png" />
+    <None Include="images\1401562173_chevron-right.png" />
+    <None Include="images\1401562173_chevron-up.png" />
+    <None Include="images\1401562699_icon-arrow-down-b.png" />
+    <None Include="images\1401562699_icon-arrow-up-b.png" />
+    <None Include="images\axis_return.png" />
+    <None Include="images\axis_zero.png" />
+    <None Include="images\brake.png" />
+    <None Include="images\candle_256.png" />
+    <None Include="images\collapse.png" />
+    <None Include="images\collapse_disabled.png" />
+    <None Include="images\cube.png" />
+    <None Include="images\cubeFront.png" />
+    <None Include="images\cubeLeft.png" />
+    <None Include="images\cubeTop.png" />
+    <None Include="images\cutter.png" />
+    <None Include="images\erase_1.png" />
+    <None Include="images\expand.png" />
+    <None Include="images\expand_disabled.png" />
+    <None Include="images\fit_1.png" />
+    <None Include="shaders\fshader.glsl" />
+    <None Include="images\guard.png" />
+    <None Include="images\handle2s.png" />
+    <None Include="images\handle2s1.png" />
+    <None Include="images\handle2sh.png" />
+    <None Include="images\handle_horizontal.png" />
+    <None Include="images\handle_small.png" />
+    <None Include="images\handle_vertical.png" />
+    <None Include="images\icon3png.png" />
+    <QtRcc Include="images.qrc">
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">images</InitFuncName>
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">images</InitFuncName>
+    </QtRcc>
+    <None Include="images\num1.png" />
+    <None Include="images\num2.png" />
+    <None Include="images\num3.png" />
+    <None Include="images\num4.png" />
+    <None Include="images\origin.png" />
+    <None Include="images\restart.png" />
+    <None Include="images\run.png" />
+    <None Include="images\safe_z.png" />
+    <None Include="images\search_for_home2.png" />
+    <None Include="images\search_for_z.png" />
+    <None Include="images\send_1.png" />
+    <QtRcc Include="shaders.qrc">
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shaders</InitFuncName>
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shaders</InitFuncName>
+    </QtRcc>
+    <None Include="images\shadow.png" />
+    <None Include="images\small_arrow.png" />
+    <None Include="images\unlock.png" />
+    <None Include="shaders\vshader.glsl" />
+    <None Include="images\zero_z.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\Candle_resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir="$(Configuration)" Qt5Version_x0020_Win32="msvc2017" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

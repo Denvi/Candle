@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "candle", "candle.vcxproj", "{225C620D-C774-30C0-A16D-B392DA51D110}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{225C620D-C774-30C0-A16D-B392DA51D110}.Debug|x86.ActiveCfg = Debug|Win32
+		{225C620D-C774-30C0-A16D-B392DA51D110}.Debug|x86.Build.0 = Debug|Win32
+		{225C620D-C774-30C0-A16D-B392DA51D110}.Release|x86.ActiveCfg = Release|Win32
+		{225C620D-C774-30C0-A16D-B392DA51D110}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D534C18E-1297-47CD-9BA5-4E960950B387}
+	EndGlobalSection
+EndGlobal

@@ -53,3 +53,12 @@ bin/*
 
 # Idea
 .idea
+
+# VS
+.vs
+/src/debug
+/src/release
+/src/candle.vcxproj.filters
+/src/Candle_resource.aps
+/src/Candle_resource.rc
+/src/ui_*

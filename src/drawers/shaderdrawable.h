@@ -9,6 +9,8 @@
 #include <QOpenGLTexture>
 #include "utils/util.h"
 
+#define sNan 65536.0
+
 struct VertexData
 {
     QVector3D position;
