@@ -100,12 +100,14 @@ void SliderBox::on_txtValue_editingFinished()
 
 void SliderBox::on_sliValue_actionTriggered(int action)
 {
+    (void)(action);
     ui->txtValue->setValue(ui->sliValue->sliderPosition() * this->ratio());
     emit valueUserChanged();
 }
 
 void SliderBox::on_sliValue_valueChanged(int value)
 {
+    (void)(value);
     if (this->isChecked()) {
         ui->txtValue->setStyleSheet("color: red;");
         m_timerValueChanged.start();
