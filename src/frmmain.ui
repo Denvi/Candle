@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>952</width>
-    <height>847</height>
+    <width>1214</width>
+    <height>890</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -354,11 +354,11 @@ QSlider::handle:horizontal:hover {
              <property name="gridStyle">
               <enum>Qt::DashLine</enum>
              </property>
-             <attribute name="horizontalHeaderHighlightSections">
-              <bool>false</bool>
-             </attribute>
              <attribute name="horizontalHeaderMinimumSectionSize">
               <number>50</number>
+             </attribute>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>false</bool>
              </attribute>
              <attribute name="verticalHeaderVisible">
               <bool>false</bool>
@@ -1540,9 +1540,9 @@ QSlider::handle:horizontal:hover {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-416</y>
-            <width>228</width>
-            <height>691</height>
+            <y>0</y>
+            <width>300</width>
+            <height>812</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1776,6 +1776,13 @@ QSlider::handle:horizontal:hover {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QCheckBox" name="chkHeightMapInvert">
+                   <property name="text">
+                    <string>Invert</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_22">
                    <item>
                     <widget class="QLabel" name="label_15">
@@ -1823,6 +1830,44 @@ QSlider::handle:horizontal:hover {
                      </property>
                      <property name="text">
                       <string>Create</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="StyledToolButton" name="cmdHeightMapSave">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Save</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="StyledToolButton" name="cmdHeightMapSaveAs">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Save as</string>
                      </property>
                     </widget>
                    </item>
@@ -2615,8 +2660,8 @@ padding-right: 8;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>952</width>
-     <height>26</height>
+     <width>1214</width>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
