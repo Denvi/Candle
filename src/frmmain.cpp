@@ -35,8 +35,6 @@
 #include "frmmain.h"
 #include "ui_frmmain.h"
 
-#include <iostream>
-
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
