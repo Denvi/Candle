@@ -587,7 +587,7 @@ void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
 
-    ui->scrollSettings->updateMinimumWidth();
+    // ui->scrollSettings->updateMinimumWidth();
 }
 
 void frmSettings::searchPorts()

@@ -10,7 +10,7 @@
 
 LineSegment::LineSegment()
 {
-    m_toolhead = 0; //DEFAULT TOOLHEAD ASSUMED TO BE 0!
+    m_toolhead = 0;
     m_isZMovement = false;
     m_isArc = false;
     m_isFastTraverse = false;
@@ -21,12 +21,17 @@ LineSegment::LineSegment()
     m_vertexIndex = -1;
 }
 
-LineSegment::LineSegment(QVector3D a, QVector3D b, int num) : LineSegment()
+LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
 {
-//    m_toolhead = 0; //DEFAULT TOOLHEAD ASSUMED TO BE 0!
-//    m_isZMovement = false;
-//    m_isArc = false;
-//    m_isFastTraverse = false;
+    m_toolhead = 0;
+    m_isZMovement = false;
+    m_isArc = false;
+    m_isFastTraverse = false;
+    m_drawn = false;
+    m_isMetric = true;
+    m_isAbsolute = true;
+    m_isHightlight = false;
+    m_vertexIndex = -1;
 
     m_first = a;
     m_second = b;

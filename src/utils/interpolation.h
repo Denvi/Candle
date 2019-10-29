@@ -7,7 +7,6 @@
 #include <QVector>
 #include <QRectF>
 #include <QAbstractTableModel>
-#include <cmath>
 
 class Interpolation
 {
@@ -41,8 +40,10 @@ public:
         x -= borderRect.x();
         y -= borderRect.y();
 
-        int ix = trunc(x / gridStepX);
-        int iy = trunc(y / gridStepY);
+        // int ix = trunc(x / gridStepX);
+        // int iy = trunc(y / gridStepY);
+        int ix = (x / gridStepX);
+        int iy = (y / gridStepY);
 
         if (ix > basePoints->columnCount() - 2) ix = basePoints->columnCount() - 2;
         if (iy > basePoints->rowCount() - 2) iy = basePoints->rowCount() - 2;

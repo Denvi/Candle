@@ -62,3 +62,10 @@ bin/*
 /src/Candle_resource.aps
 /src/Candle_resource.rc
 /src/ui_*
+/src/release
+
+#vscode
+.vscode
+
+#makefiles
+Makefile*

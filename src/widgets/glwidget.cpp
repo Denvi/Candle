@@ -21,6 +21,9 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
 #endif
 
 {
+    m_frames = 0;
+    m_fps = 0;
+
     m_animateView = false;
     m_updatesEnabled = false;
 
@@ -521,7 +524,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) || event->buttons() & Qt::LeftButton) {
+    if ((event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) 
+        || (event->buttons() & Qt::LeftButton && !(event->modifiers() & Qt::ShiftModifier))) {
 
         stopViewAnimation();
 
@@ -535,7 +539,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         emit rotationChanged();
     }
 
-    if ((event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::RightButton) {
+    if ((event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) 
+        || event->buttons() & Qt::RightButton
+        || (event->buttons() & Qt::LeftButton && (event->modifiers() & Qt::ShiftModifier))) {
         m_xPan = m_xLastPan - (event->pos().x() - m_lastPos.x()) * 1 / (double)width();
         m_yPan = m_yLastPan + (event->pos().y() - m_lastPos.y()) * 1 / (double)height();
 

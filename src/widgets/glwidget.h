@@ -104,8 +104,8 @@ private:
     bool m_msaa;
     bool m_vsync;
     bool m_zBuffer;
-    int m_frames = 0;
-    int m_fps = 0;
+    int m_frames;
+    int m_fps;
     int m_targetFps;
     int m_animationFrame;
     QTime m_spendTime;

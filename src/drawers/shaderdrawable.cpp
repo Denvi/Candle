@@ -99,14 +99,13 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 bool ShaderDrawable::updateData()
 {
     // Test data
-    m_lines = {
-        {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0)},
-        {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0)},
-        {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0)},
-        {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0)},
-        {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)},
-        {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0)}
-    };
+    m_lines = QVector<VertexData>()
+        << VertexData(QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0))
+        << VertexData(QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0))
+        << VertexData(QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0))
+        << VertexData(QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0))
+        << VertexData(QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0))
+        << VertexData(QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0));
 
     return true;
 }

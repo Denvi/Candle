@@ -111,4 +111,8 @@ RESOURCES += \
     shaders.qrc \
     images.qrc
 
-CONFIG += c++11
+CONFIG(release, debug|release) {
+    QMAKE_CXXFLAGS += -Z7 -Fdrelease\\candle.pdb
+    QMAKE_CFLAGS += -Z7 -Fdrelease\\candle.pdb
+    QMAKE_LFLAGS += /DEBUG /OPT:REF
+}

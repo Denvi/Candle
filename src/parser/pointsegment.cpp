@@ -25,8 +25,24 @@ PointSegment::PointSegment()
     m_plane = XY;
 }
 
-PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
+PointSegment::PointSegment(PointSegment *ps)
 {
+    m_toolhead = 0;
+    m_isMetric = true;
+    m_isAbsolute = true;
+    m_isZMovement = false;
+    m_isArc = false;
+    m_isFastTraverse = false;
+    m_lineNumber = -1;
+    m_arcProperties = NULL;
+    m_speed = 0;
+    m_spindleSpeed = 0;
+    m_dwell = 0;
+    m_plane = XY;
+
+    this->m_point = new QVector3D(ps->point()->x(), ps->point()->y(), ps->point()->z());
+    this->m_lineNumber = ps->getLineNumber();
+
     this->m_toolhead = ps->getToolhead();
     this->m_speed = ps->getSpeed();
     this->m_isMetric = ps->isMetric();
@@ -42,14 +58,43 @@ PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->get
     }
 }
 
-PointSegment::PointSegment(const QVector3D *b, int num) : PointSegment()
+PointSegment::PointSegment(const QVector3D *b, int num)
 {
+    m_toolhead = 0;
+    m_isMetric = true;
+    m_isAbsolute = true;
+    m_isZMovement = false;
+    m_isArc = false;
+    m_isFastTraverse = false;
+    m_lineNumber = -1;
+    m_arcProperties = NULL;
+    m_speed = 0;
+    m_spindleSpeed = 0;
+    m_dwell = 0;
+    m_plane = XY;
+
     this->m_point = new QVector3D(b->x(), b->y(), b->z());
     this->m_lineNumber = num;
 }
 
-PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise) : PointSegment(point, num)
+PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise)
 {
+    m_toolhead = 0;
+    m_isMetric = true;
+    m_isAbsolute = true;
+    m_isZMovement = false;
+    m_isArc = false;
+    m_isFastTraverse = false;
+    m_lineNumber = -1;
+    m_arcProperties = NULL;
+    m_speed = 0;
+    m_spindleSpeed = 0;
+    m_dwell = 0;
+    m_plane = XY;
+
+    this->m_point = new QVector3D(point->x(), point->y(), point->z());
+    this->m_lineNumber = num;
+
     this->m_isArc = true;
     this->m_arcProperties = new ArcProperties();
     this->m_arcProperties->center = new QVector3D(center->x(), center->y(), center->z());

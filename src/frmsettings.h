@@ -21,6 +21,8 @@ public:
     explicit frmSettings(QWidget *parent = 0);
     ~frmSettings();
 
+    Ui::frmSettings *ui;
+
     int exec();
     void undo();
 
@@ -143,7 +145,7 @@ private slots:
     void on_radGrayscaleZ_toggled(bool checked);
 
 private:
-    Ui::frmSettings *ui;
+    // Ui::frmSettings *ui;
     void searchPorts();
 
     QList<double> m_storedValues;

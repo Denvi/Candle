@@ -9,10 +9,15 @@
 #include <QOpenGLTexture>
 #include "utils/util.h"
 
-#define sNan 65536.0
-
 struct VertexData
 {
+    VertexData() {}
+    VertexData(QVector3D pos, QVector3D col, QVector3D sta) {
+        position = pos;
+        color = col;
+        start = sta;
+    }
+
     QVector3D position;
     QVector3D color;
     QVector3D start;

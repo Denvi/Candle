@@ -47,6 +47,7 @@
 
 namespace Ui {
 class frmMain;
+class frmProgram;
 }
 
 struct CommandAttributes {
@@ -69,7 +70,7 @@ public:
 #define _GLIBCXX_USE_NOEXCEPT _NOEXCEPT
 #endif
 
-    const char* what() const noexcept override
+    const char* what() const override
     {
         return "Operation was cancelled by user";
     }
@@ -101,11 +102,14 @@ private slots:
     void onActRecentFileTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
-    void onConsoleResized(QSize size);
-    void onPanelsSizeChanged(QSize size);
+    // void onConsoleResized(QSize size);
+    // void onPanelsSizeChanged(QSize size);
     void onCmdUserClicked(bool checked);
     void onOverridingToggled(bool checked);
+    void onOverrideChanged();
     void onActSendFromLineTriggered();
+    void onSlbSpindleValueUserChanged();
+    void onSlbSpindleValueChanged();
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();
@@ -143,7 +147,7 @@ private slots:
     void on_grpUserCommands_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
-    void on_splitter_splitterMoved(int pos, int index);
+    // void on_splitter_splitterMoved(int pos, int index);
     void on_actRecentClear_triggered();
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkHeightMapBorderShow_toggled(bool checked);
@@ -203,9 +207,10 @@ protected:
     void dropEvent(QDropEvent *de);
 
 private:
-    const int BUFFERLENGTH = 127;
+    static const int BUFFERLENGTH = 127;
 
     Ui::frmMain *ui;
+
     GcodeViewParse m_viewParser;
     GcodeViewParse m_probeParser;
 
@@ -241,8 +246,8 @@ private:
     QString m_heightMapFileName;
     QString m_lastFolder;
 
-    bool m_fileChanged = false;
-    bool m_heightMapChanged = false;
+    bool m_fileChanged;
+    bool m_heightMapChanged;
 
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
@@ -266,9 +271,9 @@ private:
     QMessageBox* m_senderErrorBox;
 
     // Stored origin
-    double m_storedX = 0;
-    double m_storedY = 0;
-    double m_storedZ = 0;
+    double m_storedX;
+    double m_storedY;
+    double m_storedZ;
     QString m_storedParserStatus;
 
     // Console window
@@ -277,21 +282,21 @@ private:
     int m_consolePureHeight;
 
     // Flags
-    bool m_settingZeroXY = false;
-    bool m_settingZeroZ = false;
-    bool m_homing = false;
-    bool m_updateSpindleSpeed = false;
-    bool m_updateParserStatus = false;
-    bool m_updateFeed = false;
+    bool m_settingZeroXY;
+    bool m_settingZeroZ;
+    bool m_homing;
+    bool m_updateSpindleSpeed;
+    bool m_updateParserStatus;
+    bool m_updateFeed;
 
-    bool m_reseting = false;
-    bool m_resetCompleted = true;
-    bool m_aborting = false;
-    bool m_statusReceived = false;
+    bool m_reseting;
+    bool m_resetCompleted;
+    bool m_aborting;
+    bool m_statusReceived;
 
-    bool m_processingFile = false;
-    bool m_transferCompleted = false;
-    bool m_fileEndSent = false;
+    bool m_processingFile;
+    bool m_transferCompleted;
+    bool m_fileEndSent;
 
     bool m_heightMapMode;
     bool m_cellChanged;
@@ -307,14 +312,14 @@ private:
     double m_originalFeed;
 
     // Keyboard
-    bool m_keyPressed = false;
-    bool m_jogBlock = false;
+    bool m_keyPressed;
+    bool m_jogBlock;
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;
 
     // Spindle
-    bool m_spindleCW = true;
-    bool m_spindleCommandSpeed = false;
+    bool m_spindleCW;
+    bool m_spindleCommandSpeed;
 
     // Jog
     QVector3D m_jogVector;
@@ -347,7 +352,7 @@ private:
 
     bool eventFilter(QObject *obj, QEvent *event);
     bool keyIsMovement(int key);
-    void resizeCheckBoxes();
+    // void resizeCheckBoxes();
     void updateLayouts();
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
@@ -373,7 +378,7 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
-    int getConsoleMinHeight();
+    // int getConsoleMinHeight();
     void updateOverride(SliderBox *slider, int value, char command);
     void jogStep();
     void updateJogTitle();
