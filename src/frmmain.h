@@ -171,6 +171,7 @@ private slots:
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
     void on_cmdSpindle_clicked(bool checked);   
+    void on_mnuViewPanels_aboutToShow();
 
     void on_cmdYPlus_pressed();
 

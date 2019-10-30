@@ -457,8 +457,8 @@ void frmMain::loadSettings()
     m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
 
     this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
-    m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());
-    m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
+    // m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());
+    // m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
 
     // QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
@@ -545,6 +545,10 @@ void frmMain::loadSettings()
         ui->dockModification->widget()->sizeHint().width());
     ui->dockDevice->setFixedWidth(w);
     ui->dockModification->setFixedWidth(w);
+
+    // Settings form geometry
+    m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());
+    m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
 
     m_settingsLoading = false;
 }
@@ -4098,4 +4102,12 @@ void frmMain::on_cmdStop_clicked()
 {
     m_queue.clear();
     m_serialPort.write(QByteArray(1, char(0x85)));
+}
+
+void frmMain::on_mnuViewPanels_aboutToShow()
+{
+    ui->actViewPanelsDevice->setChecked(ui->dockDevice->isVisible());
+    ui->actViewPanelsModification->setChecked(ui->dockModification->isVisible());
+    ui->actViewPanelsVisualizer->setChecked(ui->dockVisualizer->isVisible());
+    ui->actViewPanelsConsole->setChecked(ui->dockConsole->isVisible());
 }
