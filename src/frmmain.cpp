@@ -540,7 +540,7 @@ void frmMain::loadSettings()
     qApp->processEvents();    
     restoreState(set.value("formMainState").toByteArray());
 
-        // Adjust width
+        // Adjust width 
     int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
         ui->dockModification->widget()->sizeHint().width());
     ui->dockDevice->setFixedWidth(w);
