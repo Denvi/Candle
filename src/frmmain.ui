@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1441</width>
-    <height>934</height>
+    <width>2033</width>
+    <height>1015</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -22,12 +22,41 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow::separator {
-	width: 13;
+	width: 26;
 }
 
-/*QWidget {
-	font-size: 9pt;
-}*/
+QDockWidget::title {
+	background-color: lightgray;
+	padding: 5 0 5 11;
+	text-align: left center;
+}
+
+QDockWidget[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget {
+	margin-left: 11;
+	margin-right: 11;
+}
+
+QDockWidget::close-button {
+	subcontrol-origin: padding;
+	subcontrol-position: right center;
+	position: absolute;
+	top: 2;
+	width: 24;
+}
+
+QDockWidget::float-button {
+	subcontrol-origin: padding;
+	subcontrol-position: right center;
+	position: absolute;
+	top: 2;
+	right: 20;
+	width: 24;
+}
+
+QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
+	border: none;
+	background-color: transparent;
+}
 
 QSpinBox, QDoubleSpinBox {
 	padding-top: 1px;
@@ -137,12 +166,22 @@ QMainWindow::separator:horizontal {
     <property name="spacing">
      <number>0</number>
     </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QLabel" name="grpProgram">
       <property name="styleSheet">
        <string notr="true">QLabel {
-	padding: 6;
-	background-color: lightgray;
+	padding: 5 0 5 11;
+	background-color: palette(window);
+	border: 1px solid lightgray;
 }
 
 QLabel[overrided=&quot;true&quot;] {
@@ -326,7 +365,7 @@ QLabel[overrided=&quot;false&quot;] {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1441</width>
+     <width>2033</width>
      <height>31</height>
     </rect>
    </property>
@@ -367,16 +406,16 @@ QLabel[overrided=&quot;false&quot;] {
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="menu_Panels">
+    <widget class="QMenu" name="mnuViewPanels">
      <property name="title">
-      <string>&amp;Panels</string>
+      <string>&amp;Windows</string>
      </property>
      <addaction name="actViewPanelsDevice"/>
      <addaction name="actViewPanelsModification"/>
      <addaction name="actViewPanelsVisualizer"/>
      <addaction name="actViewPanelsConsole"/>
     </widget>
-    <addaction name="menu_Panels"/>
+    <addaction name="mnuViewPanels"/>
    </widget>
    <addaction name="mnuFile"/>
    <addaction name="menu_View"/>
@@ -387,17 +426,11 @@ QLabel[overrided=&quot;false&quot;] {
    <property name="minimumSize">
     <size>
      <width>350</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>350</width>
-     <height>16777215</height>
+     <height>160</height>
     </size>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
@@ -410,6 +443,12 @@ QLabel[overrided=&quot;false&quot;] {
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_10">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QScrollArea" name="scrollArea">
        <property name="frameShape">
@@ -422,8 +461,8 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-148</y>
-          <width>298</width>
+          <y>0</y>
+          <width>324</width>
           <height>749</height>
          </rect>
         </property>
@@ -1177,14 +1216,8 @@ QLabel[overrided=&quot;false&quot;] {
      <height>178</height>
     </size>
    </property>
-   <property name="maximumSize">
-    <size>
-     <width>350</width>
-     <height>524287</height>
-    </size>
-   </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
@@ -1197,6 +1230,12 @@ QLabel[overrided=&quot;false&quot;] {
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QVBoxLayout" name="verticalLayout_12">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QScrollArea" name="scrollArea_2">
        <property name="frameShape">
@@ -1205,12 +1244,12 @@ QLabel[overrided=&quot;false&quot;] {
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <widget class="QWidget" name="scrollContentsDevice">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>298</width>
+          <width>324</width>
           <height>922</height>
          </rect>
         </property>
@@ -1250,55 +1289,97 @@ QLabel[overrided=&quot;false&quot;] {
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <property name="spacing">
-                 <number>8</number>
-                </property>
+               <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
-                 <widget class="QLineEdit" name="txtWPosX">
-                  <property name="toolTip">
-                   <string>X</string>
+                 <widget class="QDoubleSpinBox" name="txtWPosX">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="txtWPosY">
-                  <property name="toolTip">
-                   <string>Y</string>
+                 <widget class="QDoubleSpinBox" name="txtWPosY">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="txtWPosZ">
-                  <property name="toolTip">
-                   <string>Z</string>
+                 <widget class="QDoubleSpinBox" name="txtWPosZ">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1320,55 +1401,97 @@ QLabel[overrided=&quot;false&quot;] {
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_11">
-                <property name="spacing">
-                 <number>8</number>
-                </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
-                 <widget class="QLineEdit" name="txtMPosX">
-                  <property name="toolTip">
-                   <string>X</string>
+                 <widget class="QDoubleSpinBox" name="txtMPosX">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="txtMPosY">
-                  <property name="toolTip">
-                   <string>Y</string>
+                 <widget class="QDoubleSpinBox" name="txtMPosY">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="txtMPosZ">
-                  <property name="toolTip">
-                   <string>Z</string>
+                 <widget class="QDoubleSpinBox" name="txtMPosZ">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>0</string>
+                  <property name="locale">
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -2324,11 +2447,11 @@ QLabel[overrided=&quot;false&quot;] {
    <property name="minimumSize">
     <size>
      <width>350</width>
-     <height>264</height>
+     <height>460</height>
     </size>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Visualizer</string>
@@ -2338,6 +2461,12 @@ QLabel[overrided=&quot;false&quot;] {
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_3">
     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QFrame" name="fraProgram">
        <property name="styleSheet">
@@ -2505,11 +2634,11 @@ QLabel[overrided=&quot;false&quot;] {
    <property name="minimumSize">
     <size>
      <width>350</width>
-     <height>103</height>
+     <height>129</height>
     </size>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Console</string>
@@ -2518,86 +2647,167 @@ QLabel[overrided=&quot;false&quot;] {
     <number>8</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_4">
-    <layout class="QVBoxLayout" name="verticalLayout_14">
+    <layout class="QVBoxLayout" name="verticalLayout_24">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QPlainTextEdit" name="txtConsole">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>1</height>
-        </size>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
        </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
-       <item>
-        <widget class="ComboBox" name="cboCommand">
-         <property name="styleSheet">
-          <string notr="true">padding-top: 3;
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPlainTextEdit" name="txtConsole">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
+          <item>
+           <widget class="ComboBox" name="cboCommand">
+            <property name="styleSheet">
+             <string notr="true">padding-top: 3;
 padding-bottom: 3;
 padding-right: 8;</string>
-         </property>
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="maxVisibleItems">
-          <number>5</number>
-         </property>
-         <property name="maxCount">
-          <number>10</number>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::InsertAtTop</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cmdCommandSend">
-         <property name="toolTip">
-          <string>Send command</string>
-         </property>
-         <property name="icon">
-          <iconset resource="images.qrc">
-           <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cmdClearConsole">
-         <property name="toolTip">
-          <string>Clear console</string>
-         </property>
-         <property name="icon">
-          <iconset resource="images.qrc">
-           <normaloff>:/images/erase_1.png</normaloff>:/images/erase_1.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-      </layout>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="maxVisibleItems">
+             <number>5</number>
+            </property>
+            <property name="maxCount">
+             <number>10</number>
+            </property>
+            <property name="insertPolicy">
+             <enum>QComboBox::InsertAtTop</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="cmdCommandSend">
+            <property name="toolTip">
+             <string>Send command</string>
+            </property>
+            <property name="icon">
+             <iconset resource="images.qrc">
+              <normaloff>:/images/send_1.png</normaloff>:/images/send_1.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="cmdClearConsole">
+            <property name="toolTip">
+             <string>Clear console</string>
+            </property>
+            <property name="icon">
+             <iconset resource="images.qrc">
+              <normaloff>:/images/erase_1.png</normaloff>:/images/erase_1.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QToolBar" name="_spacerTop">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>_spacerTop</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="_spacerLeft">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>_spacerLeft</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="_spacerRight">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>_spacerRight</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
   </widget>
   <action name="actFileOpen">
    <property name="text">
@@ -2741,12 +2951,6 @@ padding-right: 8;</string>
   <tabstop>txtHeightMapInterpolationStepY</tabstop>
   <tabstop>cboHeightMapInterpolationType</tabstop>
   <tabstop>chkHeightMapInterpolationShow</tabstop>
-  <tabstop>txtWPosX</tabstop>
-  <tabstop>txtWPosY</tabstop>
-  <tabstop>txtWPosZ</tabstop>
-  <tabstop>txtMPosX</tabstop>
-  <tabstop>txtMPosY</tabstop>
-  <tabstop>txtMPosZ</tabstop>
   <tabstop>txtStatus</tabstop>
   <tabstop>cmdHome</tabstop>
   <tabstop>cmdTouch</tabstop>
@@ -2774,38 +2978,6 @@ padding-right: 8;</string>
  </resources>
  <connections>
   <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>slbSpindle</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>271</x>
-     <y>1222</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>218</x>
-     <y>904</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>widgetFeed</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>271</x>
-     <y>1222</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1344</x>
-     <y>284</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>cmdHeightMapMode</sender>
    <signal>toggled(bool)</signal>
    <receiver>widgetHeightmapSettings</receiver>
@@ -2818,38 +2990,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>1272</x>
      <y>534</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>tblProgram</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>117</x>
-     <y>1205</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>428</x>
-     <y>415</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkKeyboardControl</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>tblHeightMap</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>1208</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>417</x>
-     <y>527</y>
     </hint>
    </hints>
   </connection>
@@ -2978,6 +3118,70 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>widgetFeed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>1222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1344</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblHeightMap</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>156</x>
+     <y>1208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>417</x>
+     <y>527</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tblProgram</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>1205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>428</x>
+     <y>415</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkKeyboardControl</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>slbSpindle</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>1222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>904</y>
     </hint>
    </hints>
   </connection>

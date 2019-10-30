@@ -110,6 +110,7 @@ private slots:
     void onActSendFromLineTriggered();
     void onSlbSpindleValueUserChanged();
     void onSlbSpindleValueChanged();
+    void onDockTopLevelChanged(bool topLevel);
 
     void on_actFileExit_triggered();
     void on_cmdFileOpen_clicked();
@@ -205,6 +206,7 @@ protected:
     void closeEvent(QCloseEvent *ce);
     void dragEnterEvent(QDragEnterEvent *dee);
     void dropEvent(QDropEvent *de);
+    QMenu *createPopupMenu() override;
 
 private:
     static const int BUFFERLENGTH = 127;

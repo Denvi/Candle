@@ -148,18 +148,10 @@ frmMain::frmMain(QWidget *parent) :
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
-    setStyleSheet(styleSheet() + QString(
-"\nQDockWidget::title {\n\
-    text-align: left;\n\
-    background: lightgray;\n\
-    padding-left: %1;\n\
-    margin-left: %1;\n\
-    margin-right: %1;\n\
-    margin-top: %1;\n\
-}").arg(ui->dockDevice->widget()->layout()->margin()));
-
-    style()->unpolish(this);
-    this->ensurePolished();
+    connect(ui->dockDevice, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
+    connect(ui->dockModification, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
+    connect(ui->dockVisualizer, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
+    connect(ui->dockConsole, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
 
     ui->widgetHeightmapSettings->setVisible(false);
 
@@ -548,6 +540,12 @@ void frmMain::loadSettings()
     qApp->processEvents();    
     restoreState(set.value("formMainState").toByteArray());
 
+        // Adjust width
+    int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
+        ui->dockModification->widget()->sizeHint().width());
+    ui->dockDevice->setFixedWidth(w);
+    ui->dockModification->setFixedWidth(w);
+
     m_settingsLoading = false;
 }
 
@@ -934,9 +932,9 @@ void frmMain::onSerialPortReadyRead()
             // Update machine coordinates
             static QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
             if (mpx.indexIn(data) != -1) {
-                ui->txtMPosX->setText(mpx.cap(1));
-                ui->txtMPosY->setText(mpx.cap(2));
-                ui->txtMPosZ->setText(mpx.cap(3));
+                ui->txtMPosX->setValue(mpx.cap(1).toDouble());
+                ui->txtMPosY->setValue(mpx.cap(2).toDouble());
+                ui->txtMPosZ->setValue(mpx.cap(3).toDouble());
             }
 
             // Status
@@ -1037,9 +1035,9 @@ void frmMain::onSerialPortReadyRead()
                             z = sNan;
                             grblReset();
                         } else {
-                            x = ui->txtMPosX->text().toDouble();
-                            y = ui->txtMPosY->text().toDouble();
-                            z = ui->txtMPosZ->text().toDouble();
+                            x = ui->txtMPosX->value();
+                            y = ui->txtMPosY->value();
+                            z = ui->txtMPosZ->value();
                         }
                         break;
                     }
@@ -1057,16 +1055,22 @@ void frmMain::onSerialPortReadyRead()
 
             // Update work coordinates
             int prec = m_settings->units() == 0 ? 3 : 4;
-            ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', prec));
-            ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', prec));
-            ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', prec));
+            ui->txtWPosX->setDecimals(prec);
+            ui->txtWPosY->setDecimals(prec);
+            ui->txtWPosZ->setDecimals(prec);
+            ui->txtWPosX->setValue(ui->txtMPosX->value() - workOffset.x());
+            ui->txtWPosY->setValue(ui->txtMPosY->value() - workOffset.y());
+            ui->txtWPosZ->setValue(ui->txtMPosZ->value() - workOffset.z());
+            // ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', prec));
+            // ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', prec));
+            // ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', prec));
 
             // Update tool position
             QVector3D toolPosition;
             if (!(status == CHECK && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
-                toolPosition = QVector3D(toMetric(ui->txtWPosX->text().toDouble()),
-                                         toMetric(ui->txtWPosY->text().toDouble()),
-                                         toMetric(ui->txtWPosZ->text().toDouble()));
+                toolPosition = QVector3D(toMetric(ui->txtWPosX->value()),
+                                         toMetric(ui->txtWPosY->value()),
+                                         toMetric(ui->txtWPosZ->value()));
                 m_toolDrawer.setToolPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
             }
 
@@ -1679,6 +1683,19 @@ void frmMain::dropEvent(QDropEvent *de)
     }
 }
 
+QMenu *frmMain::createPopupMenu()
+{
+    QMenu *menu = QMainWindow::createPopupMenu();
+
+    foreach (QAction *a, menu->actions()) {
+        if (a->text().contains("_spacer")) {
+            a->setVisible(false);
+        }
+    } 
+
+    return menu;
+}
+
 void frmMain::on_actFileExit_triggered()
 {
     close();
@@ -2071,6 +2088,11 @@ void frmMain::onSlbSpindleValueChanged()
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
 }
 
+void frmMain::onDockTopLevelChanged(bool topLevel)
+{
+    static_cast<QWidget*>(sender())->setStyleSheet("");
+}
+
 void frmMain::on_cmdFileAbort_clicked()
 {
     m_aborting = true;
@@ -2100,12 +2122,12 @@ void frmMain::storeOffsets()
 void frmMain::restoreOffsets()
 {
     // Still have pre-reset working position
-    sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
-                                       .arg(toMetric(ui->txtMPosY->text().toDouble()))
-                                       .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
-    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->text().toDouble()))
-                                       .arg(toMetric(ui->txtWPosY->text().toDouble()))
-                                       .arg(toMetric(ui->txtWPosZ->text().toDouble())), -1, m_settings->showUICommands());
+    sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
+                                       .arg(toMetric(ui->txtMPosY->value()))
+                                       .arg(toMetric(ui->txtMPosZ->value())), -1, m_settings->showUICommands());
+    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->value()))
+                                       .arg(toMetric(ui->txtWPosY->value()))
+                                       .arg(toMetric(ui->txtWPosZ->value())), -1, m_settings->showUICommands());
 }
 
 void frmMain::sendNextFileCommands() {
@@ -2492,9 +2514,9 @@ void frmMain::on_cmdRestoreOrigin_clicked()
 {
     // Restore offset
     sendCommand(QString("G21"), -1, m_settings->showUICommands());
-    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
-                                            .arg(toMetric(ui->txtMPosY->text().toDouble()))
-                                            .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
+    sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
+                                            .arg(toMetric(ui->txtMPosY->value()))
+                                            .arg(toMetric(ui->txtMPosZ->value())), -1, m_settings->showUICommands());
     sendCommand(QString("G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings->showUICommands());
