@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QEvent>
 
-StyledToolButton::StyledToolButton(QWidget *parent) : QAbstractButton(parent)
+StyledToolButton::StyledToolButton(QWidget *parent) : QToolButton(parent)
 {
     m_hovered = false;
     m_backColor = palette().color(QPalette::Button);
@@ -35,6 +35,7 @@ void StyledToolButton::leaveEvent(QEvent *e)
 void StyledToolButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)
+
 
     const int borderWidth = 4;
     const int borderRadius = 5;

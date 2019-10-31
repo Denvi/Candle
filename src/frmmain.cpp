@@ -531,6 +531,24 @@ void frmMain::loadSettings()
     ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
     ui->cboCommand->setCurrentIndex(-1);
 
+    // Adjust docks width 
+    int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
+        ui->dockModification->widget()->sizeHint().width());
+    ui->dockDevice->setFixedWidth(w);
+    ui->dockModification->setFixedWidth(w);
+
+        // Buttons
+    int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
+    int c = b * 0.8;
+    setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
+	min-width: %1px;\n\
+	min-height: %1px;\n\
+	qproperty-iconSize: %2px;\n\
+    }").arg(b).arg(c));
+    // style()->unpolish(this);
+    ensurePolished();
+    ui->dockDevice->setStyleSheet("");
+
     // Restore docks
         // Normal window state
     restoreState(set.value("formMainState").toByteArray());
@@ -539,12 +557,6 @@ void frmMain::loadSettings()
     show();
     qApp->processEvents();    
     restoreState(set.value("formMainState").toByteArray());
-
-        // Adjust width 
-    int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
-        ui->dockModification->widget()->sizeHint().width());
-    ui->dockDevice->setFixedWidth(w);
-    ui->dockModification->setFixedWidth(w);
 
     // Settings form geometry
     m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());

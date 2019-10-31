@@ -21,7 +21,13 @@
     <normaloff>:/images/candle_256.png</normaloff>:/images/candle_256.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow::separator {
+   <string notr="true">/*StyledToolButton[adjustSize=&quot;true&quot;] {
+	min-width: 60px;
+	min-height: 60px;
+	qproperty-iconSize: 48px;
+}*/
+
+QMainWindow::separator {
 	width: 26;
 }
 
@@ -366,7 +372,7 @@ QLabel[overrided=&quot;false&quot;] {
      <x>0</x>
      <y>0</y>
      <width>2033</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -423,12 +429,6 @@ QLabel[overrided=&quot;false&quot;] {
    <addaction name="mnuHelp"/>
   </widget>
   <widget class="QDockWidget" name="dockModification">
-   <property name="minimumSize">
-    <size>
-     <width>350</width>
-     <height>160</height>
-    </size>
-   </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
@@ -462,8 +462,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>324</width>
-          <height>749</height>
+          <width>188</width>
+          <height>562</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -598,12 +598,6 @@ QLabel[overrided=&quot;false&quot;] {
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
                     <string>Create</string>
                    </property>
@@ -616,12 +610,6 @@ QLabel[overrided=&quot;false&quot;] {
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>25</height>
-                    </size>
                    </property>
                    <property name="text">
                     <string>Open</string>
@@ -637,12 +625,6 @@ QLabel[overrided=&quot;false&quot;] {
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>42</width>
-                   <height>25</height>
-                  </size>
                  </property>
                  <property name="text">
                   <string>Edit</string>
@@ -830,8 +812,8 @@ QLabel[overrided=&quot;false&quot;] {
                        <widget class="StyledToolButton" name="cmdHeightMapBorderAuto">
                         <property name="minimumSize">
                          <size>
-                          <width>44</width>
-                          <height>18</height>
+                          <width>0</width>
+                          <height>0</height>
                          </size>
                         </property>
                         <property name="text">
@@ -1210,12 +1192,6 @@ QLabel[overrided=&quot;false&quot;] {
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockDevice">
-   <property name="minimumSize">
-    <size>
-     <width>350</width>
-     <height>178</height>
-    </size>
-   </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
@@ -1248,9 +1224,9 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>324</width>
-          <height>922</height>
+          <y>-286</y>
+          <width>269</width>
+          <height>720</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -1546,91 +1522,13 @@ QLabel[overrided=&quot;false&quot;] {
            <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="0" column="3">
-               <widget class="StyledToolButton" name="cmdZeroXY">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Zero XY</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/axis_zero.png</normaloff>:/images/axis_zero.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="StyledToolButton" name="cmdTouch">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Z-probe</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/search_for_z.png</normaloff>:/images/search_for_z.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="StyledToolButton" name="cmdHome">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Home</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/search_for_home2.png</normaloff>:/images/search_for_home2.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="3">
                <widget class="StyledToolButton" name="cmdReset">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="toolTip">
                  <string>Reset</string>
@@ -1644,74 +1542,109 @@ QLabel[overrided=&quot;false&quot;] {
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>32</width>
+                  <height>32</height>
                  </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="StyledToolButton" name="cmdRestoreOrigin">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>42</width>
-                  <height>42</height>
-                 </size>
+              <item row="0" column="3">
+               <widget class="StyledToolButton" name="cmdZeroXY">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="toolTip">
-                 <string>Restore origin</string>
+                 <string>Zero XY</string>
                 </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="images.qrc">
-                  <normaloff>:/images/origin.png</normaloff>:/images/origin.png</iconset>
+                  <normaloff>:/images/axis_zero.png</normaloff>:/images/axis_zero.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>32</width>
+                  <height>32</height>
                  </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="0" column="4">
-               <widget class="StyledToolButton" name="cmdZeroZ">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
+              <item row="0" column="1">
+               <widget class="StyledToolButton" name="cmdHome">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="toolTip">
-                 <string>Zero Z</string>
+                 <string>Home</string>
                 </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="images.qrc">
-                  <normaloff>:/images/zero_z.png</normaloff>:/images/zero_z.png</iconset>
+                  <normaloff>:/images/search_for_home2.png</normaloff>:/images/search_for_home2.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>32</width>
+                  <height>32</height>
                  </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="StyledToolButton" name="cmdTouch">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>Z-probe</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="images.qrc">
+                  <normaloff>:/images/search_for_z.png</normaloff>:/images/search_for_z.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item row="1" column="2">
                <widget class="StyledToolButton" name="cmdSafePosition">
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="toolTip">
                  <string>Safe position</string>
@@ -1725,9 +1658,73 @@ QLabel[overrided=&quot;false&quot;] {
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>32</width>
+                  <height>32</height>
                  </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="StyledToolButton" name="cmdZeroZ">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>Zero Z</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="images.qrc">
+                  <normaloff>:/images/zero_z.png</normaloff>:/images/zero_z.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="StyledToolButton" name="cmdRestoreOrigin">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>Restore origin</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="images.qrc">
+                  <normaloff>:/images/origin.png</normaloff>:/images/origin.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1736,11 +1733,11 @@ QLabel[overrided=&quot;false&quot;] {
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>44</width>
-                  <height>44</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="toolTip">
                  <string>Unlock</string>
@@ -1754,9 +1751,12 @@ QLabel[overrided=&quot;false&quot;] {
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>24</width>
-                  <height>24</height>
+                  <width>32</width>
+                  <height>32</height>
                  </size>
+                </property>
+                <property name="adjustSize" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1779,10 +1779,10 @@ QLabel[overrided=&quot;false&quot;] {
            <property name="overrided" stdset="0">
             <bool>false</bool>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_30">
+           <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0">
             <item>
              <widget class="QWidget" name="widgetUserCommands" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_31">
+              <layout class="QVBoxLayout" name="verticalLayout_26">
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -1802,11 +1802,11 @@ QLabel[overrided=&quot;false&quot;] {
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <property name="toolTip">
                     <string>Spindle on/off</string>
@@ -1817,35 +1817,12 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>30</width>
-                     <height>30</height>
+                     <width>32</width>
+                     <height>32</height>
                     </size>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
-                  <widget class="StyledToolButton" name="cmdUser3">
-                   <property name="enabled">
+                   <property name="adjustSize" stdset="0">
                     <bool>true</bool>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
-                   </property>
-                   <property name="toolTip">
-                    <string>Spindle on/off</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/num4.png</normaloff>:/images/num4.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
                    </property>
                   </widget>
                  </item>
@@ -1854,11 +1831,11 @@ QLabel[overrided=&quot;false&quot;] {
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <property name="toolTip">
                     <string>Spindle on/off</string>
@@ -1869,9 +1846,41 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>30</width>
-                     <height>30</height>
+                     <width>32</width>
+                     <height>32</height>
                     </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="StyledToolButton" name="cmdUser3">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Spindle on/off</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="images.qrc">
+                     <normaloff>:/images/num4.png</normaloff>:/images/num4.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1880,11 +1889,11 @@ QLabel[overrided=&quot;false&quot;] {
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <property name="toolTip">
                     <string>Spindle on/off</string>
@@ -1895,9 +1904,12 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>30</width>
-                     <height>30</height>
+                     <width>32</width>
+                     <height>32</height>
                     </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1926,7 +1938,10 @@ QLabel[overrided=&quot;false&quot;] {
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QWidget" name="widgetSpindle" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>10</number>
+               </property>
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -1940,24 +1955,19 @@ QLabel[overrided=&quot;false&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="SliderBox" name="slbSpindle" native="true"/>
+                <widget class="SliderBox" name="slbSpindle" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="StyledToolButton" name="cmdSpindle">
                  <property name="enabled">
                   <bool>true</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>44</width>
-                   <height>44</height>
-                  </size>
                  </property>
                  <property name="toolTip">
                   <string>Spindle on/off</string>
@@ -1968,11 +1978,14 @@ QLabel[overrided=&quot;false&quot;] {
                  </property>
                  <property name="iconSize">
                   <size>
-                   <width>28</width>
-                   <height>28</height>
+                   <width>32</width>
+                   <height>32</height>
                   </size>
                  </property>
                  <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="adjustSize" stdset="0">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -2015,77 +2028,6 @@ QLabel[overrided=&quot;false&quot;] {
                </property>
                <item>
                 <layout class="QGridLayout" name="gridLayout_3">
-                 <item row="2" column="0">
-                  <widget class="StyledToolButton" name="cmdXMinus">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
-                   </property>
-                   <property name="toolTip">
-                    <string>X-</string>
-                   </property>
-                   <property name="text">
-                    <string>...</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/1401561986_chevron-left.png</normaloff>:/images/1401561986_chevron-left.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="StyledToolButton" name="cmdYMinus">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>44</width>
-                       <height>44</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Y-</string>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="images.qrc">
-                       <normaloff>:/images/1401562173_chevron-down.png</normaloff>:/images/1401562173_chevron-down.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
                  <item row="2" column="2">
                   <widget class="StyledToolButton" name="cmdXPlus">
                    <property name="sizePolicy">
@@ -2093,12 +2035,6 @@ QLabel[overrided=&quot;false&quot;] {
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>44</width>
-                     <height>44</height>
-                    </size>
                    </property>
                    <property name="toolTip">
                     <string>X+</string>
@@ -2112,56 +2048,133 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>30</width>
-                     <height>30</height>
+                     <width>32</width>
+                     <height>32</height>
                     </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="StyledToolButton" name="cmdXMinus">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>X-</string>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="images.qrc">
+                     <normaloff>:/images/1401561986_chevron-left.png</normaloff>:/images/1401561986_chevron-left.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="StyledToolButton" name="cmdYMinus">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Y-</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="images.qrc">
+                     <normaloff>:/images/1401562173_chevron-down.png</normaloff>:/images/1401562173_chevron-down.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="StyledToolButton" name="cmdStop">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Stop</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="images.qrc">
+                     <normaloff>:/images/brake.png</normaloff>:/images/brake.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_12">
-                   <property name="spacing">
-                    <number>0</number>
+                  <widget class="StyledToolButton" name="cmdYPlus">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                   <item>
-                    <widget class="StyledToolButton" name="cmdYPlus">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>44</width>
-                       <height>44</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Y+</string>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="images.qrc">
-                       <normaloff>:/images/1401562173_chevron-up.png</normaloff>:/images/1401562173_chevron-up.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                   <property name="toolTip">
+                    <string>Y+</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="images.qrc">
+                     <normaloff>:/images/1401562173_chevron-up.png</normaloff>:/images/1401562173_chevron-up.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="adjustSize" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="3">
-                  <layout class="QHBoxLayout" name="horizontalLayout_25">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_6">
                    <item>
                     <spacer name="horizontalSpacer">
                      <property name="orientation">
@@ -2169,7 +2182,7 @@ QLabel[overrided=&quot;false&quot;] {
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>0</width>
+                       <width>20</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -2183,12 +2196,6 @@ QLabel[overrided=&quot;false&quot;] {
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>44</width>
-                       <height>44</height>
-                      </size>
-                     </property>
                      <property name="toolTip">
                       <string>Z+</string>
                      </property>
@@ -2201,19 +2208,19 @@ QLabel[overrided=&quot;false&quot;] {
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>32</width>
+                       <height>32</height>
                       </size>
+                     </property>
+                     <property name="adjustSize" stdset="0">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
                   </layout>
                  </item>
                  <item row="3" column="3">
-                  <layout class="QHBoxLayout" name="horizontalLayout_26">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
                    <item>
                     <spacer name="horizontalSpacer_2">
                      <property name="orientation">
@@ -2221,7 +2228,7 @@ QLabel[overrided=&quot;false&quot;] {
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>0</width>
+                       <width>20</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -2235,12 +2242,6 @@ QLabel[overrided=&quot;false&quot;] {
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>44</width>
-                       <height>44</height>
-                      </size>
-                     </property>
                      <property name="toolTip">
                       <string>Z-</string>
                      </property>
@@ -2253,48 +2254,12 @@ QLabel[overrided=&quot;false&quot;] {
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>28</width>
-                       <height>28</height>
+                       <width>32</width>
+                       <height>32</height>
                       </size>
                      </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="2" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="StyledToolButton" name="cmdStop">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>44</width>
-                       <height>44</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Stop</string>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="images.qrc">
-                       <normaloff>:/images/brake.png</normaloff>:/images/brake.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
+                     <property name="adjustSize" stdset="0">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -2444,12 +2409,6 @@ QLabel[overrided=&quot;false&quot;] {
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockVisualizer">
-   <property name="minimumSize">
-    <size>
-     <width>350</width>
-     <height>460</height>
-    </size>
-   </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
@@ -2498,8 +2457,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFit">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2514,8 +2473,8 @@ QLabel[overrided=&quot;false&quot;] {
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
          </widget>
@@ -2524,8 +2483,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdTop">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2540,8 +2499,8 @@ QLabel[overrided=&quot;false&quot;] {
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
          </widget>
@@ -2550,8 +2509,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdIsometric">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2566,8 +2525,8 @@ QLabel[overrided=&quot;false&quot;] {
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
          </widget>
@@ -2576,8 +2535,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFront">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2592,8 +2551,8 @@ QLabel[overrided=&quot;false&quot;] {
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
          </widget>
@@ -2602,8 +2561,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdLeft">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>30</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2618,8 +2577,8 @@ QLabel[overrided=&quot;false&quot;] {
           </property>
           <property name="iconSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
          </widget>
@@ -2631,12 +2590,6 @@ QLabel[overrided=&quot;false&quot;] {
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockConsole">
-   <property name="minimumSize">
-    <size>
-     <width>350</width>
-     <height>129</height>
-    </size>
-   </property>
    <property name="features">
     <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
@@ -2964,13 +2917,8 @@ padding-right: 8;</string>
   <tabstop>cmdHeightMapCreate</tabstop>
   <tabstop>cmdHeightMapLoad</tabstop>
   <tabstop>cmdHeightMapMode</tabstop>
-  <tabstop>cmdSpindle</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
-  <tabstop>cmdYPlus</tabstop>
-  <tabstop>cmdYMinus</tabstop>
-  <tabstop>cmdZPlus</tabstop>
-  <tabstop>cmdZMinus</tabstop>
   <tabstop>chkKeyboardControl</tabstop>
  </tabstops>
  <resources>

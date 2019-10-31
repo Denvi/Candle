@@ -9,9 +9,12 @@
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOptionFrame>
+#include <QToolButton>
 
-class StyledToolButton : public QAbstractButton
+class StyledToolButton : public QToolButton
 {
+    Q_OBJECT
+    
 public:
     explicit StyledToolButton(QWidget *parent = 0);
 
