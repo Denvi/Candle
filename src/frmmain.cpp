@@ -534,8 +534,10 @@ void frmMain::loadSettings()
     // Adjust docks width 
     int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
         ui->dockModification->widget()->sizeHint().width());
-    ui->dockDevice->setFixedWidth(w);
-    ui->dockModification->setFixedWidth(w);
+    ui->dockDevice->setMinimumWidth(w);
+    ui->dockDevice->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockModification->setMinimumWidth(w);
+    ui->dockModification->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
 
         // Buttons
     int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
