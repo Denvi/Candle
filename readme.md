@@ -23,7 +23,7 @@ Downloads:
 ----------
 Experimental versions:
 
-* Windows: [candle_1.2b.zip](https://github.com/Denvi/Candle/releases/download/v1.2b/Candle_1.2b.zip)
+* Windows: [candle_1.2.2b.zip](https://github.com/Denvi/Candle/releases/download/v1.2b/Candle_1.2.2b.zip)
 
 
 For GRBL v1.1 firmware
