@@ -2492,7 +2492,7 @@ void frmMain::on_actServiceSettings_triggered()
     table->clear();
     table->setColumnCount(3);
     table->setRowCount(acts.count());
-    table->setHorizontalHeaderLabels(QStringList() << "Command" << "Text" << "Shortcuts");
+    table->setHorizontalHeaderLabels(QStringList() << tr("Command") << tr("Text") << tr("Shortcuts"));
 
     table->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
     table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
@@ -4131,7 +4131,7 @@ void frmMain::onCmdUserClicked(bool checked)
     QStringList list = m_settings->userCommands(i).split(";");
 
     foreach (QString cmd, list) {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
+        if (!cmd.isEmpty()) sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
     }
 }
 
