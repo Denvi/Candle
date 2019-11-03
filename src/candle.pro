@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       = core gui opengl serialport
+QT       = core gui opengl serialport script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32: {
@@ -66,7 +66,8 @@ SOURCES += main.cpp\
     widgets/slider.cpp \
     widgets/sliderbox.cpp \
     drawers/selectiondrawer.cpp \
-    widgets/comboboxkey.cpp
+    widgets/comboboxkey.cpp \
+    scriptvars.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -98,7 +99,8 @@ HEADERS  += frmmain.h \
     widgets/slider.h \
     widgets/sliderbox.h \
     drawers/selectiondrawer.h \
-    widgets/comboboxkey.h
+    widgets/comboboxkey.h \
+    scriptvars.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

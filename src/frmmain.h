@@ -16,6 +16,7 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QProgressDialog>
+#include <QScriptEngine>
 #include <exception>
 
 #include "parser/gcodeviewparse.h"
@@ -40,6 +41,8 @@
 #include "frmsettings.h"
 #include "frmabout.h"
 
+#include "scriptvars.h"
+
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
     #include "shobjidl.h"
@@ -61,6 +64,7 @@ struct CommandQueue {
     QString command;
     int tableIndex;
     bool showInConsole;
+    bool queue;
 };
 
 class CancelException : public std::exception {
@@ -328,8 +332,13 @@ private:
     // Jog
     QVector3D m_jogVector;
 
+    // Recent files
     QStringList m_recentFiles;
     QStringList m_recentHeightmaps;
+
+    // Script
+    QScriptEngine m_scriptEngine;
+    ScriptVars m_scriptVars;
 
     void loadFile(QString fileName);
     void loadFile(QList<QString> data);
@@ -340,7 +349,8 @@ private:
     bool saveChanges(bool heightMapMode);
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true);
+    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    QString evaluateCommand(QString command);
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();
@@ -379,6 +389,7 @@ private:
     void restoreParserState();
     void storeOffsets();
     void restoreOffsets();
+    void storeOffsetsVars(QString response);
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);

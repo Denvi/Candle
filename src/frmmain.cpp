@@ -336,6 +336,10 @@ frmMain::frmMain(QWidget *parent) :
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
         loadFile(qApp->arguments().last());
     }
+    
+    // Delegate vars to script engine
+    QScriptValue vars = m_scriptEngine.newQObject(&m_scriptVars);
+    m_scriptEngine.globalObject().setProperty("vars", vars);
 }
 
 frmMain::~frmMain()
@@ -906,21 +910,18 @@ void frmMain::openPort()
     }
 }
 
-void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
+void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool queue)
 {
     if (!m_serialPort.isOpen() || !m_resetCompleted) return;
 
-    command = command.toUpper();
-
     // Commands queue
-    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
-//        qDebug() << "queue:" << command;
-
+    if (queue || (bufferLength() + command.length() + 1) > BUFFERLENGTH) {
         CommandQueue cq;
 
         cq.command = command;
         cq.tableIndex = tableIndex;
         cq.showInConsole = showInConsole;
+        cq.queue = queue;
 
         m_queue.append(cq);
         return;
@@ -931,13 +932,13 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
 //    if (!(command == "$G" && tableIndex < -1) && !(command == "$#" && tableIndex < -1)
 //            && (!m_transferringFile || (m_transferringFile && m_showAllCommands) || tableIndex < 0)) {
     if (showInConsole) {
-        ui->txtConsole->appendPlainText(command);
+        ui->txtConsole->appendPlainText(command.toUpper());
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
         ca.consoleIndex = -1;
     }
 
-    ca.command = command;
+    ca.command = command.toUpper();
     ca.length = command.length() + 1;
     ca.tableIndex = tableIndex;
 
@@ -1032,6 +1033,11 @@ void frmMain::onSerialPortReadyRead()
                 ui->txtMPosX->setValue(mpx.cap(1).toDouble());
                 ui->txtMPosY->setValue(mpx.cap(2).toDouble());
                 ui->txtMPosZ->setValue(mpx.cap(3).toDouble());
+
+                // Update script vars
+                m_scriptVars.setMx(ui->txtMPosX->value());
+                m_scriptVars.setMy(ui->txtMPosY->value());
+                m_scriptVars.setMz(ui->txtMPosZ->value());
             }
 
             // Status
@@ -1161,6 +1167,11 @@ void frmMain::onSerialPortReadyRead()
             // ui->txtWPosX->setText(QString::number(ui->txtMPosX->text().toDouble() - workOffset.x(), 'f', prec));
             // ui->txtWPosY->setText(QString::number(ui->txtMPosY->text().toDouble() - workOffset.y(), 'f', prec));
             // ui->txtWPosZ->setText(QString::number(ui->txtMPosZ->text().toDouble() - workOffset.z(), 'f', prec));
+            
+            // Update script vars
+            m_scriptVars.setWx(ui->txtWPosX->value());
+            m_scriptVars.setWy(ui->txtWPosY->value());
+            m_scriptVars.setWz(ui->txtWPosZ->value());
 
             // Update tool position
             QVector3D toolPosition;
@@ -1310,19 +1321,24 @@ void frmMain::onSerialPortReadyRead()
                         m_updateParserStatus = true;
                     }
 
+                    // Offsets
+                    if (ca.command == "$#" && ca.tableIndex == -1) {
+                        storeOffsetsVars(response);
+                    }
+
                     // Store origin
                     if (ca.command == "$#" && ca.tableIndex == -2) {
                         qDebug() << "Received offsets:" << response;
-                        QRegExp rx(".*G92:([^,]*),([^,]*),([^\\]]*)");
+                        static QRegExp g92(".*G92:([^,]*),([^,]*),([^\\]]*)");
 
-                        if (rx.indexIn(response) != -1) {
+                        if (g92.indexIn(response) != -1) {
                             if (m_settingZeroXY) {
                                 m_settingZeroXY = false;
-                                m_storedX = toMetric(rx.cap(1).toDouble());
-                                m_storedY = toMetric(rx.cap(2).toDouble());
+                                m_storedX = toMetric(g92.cap(1).toDouble());
+                                m_storedY = toMetric(g92.cap(2).toDouble());
                             } else if (m_settingZeroZ) {
                                 m_settingZeroZ = false;
-                                m_storedZ = toMetric(rx.cap(3).toDouble());
+                                m_storedZ = toMetric(g92.cap(3).toDouble());
                             }
                             ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
@@ -1341,6 +1357,16 @@ void frmMain::onSerialPortReadyRead()
                     if ((ca.command.contains("M2") || ca.command.contains("M30")) && response.contains("ok") && !response.contains("[Pgm End]")) {
                         m_commands.clear();
                         m_queue.clear();
+                    }
+
+                    // Update probe coords on user commands
+                    if (ca.command.contains("G38.2") && ca.tableIndex < 0) {
+                        static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^]^:]*)");
+                        if (PRB.indexIn(response) != -1) {
+                            m_scriptVars.setPRBx(PRB.cap(1).toDouble());
+                            m_scriptVars.setPRBy(PRB.cap(2).toDouble());
+                            m_scriptVars.setPRBz(PRB.cap(3).toDouble());
+                        }
                     }
 
                     // Process probing on heightmap mode only from table commands
@@ -1407,10 +1433,14 @@ void frmMain::onSerialPortReadyRead()
 
                     // Check queue
                     if (m_queue.length() > 0) {
+                        qDebug() << "queue:" << m_queue.count();
                         CommandQueue cq = m_queue.takeFirst();
+                       
                         while ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
-                            sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
-                            if (m_queue.isEmpty()) break; else cq = m_queue.takeFirst();
+                            cq.command = evaluateCommand(cq.command);
+                            if (!cq.command.isEmpty()) sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
+                            if (!cq.command.isEmpty() && (m_queue.isEmpty() || cq.queue)) break; 
+                                else cq = m_queue.takeFirst();
                         }
                     }
 
@@ -2227,6 +2257,89 @@ void frmMain::restoreOffsets()
                                        .arg(toMetric(ui->txtWPosZ->value())), -1, m_settings->showUICommands());
 }
 
+void frmMain::storeOffsetsVars(QString response)
+{
+    static QRegExp G54(".*G54:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G55(".*G55:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G56(".*G56:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G57(".*G57:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G58(".*G58:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G59(".*G59:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G28(".*G28:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G30(".*G30:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp G92(".*G92:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp TLO(".*TLO:([^,]*),([^,]*),([^\\]]*)");
+    static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^\\]]*)");
+
+    if (G54.indexIn(response) != -1) {
+        m_scriptVars.setG54x(G54.cap(1).toDouble());
+        m_scriptVars.setG54y(G54.cap(2).toDouble());
+        m_scriptVars.setG54z(G54.cap(3).toDouble());
+    }
+
+    if (G55.indexIn(response) != -1) {
+        m_scriptVars.setG55x(G55.cap(1).toDouble());
+        m_scriptVars.setG55y(G55.cap(2).toDouble());
+        m_scriptVars.setG55z(G55.cap(3).toDouble());
+    }
+
+    if (G56.indexIn(response) != -1) {
+        m_scriptVars.setG56x(G56.cap(1).toDouble());
+        m_scriptVars.setG56y(G56.cap(2).toDouble());
+        m_scriptVars.setG56z(G56.cap(3).toDouble());
+    }
+
+    if (G57.indexIn(response) != -1) {
+        m_scriptVars.setG57x(G57.cap(1).toDouble());
+        m_scriptVars.setG57y(G57.cap(2).toDouble());
+        m_scriptVars.setG57z(G57.cap(3).toDouble());
+    }
+
+    if (G58.indexIn(response) != -1) {
+        m_scriptVars.setG58x(G58.cap(1).toDouble());
+        m_scriptVars.setG58y(G58.cap(2).toDouble());
+        m_scriptVars.setG58z(G58.cap(3).toDouble());
+    }
+
+    if (G59.indexIn(response) != -1) {
+        m_scriptVars.setG59x(G59.cap(1).toDouble());
+        m_scriptVars.setG59y(G59.cap(2).toDouble());
+        m_scriptVars.setG59z(G59.cap(3).toDouble());
+    }
+
+    if (G28.indexIn(response) != -1) {
+        m_scriptVars.setG28x(G28.cap(1).toDouble());
+        m_scriptVars.setG28y(G28.cap(2).toDouble());
+        m_scriptVars.setG28z(G28.cap(3).toDouble());
+    }
+
+    if (G30.indexIn(response) != -1) {
+        m_scriptVars.setG30x(G30.cap(1).toDouble());
+        m_scriptVars.setG30y(G30.cap(2).toDouble());
+        m_scriptVars.setG30z(G30.cap(3).toDouble());
+    }
+
+    if (G92.indexIn(response) != -1) {
+        m_scriptVars.setG92x(G92.cap(1).toDouble());
+        m_scriptVars.setG92y(G92.cap(2).toDouble());
+        m_scriptVars.setG92z(G92.cap(3).toDouble());
+    }
+
+    if (TLO.indexIn(response) != -1) {
+        m_scriptVars.setTLOx(TLO.cap(1).toDouble());
+        m_scriptVars.setTLOy(TLO.cap(2).toDouble());
+        m_scriptVars.setTLOz(TLO.cap(3).toDouble());
+    }
+
+    if (PRB.indexIn(response) != -1) {
+        m_scriptVars.setPRBx(PRB.cap(1).toDouble());
+        m_scriptVars.setPRBy(PRB.cap(2).toDouble());
+        m_scriptVars.setPRBz(PRB.cap(3).toDouble());
+    }
+
+    qDebug() << "Storing vars:" << m_scriptVars.PRBx();
+}
+
 void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
@@ -2626,7 +2739,7 @@ void frmMain::on_cmdTouch_clicked()
     QStringList list = m_settings->touchCommand().split(";");
 
     foreach (QString cmd, list) {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
     }
 }
 
@@ -2682,7 +2795,7 @@ void frmMain::on_cmdSafePosition_clicked()
     QStringList list = m_settings->safePositionCommand().split(";");
 
     foreach (QString cmd, list) {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
     }
 }
 
@@ -4018,7 +4131,7 @@ void frmMain::onCmdUserClicked(bool checked)
     QStringList list = m_settings->userCommands(i).split(";");
 
     foreach (QString cmd, list) {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
     }
 }
 
@@ -4080,6 +4193,22 @@ void frmMain::jogStep()
                     .arg(vec.z(), 0, 'g', 4)
                     .arg(speed), -3, m_settings->showUICommands());
     }
+}
+
+QString frmMain::evaluateCommand(QString command)
+{
+    // Evaluate script  
+    static QRegExp sx("\\{([^\\}]+)\\}");
+    QScriptValue v;
+    QString vs;
+    while (sx.indexIn(command) != -1) {
+        qDebug() << sx.cap(0) << command;
+        v = m_scriptEngine.evaluate(sx.cap(1));
+        vs = v.isUndefined() ? "" : v.toString();
+        command.replace(sx.cap(0), vs);
+    }
+    qDebug() << "command:" << command;
+    return command;
 }
 
 void frmMain::on_cmdYPlus_pressed()
