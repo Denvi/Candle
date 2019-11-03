@@ -1224,7 +1224,7 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-588</y>
           <width>320</width>
           <height>878</height>
          </rect>
@@ -3920,6 +3920,22 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>1302</x>
      <y>445</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actJogStop</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdStop</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>96</x>
+     <y>1023</y>
     </hint>
    </hints>
   </connection>

@@ -611,6 +611,7 @@ void frmMain::loadSettings()
     addAction(ui->actHeightmapShowProbeGrid);
     addAction(ui->actHeightmapShowInterpolationGrid);
     
+    addAction(ui->actJogStop);
     addAction(ui->actJogStepNext);
     addAction(ui->actJogStepPrevious);
     addAction(ui->actJogFeedNext);

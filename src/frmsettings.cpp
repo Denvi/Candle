@@ -742,7 +742,33 @@ void frmSettings::on_cmdDefaults_clicked()
     setFontSize(9);
 
     // Shortcuts
+    QMap<QString, QString> d;
+    d["actFileNew"] = "Ctrl+N";
+    d["actFileOpen"] = "Ctrl+O";
+    d["actFileSave"] = "Ctrl+S";
+    d["actFileSaveAs"] = "Ctrl+Shift+S";
+    d["actJogXPlus"] = "Num+6";
+    d["actJogXMinus"] = "Num+4";
+    d["actJogYPlus"] = "Num+8";
+    d["actJogYMinus"] = "Num+2";
+    d["actJogZPlus"] = "Num+9";
+    d["actJogZMinus"] = "Num+3";
+    d["actJogStop"] = "Num+5";
+    d["actJogStepNext"] = "Num+1";
+    d["actJogStepPrevious"] = "Num+7";
+    d["actJogFeedNext"] = "Num++";
+    d["actJogFeedPrevious"] = "Num+-";
+    d["actJogKeyboardControl"] = "ScrollLock";
+    d["actSpindleOnOff"] = "Num+0";
+    d["actSpindleSpeedPlus"] = "Num+*";
+    d["actSpindleSpeedMinus"] = "Num+/";
     
+    QTableWidget *table = ui->tblShortcuts;
+
+    for (int i = 0; i < table->rowCount(); i++) {
+        QString s = table->item(i, 0)->data(Qt::DisplayRole).toString();
+        table->item(i, 2)->setData(Qt::DisplayRole, d.keys().contains(s) ? d[s] : "");
+    }
 }
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
