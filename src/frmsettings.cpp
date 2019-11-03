@@ -8,6 +8,55 @@
 #include <QDebug>
 #include <QScrollBar>
 #include <QColorDialog>
+#include <QStyledItemDelegate>
+#include <QKeySequenceEdit>
+#include <QKeyEvent>
+
+class CustomKeySequenceEdit : public QKeySequenceEdit
+{
+public:
+    explicit CustomKeySequenceEdit(QWidget *parent = 0): QKeySequenceEdit(parent) {}
+    ~CustomKeySequenceEdit() {}
+
+protected:
+    void keyPressEvent(QKeyEvent *pEvent) {
+        QKeySequenceEdit::keyPressEvent(pEvent);
+        QString s = keySequence().toString().split(", ").first();
+
+        QString shiftedKeys = "~!@#$%^&*()_+{}|:?><\"";
+        QString key = s.right(1);
+        
+        if (pEvent->modifiers() & Qt::KeypadModifier) s = "Num+" + s;
+        else if (!key.isEmpty() && shiftedKeys.contains(key)) {
+            s.remove("Shift+");
+            s = s.left(s.size() - 1) + QString("Shift+%1").arg(key);
+        }
+
+        QKeySequence seq(QKeySequence::fromString(s));
+        setKeySequence(seq);
+    }
+};
+
+class ShortcutDelegate: public QStyledItemDelegate
+{
+public:
+    ShortcutDelegate() {}
+
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    {
+        return new CustomKeySequenceEdit(parent);
+    }
+
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override
+    {
+        static_cast<QKeySequenceEdit*>(editor)->setKeySequence(index.data(Qt::DisplayRole).toString());
+    }
+
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override
+    {
+        model->setData(index, static_cast<QKeySequenceEdit*>(editor)->keySequence().toString());
+    }
+};
 
 frmSettings::frmSettings(QWidget *parent) :
     QDialog(parent),
@@ -28,6 +77,11 @@ frmSettings::frmSettings(QWidget *parent) :
 
     ui->listCategories->item(0)->setSelected(true);
     connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onScrollBarValueChanged(int)));
+
+    // Shortcuts table
+    ui->tblShortcuts->setItemDelegateForColumn(2, new ShortcutDelegate);
+    ui->tblShortcuts->setTabKeyNavigation(false);
+    ui->tblShortcuts->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     searchPorts();
 }
@@ -686,6 +740,9 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
 
     setFontSize(9);
+
+    // Shortcuts
+    
 }
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)

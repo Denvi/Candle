@@ -320,10 +320,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 
-    this->installEventFilter(this);
-    ui->tblProgram->installEventFilter(this);
-    ui->cboJogStep->installEventFilter(this);
-    ui->cboJogFeed->installEventFilter(this);
+    qApp->installEventFilter(this);
+    // ui->tblProgram->installEventFilter(this);
+    // ui->cboJogStep->installEventFilter(this);
+    // ui->cboJogFeed->installEventFilter(this);
     // ui->splitPanels->handle(1)->installEventFilter(this);
     // ui->splitPanels->installEventFilter(this);
 
@@ -564,6 +564,73 @@ void frmMain::loadSettings()
     m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());
     m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
 
+    // Shortcuts
+    qRegisterMetaTypeStreamOperators<ShortcutsMap>("ShortcutsMap");
+    
+    ShortcutsMap m;
+    QByteArray ba = set .value("shortcuts").toByteArray();
+    QDataStream s(&ba, QIODevice::ReadOnly);
+    
+    s >> m;
+    for (int i = 0; i < m.count(); i++) {
+        QAction *a = findChild<QAction*>(m.keys().at(i));
+        if (a) a->setShortcuts(m.values().at(i));
+    }
+
+    addAction(ui->actControlHome);
+    addAction(ui->actControlTouch);
+    addAction(ui->actControlZeroXY);
+    addAction(ui->actControlZeroZ);
+    addAction(ui->actControlRestoreOrigin);
+    addAction(ui->actControlSafePosition);
+    addAction(ui->actControlReset);
+    addAction(ui->actControlUnlock);
+    addAction(ui->actUserCommand1);
+    addAction(ui->actUserCommand2);
+    addAction(ui->actUserCommand3);
+    addAction(ui->actUserCommand4);
+
+    addAction(ui->actVisualizerFit);
+    addAction(ui->actVisualizerIsometric);
+    addAction(ui->actVisualizerTop);
+    addAction(ui->actVisualizerFront);
+    addAction(ui->actVisualizerLeft);
+    
+    addAction(ui->actProgramCheck);
+    addAction(ui->actProgramScroll);
+    addAction(ui->actProgramReset);
+    addAction(ui->actProgramSend);
+    addAction(ui->actProgramPause);
+    addAction(ui->actProgramAbort);
+
+    addAction(ui->actHeightmapUse);
+    addAction(ui->actHeightmapCreate);
+    addAction(ui->actHeightmapOpen);
+    addAction(ui->actHeightmapEdit);
+    addAction(ui->actHeightmapShowBorder);
+    addAction(ui->actHeightmapShowProbeGrid);
+    addAction(ui->actHeightmapShowInterpolationGrid);
+    
+    addAction(ui->actJogStepNext);
+    addAction(ui->actJogStepPrevious);
+    addAction(ui->actJogFeedNext);
+    addAction(ui->actJogFeedPrevious);
+    addAction(ui->actJogKeyboardControl);
+    addAction(ui->actSpindleSpeedPlus);
+    addAction(ui->actSpindleSpeedMinus);
+    addAction(ui->actSpindleOnOff);
+    addAction(ui->actOverrideFeed);
+    addAction(ui->actOverrideFeedPlus);
+    addAction(ui->actOverrideFeedMinus);
+    addAction(ui->actOverrideRapid);
+    addAction(ui->actOverrideRapidPlus);
+    addAction(ui->actOverrideRapidMinus);
+    addAction(ui->actOverrideSpindle);
+    addAction(ui->actOverrideSpindlePlus);
+    addAction(ui->actOverrideSpindleMinus);
+
+    addAction(ui->actConsoleClear);
+
     m_settingsLoading = false;
 }
 
@@ -681,7 +748,18 @@ void frmMain::saveSettings()
     for (int i = 0; i < ui->cboCommand->count(); i++) list.append(ui->cboCommand->itemText(i));
     set.setValue("recentCommands", list);
 
+    // Docks
     set.setValue("formMainState", saveState());
+
+    // Shortcuts
+    ShortcutsMap m;
+    QByteArray ba;
+    QDataStream s(&ba, QIODevice::WriteOnly);
+    QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
+
+    foreach (QAction *a, acts) m[a->objectName()] = a->shortcuts();
+    s << m;
+    set.setValue("shortcuts", ba);
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -2287,8 +2365,39 @@ void frmMain::onTableDeleteLines()
     ui->tblProgram->selectRow(firstRow.row());
 }
 
+bool frmMain::actionLessThan(const QAction *a1, const QAction *a2)
+{
+    return a1->objectName() < a2->objectName();
+}
+
 void frmMain::on_actServiceSettings_triggered()
 {
+    QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
+    QTableWidget *table = m_settings->ui->tblShortcuts;
+
+    table->clear();
+    table->setColumnCount(3);
+    table->setRowCount(acts.count());
+    table->setHorizontalHeaderLabels(QStringList() << "Command" << "Text" << "Shortcuts");
+
+    table->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
+
+    qSort(acts.begin(), acts.end(), frmMain::actionLessThan);
+    for (int i = 0; i < acts.count(); i++) {
+        table->setItem(i, 0, new QTableWidgetItem(acts.at(i)->objectName()));
+        table->setItem(i, 1, new QTableWidgetItem(acts.at(i)->text().remove("&")));
+        table->setItem(i, 2, new QTableWidgetItem(acts.at(i)->shortcut().toString()));
+
+        table->item(i, 0)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 1)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 2)->setFlags(Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+
+    table->resizeColumnsToContents();
+    table->setMinimumHeight(table->rowHeight(0) * 10
+        + table->horizontalHeader()->height() + table->frameWidth() * 2);
+
     if (m_settings->exec()) {
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_settings->port() << "Baud:" << m_settings->baud();
@@ -2303,6 +2412,12 @@ void frmMain::on_actServiceSettings_triggered()
 
         updateControlsState();
         applySettings();
+
+        // Update shortcuts
+        for (int i = 0; i < acts.count(); i++) {
+            acts[i]->setShortcut(QKeySequence(table->item(i, 2)->data(Qt::DisplayRole).toString()));
+        }
+
     } else {
         m_settings->undo();
     }
@@ -2913,114 +3028,40 @@ void frmMain::on_grpUserCommands_toggled(bool checked)
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
-    // Main form events
-    if (obj == this || obj == ui->tblProgram || obj == ui->cboJogStep || obj == ui->cboJogFeed) {
+    if (obj->inherits("QWidgetWindow")) {
+
+        QKeySequence ks;
+
+        if ((event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)) {
+            QKeyEvent *ev = static_cast<QKeyEvent*>(event);
+            ks = QKeySequence(ev->key() | ev->modifiers());
+        }
 
         // Jog on keyboard control
         if (!m_processingFile && ui->chkKeyboardControl->isChecked() &&
                 (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)
                 && !static_cast<QKeyEvent*>(event)->isAutoRepeat()) {
 
-            switch (static_cast<QKeyEvent*>(event)->key()) {
-            case Qt::Key_4:                
-                if (event->type() == QEvent::KeyPress) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();
-                break;
-            case Qt::Key_6:
+            if (ui->actJogXMinus->shortcuts().contains(ks)) {
+                if (event->type() == QEvent::KeyPress) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();                
+            } else if (ui->actJogXPlus->shortcuts().contains(ks)) {
                 if (event->type() == QEvent::KeyPress) emit ui->cmdXPlus->pressed(); else emit ui->cmdXPlus->released();
-                break;
-            case Qt::Key_8:
+            } else if (ui->actJogYPlus->shortcuts().contains(ks)) {
                 if (event->type() == QEvent::KeyPress) emit ui->cmdYPlus->pressed(); else emit ui->cmdYPlus->released();
-                break;
-            case Qt::Key_2:
+            } else if (ui->actJogYMinus->shortcuts().contains(ks)) {
                 if (event->type() == QEvent::KeyPress) emit ui->cmdYMinus->pressed(); else emit ui->cmdYMinus->released();
-                break;
-            case Qt::Key_9:
+            } else if (ui->actJogZPlus->shortcuts().contains(ks)) {
                 if (event->type() == QEvent::KeyPress) emit ui->cmdZPlus->pressed(); else emit ui->cmdZPlus->released();
-                break;
-            case Qt::Key_3:
+            } else if (ui->actJogZMinus->shortcuts().contains(ks)) {
                 if (event->type() == QEvent::KeyPress) emit ui->cmdZMinus->pressed(); else emit ui->cmdZMinus->released();
-                break;
             }
         }
-
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-
-            if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
-                ui->chkKeyboardControl->toggle();
-                if (!ui->chkKeyboardControl->isChecked()) ui->cboCommand->setFocus();
-            }
-
-            if (!m_processingFile && ui->chkKeyboardControl->isChecked()) {
-                if (keyEvent->key() == Qt::Key_7) {
-                    ui->cboJogStep->setCurrentPrevious();
-                } else if (keyEvent->key() == Qt::Key_1) {
-                    ui->cboJogStep->setCurrentNext();
-                } else if (keyEvent->key() == Qt::Key_Minus) {
-                    ui->cboJogFeed->setCurrentPrevious();
-                } else if (keyEvent->key() == Qt::Key_Plus) {
-                    ui->cboJogFeed->setCurrentNext();
-                } else if (keyEvent->key() == Qt::Key_5) {
-                    on_cmdStop_clicked();
-                } else if (keyEvent->key() == Qt::Key_0) {
-                    on_cmdSpindle_clicked(!ui->cmdSpindle->isChecked());
-                } else if (keyEvent->key() == Qt::Key_Asterisk) {
-                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
-                } else if (keyEvent->key() == Qt::Key_Slash) {
-                    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() - 1);
-                }
-            }
-
-            if (obj == ui->tblProgram && m_processingFile) {
-                if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
-                            || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
-                    ui->chkAutoScroll->setChecked(false);
-                }
-            }
+    } else if (obj == ui->tblProgram && m_processingFile) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
+                    || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
+            ui->chkAutoScroll->setChecked(false);
         }
-
-    // Splitter events
-    // } else if (obj == ui->splitPanels && event->type() == QEvent::Resize) {
-    //     // Resize splited widgets
-    //     onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
-
-    // // Splitter handle events
-    // } else if (obj == ui->splitPanels->handle(1)) {
-    //     int minHeight = getConsoleMinHeight();
-    //     switch (event->type()) {
-    //     case QEvent::MouseButtonPress:
-    //         // Store current console group box minimum & real heights
-    //         m_storedConsoleMinimumHeight = ui->grpConsole->minimumHeight();
-    //         m_storedConsoleHeight = ui->grpConsole->height();
-
-    //         // Update splited sizes
-    //         ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->height() << ui->grpConsole->height());
-
-    //         // Set new console mimimum height
-    //         ui->grpConsole->setMinimumHeight(qMax(minHeight, ui->splitPanels->height()
-    //             - ui->scrollAreaWidgetContents->sizeHint().height() - ui->splitPanels->handleWidth() - 4));
-    //         break;
-    //     case QEvent::MouseButtonRelease:
-    //         // Store new console minimum height if height was changed with split handle
-    //         if (ui->grpConsole->height() != m_storedConsoleHeight) {
-    //             ui->grpConsole->setMinimumHeight(ui->grpConsole->height());
-    //         } else {
-    //             ui->grpConsole->setMinimumHeight(m_storedConsoleMinimumHeight);
-    //         }
-    //         break;
-    //     case QEvent::MouseButtonDblClick:
-    //         // Switch to min/max console size
-    //         if (ui->grpConsole->height() == minHeight || !ui->scrollArea->verticalScrollBar()->isVisible()) {
-    //             ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->minimumHeight()
-    //             << ui->splitPanels->height() - ui->splitPanels->handleWidth() - ui->scrollArea->minimumHeight());
-    //         } else {
-    //             ui->grpConsole->setMinimumHeight(minHeight);
-    //             onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
-    //         }
-    //         break;
-    //     default:
-    //         break;
-    //     }
     }
 
     return QMainWindow::eventFilter(obj, event);
@@ -4124,4 +4165,64 @@ void frmMain::on_mnuViewPanels_aboutToShow()
     ui->actViewPanelsModification->setChecked(ui->dockModification->isVisible());
     ui->actViewPanelsVisualizer->setChecked(ui->dockVisualizer->isVisible());
     ui->actViewPanelsConsole->setChecked(ui->dockConsole->isVisible());
+}
+
+void frmMain::on_actJogStepNext_triggered()
+{
+    ui->cboJogStep->setCurrentNext();
+}
+
+void frmMain::on_actJogStepPrevious_triggered()
+{
+    ui->cboJogStep->setCurrentPrevious();
+}
+
+void frmMain::on_actJogFeedNext_triggered()
+{
+    ui->cboJogFeed->setCurrentNext();
+}
+
+void frmMain::on_actJogFeedPrevious_triggered()
+{
+    ui->cboJogFeed->setCurrentPrevious();
+}
+
+void frmMain::on_actSpindleSpeedPlus_triggered()
+{
+    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
+}
+
+void frmMain::on_actSpindleSpeedMinus_triggered()
+{
+    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideFeedPlus_triggered()
+{
+    ui->slbFeedOverride->setSliderPosition(ui->slbFeedOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideFeedMinus_triggered()
+{
+    ui->slbFeedOverride->setSliderPosition(ui->slbFeedOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideRapidPlus_triggered()
+{
+    ui->slbRapidOverride->setSliderPosition(ui->slbRapidOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideRapidMinus_triggered()
+{
+    ui->slbRapidOverride->setSliderPosition(ui->slbRapidOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideSpindlePlus_triggered()
+{
+    ui->slbSpindleOverride->setSliderPosition(ui->slbSpindleOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideSpindleMinus_triggered()
+{
+    ui->slbSpindleOverride->setSliderPosition(ui->slbSpindleOverride->sliderPosition() - 1);
 }

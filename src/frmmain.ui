@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2033</width>
+    <width>1469</width>
     <height>1015</height>
    </rect>
   </property>
@@ -371,8 +371,8 @@ QLabel[overrided=&quot;false&quot;] {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2033</width>
-     <height>21</height>
+     <width>1469</width>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -462,8 +462,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>188</width>
-          <height>562</height>
+          <width>255</width>
+          <height>751</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1224,9 +1224,9 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-286</y>
-          <width>269</width>
-          <height>720</height>
+          <y>0</y>
+          <width>320</width>
+          <height>878</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -2762,24 +2762,14 @@ padding-right: 8;</string>
     <bool>false</bool>
    </attribute>
   </widget>
-  <action name="actFileOpen">
-   <property name="text">
-    <string>&amp;Open</string>
-   </property>
-  </action>
-  <action name="actFileExit">
-   <property name="text">
-    <string>E&amp;xit</string>
-   </property>
-  </action>
-  <action name="actServiceSettings">
-   <property name="text">
-    <string>&amp;Settings</string>
-   </property>
-  </action>
   <action name="actFileNew">
    <property name="text">
     <string>&amp;New</string>
+   </property>
+  </action>
+  <action name="actFileOpen">
+   <property name="text">
+    <string>&amp;Open</string>
    </property>
   </action>
   <action name="actFileSave">
@@ -2792,9 +2782,9 @@ padding-right: 8;</string>
     <string>Save &amp;as...</string>
    </property>
   </action>
-  <action name="actAbout">
+  <action name="actFileSaveTransformedAs">
    <property name="text">
-    <string>&amp;About</string>
+    <string>Save &amp;transformed as...</string>
    </property>
   </action>
   <action name="actRecentClear">
@@ -2802,9 +2792,19 @@ padding-right: 8;</string>
     <string>&amp;Clear</string>
    </property>
   </action>
-  <action name="actFileSaveTransformedAs">
+  <action name="actFileExit">
    <property name="text">
-    <string>Save &amp;transformed as...</string>
+    <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="actServiceSettings">
+   <property name="text">
+    <string>&amp;Settings</string>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actViewPanelsDevice">
@@ -2851,6 +2851,281 @@ padding-right: 8;</string>
     <string>&amp;Console</string>
    </property>
   </action>
+  <action name="actControlHome">
+   <property name="text">
+    <string>Home</string>
+   </property>
+  </action>
+  <action name="actControlTouch">
+   <property name="text">
+    <string>Z-probe</string>
+   </property>
+  </action>
+  <action name="actControlZeroXY">
+   <property name="text">
+    <string>Zero XY</string>
+   </property>
+  </action>
+  <action name="actControlZeroZ">
+   <property name="text">
+    <string>Zero Z</string>
+   </property>
+  </action>
+  <action name="actControlRestoreOrigin">
+   <property name="text">
+    <string>Restore origin</string>
+   </property>
+  </action>
+  <action name="actControlSafePosition">
+   <property name="text">
+    <string>Safe position</string>
+   </property>
+  </action>
+  <action name="actControlReset">
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </action>
+  <action name="actControlUnlock">
+   <property name="text">
+    <string>Unlock</string>
+   </property>
+  </action>
+  <action name="actUserCommand1">
+   <property name="text">
+    <string>User command 1</string>
+   </property>
+  </action>
+  <action name="actUserCommand2">
+   <property name="text">
+    <string>User command 2</string>
+   </property>
+  </action>
+  <action name="actUserCommand3">
+   <property name="text">
+    <string>User command 3</string>
+   </property>
+  </action>
+  <action name="actUserCommand4">
+   <property name="text">
+    <string>User command 4</string>
+   </property>
+  </action>
+  <action name="actSpindleSpeedPlus">
+   <property name="text">
+    <string>Spindle speed +</string>
+   </property>
+  </action>
+  <action name="actSpindleSpeedMinus">
+   <property name="text">
+    <string>Spindle speed -</string>
+   </property>
+  </action>
+  <action name="actSpindleOnOff">
+   <property name="text">
+    <string>Spindle on/off</string>
+   </property>
+  </action>
+  <action name="actJogYPlus">
+   <property name="text">
+    <string>Y+</string>
+   </property>
+  </action>
+  <action name="actJogYMinus">
+   <property name="text">
+    <string>Y-</string>
+   </property>
+  </action>
+  <action name="actJogXPlus">
+   <property name="text">
+    <string>X+</string>
+   </property>
+  </action>
+  <action name="actJogXMinus">
+   <property name="text">
+    <string>X-</string>
+   </property>
+  </action>
+  <action name="actJogZPlus">
+   <property name="text">
+    <string>Z+</string>
+   </property>
+  </action>
+  <action name="actJogZMinus">
+   <property name="text">
+    <string>Z-</string>
+   </property>
+  </action>
+  <action name="actJogStop">
+   <property name="text">
+    <string>Stop</string>
+   </property>
+  </action>
+  <action name="actJogStepNext">
+   <property name="text">
+    <string>Jog step next</string>
+   </property>
+  </action>
+  <action name="actJogStepPrevious">
+   <property name="text">
+    <string>Jog step previous</string>
+   </property>
+  </action>
+  <action name="actJogFeedNext">
+   <property name="text">
+    <string>Jog feed next</string>
+   </property>
+  </action>
+  <action name="actJogFeedPrevious">
+   <property name="text">
+    <string>Jog feed previous</string>
+   </property>
+  </action>
+  <action name="actJogKeyboardControl">
+   <property name="text">
+    <string>Keyboard control</string>
+   </property>
+  </action>
+  <action name="actVisualizerFit">
+   <property name="text">
+    <string>Fit</string>
+   </property>
+  </action>
+  <action name="actVisualizerTop">
+   <property name="text">
+    <string>Top view</string>
+   </property>
+  </action>
+  <action name="actVisualizerIsometric">
+   <property name="text">
+    <string>Isometric view</string>
+   </property>
+  </action>
+  <action name="actVisualizerFront">
+   <property name="text">
+    <string>Front view</string>
+   </property>
+  </action>
+  <action name="actVisualizerLeft">
+   <property name="text">
+    <string>Left view</string>
+   </property>
+  </action>
+  <action name="actProgramCheck">
+   <property name="text">
+    <string>Check</string>
+   </property>
+  </action>
+  <action name="actProgramScroll">
+   <property name="text">
+    <string>Scroll</string>
+   </property>
+  </action>
+  <action name="actProgramReset">
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </action>
+  <action name="actProgramSend">
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </action>
+  <action name="actProgramPause">
+   <property name="text">
+    <string>Pause</string>
+   </property>
+  </action>
+  <action name="actProgramAbort">
+   <property name="text">
+    <string>Abort</string>
+   </property>
+  </action>
+  <action name="actHeightmapUse">
+   <property name="text">
+    <string>Use heightmap</string>
+   </property>
+  </action>
+  <action name="actHeightmapCreate">
+   <property name="text">
+    <string>Create</string>
+   </property>
+  </action>
+  <action name="actHeightmapOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actHeightmapEdit">
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
+  <action name="actHeightmapShowBorder">
+   <property name="text">
+    <string>Show border</string>
+   </property>
+  </action>
+  <action name="actHeightmapShowProbeGrid">
+   <property name="text">
+    <string>Show probe grid</string>
+   </property>
+  </action>
+  <action name="actHeightmapShowInterpolationGrid">
+   <property name="text">
+    <string>Show interpolation grid</string>
+   </property>
+  </action>
+  <action name="actConsoleClear">
+   <property name="text">
+    <string>Clear console</string>
+   </property>
+  </action>
+  <action name="actOverrideFeedPlus">
+   <property name="text">
+    <string>Feed override +</string>
+   </property>
+  </action>
+  <action name="actOverrideFeedMinus">
+   <property name="text">
+    <string>Feed override -</string>
+   </property>
+  </action>
+  <action name="actOverrideRapidPlus">
+   <property name="text">
+    <string>Rapid override +</string>
+   </property>
+  </action>
+  <action name="actOverrideRapidMinus">
+   <property name="text">
+    <string>Rapid override -</string>
+   </property>
+  </action>
+  <action name="actOverrideSpindlePlus">
+   <property name="text">
+    <string>Spindle override +</string>
+   </property>
+  </action>
+  <action name="actOverrideSpindleMinus">
+   <property name="text">
+    <string>Spindle override -</string>
+   </property>
+  </action>
+  <action name="actOverrideFeed">
+   <property name="text">
+    <string>Feed override</string>
+   </property>
+  </action>
+  <action name="actOverrideRapid">
+   <property name="text">
+    <string>Rapid speed override</string>
+   </property>
+  </action>
+  <action name="actOverrideSpindle">
+   <property name="text">
+    <string>Spindle speed override</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -2881,6 +3156,9 @@ padding-right: 8;</string>
    <extends>QWidget</extends>
    <header>widgets/sliderbox.h</header>
    <container>1</container>
+   <slots>
+    <slot>click()</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>ComboBoxKey</class>
@@ -2932,12 +3210,12 @@ padding-right: 8;</string>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1282</x>
-     <y>482</y>
+     <x>1415</x>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1272</x>
-     <y>534</y>
+     <x>1415</x>
+     <y>1060</y>
     </hint>
    </hints>
   </connection>
@@ -3000,8 +3278,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>720</x>
-     <y>797</y>
+     <x>734</x>
+     <y>867</y>
     </hint>
    </hints>
   </connection>
@@ -3012,12 +3290,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>1222</y>
+     <x>298</x>
+     <y>1196</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1344</x>
-     <y>284</y>
+     <x>1415</x>
+     <y>450</y>
     </hint>
    </hints>
   </connection>
@@ -3028,8 +3306,8 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>1208</y>
+     <x>183</x>
+     <y>1196</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -3044,8 +3322,8 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>117</x>
-     <y>1205</y>
+     <x>144</x>
+     <y>1196</y>
     </hint>
     <hint type="destinationlabel">
      <x>428</x>
@@ -3060,12 +3338,588 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>1222</y>
+     <x>298</x>
+     <y>1196</y>
     </hint>
     <hint type="destinationlabel">
-     <x>218</x>
-     <y>904</y>
+     <x>245</x>
+     <y>898</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actVisualizerFit</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFit</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>121</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actVisualizerTop</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdTop</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actVisualizerIsometric</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdIsometric</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actVisualizerFront</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFront</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>235</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actVisualizerLeft</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdLeft</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>29</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlHome</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdHome</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>89</x>
+     <y>660</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlTouch</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdTouch</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>660</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlZeroXY</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdZeroXY</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>660</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlZeroZ</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdZeroZ</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>318</x>
+     <y>660</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlRestoreOrigin</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdRestoreOrigin</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>89</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlSafePosition</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdSafePosition</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlReset</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdReset</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actControlUnlock</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdUnlock</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>318</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actUserCommand1</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdUser0</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>92</x>
+     <y>803</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actUserCommand2</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdUser1</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>803</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actUserCommand3</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdUser2</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>803</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actUserCommand4</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdUser3</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>318</x>
+     <y>803</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramCheck</sender>
+   <signal>triggered()</signal>
+   <receiver>chkTestMode</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>674</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramScroll</sender>
+   <signal>triggered()</signal>
+   <receiver>chkAutoScroll</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>674</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramReset</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFileReset</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>788</x>
+     <y>663</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramSend</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFileSend</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>879</x>
+     <y>663</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramPause</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFilePause</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>970</x>
+     <y>663</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramAbort</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFileAbort</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1091</x>
+     <y>663</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapUse</sender>
+   <signal>triggered()</signal>
+   <receiver>chkHeightMapUse</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1415</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapCreate</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdHeightMapCreate</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1297</x>
+     <y>628</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdHeightMapLoad</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1414</x>
+     <y>628</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapEdit</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdHeightMapMode</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1415</x>
+     <y>663</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapShowBorder</sender>
+   <signal>triggered()</signal>
+   <receiver>chkHeightMapBorderShow</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1353</x>
+     <y>796</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapShowProbeGrid</sender>
+   <signal>triggered()</signal>
+   <receiver>chkHeightMapGridShow</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1341</x>
+     <y>931</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actHeightmapShowInterpolationGrid</sender>
+   <signal>triggered()</signal>
+   <receiver>chkHeightMapInterpolationShow</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1389</x>
+     <y>1067</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actConsoleClear</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdClearConsole</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1437</x>
+     <y>982</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actSpindleOnOff</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdSpindle</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>300</x>
+     <y>879</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actJogKeyboardControl</sender>
+   <signal>triggered()</signal>
+   <receiver>chkKeyboardControl</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>1185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actOverrideFeed</sender>
+   <signal>triggered()</signal>
+   <receiver>slbFeedOverride</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1302</x>
+     <y>407</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actOverrideRapid</sender>
+   <signal>triggered()</signal>
+   <receiver>slbRapidOverride</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1302</x>
+     <y>426</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actOverrideSpindle</sender>
+   <signal>triggered()</signal>
+   <receiver>slbSpindleOverride</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1302</x>
+     <y>445</y>
     </hint>
    </hints>
   </connection>

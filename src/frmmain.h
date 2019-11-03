@@ -174,30 +174,31 @@ private slots:
     void on_mnuViewPanels_aboutToShow();
 
     void on_cmdYPlus_pressed();
-
     void on_cmdYPlus_released();
-
     void on_cmdYMinus_pressed();
-
     void on_cmdYMinus_released();
-
     void on_cmdXPlus_pressed();
-
     void on_cmdXPlus_released();
-
     void on_cmdXMinus_pressed();
-
     void on_cmdXMinus_released();
-
     void on_cmdZPlus_pressed();
-
     void on_cmdZPlus_released();
-
     void on_cmdZMinus_pressed();
-
     void on_cmdZMinus_released();
-
     void on_cmdStop_clicked();
+
+    void on_actJogStepNext_triggered();
+    void on_actJogStepPrevious_triggered();
+    void on_actJogFeedNext_triggered();
+    void on_actJogFeedPrevious_triggered();
+    void on_actSpindleSpeedPlus_triggered();
+    void on_actSpindleSpeedMinus_triggered();
+    void on_actOverrideFeedPlus_triggered();
+    void on_actOverrideFeedMinus_triggered();
+    void on_actOverrideRapidPlus_triggered();
+    void on_actOverrideRapidMinus_triggered();
+    void on_actOverrideSpindlePlus_triggered();
+    void on_actOverrideSpindleMinus_triggered();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -385,6 +386,10 @@ private:
     void updateOverride(SliderBox *slider, int value, char command);
     void jogStep();
     void updateJogTitle();
+
+    static bool actionLessThan(const QAction *a1, const QAction *a2);
 };
+
+typedef QMap<QString, QList<QKeySequence>> ShortcutsMap;
 
 #endif // FRMMAIN_H

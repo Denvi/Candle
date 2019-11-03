@@ -92,6 +92,11 @@ void SliderBox::setRatio(int ratio)
     m_ratio = ratio;
 }
 
+void SliderBox::click()
+{
+    ui->chkTitle->click();
+}
+
 void SliderBox::on_txtValue_editingFinished()
 {
     ui->sliValue->setValue(ui->txtValue->value() / this->ratio());

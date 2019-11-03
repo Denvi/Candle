@@ -50,15 +50,14 @@ signals:
     void valueChanged();
     void toggled(bool checked);
 
+public slots:
+    void click();    
+
 private slots:
     void onTimerValueChanged();
-
     void on_txtValue_editingFinished();
-
     void on_sliValue_actionTriggered(int action);
-
     void on_sliValue_valueChanged(int value);
-
     void on_chkTitle_toggled(bool checked);
 
 private:
