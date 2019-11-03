@@ -4128,7 +4128,7 @@ void frmMain::onCmdUserClicked(bool checked)
 {
     int i = sender()->objectName().right(1).toInt();
 
-    QStringList list = m_settings->userCommands(i).split(";");
+    QStringList list = m_settings->userCommands(i).remove("\n").split(";");
 
     foreach (QString cmd, list) {
         if (!cmd.isEmpty()) sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));

@@ -609,12 +609,12 @@ void frmSettings::setDrawModeVectors(bool value)
 
 QString frmSettings::userCommands(int index)
 {
-    return this->findChild<QLineEdit*>(QString("txtUserCommand%1").arg(index))->text();
+    return this->findChild<QPlainTextEdit*>(QString("txtUserCommand%1").arg(index))->toPlainText();
 }
 
 void frmSettings::setUserCommands(int index, QString commands)
 {
-    this->findChild<QLineEdit*>(QString("txtUserCommand%1").arg(index))->setText(commands);
+    this->findChild<QPlainTextEdit*>(QString("txtUserCommand%1").arg(index))->setPlainText(commands);
 }
 
 bool frmSettings::ignoreErrors()

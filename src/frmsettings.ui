@@ -87,9 +87,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1496</y>
+         <y>-1023</y>
          <width>543</width>
-         <height>2271</height>
+         <height>2939</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -570,9 +570,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtUserCommand0">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+            <widget class="QPlainTextEdit" name="txtUserCommand0">
+             <property name="plainText">
+              <string/>
              </property>
              <property name="placeholderText">
               <string>Command 1; command 2; ...</string>
@@ -593,9 +593,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtUserCommand1">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+            <widget class="QPlainTextEdit" name="txtUserCommand1">
+             <property name="plainText">
+              <string/>
              </property>
              <property name="placeholderText">
               <string>Command 1; command 2; ...</string>
@@ -616,9 +616,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtUserCommand2">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+            <widget class="QPlainTextEdit" name="txtUserCommand2">
+             <property name="plainText">
+              <string/>
              </property>
              <property name="placeholderText">
               <string>Command 1; command 2; ...</string>
@@ -639,9 +639,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtUserCommand3">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+            <widget class="QPlainTextEdit" name="txtUserCommand3">
+             <property name="plainText">
+              <string/>
              </property>
              <property name="placeholderText">
               <string>Command 1; command 2; ...</string>
