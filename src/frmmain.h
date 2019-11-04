@@ -282,6 +282,7 @@ private:
     double m_storedX;
     double m_storedY;
     double m_storedZ;
+    QString m_storedCS;
     QString m_storedParserStatus;
 
     // Console window
@@ -338,7 +339,7 @@ private:
 
     // Script
     QScriptEngine m_scriptEngine;
-    ScriptVars m_scriptVars;
+    ScriptVars m_storedVars;
 
     void loadFile(QString fileName);
     void loadFile(QList<QString> data);
@@ -397,6 +398,7 @@ private:
     void updateOverride(SliderBox *slider, int value, char command);
     void jogStep();
     void updateJogTitle();
+    void setupCoordsTextboxes();
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
 };
