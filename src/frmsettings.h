@@ -148,6 +148,10 @@ private:
     QList<QColor> m_storedColors;
 
     QIntValidator m_intValidator;
+
+    int m_units;
+    int m_acceleration;
+    int m_rapidSpeed;
 };
 
 #endif // FRMSETTINGS_H

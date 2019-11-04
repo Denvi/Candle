@@ -87,9 +87,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1023</y>
+         <y>0</y>
          <width>543</width>
-         <height>2939</height>
+         <height>2914</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -100,49 +100,22 @@ QSplitter::handle:horizontal {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,1">
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Port:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="cboPort">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="cmdRefresh">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">padding: 0 1 0 2;</string>
-               </property>
-               <property name="text">
-                <string>...</string>
-               </property>
-               <property name="icon">
-                <iconset resource="images.qrc">
-                 <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
+            <layout class="QGridLayout" name="gridLayout_8" columnstretch="0,1,0,0,1">
+             <item row="0" column="3">
               <widget class="QLabel" name="label_2">
                <property name="text">
                 <string>Baud:</string>
                </property>
               </widget>
              </item>
-             <item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Port:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
               <widget class="QComboBox" name="cboBaud">
                <property name="editable">
                 <bool>true</bool>
@@ -182,6 +155,81 @@ QSplitter::handle:horizontal {
                </item>
               </widget>
              </item>
+             <item row="0" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+               <item>
+                <widget class="QComboBox" name="cboPort">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="cmdRefresh">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">padding: 0 1 0 2;</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="images.qrc">
+                   <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="2">
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>6</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>Status query period:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="4">
+              <widget class="QSpinBox" name="txtQueryStateTime">
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="maximum">
+                <number>9999</number>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>
@@ -217,8 +265,8 @@ QSplitter::handle:horizontal {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0,0,1">
-             <item row="2" column="1">
+            <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0,0">
+             <item row="1" column="1">
               <widget class="QSpinBox" name="txtSpindleSpeedMin">
                <property name="font">
                 <font>
@@ -236,125 +284,7 @@ QSplitter::handle:horizontal {
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>Status query period:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QSpinBox" name="txtQueryStateTime">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>9999</number>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <widget class="QComboBox" name="cboUnits">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <item>
-                <property name="text">
-                 <string>mm</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>inch</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>6</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="3">
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>Units:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Rapid speed:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="txtRapidSpeed">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>99999</number>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="3">
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>Acceleration:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="4">
-              <widget class="QSpinBox" name="txtAcceleration">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>99999</number>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
               <widget class="QLabel" name="label_13">
                <property name="text">
                 <string>max.:</string>
@@ -362,13 +292,20 @@ QSplitter::handle:horizontal {
               </widget>
              </item>
              <item row="2" column="0">
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>Laser power min.:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
               <widget class="QLabel" name="label_12">
                <property name="text">
                 <string>Spindle speed min.:</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="4">
+             <item row="1" column="4">
               <widget class="QSpinBox" name="txtSpindleSpeedMax">
                <property name="font">
                 <font>
@@ -386,14 +323,14 @@ QSplitter::handle:horizontal {
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_18">
+             <item row="2" column="3">
+              <widget class="QLabel" name="label_35">
                <property name="text">
-                <string>Laser power min.:</string>
+                <string>max.:</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
+             <item row="2" column="1">
               <widget class="QSpinBox" name="txtLaserPowerMin">
                <property name="font">
                 <font>
@@ -411,14 +348,7 @@ QSplitter::handle:horizontal {
                </property>
               </widget>
              </item>
-             <item row="3" column="3">
-              <widget class="QLabel" name="label_35">
-               <property name="text">
-                <string>max.:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="4">
+             <item row="2" column="4">
               <widget class="QSpinBox" name="txtLaserPowerMax">
                <property name="font">
                 <font>
@@ -435,6 +365,22 @@ QSplitter::handle:horizontal {
                 <number>99999</number>
                </property>
               </widget>
+             </item>
+             <item row="1" column="2">
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>6</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
@@ -1600,7 +1546,6 @@ QSplitter::handle:horizontal {
   <tabstop>scrollSettings</tabstop>
   <tabstop>cboPort</tabstop>
   <tabstop>cmdRefresh</tabstop>
-  <tabstop>cboBaud</tabstop>
   <tabstop>cboToolType</tabstop>
   <tabstop>txtToolAngle</tabstop>
   <tabstop>txtToolDiameter</tabstop>

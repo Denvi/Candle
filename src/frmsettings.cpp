@@ -366,12 +366,12 @@ void frmSettings::setLaserPowerMax(int value)
 
 int frmSettings::rapidSpeed()
 {
-    return ui->txtRapidSpeed->value();
+    return m_rapidSpeed;
 }
 
 void frmSettings::setRapidSpeed(int rapidSpeed)
 {
-    ui->txtRapidSpeed->setValue(rapidSpeed);
+    m_rapidSpeed = rapidSpeed;
 }
 
 int frmSettings::heightmapProbingFeed()
@@ -386,12 +386,12 @@ void frmSettings::setHeightmapProbingFeed(int heightmapProbingFeed)
 
 int frmSettings::acceleration()
 {
-    return ui->txtAcceleration->value();
+    return m_acceleration;
 }
 
 void frmSettings::setAcceleration(int acceleration)
 {
-    ui->txtAcceleration->setValue(acceleration);
+    m_acceleration = acceleration;
 }
 
 int frmSettings::queryStateTime()
@@ -466,12 +466,12 @@ void frmSettings::setAutoCompletion(bool autoCompletion)
 
 int frmSettings::units()
 {
-    return ui->cboUnits->currentIndex();
+    return m_units;
 }
 
 void frmSettings::setUnits(int units)
 {
-    ui->cboUnits->setCurrentIndex(units);
+    m_units = units;
 }
 
 QString frmSettings::touchCommand()

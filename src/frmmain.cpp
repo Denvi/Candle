@@ -1030,6 +1030,11 @@ void frmMain::onSerialPortReadyRead()
             // Update machine coordinates
             static QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
             if (mpx.indexIn(data) != -1) {
+                int prec = m_settings->units() == 0 ? 3 : 4;
+                ui->txtMPosX->setDecimals(prec);
+                ui->txtMPosY->setDecimals(prec);
+                ui->txtMPosZ->setDecimals(prec);
+
                 ui->txtMPosX->setValue(mpx.cap(1).toDouble());
                 ui->txtMPosY->setValue(mpx.cap(2).toDouble());
                 ui->txtMPosZ->setValue(mpx.cap(3).toDouble());
@@ -1344,6 +1349,23 @@ void frmMain::onSerialPortReadyRead()
                         }
                     }
 
+                    // Settings response
+                    if (ca.command == "$$" && ca.tableIndex == -2) {
+                        static QRegExp gs("\\$(\\d+)\\=([^;]+)\\; ");
+                        QMap<int, double> set;
+                        int p = 0;
+                        while ((p = gs.indexIn(response, p)) != -1) {
+                            set[gs.cap(1).toInt()] = gs.cap(2).toDouble();
+                            p += gs.matchedLength();
+                        }
+                        if (set.keys().contains(13)) m_settings->setUnits(set[13]);
+                        if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
+                        if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
+
+                        qDebug() << "GRBL settings:" << m_settings->units() << m_settings->rapidSpeed()
+                            << m_settings->acceleration();
+                    }
+
                     // Homing response
                     if ((ca.command.toUpper() == "$H" || ca.command.toUpper() == "$T") && m_homing) m_homing = false;
 
@@ -1351,6 +1373,9 @@ void frmMain::onSerialPortReadyRead()
                     if (ca.command == "[CTRL+X]") {
                         m_resetCompleted = true;
                         m_updateParserStatus = true;
+
+                        // Query grbl settings
+                        sendCommand("$$", -2, false);
                     }
 
                     // Clear command buffer on "M2" & "M30" command (old firmwares)
@@ -4121,7 +4146,7 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
 
 bool frmMain::compareCoordinates(double x, double y, double z)
 {
-    return ui->txtMPosX->text().toDouble() == x && ui->txtMPosY->text().toDouble() == y && ui->txtMPosZ->text().toDouble() == z;
+    return ui->txtMPosX->value() == x && ui->txtMPosY->value() == y && ui->txtMPosZ->value() == z;
 }
 
 void frmMain::onCmdUserClicked(bool checked)
