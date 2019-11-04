@@ -2748,7 +2748,7 @@ void frmMain::on_cmdRestoreOrigin_clicked()
     // TODO: Add G54-G59 offsets. (m_storedParserStatus, m_storedOffsets)
     m_storedVars.setCS(m_storedCS);
     sendCommand("$#", -1, m_settings->showUICommands());
-    sendCommand("{vars.CS}", -1, m_settings->showUICommands());
+    sendCommand("{vars.CS}", -1, m_settings->showUICommands(), true);
     sendCommand(QString("G21G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), 
@@ -2757,10 +2757,10 @@ void frmMain::on_cmdRestoreOrigin_clicked()
     // Move tool
     if (m_settings->moveOnRestore()) switch (m_settings->restoreMode()) {
     case 0:
-        sendCommand("G0X0Y0", -1, m_settings->showUICommands());
+        sendCommand("G0X0Y0", -1, m_settings->showUICommands(), true);
         break;
     case 1:
-        sendCommand("G0X0Y0Z0", -1, m_settings->showUICommands());
+        sendCommand("G0X0Y0Z0", -1, m_settings->showUICommands(), true);
         break;
     }
 }
