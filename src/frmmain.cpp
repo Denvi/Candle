@@ -2296,8 +2296,8 @@ void frmMain::restoreOffsets()
 
 void frmMain::storeOffsetsVars(QString response)
 {
-    static QRegExp gx("\\[(G5[4-9]|G28|G30|G92|PRB):([\\d\\.]+),([\\d\\.]+),([\\d\\.]+)");
-    static QRegExp tx("\\[(TLO):([\\d\\.]+)");
+    static QRegExp gx("\\[(G5[4-9]|G28|G30|G92|PRB):([\\d\\.\\-]+),([\\d\\.\\-]+),([\\d\\.\\-]+)");
+    static QRegExp tx("\\[(TLO):([\\d\\.\\-]+)");
 
     int p = 0;
     while ((p = gx.indexIn(response, p)) != -1) {
@@ -2747,11 +2747,12 @@ void frmMain::on_cmdRestoreOrigin_clicked()
 
     // TODO: Add G54-G59 offsets. (m_storedParserStatus, m_storedOffsets)
     m_storedVars.setCS(m_storedCS);
+    sendCommand("$#", -1, m_settings->showUICommands());
     sendCommand("{vars.CS}", -1, m_settings->showUICommands());
     sendCommand(QString("G21G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), 
-                                        -1, m_settings->showUICommands());
+                                        -1, m_settings->showUICommands(), true);
 
     // Move tool
     if (m_settings->moveOnRestore()) switch (m_settings->restoreMode()) {
@@ -4189,7 +4190,7 @@ QString frmMain::evaluateCommand(QString command)
     while (sx.indexIn(command) != -1) {
         // qDebug() << sx.cap(0) << command;
         v = m_scriptEngine.evaluate(sx.cap(1));
-        vs = v.isUndefined() ? "" : v.toString();
+        vs = v.isUndefined() ? "" : v.isNumber() ? QString::number(v.toNumber(), 'f', 4) : v.toString();
         command.replace(sx.cap(0), vs);
     }
     // qDebug() << "Evaluated command:" << command;
