@@ -1616,15 +1616,11 @@ void frmMain::showEvent(QShowEvent *se)
         }
     }
 #endif
-
-    ui->glwVisualizer->setUpdatesEnabled(true);
 }
 
 void frmMain::hideEvent(QHideEvent *he)
 {
     Q_UNUSED(he)
-
-    ui->glwVisualizer->setUpdatesEnabled(false);
 }
 
 void frmMain::resizeEvent(QResizeEvent *re)
@@ -2966,7 +2962,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
-    return QMainWindow::eventFilter(obj, event);
+    if (obj == this && event->type() == QEvent::WindowStateChange) {
+        ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+    }
+
+    return false;
 }
 
 bool frmMain::keyIsMovement(int key)
@@ -4079,4 +4079,9 @@ void frmMain::on_actOverrideSpindlePlus_triggered()
 void frmMain::on_actOverrideSpindleMinus_triggered()
 {
     ui->slbSpindleOverride->setSliderPosition(ui->slbSpindleOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
+{
+    ui->glwVisualizer->setUpdatesEnabled(visible);
 }

@@ -221,6 +221,12 @@ bool GLWidget::updatesEnabled() const
 void GLWidget::setUpdatesEnabled(bool updatesEnabled)
 {
     m_updatesEnabled = updatesEnabled;
+
+    if (updatesEnabled) {
+        m_timerPaint.start(m_vsync ? 0 : 1000 / m_targetFps, Qt::PreciseTimer, this);
+    } else {
+        m_timerPaint.stop();
+    }
 }
 
 bool GLWidget::zBuffer() const
@@ -327,13 +333,10 @@ void GLWidget::setColorBackground(const QColor &colorBackground)
     m_colorBackground = colorBackground;
 }
 
-
 void GLWidget::setFps(int fps)
 {
     if (fps <= 0) return;
     m_targetFps = fps;
-    m_timerPaint.stop();
-    m_timerPaint.start(m_vsync ? 0 : 1000 / fps, Qt::PreciseTimer, this);
 }
 
 QTime GLWidget::estimatedTime() const
@@ -574,7 +577,7 @@ void GLWidget::timerEvent(QTimerEvent *te)
     if (te->timerId() == m_timerPaint.timerId()) {
         if (m_animateView) viewAnimation();
 #ifndef GLES
-        if (m_updatesEnabled) update();
+        update();
 #endif
     } else {
 #ifdef GLES

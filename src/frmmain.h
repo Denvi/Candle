@@ -201,6 +201,8 @@ private slots:
     void on_actOverrideSpindlePlus_triggered();
     void on_actOverrideSpindleMinus_triggered();
 
+    void on_dockVisualizer_visibilityChanged(bool visible);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
