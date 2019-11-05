@@ -106,8 +106,6 @@ private slots:
     void onActRecentFileTriggered();
     void onCboCommandReturnPressed();
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
-    // void onConsoleResized(QSize size);
-    // void onPanelsSizeChanged(QSize size);
     void onCmdUserClicked(bool checked);
     void onOverridingToggled(bool checked);
     void onOverrideChanged();
@@ -152,7 +150,6 @@ private slots:
     void on_grpUserCommands_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
-    // void on_splitter_splitterMoved(int pos, int index);
     void on_actRecentClear_triggered();
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkHeightMapBorderShow_toggled(bool checked);
@@ -363,11 +360,9 @@ private:
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
-    QString feedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
     bool keyIsMovement(int key);
-    // void resizeCheckBoxes();
     void updateLayouts();
     void updateRecentFilesMenu();
     void addRecentFile(QString fileName);
@@ -394,7 +389,6 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
-    // int getConsoleMinHeight();
     void updateOverride(SliderBox *slider, int value, char command);
     void jogStep();
     void updateJogTitle();
