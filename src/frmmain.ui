@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1469</width>
-    <height>1015</height>
+    <height>1260</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -420,6 +420,7 @@ QLabel[overrided=&quot;false&quot;] {
      <addaction name="actViewPanelsModification"/>
      <addaction name="actViewPanelsVisualizer"/>
      <addaction name="actViewPanelsConsole"/>
+     <addaction name="actViewPanelsUser"/>
     </widget>
     <addaction name="mnuViewPanels"/>
    </widget>
@@ -457,14 +458,17 @@ QLabel[overrided=&quot;false&quot;] {
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
+       <widget class="DropWidget" name="scrollContentsModification">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
           <width>255</width>
-          <height>751</height>
+          <height>770</height>
          </rect>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="leftMargin">
@@ -525,6 +529,25 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
+          <widget class="QFrame" name="fraDropModification">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>2</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 2px solid blue;</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="GroupBox" name="grpHeightMap">
            <property name="title">
             <string>Heightmap</string>
@@ -562,6 +585,9 @@ QLabel[overrided=&quot;false&quot;] {
                 <widget class="QLineEdit" name="txtHeightMap">
                  <property name="focusPolicy">
                   <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="acceptDrops">
+                  <bool>false</bool>
                  </property>
                  <property name="text">
                   <string/>
@@ -1167,7 +1193,7 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="grpExpander2">
+          <widget class="QGroupBox" name="spacerModification">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -1220,14 +1246,17 @@ QLabel[overrided=&quot;false&quot;] {
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="scrollContentsDevice">
+       <widget class="DropWidget" name="scrollContentsDevice">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
           <width>320</width>
-          <height>878</height>
+          <height>897</height>
          </rect>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <property name="leftMargin">
@@ -1510,6 +1539,9 @@ QLabel[overrided=&quot;false&quot;] {
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="acceptDrops">
+                 <bool>false</bool>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">QLineEdit {color: palette(text);}</string>
                 </property>
@@ -1527,6 +1559,25 @@ QLabel[overrided=&quot;false&quot;] {
              </layout>
             </item>
            </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="fraDropDevice">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>2</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 2px solid blue;</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
           </widget>
          </item>
          <item>
@@ -2402,7 +2453,7 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="grpExpander1">
+          <widget class="QGroupBox" name="spacerDevice">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -2780,6 +2831,107 @@ padding-right: 8;</string>
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QDockWidget" name="dockUser">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::AllDockWidgetAreas</set>
+   </property>
+   <property name="windowTitle">
+    <string>User</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QVBoxLayout" name="verticalLayout_27">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QScrollArea" name="scrollArea_3">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="DropWidget" name="scrollContentsUser">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>320</width>
+          <height>106</height>
+         </rect>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_28">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="fraDropUser">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>2</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 2px solid blue;</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="spacerUser">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QGroupBox {
+	margin-top: 7;
+}</string>
+           </property>
+           <property name="title">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actFileNew">
    <property name="text">
     <string>&amp;New</string>
@@ -3144,9 +3296,26 @@ padding-right: 8;</string>
     <string>Spindle speed override</string>
    </property>
   </action>
+  <action name="actViewPanelsUser">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;User</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>GroupBox</class>
+   <extends>QGroupBox</extends>
+   <header location="global">widgets/groupbox.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>GLWidget</class>
    <extends>QWidget</extends>
@@ -3157,12 +3326,6 @@ padding-right: 8;</string>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header location="global">widgets/combobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">widgets/groupbox.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>StyledToolButton</class>
@@ -3182,6 +3345,12 @@ padding-right: 8;</string>
    <class>ComboBoxKey</class>
    <extends>QComboBox</extends>
    <header>widgets/comboboxkey.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DropWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/dropwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -3954,6 +4123,22 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>96</x>
      <y>1023</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actViewPanelsUser</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>dockUser</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>760</y>
     </hint>
    </hints>
   </connection>

@@ -29,7 +29,7 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.2.4b
+VERSION = 1.2.5b
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"
@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     widgets/sliderbox.cpp \
     drawers/selectiondrawer.cpp \
     widgets/comboboxkey.cpp \
-    scriptvars.cpp
+    scriptvars.cpp \
+    widgets/dropwidget.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -100,7 +101,8 @@ HEADERS  += frmmain.h \
     widgets/sliderbox.h \
     drawers/selectiondrawer.h \
     widgets/comboboxkey.h \
-    scriptvars.h
+    scriptvars.h \
+    widgets/dropwidget.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
@@ -112,3 +114,9 @@ DEFINES += _USE_MATH_DEFINES
 RESOURCES += \
     shaders.qrc \
     images.qrc
+
+CONFIG(release, debug|release) {
+    QMAKE_CXXFLAGS += -Z7 -Fdrelease\\candle.pdb
+    QMAKE_CFLAGS += -Z7 -Fdrelease\\candle.pdb
+    QMAKE_LFLAGS += /DEBUG /OPT:REF
+}

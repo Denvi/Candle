@@ -32,6 +32,7 @@
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
+#include "widgets/widgetmimedata.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -119,6 +120,11 @@ frmMain::frmMain(QWidget *parent) :
     m_settings = new frmSettings(this);
     ui->setupUi(this);
 
+    // Drop frames
+    ui->fraDropDevice->setVisible(false);
+    ui->fraDropModification->setVisible(false);
+    ui->fraDropUser->setVisible(false);
+
 #ifdef WINDOWS
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         m_taskBarButton = NULL;
@@ -149,6 +155,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->dockModification, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
     connect(ui->dockVisualizer, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
     connect(ui->dockConsole, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
+    connect(ui->dockUser, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
 
     ui->widgetHeightmapSettings->setVisible(false);
 
@@ -346,7 +353,6 @@ frmMain::frmMain(QWidget *parent) :
     addAction(ui->actOverrideSpindleMinus);
 
     addAction(ui->actConsoleClear);    
-
 
     // Handle file drop
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
@@ -556,6 +562,8 @@ void frmMain::loadSettings()
     ui->dockDevice->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
     ui->dockModification->setMinimumWidth(w);
     ui->dockModification->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockUser->setMinimumWidth(w);
+    ui->dockUser->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
 
         // Buttons
     int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
@@ -568,8 +576,15 @@ void frmMain::loadSettings()
     // style()->unpolish(this);
     ensurePolished();
     ui->dockDevice->setStyleSheet("");
+    ui->dockModification->setStyleSheet("");
+    ui->dockUser->setStyleSheet("");
 
     // Restore docks
+        // Panels
+    ui->scrollContentsDevice->restoreState(this, set.value("panelsDevice").toStringList());
+    ui->scrollContentsModification->restoreState(this, set.value("panelsModification").toStringList());
+    ui->scrollContentsUser->restoreState(this, set.value("panelsUser").toStringList());
+
         // Normal window state
     restoreState(set.value("formMainState").toByteArray());
 
@@ -582,7 +597,7 @@ void frmMain::loadSettings()
     setupCoordsTextboxes();
 
     // Settings form geometry
-    m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
+    // m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
     m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
 
     // Shortcuts
@@ -597,6 +612,8 @@ void frmMain::loadSettings()
         QAction *a = findChild<QAction*>(m.keys().at(i));
         if (a) a->setShortcuts(m.values().at(i));
     }
+
+    // TODO: ...
 
     m_settingsLoading = false;
 }
@@ -726,6 +743,11 @@ void frmMain::saveSettings()
     foreach (QAction *a, acts) m[a->objectName()] = a->shortcuts();
     s << m;
     set.setValue("shortcuts", ba);
+
+    // Panels
+    set.setValue("panelsDevice", QVariant::fromValue(ui->scrollContentsDevice->saveState()));
+    set.setValue("panelsModification", QVariant::fromValue(ui->scrollContentsModification->saveState()));
+    set.setValue("panelsUser", QVariant::fromValue(ui->scrollContentsUser->saveState()));
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -1629,9 +1651,6 @@ void frmMain::resizeEvent(QResizeEvent *re)
 
     placeVisualizerButtons();
     resizeTableHeightMapSections();
-
-    ui->dockDevice->setMinimumHeight(re->size().height() / 3);
-    ui->dockModification->setMinimumHeight(re->size().height() / 3);
 }
 
 void frmMain::resizeTableHeightMapSections()
@@ -1682,6 +1701,8 @@ void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 {
     if (m_processingFile) return;
 
+    if (dee->mimeData()->hasFormat("application/widget")) return;
+
     if (dee->mimeData()->hasFormat("text/plain") && !m_heightMapMode) dee->acceptProposedAction();
     else if (dee->mimeData()->hasFormat("text/uri-list") && dee->mimeData()->urls().count() == 1) {
         QString fileName = dee->mimeData()->urls().at(0).toLocalFile();
@@ -1718,6 +1739,11 @@ void frmMain::dropEvent(QDropEvent *de)
         updateRecentFilesMenu();
         loadHeightMap(fileName);
     }
+}
+
+void frmMain::mousePressEvent(QMouseEvent *e)
+{
+    // qDebug() << childAt(e->pos());
 }
 
 QMenu *frmMain::createPopupMenu()
@@ -2332,6 +2358,8 @@ void frmMain::on_actServiceSettings_triggered()
     table->resizeColumnsToContents();
     table->setMinimumHeight(table->rowHeight(0) * 10
         + table->horizontalHeader()->height() + table->frameWidth() * 2);
+    table->horizontalHeader()->setMinimumSectionSize(table->horizontalHeader()->sectionSize(2));
+    table->horizontalHeader()->setStretchLastSection(true);
 
     if (m_settings->exec()) {
         if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
@@ -2964,6 +2992,39 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
     if (obj == this && event->type() == QEvent::WindowStateChange) {
         ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+    }
+
+    if (obj->inherits("QGroupBox") && (obj->parent()->objectName() == "scrollContentsDevice"
+        || obj->parent()->objectName() == "scrollContentsModification"
+        || obj->parent()->objectName() == "scrollContentsUser")
+        && obj->objectName().startsWith("grp")) {
+
+        if (event->type() == QEvent::MouseButtonPress) {
+            
+            QMouseEvent *e = static_cast<QMouseEvent*>(event);
+            m_mousePressPos = e->pos();
+            qDebug() << m_mousePressPos;
+
+        } else if (event->type() == QEvent::MouseMove) {
+
+            QMouseEvent *e = static_cast<QMouseEvent*>(event);
+            int d = (e->pos() - m_mousePressPos).manhattanLength();
+
+            if (e->buttons() & Qt::LeftButton && d > QApplication::startDragDistance()) {
+                QDrag *drag = new QDrag(this);
+                WidgetMimeData *mimeData = new WidgetMimeData();
+
+                mimeData->setWidget(static_cast<QWidget*>(obj));
+                mimeData->setText(obj->objectName());
+
+                QPixmap *pix = new QPixmap(static_cast<QWidget*>(obj)->size());
+                static_cast<QWidget*>(obj)->render(pix);
+                
+                drag->setMimeData(mimeData);
+                drag->setPixmap(*pix);
+                drag->exec();
+            }
+        }
     }
 
     return false;
@@ -4019,6 +4080,7 @@ void frmMain::on_mnuViewPanels_aboutToShow()
     ui->actViewPanelsModification->setChecked(ui->dockModification->isVisible());
     ui->actViewPanelsVisualizer->setChecked(ui->dockVisualizer->isVisible());
     ui->actViewPanelsConsole->setChecked(ui->dockConsole->isVisible());
+    ui->actViewPanelsUser->setChecked(ui->dockUser->isVisible());
 }
 
 void frmMain::on_actJogStepNext_triggered()

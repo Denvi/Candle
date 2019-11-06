@@ -211,6 +211,7 @@ protected:
     void closeEvent(QCloseEvent *ce);
     void dragEnterEvent(QDragEnterEvent *dee);
     void dropEvent(QDropEvent *de);
+    void mousePressEvent(QMouseEvent *e);
     QMenu *createPopupMenu() override;
 
 private:
@@ -339,6 +340,9 @@ private:
     // Script
     QScriptEngine m_scriptEngine;
     ScriptVars m_storedVars;
+
+    // Drag & drop
+    QPoint m_mousePressPos;
 
     void loadFile(QString fileName);
     void loadFile(QList<QString> data);
