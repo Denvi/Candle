@@ -423,6 +423,9 @@ QLabel[overrided=&quot;false&quot;] {
      <addaction name="actViewPanelsUser"/>
     </widget>
     <addaction name="mnuViewPanels"/>
+    <addaction name="separator"/>
+    <addaction name="actViewLockWindows"/>
+    <addaction name="actViewLockPanels"/>
    </widget>
    <addaction name="mnuFile"/>
    <addaction name="menu_View"/>
@@ -2834,8 +2837,8 @@ padding-right: 8;</string>
   <widget class="QDockWidget" name="dockUser">
    <property name="minimumSize">
     <size>
-     <width>0</width>
-     <height>0</height>
+     <width>105</width>
+     <height>160</height>
     </size>
    </property>
    <property name="allowedAreas">
@@ -3305,6 +3308,22 @@ padding-right: 8;</string>
    </property>
    <property name="text">
     <string>&amp;User</string>
+   </property>
+  </action>
+  <action name="actViewLockWindows">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Lock windows</string>
+   </property>
+  </action>
+  <action name="actViewLockPanels">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>L&amp;ock panels</string>
    </property>
   </action>
  </widget>

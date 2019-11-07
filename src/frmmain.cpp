@@ -544,6 +544,10 @@ void frmMain::loadSettings()
     // Apply settings
     applySettings();
 
+    // Menu
+    ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
+    ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
+
     // Restore panels state
     ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
     ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
@@ -612,8 +616,6 @@ void frmMain::loadSettings()
         QAction *a = findChild<QAction*>(m.keys().at(i));
         if (a) a->setShortcuts(m.values().at(i));
     }
-
-    // TODO: ...
 
     m_settingsLoading = false;
 }
@@ -748,6 +750,10 @@ void frmMain::saveSettings()
     set.setValue("panelsDevice", QVariant::fromValue(ui->scrollContentsDevice->saveState()));
     set.setValue("panelsModification", QVariant::fromValue(ui->scrollContentsModification->saveState()));
     set.setValue("panelsUser", QVariant::fromValue(ui->scrollContentsUser->saveState()));
+
+    // Menu
+    set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
+    set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -2994,7 +3000,8 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
     }
 
-    if (obj->inherits("QGroupBox") && (obj->parent()->objectName() == "scrollContentsDevice"
+    if (!ui->actViewLockPanels->isChecked() && obj->inherits("QGroupBox") 
+        && (obj->parent()->objectName() == "scrollContentsDevice"
         || obj->parent()->objectName() == "scrollContentsModification"
         || obj->parent()->objectName() == "scrollContentsUser")
         && obj->objectName().startsWith("grp")) {
@@ -4146,4 +4153,13 @@ void frmMain::on_actOverrideSpindleMinus_triggered()
 void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
 {
     ui->glwVisualizer->setUpdatesEnabled(visible);
+}
+
+void frmMain::on_actViewLockWindows_toggled(bool checked)
+{
+    QList<QDockWidget*> dl = findChildren<QDockWidget*>();
+
+    foreach (QDockWidget *d, dl) {
+        d->setFeatures(checked ? QDockWidget::NoDockWidgetFeatures : QDockWidget::AllDockWidgetFeatures);
+    }
 }

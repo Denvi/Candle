@@ -203,6 +203,8 @@ private slots:
 
     void on_dockVisualizer_visibilityChanged(bool visible);
 
+    void on_actViewLockWindows_toggled(bool checked);
+
 protected:
     void showEvent(QShowEvent *se);
     void hideEvent(QHideEvent *he);
