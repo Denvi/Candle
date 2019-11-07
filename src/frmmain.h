@@ -293,8 +293,6 @@ private:
     int m_consolePureHeight;
 
     // Flags
-    bool m_settingZeroXY;
-    bool m_settingZeroZ;
     bool m_homing;
     bool m_updateSpindleSpeed;
     bool m_updateParserStatus;

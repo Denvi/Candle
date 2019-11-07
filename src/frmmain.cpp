@@ -91,8 +91,6 @@ frmMain::frmMain(QWidget *parent) :
     m_storedY = 0;
     m_storedZ = 0;
    
-    m_settingZeroXY = false;
-    m_settingZeroZ = false;
     m_homing = false;
     m_updateSpindleSpeed = false;
     m_updateParserStatus = false;
@@ -911,15 +909,17 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, b
     // Evaluate scripts in command
     if (tableIndex < 0) command = evaluateCommand(command);
 
+    command = command.toUpper();
+
     CommandAttributes ca;
     if (showInConsole) {
-        ui->txtConsole->appendPlainText(command.toUpper());
+        ui->txtConsole->appendPlainText(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
         ca.consoleIndex = -1;
     }
 
-    ca.command = command.toUpper();
+    ca.command = command;
     ca.length = command.length() + 1;
     ca.tableIndex = tableIndex;
 
@@ -937,6 +937,12 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, b
     // Set M2 & M30 commands sent flag
     if (command.contains(QRegExp("M0*2|M30"))) {
         m_fileEndSent = true;
+    }
+
+    // Queue offsets request on G92 command
+    if (ca.tableIndex == -1 && command.contains("G92")) {
+        m_storedCS = m_storedVars.CS();
+        sendCommand("$#", -3, showInConsole, true);
     }
 
     m_serialPort.write((command + "\r").toLatin1());
@@ -1299,23 +1305,13 @@ void frmMain::onSerialPortReadyRead()
                     // Offsets
                     if (ca.command == "$#") {
                         storeOffsetsVars(response);
-                    }
 
-                    // Store origin
-                    if (ca.command == "$#" && ca.tableIndex == -2) {
-                        static QRegExp g92(".*G92:([^,]*),([^,]*),([^\\]]*)");
-
-                        if (g92.indexIn(response) != -1) {
-                            if (m_settingZeroXY) {
-                                m_settingZeroXY = false;
-                                m_storedCS = m_storedVars.CS();
-                                m_storedX = toMetric(g92.cap(1).toDouble());
-                                m_storedY = toMetric(g92.cap(2).toDouble());
-                            } else if (m_settingZeroZ) {
-                                m_settingZeroZ = false;
-                                m_storedCS = m_storedVars.CS();
-                                m_storedZ = toMetric(g92.cap(3).toDouble());
-                            }
+                        // Save G92 offsets
+                        if (ca.tableIndex == -3) {
+                            QVector3D v = m_storedVars.coords("G92");
+                            m_storedX = v.x();
+                            m_storedY = v.y();
+                            m_storedZ = v.z();
                             ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
                         }
                     }
@@ -1987,6 +1983,8 @@ void frmMain::on_cmdFileSend_clicked()
 
     on_cmdFileReset_clicked();
 
+    m_startTime.start();
+
     m_transferCompleted = false;
     m_processingFile = true;
     m_fileEndSent = false;
@@ -2169,10 +2167,10 @@ void frmMain::restoreOffsets()
     // Still have pre-reset working position
     sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
                                        .arg(toMetric(ui->txtMPosY->value()))
-                                       .arg(toMetric(ui->txtMPosZ->value())), -1, m_settings->showUICommands());
+                                       .arg(toMetric(ui->txtMPosZ->value())), -2, m_settings->showUICommands());
     sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->value()))
                                        .arg(toMetric(ui->txtWPosY->value()))
-                                       .arg(toMetric(ui->txtWPosZ->value())), -1, m_settings->showUICommands());
+                                       .arg(toMetric(ui->txtWPosZ->value())), -2, m_settings->showUICommands());
 }
 
 void frmMain::storeOffsetsVars(QString response)
@@ -2587,18 +2585,12 @@ void frmMain::on_cmdTouch_clicked()
 
 void frmMain::on_cmdZeroXY_clicked()
 {
-    m_settingZeroXY = true;
     sendCommand("G92X0Y0", -1, m_settings->showUICommands());
-    sendCommand("$G", -2, m_settings->showUICommands());
-    sendCommand("$#", -2, m_settings->showUICommands(), true);
 }
 
 void frmMain::on_cmdZeroZ_clicked()
 {
-    m_settingZeroZ = true;
     sendCommand("G92Z0", -1, m_settings->showUICommands());
-    sendCommand("$G", -2, m_settings->showUICommands());
-    sendCommand("$#", -2, m_settings->showUICommands(), true);
 }
 
 void frmMain::on_cmdRestoreOrigin_clicked()
@@ -2606,24 +2598,24 @@ void frmMain::on_cmdRestoreOrigin_clicked()
     // Restore offset
     sendCommand(QString("G21G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
                                             .arg(toMetric(ui->txtMPosY->value()))
-                                            .arg(toMetric(ui->txtMPosZ->value())), -1, m_settings->showUICommands());
+                                            .arg(toMetric(ui->txtMPosZ->value())), -2, m_settings->showUICommands());
 
     m_storedVars.setCS(m_storedCS);
-    sendCommand("$#", -1, m_settings->showUICommands());
-    sendCommand("{vars.CS}", -1, m_settings->showUICommands(), true);
+    sendCommand("$#", -2, m_settings->showUICommands());
+    sendCommand("{vars.CS}", -2, m_settings->showUICommands(), true);
     sendCommand(QString("G21G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), 
-                                        -1, m_settings->showUICommands(), true);
+                                        -2, m_settings->showUICommands(), true);
 
     // Move tool
     if (m_settings->moveOnRestore()) switch (m_settings->restoreMode()) {
     case 0:
-        sendCommand("G0X0Y0", -1, m_settings->showUICommands(), true);
+        sendCommand("G0X0Y0", -2, m_settings->showUICommands(), true);
         break;
     case 1:
     
-        sendCommand("G0X0Y0Z0", -1, m_settings->showUICommands(), true);
+        sendCommand("G0X0Y0Z0", -2, m_settings->showUICommands(), true);
         break;
     }
 }
@@ -3941,7 +3933,8 @@ void frmMain::jogStep()
         int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
         double v = (double)speed / 60;                              // Rapid speed mm/sec
         int N = 15;                                                 // Planner blocks
-        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1)));      // Single jog command time
+        double tt = 0.002;                                          // Transfer time
+        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt; // Single jog command time
         double s = v * dt;                                          // Jog distance
 
         QVector3D vec = m_jogVector.normalized() * s;
