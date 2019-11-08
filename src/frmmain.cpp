@@ -617,6 +617,8 @@ void frmMain::loadSettings()
         if (a) a->setShortcuts(m.values().at(i));
     }
 
+    emit settingsLoaded();
+
     m_settingsLoading = false;
 }
 
@@ -760,6 +762,8 @@ void frmMain::saveSettings()
     // Menu
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
     set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
+
+    emit settingsSaved();
 }
 
 bool frmMain::saveChanges(bool heightMapMode)

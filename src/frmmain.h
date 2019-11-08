@@ -98,6 +98,8 @@ public:
 signals:
 
     void responseReceived(QString command, int tableIndex, QString response);
+    void settingsSaved();
+    void settingsLoaded();
 
 private slots:
     void updateHeightMapInterpolationDrawer(bool reset = false);
