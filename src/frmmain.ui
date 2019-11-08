@@ -412,16 +412,22 @@ QLabel[overrided=&quot;false&quot;] {
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="mnuViewPanels">
+    <widget class="QMenu" name="mnuViewWindows">
      <property name="title">
       <string>&amp;Windows</string>
      </property>
-     <addaction name="actViewPanelsDevice"/>
-     <addaction name="actViewPanelsModification"/>
-     <addaction name="actViewPanelsVisualizer"/>
-     <addaction name="actViewPanelsConsole"/>
-     <addaction name="actViewPanelsUser"/>
+     <addaction name="actViewWindowsDevice"/>
+     <addaction name="actViewWindowsModification"/>
+     <addaction name="actViewWindowsConsole"/>
+     <addaction name="actViewWindowsVisualizer"/>
+     <addaction name="actViewWindowsUser"/>
     </widget>
+    <widget class="QMenu" name="mnuViewPanels">
+     <property name="title">
+      <string>&amp;Panels</string>
+     </property>
+    </widget>
+    <addaction name="mnuViewWindows"/>
     <addaction name="mnuViewPanels"/>
     <addaction name="separator"/>
     <addaction name="actViewLockWindows"/>
@@ -2980,7 +2986,7 @@ padding-right: 8;</string>
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actViewPanelsDevice">
+  <action name="actViewWindowsDevice">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2991,7 +2997,7 @@ padding-right: 8;</string>
     <string>&amp;Device</string>
    </property>
   </action>
-  <action name="actViewPanelsModification">
+  <action name="actViewWindowsModification">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3002,7 +3008,7 @@ padding-right: 8;</string>
     <string>&amp;Modification</string>
    </property>
   </action>
-  <action name="actViewPanelsVisualizer">
+  <action name="actViewWindowsVisualizer">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3013,7 +3019,7 @@ padding-right: 8;</string>
     <string>&amp;Visualizer</string>
    </property>
   </action>
-  <action name="actViewPanelsConsole">
+  <action name="actViewWindowsConsole">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3299,7 +3305,7 @@ padding-right: 8;</string>
     <string>Spindle speed override</string>
    </property>
   </action>
-  <action name="actViewPanelsUser">
+  <action name="actViewWindowsUser">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3330,6 +3336,20 @@ padding-right: 8;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
+   <class>StyledToolButton</class>
+   <extends>QToolButton</extends>
+   <header>widgets/styledtoolbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SliderBox</class>
+   <extends>QWidget</extends>
+   <header>widgets/sliderbox.h</header>
+   <container>1</container>
+   <slots>
+    <slot>click()</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
    <class>GroupBox</class>
    <extends>QGroupBox</extends>
    <header location="global">widgets/groupbox.h</header>
@@ -3345,20 +3365,6 @@ padding-right: 8;</string>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header location="global">widgets/combobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>StyledToolButton</class>
-   <extends>QToolButton</extends>
-   <header location="global">widgets/styledtoolbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>SliderBox</class>
-   <extends>QWidget</extends>
-   <header>widgets/sliderbox.h</header>
-   <container>1</container>
-   <slots>
-    <slot>click()</slot>
-   </slots>
   </customwidget>
   <customwidget>
    <class>ComboBoxKey</class>
@@ -3426,7 +3432,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actViewPanelsDevice</sender>
+   <sender>actViewWindowsDevice</sender>
    <signal>triggered(bool)</signal>
    <receiver>dockDevice</receiver>
    <slot>setVisible(bool)</slot>
@@ -3442,7 +3448,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actViewPanelsModification</sender>
+   <sender>actViewWindowsModification</sender>
    <signal>triggered(bool)</signal>
    <receiver>dockModification</receiver>
    <slot>setVisible(bool)</slot>
@@ -3458,7 +3464,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actViewPanelsVisualizer</sender>
+   <sender>actViewWindowsVisualizer</sender>
    <signal>triggered(bool)</signal>
    <receiver>dockVisualizer</receiver>
    <slot>setVisible(bool)</slot>
@@ -3474,7 +3480,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actViewPanelsConsole</sender>
+   <sender>actViewWindowsConsole</sender>
    <signal>triggered(bool)</signal>
    <receiver>dockConsole</receiver>
    <slot>setVisible(bool)</slot>
@@ -4146,7 +4152,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actViewPanelsUser</sender>
+   <sender>actViewWindowsUser</sender>
    <signal>triggered(bool)</signal>
    <receiver>dockUser</receiver>
    <slot>setVisible(bool)</slot>

@@ -11,6 +11,17 @@ class SliderBox;
 class SliderBox : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(int value READ value WRITE setValue)
+    Q_PROPERTY(int currentValue READ currentValue WRITE setCurrentValue)
+    Q_PROPERTY(int sliderPosition READ sliderPosition WRITE setSliderPosition)
+    Q_PROPERTY(bool isCheckable READ isCheckable WRITE setCheckable)
+    Q_PROPERTY(bool isChecked READ isChecked WRITE setChecked)
+    Q_PROPERTY(int ratio READ ratio WRITE setRatio)
+    Q_PROPERTY(int minimum READ minimum WRITE setMinimum)
+    Q_PROPERTY(int maximum READ maximum WRITE setMaximum)
+    Q_PROPERTY(QString suffix READ suffix WRITE setSuffix)
+    Q_PROPERTY(QString title READ title WRITE setTitle)
+    
 public:
     explicit SliderBox(QWidget *parent = 0);
     ~SliderBox();

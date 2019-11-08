@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       = core gui opengl serialport script
+QT       = core gui opengl serialport script uitools
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32: {
@@ -29,7 +29,7 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.2.6b
+VERSION = 1.2.7b
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"
@@ -68,7 +68,8 @@ SOURCES += main.cpp\
     drawers/selectiondrawer.cpp \
     widgets/comboboxkey.cpp \
     scriptvars.cpp \
-    widgets/dropwidget.cpp
+    widgets/dropwidget.cpp \
+    widgets/uiloader.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -102,7 +103,8 @@ HEADERS  += frmmain.h \
     drawers/selectiondrawer.h \
     widgets/comboboxkey.h \
     scriptvars.h \
-    widgets/dropwidget.h
+    widgets/dropwidget.h \
+    widgets/uiloader.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \

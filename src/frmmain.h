@@ -17,6 +17,7 @@
 #include <QDropEvent>
 #include <QProgressDialog>
 #include <QScriptEngine>
+#include <QGroupBox>
 #include <exception>
 
 #include "parser/gcodeviewparse.h"
@@ -88,7 +89,13 @@ public:
     explicit frmMain(QWidget *parent = 0);
     ~frmMain();
 
+    Q_INVOKABLE void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    
     double toolZPosition();
+
+signals:
+
+    void responseReceived(QString command, int tableIndex, QString response);
 
 private slots:
     void updateHeightMapInterpolationDrawer(bool reset = false);
@@ -172,6 +179,7 @@ private slots:
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
     void on_cmdSpindle_clicked(bool checked);   
+    void on_mnuViewWindows_aboutToShow();
     void on_mnuViewPanels_aboutToShow();
 
     void on_cmdYPlus_pressed();
@@ -353,7 +361,6 @@ private:
     bool saveChanges(bool heightMapMode);
     void updateControlsState();
     void openPort();
-    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
     QString evaluateCommand(QString command);
     void grblReset();
     int bufferLength();
@@ -399,6 +406,8 @@ private:
     void jogStep();
     void updateJogTitle();
     void setupCoordsTextboxes();
+
+    void loadPlugins();
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
 };

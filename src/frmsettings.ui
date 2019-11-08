@@ -87,9 +87,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1850</y>
-         <width>433</width>
-         <height>2424</height>
+         <y>-1921</y>
+         <width>533</width>
+         <height>2776</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1144,50 +1144,6 @@ QSplitter::handle:horizontal {
             <widget class="QCheckBox" name="chkAutocompletion">
              <property name="text">
               <string>Command auto-completion</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="grpPanels">
-          <property name="title">
-           <string>Panels</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="chkPanelUserCommands">
-             <property name="text">
-              <string>User commands</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QCheckBox" name="chkPanelHeightmap">
-             <property name="text">
-              <string>Heightmap</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="chkPanelJog">
-             <property name="text">
-              <string>Jog</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="chkPanelSpindle">
-             <property name="text">
-              <string>Spindle</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="chkPanelOverriding">
-             <property name="text">
-              <string>Overriding</string>
              </property>
             </widget>
            </item>

@@ -16,6 +16,45 @@ class frmSettings;
 class frmSettings : public QDialog
 {
     Q_OBJECT
+    Q_PROPERTY(QString port READ port WRITE setPort)
+    Q_PROPERTY(int baud READ baud WRITE setBaud)
+    Q_PROPERTY(double toolDiameter READ toolDiameter WRITE setToolDiameter)
+    Q_PROPERTY(double toolLength READ toolLength WRITE setToolLength)
+    Q_PROPERTY(bool antialiasing READ antialiasing WRITE setAntialiasing)
+    Q_PROPERTY(bool zBuffer READ zBuffer WRITE setZBuffer)
+    Q_PROPERTY(double lineWidth READ lineWidth WRITE setLineWidth)
+    Q_PROPERTY(double arcLength READ arcLength WRITE setArcLength)
+    Q_PROPERTY(double arcDegree READ arcDegree WRITE setArcDegree)
+    Q_PROPERTY(bool arcDegreeMode READ arcDegreeMode WRITE setArcDegreeMode)
+    Q_PROPERTY(bool showProgramCommands READ showProgramCommands WRITE setShowProgramCommands)
+    Q_PROPERTY(bool showUICommands READ showUICommands WRITE setShowUICommands)
+    Q_PROPERTY(QString safePositionCommand READ safePositionCommand WRITE setSafePositionCommand)
+    Q_PROPERTY(bool moveOnRestore READ moveOnRestore WRITE setMoveOnRestore)
+    Q_PROPERTY(int restoreMode READ restoreMode WRITE setRestoreMode)
+    Q_PROPERTY(int spindleSpeedMin READ spindleSpeedMin WRITE setSpindleSpeedMin)
+    Q_PROPERTY(int spindleSpeedMax READ spindleSpeedMax WRITE setSpindleSpeedMax)
+    Q_PROPERTY(int laserPowerMin READ laserPowerMin WRITE setLaserPowerMin)
+    Q_PROPERTY(int laserPowerMax READ laserPowerMax WRITE setLaserPowerMax)
+    Q_PROPERTY(int rapidSpeed READ rapidSpeed WRITE setRapidSpeed)
+    Q_PROPERTY(int heightmapProbingFeed READ heightmapProbingFeed WRITE setHeightmapProbingFeed)
+    Q_PROPERTY(int acceleration READ acceleration WRITE setAcceleration)
+    Q_PROPERTY(int queryStateTime READ queryStateTime WRITE setQueryStateTime)
+    Q_PROPERTY(int toolType READ toolType WRITE setToolType)
+    Q_PROPERTY(double toolAngle READ toolAngle WRITE setToolAngle)
+    Q_PROPERTY(int fps READ fps WRITE setFps)
+    Q_PROPERTY(bool vsync READ vsync WRITE setVsync)
+    Q_PROPERTY(bool msaa READ msaa WRITE setMsaa)
+    Q_PROPERTY(bool autoCompletion READ autoCompletion WRITE setAutoCompletion)
+    Q_PROPERTY(bool units READ units WRITE setUnits)
+    Q_PROPERTY(QString touchCommand READ touchCommand WRITE setTouchCommand)
+    Q_PROPERTY(bool simplify READ simplify WRITE setSimplify)
+    Q_PROPERTY(double simplifyPrecision READ simplifyPrecision WRITE setSimplifyPrecision)
+    Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize)
+    Q_PROPERTY(bool grayscaleSegments READ grayscaleSegments WRITE setGrayscaleSegments)
+    Q_PROPERTY(bool grayscaleSCode READ grayscaleSCode WRITE setGrayscaleSCode)
+    Q_PROPERTY(bool drawModeVectors READ drawModeVectors WRITE setDrawModeVectors)
+    Q_PROPERTY(bool ignoreErrors READ ignoreErrors WRITE setIgnoreErrors)
+    Q_PROPERTY(bool autoLine READ autoLine WRITE setAutoLine)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -93,16 +132,6 @@ public:
     void setSimplify(bool simplify);
     double simplifyPrecision();
     void setSimplifyPrecision(double simplifyPrecision);
-    bool panelUserCommands();
-    void setPanelUserCommands(bool value);
-    bool panelHeightmap();
-    void setPanelHeightmap(bool panelHeightmap);
-    bool panelSpindle();
-    void setPanelSpindle(bool panelSpindle);
-    bool panelOverriding();
-    void setPanelOverriding(bool panelFeed);
-    bool panelJog();
-    void setPanelJog(bool panelJog);
     QList<ColorPicker*> colors();
     QColor colors(QString name);
     int fontSize();

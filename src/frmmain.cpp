@@ -33,6 +33,7 @@
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
+#include "widgets/uiloader.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -377,8 +378,6 @@ frmMain::frmMain(QWidget *parent) :
 
 frmMain::~frmMain()
 {    
-    saveSettings();
-
     delete m_senderErrorBox;
     delete ui;
 }
@@ -457,12 +456,6 @@ void frmMain::loadSettings()
     m_settings->setToolType(set.value("toolType", 0).toInt());
     m_settings->setFps(set.value("fps", 60).toInt());
     m_settings->setQueryStateTime(set.value("queryStateTime", 250).toInt());
-
-    m_settings->setPanelUserCommands(set.value("panelUserCommandsVisible", true).toBool());
-    m_settings->setPanelHeightmap(set.value("panelHeightmapVisible", true).toBool());
-    m_settings->setPanelSpindle(set.value("panelSpindleVisible", true).toBool());
-    m_settings->setPanelOverriding(set.value("panelOverridingVisible", true).toBool());
-    m_settings->setPanelJog(set.value("panelJogVisible", true).toBool());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -557,6 +550,9 @@ void frmMain::loadSettings()
     ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
     ui->cboCommand->setCurrentIndex(-1);
 
+    // Load plugins
+    loadPlugins();
+
     // Adjust docks width 
     int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
         ui->dockModification->widget()->sizeHint().width());
@@ -586,6 +582,12 @@ void frmMain::loadSettings()
     ui->scrollContentsDevice->restoreState(this, set.value("panelsDevice").toStringList());
     ui->scrollContentsModification->restoreState(this, set.value("panelsModification").toStringList());
     ui->scrollContentsUser->restoreState(this, set.value("panelsUser").toStringList());
+
+    QStringList hiddenPanels = set.value("hiddenPanels").toStringList();
+    foreach (QString s, hiddenPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setHidden(true);
+    }    
 
         // Normal window state
     restoreState(set.value("formMainState").toByteArray());
@@ -681,11 +683,6 @@ void frmMain::saveSettings()
     set.setValue("lastFolder", m_lastFolder);
     set.setValue("touchCommand", m_settings->touchCommand());
     set.setValue("safePositionCommand", m_settings->safePositionCommand());
-    set.setValue("panelUserCommandsVisible", m_settings->panelUserCommands());
-    set.setValue("panelHeightmapVisible", m_settings->panelHeightmap());
-    set.setValue("panelSpindleVisible", m_settings->panelSpindle());
-    set.setValue("panelOverridingVisible", m_settings->panelOverriding());
-    set.setValue("panelJogVisible", m_settings->panelJog());
     set.setValue("fontSize", m_settings->fontSize());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
@@ -748,6 +745,17 @@ void frmMain::saveSettings()
     set.setValue("panelsDevice", QVariant::fromValue(ui->scrollContentsDevice->saveState()));
     set.setValue("panelsModification", QVariant::fromValue(ui->scrollContentsModification->saveState()));
     set.setValue("panelsUser", QVariant::fromValue(ui->scrollContentsUser->saveState()));
+
+    QStringList panels;
+    QStringList hiddenPanels;
+    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
+    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
+    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
+    foreach (QString s, panels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b && b->isHidden()) hiddenPanels << s;
+    }    
+    set.setValue("hiddenPanels", hiddenPanels);
 
     // Menu
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
@@ -1422,6 +1430,9 @@ void frmMain::onSerialPortReadyRead()
                             ui->txtConsole->verticalScrollBar()->maximum());
                     }
 
+                    // Emit response signal
+                    emit responseReceived(ca.command, ca.tableIndex, response);
+
                     // Check queue
                     if (m_queue.length() > 0) {
                         CommandQueue cq = m_queue.takeFirst();
@@ -1697,6 +1708,8 @@ void frmMain::closeEvent(QCloseEvent *ce)
         m_commands.clear();
         m_queue.clear();
     }
+
+    saveSettings();
 }
 
 void frmMain::dragEnterEvent(QDragEnterEvent *dee)
@@ -2418,15 +2431,6 @@ void frmMain::applySettings() {
 
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
-
-    ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelOverriding()
-                               || m_settings->panelJog() || m_settings->panelSpindle());
-
-    ui->grpUserCommands->setVisible(m_settings->panelUserCommands());
-    ui->grpHeightMap->setVisible(m_settings->panelHeightmap());
-    ui->grpSpindle->setVisible(m_settings->panelSpindle());
-    ui->grpOverriding->setVisible(m_settings->panelOverriding());
-    ui->grpJog->setVisible(m_settings->panelJog());
 
     ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
 
@@ -3890,7 +3894,7 @@ void frmMain::onCmdUserClicked(bool checked)
 {
     int i = sender()->objectName().right(1).toInt();
 
-    QStringList list = m_settings->userCommands(i).remove("\n").split(";");
+    QStringList list = m_settings->userCommands(i).remove("\n").split(QRegExp(";(?![^\\{]+\\})"));
 
     foreach (QString cmd, list) {
         if (!cmd.isEmpty()) sendCommand(cmd.trimmed(), -1, m_settings->showUICommands(), list.indexOf(cmd));
@@ -3996,6 +4000,102 @@ void frmMain::setupCoordsTextboxes()
     ui->txtWPosZ->setMaximum(bound);    
 }
 
+void frmMain::loadPlugins()
+{
+    qDebug() << "loadPlugins";
+    QString pluginsDir = qApp->applicationDirPath() + "/plugins/";
+
+    UiLoader uiLoader;
+
+    // Get plugins list
+    QStringList pl = QDir(pluginsDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+
+    qDebug() << pl;
+
+    foreach (QString p, pl) {
+        // Config
+        QSettings set(pluginsDir + p + "/config.ini", QSettings::IniFormat);
+        QString title = set.value("title").toString();
+        QString name = set.value("name").toString();
+        qDebug() << "loading plugin:" << p << title;
+
+        // Translation
+        QString loc = QLocale().name().left(2);
+        QString translationFileName = pluginsDir + p + "/translation_" + loc + ".qm";
+        if(QFile::exists(translationFileName)) {
+            QTranslator *translator = new QTranslator();
+            if (translator->load(translationFileName)) qApp->installTranslator(translator);
+            else delete translator;
+        }        
+
+        // Ui
+        QWidget *widget = 0;
+        QFile f(pluginsDir + p + "/widget.ui");
+        if (f.open(QFile::ReadOnly)) {
+            // Load widget
+            uiLoader.setWorkingDirectory(pluginsDir + p);
+            widget = uiLoader.load(&f, this);
+            f.close();
+
+            // Create panel
+            GroupBox *box = new GroupBox(this);
+            QVBoxLayout *layout1 = new QVBoxLayout(box);
+            QWidget *bw = new QWidget(box);
+            QVBoxLayout *layout2 = new QVBoxLayout(bw);
+            box->setObjectName("grp" + name);
+            box->setTitle(tr(title.toLatin1()));
+            box->setLayout(layout1);
+            box->setCheckable(true);
+            box->setProperty("overrided", false);
+            layout1->addWidget(bw);
+            bw->setLayout(layout2);
+            layout2->addWidget(widget);
+            layout2->setMargin(0);
+            connect(box, &QGroupBox::toggled, bw, &QWidget::setVisible);
+
+            // Add panel to user window
+            static_cast<QVBoxLayout*>(ui->scrollContentsUser->layout())->insertWidget(0, box);
+        }
+
+        // Delegate actions to main form
+        QList<QAction*> acts = widget->findChildren<QAction*>();
+        foreach (QAction *a, acts) addAction(a);
+
+        // Script
+        f.setFileName(pluginsDir + p + "/script.js");
+        if (f.open(QFile::ReadOnly)) {
+            QScriptEngine *se = new QScriptEngine();
+
+            // Delegate Ui
+            if (widget) {
+                QScriptValue sw = se->newQObject(widget);
+                se->globalObject().setProperty("ui", sw);
+            }
+
+            // Main form
+            QScriptValue main = se->newQObject(this);
+            se->globalObject().setProperty("main", main);
+
+            // Settings
+            QScriptValue settings = se->newQObject(m_settings);
+            se->globalObject().setProperty("settings", settings);
+
+            // Stored vars
+            QScriptValue vars = se->newQObject(&m_storedVars);
+            se->globalObject().setProperty("vars", vars);
+
+            // Translator
+            se->installTranslatorFunctions();
+
+            // Run script
+            QString script = f.readAll();
+            qDebug() << "Running plugin:" << p <<  se->evaluate(script).toString();
+
+            f.close();
+        }
+    }
+}
+
 void frmMain::on_cmdYPlus_pressed()
 {
     m_jogVector += QVector3D(0, 1, 0);
@@ -4074,13 +4174,39 @@ void frmMain::on_cmdStop_clicked()
     m_serialPort.write(QByteArray(1, char(0x85)));
 }
 
+void frmMain::on_mnuViewWindows_aboutToShow()
+{
+    ui->actViewWindowsDevice->setChecked(ui->dockDevice->isVisible());
+    ui->actViewWindowsModification->setChecked(ui->dockModification->isVisible());
+    ui->actViewWindowsVisualizer->setChecked(ui->dockVisualizer->isVisible());
+    ui->actViewWindowsConsole->setChecked(ui->dockConsole->isVisible());
+    ui->actViewWindowsUser->setChecked(ui->dockUser->isVisible());
+}
+
 void frmMain::on_mnuViewPanels_aboutToShow()
 {
-    ui->actViewPanelsDevice->setChecked(ui->dockDevice->isVisible());
-    ui->actViewPanelsModification->setChecked(ui->dockModification->isVisible());
-    ui->actViewPanelsVisualizer->setChecked(ui->dockVisualizer->isVisible());
-    ui->actViewPanelsConsole->setChecked(ui->dockConsole->isVisible());
-    ui->actViewPanelsUser->setChecked(ui->dockUser->isVisible());
+    QAction *a;
+
+    ui->mnuViewPanels->clear();
+
+    QStringList panels;
+    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
+    if (ui->scrollContentsModification->isVisible()) panels << "\n" << ui->scrollContentsModification->saveState();
+    if (ui->scrollContentsUser->isVisible()) panels << "\n" << ui->scrollContentsUser->saveState();
+
+    foreach (QString s, panels) {
+        if (s == "\n") {
+            ui->mnuViewPanels->addSeparator();
+        } else {
+            QGroupBox *b = findChild<QGroupBox*>(s);
+            if (b) {
+                a = ui->mnuViewPanels->addAction(b->title());
+                a->setCheckable(true);
+                a->setChecked(b->isVisible());
+                connect(a, &QAction::triggered, b, &QWidget::setVisible);
+            }
+        }
+    }
 }
 
 void frmMain::on_actJogStepNext_triggered()

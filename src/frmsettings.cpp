@@ -504,56 +504,6 @@ void frmSettings::setSimplifyPrecision(double simplifyPrecision)
     ui->txtSimplifyPrecision->setValue(simplifyPrecision);
 }
 
-bool frmSettings::panelUserCommands()
-{
-    return ui->chkPanelUserCommands->isChecked();
-}
-
-void frmSettings::setPanelUserCommands(bool value)
-{
-    ui->chkPanelUserCommands->setChecked(value);
-}
-
-bool frmSettings::panelHeightmap()
-{
-    return ui->chkPanelHeightmap->isChecked();
-}
-
-void frmSettings::setPanelHeightmap(bool panelHeightmap)
-{
-    ui->chkPanelHeightmap->setChecked(panelHeightmap);
-}
-
-bool frmSettings::panelSpindle()
-{
-    return ui->chkPanelSpindle->isChecked();
-}
-
-void frmSettings::setPanelSpindle(bool panelSpindle)
-{
-    ui->chkPanelSpindle->setChecked(panelSpindle);
-}
-
-bool frmSettings::panelOverriding()
-{
-    return ui->chkPanelOverriding->isChecked();
-}
-
-void frmSettings::setPanelOverriding(bool panelFeed)
-{
-    ui->chkPanelOverriding->setChecked(panelFeed);
-}
-
-bool frmSettings::panelJog()
-{
-    return ui->chkPanelJog->isChecked();
-}
-
-void frmSettings::setPanelJog(bool panelJog)
-{
-    ui->chkPanelJog->setChecked(panelJog);
-}
-
 QList<ColorPicker *> frmSettings::colors()
 {
     return this->findChildren<ColorPicker*>();
@@ -721,11 +671,6 @@ void frmSettings::on_cmdDefaults_clicked()
 
     setShowProgramCommands(false);
     setAutoCompletion(true);
-
-    setPanelOverriding(true);
-    setPanelHeightmap(true);
-    setPanelJog(true);
-    setPanelSpindle(true);   
 
     ui->clpTool->setColor(QColor(255, 153, 0));
 
