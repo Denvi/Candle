@@ -337,6 +337,7 @@ void GLWidget::setFps(int fps)
 {
     if (fps <= 0) return;
     m_targetFps = fps;
+    setUpdatesEnabled(m_updatesEnabled);
 }
 
 QTime GLWidget::estimatedTime() const

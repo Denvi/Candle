@@ -4094,6 +4094,7 @@ void frmMain::loadPlugins()
             // Run script
             QString script = f.readAll();
             qDebug() << "Running plugin:" << p <<  se->evaluate(script).toString();
+            qDebug() << se->uncaughtExceptionBacktrace();
 
             f.close();
         }
