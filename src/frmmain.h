@@ -90,7 +90,9 @@ public:
     ~frmMain();
 
     Q_INVOKABLE void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
-    
+    Q_INVOKABLE void saveValue(QString key, QVariant value);
+    Q_INVOKABLE QVariant restoreValue(QString key);
+
     double toolZPosition();
 
 signals:

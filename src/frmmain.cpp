@@ -4096,6 +4096,22 @@ void frmMain::loadPlugins()
     }
 }
 
+void frmMain::saveValue(QString key, QVariant value)
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    set.setValue(key, value);
+}
+
+QVariant frmMain::restoreValue(QString key)
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    return set.value(key);
+}
+
 void frmMain::on_cmdYPlus_pressed()
 {
     m_jogVector += QVector3D(0, 1, 0);
