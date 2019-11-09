@@ -2182,12 +2182,17 @@ void frmMain::storeOffsets()
 void frmMain::restoreOffsets()
 {
     // Still have pre-reset working position
-    sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
-                                       .arg(toMetric(ui->txtMPosY->value()))
-                                       .arg(toMetric(ui->txtMPosZ->value())), -2, m_settings->showUICommands());
-    sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->value()))
-                                       .arg(toMetric(ui->txtWPosY->value()))
-                                       .arg(toMetric(ui->txtWPosZ->value())), -2, m_settings->showUICommands());
+    sendCommand(QString("%4G53G90X%1Y%2Z%3").arg(ui->txtMPosX->value())
+                                       .arg(ui->txtMPosY->value())
+                                       .arg(ui->txtMPosZ->value())
+                                       .arg(m_settings->units() ? "G20" : "G21"), 
+                                       -2, m_settings->showUICommands());
+
+    sendCommand(QString("%4G92X%1Y%2Z%3").arg(ui->txtWPosX->value())
+                                       .arg(ui->txtWPosY->value())
+                                       .arg(ui->txtWPosZ->value())
+                                       .arg(m_settings->units() ? "G20" : "G21"),
+                                       -2, m_settings->showUICommands());
 }
 
 void frmMain::storeOffsetsVars(QString response)
@@ -2604,16 +2609,20 @@ void frmMain::on_cmdZeroZ_clicked()
 void frmMain::on_cmdRestoreOrigin_clicked()
 {
     // Restore offset
-    sendCommand(QString("G21G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->value()))
-                                            .arg(toMetric(ui->txtMPosY->value()))
-                                            .arg(toMetric(ui->txtMPosZ->value())), -2, m_settings->showUICommands());
+    sendCommand(QString("%4G53G90G0X%1Y%2Z%3").arg(ui->txtMPosX->value())
+                                            .arg(ui->txtMPosY->value())
+                                            .arg(ui->txtMPosZ->value())
+                                            .arg(m_settings->units() ? "G20" : "G21"), 
+                                            -2, m_settings->showUICommands());
 
     m_storedVars.setCS(m_storedCS);
     sendCommand("$#", -2, m_settings->showUICommands());
     sendCommand("{vars.CS}", -2, m_settings->showUICommands(), true);
-    sendCommand(QString("G21G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
-                                        .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
-                                        .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), 
+    sendCommand(QString("%4G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}")
+                                        .arg(ui->txtMPosX->value() - m_storedX)
+                                        .arg(ui->txtMPosY->value() - m_storedY)
+                                        .arg(ui->txtMPosZ->value() - m_storedZ)
+                                        .arg(m_settings->units() ? "G20" : "G21"), 
                                         -2, m_settings->showUICommands(), true);
 
     // Move tool
