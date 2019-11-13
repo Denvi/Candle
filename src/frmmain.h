@@ -4,49 +4,49 @@
 #ifndef FRMMAIN_H
 #define FRMMAIN_H
 
-#include <QMainWindow>
-#include <QtSerialPort/QSerialPort>
-#include <QSettings>
-#include <QTimer>
 #include <QBasicTimer>
-#include <QStringList>
-#include <QList>
-#include <QTime>
-#include <QMenu>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QGroupBox>
+#include <QList>
+#include <QMainWindow>
+#include <QMenu>
 #include <QProgressDialog>
 #include <QScriptEngine>
-#include <QGroupBox>
+#include <QSettings>
+#include <QStringList>
+#include <QTime>
+#include <QTimer>
+#include <QtSerialPort/QSerialPort>
 #include <exception>
 
 #include "parser/gcodeviewparse.h"
 
-#include "drawers/origindrawer.h"
 #include "drawers/gcodedrawer.h"
-#include "drawers/tooldrawer.h"
 #include "drawers/heightmapborderdrawer.h"
 #include "drawers/heightmapgriddrawer.h"
 #include "drawers/heightmapinterpolationdrawer.h"
-#include "drawers/shaderdrawable.h"
+#include "drawers/origindrawer.h"
 #include "drawers/selectiondrawer.h"
+#include "drawers/shaderdrawable.h"
+#include "drawers/tooldrawer.h"
 
 #include "tables/gcodetablemodel.h"
 #include "tables/heightmaptablemodel.h"
 
 #include "utils/interpolation.h"
 
-#include "widgets/styledtoolbutton.h"
 #include "widgets/sliderbox.h"
+#include "widgets/styledtoolbutton.h"
 
-#include "frmsettings.h"
 #include "frmabout.h"
+#include "frmsettings.h"
 
 #include "scriptvars.h"
 
 #ifdef WINDOWS
-    #include <QtWinExtras/QtWinExtras>
-    #include "shobjidl.h"
+#include "shobjidl.h"
+#include <QtWinExtras/QtWinExtras>
 #endif
 
 namespace Ui {
@@ -81,16 +81,15 @@ public:
     }
 };
 
-class frmMain : public QMainWindow
-{
+class frmMain : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit frmMain(QWidget *parent = 0);
+    explicit frmMain(QWidget* parent = 0);
     ~frmMain();
 
     Q_INVOKABLE void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
-    Q_INVOKABLE void applySettings();    
+    Q_INVOKABLE void applySettings();
 
     double toolZPosition();
 
@@ -160,7 +159,7 @@ private slots:
     void on_grpJog_toggled(bool checked);
     void on_grpUserCommands_toggled(bool checked);
     void on_chkKeyboardControl_toggled(bool checked);
-    void on_tblProgram_customContextMenuRequested(const QPoint &pos);
+    void on_tblProgram_customContextMenuRequested(const QPoint& pos);
     void on_actRecentClear_triggered();
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkHeightMapBorderShow_toggled(bool checked);
@@ -182,7 +181,7 @@ private slots:
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
-    void on_cmdSpindle_clicked(bool checked);   
+    void on_cmdSpindle_clicked(bool checked);
     void on_mnuViewWindows_aboutToShow();
     void on_mnuViewPanels_aboutToShow();
 
@@ -218,29 +217,29 @@ private slots:
     void on_actViewLockWindows_toggled(bool checked);
 
 protected:
-    void showEvent(QShowEvent *se);
-    void hideEvent(QHideEvent *he);
-    void resizeEvent(QResizeEvent *re);
-    void timerEvent(QTimerEvent *);
-    void closeEvent(QCloseEvent *ce);
-    void dragEnterEvent(QDragEnterEvent *dee);
-    void dropEvent(QDropEvent *de);
-    void mousePressEvent(QMouseEvent *e);
-    QMenu *createPopupMenu() override;
+    void showEvent(QShowEvent* se);
+    void hideEvent(QHideEvent* he);
+    void resizeEvent(QResizeEvent* re);
+    void timerEvent(QTimerEvent*);
+    void closeEvent(QCloseEvent* ce);
+    void dragEnterEvent(QDragEnterEvent* dee);
+    void dropEvent(QDropEvent* de);
+    void mousePressEvent(QMouseEvent* e);
+    QMenu* createPopupMenu() override;
 
 private:
     static const int BUFFERLENGTH = 127;
 
-    Ui::frmMain *ui;
+    Ui::frmMain* ui;
 
     GcodeViewParse m_viewParser;
     GcodeViewParse m_probeParser;
 
-    OriginDrawer *m_originDrawer;
+    OriginDrawer* m_originDrawer;
 
-    GcodeDrawer *m_codeDrawer;    
-    GcodeDrawer *m_probeDrawer;
-    GcodeDrawer *m_currentDrawer;
+    GcodeDrawer* m_codeDrawer;
+    GcodeDrawer* m_probeDrawer;
+    GcodeDrawer* m_currentDrawer;
 
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
@@ -260,7 +259,7 @@ private:
 
     QSerialPort m_serialPort;
 
-    frmSettings *m_settings;
+    frmSettings* m_settings;
     frmAbout m_frmAbout;
 
     QString m_settingsFileName;
@@ -275,17 +274,17 @@ private:
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
 
-    QStringList m_status;
-    QStringList m_statusCaptions;
-    QStringList m_statusBackColors;
-    QStringList m_statusForeColors;
+    const QStringList m_status;
+    const QStringList m_statusCaptions;
+    const QStringList m_statusBackColors;
+    const QStringList m_statusForeColors;
 
 #ifdef WINDOWS
-    QWinTaskbarButton *m_taskBarButton;
-    QWinTaskbarProgress *m_taskBarProgress;
+    QWinTaskbarButton* m_taskBarButton;
+    QWinTaskbarProgress* m_taskBarProgress;
 #endif
 
-    QMenu *m_tableMenu;
+    QMenu* m_tableMenu;
     QList<CommandAttributes> m_commands;
     QList<CommandQueue> m_queue;
     QTime m_startTime;
@@ -374,10 +373,10 @@ private:
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
 
-    QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
-    bool saveProgramToFile(QString fileName, GCodeTableModel *model);
+    QTime updateProgramEstimatedTime(QList<LineSegment*> lines);
+    bool saveProgramToFile(QString fileName, GCodeTableModel* model);
 
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject* obj, QEvent* event);
     bool keyIsMovement(int key);
     void updateLayouts();
     void updateRecentFilesMenu();
@@ -392,8 +391,8 @@ private:
     void loadHeightMap(QString fileName);
     bool saveHeightMap(QString fileName);
 
-    GCodeTableModel *m_currentModel;
-    QList<LineSegment *> subdivideSegment(LineSegment *segment);
+    GCodeTableModel* m_currentModel;
+    QList<LineSegment*> subdivideSegment(LineSegment* segment);
     void resizeTableHeightMapSections();
     void updateHeightMapGrid(double arg1);
     void resetHeightmap();
@@ -405,14 +404,14 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     bool compareCoordinates(double x, double y, double z);
-    void updateOverride(SliderBox *slider, int value, char command);
+    void updateOverride(SliderBox* slider, int value, char command);
     void jogStep();
     void updateJogTitle();
     void setupCoordsTextboxes();
 
     void loadPlugins();
 
-    static bool actionLessThan(const QAction *a1, const QAction *a2);
+    static bool actionLessThan(const QAction* a1, const QAction* a2);
 };
 
 typedef QMap<QString, QList<QKeySequence>> ShortcutsMap;
