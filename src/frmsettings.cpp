@@ -3,30 +3,34 @@
 
 #include "frmsettings.h"
 #include "ui_frmsettings.h"
+#include <QColorDialog>
+#include <QDebug>
+#include <QKeyEvent>
+#include <QKeySequenceEdit>
+#include <QScrollBar>
+#include <QStyledItemDelegate>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include <QDebug>
-#include <QScrollBar>
-#include <QColorDialog>
-#include <QStyledItemDelegate>
-#include <QKeySequenceEdit>
-#include <QKeyEvent>
 
-class CustomKeySequenceEdit : public QKeySequenceEdit
-{
+class CustomKeySequenceEdit : public QKeySequenceEdit {
 public:
-    explicit CustomKeySequenceEdit(QWidget *parent = 0): QKeySequenceEdit(parent) {}
+    explicit CustomKeySequenceEdit(QWidget* parent = 0)
+        : QKeySequenceEdit(parent)
+    {
+    }
     ~CustomKeySequenceEdit() {}
 
 protected:
-    void keyPressEvent(QKeyEvent *pEvent) {
+    void keyPressEvent(QKeyEvent* pEvent)
+    {
         QKeySequenceEdit::keyPressEvent(pEvent);
         QString s = keySequence().toString().split(", ").first();
 
         QString shiftedKeys = "~!@#$%^&*()_+{}|:?><\"";
         QString key = s.right(1);
-        
-        if (pEvent->modifiers() & Qt::KeypadModifier) s = "Num+" + s;
+
+        if (pEvent->modifiers() & Qt::KeypadModifier)
+            s = "Num+" + s;
         else if (!key.isEmpty() && shiftedKeys.contains(key)) {
             s.remove("Shift+");
             s = s.left(s.size() - 1) + QString("Shift+%1").arg(key);
@@ -37,30 +41,29 @@ protected:
     }
 };
 
-class ShortcutDelegate: public QStyledItemDelegate
-{
+class ShortcutDelegate : public QStyledItemDelegate {
 public:
     ShortcutDelegate() {}
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
     {
         return new CustomKeySequenceEdit(parent);
     }
 
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override
+    void setEditorData(QWidget* editor, const QModelIndex& index) const override
     {
         static_cast<QKeySequenceEdit*>(editor)->setKeySequence(index.data(Qt::DisplayRole).toString());
     }
 
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override
+    void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override
     {
         model->setData(index, static_cast<QKeySequenceEdit*>(editor)->keySequence().toString());
     }
 };
 
-frmSettings::frmSettings(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::frmSettings)
+frmSettings::frmSettings(QWidget* parent)
+    : QDialog(parent)
+    , ui(new Ui::frmSettings)
 {
     ui->setupUi(this);
 
@@ -70,7 +73,7 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->cboFps->setValidator(&m_intValidator);
     ui->cboFontSize->setValidator(&m_intValidator);
 
-    foreach (QGroupBox *box, this->findChildren<QGroupBox*>()) {
+    foreach (QGroupBox* box, this->findChildren<QGroupBox*>()) {
         ui->listCategories->addItem(box->title());
         ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
     }
@@ -143,21 +146,21 @@ void frmSettings::undo()
         o->setPlainText(m_storedPlainTexts.takeFirst());
 }
 
-void frmSettings::addCustomSettings(GroupBox *box)
+void frmSettings::addCustomSettings(GroupBox* box)
 {
     static_cast<QVBoxLayout*>(ui->scrollAreaWidgetContents->layout())->addWidget(box);
-    
+
     ui->listCategories->addItem(box->title());
     ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
 
     m_customSettings.append(box);
 }
 
-void frmSettings::saveCustomSettings(QSettings &set)
+void frmSettings::saveCustomSettings(QSettings& set)
 {
     set.beginGroup("Plugins");
 
-    foreach (QWidget *w, m_customSettings) {
+    foreach (QWidget* w, m_customSettings) {
 
         set.beginGroup(w->objectName());
 
@@ -179,17 +182,17 @@ void frmSettings::saveCustomSettings(QSettings &set)
         foreach (QPlainTextEdit* o, w->findChildren<QPlainTextEdit*>())
             set.setValue(o->objectName(), o->toPlainText());
 
-        set.endGroup(); 
+        set.endGroup();
     }
 
     set.endGroup();
 }
 
-void frmSettings::loadCustomSettings(QSettings &set)
+void frmSettings::loadCustomSettings(QSettings& set)
 {
     set.beginGroup("Plugins");
 
-    foreach (QWidget *w, m_customSettings) {
+    foreach (QWidget* w, m_customSettings) {
 
         set.beginGroup(w->objectName());
 
@@ -211,16 +214,119 @@ void frmSettings::loadCustomSettings(QSettings &set)
         foreach (QPlainTextEdit* o, w->findChildren<QPlainTextEdit*>())
             o->setPlainText(set.value(o->objectName()).toString());
 
-        set.endGroup(); 
+        set.endGroup();
     }
 
     set.endGroup();
 }
 
+void frmSettings::loadSettings(const QSettings& set)
+{
+    setFontSize(set.value("fontSize", 8).toInt());
+    setPort(set.value("port").toString());
+    setBaud(set.value("baud").toInt());
+    setIgnoreErrors(set.value("ignoreErrors", false).toBool());
+    setAutoLine(set.value("autoLine", true).toBool());
+    setToolDiameter(set.value("toolDiameter", 3).toDouble());
+    setToolLength(set.value("toolLength", 15).toDouble());
+    setAntialiasing(set.value("antialiasing", true).toBool());
+    setMsaa(set.value("msaa", true).toBool());
+    setVsync(set.value("vsync", false).toBool());
+    setZBuffer(set.value("zBuffer", false).toBool());
+    setSimplify(set.value("simplify", false).toBool());
+    setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
+    setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
+    setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
+    setDrawModeVectors(set.value("drawModeVectors", true).toBool());
+    setMoveOnRestore(set.value("moveOnRestore", false).toBool());
+    setRestoreMode(set.value("restoreMode", 0).toInt());
+    setLineWidth(set.value("lineWidth", 1).toDouble());
+    setArcLength(set.value("arcLength", 0).toDouble());
+    setArcDegree(set.value("arcDegree", 0).toDouble());
+    setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
+    setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
+    setShowUICommands(set.value("showUICommands", 0).toBool());
+    setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
+    setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
+    setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
+    setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
+    setRapidSpeed(set.value("rapidSpeed", 0).toInt());
+    setHeightmapProbingFeed(set.value("heightmapProbingFeed", 0).toInt());
+    setAcceleration(set.value("acceleration", 10).toInt());
+    setToolAngle(set.value("toolAngle", 0).toDouble());
+    setToolType(set.value("toolType", 0).toInt());
+    setFps(set.value("fps", 60).toInt());
+    setQueryStateTime(set.value("queryStateTime", 250).toInt());
+
+    setUnits(set.value("units", 0).toInt());
+
+    setAutoCompletion(set.value("autoCompletion", true).toBool());
+    setTouchCommand(set.value("touchCommand").toString());
+    setSafePositionCommand(set.value("safePositionCommand").toString());
+
+    foreach (ColorPicker* pick, colors()) {
+        pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
+    }
+}
+
+void frmSettings::saveSettings(QSettings& set)
+{
+    set.setValue("port", port());
+    set.setValue("baud", baud());
+    set.setValue("ignoreErrors", ignoreErrors());
+    set.setValue("autoLine", autoLine());
+    set.setValue("toolDiameter", toolDiameter());
+    set.setValue("toolLength", toolLength());
+    set.setValue("antialiasing", antialiasing());
+    set.setValue("msaa", msaa());
+    set.setValue("vsync", vsync());
+    set.setValue("zBuffer", zBuffer());
+    set.setValue("simplify", simplify());
+    set.setValue("simplifyPrecision", simplifyPrecision());
+    set.setValue("grayscaleSegments", grayscaleSegments());
+    set.setValue("grayscaleSCode", grayscaleSCode());
+    set.setValue("drawModeVectors", drawModeVectors());
+
+    set.setValue("lineWidth", lineWidth());
+    set.setValue("arcLength", arcLength());
+    set.setValue("arcDegree", arcDegree());
+    set.setValue("arcDegreeMode", arcDegreeMode());
+    set.setValue("showProgramCommands", showProgramCommands());
+    set.setValue("showUICommands", showUICommands());
+    set.setValue("spindleSpeedMin", spindleSpeedMin());
+    set.setValue("spindleSpeedMax", spindleSpeedMax());
+    set.setValue("laserPowerMin", laserPowerMin());
+    set.setValue("laserPowerMax", laserPowerMax());
+    set.setValue("moveOnRestore", moveOnRestore());
+    set.setValue("restoreMode", restoreMode());
+    set.setValue("rapidSpeed", rapidSpeed());
+    set.setValue("heightmapProbingFeed", heightmapProbingFeed());
+    set.setValue("acceleration", acceleration());
+    set.setValue("toolAngle", toolAngle());
+    set.setValue("toolType", toolType());
+    set.setValue("fps", fps());
+    set.setValue("queryStateTime", queryStateTime());
+
+    set.setValue("settingsSplitMain", ui->splitMain->saveState());
+    set.setValue("formGeometry", this->saveGeometry());
+    set.setValue("formSettingsGeometry", saveGeometry());
+
+    set.setValue("autoCompletion", autoCompletion());
+    set.setValue("units", units());
+
+    set.setValue("touchCommand", touchCommand());
+    set.setValue("safePositionCommand", safePositionCommand());
+    set.setValue("fontSize", fontSize());
+
+    foreach (ColorPicker* pick, colors()) {
+        set.setValue(pick->objectName().mid(3), pick->color().name());
+    }
+}
+
 void frmSettings::on_listCategories_currentRowChanged(int currentRow)
 {
     // Scroll to selected groupbox
-    QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(currentRow)->data(Qt::UserRole).toString());
+    QGroupBox* box = this->findChild<QGroupBox*>(ui->listCategories->item(currentRow)->data(Qt::UserRole).toString());
     if (box) {
         ui->scrollSettings->ensureWidgetVisible(box);
     }
@@ -232,7 +338,7 @@ void frmSettings::onScrollBarValueChanged(int value)
 
     // Search for first full visible groupbox
     for (int i = 0; i < ui->listCategories->count(); i++) {
-        QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(i)->data(Qt::UserRole).toString());
+        QGroupBox* box = this->findChild<QGroupBox*>(ui->listCategories->item(i)->data(Qt::UserRole).toString());
         if (box) {
             if (!box->visibleRegion().isEmpty() && box->visibleRegion().boundingRect().y() == 0) {
                 // Select corresponding item in categories list
@@ -578,15 +684,18 @@ void frmSettings::setSimplifyPrecision(double simplifyPrecision)
     ui->txtSimplifyPrecision->setValue(simplifyPrecision);
 }
 
-QList<ColorPicker *> frmSettings::colors()
+QList<ColorPicker*> frmSettings::colors()
 {
     return this->findChildren<ColorPicker*>();
 }
 
 QColor frmSettings::colors(QString name)
 {
-    ColorPicker *pick = this->findChildren<ColorPicker*>("clp" + name).at(0);
-    if (pick) return pick->color(); else return QColor();
+    ColorPicker* pick = this->findChildren<ColorPicker*>("clp" + name).at(0);
+    if (pick)
+        return pick->color();
+    else
+        return QColor();
 }
 
 int frmSettings::fontSize()
@@ -661,7 +770,7 @@ void frmSettings::setAutoLine(bool value)
     ui->chkAutoLine->setChecked(value);
 }
 
-void frmSettings::showEvent(QShowEvent *se)
+void frmSettings::showEvent(QShowEvent* se)
 {
     Q_UNUSED(se)
 
@@ -672,8 +781,8 @@ void frmSettings::searchPorts()
 {
     ui->cboPort->clear();
 
-    foreach (QSerialPortInfo info ,QSerialPortInfo::availablePorts()) {
-//        ui->cboPort->addItem(info.portName());
+    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
+        //        ui->cboPort->addItem(info.portName());
         ui->cboPort->insertItem(0, info.portName());
     }
 }
@@ -702,7 +811,9 @@ void frmSettings::on_cboToolType_currentIndexChanged(int index)
 void frmSettings::on_cmdDefaults_clicked()
 {
     if (QMessageBox::warning(this, qApp->applicationDisplayName(), tr("Reset settings to default values?"),
-                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
+            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel)
+        != QMessageBox::Yes)
+        return;
 
     setPort("");
     setBaud(115200);
@@ -781,8 +892,8 @@ void frmSettings::on_cmdDefaults_clicked()
     d["actSpindleOnOff"] = "Num+0";
     d["actSpindleSpeedPlus"] = "Num+*";
     d["actSpindleSpeedMinus"] = "Num+/";
-    
-    QTableWidget *table = ui->tblShortcuts;
+
+    QTableWidget* table = ui->tblShortcuts;
 
     for (int i = 0; i < table->rowCount(); i++) {
         QString s = table->item(i, 0)->data(Qt::DisplayRole).toString();
@@ -790,7 +901,7 @@ void frmSettings::on_cmdDefaults_clicked()
     }
 }
 
-void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
+void frmSettings::on_cboFontSize_currentTextChanged(const QString& arg1)
 {
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }

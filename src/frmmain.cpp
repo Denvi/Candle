@@ -383,41 +383,7 @@ void frmMain::loadSettings()
 
     m_settingsLoading = true;
 
-    m_settings->setFontSize(set.value("fontSize", 8).toInt());
-    m_settings->setPort(set.value("port").toString());
-    m_settings->setBaud(set.value("baud").toInt());
-    m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
-    m_settings->setAutoLine(set.value("autoLine", true).toBool());
-    m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
-    m_settings->setToolLength(set.value("toolLength", 15).toDouble());
-    m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
-    m_settings->setMsaa(set.value("msaa", true).toBool());
-    m_settings->setVsync(set.value("vsync", false).toBool());
-    m_settings->setZBuffer(set.value("zBuffer", false).toBool());
-    m_settings->setSimplify(set.value("simplify", false).toBool());
-    m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
-    m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
-    m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
-    m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
-    m_settings->setMoveOnRestore(set.value("moveOnRestore", false).toBool());
-    m_settings->setRestoreMode(set.value("restoreMode", 0).toInt());
-    m_settings->setLineWidth(set.value("lineWidth", 1).toDouble());
-    m_settings->setArcLength(set.value("arcLength", 0).toDouble());
-    m_settings->setArcDegree(set.value("arcDegree", 0).toDouble());
-    m_settings->setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
-    m_settings->setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
-    m_settings->setShowUICommands(set.value("showUICommands", 0).toBool());
-    m_settings->setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
-    m_settings->setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
-    m_settings->setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
-    m_settings->setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
-    m_settings->setRapidSpeed(set.value("rapidSpeed", 0).toInt());
-    m_settings->setHeightmapProbingFeed(set.value("heightmapProbingFeed", 0).toInt());
-    m_settings->setAcceleration(set.value("acceleration", 10).toInt());
-    m_settings->setToolAngle(set.value("toolAngle", 0).toDouble());
-    m_settings->setToolType(set.value("toolType", 0).toInt());
-    m_settings->setFps(set.value("fps", 60).toInt());
-    m_settings->setQueryStateTime(set.value("queryStateTime", 250).toInt());
+    m_settings->loadSettings(set);
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -435,7 +401,6 @@ void frmMain::loadSettings()
     ui->slbSpindleOverride->setChecked(set.value("spindleOverride", false).toBool());
     ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
 
-    m_settings->setUnits(set.value("units", 0).toInt());
     m_storedX = set.value("storedX", 0).toDouble();
     m_storedY = set.value("storedY", 0).toDouble();
     m_storedZ = set.value("storedZ", 0).toDouble();
@@ -454,10 +419,6 @@ void frmMain::loadSettings()
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
-
-    m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
-    m_settings->setTouchCommand(set.value("touchCommand").toString());
-    m_settings->setSafePositionCommand(set.value("safePositionCommand").toString());
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
         int i = button->objectName().right(1).toInt();
@@ -485,10 +446,6 @@ void frmMain::loadSettings()
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
-
-    foreach (ColorPicker* pick, m_settings->colors()) {
-        pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
-    }
 
     updateRecentFilesMenu();
 
@@ -534,9 +491,9 @@ void frmMain::loadSettings()
     int c = b * 0.8;
     setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
                                          min-width: %1px;\n\
-                  min-height: %1px;\n\
-            qproperty-iconSize: %2px;\n\
-}")
+                                         min-height: %1px;\n\
+                                         qproperty-iconSize: %2px;\n\
+                                      }")
                                      .arg(b)
                                      .arg(c));
     // style()->unpolish(this);
@@ -595,55 +552,19 @@ void frmMain::saveSettings()
     QSettings set(m_settingsFileName, QSettings::IniFormat);
     set.setIniCodec("UTF-8");
 
-    set.setValue("port", m_settings->port());
-    set.setValue("baud", m_settings->baud());
-    set.setValue("ignoreErrors", m_settings->ignoreErrors());
-    set.setValue("autoLine", m_settings->autoLine());
-    set.setValue("toolDiameter", m_settings->toolDiameter());
-    set.setValue("toolLength", m_settings->toolLength());
-    set.setValue("antialiasing", m_settings->antialiasing());
-    set.setValue("msaa", m_settings->msaa());
-    set.setValue("vsync", m_settings->vsync());
-    set.setValue("zBuffer", m_settings->zBuffer());
-    set.setValue("simplify", m_settings->simplify());
-    set.setValue("simplifyPrecision", m_settings->simplifyPrecision());
-    set.setValue("grayscaleSegments", m_settings->grayscaleSegments());
-    set.setValue("grayscaleSCode", m_settings->grayscaleSCode());
-    set.setValue("drawModeVectors", m_settings->drawModeVectors());
+    m_settings->saveSettings(set);
 
     set.setValue("spindleSpeed", ui->slbSpindle->value());
-    set.setValue("lineWidth", m_settings->lineWidth());
-    set.setValue("arcLength", m_settings->arcLength());
-    set.setValue("arcDegree", m_settings->arcDegree());
-    set.setValue("arcDegreeMode", m_settings->arcDegreeMode());
-    set.setValue("showProgramCommands", m_settings->showProgramCommands());
-    set.setValue("showUICommands", m_settings->showUICommands());
-    set.setValue("spindleSpeedMin", m_settings->spindleSpeedMin());
-    set.setValue("spindleSpeedMax", m_settings->spindleSpeedMax());
-    set.setValue("laserPowerMin", m_settings->laserPowerMin());
-    set.setValue("laserPowerMax", m_settings->laserPowerMax());
-    set.setValue("moveOnRestore", m_settings->moveOnRestore());
-    set.setValue("restoreMode", m_settings->restoreMode());
-    set.setValue("rapidSpeed", m_settings->rapidSpeed());
-    set.setValue("heightmapProbingFeed", m_settings->heightmapProbingFeed());
-    set.setValue("acceleration", m_settings->acceleration());
-    set.setValue("toolAngle", m_settings->toolAngle());
-    set.setValue("toolType", m_settings->toolType());
-    set.setValue("fps", m_settings->fps());
-    set.setValue("queryStateTime", m_settings->queryStateTime());
+
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
-    set.setValue("settingsSplitMain", m_settings->ui->splitMain->saveState());
     set.setValue("formGeometry", this->saveGeometry());
-    set.setValue("formSettingsGeometry", m_settings->saveGeometry());
     set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
     set.setValue("heightmapPanel", ui->grpHeightMap->isChecked());
     set.setValue("spindlePanel", ui->grpSpindle->isChecked());
     set.setValue("feedPanel", ui->grpOverriding->isChecked());
     set.setValue("jogPanel", ui->grpJog->isChecked());
     set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
-    set.setValue("autoCompletion", m_settings->autoCompletion());
-    set.setValue("units", m_settings->units());
     set.setValue("storedX", m_storedX);
     set.setValue("storedY", m_storedY);
     set.setValue("storedZ", m_storedZ);
@@ -651,9 +572,6 @@ void frmMain::saveSettings()
     set.setValue("recentFiles", m_recentFiles);
     set.setValue("recentHeightmaps", m_recentHeightmaps);
     set.setValue("lastFolder", m_lastFolder);
-    set.setValue("touchCommand", m_settings->touchCommand());
-    set.setValue("safePositionCommand", m_settings->safePositionCommand());
-    set.setValue("fontSize", m_settings->fontSize());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
     set.setValue("feedOverrideValue", ui->slbFeedOverride->value());
@@ -688,10 +606,6 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
-
-    foreach (ColorPicker* pick, m_settings->colors()) {
-        set.setValue(pick->objectName().mid(3), pick->color().name());
-    }
 
     QStringList list;
 

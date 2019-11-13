@@ -4,11 +4,11 @@
 #ifndef FRMSETTINGS_H
 #define FRMSETTINGS_H
 
-#include <QDialog>
-#include <QMessageBox>
-#include <QListWidgetItem>
-#include <QSettings>
 #include "widgets/colorpicker.h"
+#include <QDialog>
+#include <QListWidgetItem>
+#include <QMessageBox>
+#include <QSettings>
 
 namespace Ui {
 class frmSettings;
@@ -16,8 +16,7 @@ class frmSettings;
 
 class GroupBox;
 
-class frmSettings : public QDialog
-{
+class frmSettings : public QDialog {
     Q_OBJECT
     Q_PROPERTY(QString port READ port WRITE setPort)
     Q_PROPERTY(int baud READ baud WRITE setBaud)
@@ -60,17 +59,20 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool autoLine READ autoLine WRITE setAutoLine)
 
 public:
-    explicit frmSettings(QWidget *parent = nullptr);
+    explicit frmSettings(QWidget* parent = nullptr);
     ~frmSettings();
 
-    Ui::frmSettings *ui;
+    Ui::frmSettings* ui;
 
     int exec();
     void undo();
 
-    void addCustomSettings(GroupBox *box);
-    void saveCustomSettings(QSettings &set);
-    void loadCustomSettings(QSettings &set);
+    void addCustomSettings(GroupBox* box);
+    void saveCustomSettings(QSettings& set);
+    void loadCustomSettings(QSettings& set);
+
+    void loadSettings(const QSettings &set);
+    void saveSettings(QSettings& set);
 
     QString port();
     void setPort(QString port);
@@ -157,7 +159,7 @@ public:
     void setAutoLine(bool value);
 
 protected:
-    void showEvent(QShowEvent *se);
+    void showEvent(QShowEvent* se);
 
 private slots:
     void onScrollBarValueChanged(int value);
@@ -168,7 +170,7 @@ private slots:
     void on_cboToolType_currentIndexChanged(int index);
     void on_listCategories_currentRowChanged(int currentRow);
     void on_cmdDefaults_clicked();
-    void on_cboFontSize_currentTextChanged(const QString &arg1);
+    void on_cboFontSize_currentTextChanged(const QString& arg1);
     void on_radDrawModeVectors_toggled(bool checked);
     void on_radDrawModeRaster_toggled(bool checked);
     void on_radGrayscaleS_toggled(bool checked);
