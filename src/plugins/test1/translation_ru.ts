@@ -17,6 +17,11 @@
     <message>
         <source>Response:</source>
         <translation>Ответ:</translation>
-    </message>   
+    </message> 
+    <name>Test1Settings</name>
+    <message>
+        <source>Test param:</source>
+        <translation>Тестовый параметр:</translation>
+    </message>          
 </context>
 </TS>

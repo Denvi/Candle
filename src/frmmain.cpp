@@ -553,6 +553,10 @@ void frmMain::loadSettings()
     // Load plugins
     loadPlugins();
 
+    // Load custom settings
+    m_settings->loadCustomSettings(set);
+    emit settingsLoaded();
+
     // Adjust docks width 
     int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
         ui->dockModification->widget()->sizeHint().width());
@@ -616,8 +620,6 @@ void frmMain::loadSettings()
         QAction *a = findChild<QAction*>(m.keys().at(i));
         if (a) a->setShortcuts(m.values().at(i));
     }
-
-    emit settingsLoaded();
 
     m_settingsLoading = false;
 }
@@ -763,7 +765,9 @@ void frmMain::saveSettings()
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
     set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
 
-    emit settingsSaved();
+    // Custom settings
+    emit settingsAboutToSave();
+    m_settings->saveCustomSettings(set);
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -2403,6 +2407,8 @@ void frmMain::on_actServiceSettings_triggered()
         for (int i = 0; i < acts.count(); i++) {
             acts[i]->setShortcut(QKeySequence(table->item(i, 2)->data(Qt::DisplayRole).toString()));
         }
+
+        emit settingsChanged();
 
     } else {
         m_settings->undo();
@@ -4070,6 +4076,27 @@ void frmMain::loadPlugins()
             static_cast<QVBoxLayout*>(ui->scrollContentsUser->layout())->insertWidget(0, box);
         }
 
+        // Settings ui
+        QWidget *settingsWidget = 0;
+        f.setFileName(pluginsDir + p + "/settings.ui");
+        if (f.open(QFile::ReadOnly)) {
+            // Load settings widget
+            uiLoader.setWorkingDirectory(pluginsDir + p);
+            settingsWidget = uiLoader.load(&f, this);
+            f.close();
+
+            // Create groupbox
+            GroupBox *box = new GroupBox(m_settings);
+            QVBoxLayout *layout1 = new QVBoxLayout(box);
+            box->setObjectName("grpSettings" + name);
+            box->setTitle(tr(title.toLatin1()));
+            box->setLayout(layout1);
+            layout1->addWidget(settingsWidget);
+
+            // Add to settings form
+            m_settings->addCustomSettings(box);
+        }
+
         // Delegate actions to main form
         QList<QAction*> acts = widget->findChildren<QAction*>();
         foreach (QAction *a, acts) addAction(a);
@@ -4085,13 +4112,19 @@ void frmMain::loadPlugins()
                 se->globalObject().setProperty("ui", sw);
             }
 
+                // Settings ui
+            if (settingsWidget) {
+                QScriptValue setw = se->newQObject(settingsWidget);
+                se->globalObject().setProperty("settings", setw);
+            }
+
             // Main form
             QScriptValue main = se->newQObject(this);
             se->globalObject().setProperty("main", main);
 
             // Settings
             QScriptValue settings = se->newQObject(m_settings);
-            se->globalObject().setProperty("settings", settings);
+            se->globalObject().setProperty("mainSettings", settings);
 
             // Stored vars
             QScriptValue vars = se->newQObject(&m_storedVars);
@@ -4108,22 +4141,6 @@ void frmMain::loadPlugins()
             f.close();
         }
     }
-}
-
-void frmMain::saveValue(QString key, QVariant value)
-{
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
-
-    set.setValue(key, value);
-}
-
-QVariant frmMain::restoreValue(QString key)
-{
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
-
-    return set.value(key);
 }
 
 void frmMain::on_cmdYPlus_pressed()

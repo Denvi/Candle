@@ -7,11 +7,14 @@
 #include <QDialog>
 #include <QMessageBox>
 #include <QListWidgetItem>
+#include <QSettings>
 #include "widgets/colorpicker.h"
 
 namespace Ui {
 class frmSettings;
 }
+
+class GroupBox;
 
 class frmSettings : public QDialog
 {
@@ -64,6 +67,10 @@ public:
 
     int exec();
     void undo();
+
+    void addCustomSettings(GroupBox *box);
+    void saveCustomSettings(QSettings &set);
+    void loadCustomSettings(QSettings &set);
 
     QString port();
     void setPort(QString port);
@@ -175,8 +182,12 @@ private:
     QList<bool> m_storedChecks;
     QList<QString> m_storedCombos;
     QList<QColor> m_storedColors;
+    QList<QString> m_storedTextBoxes;
+    QList<QString> m_storedPlainTexts;
 
     QIntValidator m_intValidator;
+
+    QList<QWidget*> m_customSettings;
 
     int m_units;
     int m_acceleration;

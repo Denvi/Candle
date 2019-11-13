@@ -90,16 +90,16 @@ public:
     ~frmMain();
 
     Q_INVOKABLE void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
-    Q_INVOKABLE void saveValue(QString key, QVariant value);
-    Q_INVOKABLE QVariant restoreValue(QString key);
+    Q_INVOKABLE void applySettings();    
 
     double toolZPosition();
 
 signals:
 
     void responseReceived(QString command, int tableIndex, QString response);
-    void settingsSaved();
     void settingsLoaded();
+    void settingsAboutToSave();
+    void settingsChanged();
 
 private slots:
     void updateHeightMapInterpolationDrawer(bool reset = false);
@@ -369,7 +369,6 @@ private:
     void grblReset();
     int bufferLength();
     void sendNextFileCommands();
-    void applySettings();
     void updateParser();
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
