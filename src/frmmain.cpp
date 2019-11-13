@@ -1,20 +1,23 @@
 // This file is a part of "Candle" application.
 // Copyright 2015-2016 Hayrullin Denis Ravilevich
+enum Status {
+    UNKNOWN = 0,
+    IDLE = 1,
+    ALARM = 2,
+    RUN = 3,
+    HOME = 4,
+    HOLD0 = 5,
+    HOLD1 = 6,
+    QUEUE = 7,
+    CHECK = 8,
+    DOOR = 9,
+    JOG = 10,
+};
 
-#define UNKNOWN 0
-#define IDLE 1
-#define ALARM 2
-#define RUN 3
-#define HOME 4
-#define HOLD0 5
-#define HOLD1 6
-#define QUEUE 7
-#define CHECK 8
-#define DOOR 9
-#define JOG 10
-
-#define PROGRESSMINLINES 10000
-#define PROGRESSSTEP 1000
+enum Progress {
+    PROGRESSMINLINES = 10000,
+    PROGRESSSTEP = 1000
+};
 
 #include "frmmain.h"
 #include "ui_frmmain.h"
@@ -530,10 +533,10 @@ void frmMain::loadSettings()
     int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
     int c = b * 0.8;
     setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
-	min-width: %1px;\n\
-	min-height: %1px;\n\
-	qproperty-iconSize: %2px;\n\
-    }")
+                                         min-width: %1px;\n\
+                  min-height: %1px;\n\
+            qproperty-iconSize: %2px;\n\
+}")
                                      .arg(b)
                                      .arg(c));
     // style()->unpolish(this);
