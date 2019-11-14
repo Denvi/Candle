@@ -150,12 +150,6 @@ frmMain::frmMain(QWidget *parent) :
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
-    connect(ui->dockDevice, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
-    connect(ui->dockModification, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
-    connect(ui->dockVisualizer, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
-    connect(ui->dockConsole, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
-    connect(ui->dockUser, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
-
     ui->widgetHeightmapSettings->setVisible(false);
 
     ui->cmdXMinus->setBackColor(QColor(153, 180, 209));
@@ -535,17 +529,6 @@ void frmMain::loadSettings()
     // Apply settings
     applySettings();
 
-    // Menu
-    ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
-    ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
-
-    // Restore panels state
-    ui->grpUserCommands->setChecked(set.value("userCommandsPanel", true).toBool());
-    ui->grpHeightMap->setChecked(set.value("heightmapPanel", true).toBool());
-    ui->grpSpindle->setChecked(set.value("spindlePanel", true).toBool());
-    ui->grpOverriding->setChecked(set.value("feedPanel", true).toBool());
-    ui->grpJog->setChecked(set.value("jogPanel", true).toBool());
-
     // Restore last commands list
     ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
     ui->cboCommand->setCurrentIndex(-1);
@@ -571,17 +554,19 @@ void frmMain::loadSettings()
     int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
     int c = b * 0.8;
     setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
-	min-width: %1px;\n\
-	min-height: %1px;\n\
-	qproperty-iconSize: %2px;\n\
-    }").arg(b).arg(c));
-    // style()->unpolish(this);
+	    min-width: %1px;\n\
+	    min-height: %1px;\n\
+	    qproperty-iconSize: %2px;\n\
+        }").arg(b).arg(c));
     ensurePolished();
-    ui->dockDevice->setStyleSheet("");
-    ui->dockModification->setStyleSheet("");
-    ui->dockUser->setStyleSheet("");
+
+    foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
 
     // Restore docks
+        // Signals/slots
+    foreach (QDockWidget *w, findChildren<QDockWidget*>())
+        connect(w, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
+
         // Panels
     ui->scrollContentsDevice->restoreState(this, set.value("panelsDevice").toStringList());
     ui->scrollContentsModification->restoreState(this, set.value("panelsModification").toStringList());
@@ -592,6 +577,12 @@ void frmMain::loadSettings()
         QGroupBox *b = findChild<QGroupBox*>(s);
         if (b) b->setHidden(true);
     }    
+
+    QStringList collapsedPanels = set.value("collapsedPanels").toStringList();
+    foreach (QString s, collapsedPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setChecked(false);
+    }
 
         // Normal window state
     restoreState(set.value("formMainState").toByteArray());
@@ -620,6 +611,10 @@ void frmMain::loadSettings()
         QAction *a = findChild<QAction*>(m.keys().at(i));
         if (a) a->setShortcuts(m.values().at(i));
     }
+
+    // Menu
+    ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
+    ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
 
     m_settingsLoading = false;
 }
@@ -669,13 +664,8 @@ void frmMain::saveSettings()
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("settingsSplitMain", m_settings->ui->splitMain->saveState());
     set.setValue("formGeometry", this->saveGeometry());
-    set.setValue("formSettingsGeometry", m_settings->saveGeometry());    
-    set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
-    set.setValue("heightmapPanel", ui->grpHeightMap->isChecked());
-    set.setValue("spindlePanel", ui->grpSpindle->isChecked());
-    set.setValue("feedPanel", ui->grpOverriding->isChecked());
-    set.setValue("jogPanel", ui->grpJog->isChecked());
-    set.setValue("keyboardControl", ui->chkKeyboardControl->isChecked());
+    set.setValue("formSettingsGeometry", m_settings->saveGeometry()); 
+
     set.setValue("autoCompletion", m_settings->autoCompletion());
     set.setValue("units", m_settings->units());
     set.setValue("storedX", m_storedX);
@@ -752,14 +742,17 @@ void frmMain::saveSettings()
 
     QStringList panels;
     QStringList hiddenPanels;
+    QStringList collapsedPanels;
     if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
     if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
     if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
     foreach (QString s, panels) {
         QGroupBox *b = findChild<QGroupBox*>(s);
         if (b && b->isHidden()) hiddenPanels << s;
+        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
     }    
     set.setValue("hiddenPanels", hiddenPanels);
+    set.setValue("collapsedPanels", collapsedPanels);
 
     // Menu
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
@@ -2359,6 +2352,11 @@ void frmMain::onTableDeleteLines()
 bool frmMain::actionLessThan(const QAction *a1, const QAction *a2)
 {
     return a1->objectName() < a2->objectName();
+}
+
+bool frmMain::actionTextLessThan(const QAction *a1, const QAction *a2)
+{
+    return a1->text() < a2->text();
 }
 
 void frmMain::on_actServiceSettings_triggered()
@@ -4021,7 +4019,6 @@ void frmMain::setupCoordsTextboxes()
 
 void frmMain::loadPlugins()
 {
-    qDebug() << "loadPlugins";
     QString pluginsDir = qApp->applicationDirPath() + "/plugins/";
 
     UiLoader uiLoader;
@@ -4029,14 +4026,15 @@ void frmMain::loadPlugins()
     // Get plugins list
     QStringList pl = QDir(pluginsDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-    qDebug() << pl;
+    qDebug() << "Loading plugins:" << pl;
 
     foreach (QString p, pl) {
         // Config
         QSettings set(pluginsDir + p + "/config.ini", QSettings::IniFormat);
         QString title = set.value("title").toString();
         QString name = set.value("name").toString();
-        qDebug() << "loading plugin:" << p << title;
+        QString type = set.value("type").toString();
+        qDebug() << "Loading plugin:" << p << title << name << type;
 
         // Translation
         QString loc = QLocale().name().left(2);
@@ -4048,35 +4046,68 @@ void frmMain::loadPlugins()
         }        
 
         // Ui
+        uiLoader.setWorkingDirectory(pluginsDir + p);
+        uiLoader.addPluginPath(pluginsDir + p + "/plugins");
+
+            // Main
         QWidget *widget = 0;
         QFile f(pluginsDir + p + "/widget.ui");
         if (f.open(QFile::ReadOnly)) {
             // Load widget
-            uiLoader.setWorkingDirectory(pluginsDir + p);
             widget = uiLoader.load(&f, this);
             f.close();
 
-            // Create panel
-            GroupBox *box = new GroupBox(this);
-            QVBoxLayout *layout1 = new QVBoxLayout(box);
-            QWidget *bw = new QWidget(box);
-            QVBoxLayout *layout2 = new QVBoxLayout(bw);
-            box->setObjectName("grp" + name);
-            box->setTitle(tr(title.toLatin1()));
-            box->setLayout(layout1);
-            box->setCheckable(true);
-            box->setProperty("overrided", false);
-            layout1->addWidget(bw);
-            bw->setLayout(layout2);
-            layout2->addWidget(widget);
-            layout2->setMargin(0);
-            connect(box, &QGroupBox::toggled, bw, &QWidget::setVisible);
+            if (widget) {
+                if (type.toUpper() == "PANEL") {
+                    // Create panel
+                    GroupBox *box = new GroupBox(this);
+                    QVBoxLayout *layout1 = new QVBoxLayout(box);
+                    QWidget *bw = new QWidget(box);
+                    QVBoxLayout *layout2 = new QVBoxLayout(bw);
+                    box->setObjectName("grp" + name);
+                    box->setTitle(tr(title.toLatin1()));
+                    box->setLayout(layout1);
+                    box->setCheckable(true);
+                    box->setProperty("overrided", false);
+                    layout1->addWidget(bw);
+                    bw->setLayout(layout2);
+                    layout2->addWidget(widget);
+                    layout2->setMargin(0);
+                    connect(box, &QGroupBox::toggled, bw, &QWidget::setVisible);
 
-            // Add panel to user window
-            static_cast<QVBoxLayout*>(ui->scrollContentsUser->layout())->insertWidget(0, box);
+                    // Add panel to user window
+                    static_cast<QVBoxLayout*>(ui->scrollContentsUser->layout())->insertWidget(0, box);
+
+                } else if (type.toUpper() == "WINDOW") {
+                    // Create dock widget
+                    QDockWidget *dock = new QDockWidget(this);
+                    QWidget *contents = new QWidget(dock);
+                    QFrame *frame = new QFrame(contents);
+                    QVBoxLayout *layout1 = new QVBoxLayout(contents);
+                    QVBoxLayout *layout2 = new QVBoxLayout(frame);
+                    dock->setObjectName("dock" + name);
+                    dock->setWindowTitle(tr(title.toLatin1()));
+                    dock->setWidget(contents);
+                    contents->setLayout(layout1);
+                    layout1->addWidget(frame);
+                    QMargins m = layout1->contentsMargins();
+                    m.setLeft(0);
+                    m.setRight(0);
+                    layout1->setContentsMargins(m);
+                    frame->setLayout(layout2);
+                    layout2->addWidget(widget);
+                    layout2->setMargin(0);
+
+                    // Add to main form
+                    this->addDockWidget(Qt::RightDockWidgetArea, dock);
+
+                } else {
+                    qDebug() << "Unknown plugin type" << type;
+                }
+            }
         }
 
-        // Settings ui
+            // Settings
         QWidget *settingsWidget = 0;
         f.setFileName(pluginsDir + p + "/settings.ui");
         if (f.open(QFile::ReadOnly)) {
@@ -4085,16 +4116,18 @@ void frmMain::loadPlugins()
             settingsWidget = uiLoader.load(&f, this);
             f.close();
 
-            // Create groupbox
-            GroupBox *box = new GroupBox(m_settings);
-            QVBoxLayout *layout1 = new QVBoxLayout(box);
-            box->setObjectName("grpSettings" + name);
-            box->setTitle(tr(title.toLatin1()));
-            box->setLayout(layout1);
-            layout1->addWidget(settingsWidget);
+            if (settingsWidget) {
+                // Create groupbox
+                GroupBox *box = new GroupBox(m_settings);
+                QVBoxLayout *layout1 = new QVBoxLayout(box);
+                box->setObjectName("grpSettings" + name);
+                box->setTitle(tr(title.toLatin1()));
+                box->setLayout(layout1);
+                layout1->addWidget(settingsWidget);
 
-            // Add to settings form
-            m_settings->addCustomSettings(box);
+                // Add to settings form
+                m_settings->addCustomSettings(box);
+            }
         }
 
         // Delegate actions to main form
@@ -4223,11 +4256,21 @@ void frmMain::on_cmdStop_clicked()
 
 void frmMain::on_mnuViewWindows_aboutToShow()
 {
-    ui->actViewWindowsDevice->setChecked(ui->dockDevice->isVisible());
-    ui->actViewWindowsModification->setChecked(ui->dockModification->isVisible());
-    ui->actViewWindowsVisualizer->setChecked(ui->dockVisualizer->isVisible());
-    ui->actViewWindowsConsole->setChecked(ui->dockConsole->isVisible());
-    ui->actViewWindowsUser->setChecked(ui->dockUser->isVisible());
+    QAction *a;
+    QList<QAction*> al;
+
+    foreach (QDockWidget *d, findChildren<QDockWidget*>()) {
+        a = new QAction(d->windowTitle(), ui->mnuViewWindows);
+        a->setCheckable(true);
+        a->setChecked(d->isVisible());
+        connect(a, &QAction::triggered, d, &QDockWidget::setVisible);
+        al.append(a);
+    }
+
+    qSort(al.begin(), al.end(), frmMain::actionTextLessThan);
+
+    ui->mnuViewWindows->clear();
+    ui->mnuViewWindows->addActions(al);
 }
 
 void frmMain::on_mnuViewPanels_aboutToShow()

@@ -416,11 +416,6 @@ QLabel[overrided=&quot;false&quot;] {
      <property name="title">
       <string>&amp;Windows</string>
      </property>
-     <addaction name="actViewWindowsDevice"/>
-     <addaction name="actViewWindowsModification"/>
-     <addaction name="actViewWindowsConsole"/>
-     <addaction name="actViewWindowsVisualizer"/>
-     <addaction name="actViewWindowsUser"/>
     </widget>
     <widget class="QMenu" name="mnuViewPanels">
      <property name="title">
@@ -2986,50 +2981,6 @@ padding-right: 8;</string>
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actViewWindowsDevice">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Device</string>
-   </property>
-  </action>
-  <action name="actViewWindowsModification">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Modification</string>
-   </property>
-  </action>
-  <action name="actViewWindowsVisualizer">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Visualizer</string>
-   </property>
-  </action>
-  <action name="actViewWindowsConsole">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Console</string>
-   </property>
-  </action>
   <action name="actControlHome">
    <property name="text">
     <string>Home</string>
@@ -3305,17 +3256,6 @@ padding-right: 8;</string>
     <string>Spindle speed override</string>
    </property>
   </action>
-  <action name="actViewWindowsUser">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;User</string>
-   </property>
-  </action>
   <action name="actViewLockWindows">
    <property name="checkable">
     <bool>true</bool>
@@ -3428,70 +3368,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>1415</x>
      <y>1060</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actViewWindowsDevice</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>dockDevice</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>174</x>
-     <y>477</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actViewWindowsModification</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>dockModification</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1265</x>
-     <y>477</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actViewWindowsVisualizer</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>dockVisualizer</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>720</x>
-     <y>162</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actViewWindowsConsole</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>dockConsole</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>734</x>
-     <y>867</y>
     </hint>
    </hints>
   </connection>
@@ -4148,22 +4024,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>96</x>
      <y>1023</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actViewWindowsUser</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>dockUser</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>173</x>
-     <y>760</y>
     </hint>
    </hints>
   </connection>

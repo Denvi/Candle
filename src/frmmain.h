@@ -413,6 +413,7 @@ private:
     void loadPlugins();
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
+    static bool actionTextLessThan(const QAction *a1, const QAction *a2);
 };
 
 typedef QMap<QString, QList<QKeySequence>> ShortcutsMap;

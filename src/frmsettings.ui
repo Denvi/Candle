@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
   </property>
@@ -87,8 +87,8 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1921</y>
-         <width>533</width>
+         <y>0</y>
+         <width>621</width>
          <height>2776</height>
         </rect>
        </property>
