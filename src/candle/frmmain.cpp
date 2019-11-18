@@ -536,10 +536,6 @@ void frmMain::loadSettings()
     // Load plugins
     loadPlugins();
 
-    // Load custom settings
-    m_settings->loadCustomSettings(set);
-    emit settingsLoaded();
-
     // Adjust docks width 
     int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
         ui->dockModification->widget()->sizeHint().width());
@@ -615,6 +611,10 @@ void frmMain::loadSettings()
     // Menu
     ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
     ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
+
+    // Load custom settings
+    m_settings->loadCustomSettings(set);
+    emit settingsLoaded();
 
     m_settingsLoading = false;
 }
