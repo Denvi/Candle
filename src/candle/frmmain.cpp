@@ -3035,7 +3035,6 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 WidgetMimeData *mimeData = new WidgetMimeData();
 
                 mimeData->setWidget(static_cast<QWidget*>(obj));
-                mimeData->setText(obj->objectName());
 
                 QPixmap *pix = new QPixmap(static_cast<QWidget*>(obj)->size());
                 static_cast<QWidget*>(obj)->render(pix);
