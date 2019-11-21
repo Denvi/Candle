@@ -75,7 +75,7 @@ public:
 #define _GLIBCXX_USE_NOEXCEPT _NOEXCEPT
 #endif
 
-    const char* what() const override
+    const char* what() const throw()
     {
         return "Operation was cancelled by user";
     }

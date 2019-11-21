@@ -42,7 +42,7 @@ QSplitter::handle:horizontal {
 	background-image: url(&quot;:/images/handle_vertical.png&quot;);
 }</string>
   </property>
-  <property name="modal">
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,0">
@@ -71,9 +71,6 @@ QSplitter::handle:horizontal {
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
@@ -88,7 +85,7 @@ QSplitter::handle:horizontal {
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>621</width>
+         <width>619</width>
          <height>2776</height>
         </rect>
        </property>

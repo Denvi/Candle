@@ -63,6 +63,9 @@ private:
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
+
+    void hideEvent(QHideEvent *e) override;
+    void showEvent(QShowEvent *e) override;
 };
 
 #endif

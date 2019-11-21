@@ -13,14 +13,6 @@ function on_settings_loaded()
     s += l[l.length - 1];
 
     settings.txtCameraName.toolTip = s;
-
-    // s = "";
-    // l = ui.camMain.availableResolutions;
-    // for (var i = 0; i < l.length; i += 2) {
-    //     s += l[i] + "x" + l[i + 1] + (i != (l.length - 2) ? "\r\n" : "");
-    // }
-
-    // settings.txtCameraResolution.toolTip = s;
 }
 
 function on_settings_changed()
@@ -43,7 +35,7 @@ function updateSettings()
 
 function on_pos_changed(pos)
 {
-    settings.txtCameraPosition.text = pos[0] + ", " + pos[1];
+    settings.txtCameraPosition.text = pos.join(", ");
 }
 
 function on_zoom_changed(zoom)

@@ -70,7 +70,7 @@ QVariantList CameraWidget::availableResolutions() const
 
 void CameraWidget::setCamera(const QCameraInfo &cameraInfo)
 {
-    if (m_camera) delete m_camera;
+    if (m_camera) m_camera->deleteLater();
 
     m_camera = new QCamera(cameraInfo);
     m_camera->setViewfinder(m_viewFinder);
@@ -203,4 +203,22 @@ void CameraWidget::wheelEvent(QWheelEvent *e)
     m_scrollArea->verticalScrollBar()->setValue(m_scrollArea->verticalScrollBar()->value() + delta.y());
 
     emit zoomChanged(m_zoom);
+}
+
+void CameraWidget::hideEvent(QHideEvent *e)
+{
+    QWidget::hideEvent(e);
+
+    if (m_camera && m_camera->state() == QCamera::ActiveState) {
+        m_camera->stop();
+    }
+}
+
+void CameraWidget::showEvent(QShowEvent *e)
+{
+    QWidget::showEvent(e);
+
+    if (m_camera && m_camera->state() == QCamera::LoadedState) {
+        setCameraName(m_cameraName);
+    }
 }
