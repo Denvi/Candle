@@ -82,7 +82,7 @@ void CameraWidget::setCamera(const QCameraInfo &cameraInfo)
     fs.setResolution(m_resolution);
     m_camera->setViewfinderSettings(fs);
 
-    m_camera->start();
+    if (isVisible()) m_camera->start();
 
     updateSize();
 }
