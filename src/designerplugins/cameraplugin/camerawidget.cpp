@@ -27,7 +27,7 @@ CameraWidget::CameraWidget(QWidget *parent): QWidget(parent), m_camera(0), m_vie
     layout->addWidget(m_scrollArea);
     layout->setMargin(0);
 
-    // setCameraName(QString());
+    m_overlay = new Overlay(m_viewFinder);
 }
 
 void CameraWidget::setCameraName(QString cameraName)
@@ -70,7 +70,7 @@ QVariantList CameraWidget::availableResolutions() const
 
 void CameraWidget::setCamera(const QCameraInfo &cameraInfo)
 {
-    if (m_camera) m_camera->deleteLater();
+    if (m_camera) delete m_camera;
 
     m_camera = new QCamera(cameraInfo);
     m_camera->setViewfinder(m_viewFinder);
@@ -102,6 +102,8 @@ void CameraWidget::resizeEvent(QResizeEvent *e)
     QWidget::resizeEvent(e);
 
     updateSize();
+
+    setAimPos(QVariantList() << m_overlay->aimPosition().x() << m_overlay->aimPosition().y());
 }
 
 void CameraWidget::updateSize()
@@ -116,6 +118,12 @@ void CameraWidget::updateSize()
     } else {
         m_viewFinder->resize(size.height() * cameraAspect * m_zoom, size.height() * m_zoom);
     }
+
+    QPointF o((double)m_overlay->aimPosition().x() / m_overlay->width() * m_viewFinder->width(), 
+            (double)m_overlay->aimPosition().y() / m_overlay->height() * m_viewFinder->height());
+
+    m_overlay->resize(m_viewFinder->size());
+    m_overlay->setAimPosition(o);
 }
 
 void CameraWidget::setResolution(QVariantList resolution)
@@ -147,8 +155,6 @@ double CameraWidget::zoom() const
 
 void CameraWidget::setPos(QVariantList pos)
 {
-    qDebug() << "setPos" << pos;
-
     if (pos.size() != 2) return;
 
     m_scrollArea->horizontalScrollBar()->setValue(pos.at(0).toInt());
@@ -163,6 +169,61 @@ QVariantList CameraWidget::pos() const
         << m_scrollArea->verticalScrollBar()->value();
 }
 
+void CameraWidget::setAimPos(QVariantList aimPos)
+{
+    if (aimPos.size() != 2) return;
+
+    if (qIsNaN(aimPos.at(0).toDouble()) || qIsNaN(aimPos.at(1).toDouble())) return;
+
+    m_overlay->setAimPosition(QPointF(aimPos.at(0).toDouble(), aimPos.at(1).toDouble()));
+
+    emit aimPosChanged(aimPos);
+
+}
+
+QVariantList CameraWidget::aimPos() const
+{
+    QPointF p = m_overlay->aimPosition();
+
+    return QVariantList() << p.x() << p.y();
+}
+
+void CameraWidget::setAimSize(int aimSize)
+{
+    m_overlay->setAimSize(aimSize);
+
+    emit aimSizeChanged(aimSize);
+}
+
+int CameraWidget::aimSize() const
+{
+    return m_overlay->aimSize();
+}
+
+void CameraWidget::setAimLineWidth(int aimLineWidth)
+{
+    m_overlay->setAimLineWidth(aimLineWidth);
+
+    emit aimLineWidthChanged(aimLineWidth);
+}
+
+int CameraWidget::aimLineWidth() const
+{
+    return m_overlay->aimLineWidth();
+}
+
+void CameraWidget::setAimColor(int aimColor)
+{
+    m_overlay->setAimColor(aimColor);
+
+    emit aimColorChanged(aimColor);
+}
+
+int CameraWidget::aimColor() const
+{
+    return m_overlay->aimColor();
+}
+
 void CameraWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->buttons() == Qt::LeftButton) {
@@ -175,7 +236,16 @@ void CameraWidget::mousePressEvent(QMouseEvent *e)
 void CameraWidget::mouseMoveEvent(QMouseEvent *e)
 {
 
-    if (e->buttons() == Qt::LeftButton) {
+    if (e->buttons() == Qt::LeftButton && e->modifiers() == Qt::ShiftModifier) {
+
+        QPoint d = e->pos() - m_mousePos;
+
+        QPointF o = m_overlay->aimPosition() + d;
+        setAimPos(QVariantList() << o.x() << o.y());
+
+        m_mousePos = e->pos();
+
+    } else if (e->buttons() == Qt::LeftButton) {
         QPoint d = e->pos() - m_mousePos;
 
         setPos(QVariantList() << m_scrollArea->horizontalScrollBar()->value() - d.x() 
@@ -196,11 +266,17 @@ void CameraWidget::wheelEvent(QWheelEvent *e)
 
     QPointF deltaPos = e->posF() / prevZoom - m_scrollArea->widget()->pos() / prevZoom;
     QPointF delta = deltaPos * m_zoom - deltaPos * prevZoom;
+    QPoint d = delta.toPoint();
 
     updateSize();
 
-    m_scrollArea->horizontalScrollBar()->setValue(m_scrollArea->horizontalScrollBar()->value() + delta.x());
-    m_scrollArea->verticalScrollBar()->setValue(m_scrollArea->verticalScrollBar()->value() + delta.y());
+    setPos(QVariantList() << m_scrollArea->horizontalScrollBar()->value() + d.x() <<
+        m_scrollArea->verticalScrollBar()->value() + d.y());
+
+    // QPointF o((double)m_overlay->aimPosition().x() / prevZoom * m_zoom, 
+    //             (double)m_overlay->aimPosition().y() / prevZoom * m_zoom);
+    // setAimPos(QVariantList() << o.x() << o.y());
+    setAimPos(QVariantList() << m_overlay->aimPosition().x() << m_overlay->aimPosition().y());
 
     emit zoomChanged(m_zoom);
 }

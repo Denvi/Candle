@@ -3,6 +3,7 @@
 
 #include <QScrollArea>
 #include <QCameraInfo>
+#include "overlay.h"
 
 class QCamera;
 class QCameraViewfinder;
@@ -16,6 +17,10 @@ class CameraWidget: public QWidget
     Q_PROPERTY(QVariantList resolution READ resolution WRITE setResolution);
     Q_PROPERTY(double zoom READ zoom WRITE setZoom);
     Q_PROPERTY(QVariantList pos READ pos WRITE setPos);
+    Q_PROPERTY(QVariantList aimPos READ aimPos WRITE setAimPos);
+    Q_PROPERTY(int aimSize READ aimSize WRITE setAimSize);
+    Q_PROPERTY(int aimLineWidth READ aimLineWidth WRITE setAimLineWidth);
+    Q_PROPERTY(int aimColor READ aimColor WRITE setAimColor);
 
 public:
     CameraWidget(QWidget *parent = 0);
@@ -35,9 +40,25 @@ public:
     void setPos(QVariantList pos);
     QVariantList pos() const;
 
+    void setAimPos(QVariantList aimPos);
+    QVariantList aimPos() const;
+
+    void setAimSize(int aimSize);
+    int aimSize() const;
+
+    void setAimLineWidth(int aimLineWidth);
+    int aimLineWidth() const;
+
+    void setAimColor(int aimColor);
+    int aimColor() const;
+
 signals:
 
     void posChanged(QVariantList pos);
+    void aimPosChanged(QVariantList aimPos);
+    void aimSizeChanged(int aimSize);
+    void aimLineWidthChanged(int aimLineWidth);
+    void aimColorChanged(int aimColor);
     void zoomChanged(double zoom);
 
 public slots:
@@ -49,6 +70,7 @@ private:
     QCamera *m_camera;
     QCameraViewfinder *m_viewFinder;
     QScrollArea *m_scrollArea;
+    Overlay *m_overlay;
 
     QString m_cameraName;
     QSize m_resolution;

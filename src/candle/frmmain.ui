@@ -467,7 +467,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>255</width>
+          <width>257</width>
           <height>770</height>
          </rect>
         </property>
@@ -1255,7 +1255,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>320</width>
+          <width>347</width>
           <height>897</height>
          </rect>
         </property>
@@ -1323,10 +1323,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>
@@ -1357,10 +1357,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>
@@ -1391,10 +1391,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>
@@ -1444,10 +1444,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>
@@ -1478,10 +1478,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>
@@ -1512,10 +1512,10 @@ QLabel[overrided=&quot;false&quot;] {
                    <number>3</number>
                   </property>
                   <property name="minimum">
-                   <double>-999.000000000000000</double>
+                   <double>-9999.000000000000000</double>
                   </property>
                   <property name="maximum">
-                   <double>999.000000000000000</double>
+                   <double>9999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>0.000000000000000</double>

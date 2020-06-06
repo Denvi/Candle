@@ -4,8 +4,10 @@ QT += widgets uiplugin multimedia multimediawidgets
 
 TARGET = cameraplugin
 
-HEADERS +=  camerawidget.h \
+HEADERS +=  overlay.h \
+            camerawidget.h \
             cameraplugin.h
 
-SOURCES +=  camerawidget.cpp \
+SOURCES +=  overlay.cpp \
+            camerawidget.cpp \
             cameraplugin.cpp

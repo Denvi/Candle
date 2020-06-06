@@ -10,11 +10,16 @@
 class ColorPicker : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(int colorInt READ colorInt WRITE setColorInt);
+
 public:
     explicit ColorPicker(QWidget *parent = 0);
 
     QColor color() const;
     void setColor(const QColor &color);
+
+    int colorInt() const;
+    void setColorInt(int color);
 
 signals:
     void colorSelected(QColor color);

@@ -29,6 +29,17 @@ void ColorPicker::setColor(const QColor &color)
     m_frame->setStyleSheet(QString("background-color: %1").arg(color.name()));
 }
 
+int ColorPicker::colorInt() const
+{
+    return m_color.rgb();
+}
+
+void ColorPicker::setColorInt(int color)
+{
+    m_color = QColor::fromRgb(color);
+    m_frame->setStyleSheet(QString("background-color: %1").arg(m_color.name()));
+}
+
 void ColorPicker::onButtonClicked()
 {
     QColor color = QColorDialog::getColor(m_color, this);

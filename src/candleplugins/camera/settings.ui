@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>554</width>
-    <height>115</height>
+    <height>127</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,9 +26,6 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="txtCameraName"/>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="lblCameraName">
      <property name="text">
@@ -36,12 +33,8 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="lblCameraResolution">
-     <property name="text">
-      <string>Resolution:</string>
-     </property>
-    </widget>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="txtCameraName"/>
    </item>
    <item row="0" column="4">
     <widget class="QLineEdit" name="txtCameraResolution"/>
@@ -56,15 +49,19 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="3">
+    <widget class="QLabel" name="lblCameraResolution">
+     <property name="text">
+      <string>Resolution:</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="3">
     <widget class="QLabel" name="lblCameraZoom">
      <property name="text">
       <string>Zoom:</string>
      </property>
     </widget>
-   </item>
-   <item row="1" column="4">
-    <widget class="QLineEdit" name="txtCameraZoom"/>
    </item>
    <item row="0" column="2">
     <spacer name="horizontalSpacer">
@@ -82,8 +79,59 @@
      </property>
     </spacer>
    </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="lblCameraAimPosition">
+     <property name="text">
+      <string>Aim position:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLineEdit" name="txtCameraZoom"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="txtCameraAimPosition"/>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="lblCameraAimSize">
+     <property name="text">
+      <string>Aim size:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLineEdit" name="txtCameraAimSize"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lblCameraAimColor">
+     <property name="text">
+      <string>Aim color:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLabel" name="lblCameraAimLineWidth">
+     <property name="text">
+      <string>Aim line width:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QLineEdit" name="txtCameraAimLineWidth"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="ColorPicker" name="colCameraAimColor" native="true"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QWidget</extends>
+   <header>colorpicker.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

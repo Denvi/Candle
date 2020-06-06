@@ -26,5 +26,21 @@
         <source>Zoom:</source>
         <translation>Масштаб:</translation>
     </message>          
+    <message>
+        <source>Aim position:</source>
+        <translation>Позиция перекрестия:</translation>
+    </message>          
+    <message>
+        <source>Aim size:</source>
+        <translation>Размер перекрестия:</translation>
+    </message>          
+    <message>
+        <source>Aim line width:</source>
+        <translation>Толщина линии:</translation>
+    </message>          
+    <message>
+        <source>Aim color:</source>
+        <translation>Цвет перекрестия:</translation>
+    </message>          
 </context>
 </TS>

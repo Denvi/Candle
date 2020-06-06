@@ -580,7 +580,7 @@ void frmSettings::setSimplifyPrecision(double simplifyPrecision)
 
 QList<ColorPicker *> frmSettings::colors()
 {
-    return this->findChildren<ColorPicker*>();
+    return ui->grpColors->findChildren<ColorPicker*>();
 }
 
 QColor frmSettings::colors(QString name)
