@@ -33,5 +33,13 @@ For GRBL v1.1 firmware
 
 (for GRBL v0.9 and below use Candle 1.0)
 
+Before creating new issue:
+------
+Candle works with CNC controlled by GRBL firmware, many problems can be solved by using proper version of GRBL, using proper configuration.
+
+Please read GRBL wiki: 
+- GRBL v0.9-: https://github.com/grbl/grbl/wiki
+- GRBL v1.1: https://github.com/gnea/grbl/wiki
+
 "Candle" main window:
 ![screenshot](/screenshots/screenshot_heightmap_original.png)
