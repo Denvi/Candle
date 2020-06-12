@@ -3993,7 +3993,7 @@ QString frmMain::evaluateCommand(QString command)
 void frmMain::setupCoordsTextboxes()
 {
     int prec = m_settings->units() == 0 ? 3 : 4;
-    int bound = m_settings->units() == 0 ? 999 : 99;
+    int bound = m_settings->units() == 0 ? 9999 : 999;
 
     ui->txtMPosX->setDecimals(prec);
     ui->txtMPosX->setMinimum(-bound);

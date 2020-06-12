@@ -176,9 +176,9 @@ void CameraWidget::setAimPos(QVariantList aimPos)
     if (qIsNaN(aimPos.at(0).toDouble()) || qIsNaN(aimPos.at(1).toDouble())) return;
 
     m_overlay->setAimPosition(QPointF(aimPos.at(0).toDouble(), aimPos.at(1).toDouble()));
+    m_overlay->update();
 
     emit aimPosChanged(aimPos);
-
 }
 
 QVariantList CameraWidget::aimPos() const
@@ -273,9 +273,6 @@ void CameraWidget::wheelEvent(QWheelEvent *e)
     setPos(QVariantList() << m_scrollArea->horizontalScrollBar()->value() + d.x() <<
         m_scrollArea->verticalScrollBar()->value() + d.y());
 
-    // QPointF o((double)m_overlay->aimPosition().x() / prevZoom * m_zoom, 
-    //             (double)m_overlay->aimPosition().y() / prevZoom * m_zoom);
-    // setAimPos(QVariantList() << o.x() << o.y());
     setAimPos(QVariantList() << m_overlay->aimPosition().x() << m_overlay->aimPosition().y());
 
     emit zoomChanged(m_zoom);
