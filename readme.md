@@ -17,7 +17,18 @@ System requirements for running "Candle":
 
 Build requirements:
 ------------------
+
 Qt 5.4.2 with MinGW/GCC compiler
+
+### Linux
+
+Also install [GLib](https://gitlab.gnome.org/GNOME/glib) and [QT5SerialPort](https://wiki.qt.io/Qt_Serial_Port).
+
+On Ubuntu for example run:
+
+```bash
+sudo apt update && sudo apt install libglib2.0-0 libqt5serialport5-dev
+```
 
 Downloads:
 ----------
@@ -37,7 +48,7 @@ Before creating new issue:
 ------
 Candle works with CNC controlled by GRBL firmware, many problems can be solved by using proper version of GRBL, using proper configuration.
 
-Please read GRBL wiki: 
+Please read GRBL wiki:
 - GRBL v0.9-: https://github.com/grbl/grbl/wiki
 - GRBL v1.1: https://github.com/gnea/grbl/wiki
 
