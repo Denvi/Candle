@@ -8,7 +8,7 @@ SUBDIRS =   src/designerplugins \
 system(qmake src/candleplugins/candleplugins.pro)
 
 install_main.path = bin
-install_main.files += src/candle/release/candle.exe
+install_main.files = src/candle/release/candle.exe
 
 install_plugins.path = bin/plugins
 install_plugins.files = src/candleplugins/camera src/candleplugins/test1
