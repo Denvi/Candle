@@ -346,7 +346,7 @@
     <message>
         <location filename="../frmmain.cpp" line="665"/>
         <source>Not connected</source>
-        <translation>Bağlantı Yok Hacı! Seri Portı Kontrol Et</translation>
+        <translation>Bağlantı Yok, Portu Kontrol Et</translation>
     </message>
     <message>
         <location filename="../frmmain.ui" line="1292"/>
@@ -1002,7 +1002,7 @@ Geçen Zaman: %1</translation>
     <message>
         <location filename="../frmmain.cpp" line="1372"/>
         <source>Serial port error </source>
-        <translation>Seri Port Bağlantısında Hata Var Resi Bir Kontrol Et Bakalım.</translation>
+        <translation>Seri Port Bağlantısında Hata Var Bir Kontrol Et Bakalım.</translation>
     </message>
     <message>
         <source>Buffer/queue: %1 / %2</source>
