@@ -11,6 +11,7 @@
 #include <QStyledItemDelegate>
 #include <QKeySequenceEdit>
 #include <QKeyEvent>
+#include <QLineEdit>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -377,12 +378,12 @@ void frmSettings::setShowUICommands(bool showUICommands)
 
 QString frmSettings::safePositionCommand()
 {
-    return ui->txtSafeCommand->text();
+    return ui->txtSafeCommand->toPlainText();
 }
 
 void frmSettings::setSafePositionCommand(QString command)
 {
-    ui->txtSafeCommand->setText(command);
+    ui->txtSafeCommand->setPlainText(command);
 }
 
 bool frmSettings::moveOnRestore()
@@ -557,12 +558,12 @@ void frmSettings::setUnits(int units)
 
 QString frmSettings::touchCommand()
 {
-    return ui->txtTouchCommand->text();
+    return ui->txtTouchCommand->toPlainText();
 }
 
 void frmSettings::setTouchCommand(QString touchCommand)
 {
-    ui->txtTouchCommand->setText(touchCommand);
+    ui->txtTouchCommand->setPlainText(touchCommand);
 }
 
 bool frmSettings::simplify()

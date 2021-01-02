@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>619</width>
-         <height>2776</height>
+         <y>-1308</y>
+         <width>620</width>
+         <height>3110</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -404,12 +404,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtTouchCommand">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
+            <widget class="QPlainTextEdit" name="txtTouchCommand">
+             <property name="plainText">
+              <string/>
              </property>
             </widget>
            </item>
@@ -427,12 +424,9 @@ QSplitter::handle:horizontal {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtSafeCommand">
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
+            <widget class="QPlainTextEdit" name="txtSafeCommand">
+             <property name="plainText">
+              <string/>
              </property>
             </widget>
            </item>
@@ -517,9 +511,6 @@ QSplitter::handle:horizontal {
              <property name="plainText">
               <string/>
              </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
-             </property>
             </widget>
            </item>
            <item>
@@ -539,9 +530,6 @@ QSplitter::handle:horizontal {
             <widget class="QPlainTextEdit" name="txtUserCommand1">
              <property name="plainText">
               <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
              </property>
             </widget>
            </item>
@@ -563,9 +551,6 @@ QSplitter::handle:horizontal {
              <property name="plainText">
               <string/>
              </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
-             </property>
             </widget>
            </item>
            <item>
@@ -585,9 +570,6 @@ QSplitter::handle:horizontal {
             <widget class="QPlainTextEdit" name="txtUserCommand3">
              <property name="plainText">
               <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Command 1; command 2; ...</string>
              </property>
             </widget>
            </item>

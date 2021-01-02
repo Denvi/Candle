@@ -89,7 +89,8 @@ public:
     explicit frmMain(QWidget *parent = 0);
     ~frmMain();
 
-    Q_INVOKABLE void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    Q_INVOKABLE int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    Q_INVOKABLE void sendCommands(QString commands, int tableIndex = -1);
     Q_INVOKABLE void applySettings();    
 
     double toolZPosition();
@@ -97,6 +98,8 @@ public:
 signals:
 
     void responseReceived(QString command, int tableIndex, QString response);
+    void statusReceived(QString status);
+    void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();
     void settingsChanged();
