@@ -167,8 +167,12 @@ void frmSettings::saveCustomSettings(QSettings &set)
         foreach (QAbstractButton* o, w->findChildren<QAbstractButton*>())
             set.setValue(o->objectName(), o->isChecked());
 
-        foreach (QComboBox* o, w->findChildren<QComboBox*>())
+        foreach (QComboBox* o, w->findChildren<QComboBox*>()) {
             set.setValue(o->objectName(), o->currentText());
+            QStringList l;
+            for (int i = 0; i < o->count(); i++) l << o->itemText(i);
+            set.setValue(o->objectName() + "/Items", l);
+        }
 
         foreach (ColorPicker* o, w->findChildren<ColorPicker*>())
             set.setValue(o->objectName(), o->color());
@@ -199,8 +203,11 @@ void frmSettings::loadCustomSettings(QSettings &set)
         foreach (QAbstractButton* o, w->findChildren<QAbstractButton*>())
             o->setChecked(set.value(o->objectName()).toBool());
 
-        foreach (QComboBox* o, w->findChildren<QComboBox*>())
+        foreach (QComboBox* o, w->findChildren<QComboBox*>()) {
+            QStringList l = set.value(o->objectName() + "/Items").toStringList();
+            o->addItems(l);
             o->setCurrentText(set.value(o->objectName()).toString());
+        }
 
         foreach (ColorPicker* o, w->findChildren<ColorPicker*>())
             o->setColor(set.value(o->objectName()).value<QColor>());

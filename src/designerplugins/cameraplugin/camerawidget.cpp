@@ -61,10 +61,10 @@ QStringList CameraWidget::availableCameras() const
     return l;
 }
 
-QVariantList CameraWidget::availableResolutions() const
+QStringList CameraWidget::availableResolutions() const
 {
-    QVariantList l;
-    foreach (QSize s, m_camera->supportedViewfinderResolutions()) l.append(QVariantList() << s.width() << s.height());
+    QStringList l;
+    foreach (QSize s, m_camera->supportedViewfinderResolutions()) l.append(QString("%1x%2").arg(s.width()).arg(s.height()));
     return l;
 }
 
@@ -119,11 +119,7 @@ void CameraWidget::updateSize()
         m_viewFinder->resize(size.height() * cameraAspect * m_zoom, size.height() * m_zoom);
     }
 
-    QPointF o((double)m_overlay->aimPosition().x() / m_overlay->width() * m_viewFinder->width(), 
-            (double)m_overlay->aimPosition().y() / m_overlay->height() * m_viewFinder->height());
-
     m_overlay->resize(m_viewFinder->size());
-    m_overlay->setAimPosition(o);
 }
 
 void CameraWidget::setResolution(QVariantList resolution)
@@ -131,7 +127,6 @@ void CameraWidget::setResolution(QVariantList resolution)
     qDebug() << "setResolution" << resolution;
     if (resolution.size() != 2) return;
     m_resolution = QSize(resolution.at(0).toInt(), resolution.at(1).toInt());
-    setCameraName(m_cameraName);
 }
 
 QVariantList CameraWidget::resolution() const
@@ -157,16 +152,17 @@ void CameraWidget::setPos(QVariantList pos)
 {
     if (pos.size() != 2) return;
 
-    m_scrollArea->horizontalScrollBar()->setValue(pos.at(0).toInt());
-    m_scrollArea->verticalScrollBar()->setValue(pos.at(1).toInt());
+    m_pos = QPoint(pos.at(0).toInt(), pos.at(1).toInt());
+
+    m_scrollArea->horizontalScrollBar()->setValue(m_pos.x());
+    m_scrollArea->verticalScrollBar()->setValue(m_pos.y());
 
     emit posChanged(pos);
 }
 
 QVariantList CameraWidget::pos() const
 {
-    return QVariantList() << m_scrollArea->horizontalScrollBar()->value()
-        << m_scrollArea->verticalScrollBar()->value();
+    return QVariantList() << m_pos.x() << m_pos.y();
 }
 
 void CameraWidget::setAimPos(QVariantList aimPos)
@@ -228,6 +224,7 @@ void CameraWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->buttons() == Qt::LeftButton) {
         m_mousePos = e->pos();
+        m_aimPos = m_overlay->aimPosition();
     }
 
     QWidget::mousePressEvent(e);
@@ -238,12 +235,11 @@ void CameraWidget::mouseMoveEvent(QMouseEvent *e)
 
     if (e->buttons() == Qt::LeftButton && e->modifiers() == Qt::ShiftModifier) {
 
-        QPoint d = e->pos() - m_mousePos;
+        QPointF d = QPointF((double)(e->pos() - m_mousePos).x() / m_overlay->width(), 
+            (double)(e->pos() - m_mousePos).y() / m_overlay->height());
 
-        QPointF o = m_overlay->aimPosition() + d;
+        QPointF o = m_aimPos + d;
         setAimPos(QVariantList() << o.x() << o.y());
-
-        m_mousePos = e->pos();
 
     } else if (e->buttons() == Qt::LeftButton) {
         QPoint d = e->pos() - m_mousePos;
@@ -294,4 +290,7 @@ void CameraWidget::showEvent(QShowEvent *e)
     if (m_camera && m_camera->state() == QCamera::LoadedState) {
         setCameraName(m_cameraName);
     }
+
+    m_scrollArea->horizontalScrollBar()->setValue(m_pos.x());
+    m_scrollArea->verticalScrollBar()->setValue(m_pos.y());
 }

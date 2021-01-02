@@ -2,24 +2,36 @@ function on_settings_aboutToSave()
 {
 }
 
+function on_settings_aboutToLoad()
+{
+
+}
+
 function on_settings_loaded()
 {
+    // Update cameras list
+    var n = settings.txtCameraName.currentText;
+    settings.txtCameraName.clear();
+    settings.txtCameraName.addItems(ui.camMain.availableCameras);
+    settings.txtCameraName.currentText = n;
+
+    // Apply settings
     updateSettings();
 
-    var l = ui.camMain.availableCameras;
-    var s = "";
+    // Update resolutions list
+    var r = settings.txtCameraResolution.currentText;
+    settings.txtCameraResolution.clear();
+    settings.txtCameraResolution.addItems(ui.camMain.availableResolutions);
+    settings.txtCameraResolution.currentText = r;
 
-    for (var i = 0; i < l.length - 1; i++) s += l[i] + "\r\n";
-    s += l[l.length - 1];
-
-    settings.txtCameraName.toolTip = s;
-
+    // Connect signals/slots
     ui.camMain.posChanged.connect(on_pos_changed);
     ui.camMain.aimPosChanged.connect(on_aimPos_changed);
     ui.camMain.aimSizeChanged.connect(on_aimSize_changed);
     ui.camMain.aimLineWidthChanged.connect(on_aimLineWidth_changed);
     ui.camMain.aimColorChanged.connect(on_aimColor_changed);
     ui.camMain.zoomChanged.connect(on_zoom_changed);
+    settings.txtCameraName.currentTextChanged.connect(on_cameraName_changed);
 }
 
 function on_settings_changed()
@@ -29,30 +41,51 @@ function on_settings_changed()
 
 function updateSettings()
 {
-    ui.camMain.cameraName = settings.txtCameraName.text;
-
-    if (settings.txtCameraResolution.text == "") settings.txtCameraResolution.text = "1280x720";
-    var l = settings.txtCameraResolution.text.split("x");
-    ui.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];   
+    // Resolution
+    if (settings.txtCameraResolution.currentText != "") {
+        var l = settings.txtCameraResolution.currentText.split("x");
+        ui.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];
+    }
     
+    // Zoom
     if (settings.txtCameraZoom.text == "") settings.txtCameraZoom.text = "1.0";
     ui.camMain.zoom = parseFloat(settings.txtCameraZoom.text);
 
+    // Padding
     if (settings.txtCameraPosition.text == "") settings.txtCameraPosition.text = "0, 0";
     l = settings.txtCameraPosition.text.split(",");
     ui.camMain.pos = [parseInt(l[0]), parseInt(l[1])];
 
+    // Aim position
     if (settings.txtCameraAimPosition.text == "") settings.txtCameraAimPosition.text = "0, 0";
     l = settings.txtCameraAimPosition.text.split(",");
     ui.camMain.aimPos = [parseFloat(l[0]), parseFloat(l[1])];
 
+    // Aim size
     if (settings.txtCameraAimSize.text == "") settings.txtCameraAimSize.text = "20";
     ui.camMain.aimSize = parseInt(settings.txtCameraAimSize.text);
-    
+
+    // Aim line width
     if (settings.txtCameraAimLineWidth.text == "") settings.txtCameraAimLineWidth.text = "1.0";
     ui.camMain.aimLineWidth = parseInt(settings.txtCameraAimLineWidth.text);
     
+    // Aim color
     ui.camMain.aimColor = parseInt(settings.colCameraAimColor.colorInt);
+
+    // Update camera
+    ui.camMain.cameraName = settings.txtCameraName.currentText;
+}
+
+function on_cameraName_changed(name)
+{
+    // Update camera
+    ui.camMain.cameraName = name;
+    
+    // Update resolutions list
+    var r = settings.txtCameraResolution.currentText;
+    settings.txtCameraResolution.clear();
+    settings.txtCameraResolution.addItems(ui.camMain.availableResolutions);
+    settings.txtCameraResolution.currentText = r;
 }
 
 function on_pos_changed(pos)
@@ -86,6 +119,7 @@ function on_zoom_changed(zoom)
     settings.txtCameraZoom.text = zoom.toFixed(3);
 }
 
+main.settingsAboutToLoad.connect(on_settings_aboutToLoad);
 main.settingsLoaded.connect(on_settings_loaded);
 main.settingsAboutToSave.connect(on_settings_aboutToSave);
 main.settingsChanged.connect(on_settings_changed);

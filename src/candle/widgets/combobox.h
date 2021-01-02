@@ -16,6 +16,9 @@ public:
 
     void storeText();
 
+public slots:
+    void addItems(const QStringList &texts) {QComboBox::addItems(texts);}
+
 signals:
     void returnPressed();
 

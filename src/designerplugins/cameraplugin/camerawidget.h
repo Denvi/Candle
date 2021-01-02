@@ -12,7 +12,7 @@ class CameraWidget: public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QStringList availableCameras READ availableCameras);
-    Q_PROPERTY(QVariantList availableResolutions READ availableResolutions);
+    Q_PROPERTY(QStringList availableResolutions READ availableResolutions);
     Q_PROPERTY(QString cameraName READ cameraName WRITE setCameraName);
     Q_PROPERTY(QVariantList resolution READ resolution WRITE setResolution);
     Q_PROPERTY(double zoom READ zoom WRITE setZoom);
@@ -26,7 +26,7 @@ public:
     CameraWidget(QWidget *parent = 0);
 
     QStringList availableCameras() const;
-    QVariantList availableResolutions() const;
+    QStringList availableResolutions() const;
 
     void setCameraName(QString cameraName);
     QString cameraName() const;
@@ -77,6 +77,9 @@ private:
     double m_zoom;
 
     QPoint m_mousePos;
+    QPointF m_aimPos;
+
+    QPoint m_pos;
 
     void setCamera(const QCameraInfo &cameraInfo);
     void resizeEvent(QResizeEvent *e);

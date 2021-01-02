@@ -62,9 +62,12 @@ void Overlay::paintEvent(QPaintEvent *e)
     pen.setWidth(m_aimLineWidth);
     pen.setColor(QColor::fromRgb(m_aimColor));
 
+    double x = m_aimPosition.x() * size().width();
+    double y = m_aimPosition.y() * size().height();
+
     p.setRenderHint(QPainter::Antialiasing, true);
     p.setPen(pen);
-    p.drawLine(0, m_aimPosition.y(), width(), m_aimPosition.y());
-    p.drawLine(m_aimPosition.x(), 0, m_aimPosition.x(), height());
-    p.drawEllipse(m_aimPosition, m_aimSize / 2, m_aimSize / 2);
+    p.drawLine(0, y, width(), y);
+    p.drawLine(x, 0, x, height());
+    p.drawEllipse(QPoint(x, y), m_aimSize / 2, m_aimSize / 2);
 }

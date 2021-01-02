@@ -2,6 +2,7 @@
 #include "styledtoolbutton.h"
 #include "sliderbox.h"
 #include "colorpicker.h"
+#include "combobox.h"
 
 UiLoader::UiLoader(QObject *parent): QUiLoader(parent)
 {
@@ -16,6 +17,10 @@ QWidget *UiLoader::createWidget(const QString &className, QWidget *parent, const
         return w;
     } else if (className == "SliderBox") {
         SliderBox *w = new SliderBox(parent);
+        w->setObjectName(name);
+        return w;
+    } else if (className == "ComboBox") {
+        ComboBox *w = new ComboBox(parent);
         w->setObjectName(name);
         return w;
     } else if (className == "ColorPicker") {
