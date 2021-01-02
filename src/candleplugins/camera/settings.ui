@@ -34,10 +34,10 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="txtCameraName"/>
+    <widget class="ComboBox" name="txtCameraName"/>
    </item>
    <item row="0" column="4">
-    <widget class="QLineEdit" name="txtCameraResolution"/>
+    <widget class="ComboBox" name="txtCameraResolution"/>
    </item>
    <item row="1" column="1">
     <widget class="QLineEdit" name="txtCameraPosition"/>
