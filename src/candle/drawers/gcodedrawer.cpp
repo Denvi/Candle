@@ -38,6 +38,8 @@ bool GcodeDrawer::updateData()
         if (m_indexes.isEmpty()) return prepareVectors(); else return updateVectors();
     case GcodeDrawer::Raster:
         if (m_indexes.isEmpty()) return prepareRaster(); else return updateRaster();
+    default:
+        return true;
     }
 }
 
@@ -303,9 +305,9 @@ QColor GcodeDrawer::getSegmentColor(LineSegment *segment)
     else if (segment->isFastTraverse()) return m_colorNormal;// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return m_colorZMovement;//QVector3D(1.0, 0.0, 0.0);
     else if (m_grayscaleSegments) switch (m_grayscaleCode) {
-    case GrayscaleCode::S:
+    case GcodeDrawer::S:
         return QColor::fromHsl(0, 0, qBound<int>(0, 255 - 255.0 / (m_grayscaleMax - m_grayscaleMin) * segment->getSpindleSpeed(), 255));
-    case GrayscaleCode::Z:
+    case GcodeDrawer::Z:
         return QColor::fromHsl(0, 0, qBound<int>(0, 255 - 255.0 / (m_grayscaleMax - m_grayscaleMin) * segment->getStart().z(), 255));
     }
     return m_colorNormal;//QVector3D(0.0, 0.0, 0.0);

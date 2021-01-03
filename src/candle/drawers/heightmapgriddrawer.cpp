@@ -30,7 +30,7 @@ bool HeightMapGridDrawer::updateData()
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 0; j < gridPointsX; j++) {
             if (m_model == NULL || qIsNaN(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
-                vertex.color = QVector3D(1.0, 0.6, 0.0);
+                vertex.color = QVector3D(1.0f, 0.6f, 0.0f);
                 vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zTop);
                 m_lines.append(vertex);
                 vertex.position = QVector3D(m_borderRect.x() + gridStepX * j, m_borderRect.y() + gridStepY * i, m_zBottom);

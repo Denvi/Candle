@@ -31,15 +31,11 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool arcDegreeMode READ arcDegreeMode WRITE setArcDegreeMode)
     Q_PROPERTY(bool showProgramCommands READ showProgramCommands WRITE setShowProgramCommands)
     Q_PROPERTY(bool showUICommands READ showUICommands WRITE setShowUICommands)
-    Q_PROPERTY(QString safePositionCommand READ safePositionCommand WRITE setSafePositionCommand)
-    Q_PROPERTY(bool moveOnRestore READ moveOnRestore WRITE setMoveOnRestore)
-    Q_PROPERTY(int restoreMode READ restoreMode WRITE setRestoreMode)
     Q_PROPERTY(int spindleSpeedMin READ spindleSpeedMin WRITE setSpindleSpeedMin)
     Q_PROPERTY(int spindleSpeedMax READ spindleSpeedMax WRITE setSpindleSpeedMax)
     Q_PROPERTY(int laserPowerMin READ laserPowerMin WRITE setLaserPowerMin)
     Q_PROPERTY(int laserPowerMax READ laserPowerMax WRITE setLaserPowerMax)
     Q_PROPERTY(int rapidSpeed READ rapidSpeed WRITE setRapidSpeed)
-    Q_PROPERTY(int heightmapProbingFeed READ heightmapProbingFeed WRITE setHeightmapProbingFeed)
     Q_PROPERTY(int acceleration READ acceleration WRITE setAcceleration)
     Q_PROPERTY(int queryStateTime READ queryStateTime WRITE setQueryStateTime)
     Q_PROPERTY(int toolType READ toolType WRITE setToolType)
@@ -49,7 +45,6 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool msaa READ msaa WRITE setMsaa)
     Q_PROPERTY(bool autoCompletion READ autoCompletion WRITE setAutoCompletion)
     Q_PROPERTY(bool units READ units WRITE setUnits)
-    Q_PROPERTY(QString touchCommand READ touchCommand WRITE setTouchCommand)
     Q_PROPERTY(bool simplify READ simplify WRITE setSimplify)
     Q_PROPERTY(double simplifyPrecision READ simplifyPrecision WRITE setSimplifyPrecision)
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize)
@@ -97,12 +92,6 @@ public:
     void setShowProgramCommands(bool showProgramCommands);
     bool showUICommands();
     void setShowUICommands(bool showUICommands);
-    QString safePositionCommand();
-    void setSafePositionCommand(QString command);
-    bool moveOnRestore();
-    void setMoveOnRestore(bool value);
-    int restoreMode();
-    void setRestoreMode(int value);
     int spindleSpeedMin();
     void setSpindleSpeedMin(int speed);
     int spindleSpeedMax();
@@ -113,8 +102,6 @@ public:
     void setLaserPowerMax(int value);
     int rapidSpeed();
     void setRapidSpeed(int rapidSpeed);
-    int heightmapProbingFeed();
-    void setHeightmapProbingFeed(int heightmapProbingFeed);
     int acceleration();
     void setAcceleration(int acceleration);
     int queryStateTime();
@@ -133,8 +120,6 @@ public:
     void setAutoCompletion(bool autoCompletion);
     int units();
     void setUnits(int units);
-    QString touchCommand();
-    void setTouchCommand(QString touchCommand);
     bool simplify();
     void setSimplify(bool simplify);
     double simplifyPrecision();

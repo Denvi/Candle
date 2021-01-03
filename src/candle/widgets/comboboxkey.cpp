@@ -4,6 +4,7 @@ ComboBoxKey::ComboBoxKey(QWidget *parent) : QComboBox(parent)
 {
 }
 
+// TODO: Rework user items
 void ComboBoxKey::setEditable(bool editable)
 {
     if (!editable) {

@@ -137,15 +137,10 @@ private slots:
     void on_actFileOpen_triggered();
     void on_cmdCommandSend_clicked();
     void on_cmdHome_clicked();
-    void on_cmdTouch_clicked();
-    void on_cmdZeroXY_clicked();
-    void on_cmdZeroZ_clicked();
-    void on_cmdRestoreOrigin_clicked();
+    void on_cmdCheck_clicked(bool checked);
     void on_cmdReset_clicked();
     void on_cmdUnlock_clicked();
-    void on_cmdSafePosition_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_chkTestMode_clicked(bool checked);
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileReset_clicked();
     void on_actFileNew_triggered();
@@ -228,7 +223,6 @@ protected:
     void closeEvent(QCloseEvent *ce);
     void dragEnterEvent(QDragEnterEvent *dee);
     void dropEvent(QDropEvent *de);
-    void mousePressEvent(QMouseEvent *e);
     QMenu *createPopupMenu() override;
 
 private:

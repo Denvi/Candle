@@ -88,10 +88,6 @@ frmMain::frmMain(QWidget *parent) :
     m_fileChanged = false;
     m_heightMapChanged = false;
    
-    m_storedX = 0;
-    m_storedY = 0;
-    m_storedZ = 0;
-   
     m_homing = false;
     m_updateSpindleSpeed = false;
     m_updateParserStatus = false;
@@ -431,8 +427,6 @@ void frmMain::loadSettings()
     m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
     m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
     m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());    
-    m_settings->setMoveOnRestore(set.value("moveOnRestore", false).toBool());
-    m_settings->setRestoreMode(set.value("restoreMode", 0).toInt());
     m_settings->setLineWidth(set.value("lineWidth", 1).toDouble());
     m_settings->setArcLength(set.value("arcLength", 0).toDouble());
     m_settings->setArcDegree(set.value("arcDegree", 0).toDouble());
@@ -444,7 +438,6 @@ void frmMain::loadSettings()
     m_settings->setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
     m_settings->setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
     m_settings->setRapidSpeed(set.value("rapidSpeed", 0).toInt());
-    m_settings->setHeightmapProbingFeed(set.value("heightmapProbingFeed", 0).toInt());
     m_settings->setAcceleration(set.value("acceleration", 10).toInt());
     m_settings->setToolAngle(set.value("toolAngle", 0).toDouble());
     m_settings->setToolType(set.value("toolType", 0).toInt());
@@ -468,12 +461,6 @@ void frmMain::loadSettings()
     ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
 
     m_settings->setUnits(set.value("units", 0).toInt());
-    m_storedX = set.value("storedX", 0).toDouble();
-    m_storedY = set.value("storedY", 0).toDouble();
-    m_storedZ = set.value("storedZ", 0).toDouble();
-    m_storedCS = set.value("storedCS", "G54").toString();
-
-    ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
@@ -488,15 +475,17 @@ void frmMain::loadSettings()
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
 
     m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
-    m_settings->setTouchCommand(set.value("touchCommand").toString());
-    m_settings->setSafePositionCommand(set.value("safePositionCommand").toString());
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
         int i = button->objectName().right(1).toInt();
         m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
     }
 
-    ui->cboJogStep->setItems(set.value("jogSteps").toStringList());
+    QStringList steps = set.value("jogSteps").toStringList();
+    if (steps.count() > 0) {
+        steps.insert(0, ui->cboJogStep->items().first());
+        ui->cboJogStep->setItems(steps);
+    }
     ui->cboJogStep->setCurrentIndex(ui->cboJogStep->findText(set.value("jogStep").toString()));
     ui->cboJogFeed->setItems(set.value("jogFeeds").toStringList());
     ui->cboJogFeed->setCurrentIndex(ui->cboJogFeed->findText(set.value("jogFeed").toString()));
@@ -511,6 +500,7 @@ void frmMain::loadSettings()
     ui->txtHeightMapGridY->setValue(set.value("heightmapGridY", 1).toDouble());
     ui->txtHeightMapGridZTop->setValue(set.value("heightmapGridZTop", 1).toDouble());
     ui->txtHeightMapGridZBottom->setValue(set.value("heightmapGridZBottom", -1).toDouble());
+    ui->txtHeightMapProbeFeed->setValue(set.value("heightmapProbeFeed", 10).toDouble());
     ui->chkHeightMapGridShow->setChecked(set.value("heightmapGridShow", false).toBool());
 
     ui->txtHeightMapInterpolationStepX->setValue(set.value("heightmapInterpolationStepX", 1).toDouble());
@@ -654,10 +644,7 @@ void frmMain::saveSettings()
     set.setValue("spindleSpeedMax", m_settings->spindleSpeedMax());
     set.setValue("laserPowerMin", m_settings->laserPowerMin());
     set.setValue("laserPowerMax", m_settings->laserPowerMax());
-    set.setValue("moveOnRestore", m_settings->moveOnRestore());
-    set.setValue("restoreMode", m_settings->restoreMode());
     set.setValue("rapidSpeed", m_settings->rapidSpeed());
-    set.setValue("heightmapProbingFeed", m_settings->heightmapProbingFeed());
     set.setValue("acceleration", m_settings->acceleration());
     set.setValue("toolAngle", m_settings->toolAngle());
     set.setValue("toolType", m_settings->toolType());
@@ -671,15 +658,9 @@ void frmMain::saveSettings()
 
     set.setValue("autoCompletion", m_settings->autoCompletion());
     set.setValue("units", m_settings->units());
-    set.setValue("storedX", m_storedX);
-    set.setValue("storedY", m_storedY);
-    set.setValue("storedZ", m_storedZ);
-    set.setValue("storedCS", m_storedCS);
     set.setValue("recentFiles", m_recentFiles);
     set.setValue("recentHeightmaps", m_recentHeightmaps);
     set.setValue("lastFolder", m_lastFolder);
-    set.setValue("touchCommand", m_settings->touchCommand());
-    set.setValue("safePositionCommand", m_settings->safePositionCommand());
     set.setValue("fontSize", m_settings->fontSize());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
@@ -694,7 +675,7 @@ void frmMain::saveSettings()
         set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
     }
 
-    set.setValue("jogSteps", ui->cboJogStep->items());
+    set.setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
     set.setValue("jogStep", ui->cboJogStep->currentText());
     set.setValue("jogFeeds", ui->cboJogFeed->items());
     set.setValue("jogFeed", ui->cboJogFeed->currentText());
@@ -709,6 +690,7 @@ void frmMain::saveSettings()
     set.setValue("heightmapGridY", ui->txtHeightMapGridY->value());
     set.setValue("heightmapGridZTop", ui->txtHeightMapGridZTop->value());
     set.setValue("heightmapGridZBottom", ui->txtHeightMapGridZBottom->value());
+    set.setValue("heightmapProbeFeed", ui->txtHeightMapProbeFeed->value());
     set.setValue("heightmapGridShow", ui->chkHeightMapGridShow->isChecked());
 
     set.setValue("heightmapInterpolationStepX", ui->txtHeightMapInterpolationStepX->value());
@@ -804,13 +786,9 @@ void frmMain::updateControlsState() {
     ui->cboCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
     ui->cmdCommandSend->setEnabled(portOpened);
 
-    ui->chkTestMode->setEnabled(portOpened && !m_processingFile);
+    ui->cmdCheck->setEnabled(portOpened && !m_processingFile);
     ui->cmdHome->setEnabled(!m_processingFile);
-    ui->cmdTouch->setEnabled(!m_processingFile);
-    ui->cmdZeroXY->setEnabled(!m_processingFile);
-    ui->cmdZeroZ->setEnabled(!m_processingFile);
-    ui->cmdRestoreOrigin->setEnabled(!m_processingFile);
-    ui->cmdSafePosition->setEnabled(!m_processingFile);
+    ui->cmdCheck->setEnabled(!m_processingFile);
     ui->cmdUnlock->setEnabled(!m_processingFile);
     ui->cmdSpindle->setEnabled(!m_processingFile);
 
@@ -819,7 +797,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(!m_processingFile);
     ui->cmdFileReset->setEnabled(!m_processingFile && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && !m_processingFile && m_programModel.rowCount() > 1);
-    ui->cmdFilePause->setEnabled(m_processingFile && !ui->chkTestMode->isChecked());
+    ui->cmdFilePause->setEnabled(m_processingFile && !ui->cmdCheck->isChecked());
     ui->cmdFileAbort->setEnabled(m_processingFile);
     ui->actFileOpen->setEnabled(!m_processingFile);
     ui->mnuRecent->setEnabled(!m_processingFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)
@@ -872,8 +850,6 @@ void frmMain::updateControlsState() {
     ui->cboJogFeed->setEditable(!ui->chkKeyboardControl->isChecked());
     ui->cboJogStep->setStyleSheet(QString("font-size: %1").arg(m_settings->fontSize()));
     ui->cboJogFeed->setStyleSheet(ui->cboJogStep->styleSheet());
-
-    ui->chkTestMode->setVisible(!m_heightMapMode);
 
     ui->tblHeightMap->setVisible(m_heightMapMode);
     ui->tblProgram->setVisible(!m_heightMapMode);
@@ -963,8 +939,8 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
     }
 
     // Queue offsets request on G92 command
+    // TODO: G54-59
     if (ca.tableIndex == -1 && uncomment.contains("G92")) {
-        m_storedCS = m_storedVars.CS();
         sendCommand("$#", -3, showInConsole, true);
     }
 
@@ -1075,12 +1051,8 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Update controls
-                ui->cmdRestoreOrigin->setEnabled(status == IDLE);
-                ui->cmdSafePosition->setEnabled(status == IDLE);
-                ui->cmdZeroXY->setEnabled(status == IDLE);
-                ui->cmdZeroZ->setEnabled(status == IDLE);
-                ui->chkTestMode->setEnabled(status != RUN && !m_processingFile);
-                ui->chkTestMode->setChecked(status == CHECK);
+                ui->cmdCheck->setEnabled(status != RUN && !m_processingFile);
+                ui->cmdCheck->setChecked(status == CHECK);
                 ui->cmdFilePause->setChecked(status == HOLD0 || status == HOLD1 || status == QUEUE);
                 ui->cmdSpindle->setEnabled(!m_processingFile || status == HOLD0);
 #ifdef WINDOWS
@@ -1227,8 +1199,8 @@ void frmMain::onSerialPortReadyRead()
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1)
             {                
-                updateOverride(ui->slbFeedOverride, ov.cap(1).toInt(), 0x91);
-                updateOverride(ui->slbSpindleOverride, ov.cap(3).toInt(), 0x9a);
+                updateOverride(ui->slbFeedOverride, ov.cap(1).toInt(), '\x91');
+                updateOverride(ui->slbSpindleOverride, ov.cap(3).toInt(), '\x9a');
 
                 int rapid = ov.cap(2).toInt();
                 ui->slbRapidOverride->setCurrentValue(rapid);
@@ -1343,18 +1315,7 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Offsets
-                    if (uncomment == "$#") {
-                        storeOffsetsVars(response);
-
-                        // Save G92 offsets
-                        if (ca.tableIndex == -3) {
-                            QVector3D v = m_storedVars.coords("G92");
-                            m_storedX = v.x();
-                            m_storedY = v.y();
-                            m_storedZ = v.z();
-                            ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
-                        }
-                    }
+                    if (uncomment == "$#") storeOffsetsVars(response);
 
                     // Settings response
                     if (uncomment == "$$" && ca.tableIndex == -2) {
@@ -1791,11 +1752,6 @@ void frmMain::dropEvent(QDropEvent *de)
     }
 }
 
-void frmMain::mousePressEvent(QMouseEvent *e)
-{
-    // qDebug() << childAt(e->pos());
-}
-
 QMenu *frmMain::createPopupMenu()
 {
     QMenu *menu = QMainWindow::createPopupMenu();
@@ -2039,7 +1995,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
-    if (!ui->chkTestMode->isChecked()) storeOffsets(); // Allready stored on check
+    if (!ui->cmdCheck->isChecked()) storeOffsets(); // Allready stored on check
     storeParserState();
 
 #ifdef WINDOWS
@@ -2147,7 +2103,7 @@ void frmMain::onActSendFromLineTriggered()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
-    if (!ui->chkTestMode->isChecked()) storeOffsets(); // Allready stored on check
+    if (!ui->cmdCheck->isChecked()) storeOffsets(); // Allready stored on check
     storeParserState();
 
 #ifdef WINDOWS
@@ -2181,13 +2137,14 @@ void frmMain::onSlbSpindleValueChanged()
 
 void frmMain::onDockTopLevelChanged(bool topLevel)
 {
+    Q_UNUSED(topLevel)
     static_cast<QWidget*>(sender())->setStyleSheet("");
 }
 
 void frmMain::on_cmdFileAbort_clicked()
 {
     m_aborting = true;
-    if (!ui->chkTestMode->isChecked()) {
+    if (!ui->cmdCheck->isChecked()) {
         m_serialPort.write("!");
     } else {
         grblReset();
@@ -2627,50 +2584,16 @@ void frmMain::on_cmdHome_clicked()
     sendCommand("$H", -1, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdTouch_clicked()
+void frmMain::on_cmdCheck_clicked(bool checked)
 {
-    sendCommands(m_settings->touchCommand());
-}
-
-void frmMain::on_cmdZeroXY_clicked()
-{
-    sendCommand("G92X0Y0", -1, m_settings->showUICommands());
-}
-
-void frmMain::on_cmdZeroZ_clicked()
-{
-    sendCommand("G92Z0", -1, m_settings->showUICommands());
-}
-
-void frmMain::on_cmdRestoreOrigin_clicked()
-{
-    // Restore offset
-    sendCommand(QString("%4G53G90G0X%1Y%2Z%3").arg(ui->txtMPosX->value())
-                                            .arg(ui->txtMPosY->value())
-                                            .arg(ui->txtMPosZ->value())
-                                            .arg(m_settings->units() ? "G20" : "G21"), 
-                                            -2, m_settings->showUICommands());
-
-    m_storedVars.setCS(m_storedCS);
-    sendCommand("$#", -2, m_settings->showUICommands());
-    sendCommand("{vars.CS}", -2, m_settings->showUICommands(), true);
-    sendCommand(QString("%4G92X{%1 - vars.x}Y{%2 - vars.y}Z{%3 - vars.z}")
-                                        .arg(ui->txtMPosX->value() - m_storedX)
-                                        .arg(ui->txtMPosY->value() - m_storedY)
-                                        .arg(ui->txtMPosZ->value() - m_storedZ)
-                                        .arg(m_settings->units() ? "G20" : "G21"), 
-                                        -2, m_settings->showUICommands(), true);
-
-    // Move tool
-    if (m_settings->moveOnRestore()) switch (m_settings->restoreMode()) {
-    case 0:
-        sendCommand("G0X0Y0", -2, m_settings->showUICommands(), true);
-        break;
-    case 1:
-    
-        sendCommand("G0X0Y0Z0", -2, m_settings->showUICommands(), true);
-        break;
-    }
+    if (checked) {
+        storeOffsets();
+        storeParserState();
+        sendCommand("$C", -1, m_settings->showUICommands());
+    } else {
+        m_aborting = true;
+        grblReset();
+    };
 }
 
 void frmMain::on_cmdReset_clicked()
@@ -2682,11 +2605,6 @@ void frmMain::on_cmdUnlock_clicked()
 {
     m_updateSpindleSpeed = true;
     sendCommand("$X", -1, m_settings->showUICommands());
-}
-
-void frmMain::on_cmdSafePosition_clicked()
-{
-    sendCommands(m_settings->safePositionCommand());
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
@@ -2709,18 +2627,6 @@ void frmMain::on_cmdSpindle_clicked(bool checked)
     } else {
         sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
     }
-}
-
-void frmMain::on_chkTestMode_clicked(bool checked)
-{
-    if (checked) {
-        storeOffsets();
-        storeParserState();
-        sendCommand("$C", -1, m_settings->showUICommands());
-    } else {
-        m_aborting = true;
-        grblReset();
-    };
 }
 
 void frmMain::on_cmdFilePause_clicked(bool checked)
@@ -3290,7 +3196,7 @@ bool frmMain::updateHeightMapGrid()
     m_probeModel.insertRow(0);
 
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1G0Z%2").
-                         arg(m_settings->heightmapProbingFeed()).arg(ui->txtHeightMapGridZTop->value()));
+                         arg(ui->txtHeightMapProbeFeed->value()).arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0"));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
                          .arg(ui->txtHeightMapGridZBottom->value()));
@@ -3775,7 +3681,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
                                     point = list->at(j)->getEnd();
                                     if (!list->at(j)->isAbsolute()) point -= list->at(j)->getStart();
-                                    if (!list->at(j)->isMetric()) point /= 25.4;
+                                    if (!list->at(j)->isMetric()) point /= 25.4f;
 
                                     item.command = newCommand + QString("X%1Y%2Z%3")
                                             .arg(point.x(), 0, 'f', 3).arg(point.y(), 0, 'f', 3).arg(point.z(), 0, 'f', 3);
@@ -3936,6 +3842,8 @@ bool frmMain::compareCoordinates(double x, double y, double z)
 
 void frmMain::onCmdUserClicked(bool checked)
 {
+    Q_UNUSED(checked)
+
     int i = sender()->objectName().right(1).toInt();
 
     sendCommands(m_settings->userCommands(i));
@@ -3943,6 +3851,8 @@ void frmMain::onCmdUserClicked(bool checked)
 
 void frmMain::onOverridingToggled(bool checked)
 {
+    Q_UNUSED(checked)
+
     ui->grpOverriding->setProperty("overrided", ui->slbFeedOverride->isChecked()
                                    || ui->slbRapidOverride->isChecked() || ui->slbSpindleOverride->isChecked());
     style()->unpolish(ui->grpOverriding);

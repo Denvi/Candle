@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1308</y>
+         <y>-1960</y>
          <width>620</width>
-         <height>3110</height>
+         <height>2487</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -233,29 +233,6 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpConnection_2">
-          <property name="title">
-           <string>Sender</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QCheckBox" name="chkIgnoreErrors">
-             <property name="text">
-              <string>Ignore error responses</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="chkAutoLine">
-             <property name="text">
-              <string>Automatically set parser state before sending from selected line</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <widget class="GroupBox" name="grpGRBL">
           <property name="title">
            <string>Machine information</string>
@@ -385,249 +362,6 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="groupBox_2">
-          <property name="title">
-           <string>Control</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QLabel" name="label_17">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Probe commands:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtTouchCommand">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_33">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Safe position commands:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtSafeCommand">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,1,2">
-             <item row="3" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <widget class="QCheckBox" name="chkMoveOnRestore">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>&quot;Restore origin&quot; moves tool in:</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="3" column="2">
-              <widget class="QComboBox" name="cboRestoreMode">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Plane</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Space</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <spacer name="horizontalSpacer_16">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>9</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="groupBox_5">
-          <property name="title">
-           <string>User commands</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_12">
-           <item>
-            <widget class="QLabel" name="label_34">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 1:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand0">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_36">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 2:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand1">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_37">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 3:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand2">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_39">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 4:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand3">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="groupBox_4">
-          <property name="title">
-           <string>Heightmap</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <item>
-            <layout class="QGridLayout" name="gridLayout_9" columnstretch="0,1,1">
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_38">
-               <property name="text">
-                <string>Heightmap probing feed:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="3" column="2">
-              <widget class="QSpinBox" name="txtHeightMapProbingFeed">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>99999</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <widget class="GroupBox" name="grpParser">
           <property name="title">
            <string>Parser</string>
@@ -731,6 +465,118 @@ QSplitter::handle:horizontal {
               </widget>
              </item>
             </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="GroupBox" name="grpConnection_2">
+          <property name="title">
+           <string>Sender</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QCheckBox" name="chkIgnoreErrors">
+             <property name="text">
+              <string>Ignore error responses</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkAutoLine">
+             <property name="text">
+              <string>Automatically set parser state before sending from selected line</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="GroupBox" name="groupBox_5">
+          <property name="title">
+           <string>User commands</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_34">
+             <property name="styleSheet">
+              <string notr="true">padding-top: 3;</string>
+             </property>
+             <property name="text">
+              <string>Button 1:</string>
+             </property>
+             <property name="indent">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtUserCommand0">
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_36">
+             <property name="styleSheet">
+              <string notr="true">padding-top: 3;</string>
+             </property>
+             <property name="text">
+              <string>Button 2:</string>
+             </property>
+             <property name="indent">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtUserCommand1">
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_37">
+             <property name="styleSheet">
+              <string notr="true">padding-top: 3;</string>
+             </property>
+             <property name="text">
+              <string>Button 3:</string>
+             </property>
+             <property name="indent">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtUserCommand2">
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_39">
+             <property name="styleSheet">
+              <string notr="true">padding-top: 3;</string>
+             </property>
+             <property name="text">
+              <string>Button 4:</string>
+             </property>
+             <property name="indent">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtUserCommand3">
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -958,6 +804,142 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
+         <widget class="GroupBox" name="grpColors">
+          <property name="title">
+           <string>Colors</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_6" columnstretch="0,0,0,0">
+             <item row="7" column="2">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>Z-movement:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>Toolpath</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="3">
+              <widget class="ColorPicker" name="clpToolpathZMovement" native="true"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_24">
+               <property name="text">
+                <string>Background:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="ColorPicker" name="clpToolpathHighlight" native="true"/>
+             </item>
+             <item row="8" column="1">
+              <widget class="ColorPicker" name="clpToolpathStart" native="true"/>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_25">
+               <property name="text">
+                <string>Highlight:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>Start point:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="3">
+              <widget class="ColorPicker" name="clpToolpathEnd" native="true"/>
+             </item>
+             <item row="8" column="2">
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string>End point:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="ColorPicker" name="clpVisualizerBackground" native="true"/>
+             </item>
+             <item row="2" column="3">
+              <widget class="ColorPicker" name="clpVisualizerText" native="true"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>Visualizer</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_28">
+               <property name="text">
+                <string>Text:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="text">
+                <string>Tool:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="ColorPicker" name="clpTool" native="true"/>
+             </item>
+             <item row="4" column="0">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>6</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="6" column="2">
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>Drawn:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="3">
+              <widget class="ColorPicker" name="clpToolpathDrawn" native="true"/>
+             </item>
+             <item row="6" column="1">
+              <widget class="ColorPicker" name="clpToolpathNormal" native="true"/>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>Normal:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="GroupBox" name="grpTool">
           <property name="title">
            <string>Tool model</string>
@@ -1100,6 +1082,34 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
+         <widget class="GroupBox" name="grpShortcuts">
+          <property name="title">
+           <string>Shortcuts</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QTableWidget" name="tblShortcuts">
+             <column>
+              <property name="text">
+               <string>Command</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Text</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Shortcuts</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="GroupBox" name="grpConsole">
           <property name="title">
            <string>Console</string>
@@ -1124,170 +1134,6 @@ QSplitter::handle:horizontal {
              <property name="text">
               <string>Command auto-completion</string>
              </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="grpColors">
-          <property name="title">
-           <string>Colors</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <layout class="QGridLayout" name="gridLayout_6" columnstretch="0,0,0,0">
-             <item row="7" column="2">
-              <widget class="QLabel" name="label_20">
-               <property name="text">
-                <string>Z-movement:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_21">
-               <property name="text">
-                <string>Toolpath</string>
-               </property>
-               <property name="wordWrap">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="3">
-              <widget class="ColorPicker" name="clpToolpathZMovement" native="true"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_24">
-               <property name="text">
-                <string>Background:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="1">
-              <widget class="ColorPicker" name="clpToolpathHighlight" native="true"/>
-             </item>
-             <item row="8" column="1">
-              <widget class="ColorPicker" name="clpToolpathStart" native="true"/>
-             </item>
-             <item row="7" column="0">
-              <widget class="QLabel" name="label_25">
-               <property name="text">
-                <string>Highlight:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0">
-              <widget class="QLabel" name="label_26">
-               <property name="text">
-                <string>Start point:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="3">
-              <widget class="ColorPicker" name="clpToolpathEnd" native="true"/>
-             </item>
-             <item row="8" column="2">
-              <widget class="QLabel" name="label_27">
-               <property name="text">
-                <string>End point:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="ColorPicker" name="clpVisualizerBackground" native="true"/>
-             </item>
-             <item row="2" column="3">
-              <widget class="ColorPicker" name="clpVisualizerText" native="true"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_22">
-               <property name="text">
-                <string>Visualizer</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QLabel" name="label_28">
-               <property name="text">
-                <string>Text:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_19">
-               <property name="text">
-                <string>Tool:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="ColorPicker" name="clpTool" native="true"/>
-             </item>
-             <item row="4" column="0">
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>6</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="6" column="2">
-              <widget class="QLabel" name="label_16">
-               <property name="text">
-                <string>Drawn:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="3">
-              <widget class="ColorPicker" name="clpToolpathDrawn" native="true"/>
-             </item>
-             <item row="6" column="1">
-              <widget class="ColorPicker" name="clpToolpathNormal" native="true"/>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_23">
-               <property name="text">
-                <string>Normal:</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="grpShortcuts">
-          <property name="title">
-           <string>Shortcuts</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <item>
-            <widget class="QTableWidget" name="tblShortcuts">
-             <column>
-              <property name="text">
-               <string>Command</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Text</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Shortcuts</string>
-              </property>
-             </column>
             </widget>
            </item>
           </layout>
@@ -1571,22 +1417,6 @@ QSplitter::handle:horizontal {
     <hint type="destinationlabel">
      <x>243</x>
      <y>270</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkMoveOnRestore</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cboRestoreMode</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>333</x>
-     <y>-47</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>498</x>
-     <y>-64</y>
     </hint>
    </hints>
   </connection>

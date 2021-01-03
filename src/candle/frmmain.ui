@@ -283,13 +283,6 @@ QLabel[overrided=&quot;false&quot;] {
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QCheckBox" name="chkTestMode">
-           <property name="text">
-            <string>Check</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QCheckBox" name="chkAutoScroll">
            <property name="text">
             <string>Scroll</string>
@@ -466,9 +459,9 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>257</width>
-          <height>770</height>
+          <y>-239</y>
+          <width>275</width>
+          <height>804</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -715,10 +708,10 @@ QLabel[overrided=&quot;false&quot;] {
                          <enum>QAbstractSpinBox::NoButtons</enum>
                         </property>
                         <property name="minimum">
-                         <double>-999.000000000000000</double>
+                         <double>-9999.000000000000000</double>
                         </property>
                         <property name="maximum">
-                         <double>999.000000000000000</double>
+                         <double>9999.000000000000000</double>
                         </property>
                        </widget>
                       </item>
@@ -740,10 +733,10 @@ QLabel[overrided=&quot;false&quot;] {
                          <enum>QAbstractSpinBox::NoButtons</enum>
                         </property>
                         <property name="minimum">
-                         <double>-999.000000000000000</double>
+                         <double>-9999.000000000000000</double>
                         </property>
                         <property name="maximum">
-                         <double>999.000000000000000</double>
+                         <double>9999.000000000000000</double>
                         </property>
                         <property name="value">
                          <double>10.000000000000000</double>
@@ -775,10 +768,10 @@ QLabel[overrided=&quot;false&quot;] {
                          <enum>QAbstractSpinBox::NoButtons</enum>
                         </property>
                         <property name="minimum">
-                         <double>-999.000000000000000</double>
+                         <double>-9999.000000000000000</double>
                         </property>
                         <property name="maximum">
-                         <double>999.000000000000000</double>
+                         <double>9999.000000000000000</double>
                         </property>
                        </widget>
                       </item>
@@ -814,10 +807,10 @@ QLabel[overrided=&quot;false&quot;] {
                          <enum>QAbstractSpinBox::NoButtons</enum>
                         </property>
                         <property name="minimum">
-                         <double>-999.000000000000000</double>
+                         <double>-9999.000000000000000</double>
                         </property>
                         <property name="maximum">
-                         <double>999.000000000000000</double>
+                         <double>9999.000000000000000</double>
                         </property>
                         <property name="value">
                          <double>10.000000000000000</double>
@@ -866,6 +859,13 @@ QLabel[overrided=&quot;false&quot;] {
                     </item>
                     <item>
                      <layout class="QGridLayout" name="gridLayout_4">
+                      <item row="0" column="3">
+                       <widget class="QLabel" name="label_14">
+                        <property name="text">
+                         <string>Zt:</string>
+                        </property>
+                       </widget>
+                      </item>
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_12">
                         <property name="text">
@@ -904,6 +904,34 @@ QLabel[overrided=&quot;false&quot;] {
                         </property>
                        </widget>
                       </item>
+                      <item row="1" column="5">
+                       <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="locale">
+                         <locale language="C" country="AnyCountry"/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="buttonSymbols">
+                         <enum>QAbstractSpinBox::NoButtons</enum>
+                        </property>
+                        <property name="minimum">
+                         <double>-999.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>999.000000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>-1.000000000000000</double>
+                        </property>
+                       </widget>
+                      </item>
                       <item row="0" column="5">
                        <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
                         <property name="sizePolicy">
@@ -932,31 +960,17 @@ QLabel[overrided=&quot;false&quot;] {
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="5">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
+                      <item row="1" column="0">
+                       <widget class="QLabel" name="label_13">
+                        <property name="text">
+                         <string>Y:</string>
                         </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>-1.000000000000000</double>
+                       </widget>
+                      </item>
+                      <item row="1" column="3">
+                       <widget class="QLabel" name="label_11">
+                        <property name="text">
+                         <string>Zb:</string>
                         </property>
                        </widget>
                       </item>
@@ -991,24 +1005,41 @@ QLabel[overrided=&quot;false&quot;] {
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="3">
-                       <widget class="QLabel" name="label_11">
+                      <item row="2" column="0">
+                       <widget class="QLabel" name="label_21">
                         <property name="text">
-                         <string>Zb:</string>
+                         <string>F:</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_13">
-                        <property name="text">
-                         <string>Y:</string>
+                      <item row="2" column="1">
+                       <widget class="QDoubleSpinBox" name="txtHeightMapProbeFeed">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
                         </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="3">
-                       <widget class="QLabel" name="label_14">
-                        <property name="text">
-                         <string>Zt:</string>
+                        <property name="locale">
+                         <locale language="C" country="AnyCountry"/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="buttonSymbols">
+                         <enum>QAbstractSpinBox::NoButtons</enum>
+                        </property>
+                        <property name="decimals">
+                         <number>0</number>
+                        </property>
+                        <property name="minimum">
+                         <double>0.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>9999.000000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>0.000000000000000</double>
                         </property>
                        </widget>
                       </item>
@@ -1253,10 +1284,10 @@ QLabel[overrided=&quot;false&quot;] {
        <widget class="DropWidget" name="scrollContentsDevice">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
+          <x>-26</x>
+          <y>-506</y>
           <width>347</width>
-          <height>897</height>
+          <height>850</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -1595,8 +1626,8 @@ QLabel[overrided=&quot;false&quot;] {
            <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="1" column="3">
-               <widget class="StyledToolButton" name="cmdReset">
+              <item row="0" column="2">
+               <widget class="StyledToolButton" name="cmdCheck">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -1604,14 +1635,14 @@ QLabel[overrided=&quot;false&quot;] {
                  </sizepolicy>
                 </property>
                 <property name="toolTip">
-                 <string>Reset</string>
+                 <string>Check</string>
                 </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="images.qrc">
-                  <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
+                  <normaloff>:/images/check1.png</normaloff>:/images/check1.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -1619,34 +1650,8 @@ QLabel[overrided=&quot;false&quot;] {
                   <height>32</height>
                  </size>
                 </property>
-                <property name="adjustSize" stdset="0">
+                <property name="checkable">
                  <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="StyledToolButton" name="cmdZeroXY">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>Zero XY</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/axis_zero.png</normaloff>:/images/axis_zero.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
                 </property>
                 <property name="adjustSize" stdset="0">
                  <bool>true</bool>
@@ -1682,8 +1687,8 @@ QLabel[overrided=&quot;false&quot;] {
                 </property>
                </widget>
               </item>
-              <item row="0" column="2">
-               <widget class="StyledToolButton" name="cmdTouch">
+              <item row="0" column="3">
+               <widget class="StyledToolButton" name="cmdReset">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -1691,43 +1696,14 @@ QLabel[overrided=&quot;false&quot;] {
                  </sizepolicy>
                 </property>
                 <property name="toolTip">
-                 <string>Z-probe</string>
+                 <string>Reset</string>
                 </property>
                 <property name="text">
                  <string>...</string>
                 </property>
                 <property name="icon">
                  <iconset resource="images.qrc">
-                  <normaloff>:/images/search_for_z.png</normaloff>:/images/search_for_z.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-                <property name="adjustSize" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="StyledToolButton" name="cmdSafePosition">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>Safe position</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
+                  <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -1741,67 +1717,6 @@ QLabel[overrided=&quot;false&quot;] {
                </widget>
               </item>
               <item row="0" column="4">
-               <widget class="StyledToolButton" name="cmdZeroZ">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>Zero Z</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/zero_z.png</normaloff>:/images/zero_z.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-                <property name="adjustSize" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="StyledToolButton" name="cmdRestoreOrigin">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>Restore origin</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="images.qrc">
-                  <normaloff>:/images/origin.png</normaloff>:/images/origin.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-                <property name="adjustSize" stdset="0">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="4">
                <widget class="StyledToolButton" name="cmdUnlock">
                 <property name="enabled">
                  <bool>true</bool>
@@ -1820,7 +1735,7 @@ QLabel[overrided=&quot;false&quot;] {
                 </property>
                 <property name="icon">
                  <iconset resource="images.qrc">
-                  <normaloff>:/images/unlock.png</normaloff>:/images/unlock.png</iconset>
+                  <normaloff>:/images/unlock1.png</normaloff>:/images/unlock1.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -2872,7 +2787,7 @@ padding-right: 8;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>320</width>
+          <width>347</width>
           <height>106</height>
          </rect>
         </property>
@@ -3336,13 +3251,7 @@ padding-right: 8;</string>
   <tabstop>chkHeightMapInterpolationShow</tabstop>
   <tabstop>txtStatus</tabstop>
   <tabstop>cmdHome</tabstop>
-  <tabstop>cmdTouch</tabstop>
-  <tabstop>cmdZeroXY</tabstop>
-  <tabstop>cmdZeroZ</tabstop>
-  <tabstop>cmdRestoreOrigin</tabstop>
-  <tabstop>cmdSafePosition</tabstop>
-  <tabstop>cmdReset</tabstop>
-  <tabstop>cmdUnlock</tabstop>
+  <tabstop>cmdCheck</tabstop>
   <tabstop>chkHeightMapUse</tabstop>
   <tabstop>cmdHeightMapCreate</tabstop>
   <tabstop>cmdHeightMapLoad</tabstop>
@@ -3534,7 +3443,7 @@ padding-right: 8;</string>
   <connection>
    <sender>actControlTouch</sender>
    <signal>triggered()</signal>
-   <receiver>cmdTouch</receiver>
+   <receiver>cmdCheck</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -3544,70 +3453,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>169</x>
      <y>660</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actControlZeroXY</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdZeroXY</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>660</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actControlZeroZ</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdZeroZ</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>318</x>
-     <y>660</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actControlRestoreOrigin</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdRestoreOrigin</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>89</x>
-     <y>707</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actControlSafePosition</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdSafePosition</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>707</y>
     </hint>
    </hints>
   </connection>
@@ -3704,22 +3549,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>318</x>
      <y>803</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actProgramCheck</sender>
-   <signal>triggered()</signal>
-   <receiver>chkTestMode</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>435</x>
-     <y>674</y>
     </hint>
    </hints>
   </connection>

@@ -390,36 +390,6 @@ void frmSettings::setShowUICommands(bool showUICommands)
     ui->chkShowUICommands->setChecked(showUICommands);
 }
 
-QString frmSettings::safePositionCommand()
-{
-    return ui->txtSafeCommand->toPlainText();
-}
-
-void frmSettings::setSafePositionCommand(QString command)
-{
-    ui->txtSafeCommand->setPlainText(command);
-}
-
-bool frmSettings::moveOnRestore()
-{
-    return ui->chkMoveOnRestore->isChecked();
-}
-
-void frmSettings::setMoveOnRestore(bool value)
-{
-    ui->chkMoveOnRestore->setChecked(value);
-}
-
-int frmSettings::restoreMode()
-{
-    return ui->cboRestoreMode->currentIndex();
-}
-
-void frmSettings::setRestoreMode(int value)
-{
-    ui->cboRestoreMode->setCurrentIndex(value);
-}
-
 int frmSettings::spindleSpeedMin()
 {
     return ui->txtSpindleSpeedMin->value();
@@ -468,16 +438,6 @@ int frmSettings::rapidSpeed()
 void frmSettings::setRapidSpeed(int rapidSpeed)
 {
     m_rapidSpeed = rapidSpeed;
-}
-
-int frmSettings::heightmapProbingFeed()
-{
-    return ui->txtHeightMapProbingFeed->value();
-}
-
-void frmSettings::setHeightmapProbingFeed(int heightmapProbingFeed)
-{
-    ui->txtHeightMapProbingFeed->setValue(heightmapProbingFeed);
 }
 
 int frmSettings::acceleration()
@@ -568,16 +528,6 @@ int frmSettings::units()
 void frmSettings::setUnits(int units)
 {
     m_units = units;
-}
-
-QString frmSettings::touchCommand()
-{
-    return ui->txtTouchCommand->toPlainText();
-}
-
-void frmSettings::setTouchCommand(QString touchCommand)
-{
-    ui->txtTouchCommand->setPlainText(touchCommand);
 }
 
 bool frmSettings::simplify()
@@ -738,11 +688,6 @@ void frmSettings::on_cmdDefaults_clicked()
     setSpindleSpeedMax(10000);
     setLaserPowerMin(0);
     setLaserPowerMax(100);
-    setTouchCommand("G21G91G38.2Z-30F100; G0Z1; G38.2Z-2F10");
-    setSafePositionCommand("G21G90; G53G0Z0");
-    setMoveOnRestore(false);
-    setRestoreMode(0);
-    setHeightmapProbingFeed(10);
     setUnits(0);
 
     setArcLength(0.0);
