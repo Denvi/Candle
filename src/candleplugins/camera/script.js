@@ -1,28 +1,35 @@
-function on_settings_aboutToSave()
+function on_settings_saved()
 {
-}
-
-function on_settings_aboutToLoad()
-{
-
+    main.saveValue("camera/name", settings.cboCameraName.currentText);
+    main.saveValue("camera/resolution", settings.cboCameraResolution.currentText);
+    main.saveValue("camera/zoom", settings.txtCameraZoom.text);
+    main.saveValue("camera/position", settings.txtCameraPosition.text);
+    main.saveValue("camera/aimPosition", settings.txtCameraAimPosition.text);
+    main.saveValue("camera/aimSize", settings.txtCameraAimSize.value);
+    main.saveValue("camera/aimLineWidth", settings.txtCameraAimLineWidth.value);
+    main.saveValue("camera/aimColor", settings.colCameraAimColor.colorInt);
 }
 
 function on_settings_loaded()
 {
-    // Update cameras list
-    var n = settings.txtCameraName.currentText;
-    settings.txtCameraName.clear();
-    settings.txtCameraName.addItems(ui.camMain.availableCameras);
-    settings.txtCameraName.currentText = n;
+    // Load settings
+    settings.cboCameraName.setItems(ui.camMain.availableCameras);
+    settings.cboCameraName.currentText = main.loadValue("camera/name");
+    settings.cboCameraResolution.currentText = main.loadValue("camera/resolution");
+    settings.txtCameraZoom.text = main.loadValue("camera/zoom");
+    settings.txtCameraPosition.text = main.loadValue("camera/position");
+    settings.txtCameraAimPosition.text = main.loadValue("camera/aimPosition");
+    settings.txtCameraAimSize.value = main.loadValue("camera/aimSize");
+    settings.txtCameraAimLineWidth.value = main.loadValue("camera/aimLineWidth");
+    settings.colCameraAimColor.colorInt = main.loadValue("camera/aimColor");
 
     // Apply settings
-    updateSettings();
+    applySettings();
 
     // Update resolutions list
-    var r = settings.txtCameraResolution.currentText;
-    settings.txtCameraResolution.clear();
-    settings.txtCameraResolution.addItems(ui.camMain.availableResolutions);
-    settings.txtCameraResolution.currentText = r;
+    var r = settings.cboCameraResolution.currentText;
+    settings.cboCameraResolution.setItems(ui.camMain.availableResolutions);
+    settings.cboCameraResolution.currentText = r;
 
     // Connect signals/slots
     ui.camMain.posChanged.connect(on_pos_changed);
@@ -31,19 +38,19 @@ function on_settings_loaded()
     ui.camMain.aimLineWidthChanged.connect(on_aimLineWidth_changed);
     ui.camMain.aimColorChanged.connect(on_aimColor_changed);
     ui.camMain.zoomChanged.connect(on_zoom_changed);
-    settings.txtCameraName.currentTextChanged.connect(on_cameraName_changed);
+    settings.cboCameraName.currentTextChanged.connect(on_cameraName_changed);
 }
 
 function on_settings_changed()
 {
-    updateSettings();
+    applySettings();
 }
 
-function updateSettings()
+function applySettings()
 {
     // Resolution
-    if (settings.txtCameraResolution.currentText != "") {
-        var l = settings.txtCameraResolution.currentText.split("x");
+    if (settings.cboCameraResolution.currentText != "") {
+        var l = settings.cboCameraResolution.currentText.split("x");
         ui.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];
     }
     
@@ -71,7 +78,7 @@ function updateSettings()
     ui.camMain.aimColor = parseInt(settings.colCameraAimColor.colorInt);
 
     // Update camera
-    ui.camMain.cameraName = settings.txtCameraName.currentText;
+    ui.camMain.cameraName = settings.cboCameraName.currentText;
 }
 
 function on_cameraName_changed(name)
@@ -80,10 +87,9 @@ function on_cameraName_changed(name)
     ui.camMain.cameraName = name;
     
     // Update resolutions list
-    var r = settings.txtCameraResolution.currentText;
-    settings.txtCameraResolution.clear();
-    settings.txtCameraResolution.addItems(ui.camMain.availableResolutions);
-    settings.txtCameraResolution.currentText = r;
+    var r = settings.cboCameraResolution.currentText;
+    settings.cboCameraResolution.setItems(ui.camMain.availableResolutions);
+    settings.cboCameraResolution.currentText = r;
 }
 
 function on_pos_changed(pos)
@@ -117,7 +123,6 @@ function on_zoom_changed(zoom)
     settings.txtCameraZoom.text = zoom.toFixed(3);
 }
 
-main.settingsAboutToLoad.connect(on_settings_aboutToLoad);
+main.settingsSaved.connect(on_settings_saved);
 main.settingsLoaded.connect(on_settings_loaded);
-main.settingsAboutToSave.connect(on_settings_aboutToSave);
 main.settingsChanged.connect(on_settings_changed);

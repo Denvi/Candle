@@ -63,14 +63,21 @@ QStringList CameraWidget::availableCameras() const
 
 QStringList CameraWidget::availableResolutions() const
 {
-    QStringList l;
-    foreach (QSize s, m_camera->supportedViewfinderResolutions()) l.append(QString("%1x%2").arg(s.width()).arg(s.height()));
-    return l;
+    if (m_camera) {
+        QStringList l;
+        foreach (QSize s, m_camera->supportedViewfinderResolutions()) l.append(QString("%1x%2").arg(s.width()).arg(s.height()));
+        return l;
+    } else {
+        return QStringList();
+    }
 }
 
 void CameraWidget::setCamera(const QCameraInfo &cameraInfo)
 {
-    if (m_camera) delete m_camera;
+    if (m_camera) {
+        m_camera->stop();
+        m_camera->deleteLater();
+    }
 
     m_camera = new QCamera(cameraInfo);
     m_camera->setViewfinder(m_viewFinder);

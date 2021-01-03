@@ -91,7 +91,9 @@ public:
 
     Q_INVOKABLE int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
     Q_INVOKABLE void sendCommands(QString commands, int tableIndex = -1);
-    Q_INVOKABLE void applySettings();    
+    Q_INVOKABLE void applySettings();
+    Q_INVOKABLE void saveValue(QString key, QVariant value);
+    Q_INVOKABLE QVariant loadValue(QString key);
 
     double toolZPosition();
 
@@ -102,6 +104,7 @@ signals:
     void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();
+    void settingsSaved();
     void settingsChanged();
 
 private slots:

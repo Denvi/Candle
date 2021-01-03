@@ -411,6 +411,8 @@ void frmMain::loadSettings()
 
     m_settingsLoading = true;
 
+    emit settingsAboutToLoad();
+
     m_settings->setFontSize(set.value("fontSize", 8).toInt());
     m_settings->setPort(set.value("port").toString());
     m_settings->setBaud(set.value("baud").toInt());
@@ -602,13 +604,9 @@ void frmMain::loadSettings()
     ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
     ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
 
-    // Load custom settings
-    emit settingsAboutToLoad();
-    m_settings->loadCustomSettings(set);
-    emit settingsLoaded();
-
     m_settings->restoreGeometry(set.value("formSettingsGeometry", m_settings->saveGeometry()).toByteArray());
 
+    emit settingsLoaded();
     m_settingsLoading = false;
 }
 
@@ -616,6 +614,8 @@ void frmMain::saveSettings()
 {
     QSettings set(m_settingsFileName, QSettings::IniFormat);
     set.setIniCodec("UTF-8");
+
+    emit settingsAboutToSave();
 
     set.setValue("port", m_settings->port());
     set.setValue("baud", m_settings->baud());
@@ -743,9 +743,7 @@ void frmMain::saveSettings()
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
     set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
 
-    // Custom settings
-    emit settingsAboutToSave();
-    m_settings->saveCustomSettings(set);
+    emit settingsSaved();
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -4305,4 +4303,20 @@ void frmMain::on_actViewLockWindows_toggled(bool checked)
     foreach (QDockWidget *d, dl) {
         d->setFeatures(checked ? QDockWidget::NoDockWidgetFeatures : QDockWidget::AllDockWidgetFeatures);
     }
+}
+
+void frmMain::saveValue(QString key, QVariant value)
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    set.setValue("Plugins/" + key, value);
+}
+
+QVariant frmMain::loadValue(QString key)
+{
+    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
+
+    return set.value("Plugins/" + key);
 }

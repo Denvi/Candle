@@ -64,8 +64,6 @@ public:
     void undo();
 
     void addCustomSettings(GroupBox *box);
-    void saveCustomSettings(QSettings &set);
-    void loadCustomSettings(QSettings &set);
 
     QString port();
     void setPort(QString port);
