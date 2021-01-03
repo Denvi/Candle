@@ -184,6 +184,14 @@ void frmSettings::saveCustomSettings(QSettings &set)
         foreach (QPlainTextEdit* o, w->findChildren<QPlainTextEdit*>())
             set.setValue(o->objectName(), o->toPlainText());
 
+        foreach (QSpinBox* o, w->findChildren<QSpinBox*>()) {
+            set.setValue(o->objectName(), o->value());
+        }
+
+        foreach (QDoubleSpinBox* o, w->findChildren<QDoubleSpinBox*>()) {
+            set.setValue(o->objectName(), o->value());
+        }
+
         set.endGroup(); 
     }
 
@@ -218,6 +226,12 @@ void frmSettings::loadCustomSettings(QSettings &set)
 
         foreach (QPlainTextEdit* o, w->findChildren<QPlainTextEdit*>())
             o->setPlainText(set.value(o->objectName()).toString());
+
+        foreach (QSpinBox* o, w->findChildren<QSpinBox*>())
+            o->setValue(set.value(o->objectName()).toInt());
+
+        foreach (QDoubleSpinBox* o, w->findChildren<QDoubleSpinBox*>())
+            o->setValue(set.value(o->objectName()).toDouble());
 
         set.endGroup(); 
     }

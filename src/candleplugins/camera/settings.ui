@@ -34,10 +34,10 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="ComboBox" name="txtCameraName"/>
+    <widget class="ComboBox" name="txtCameraName" native="true"/>
    </item>
    <item row="0" column="4">
-    <widget class="ComboBox" name="txtCameraResolution"/>
+    <widget class="ComboBox" name="txtCameraResolution" native="true"/>
    </item>
    <item row="1" column="1">
     <widget class="QLineEdit" name="txtCameraPosition"/>
@@ -99,9 +99,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="4">
-    <widget class="QLineEdit" name="txtCameraAimSize"/>
-   </item>
    <item row="3" column="0">
     <widget class="QLabel" name="lblCameraAimColor">
      <property name="text">
@@ -116,11 +113,25 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="4">
-    <widget class="QLineEdit" name="txtCameraAimLineWidth"/>
-   </item>
    <item row="3" column="1">
     <widget class="ColorPicker" name="colCameraAimColor" native="true"/>
+   </item>
+   <item row="2" column="4">
+    <widget class="QSpinBox" name="txtCameraAimSize">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QDoubleSpinBox" name="txtCameraAimLineWidth">
+     <property name="decimals">
+      <number>1</number>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -130,6 +141,11 @@
    <extends>QWidget</extends>
    <header>colorpicker.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QWidget</extends>
+   <header>combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

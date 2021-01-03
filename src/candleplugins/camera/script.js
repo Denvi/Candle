@@ -62,12 +62,10 @@ function updateSettings()
     ui.camMain.aimPos = [parseFloat(l[0]), parseFloat(l[1])];
 
     // Aim size
-    if (settings.txtCameraAimSize.text == "") settings.txtCameraAimSize.text = "20";
-    ui.camMain.aimSize = parseInt(settings.txtCameraAimSize.text);
+    ui.camMain.aimSize = parseInt(settings.txtCameraAimSize.value);
 
     // Aim line width
-    if (settings.txtCameraAimLineWidth.text == "") settings.txtCameraAimLineWidth.text = "1.0";
-    ui.camMain.aimLineWidth = parseInt(settings.txtCameraAimLineWidth.text);
+    ui.camMain.aimLineWidth = parseInt(settings.txtCameraAimLineWidth.value);
     
     // Aim color
     ui.camMain.aimColor = parseInt(settings.colCameraAimColor.colorInt);
