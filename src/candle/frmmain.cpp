@@ -35,6 +35,9 @@
 #include "widgets/widgetmimedata.h"
 #include "widgets/uiloader.h"
 
+#include <QDrag>
+#include <QTranslator>
+
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
