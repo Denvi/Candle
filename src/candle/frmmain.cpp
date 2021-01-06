@@ -3952,13 +3952,13 @@ void frmMain::jogStep()
     if (m_jogVector.length() == 0) return;
 
     if (ui->cboJogStep->currentText().toDouble() == 0) {
-        const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
-        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
-        double v = (double)speed / 60;                              // Rapid speed mm/sec
-        int N = 15;                                                 // Planner blocks
-        double tt = 0.002;                                          // Transfer time
-        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt; // Single jog command time
-        double s = v * dt;                                          // Jog distance
+        const double acc = m_settings->acceleration();                  // Acceleration mm/sec^2
+        int speed = toMetric(ui->cboJogFeed->currentText().toInt());    // Speed mm/min
+        double v = (double)speed / 60;                                  // Rapid speed mm/sec
+        int N = 15;                                                     // Planner blocks
+        double tt = 0.002;                                              // Transfer time
+        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt;     // Single jog command time
+        double s = v * dt;                                              // Jog distance
 
         QVector3D vec = m_jogVector.normalized() * s;
 
@@ -3968,8 +3968,8 @@ void frmMain::jogStep()
                     .arg(vec.z(), 0, 'g', 4)
                     .arg(speed), -2, m_settings->showUICommands());
     } else {
-        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
-        QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
+        int speed = toMetric(ui->cboJogFeed->currentText().toInt());    // Speed mm/min
+        QVector3D vec = m_jogVector * toMetric(ui->cboJogStep->currentText().toDouble());
 
         sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4")
                     .arg(vec.x(), 0, 'g', 4)
