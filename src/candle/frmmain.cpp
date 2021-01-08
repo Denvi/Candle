@@ -1307,7 +1307,7 @@ void frmMain::onSerialPortReadyRead()
                         // Spindle speed
                         QRegExp rx(".*S([\\d\\.]+)");
                         if (rx.indexIn(response) != -1) {
-                            double speed = toMetric(rx.cap(1).toDouble()); //RPM in imperial?
+                            double speed = rx.cap(1).toDouble();
                             ui->slbSpindle->setCurrentValue(speed);
                         }
 
