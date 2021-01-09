@@ -56,9 +56,6 @@ SOURCES += main.cpp\
     tables/heightmaptablemodel.cpp \
     widgets/combobox.cpp \
     widgets/comboboxkey.cpp \
-    widgets/groupbox.cpp \
-    widgets/scrollarea.cpp \
-    widgets/widget.cpp \
     widgets/glwidget.cpp \
     drawers/selectiondrawer.cpp \
     scriptvars.cpp \
@@ -87,9 +84,6 @@ HEADERS  += frmmain.h \
     utils/util.h \
     widgets/combobox.h \
     widgets/comboboxkey.h \
-    widgets/groupbox.h \
-    widgets/scrollarea.h \
-    widgets/widget.h \
     widgets/glwidget.h \
     drawers/selectiondrawer.h \
     scriptvars.h \

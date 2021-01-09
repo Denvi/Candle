@@ -3035,7 +3035,7 @@ void frmMain::loadPlugins()
                 QWidget *w = qobject_cast<QWidget*>(sv.toQObject());
                 if (w) {
                     // Create panel
-                    GroupBox *box = new GroupBox(this);
+                    QGroupBox *box = new QGroupBox(this);
                     QVBoxLayout *layout1 = new QVBoxLayout(box);
                     QWidget *bw = new QWidget(box);
                     QVBoxLayout *layout2 = new QVBoxLayout(bw);
@@ -3096,7 +3096,7 @@ void frmMain::loadPlugins()
                 QWidget *w = qobject_cast<QWidget*>(sv.toQObject());
                 if (w) {
                     // Create groupbox
-                    GroupBox *box = new GroupBox(m_settings);
+                    QGroupBox *box = new QGroupBox(m_settings);
                     QVBoxLayout *layout1 = new QVBoxLayout(box);
                     box->setObjectName("grpSettings" + name);
                     box->setTitle(tr(title.toLatin1()));

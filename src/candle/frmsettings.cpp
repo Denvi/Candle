@@ -145,7 +145,7 @@ void frmSettings::undo()
         o->setPlainText(m_storedPlainTexts.takeFirst());
 }
 
-void frmSettings::addCustomSettings(GroupBox *box)
+void frmSettings::addCustomSettings(QGroupBox *box)
 {
     static_cast<QVBoxLayout*>(ui->scrollAreaWidgetContents->layout())->addWidget(box);
     

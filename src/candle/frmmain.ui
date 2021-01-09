@@ -481,7 +481,7 @@ QLabel[overrided=&quot;false&quot;] {
           <number>0</number>
          </property>
          <item>
-          <widget class="GroupBox" name="grpOverriding">
+          <widget class="QGroupBox" name="grpOverriding">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -545,7 +545,7 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="GroupBox" name="grpHeightMap">
+          <widget class="QGroupBox" name="grpHeightMap">
            <property name="title">
             <string>Heightmap</string>
            </property>
@@ -1754,7 +1754,7 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="GroupBox" name="grpSpindle">
+          <widget class="QGroupBox" name="grpSpindle">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -1829,7 +1829,7 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="GroupBox" name="grpJog">
+          <widget class="QGroupBox" name="grpJog">
            <property name="title">
             <string>Jog</string>
            </property>
@@ -2997,12 +2997,6 @@ padding-right: 8;</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">widgets/groupbox.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>StyledToolButton</class>
    <extends>QToolButton</extends>

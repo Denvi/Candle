@@ -8,13 +8,12 @@
 #include <QMessageBox>
 #include <QListWidgetItem>
 #include <QSettings>
+#include <QGroupBox>
 #include "colorpicker.h"
 
 namespace Ui {
 class frmSettings;
 }
-
-class GroupBox;
 
 class frmSettings : public QDialog
 {
@@ -63,7 +62,7 @@ public:
     int exec();
     void undo();
 
-    void addCustomSettings(GroupBox *box);
+    void addCustomSettings(QGroupBox *box);
 
     QString port();
     void setPort(QString port);

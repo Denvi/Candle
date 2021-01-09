@@ -80,7 +80,7 @@ QSplitter::handle:horizontal {
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="Widget" name="scrollAreaWidgetContents">
+      <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -91,7 +91,7 @@ QSplitter::handle:horizontal {
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="GroupBox" name="grpConnection">
+         <widget class="QGroupBox" name="grpConnection">
           <property name="title">
            <string>Connection</string>
           </property>
@@ -233,7 +233,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpGRBL">
+         <widget class="QGroupBox" name="grpGRBL">
           <property name="title">
            <string>Machine information</string>
           </property>
@@ -362,7 +362,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpParser">
+         <widget class="QGroupBox" name="grpParser">
           <property name="title">
            <string>Parser</string>
           </property>
@@ -470,7 +470,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpConnection_2">
+         <widget class="QGroupBox" name="grpConnection_2">
           <property name="title">
            <string>Sender</string>
           </property>
@@ -493,7 +493,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpVisualizer">
+         <widget class="QGroupBox" name="grpVisualizer">
           <property name="title">
            <string>Visualizer</string>
           </property>
@@ -715,7 +715,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpColors">
+         <widget class="QGroupBox" name="grpColors">
           <property name="title">
            <string>Colors</string>
           </property>
@@ -851,7 +851,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpTool">
+         <widget class="QGroupBox" name="grpTool">
           <property name="title">
            <string>Tool model</string>
           </property>
@@ -993,7 +993,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpShortcuts">
+         <widget class="QGroupBox" name="grpShortcuts">
           <property name="title">
            <string>Shortcuts</string>
           </property>
@@ -1021,7 +1021,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="grpConsole">
+         <widget class="QGroupBox" name="grpConsole">
           <property name="title">
            <string>Console</string>
           </property>
@@ -1051,7 +1051,7 @@ QSplitter::handle:horizontal {
          </widget>
         </item>
         <item>
-         <widget class="GroupBox" name="groupBox">
+         <widget class="QGroupBox" name="groupBox">
           <property name="title">
            <string>Font</string>
           </property>
@@ -1211,18 +1211,6 @@ QSplitter::handle:horizontal {
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">widgets/groupbox.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Widget</class>
-   <extends>QWidget</extends>
-   <header location="global">widgets/widget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>ColorPicker</class>
    <extends>QWidget</extends>
