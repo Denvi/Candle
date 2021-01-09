@@ -12,6 +12,7 @@
 #include <QKeySequenceEdit>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QPlainTextEdit>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -516,16 +517,6 @@ void frmSettings::setDrawModeVectors(bool value)
 {
     ui->radDrawModeVectors->setChecked(value);
     ui->radDrawModeRaster->setChecked(!value);
-}
-
-QString frmSettings::userCommands(int index)
-{
-    return this->findChild<QPlainTextEdit*>(QString("txtUserCommand%1").arg(index))->toPlainText();
-}
-
-void frmSettings::setUserCommands(int index, QString commands)
-{
-    this->findChild<QPlainTextEdit*>(QString("txtUserCommand%1").arg(index))->setPlainText(commands);
 }
 
 bool frmSettings::ignoreErrors()

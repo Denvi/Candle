@@ -72,3 +72,9 @@ bin
 
 #wrappers
 *_wrapper.bat
+
+#pdb
+*.pdb
+
+#script bindings binaries
+src/scriptbindings/plugins/script

@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QListWidgetItem>
 #include <QSettings>
-#include "widgets/colorpicker.h"
+#include "colorpicker.h"
 
 namespace Ui {
 class frmSettings;
@@ -132,8 +132,6 @@ public:
     void setGrayscaleSCode(bool value);
     bool drawModeVectors();
     void setDrawModeVectors(bool value);
-    QString userCommands(int index);
-    void setUserCommands(int index, QString commands);
     bool ignoreErrors();
     void setIgnoreErrors(bool value);
     bool autoLine();

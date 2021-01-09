@@ -459,7 +459,7 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-239</y>
+          <y>0</y>
           <width>275</width>
           <height>804</height>
          </rect>
@@ -467,7 +467,7 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="acceptDrops">
          <bool>true</bool>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,1">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -1284,16 +1284,16 @@ QLabel[overrided=&quot;false&quot;] {
        <widget class="DropWidget" name="scrollContentsDevice">
         <property name="geometry">
          <rect>
-          <x>-26</x>
-          <y>-506</y>
+          <x>0</x>
+          <y>0</y>
           <width>347</width>
-          <height>850</height>
+          <height>754</height>
          </rect>
         </property>
         <property name="acceptDrops">
          <bool>true</bool>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_13">
+        <layout class="QVBoxLayout" name="verticalLayout_13" stretch="0,0,0,0,0,1">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -1749,162 +1749,6 @@ QLabel[overrided=&quot;false&quot;] {
                </widget>
               </item>
              </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="GroupBox" name="grpUserCommands">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="title">
-            <string>User commands</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="overrided" stdset="0">
-            <bool>false</bool>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0">
-            <item>
-             <widget class="QWidget" name="widgetUserCommands" native="true">
-              <layout class="QVBoxLayout" name="verticalLayout_26">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <layout class="QGridLayout" name="gridLayout_7">
-                 <item row="0" column="1">
-                  <widget class="StyledToolButton" name="cmdUser1">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>Spindle on/off</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/num2.png</normaloff>:/images/num2.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>32</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                   <property name="adjustSize" stdset="0">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="StyledToolButton" name="cmdUser2">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>Spindle on/off</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/num3.png</normaloff>:/images/num3.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>32</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                   <property name="adjustSize" stdset="0">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
-                  <widget class="StyledToolButton" name="cmdUser3">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>Spindle on/off</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/num4.png</normaloff>:/images/num4.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>32</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                   <property name="adjustSize" stdset="0">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="StyledToolButton" name="cmdUser0">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>Spindle on/off</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="images.qrc">
-                     <normaloff>:/images/num1.png</normaloff>:/images/num1.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>32</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                   <property name="adjustSize" stdset="0">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
             </item>
            </layout>
           </widget>
@@ -2794,7 +2638,7 @@ padding-right: 8;</string>
         <property name="acceptDrops">
          <bool>true</bool>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_28">
+        <layout class="QVBoxLayout" name="verticalLayout_28" stretch="0,1">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -2901,29 +2745,12 @@ padding-right: 8;</string>
     <string>Home</string>
    </property>
   </action>
-  <action name="actControlTouch">
+  <action name="actControlCheck">
    <property name="text">
-    <string>Z-probe</string>
+    <string>Check</string>
    </property>
-  </action>
-  <action name="actControlZeroXY">
-   <property name="text">
-    <string>Zero XY</string>
-   </property>
-  </action>
-  <action name="actControlZeroZ">
-   <property name="text">
-    <string>Zero Z</string>
-   </property>
-  </action>
-  <action name="actControlRestoreOrigin">
-   <property name="text">
-    <string>Restore origin</string>
-   </property>
-  </action>
-  <action name="actControlSafePosition">
-   <property name="text">
-    <string>Safe position</string>
+   <property name="toolTip">
+    <string>Check</string>
    </property>
   </action>
   <action name="actControlReset">
@@ -2934,26 +2761,6 @@ padding-right: 8;</string>
   <action name="actControlUnlock">
    <property name="text">
     <string>Unlock</string>
-   </property>
-  </action>
-  <action name="actUserCommand1">
-   <property name="text">
-    <string>User command 1</string>
-   </property>
-  </action>
-  <action name="actUserCommand2">
-   <property name="text">
-    <string>User command 2</string>
-   </property>
-  </action>
-  <action name="actUserCommand3">
-   <property name="text">
-    <string>User command 3</string>
-   </property>
-  </action>
-  <action name="actUserCommand4">
-   <property name="text">
-    <string>User command 4</string>
    </property>
   </action>
   <action name="actSpindleSpeedPlus">
@@ -3191,24 +2998,24 @@ padding-right: 8;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>StyledToolButton</class>
-   <extends>QToolButton</extends>
-   <header>widgets/styledtoolbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>SliderBox</class>
-   <extends>QWidget</extends>
-   <header>widgets/sliderbox.h</header>
-   <container>1</container>
-   <slots>
-    <slot>click()</slot>
-   </slots>
-  </customwidget>
-  <customwidget>
    <class>GroupBox</class>
    <extends>QGroupBox</extends>
    <header location="global">widgets/groupbox.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StyledToolButton</class>
+   <extends>QToolButton</extends>
+   <header>styledtoolbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SliderBox</class>
+   <extends>QWidget</extends>
+   <header>sliderbox.h</header>
+   <container>1</container>
+   <slots>
+    <slot>click()</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>GLWidget</class>
@@ -3441,7 +3248,7 @@ padding-right: 8;</string>
    </hints>
   </connection>
   <connection>
-   <sender>actControlTouch</sender>
+   <sender>actControlCheck</sender>
    <signal>triggered()</signal>
    <receiver>cmdCheck</receiver>
    <slot>click()</slot>
@@ -3485,70 +3292,6 @@ padding-right: 8;</string>
     <hint type="destinationlabel">
      <x>318</x>
      <y>707</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actUserCommand1</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdUser0</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>92</x>
-     <y>803</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actUserCommand2</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdUser1</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>803</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actUserCommand3</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdUser2</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>803</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actUserCommand4</sender>
-   <signal>triggered()</signal>
-   <receiver>cmdUser3</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>318</x>
-     <y>803</y>
     </hint>
    </hints>
   </connection>

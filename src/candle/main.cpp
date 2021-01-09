@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
+    a.setApplicationDisplayName("Candle");
+    a.setApplicationVersion("1.2.10b");
 
 #ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
@@ -38,6 +40,7 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
+    // TODO: Use locale from settings
     QString loc = QLocale().name().left(2);
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
     QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
@@ -56,7 +59,6 @@ int main(int argc, char *argv[])
         if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
     }
 
-    a.setApplicationVersion(APP_VERSION);
 
 #ifdef UNIX
     if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {

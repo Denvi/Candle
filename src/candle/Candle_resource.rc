@@ -7,8 +7,8 @@
 IDI_ICON1	ICON	DISCARDABLE	"D:\\prj\\qtcode\\prj\\candle\\src\\candle\\images\\candle.ico"
 
 VS_VERSION_INFO VERSIONINFO
-	FILEVERSION 1,2,9,1b
-	PRODUCTVERSION 1,2,9,1b
+	FILEVERSION 0,0,0,0
+	PRODUCTVERSION 0,0,0,0
 	FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
 	FILEFLAGS VS_FF_DEBUG
@@ -25,11 +25,11 @@ VS_VERSION_INFO VERSIONINFO
 			BEGIN
 				VALUE "CompanyName", "\0"
 				VALUE "FileDescription", "\0"
-				VALUE "FileVersion", "1.2.9.1b\0"
+				VALUE "FileVersion", "0.0.0.0\0"
 				VALUE "LegalCopyright", "\0"
 				VALUE "OriginalFilename", "Candle.exe\0"
 				VALUE "ProductName", "Candle\0"
-				VALUE "ProductVersion", "1.2.9.1b\0"
+				VALUE "ProductVersion", "0.0.0.0\0"
 			END
 		END
 		BLOCK "VarFileInfo"

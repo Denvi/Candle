@@ -1,3 +1,6 @@
+// TODO: Adapt to new plugin api
+script.importExtension("qt.widgets");
+
 function on_settings_saved()
 {
     main.saveValue("camera/name", settings.cboCameraName.currentText);
@@ -13,7 +16,7 @@ function on_settings_saved()
 function on_settings_loaded()
 {
     // Load settings
-    settings.cboCameraName.setItems(ui.camMain.availableCameras);
+    settings.cboCameraName.addItems(ui.camMain.availableCameras);
     settings.cboCameraName.currentText = main.loadValue("camera/name");
     settings.cboCameraResolution.currentText = main.loadValue("camera/resolution");
     settings.txtCameraZoom.text = main.loadValue("camera/zoom");
@@ -28,7 +31,7 @@ function on_settings_loaded()
 
     // Update resolutions list
     var r = settings.cboCameraResolution.currentText;
-    settings.cboCameraResolution.setItems(ui.camMain.availableResolutions);
+    settings.cboCameraResolution.addItems(ui.camMain.availableResolutions);
     settings.cboCameraResolution.currentText = r;
 
     // Connect signals/slots
@@ -88,7 +91,8 @@ function on_cameraName_changed(name)
     
     // Update resolutions list
     var r = settings.cboCameraResolution.currentText;
-    settings.cboCameraResolution.setItems(ui.camMain.availableResolutions);
+    settings.cboCameraResolution.clear();
+    settings.cboCameraResolution.addItems(ui.camMain.availableResolutions);
     settings.cboCameraResolution.currentText = r;
 }
 

@@ -29,11 +29,9 @@ contains(QT_CONFIG, opengles.) {
 
 TARGET = Candle
 TEMPLATE = app
-VERSION = 1.2.9.1b
 RC_ICONS += images/candle.ico
 
 DEFINES += sNan=\"65536\"
-DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 TRANSLATIONS += translations/candle_en.ts translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts translations/candle_pt.ts
 
@@ -56,20 +54,16 @@ SOURCES += main.cpp\
     parser/pointsegment.cpp \
     tables/gcodetablemodel.cpp \
     tables/heightmaptablemodel.cpp \
-    widgets/colorpicker.cpp \
     widgets/combobox.cpp \
+    widgets/comboboxkey.cpp \
     widgets/groupbox.cpp \
     widgets/scrollarea.cpp \
-    widgets/styledtoolbutton.cpp \
     widgets/widget.cpp \
     widgets/glwidget.cpp \
-    widgets/slider.cpp \
-    widgets/sliderbox.cpp \
     drawers/selectiondrawer.cpp \
-    widgets/comboboxkey.cpp \
     scriptvars.cpp \
-    widgets/dropwidget.cpp \
-    widgets/uiloader.cpp
+    scriptfunctions.cpp \
+    widgets/dropwidget.cpp
 
 HEADERS  += frmmain.h \
     frmsettings.h \
@@ -91,28 +85,27 @@ HEADERS  += frmmain.h \
     tables/heightmaptablemodel.h \
     utils/interpolation.h \
     utils/util.h \
-    widgets/colorpicker.h \
     widgets/combobox.h \
+    widgets/comboboxkey.h \
     widgets/groupbox.h \
     widgets/scrollarea.h \
-    widgets/styledtoolbutton.h \
     widgets/widget.h \
     widgets/glwidget.h \
-    widgets/slider.h \
-    widgets/sliderbox.h \
     drawers/selectiondrawer.h \
-    widgets/comboboxkey.h \
     scriptvars.h \
-    widgets/dropwidget.h \
-    widgets/uiloader.h
+    scriptfunctions.h \
+    widgets/dropwidget.h
 
 FORMS    += frmmain.ui \
     frmsettings.ui \
-    frmabout.ui \
-    widgets/sliderbox.ui
+    frmabout.ui
 
 DEFINES += _USE_MATH_DEFINES
 
 RESOURCES += \
     shaders.qrc \
     images.qrc
+
+INCLUDEPATH += ../designerplugins/customwidgetsplugin
+
+LIBS += -L../designerplugins/customwidgetsplugin/release -lcustomwidgets

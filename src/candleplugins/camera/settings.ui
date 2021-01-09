@@ -128,14 +128,14 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="ComboBox" name="cboCameraName">
+    <widget class="QComboBox" name="cboCameraName">
      <property name="editable">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="0" column="4">
-    <widget class="ComboBox" name="cboCameraResolution">
+    <widget class="QComboBox" name="cboCameraResolution">
      <property name="editable">
       <bool>true</bool>
      </property>

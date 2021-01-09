@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1960</y>
+         <y>0</y>
          <width>620</width>
-         <height>2487</height>
+         <height>1517</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -486,95 +486,6 @@ QSplitter::handle:horizontal {
             <widget class="QCheckBox" name="chkAutoLine">
              <property name="text">
               <string>Automatically set parser state before sending from selected line</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="GroupBox" name="groupBox_5">
-          <property name="title">
-           <string>User commands</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_12">
-           <item>
-            <widget class="QLabel" name="label_34">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 1:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand0">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_36">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 2:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand1">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_37">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 3:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand2">
-             <property name="plainText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_39">
-             <property name="styleSheet">
-              <string notr="true">padding-top: 3;</string>
-             </property>
-             <property name="text">
-              <string>Button 4:</string>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="txtUserCommand3">
-             <property name="plainText">
-              <string/>
              </property>
             </widget>
            </item>
@@ -1315,7 +1226,7 @@ QSplitter::handle:horizontal {
   <customwidget>
    <class>ColorPicker</class>
    <extends>QWidget</extends>
-   <header>widgets/colorpicker.h</header>
+   <header>colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 TRANSLATIONS =  camera/translation_ru.ts \
-                test1/translation_ru.ts
+                test1/translation_ru.ts \
+                usercommands/translation_ru.ts
 
 qtPrepareTool(LRELEASE, lrelease)
 for(tsfile, TRANSLATIONS) {

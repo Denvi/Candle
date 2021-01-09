@@ -36,13 +36,14 @@
 
 #include "utils/interpolation.h"
 
-#include "widgets/styledtoolbutton.h"
-#include "widgets/sliderbox.h"
+#include "styledtoolbutton.h"
+#include "sliderbox.h"
 
 #include "frmsettings.h"
 #include "frmabout.h"
 
 #include "scriptvars.h"
+#include "scriptfunctions.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
@@ -85,108 +86,89 @@ class frmMain : public QMainWindow
 {
     Q_OBJECT
 
+    friend class ScriptFunctions;
+
 public:
     explicit frmMain(QWidget *parent = 0);
     ~frmMain();
 
-    Q_INVOKABLE int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
-    Q_INVOKABLE void sendCommands(QString commands, int tableIndex = -1);
-    Q_INVOKABLE void applySettings();
-    Q_INVOKABLE void saveValue(QString key, QVariant value);
-    Q_INVOKABLE QVariant loadValue(QString key);
-
-    double toolZPosition();
-
 signals:
-
     void responseReceived(QString command, int tableIndex, QString response);
     void statusReceived(QString status);
+    void statusChanged(int status);
     void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();
     void settingsSaved();
-    void settingsChanged();
+    void settingsAboutToShow();
+    void settingsAccepted();
+    void settingsRejected();
+    void pluginsLoaded();
 
 private slots:
-    void updateHeightMapInterpolationDrawer(bool reset = false);
-    void placeVisualizerButtons();
-
-    void onSerialPortReadyRead();
-    void onSerialPortError(QSerialPort::SerialPortError);
-    void onTimerConnection();
-    void onTimerStateQuery();
-    void onVisualizatorRotationChanged();
-    void onScroolBarAction(int action);
-    void onJogTimer();
-    void onTableInsertLine();
-    void onTableDeleteLines();
-    void onActRecentFileTriggered();
-    void onCboCommandReturnPressed();
-    void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
-    void onCmdUserClicked(bool checked);
-    void onOverridingToggled(bool checked);
-    void onOverrideChanged();
-    void onActSendFromLineTriggered();
-    void onSlbSpindleValueUserChanged();
-    void onSlbSpindleValueChanged();
-    void onDockTopLevelChanged(bool topLevel);
-
-    void on_actFileExit_triggered();
-    void on_cmdFileOpen_clicked();
-    void on_cmdFit_clicked();
-    void on_cmdFileSend_clicked();
-    void onTableCellChanged(QModelIndex i1, QModelIndex i2);
-    void on_actServiceSettings_triggered();
+    void on_actFileNew_triggered();
     void on_actFileOpen_triggered();
+    void on_actFileSave_triggered();
+    void on_actFileSaveAs_triggered();
+    void on_actFileSaveTransformedAs_triggered();
+    void on_actRecentClear_triggered();
+    void on_actFileExit_triggered();
+    void on_actServiceSettings_triggered();
+    void on_actAbout_triggered();
+    void on_actJogStepNext_triggered();
+    void on_actJogStepPrevious_triggered();
+    void on_actJogFeedNext_triggered();
+    void on_actJogFeedPrevious_triggered();
+    void on_actSpindleSpeedPlus_triggered();
+    void on_actSpindleSpeedMinus_triggered();
+    void on_actOverrideFeedPlus_triggered();
+    void on_actOverrideFeedMinus_triggered();
+    void on_actOverrideRapidPlus_triggered();
+    void on_actOverrideRapidMinus_triggered();
+    void on_actOverrideSpindlePlus_triggered();
+    void on_actOverrideSpindleMinus_triggered();
+    void on_actViewLockWindows_toggled(bool checked);
+    void on_cmdFileOpen_clicked();
+    void on_cmdFileSend_clicked();
+    void on_cmdFilePause_clicked(bool checked);
+    void on_cmdFileAbort_clicked();
+    void on_cmdFileReset_clicked();
     void on_cmdCommandSend_clicked();
+    void on_cmdClearConsole_clicked();
     void on_cmdHome_clicked();
     void on_cmdCheck_clicked(bool checked);
     void on_cmdReset_clicked();
     void on_cmdUnlock_clicked();
     void on_cmdSpindle_toggled(bool checked);
-    void on_cmdFilePause_clicked(bool checked);
-    void on_cmdFileReset_clicked();
-    void on_actFileNew_triggered();
-    void on_cmdClearConsole_clicked();
-    void on_actFileSaveAs_triggered();
-    void on_actFileSave_triggered();
-    void on_actFileSaveTransformedAs_triggered();
+    void on_cmdSpindle_clicked(bool checked);
     void on_cmdTop_clicked();
     void on_cmdFront_clicked();
     void on_cmdLeft_clicked();
     void on_cmdIsometric_clicked();
-    void on_actAbout_triggered();
+    void on_cmdFit_clicked();
     void on_grpOverriding_toggled(bool checked);
     void on_grpSpindle_toggled(bool checked);
     void on_grpJog_toggled(bool checked);
-    void on_grpUserCommands_toggled(bool checked);
-    void on_chkKeyboardControl_toggled(bool checked);
-    void on_tblProgram_customContextMenuRequested(const QPoint &pos);
-    void on_actRecentClear_triggered();
     void on_grpHeightMap_toggled(bool arg1);
+    void on_chkKeyboardControl_toggled(bool checked);
     void on_chkHeightMapBorderShow_toggled(bool checked);
+    void on_chkHeightMapInterpolationShow_toggled(bool checked);
+    void on_chkHeightMapUse_clicked(bool checked);
+    void on_chkHeightMapGridShow_toggled(bool checked);
     void on_txtHeightMapBorderX_valueChanged(double arg1);
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);
     void on_txtHeightMapBorderY_valueChanged(double arg1);
     void on_txtHeightMapBorderHeight_valueChanged(double arg1);
-    void on_chkHeightMapGridShow_toggled(bool checked);
     void on_txtHeightMapGridX_valueChanged(double arg1);
     void on_txtHeightMapGridY_valueChanged(double arg1);
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
     void on_txtHeightMapGridZTop_valueChanged(double arg1);
-    void on_cmdHeightMapMode_toggled(bool checked);
-    void on_chkHeightMapInterpolationShow_toggled(bool checked);
-    void on_cmdHeightMapLoad_clicked();
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
-    void on_chkHeightMapUse_clicked(bool checked);
+    void on_cmdHeightMapMode_toggled(bool checked);
     void on_cmdHeightMapCreate_clicked();
+    void on_cmdHeightMapLoad_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
-    void on_cmdFileAbort_clicked();
-    void on_cmdSpindle_clicked(bool checked);   
-    void on_mnuViewWindows_aboutToShow();
-    void on_mnuViewPanels_aboutToShow();
-
     void on_cmdYPlus_pressed();
     void on_cmdYPlus_released();
     void on_cmdYMinus_pressed();
@@ -200,23 +182,32 @@ private slots:
     void on_cmdZMinus_pressed();
     void on_cmdZMinus_released();
     void on_cmdStop_clicked();
-
-    void on_actJogStepNext_triggered();
-    void on_actJogStepPrevious_triggered();
-    void on_actJogFeedNext_triggered();
-    void on_actJogFeedPrevious_triggered();
-    void on_actSpindleSpeedPlus_triggered();
-    void on_actSpindleSpeedMinus_triggered();
-    void on_actOverrideFeedPlus_triggered();
-    void on_actOverrideFeedMinus_triggered();
-    void on_actOverrideRapidPlus_triggered();
-    void on_actOverrideRapidMinus_triggered();
-    void on_actOverrideSpindlePlus_triggered();
-    void on_actOverrideSpindleMinus_triggered();
-
+    void on_tblProgram_customContextMenuRequested(const QPoint &pos);
+    void on_mnuViewWindows_aboutToShow();
+    void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
 
-    void on_actViewLockWindows_toggled(bool checked);
+    void onSerialPortReadyRead();
+    void onSerialPortError(QSerialPort::SerialPortError);
+    void onTimerConnection();
+    void onTimerStateQuery();
+    void onTableInsertLine();
+    void onTableDeleteLines();
+    void onTableCellChanged(QModelIndex i1, QModelIndex i2);
+    void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
+    void onOverridingToggled(bool checked);
+    void onOverrideChanged();
+    void onActRecentFileTriggered();
+    void onActSendFromLineTriggered();
+    void onSlbSpindleValueUserChanged();
+    void onSlbSpindleValueChanged();
+    void onCboCommandReturnPressed();
+    void onDockTopLevelChanged(bool topLevel);
+    void onScroolBarAction(int action);
+    void onScriptException(const QScriptValue &exception);
+
+    void updateHeightMapInterpolationDrawer(bool reset = false);
+    void placeVisualizerButtons();
 
 protected:
     void showEvent(QShowEvent *se);
@@ -231,84 +222,78 @@ protected:
 private:
     static const int BUFFERLENGTH = 127;
 
+    // Ui
     Ui::frmMain *ui;
-
-    GcodeViewParse m_viewParser;
-    GcodeViewParse m_probeParser;
-
-    OriginDrawer *m_originDrawer;
-
-    GcodeDrawer *m_codeDrawer;    
-    GcodeDrawer *m_probeDrawer;
-    GcodeDrawer *m_currentDrawer;
-
-    ToolDrawer m_toolDrawer;
-    HeightMapBorderDrawer m_heightMapBorderDrawer;
-    HeightMapGridDrawer m_heightMapGridDrawer;
-    HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
-
-    SelectionDrawer m_selectionDrawer;
-
-    GCodeTableModel m_programModel;
-    GCodeTableModel m_probeModel;
-    GCodeTableModel m_programHeightmapModel;
-
-    HeightMapTableModel m_heightMapModel;
-
-    bool m_programLoading;
-    bool m_settingsLoading;
-
-    QSerialPort m_serialPort;
-
-    frmSettings *m_settings;
-    frmAbout m_frmAbout;
-
-    QString m_settingsFileName;
-    QString m_programFileName;
-    QString m_heightMapFileName;
-    QString m_lastFolder;
-
-    bool m_fileChanged;
-    bool m_heightMapChanged;
-
-    QTimer m_timerConnection;
-    QTimer m_timerStateQuery;
-    QBasicTimer m_timerToolAnimation;
-
     QStringList m_status;
     QStringList m_statusCaptions;
     QStringList m_statusBackColors;
     QStringList m_statusForeColors;
-
+    QMenu *m_tableMenu;
+    QMessageBox* m_senderErrorBox;
 #ifdef WINDOWS
     QWinTaskbarButton *m_taskBarButton;
     QWinTaskbarProgress *m_taskBarProgress;
 #endif
 
-    QMenu *m_tableMenu;
+    // Parsers
+    GcodeViewParse m_viewParser;
+    GcodeViewParse m_probeParser;
+
+    // Visualizer drawers
+    OriginDrawer *m_originDrawer;
+    GcodeDrawer *m_codeDrawer;    
+    GcodeDrawer *m_probeDrawer;
+    GcodeDrawer *m_currentDrawer;
+    ToolDrawer m_toolDrawer;
+    HeightMapBorderDrawer m_heightMapBorderDrawer;
+    HeightMapGridDrawer m_heightMapGridDrawer;
+    HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
+    SelectionDrawer m_selectionDrawer;
+
+    // Table models
+    GCodeTableModel m_programModel;
+    GCodeTableModel m_probeModel;
+    GCodeTableModel m_programHeightmapModel;
+    GCodeTableModel *m_currentModel;
+    HeightMapTableModel m_heightMapModel;
+
+    // Serial port
+    QSerialPort m_serialPort;
+
+    // Queues
     QList<CommandAttributes> m_commands;
-    QList<CommandQueue> m_queue;
+    QList<CommandQueue> m_queue;    
+
+    // Forms
+    frmSettings *m_settings;
+    frmAbout m_frmAbout;
+
+    // Filenames
+    QString m_settingsFileName;
+    QString m_programFileName;
+    QString m_heightMapFileName;
+    QString m_lastFolder;
+    QStringList m_recentFiles;
+    QStringList m_recentHeightmaps;
+
+    // Timers
+    QTimer m_timerConnection;
+    QTimer m_timerStateQuery;
+    QBasicTimer m_timerToolAnimation;
     QTime m_startTime;
 
-    QMessageBox* m_senderErrorBox;
-
-    // Stored origin
-    double m_storedX;
-    double m_storedY;
-    double m_storedZ;
-    QString m_storedCS;
+    // Stored parser params
     QString m_storedParserStatus;
 
-    // Console window
-    int m_storedConsoleMinimumHeight;
-    int m_storedConsoleHeight;
-    int m_consolePureHeight;
-
     // Flags
+    bool m_programLoading;
+    bool m_settingsLoading;
+    bool m_fileChanged;
+    bool m_heightMapChanged;
+
     bool m_homing;
     bool m_updateSpindleSpeed;
     bool m_updateParserStatus;
-    bool m_updateFeed;
 
     bool m_reseting;
     bool m_resetCompleted;
@@ -320,7 +305,6 @@ private:
     bool m_fileEndSent;
 
     bool m_heightMapMode;
-    bool m_cellChanged;
 
     // Indices
     int m_fileCommandIndex;
@@ -330,90 +314,93 @@ private:
     // Current values
     int m_lastDrawnLineIndex;
     int m_lastGrblStatus;
-    double m_originalFeed;
 
     // Keyboard
-    bool m_keyPressed;
-    bool m_jogBlock;
     bool m_absoluteCoordinates;
     bool m_storedKeyboardControl;
 
     // Spindle
     bool m_spindleCW;
-    bool m_spindleCommandSpeed;
 
     // Jog
     QVector3D m_jogVector;
 
-    // Recent files
-    QStringList m_recentFiles;
-    QStringList m_recentHeightmaps;
-
     // Script
     QScriptEngine m_scriptEngine;
     ScriptVars m_storedVars;
+    ScriptFunctions m_scriptFunctions;
 
     // Drag & drop
     QPoint m_mousePressPos;
-
-    void loadFile(QString fileName);
-    void loadFile(QList<QString> data);
-    void clearTable();
+    
+    // Settings
     void preloadSettings();
     void loadSettings();
     void saveSettings();
-    bool saveChanges(bool heightMapMode);
-    void updateControlsState();
+    void applySettings();
+
+    // Plugins
+    void loadPlugins();
+
+    // Communication
     void openPort();
-    QString evaluateCommand(QString command);
     void grblReset();
-    int bufferLength();
+    int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    void sendCommands(QString commands, int tableIndex = -1);
     void sendNextFileCommands();
+    QString evaluateCommand(QString command);
+
+    // Parser
     void updateParser();
-    bool dataIsFloating(QString data);
-    bool dataIsEnd(QString data);
-    bool dataIsReset(QString data);
+    void storeParserState();
+    void restoreParserState();
+    void restoreOffsets();
+    void storeOffsetsVars(QString response);
 
-    QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
+    // Files/models
+    void loadFile(QString fileName);
+    void loadFile(QList<QString> data);
+    bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
+    void loadHeightMap(QString fileName);
+    bool saveHeightMap(QString fileName);
+    void clearTable();
+    void resetHeightmap();
 
-    bool eventFilter(QObject *obj, QEvent *event);
-    bool keyIsMovement(int key);
+    // Ui
+    void setupCoordsTextboxes();
+    void updateControlsState();
     void updateLayouts();
     void updateRecentFilesMenu();
+    void updateOverride(SliderBox *slider, int value, char command);
+    void updateJogTitle();
     void addRecentFile(QString fileName);
     void addRecentHeightmap(QString fileName);
-    double toMetric(double value);
-
     QRectF borderRectFromTextboxes();
     QRectF borderRectFromExtremes();
     void updateHeightMapBorderDrawer();
     bool updateHeightMapGrid();
-    void loadHeightMap(QString fileName);
-    bool saveHeightMap(QString fileName);
-
-    GCodeTableModel *m_currentModel;
-    QList<LineSegment *> subdivideSegment(LineSegment *segment);
-    void resizeTableHeightMapSections();
     void updateHeightMapGrid(double arg1);
-    void resetHeightmap();
-    void storeParserState();
-    void restoreParserState();
-    void storeOffsets();
-    void restoreOffsets();
-    void storeOffsetsVars(QString response);
+    void resizeTableHeightMapSections();
+    bool eventFilter(QObject *obj, QEvent *event);
+
+    // Utility
+    int bufferLength();
+    bool dataIsFloating(QString data);
+    bool dataIsEnd(QString data);
+    bool dataIsReset(QString data);
+    QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
+    QList<LineSegment *> subdivideSegment(LineSegment *segment);
+    void jogStep();
+    double toMetric(double value);
+    bool compareCoordinates(double x, double y, double z);
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
-    bool compareCoordinates(double x, double y, double z);
-    void updateOverride(SliderBox *slider, int value, char command);
-    void jogStep();
-    void updateJogTitle();
-    void setupCoordsTextboxes();
-
-    void loadPlugins();
+    int buttonSize();
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
     static bool actionTextLessThan(const QAction *a1, const QAction *a2);
+    static QScriptValue importExtension(QScriptContext *context, QScriptEngine *engine);
 };
 
 typedef QMap<QString, QList<QKeySequence>> ShortcutsMap;
