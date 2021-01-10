@@ -26,7 +26,6 @@ function init()
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(appPath);
     
-    // app.settingsLoaded.connect(onAppSettingsLoaded);
     app.settingsLoaded.connect(onAppSettingsLoaded);
     app.settingsSaved.connect(onAppSettingsSaved);
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);

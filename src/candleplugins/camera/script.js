@@ -1,132 +1,212 @@
-// TODO: Adapt to new plugin api
-script.importExtension("qt.widgets");
+// This file is a part of "Candle" application.
+// Copyright 2015-2021 Hayrullin Denis Ravilevich
 
-function on_settings_saved()
+script.importExtension("qt.core");
+script.importExtension("qt.gui");
+script.importExtension("qt.widgets");
+script.importExtension("qt.custom");
+script.importExtension("qt.uitools");
+
+// Vars
+var appPath = QCoreApplication.applicationDirPath();
+var pluginPath = appPath + "/plugins/camera";
+var loader = new QUiLoader();
+var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
+var storedName;
+var storedResolution;
+var storedZoom;
+var storedPosition;
+var storedAimPosition;
+var storedAimSize;
+var storedAimLineWidth;
+var storedAimColor;
+
+// Ui
+var uiWindow;
+var uiSettings;
+
+function init()
 {
-    main.saveValue("camera/name", settings.cboCameraName.currentText);
-    main.saveValue("camera/resolution", settings.cboCameraResolution.currentText);
-    main.saveValue("camera/zoom", settings.txtCameraZoom.text);
-    main.saveValue("camera/position", settings.txtCameraPosition.text);
-    main.saveValue("camera/aimPosition", settings.txtCameraAimPosition.text);
-    main.saveValue("camera/aimSize", settings.txtCameraAimSize.value);
-    main.saveValue("camera/aimLineWidth", settings.txtCameraAimLineWidth.value);
-    main.saveValue("camera/aimColor", settings.colCameraAimColor.colorInt);
+    loader.setWorkingDirectory(new QDir(pluginPath));
+    loader.addPluginPath(appPath);
+    loader.addPluginPath(pluginPath + "/plugins")
+    
+    app.settingsLoaded.connect(onAppSettingsLoaded);
+    app.settingsSaved.connect(onAppSettingsSaved);
+    app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
+    app.settingsAccepted.connect(onAppSettingsAccepted);
+    app.settingsRejected.connect(onAppSettingsRejected);
 }
 
-function on_settings_loaded()
+function createWindowWidget()
+{
+    var f = new QFile(pluginPath + "/widget.ui");
+
+    if (f.open(QIODevice.ReadOnly)) {        
+        uiWindow = loader.load(f);
+    }
+    return uiWindow;
+}
+
+function createSettingsWidget()
+{
+    var f = new QFile(pluginPath + "/settings.ui");
+
+    if (f.open(QIODevice.ReadOnly)) {        
+        uiSettings = loader.load(f);
+        
+    }
+    return uiSettings;
+}
+
+function onAppSettingsSaved()
+{
+    settings.setValue("name", uiSettings.cboCameraName.currentText);
+    settings.setValue("resolution", uiSettings.cboCameraResolution.currentText);
+    settings.setValue("zoom", uiSettings.txtCameraZoom.text);
+    settings.setValue("position", uiSettings.txtCameraPosition.text);
+    settings.setValue("aimPosition", uiSettings.txtCameraAimPosition.text);
+    settings.setValue("aimSize", uiSettings.txtCameraAimSize.value);
+    settings.setValue("aimLineWidth", uiSettings.txtCameraAimLineWidth.value);
+    settings.setValue("aimColor", uiSettings.colCameraAimColor.colorInt);
+}
+
+function onAppSettingsLoaded()
 {
     // Load settings
-    settings.cboCameraName.addItems(ui.camMain.availableCameras);
-    settings.cboCameraName.currentText = main.loadValue("camera/name");
-    settings.cboCameraResolution.currentText = main.loadValue("camera/resolution");
-    settings.txtCameraZoom.text = main.loadValue("camera/zoom");
-    settings.txtCameraPosition.text = main.loadValue("camera/position");
-    settings.txtCameraAimPosition.text = main.loadValue("camera/aimPosition");
-    settings.txtCameraAimSize.value = main.loadValue("camera/aimSize");
-    settings.txtCameraAimLineWidth.value = main.loadValue("camera/aimLineWidth");
-    settings.colCameraAimColor.colorInt = main.loadValue("camera/aimColor");
+    uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
+    uiSettings.cboCameraName.currentText = settings.value("name");
+    uiSettings.cboCameraResolution.currentText = settings.value("resolution", "1280x720");
+    uiSettings.txtCameraZoom.text = settings.value("zoom", 1);
+    uiSettings.txtCameraPosition.text = settings.value("position", "0, 0");
+    uiSettings.txtCameraAimPosition.text = settings.value("aimPosition", "0, 0");
+    uiSettings.txtCameraAimSize.value = settings.value("aimSize", 20);
+    uiSettings.txtCameraAimLineWidth.value = settings.value("aimLineWidth", 1);
+    uiSettings.colCameraAimColor.colorInt = settings.value("aimColor", -65536);
 
     // Apply settings
     applySettings();
 
     // Update resolutions list
-    var r = settings.cboCameraResolution.currentText;
-    settings.cboCameraResolution.addItems(ui.camMain.availableResolutions);
-    settings.cboCameraResolution.currentText = r;
+    var r = uiSettings.cboCameraResolution.currentText;
+    uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
+    uiSettings.cboCameraResolution.currentText = r;
 
     // Connect signals/slots
-    ui.camMain.posChanged.connect(on_pos_changed);
-    ui.camMain.aimPosChanged.connect(on_aimPos_changed);
-    ui.camMain.aimSizeChanged.connect(on_aimSize_changed);
-    ui.camMain.aimLineWidthChanged.connect(on_aimLineWidth_changed);
-    ui.camMain.aimColorChanged.connect(on_aimColor_changed);
-    ui.camMain.zoomChanged.connect(on_zoom_changed);
-    settings.cboCameraName.currentTextChanged.connect(on_cameraName_changed);
+    uiWindow.camMain.posChanged.connect(onPosChanged);
+    uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
+    uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
+    uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
+    uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
+    uiWindow.camMain.zoomChanged.connect(onZoomChanged);
+    uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
 }
 
-function on_settings_changed()
+function onAppSettingsAboutToShow()
 {
+    storedName = uiSettings.cboCameraName.currentText;
+    storedResolution = uiSettings.cboCameraResolution.currentText;
+    storedZoom = uiSettings.txtCameraZoom.text;
+    storedPosition = uiSettings.txtCameraPosition.text;
+    storedAimPosition = uiSettings.txtCameraAimPosition.text;
+    storedAimSize = uiSettings.txtCameraAimSize.text;
+    storedAimLineWidth = uiSettings.txtCameraAimLineWidth.text;
+    storedAimColor = uiSettings.colCameraAimColor.colorInt;
+}
+
+function onAppSettingsAccepted()
+{
+    applySettings();
+}
+
+function onAppSettingsRejected()
+{
+    uiSettings.cboCameraName.currentText = storedName;
+    uiSettings.cboCameraResolution.currentText = storedResolution;
+    uiSettings.txtCameraZoom.text = storedZoom;
+    uiSettings.txtCameraPosition.text = storedPosition;
+    uiSettings.txtCameraAimPosition.text = storedAimPosition;
+    uiSettings.txtCameraAimSize.text = storedAimSize;
+    uiSettings.txtCameraAimLineWidth.text = storedAimLineWidth;
+    uiSettings.colCameraAimColor.colorInt = storedAimColor;
+
     applySettings();
 }
 
 function applySettings()
 {
     // Resolution
-    if (settings.cboCameraResolution.currentText != "") {
-        var l = settings.cboCameraResolution.currentText.split("x");
-        ui.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];
+    if (uiSettings.cboCameraResolution.currentText != "") {
+        var l = uiSettings.cboCameraResolution.currentText.split("x");
+        uiWindow.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];
     }
     
     // Zoom
-    if (settings.txtCameraZoom.text == "") settings.txtCameraZoom.text = "1.0";
-    ui.camMain.zoom = parseFloat(settings.txtCameraZoom.text);
+    if (uiSettings.txtCameraZoom.text == "") uiSettings.txtCameraZoom.text = "1.0";
+    uiWindow.camMain.zoom = parseFloat(uiSettings.txtCameraZoom.text);
 
     // Padding
-    if (settings.txtCameraPosition.text == "") settings.txtCameraPosition.text = "0, 0";
-    l = settings.txtCameraPosition.text.split(",");
-    ui.camMain.pos = [parseInt(l[0]), parseInt(l[1])];
+    if (uiSettings.txtCameraPosition.text == "") uiSettings.txtCameraPosition.text = "0, 0";
+    l = uiSettings.txtCameraPosition.text.split(",");
+    uiWindow.camMain.pos = [parseInt(l[0]), parseInt(l[1])];
 
     // Aim position
-    if (settings.txtCameraAimPosition.text == "") settings.txtCameraAimPosition.text = "0, 0";
-    l = settings.txtCameraAimPosition.text.split(",");
-    ui.camMain.aimPos = [parseFloat(l[0]), parseFloat(l[1])];
+    if (uiSettings.txtCameraAimPosition.text == "") uiSettings.txtCameraAimPosition.text = "0, 0";
+    l = uiSettings.txtCameraAimPosition.text.split(",");
+    uiWindow.camMain.aimPos = [parseFloat(l[0]), parseFloat(l[1])];
 
     // Aim size
-    ui.camMain.aimSize = parseInt(settings.txtCameraAimSize.value);
+    uiWindow.camMain.aimSize = parseInt(uiSettings.txtCameraAimSize.value);
 
     // Aim line width
-    ui.camMain.aimLineWidth = parseInt(settings.txtCameraAimLineWidth.value);
+    uiWindow.camMain.aimLineWidth = parseInt(uiSettings.txtCameraAimLineWidth.value);
     
     // Aim color
-    ui.camMain.aimColor = parseInt(settings.colCameraAimColor.colorInt);
+    uiWindow.camMain.aimColor = parseInt(uiSettings.colCameraAimColor.colorInt);
 
     // Update camera
-    ui.camMain.cameraName = settings.cboCameraName.currentText;
+    uiWindow.camMain.cameraName = uiSettings.cboCameraName.currentText;
 }
 
-function on_cameraName_changed(name)
+function onCameraNameChanged(name)
 {
     // Update camera
-    ui.camMain.cameraName = name;
+    uiWindow.camMain.cameraName = name;
     
     // Update resolutions list
-    var r = settings.cboCameraResolution.currentText;
-    settings.cboCameraResolution.clear();
-    settings.cboCameraResolution.addItems(ui.camMain.availableResolutions);
-    settings.cboCameraResolution.currentText = r;
+    var r = uiSettings.cboCameraResolution.currentText;
+    uiSettings.cboCameraResolution.clear();
+    uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
+    uiSettings.cboCameraResolution.currentText = r;
 }
 
-function on_pos_changed(pos)
+function onPosChanged(pos)
 {
-    settings.txtCameraPosition.text = pos.join(", ");
+    uiSettings.txtCameraPosition.text = pos.join(", ");
 }
 
-function on_aimPos_changed(aimPos)
+function onAimPosChanged(aimPos)
 {
     p = [parseFloat(aimPos[0].toFixed(3)), parseFloat(aimPos[1].toFixed(3))];
-    settings.txtCameraAimPosition.text = p.join(", ");
+    uiSettings.txtCameraAimPosition.text = p.join(", ");
 }
 
-function on_aimSize_changed(aimSize)
+function onAimSizeChanged(aimSize)
 {
-    settings.txtCameraAimSize.text = aimSize;
+    uiSettings.txtCameraAimSize.text = aimSize;
 }
 
-function on_aimLineWidth_changed(aimLineWidth)
+function onAimLineWidthChanged(aimLineWidth)
 {
-    settings.txtCameraAimLineWidth.text = aimLineWidth;
+    uiSettings.txtCameraAimLineWidth.text = aimLineWidth;
 }
 
-function on_aimColor_changed(aimColor)
+function onAimColorChanged(aimColor)
 {
-    settings.colCameraAimColor.colorInt = aimColor;
+    uiSettings.colCameraAimColor.colorInt = aimColor;
 }
 
-function on_zoom_changed(zoom)
+function onZoomChanged(zoom)
 {
-    settings.txtCameraZoom.text = zoom.toFixed(3);
+    uiSettings.txtCameraZoom.text = zoom.toFixed(3);
 }
-
-main.settingsSaved.connect(on_settings_saved);
-main.settingsLoaded.connect(on_settings_loaded);
-main.settingsChanged.connect(on_settings_changed);
