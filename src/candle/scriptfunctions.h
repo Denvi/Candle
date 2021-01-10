@@ -18,8 +18,8 @@ public:
     frmMain *getFrmMain();
 
 public slots:
-    void sendCommands(QString commands, int id = 0);
-    void sendCommand(QString command, int id = 0);
+    void sendCommands(QString commands, int index = -100);
+    void sendCommand(QString command, int index = -100);
     int buttonSize();
     void addAction(QAction *action);
     void removeAction(QAction *action);

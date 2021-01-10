@@ -15,14 +15,14 @@ frmMain* ScriptFunctions::getFrmMain()
     return m_frmMain;
 }
 
-void ScriptFunctions::sendCommands(QString commands, int id)
+void ScriptFunctions::sendCommands(QString commands, int index)
 {
-    m_frmMain->sendCommands(commands, -(100 + id));
+    m_frmMain->sendCommands(commands, index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int id)
+void ScriptFunctions::sendCommand(QString command, int index)
 {
-    m_frmMain->sendCommand(command, -(100 + id));
+    m_frmMain->sendCommand(command, index);
 }
 
 int ScriptFunctions::buttonSize()

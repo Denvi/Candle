@@ -240,6 +240,7 @@ private:
     GcodeViewParse m_probeParser;
 
     // Visualizer drawers
+    // TODO: Add machine table visualizer
     OriginDrawer *m_originDrawer;
     GcodeDrawer *m_codeDrawer;    
     GcodeDrawer *m_probeDrawer;

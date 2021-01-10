@@ -1886,7 +1886,8 @@ void frmMain::onSerialPortReadyRead()
                         m_updateParserStatus = true;
 
                         // Query grbl settings
-                        sendCommand("$$", -2, false);                        
+                        sendCommand("$$", -2, false);
+                        sendCommand("$#", -2, false, true);
                     }
 
                     // Clear command buffer on "M2" & "M30" command (old firmwares)
@@ -2075,9 +2076,7 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Emit response signal
-                    if (ca.tableIndex <= -100) {
-                        emit responseReceived(ca.command, -(100 + ca.tableIndex), response);
-                    }
+                    emit responseReceived(ca.command, ca.tableIndex, response);
 
                     response.clear();
                 } else {
@@ -3214,11 +3213,9 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
         m_fileEndSent = true;
     }
 
-    // Queue offsets request on G92 command
-    // TODO: Queue offsets for G54-59 commands
-    if (ca.tableIndex == -1 && uncomment.contains("G92")) {
-        sendCommand("$#", -3, showInConsole, true);
-    }
+    // Queue offsets request on G92, G10 commands
+    static QRegExp G92("(G92|G10)");
+    if (uncomment.contains(G92)) sendCommand("$#", -3, showInConsole, true);
 
     m_serialPort.write((command + "\r").toLatin1());
 
@@ -3719,7 +3716,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(!m_processingFile);
     ui->cmdFileReset->setEnabled(!m_processingFile && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && !m_processingFile && m_programModel.rowCount() > 1);
-    ui->cmdFilePause->setEnabled(m_processingFile && !ui->cmdCheck->isChecked());
+    ui->cmdFilePause->setEnabled(portOpened && !ui->cmdCheck->isChecked());
     ui->cmdFileAbort->setEnabled(m_processingFile);
     ui->actFileOpen->setEnabled(!m_processingFile);
     ui->mnuRecent->setEnabled(!m_processingFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)

@@ -1338,6 +1338,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="toolTip">
+                   <string>X</string>
+                  </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
                   </property>
@@ -1372,6 +1375,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="toolTip">
+                   <string>Y</string>
+                  </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
                   </property>
@@ -1405,6 +1411,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="toolTip">
+                   <string>Z</string>
                   </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
@@ -1459,6 +1468,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="toolTip">
+                   <string>X</string>
+                  </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
                   </property>
@@ -1493,6 +1505,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="toolTip">
+                   <string>Y</string>
+                  </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
                   </property>
@@ -1526,6 +1541,9 @@ QLabel[overrided=&quot;false&quot;] {
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="toolTip">
+                   <string>Z</string>
                   </property>
                   <property name="locale">
                    <locale language="C" country="AnyCountry"/>
@@ -2995,7 +3013,6 @@ padding-right: 8;</string>
    </property>
   </action>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>StyledToolButton</class>
