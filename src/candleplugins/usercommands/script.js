@@ -94,7 +94,6 @@ function onCmdRemoveClicked()
 
     t.removeRow(r);
     t.setCurrentCell(r <= (t.rowCount - 1) ? r : t.rowCount - 1, c);
-    t.setFocus();
 }
 
 function onCmdRemoveAllClicked()
@@ -116,7 +115,6 @@ function onCmdUpClicked()
         t.removeRow(r + 1);
         t.setCurrentCell(r - 1, c);
     }
-    t.setFocus();
 }
 
 function onCmdDownClicked()
@@ -133,7 +131,6 @@ function onCmdDownClicked()
         t.removeRow(r);
         t.setCurrentCell(r + 1, c);
     }
-    t.setFocus();
 }
 
 function onAppSettingsLoaded()
@@ -351,6 +348,10 @@ IconDelegate.prototype.paint = function(painter, option, index)
 {
     var q = index.data(Qt.DecorationRole);
 
+    if (option.state() & QStyle.State_Selected) {
+        painter.fillRect(option.rect(), new QColor(0xcdcdff));
+    }
+
     if (q) {
         q.paint(painter, option.rect());
     }
@@ -408,6 +409,10 @@ CodeDelegate.prototype.paint = function(painter, option, index)
 {
     var q = index.data();
     
+    if (option.state() & QStyle.State_Selected) {
+        painter.fillRect(option.rect(), new QColor(0xcdcdff));
+    }
+
     if (q) {
         var m = new QFontMetrics(option.font());
         var r = option.rect().adjusted(4, 4, -4, -4);
@@ -423,7 +428,7 @@ CodeDelegate.prototype.paint = function(painter, option, index)
     
         painter.drawText(r, this.alignment | 0, s, r);
     }
-
+    
     if (option.state() & QStyle.State_HasFocus) {
         var p = new QPen();
         p.setStyle(Qt.DotLine);

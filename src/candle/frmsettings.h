@@ -136,12 +136,14 @@ public:
     bool autoLine();
     void setAutoLine(bool value);
 
+signals:
+    void settingsSetByDefault();
+
 protected:
     void showEvent(QShowEvent *se);
 
 private slots:
     void onScrollBarValueChanged(int value);
-
     void on_cmdRefresh_clicked();
     void on_cmdOK_clicked();
     void on_cmdCancel_clicked();

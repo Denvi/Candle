@@ -66,7 +66,7 @@ struct CommandQueue {
     QString command;
     int tableIndex;
     bool showInConsole;
-    bool queue;
+    bool wait;
 };
 
 class CancelException : public std::exception {
@@ -103,6 +103,7 @@ signals:
     void settingsAboutToShow();
     void settingsAccepted();
     void settingsRejected();
+    void settingsSetByDefault();
     void pluginsLoaded();
 
 private slots:
@@ -346,7 +347,7 @@ private:
     // Communication
     void openPort();
     void grblReset();
-    int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool queue = false);
+    int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool wait = false);
     void sendCommands(QString commands, int tableIndex = -1);
     void sendNextFileCommands();
     QString evaluateCommand(QString command);

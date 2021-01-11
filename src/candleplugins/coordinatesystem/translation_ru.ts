@@ -14,5 +14,21 @@
         <source>Offsets:</source>
         <translation>Смещения:</translation>
     </message>          
+    <message>
+        <source>Zero X</source>
+        <translation>Обнулить X</translation>
+    </message>          
+    <message>
+        <source>Zero Y</source>
+        <translation>Обнулить Y</translation>
+    </message>          
+    <message>
+        <source>Zero Z</source>
+        <translation>Обнулить Z</translation>
+    </message>          
+    <message>
+        <source>Zero All</source>
+        <translation>Обнулить все</translation>
+    </message>          
 </context>
 </TS>

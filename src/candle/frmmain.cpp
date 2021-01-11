@@ -261,6 +261,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(this, &frmMain::settingsAboutToShow, &m_scriptFunctions, &ScriptFunctions::settingsAboutToShow);
     connect(this, &frmMain::settingsAccepted, &m_scriptFunctions, &ScriptFunctions::settingsAccepted);
     connect(this, &frmMain::settingsRejected, &m_scriptFunctions, &ScriptFunctions::settingsRejected);
+    connect(this, &frmMain::settingsSetByDefault, &m_scriptFunctions, &ScriptFunctions::settingsSetByDefault);
     connect(this, &frmMain::pluginsLoaded, &m_scriptFunctions, &ScriptFunctions::pluginsLoaded);
 
     // Loading settings
@@ -1976,7 +1977,7 @@ void frmMain::onSerialPortReadyRead()
                         while ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
                             int r = 0;
                             if (!cq.command.isEmpty()) r = sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
-                            if ((!r && !cq.command.isEmpty() && (m_queue.isEmpty() || cq.queue)) || m_queue.isEmpty()) break; 
+                            if ((!r && !cq.command.isEmpty() && (m_queue.isEmpty() || cq.wait)) || m_queue.isEmpty()) break; 
                                 else cq = m_queue.takeFirst();
                         }
                     }
@@ -3152,7 +3153,7 @@ void frmMain::grblReset()
     updateControlsState();
 }
 
-int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool queue)
+int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool wait)
 {
     // tableIndex:
     // 0...n - commands from g-code program
@@ -3163,13 +3164,13 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
     if (!m_serialPort.isOpen() || !m_resetCompleted) return 0;
 
     // Commands queue
-    if (queue || (bufferLength() + command.length() + 1) > BUFFERLENGTH) {
+    if (wait || (bufferLength() + command.length() + 1) > BUFFERLENGTH) {
         CommandQueue cq;
 
         cq.command = command;
         cq.tableIndex = tableIndex;
         cq.showInConsole = showInConsole;
-        cq.queue = queue;
+        cq.wait = wait;
 
         m_queue.append(cq);
         return 0;

@@ -41,7 +41,13 @@
       <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::NoSelection</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="gridStyle">
+      <enum>Qt::DashLine</enum>
      </property>
      <property name="rowCount">
       <number>1</number>

@@ -79,6 +79,7 @@ frmSettings::frmSettings(QWidget *parent) :
 
     ui->listCategories->item(0)->setSelected(true);
     connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onScrollBarValueChanged(int)));
+    connect(this, SIGNAL(settingsSetByDefault()), parent, SIGNAL(settingsSetByDefault()));
 
     // Shortcuts table
     ui->tblShortcuts->setItemDelegateForColumn(2, new ShortcutDelegate);
@@ -661,6 +662,8 @@ void frmSettings::on_cmdDefaults_clicked()
         QString s = table->item(i, 0)->data(Qt::DisplayRole).toString();
         table->item(i, 2)->setData(Qt::DisplayRole, d.keys().contains(s) ? d[s] : "");
     }
+
+    emit settingsSetByDefault();
 }
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)

@@ -185,6 +185,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>G55</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -216,6 +219,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>G54</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -249,6 +255,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>G56</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -280,6 +289,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>G57</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -313,12 +325,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Zero X</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/x0.png</normaloff>images/x0.png</iconset>
+         <normaloff>images/x0_1.png</normaloff>images/x0_1.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -339,12 +354,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Zero Y</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/y0.png</normaloff>images/y0.png</iconset>
+         <normaloff>images/y0_1.png</normaloff>images/y0_1.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -365,12 +383,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Zero Z</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/z0.png</normaloff>images/z0.png</iconset>
+         <normaloff>images/z0_1.png</normaloff>images/z0_1.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -391,12 +412,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Zero All</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/0.png</normaloff>images/0.png</iconset>
+         <normaloff>images/all0_1.png</normaloff>images/all0_1.png</iconset>
        </property>
        <property name="iconSize">
         <size>

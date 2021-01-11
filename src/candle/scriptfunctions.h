@@ -35,6 +35,7 @@ signals:
     void settingsAboutToShow();
     void settingsAccepted();
     void settingsRejected();
+    void settingsSetByDefault();
     void pluginsLoaded();
 
 private:
