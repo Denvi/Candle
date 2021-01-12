@@ -222,13 +222,40 @@ protected:
 
 private:
     static const int BUFFERLENGTH = 127;
+    static const int PROGRESSMINLINES = 10000;
+    static const int PROGRESSSTEP = 1000;    
+
+    enum SenderState {
+        SenderStopped,
+        SenderTransferring,
+        SenderPaused,
+        SenderChangingTool,
+        SenderTransferCompleted
+    };
+
+    enum DeviceState {
+        DeviceUnknown,
+        DeviceIdle,
+        DeviceAlarm,
+        DeviceRun,
+        DeviceHome,
+        DeviceHold0,
+        DeviceHold1,
+        DeviceQueue,
+        DeviceCheck,
+        DeviceDoor,
+        DeviceJog,
+        DeviceSleep
+    };
 
     // Ui
     Ui::frmMain *ui;
-    QStringList m_status;
-    QStringList m_statusCaptions;
-    QStringList m_statusBackColors;
-    QStringList m_statusForeColors;
+
+    QMap<DeviceState, QString> m_deviceStatuses;
+    QMap<DeviceState, QString> m_statusCaptions;
+    QMap<DeviceState, QString> m_statusBackColors;
+    QMap<DeviceState, QString> m_statusForeColors;
+
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;
 #ifdef WINDOWS
@@ -239,6 +266,10 @@ private:
     // Parsers
     GcodeViewParse m_viewParser;
     GcodeViewParse m_probeParser;
+
+    // State
+    SenderState m_senderState;
+    DeviceState m_deviceState;
 
     // Visualizer drawers
     // TODO: Add machine table visualizer
@@ -302,8 +333,6 @@ private:
     bool m_aborting;
     bool m_statusReceived;
 
-    bool m_processingFile;
-    bool m_transferCompleted;
     bool m_fileEndSent;
 
     bool m_heightMapMode;
@@ -315,7 +344,6 @@ private:
 
     // Current values
     int m_lastDrawnLineIndex;
-    int m_lastGrblStatus;
 
     // Keyboard
     bool m_absoluteCoordinates;
