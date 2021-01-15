@@ -53,6 +53,10 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool drawModeVectors READ drawModeVectors WRITE setDrawModeVectors)
     Q_PROPERTY(bool ignoreErrors READ ignoreErrors WRITE setIgnoreErrors)
     Q_PROPERTY(bool autoLine READ autoLine WRITE setAutoLine)
+    Q_PROPERTY(QString startCommands READ startCommands WRITE setStartCommands)
+    Q_PROPERTY(QString endCommands READ endCommands WRITE setEndCommands)
+    Q_PROPERTY(QString toolChangeCommands READ toolChangeCommands WRITE setToolChangeCommands)
+    Q_PROPERTY(bool pauseToolChange READ pauseToolChange WRITE setPauseToolChange)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -136,6 +140,14 @@ public:
     void setIgnoreErrors(bool value);
     bool autoLine();
     void setAutoLine(bool value);
+    QString startCommands();
+    void setStartCommands(QString commands);
+    QString endCommands();
+    void setEndCommands(QString commands);
+    QString toolChangeCommands();
+    void setToolChangeCommands(QString commands);
+    bool pauseToolChange();
+    void setPauseToolChange(bool pause);
 
 signals:
     void settingsSetByDefault();
@@ -158,7 +170,6 @@ private slots:
     void on_radGrayscaleZ_toggled(bool checked);
 
 private:
-    // Ui::frmSettings *ui;
     void searchPorts();
 
     QList<double> m_storedValues;

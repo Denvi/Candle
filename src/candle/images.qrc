@@ -1,8 +1,12 @@
 <RCC>
   <qresource prefix="/">
+    <file>images/flood.png</file>
+    <file>images/door.png</file>
+    <file>images/pause.png</file>
     <file>images/search_for_home2.png</file>
     <file>images/check1.png</file>
     <file>images/restart.png</file>
+    <file>images/power4.png</file>
     <file>images/handle_horizontal.png</file>
     <file>images/handle_vertical.png</file>
     <file>images/1401562699_icon-arrow-up-b.png</file>

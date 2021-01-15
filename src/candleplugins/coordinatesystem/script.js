@@ -12,7 +12,8 @@ var appPath = QCoreApplication.applicationDirPath();
 var pluginPath = appPath + "/plugins/coordinatesystem";
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
-var appStatus = -1;
+var deviceState = -1;
+var senderState = -1;
 var currentCS = "G54";
 var currentOffsets = "";
 
@@ -25,7 +26,9 @@ function init()
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(appPath);
 
-    app.statusChanged.connect(onAppStatusChanged);
+    // TODO: Enable only on senderState == SenderStopped;
+    app.deviceStateChanged.connect(onAppDeviceStateChanged);
+    app.senderStateChanged.connect(onAppSenderStateChanged);
     app.responseReceived.connect(onAppResponseReceived);
 }
 
@@ -58,11 +61,18 @@ function createPanelWidget()
     return uiPanel;
 }
 
-function onAppStatusChanged(status)
+function onAppDeviceStateChanged(status)
 {
-    uiPanel.setEnabled(status == 1);
+    uiPanel.setEnabled((status == 1) && (senderState == 4));
     
-    appStatus = status;
+    deviceState = status;
+}
+
+function onAppSenderStateChanged(status)
+{
+    uiPanel.setEnabled((status == 4) && (deviceState == 1));
+
+    senderState = status;
 }
 
 function onAppResponseReceived(command, index, response)

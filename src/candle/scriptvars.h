@@ -66,6 +66,8 @@ class ScriptVars: public QObject
 
     Q_PROPERTY(QString CS READ CS)
 
+    Q_PROPERTY(int tool READ tool);
+
 public:
     ScriptVars();
 
@@ -124,10 +126,13 @@ public:
     QVector3D coords(QString name) const;
     QString CS() const;
 
+    int tool() const;
+
 public slots:
 
     void setCoords(QString name, QVector3D coords);
     void setCS(QString cs);
+    void setTool(int tool);
 
     double x() const;
     double y() const;
@@ -140,6 +145,7 @@ public slots:
 private:
     QMap<QString, QVector3D> m_coords;
     QString m_cs;
+    int m_tool;
 };
 
 #endif  

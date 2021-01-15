@@ -540,6 +540,46 @@ void frmSettings::setAutoLine(bool value)
     ui->chkAutoLine->setChecked(value);
 }
 
+QString frmSettings::startCommands()
+{
+    return ui->txtStartCommands->toPlainText();
+}
+
+void frmSettings::setStartCommands(QString commands)
+{
+    ui->txtStartCommands->setPlainText(commands);
+}
+
+QString frmSettings::endCommands()
+{
+    return ui->txtEndCommands->toPlainText();
+}
+
+void frmSettings::setEndCommands(QString commands)
+{
+    ui->txtEndCommands->setPlainText(commands);
+}
+
+QString frmSettings::toolChangeCommands()
+{
+    return ui->txtToolChangeCommands->toPlainText();
+}
+
+void frmSettings::setToolChangeCommands(QString commands)
+{
+    ui->txtToolChangeCommands->setPlainText(commands);
+}
+
+bool frmSettings::pauseToolChange()
+{
+    return ui->chkPauseToolChange->isChecked();
+}
+
+void frmSettings::setPauseToolChange(bool pause)
+{
+    ui->chkPauseToolChange->setChecked(pause);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -662,6 +702,11 @@ void frmSettings::on_cmdDefaults_clicked()
         QString s = table->item(i, 0)->data(Qt::DisplayRole).toString();
         table->item(i, 2)->setData(Qt::DisplayRole, d.keys().contains(s) ? d[s] : "");
     }
+
+    ui->txtStartCommands->clear();
+    ui->txtEndCommands->clear();
+    ui->txtToolChangeCommands->clear();
+    ui->chkPauseToolChange->setChecked(true);
 
     emit settingsSetByDefault();
 }

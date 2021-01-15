@@ -15,6 +15,7 @@ ScriptVars::ScriptVars()
     m_coords["G92"] = QVector3D();
     m_coords["TLO"] = QVector3D();
     m_coords["PRB"] = QVector3D();
+    m_tool = 0;
 }
 
 double ScriptVars::Mx() const
@@ -260,4 +261,14 @@ void ScriptVars::setCS(QString cs)
 QString ScriptVars::CS() const
 {
     return m_cs;
+}
+
+void ScriptVars::setTool(int tool)
+{
+    m_tool = tool;
+}
+
+int ScriptVars::tool() const
+{
+    return m_tool;
 }

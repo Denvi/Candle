@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-28</y>
          <width>620</width>
-         <height>1517</height>
+         <height>2236</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -476,6 +476,36 @@ QSplitter::handle:horizontal {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
+            <widget class="QLabel" name="lblStartCommands">
+             <property name="text">
+              <string>Program start commands:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtStartCommands"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblEndCommands">
+             <property name="text">
+              <string>Program end commands:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtEndCommands"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblToolChangeCommands">
+             <property name="text">
+              <string>Tool change commands:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="txtToolChangeCommands"/>
+           </item>
+           <item>
             <widget class="QCheckBox" name="chkIgnoreErrors">
              <property name="text">
               <string>Ignore error responses</string>
@@ -486,6 +516,13 @@ QSplitter::handle:horizontal {
             <widget class="QCheckBox" name="chkAutoLine">
              <property name="text">
               <string>Automatically set parser state before sending from selected line</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkPauseToolChange">
+             <property name="text">
+              <string>Pause on tool change</string>
              </property>
             </widget>
            </item>

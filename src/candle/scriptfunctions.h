@@ -27,7 +27,8 @@ public slots:
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
     void statusReceived(QString status);
-    void statusChanged(int state);
+    void senderStateChanged(int state);
+    void deviceStateChanged(int state);
     void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();

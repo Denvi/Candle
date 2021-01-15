@@ -95,7 +95,8 @@ public:
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
     void statusReceived(QString status);
-    void statusChanged(int status);
+    void senderStateChanged(int state);
+    void deviceStateChanged(int state);
     void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();
@@ -140,6 +141,10 @@ private slots:
     void on_cmdCheck_clicked(bool checked);
     void on_cmdReset_clicked();
     void on_cmdUnlock_clicked();
+    void on_cmdHold_clicked(bool checked);
+    void on_cmdSleep_clicked();
+    void on_cmdDoor_clicked();
+    void on_cmdFlood_clicked();
     void on_cmdSpindle_toggled(bool checked);
     void on_cmdSpindle_clicked(bool checked);
     void on_cmdTop_clicked();
@@ -226,26 +231,31 @@ private:
     static const int PROGRESSSTEP = 1000;    
 
     enum SenderState {
-        SenderStopped,
-        SenderTransferring,
-        SenderPaused,
-        SenderChangingTool,
-        SenderTransferCompleted
+        SenderUnknown = -1,
+        SenderTransferring = 0,
+        SenderPausing = 1,
+        SenderPaused = 2,
+        SenderStopping = 3,
+        SenderStopped = 4,
+        SenderChangingTool = 5
     };
 
     enum DeviceState {
-        DeviceUnknown,
-        DeviceIdle,
-        DeviceAlarm,
-        DeviceRun,
-        DeviceHome,
-        DeviceHold0,
-        DeviceHold1,
-        DeviceQueue,
-        DeviceCheck,
-        DeviceDoor,
-        DeviceJog,
-        DeviceSleep
+        DeviceUnknown = -1,
+        DeviceIdle = 1,
+        DeviceAlarm = 2,
+        DeviceRun = 3,
+        DeviceHome = 4,
+        DeviceHold0 = 5,
+        DeviceHold1 = 6,
+        DeviceQueue = 7,
+        DeviceCheck = 8,
+        DeviceDoor0 = 9,
+        DeviceDoor1 = 10,
+        DeviceDoor2 = 11,
+        DeviceDoor3 = 12,
+        DeviceJog = 13,
+        DeviceSleep =14
     };
 
     // Ui
@@ -332,8 +342,6 @@ private:
     bool m_resetCompleted;
     bool m_aborting;
     bool m_statusReceived;
-
-    bool m_fileEndSent;
 
     bool m_heightMapMode;
 
@@ -427,6 +435,10 @@ private:
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);
     int buttonSize();
+    void setSenderState(SenderState state);
+    void setDeviceState(DeviceState state);
+    void completeTransfer();
+    QString getLineInitCommands(int row);
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
     static bool actionTextLessThan(const QAction *a1, const QAction *a2);

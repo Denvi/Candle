@@ -13,7 +13,7 @@ var pluginPath = appPath + "/plugins/usercommands";
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var buttonSize = 48;
-var appStatus = -1;
+var deviceState = -1;
 var storedButtons = new Array();
 var storedActions = new Array();
 
@@ -31,7 +31,7 @@ function init()
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
     app.settingsAccepted.connect(onAppSettingsAccepted);
     app.settingsRejected.connect(onAppSettingsRejected);
-    app.statusChanged.connect(onAppStatusChanged);
+    app.deviceStateChanged.connect(onAppDeviceStateChanged);
 }
 
 function createPanelWidget()
@@ -165,7 +165,7 @@ function onAppSettingsRejected()
     restoreButtonsTable(storedButtons);
 }
 
-function onAppStatusChanged(status)
+function onAppDeviceStateChanged(status)
 {
     var t = uiSettings.tblButtons;
     var lay = uiPanel.verticalLayout.layButtons;
@@ -178,7 +178,7 @@ function onAppStatusChanged(status)
         storedActions[i].setEnabled(status != -1);
     }
 
-    appStatus = status;
+    deviceState = status;
 }
 
 function onButtonClicked(button)
@@ -256,7 +256,7 @@ function updateButtons()
         w.toolTip = t.item(i, 0).data(Qt.DisplayRole);
         w.clicked.connect(onClicked(i));
 
-        w.enabled = (appStatus != -1);
+        w.enabled = (deviceState != -1);
 
         lay.addWidget(w, i / 4, i % 4);
     }
@@ -302,7 +302,7 @@ function updateActions()
     }
 
     for (var i = 0; i < storedActions.length; i++) {
-        storedActions[i].setEnabled(appStatus != -1);
+        storedActions[i].setEnabled(deviceState != -1);
     }
 }
 
