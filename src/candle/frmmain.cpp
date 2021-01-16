@@ -4047,7 +4047,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 
         QKeySequence ks;
 
-        if ((event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)) {
+        if ((event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyRelease)) {
             QKeyEvent *ev = static_cast<QKeyEvent*>(event);
             ks = QKeySequence(ev->key() | ev->modifiers());
         }
@@ -4055,21 +4055,21 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         // Jog on keyboard control
         if ((m_senderState != SenderTransferring) && (m_senderState != SenderStopping) && 
             ui->chkKeyboardControl->isChecked() &&
-            (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) && 
+            (event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyRelease) && 
             !static_cast<QKeyEvent*>(event)->isAutoRepeat()) 
         {
             if (ui->actJogXMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();                
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();                
             } else if (ui->actJogXPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdXPlus->pressed(); else emit ui->cmdXPlus->released();
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdXPlus->pressed(); else emit ui->cmdXPlus->released();
             } else if (ui->actJogYPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdYPlus->pressed(); else emit ui->cmdYPlus->released();
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdYPlus->pressed(); else emit ui->cmdYPlus->released();
             } else if (ui->actJogYMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdYMinus->pressed(); else emit ui->cmdYMinus->released();
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdYMinus->pressed(); else emit ui->cmdYMinus->released();
             } else if (ui->actJogZPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdZPlus->pressed(); else emit ui->cmdZPlus->released();
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdZPlus->pressed(); else emit ui->cmdZPlus->released();
             } else if (ui->actJogZMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::KeyPress) emit ui->cmdZMinus->pressed(); else emit ui->cmdZMinus->released();
+                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdZMinus->pressed(); else emit ui->cmdZMinus->released();
             }
         }
     } else if (obj == ui->tblProgram && ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))) {
@@ -4080,10 +4080,12 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
+    // Visualizer updates
     if (obj == this && event->type() == QEvent::WindowStateChange) {
         ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
     }
 
+    // Drag & drop panels
     if (!ui->actViewLockPanels->isChecked() && obj->inherits("QGroupBox") 
         && (obj->parent()->objectName() == "scrollContentsDevice"
         || obj->parent()->objectName() == "scrollContentsModification"
@@ -4116,7 +4118,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
-    return false;
+    return QMainWindow::eventFilter(obj, event);
 }
 
 int frmMain::bufferLength()
