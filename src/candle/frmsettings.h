@@ -57,6 +57,7 @@ class frmSettings : public QDialog
     Q_PROPERTY(QString endCommands READ endCommands WRITE setEndCommands)
     Q_PROPERTY(QString toolChangeCommands READ toolChangeCommands WRITE setToolChangeCommands)
     Q_PROPERTY(bool pauseToolChange READ pauseToolChange WRITE setPauseToolChange)
+    Q_PROPERTY(QString language READ language WRITE setLanguage)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -148,6 +149,8 @@ public:
     void setToolChangeCommands(QString commands);
     bool pauseToolChange();
     void setPauseToolChange(bool pause);
+    QString language();
+    void setLanguage(QString language);
 
 signals:
     void settingsSetByDefault();

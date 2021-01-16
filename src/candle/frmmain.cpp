@@ -2601,6 +2601,7 @@ void frmMain::loadSettings()
     m_settings->setEndCommands(set.value("endCommands").toString());
     m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
     m_settings->setPauseToolChange(set.value("pauseToolChange").toBool());
+    m_settings->setLanguage(set.value("language", "en").toString());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -2830,6 +2831,7 @@ void frmMain::saveSettings()
     set.setValue("endCommands", m_settings->endCommands());
     set.setValue("toolChangeCommands", m_settings->toolChangeCommands());
     set.setValue("pauseToolChange", m_settings->pauseToolChange());
+    set.setValue("language", m_settings->language());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
     set.setValue("feedOverrideValue", ui->slbFeedOverride->value());
@@ -3032,8 +3034,7 @@ void frmMain::loadPlugins()
         qDebug() << "Loading plugin:" << p << title << name;
 
         // Translation
-        // TODO: Use locale from settings
-        QString loc = QLocale().name().left(2);
+        QString loc = m_settings->language();
         QString translationFileName = pluginsDir + p + "/translation_" + loc + ".qm";
         if(QFile::exists(translationFileName)) {
             QTranslator *translator = new QTranslator();

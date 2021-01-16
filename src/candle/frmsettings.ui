@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-28</y>
+         <y>-1745</y>
          <width>620</width>
-         <height>2236</height>
+         <height>2272</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1090,105 +1090,125 @@ QSplitter::handle:horizontal {
         <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
-           <string>Font</string>
+           <string>User interface</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
-            <widget class="QLabel" name="label_29">
-             <property name="text">
-              <string>Size:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="cboFontSize">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-             <property name="currentText">
-              <string>8</string>
-             </property>
-             <property name="maxCount">
-              <number>10</number>
-             </property>
-             <property name="minimumContentsLength">
-              <number>1</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>8</string>
-              </property>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="3">
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
-             <item>
-              <property name="text">
-               <string>9</string>
-              </property>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_30">
+               <property name="text">
+                <string>pt</string>
+               </property>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>10</string>
-              </property>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="cboFontSize">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <property name="currentText">
+                <string>8</string>
+               </property>
+               <property name="maxCount">
+                <number>10</number>
+               </property>
+               <property name="minimumContentsLength">
+                <number>1</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>8</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>9</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>10</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>11</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>12</string>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>11</string>
-              </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="lblFontSize">
+               <property name="text">
+                <string>Font size:</string>
+               </property>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>12</string>
-              </property>
+             <item row="1" column="0">
+              <widget class="QLabel" name="lblLanguage">
+               <property name="text">
+                <string>Language:</string>
+               </property>
+              </widget>
              </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_30">
-             <property name="text">
-              <string>pt</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_31">
-             <property name="styleSheet">
-              <string notr="true">color: blue;</string>
-             </property>
-             <property name="text">
-              <string>(restart needed)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+             <item row="1" column="1">
+              <widget class="QComboBox" name="cboLanguage">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="editable">
+                <bool>false</bool>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+               <property name="maxCount">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLabel" name="label_31">
+               <property name="styleSheet">
+                <string notr="true">color: blue;</string>
+               </property>
+               <property name="text">
+                <string>(restart needed)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -1267,7 +1287,6 @@ QSplitter::handle:horizontal {
   <tabstop>chkShowProgramCommands</tabstop>
   <tabstop>chkShowUICommands</tabstop>
   <tabstop>chkAutocompletion</tabstop>
-  <tabstop>cboFontSize</tabstop>
   <tabstop>cmdDefaults</tabstop>
   <tabstop>cmdOK</tabstop>
   <tabstop>cmdCancel</tabstop>

@@ -40,12 +40,11 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
-    // TODO: Use locale from settings
-    QString loc = QLocale().name().left(2);
-    QString translationsFolder = qApp->applicationDirPath() + "/translations/";
-    QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
+    QSettings set(a.applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QString loc = set.value("language", "en").toString();
 
-    qDebug() << "locale:" << loc;
+    QString translationsFolder = qApp->applicationDirPath() + "/translations/";
+    QString translationFileName = translationsFolder + "candle_" + loc + ".qm";
 
     if(QFile::exists(translationFileName)) {
         QTranslator* translator = new QTranslator();

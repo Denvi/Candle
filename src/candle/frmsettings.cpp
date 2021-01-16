@@ -13,6 +13,8 @@
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QDir>
+#include <QLocale>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -87,6 +89,18 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->tblShortcuts->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     searchPorts();
+
+    // Languages
+    QDir d(qApp->applicationDirPath() + "/translations");
+    QStringList fl = QStringList() << "candle_*.qm";
+    QStringList tl = d.entryList(fl, QDir::Files);
+    QRegExp fx("_([^\\.]+)");
+    foreach (const QString &t, tl) {
+        if (fx.indexIn(t) != -1) {
+            QLocale l(fx.cap(1));
+            ui->cboLanguage->addItem(l.nativeLanguageName(), l.name().left(2));
+        }
+    }
 }
 
 frmSettings::~frmSettings()
@@ -580,6 +594,17 @@ void frmSettings::setPauseToolChange(bool pause)
     ui->chkPauseToolChange->setChecked(pause);
 }
 
+QString frmSettings::language()
+{
+    return ui->cboLanguage->currentData().toString();
+}
+
+void frmSettings::setLanguage(QString language)
+{
+    int i = ui->cboLanguage->findData(language);
+    if (i != -1) ui->cboLanguage->setCurrentIndex(i);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -707,6 +732,7 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->txtEndCommands->clear();
     ui->txtToolChangeCommands->clear();
     ui->chkPauseToolChange->setChecked(true);
+    setLanguage("en");
 
     emit settingsSetByDefault();
 }
