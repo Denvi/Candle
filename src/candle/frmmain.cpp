@@ -1910,6 +1910,7 @@ void frmMain::onSerialPortReadyRead()
                             set[gs.cap(1).toInt()] = gs.cap(2).toDouble();
                             p += gs.matchedLength();
                         }
+                        // TODO: Store travels 130, 131, 132 to draw machine table  
                         if (set.keys().contains(13)) m_settings->setUnits(set[13]);
                         if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
                         if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
@@ -4196,7 +4197,6 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
         LineSegment *ls = lines[i];
         double length = (ls->getEnd() - ls->getStart()).length();
 
-        // TODO: Update for rapid override
         if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
                 length / ((ui->slbFeedOverride->isChecked() && !ls->isFastTraverse())
                           ? (ls->getSpeed() * ui->slbFeedOverride->value() / 100) :
