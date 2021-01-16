@@ -431,6 +431,7 @@ private:
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     double toMetric(double value);
+    double toInches(double value);
     bool compareCoordinates(double x, double y, double z);
     bool isGCodeFile(QString fileName);
     bool isHeightmapFile(QString fileName);

@@ -13,7 +13,9 @@
 #include <QShortcut>
 #include <QAction>
 #include <QLayout>
+#include <QDrag>
 #include <QMimeData>
+#include <QTranslator>
 #include <QScriptValueIterator>
 #include "frmmain.h"
 #include "ui_frmmain.h"
@@ -1537,6 +1539,7 @@ void frmMain::on_cmdZMinus_released()
 
 void frmMain::on_cmdStop_clicked()
 {
+    m_jogVector = QVector3D(0, 0, 0);
     m_queue.clear();
     m_serialPort.write(QByteArray(1, char(0x85)));
 }
@@ -4045,31 +4048,51 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj->inherits("QWidgetWindow")) {
 
+        // Jog on keyboard control
         QKeySequence ks;
+        QKeyEvent *ev = static_cast<QKeyEvent*>(event);
 
         if ((event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyRelease)) {
-            QKeyEvent *ev = static_cast<QKeyEvent*>(event);
-            ks = QKeySequence(ev->key() | ev->modifiers());
+            if (ev->key() == Qt::Key_Shift) {
+                ks = QKeySequence(Qt::ShiftModifier);
+            } else if (ev->key() == Qt::Key_Control) {
+                ks = QKeySequence(Qt::ControlModifier);
+            } else if (ev->key() == Qt::Key_Alt) {
+                ks = QKeySequence(Qt::AltModifier);
+            } else {
+                ks = QKeySequence(ev->key() | ev->modifiers());
+            }
         }
 
-        // Jog on keyboard control
-        if ((m_senderState != SenderTransferring) && (m_senderState != SenderStopping) && 
-            ui->chkKeyboardControl->isChecked() &&
-            (event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyRelease) && 
-            !static_cast<QKeyEvent*>(event)->isAutoRepeat()) 
+        if ((m_senderState != SenderTransferring) && (m_senderState != SenderStopping) 
+            && ui->chkKeyboardControl->isChecked() && !ev->isAutoRepeat()) 
         {
-            if (ui->actJogXMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();                
-            } else if (ui->actJogXPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdXPlus->pressed(); else emit ui->cmdXPlus->released();
-            } else if (ui->actJogYPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdYPlus->pressed(); else emit ui->cmdYPlus->released();
-            } else if (ui->actJogYMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdYMinus->pressed(); else emit ui->cmdYMinus->released();
-            } else if (ui->actJogZPlus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdZPlus->pressed(); else emit ui->cmdZPlus->released();
-            } else if (ui->actJogZMinus->shortcuts().contains(ks)) {
-                if (event->type() == QEvent::ShortcutOverride) emit ui->cmdZMinus->pressed(); else emit ui->cmdZMinus->released();
+            static QList<QAction*> acts;
+            if (acts.isEmpty()) acts << ui->actJogXMinus << ui->actJogXPlus 
+                                     << ui->actJogYMinus << ui->actJogYPlus
+                                     << ui->actJogZMinus << ui->actJogZPlus;
+
+            static QList<QAbstractButton*> buttons;
+            if (buttons.isEmpty()) buttons << ui->cmdXMinus << ui->cmdXPlus
+                                           << ui->cmdYMinus << ui->cmdYPlus
+                                           << ui->cmdZMinus << ui->cmdZPlus;
+
+            for (int i = 0; i < acts.count(); i++) {
+                if ((!buttons.at(i)->isDown()) && (event->type() == QEvent::ShortcutOverride)) {
+                    if (acts.at(i)->shortcut().matches(ks) == QKeySequence::ExactMatch) {
+                        buttons.at(i)->pressed();
+                        buttons.at(i)->setDown(true);
+                    }
+                } else if (buttons.at(i)->isDown() && (event->type() == QEvent::KeyRelease)) {
+                    if ((acts.at(i)->shortcut().matches(ks) == QKeySequence::ExactMatch) 
+                        || (acts.at(i)->shortcut().toString().contains(ks.toString()))
+                        || (ks.toString().contains(acts.at(i)->shortcut().toString()))
+                        ) 
+                    {
+                        buttons.at(i)->released();
+                        buttons.at(i)->setDown(false);
+                    }
+                }
             }
         }
     } else if (obj == ui->tblProgram && ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))) {
@@ -4247,14 +4270,14 @@ void frmMain::jogStep()
 
     if (ui->cboJogStep->currentText().toDouble() == 0) {
         const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
-        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
-        double v = (double)speed / 60;                              // Rapid speed mm/sec
+        double speed = ui->cboJogFeed->currentText().toDouble();    // Speed
+        double v = toMetric(speed) / 60;                            // Rapid speed mm/sec
         int N = 15;                                                 // Planner blocks
         double tt = 0.002;                                          // Transfer time
         double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt; // Single jog command time
         double s = v * dt;                                          // Jog distance
 
-        QVector3D vec = m_jogVector.normalized() * s / toMetric(1);
+        QVector3D vec = m_jogVector.normalized() * toInches(s);
 
         sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
                     .arg(vec.x(), 0, 'g', 4)
@@ -4264,7 +4287,7 @@ void frmMain::jogStep()
                     .arg(m_settings->units() ? "G20" : "G21")
                     , -2, m_settings->showUICommands());
     } else {
-        int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
+        double speed = ui->cboJogFeed->currentText().toDouble();    // Speed
         QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
 
         sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
@@ -4280,6 +4303,11 @@ void frmMain::jogStep()
 double frmMain::toMetric(double value)
 {
     return m_settings->units() == 0 ? value : value * 25.4;
+}
+
+double frmMain::toInches(double value)
+{
+    return m_settings->units() == 0 ? value : value / 25.4;
 }
 
 bool frmMain::compareCoordinates(double x, double y, double z)
