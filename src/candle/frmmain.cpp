@@ -312,6 +312,11 @@ frmMain::frmMain(QWidget *parent) :
     QScriptValue vars = m_scriptEngine.newQObject(&m_storedVars);
     m_scriptEngine.globalObject().setProperty("vars", vars);
 
+    // Delegate import extension function
+    QScriptValue sv = m_scriptEngine.newObject();
+    sv.setProperty("importExtension", m_scriptEngine.newFunction(frmMain::importExtension));
+    m_scriptEngine.globalObject().setProperty("script", sv);
+
     // Signals/slots
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
