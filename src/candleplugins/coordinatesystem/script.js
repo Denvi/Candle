@@ -26,10 +26,10 @@ function init()
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(appPath);
 
-    // TODO: Enable only on senderState == SenderStopped;
     app.deviceStateChanged.connect(onAppDeviceStateChanged);
     app.senderStateChanged.connect(onAppSenderStateChanged);
     app.responseReceived.connect(onAppResponseReceived);
+    app.settingsLoaded.connect(onAppSettingsLoaded);
 }
 
 function createPanelWidget()
@@ -59,6 +59,23 @@ function createPanelWidget()
         uiPanel.cmdAll0.clicked.connect(onZeroClicked("X0 Y0 Z0"));
     }
     return uiPanel;
+}
+
+function onAppSettingsLoaded()
+{
+    var u = app.settings.units;
+    var b = u ? 999 : 9999;
+
+    uiPanel.txtOffsetX.decimals = u ? 4 : 3;
+    uiPanel.txtOffsetY.decimals = u ? 4 : 3;
+    uiPanel.txtOffsetZ.decimals = u ? 4 : 3;
+
+    uiPanel.txtOffsetX.mimimum = -b;
+    uiPanel.txtOffsetX.maximum = b;
+    uiPanel.txtOffsetY.mimimum = -b;
+    uiPanel.txtOffsetY.maximum = b;
+    uiPanel.txtOffsetZ.mimimum = -b;
+    uiPanel.txtOffsetZ.maximum = b;
 }
 
 function onAppDeviceStateChanged(status)

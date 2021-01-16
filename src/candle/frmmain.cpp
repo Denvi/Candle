@@ -3060,8 +3060,8 @@ void frmMain::loadPlugins()
             se->globalObject().setProperty("app", app);
 
             // // Settings
-            // QScriptValue settings = se->newQObject(m_settings);
-            // se->globalObject().setProperty("mainSettings", settings);
+            QScriptValue settings = se->newQObject(m_settings);
+            app.setProperty("settings", settings);
 
             // Stored vars
             QScriptValue vars = se->newQObject(&m_storedVars);
@@ -4241,8 +4241,6 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 
 void frmMain::jogStep()
 {
-    // TODO: Replace G21 with G21/G20 according the mm/inch setting
-
     if (m_jogVector.length() == 0) return;
 
     if (ui->cboJogStep->currentText().toDouble() == 0) {
