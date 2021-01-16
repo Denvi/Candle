@@ -1740,7 +1740,7 @@ void frmMain::onSerialPortReadyRead()
 
             // Toolpath shadowing
             if (((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)
-                || (m_senderState == SenderPausing)) && state != DeviceCheck) {
+                || (m_senderState == SenderPausing) || (m_senderState == SenderPaused)) && state != DeviceCheck) {
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
 
                 bool toolOntoolpath = false;
@@ -2013,12 +2013,16 @@ void frmMain::onSerialPortReadyRead()
                     // Check queue
                     if (m_queue.length() > 0) {
                         CommandQueue cq = m_queue.takeFirst();
-                       
-                        while ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
-                            int r = 0;
-                            if (!cq.command.isEmpty()) r = sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
-                            if ((!r && !cq.command.isEmpty() && (m_queue.isEmpty() || cq.wait)) || m_queue.isEmpty()) break; 
-                                else cq = m_queue.takeFirst();
+                        while (true) {
+                            if ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
+                                int r = 0;
+                                if (!cq.command.isEmpty()) r = sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
+                                if ((!r && !cq.command.isEmpty() && (m_queue.isEmpty() || cq.wait)) || m_queue.isEmpty()) break; 
+                                    else cq = m_queue.takeFirst();
+                            } else {
+                                m_queue.insert(0, cq);
+                                break;
+                            }
                         }
                     }
 
