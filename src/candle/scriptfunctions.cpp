@@ -1,5 +1,5 @@
 #include "scriptfunctions.h"
-#include "frmMain.h"
+#include "frmmain.h"
 
 ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
 {
