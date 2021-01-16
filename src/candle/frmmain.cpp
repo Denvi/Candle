@@ -4254,22 +4254,26 @@ void frmMain::jogStep()
         double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt; // Single jog command time
         double s = v * dt;                                          // Jog distance
 
-        QVector3D vec = m_jogVector.normalized() * s;
+        QVector3D vec = m_jogVector.normalized() * s / toMetric(1);
 
-        sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4")
+        sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
                     .arg(vec.x(), 0, 'g', 4)
                     .arg(vec.y(), 0, 'g', 4)
                     .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed), -2, m_settings->showUICommands());
+                    .arg(speed)
+                    .arg(m_settings->units() ? "G20" : "G21")
+                    , -2, m_settings->showUICommands());
     } else {
         int speed = ui->cboJogFeed->currentText().toInt();          // Speed mm/min
         QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
 
-        sendCommand(QString("$J=G21G91X%1Y%2Z%3F%4")
+        sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
                     .arg(vec.x(), 0, 'g', 4)
                     .arg(vec.y(), 0, 'g', 4)
                     .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed), -3, m_settings->showUICommands());
+                    .arg(speed)
+                    .arg(m_settings->units() ? "G20" : "G21")
+                    , -3, m_settings->showUICommands());
     }
 }
 
