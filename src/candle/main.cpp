@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     QGLFormat::setDefaultFormat(glf);
 
     QSettings set(a.applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    set.setIniCodec("UTF-8");
     QString loc = set.value("language", "en").toString();
 
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
