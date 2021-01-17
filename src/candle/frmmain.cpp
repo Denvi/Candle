@@ -297,7 +297,11 @@ frmMain::frmMain(QWidget *parent) :
     }
 
     // Enable form actions
-    foreach (QAction* a, findChildren<QAction*>()) addAction(a);
+    QList<QAction*> noActions;
+    noActions << ui->actJogXMinus << ui->actJogXPlus
+              << ui->actJogYMinus << ui->actJogYPlus
+              << ui->actJogZMinus << ui->actJogZPlus;  
+    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
 
     // Handle file drop
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
