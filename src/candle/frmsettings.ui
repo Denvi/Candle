@@ -84,7 +84,7 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1745</y>
+         <y>0</y>
          <width>620</width>
          <height>2272</height>
         </rect>
@@ -221,6 +221,9 @@ QSplitter::handle:horizontal {
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="minimum">
+                <number>10</number>
                </property>
                <property name="maximum">
                 <number>9999</number>
@@ -432,6 +435,9 @@ QSplitter::handle:horizontal {
                </property>
                <property name="decimals">
                 <number>2</number>
+               </property>
+               <property name="minimum">
+                <double>0.100000000000000</double>
                </property>
                <property name="maximum">
                 <double>99.000000000000000</double>

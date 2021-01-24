@@ -36,6 +36,7 @@ function init()
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
     app.settingsAccepted.connect(onAppSettingsAccepted);
     app.settingsRejected.connect(onAppSettingsRejected);
+    // TODO: Add default settings
 }
 
 function createWindowWidget()

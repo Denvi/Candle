@@ -662,7 +662,7 @@ void frmSettings::on_cmdDefaults_clicked()
     setLaserPowerMax(100);
     setUnits(0);
 
-    setArcLength(0.0);
+    setArcLength(0.1);
     setArcDegreeMode(true);
     setArcDegree(5.0);
 

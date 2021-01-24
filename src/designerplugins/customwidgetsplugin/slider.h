@@ -11,6 +11,7 @@
 class CUSTOMWIDGETS_DLLSPEC Slider : public QSlider
 {
     Q_OBJECT
+    Q_PROPERTY(int currentValue READ currentValue WRITE setCurrentValue)
 public:
     explicit Slider(QWidget *parent = 0);
 
