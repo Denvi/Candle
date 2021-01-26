@@ -8,8 +8,8 @@ script.importExtension("qt.custom");
 script.importExtension("qt.uitools");
 
 // Vars
-var appPath = QCoreApplication.applicationDirPath();
-var pluginPath = appPath + "/plugins/coordinatesystem";
+var appPath = app.path;
+var pluginPath = script.path;
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var deviceState = -1;

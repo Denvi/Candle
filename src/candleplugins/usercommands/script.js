@@ -8,8 +8,8 @@ script.importExtension("qt.custom");
 script.importExtension("qt.uitools");
 
 // Vars
-var appPath = QCoreApplication.applicationDirPath();
-var pluginPath = appPath + "/plugins/usercommands";
+var appPath = app.path;
+var pluginPath = script.path;
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var buttonSize = 48;

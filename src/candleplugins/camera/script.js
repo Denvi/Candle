@@ -8,8 +8,8 @@ script.importExtension("qt.custom");
 script.importExtension("qt.uitools");
 
 // Vars
-var appPath = QCoreApplication.applicationDirPath();
-var pluginPath = appPath + "/plugins/camera";
+var appPath = app.path;
+var pluginPath = script.path;
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var storedName;
@@ -36,7 +36,7 @@ function init()
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
     app.settingsAccepted.connect(onAppSettingsAccepted);
     app.settingsRejected.connect(onAppSettingsRejected);
-    // TODO: Add default settings
+    app.settingsSetByDefault.connect(onAppSettingsDefault);
 }
 
 function createWindowWidget()
@@ -110,8 +110,8 @@ function onAppSettingsAboutToShow()
     storedZoom = uiSettings.txtCameraZoom.text;
     storedPosition = uiSettings.txtCameraPosition.text;
     storedAimPosition = uiSettings.txtCameraAimPosition.text;
-    storedAimSize = uiSettings.txtCameraAimSize.text;
-    storedAimLineWidth = uiSettings.txtCameraAimLineWidth.text;
+    storedAimSize = uiSettings.txtCameraAimSize.value;
+    storedAimLineWidth = uiSettings.txtCameraAimLineWidth.value;
     storedAimColor = uiSettings.colCameraAimColor.colorInt;
 }
 
@@ -122,16 +122,19 @@ function onAppSettingsAccepted()
 
 function onAppSettingsRejected()
 {
-    uiSettings.cboCameraName.currentText = storedName;
-    uiSettings.cboCameraResolution.currentText = storedResolution;
-    uiSettings.txtCameraZoom.text = storedZoom;
-    uiSettings.txtCameraPosition.text = storedPosition;
-    uiSettings.txtCameraAimPosition.text = storedAimPosition;
-    uiSettings.txtCameraAimSize.text = storedAimSize;
-    uiSettings.txtCameraAimLineWidth.text = storedAimLineWidth;
-    uiSettings.colCameraAimColor.colorInt = storedAimColor;
-
     applySettings();
+}
+
+function onAppSettingsDefault()
+{
+    uiSettings.cboCameraName.currentText = "";
+    uiSettings.cboCameraResolution.currentText = "";
+    uiSettings.txtCameraZoom.text = "1.0";
+    uiSettings.txtCameraPosition.text = "0, 0";
+    uiSettings.txtCameraAimPosition.text = "0, 0";
+    uiSettings.txtCameraAimSize.value = "20";
+    uiSettings.txtCameraAimLineWidth.value = "1";
+    uiSettings.colCameraAimColor.colorInt = -65536;
 }
 
 function applySettings()

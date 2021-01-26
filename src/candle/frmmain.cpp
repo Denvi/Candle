@@ -3063,12 +3063,14 @@ void frmMain::loadPlugins()
             
             QScriptValue sv = se->newObject();
             sv.setProperty("importExtension", se->newFunction(frmMain::importExtension));
+            sv.setProperty("path", pluginsDir + p);            
             se->globalObject().setProperty("script", sv);
             connect(se, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
 
             // Delegate objects
             // Main form
             QScriptValue app = se->newQObject(&m_scriptFunctions);
+            app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
 
             // // Settings
