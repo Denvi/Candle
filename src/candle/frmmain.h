@@ -430,6 +430,7 @@ private:
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
+    void jogContinuous();
     double toMetric(double value);
     double toInches(double value);
     bool compareCoordinates(double x, double y, double z);

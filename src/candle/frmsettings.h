@@ -9,6 +9,7 @@
 #include <QListWidgetItem>
 #include <QSettings>
 #include <QGroupBox>
+#include <QVector3D>
 #include "colorpicker.h"
 
 namespace Ui {
@@ -35,8 +36,6 @@ class frmSettings : public QDialog
     Q_PROPERTY(int spindleSpeedMax READ spindleSpeedMax WRITE setSpindleSpeedMax)
     Q_PROPERTY(int laserPowerMin READ laserPowerMin WRITE setLaserPowerMin)
     Q_PROPERTY(int laserPowerMax READ laserPowerMax WRITE setLaserPowerMax)
-    Q_PROPERTY(int rapidSpeed READ rapidSpeed WRITE setRapidSpeed)
-    Q_PROPERTY(int acceleration READ acceleration WRITE setAcceleration)
     Q_PROPERTY(int queryStateTime READ queryStateTime WRITE setQueryStateTime)
     Q_PROPERTY(int toolType READ toolType WRITE setToolType)
     Q_PROPERTY(double toolAngle READ toolAngle WRITE setToolAngle)
@@ -44,7 +43,6 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool vsync READ vsync WRITE setVsync)
     Q_PROPERTY(bool msaa READ msaa WRITE setMsaa)
     Q_PROPERTY(bool autoCompletion READ autoCompletion WRITE setAutoCompletion)
-    Q_PROPERTY(bool units READ units WRITE setUnits)
     Q_PROPERTY(bool simplify READ simplify WRITE setSimplify)
     Q_PROPERTY(double simplifyPrecision READ simplifyPrecision WRITE setSimplifyPrecision)
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize)
@@ -58,6 +56,10 @@ class frmSettings : public QDialog
     Q_PROPERTY(QString toolChangeCommands READ toolChangeCommands WRITE setToolChangeCommands)
     Q_PROPERTY(bool pauseToolChange READ pauseToolChange WRITE setPauseToolChange)
     Q_PROPERTY(QString language READ language WRITE setLanguage)
+    Q_PROPERTY(bool units READ units WRITE setUnits)
+    Q_PROPERTY(int rapidSpeed READ rapidSpeed WRITE setRapidSpeed)
+    Q_PROPERTY(int acceleration READ acceleration WRITE setAcceleration)
+    Q_PROPERTY(QVector3D machineBounds READ machineBounds WRITE setMachineBounds)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -151,6 +153,8 @@ public:
     void setPauseToolChange(bool pause);
     QString language();
     void setLanguage(QString language);
+    QVector3D machineBounds();
+    void setMachineBounds(QVector3D bounds);
 
 signals:
     void settingsSetByDefault();
@@ -189,6 +193,7 @@ private:
     int m_units;
     int m_acceleration;
     int m_rapidSpeed;
+    QVector3D m_machineBounds;
 };
 
 #endif // FRMSETTINGS_H

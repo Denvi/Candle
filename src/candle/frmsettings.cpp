@@ -605,11 +605,19 @@ void frmSettings::setLanguage(QString language)
     if (i != -1) ui->cboLanguage->setCurrentIndex(i);
 }
 
+QVector3D frmSettings::machineBounds()
+{
+    return m_machineBounds;
+}
+
+void frmSettings::setMachineBounds(QVector3D bounds)
+{
+    m_machineBounds = bounds;
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
-
-    // ui->scrollSettings->updateMinimumWidth();
 }
 
 void frmSettings::searchPorts()
@@ -617,7 +625,6 @@ void frmSettings::searchPorts()
     ui->cboPort->clear();
 
     foreach (QSerialPortInfo info ,QSerialPortInfo::availablePorts()) {
-//        ui->cboPort->addItem(info.portName());
         ui->cboPort->insertItem(0, info.portName());
     }
 }

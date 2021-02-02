@@ -1834,6 +1834,9 @@ void frmMain::onSerialPortReadyRead()
             // Store device state
             setDeviceState(state);
 
+            // Update continuous jog
+            jogContinuous();
+            
             // Emit status signal
             emit statusReceived(data);
 
@@ -1879,11 +1882,6 @@ void frmMain::onSerialPortReadyRead()
                         else if (response.contains("G90")) sendCommand("G90", -1, m_settings->showUICommands());
                     }
 
-                    // Jog
-                    if (uncomment.contains("$J=") && ca.tableIndex == -2) {
-                        jogStep();
-                    }
-
                     // Process parser status
                     if (uncomment == "$G" && ca.tableIndex == -3) {
                         // Update status in visualizer window
@@ -1914,10 +1912,11 @@ void frmMain::onSerialPortReadyRead()
                             set[gs.cap(1).toInt()] = gs.cap(2).toDouble();
                             p += gs.matchedLength();
                         }
-                        // TODO: Store travels 130, 131, 132 to draw machine table  
                         if (set.keys().contains(13)) m_settings->setUnits(set[13]);
                         if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
                         if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
+                        if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132))
+                            m_settings->setMachineBounds(QVector3D(set[130], set[131], set[132]));
 
                         setupCoordsTextboxes();
                     }
@@ -3852,6 +3851,8 @@ void frmMain::updateControlsState() {
 
     ui->cboJogStep->setEditable(!ui->chkKeyboardControl->isChecked());
     ui->cboJogFeed->setEditable(!ui->chkKeyboardControl->isChecked());
+    ui->cboJogStep->setEnabled(!ui->chkKeyboardControl->isChecked());
+    ui->cboJogFeed->setEnabled(!ui->chkKeyboardControl->isChecked());
     ui->cboJogStep->setStyleSheet(QString("font-size: %1").arg(m_settings->fontSize()));
     ui->cboJogFeed->setStyleSheet(ui->cboJogStep->styleSheet());
 
@@ -4276,37 +4277,52 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 
 void frmMain::jogStep()
 {
-    if (m_jogVector.length() == 0) return;
-
-    if (ui->cboJogStep->currentText().toDouble() == 0) {
-        const double acc = m_settings->acceleration();              // Acceleration mm/sec^2
-        double speed = ui->cboJogFeed->currentText().toDouble();    // Speed
-        double v = toMetric(speed) / 60;                            // Rapid speed mm/sec
-        int N = 15;                                                 // Planner blocks
-        double tt = 0.002;                                          // Transfer time
-        double dt = qMax(0.01, sqrt(v) / (2 * acc * (N - 1))) + tt; // Single jog command time
-        double s = v * dt;                                          // Jog distance
-
-        QVector3D vec = m_jogVector.normalized() * toInches(s);
-
-        sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                    .arg(vec.x(), 0, 'g', 4)
-                    .arg(vec.y(), 0, 'g', 4)
-                    .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed)
-                    .arg(m_settings->units() ? "G20" : "G21")
-                    , -2, m_settings->showUICommands());
-    } else {
+    if (ui->cboJogStep->currentText().toDouble() != 0) {
         double speed = ui->cboJogFeed->currentText().toDouble();    // Speed
         QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
 
-        sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                    .arg(vec.x(), 0, 'g', 4)
-                    .arg(vec.y(), 0, 'g', 4)
-                    .arg(vec.z(), 0, 'g', 4)
-                    .arg(speed)
-                    .arg(m_settings->units() ? "G20" : "G21")
-                    , -3, m_settings->showUICommands());
+        if (vec.length()) {
+            sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                        .arg(vec.x(), 0, 'g', 4)
+                        .arg(vec.y(), 0, 'g', 4)
+                        .arg(vec.z(), 0, 'g', 4)
+                        .arg(speed)
+                        .arg(m_settings->units() ? "G20" : "G21")
+                        , -3, m_settings->showUICommands());
+        }
+    }
+}
+
+void frmMain::jogContinuous()
+{
+    static bool block = false;
+    static QVector3D v;
+
+    if ((ui->cboJogStep->currentText().toDouble() == 0) && !block) {
+        QVector3D b = m_settings->machineBounds();
+        QVector3D vec = m_jogVector * toInches((qAbs(b.x()), qAbs(b.y())));
+
+        if (vec != v) {
+            double speed = ui->cboJogFeed->currentText().toDouble();
+
+            if (v.length()) {
+                block = true;
+                m_serialPort.write(QByteArray(1, char(0x85)));
+                while (m_deviceState == DeviceJog) qApp->processEvents();
+                block = false;
+            }
+            
+            if (vec.length()) {
+                sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                            .arg(vec.x(), 0, 'g', 4)
+                            .arg(vec.y(), 0, 'g', 4)
+                            .arg(vec.z(), 0, 'g', 4)
+                            .arg(speed)
+                            .arg(m_settings->units() ? "G20" : "G21")
+                            , -2, m_settings->showUICommands());
+            }
+            v = vec;
+        }
     }
 }
 
