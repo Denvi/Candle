@@ -46,6 +46,7 @@ SOURCES += main.cpp\
     drawers/origindrawer.cpp \
     drawers/shaderdrawable.cpp \
     drawers/tooldrawer.cpp \
+    drawers/machineboundsdrawer.cpp \
     parser/arcproperties.cpp \
     parser/gcodeparser.cpp \
     parser/gcodepreprocessorutils.cpp \
@@ -72,6 +73,7 @@ HEADERS  += frmmain.h \
     drawers/origindrawer.h \
     drawers/shaderdrawable.h \
     drawers/tooldrawer.h \
+    drawers/machineboundsdrawer.h \
     parser/arcproperties.h \
     parser/gcodeparser.h \
     parser/gcodepreprocessorutils.h \

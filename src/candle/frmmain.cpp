@@ -230,6 +230,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapInterpolationDrawer);
     ui->glwVisualizer->addDrawable(&m_selectionDrawer);
+    ui->glwVisualizer->addDrawable(&m_machineBoundsDrawer);
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
@@ -1865,6 +1866,8 @@ void frmMain::onSerialPortReadyRead()
                         static QRegExp g("G5[4-9]");
                         if (g.indexIn(response) != -1) {
                             m_storedVars.setCS(g.cap(0));
+                            m_machineBoundsDrawer.setOffset(QPointF(toMetric(m_storedVars.x()), toMetric(m_storedVars.y())) + 
+                                QPointF(toMetric(m_storedVars.G92x()), toMetric(m_storedVars.G92y())));
                         }
                         static QRegExp t("T(\\d+)(?!\\d)");
                         if (t.indexIn(response) != -1) {
@@ -1913,10 +1916,17 @@ void frmMain::onSerialPortReadyRead()
                             p += gs.matchedLength();
                         }
                         if (set.keys().contains(13)) m_settings->setUnits(set[13]);
+                        if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
+                        if (set.keys().contains(22)) {
+                            m_settings->setHomingEnabled(set[22]);
+                            m_machineBoundsDrawer.setVisible(set[22]);
+                        }
                         if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
                         if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
-                        if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132))
+                        if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
                             m_settings->setMachineBounds(QVector3D(set[130], set[131], set[132]));
+                            m_machineBoundsDrawer.setBorderRect(QRectF(0, 0, -set[130], -set[131]));
+                        }
 
                         setupCoordsTextboxes();
                     }
@@ -4278,15 +4288,14 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 void frmMain::jogStep()
 {
     if (ui->cboJogStep->currentText().toDouble() != 0) {
-        double speed = ui->cboJogFeed->currentText().toDouble();    // Speed
         QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
 
         if (vec.length()) {
             sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                        .arg(vec.x(), 0, 'g', 4)
-                        .arg(vec.y(), 0, 'g', 4)
-                        .arg(vec.z(), 0, 'g', 4)
-                        .arg(speed)
+                        .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(ui->cboJogFeed->currentText().toDouble())
                         .arg(m_settings->units() ? "G20" : "G21")
                         , -3, m_settings->showUICommands());
         }
@@ -4299,11 +4308,10 @@ void frmMain::jogContinuous()
     static QVector3D v;
 
     if ((ui->cboJogStep->currentText().toDouble() == 0) && !block) {
-        QVector3D b = m_settings->machineBounds();
-        QVector3D vec = m_jogVector * toInches((qAbs(b.x()), qAbs(b.y())));
 
-        if (vec != v) {
-            double speed = ui->cboJogFeed->currentText().toDouble();
+        if (m_jogVector != v) {
+            // Store jog vector before block
+            QVector3D j = m_jogVector;
 
             if (v.length()) {
                 block = true;
@@ -4312,16 +4320,38 @@ void frmMain::jogContinuous()
                 block = false;
             }
             
+            // Bounds
+            QVector3D b = m_settings->machineBounds();
+            // Current machine coords
+            QVector3D m(toMetric(m_storedVars.Mx()), toMetric(m_storedVars.My()), toMetric(m_storedVars.Mz()));
+            // Distance to bounds
+            QVector3D t;
+            // Minimum distance to bounds
+            double d = 0;
+            if (m_settings->softLimitsEnabled()) {
+                t = QVector3D(j.x() > 0 ? 0 - m.x() : -b.x() - m.x(), 
+                            j.y() > 0 ? 0 - m.y() : -b.y() - m.y(),
+                            j.z() > 0 ? 0 - m.z() : -b.z() - m.z());
+                for (int i = 0; i < 3; i++) if ((j[i] && (qAbs(t[i]) < d)) || (j[i] && !d)) d = qAbs(t[i]);
+                // Coords not aligned, add some bounds offset
+                d -= m_settings->units() ? toMetric(0.0005) : 0.005;
+            } else {
+                for (int i = 0; i < 3; i++) if (j[i] && (qAbs(b[i]) > d)) d = qAbs(b[i]);
+            }
+
+            // Jog vector
+            QVector3D vec = j * toInches(d);
+
             if (vec.length()) {
                 sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                            .arg(vec.x(), 0, 'g', 4)
-                            .arg(vec.y(), 0, 'g', 4)
-                            .arg(vec.z(), 0, 'g', 4)
-                            .arg(speed)
+                            .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                            .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                            .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                            .arg(ui->cboJogFeed->currentText().toDouble())
                             .arg(m_settings->units() ? "G20" : "G21")
                             , -2, m_settings->showUICommands());
             }
-            v = vec;
+            v = j;
         }
     }
 }

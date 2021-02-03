@@ -30,6 +30,7 @@
 #include "drawers/heightmapinterpolationdrawer.h"
 #include "drawers/shaderdrawable.h"
 #include "drawers/selectiondrawer.h"
+#include "drawers/machineboundsdrawer.h"
 
 #include "tables/gcodetablemodel.h"
 #include "tables/heightmaptablemodel.h"
@@ -292,6 +293,7 @@ private:
     HeightMapGridDrawer m_heightMapGridDrawer;
     HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
     SelectionDrawer m_selectionDrawer;
+    MachineBoundsDrawer m_machineBoundsDrawer;
 
     // Table models
     GCodeTableModel m_programModel;

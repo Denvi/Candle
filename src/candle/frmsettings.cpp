@@ -615,6 +615,26 @@ void frmSettings::setMachineBounds(QVector3D bounds)
     m_machineBounds = bounds;
 }
 
+bool frmSettings::homingEnabled()
+{
+    return m_homingEnabled;
+}
+
+void frmSettings::setHomingEnabled(bool homing)
+{
+    m_homingEnabled = homing;
+}
+
+bool frmSettings::softLimitsEnabled()
+{
+    return m_softLimitsEnabled;
+}
+
+void frmSettings::setSoftLimitsEnabled(bool softLimits)
+{
+    m_softLimitsEnabled = softLimits;
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)

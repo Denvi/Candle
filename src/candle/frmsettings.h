@@ -60,6 +60,8 @@ class frmSettings : public QDialog
     Q_PROPERTY(int rapidSpeed READ rapidSpeed WRITE setRapidSpeed)
     Q_PROPERTY(int acceleration READ acceleration WRITE setAcceleration)
     Q_PROPERTY(QVector3D machineBounds READ machineBounds WRITE setMachineBounds)
+    Q_PROPERTY(bool homingEnabled READ homingEnabled WRITE setHomingEnabled)
+    Q_PROPERTY(bool softLimitsEnabled READ softLimitsEnabled WRITE setSoftLimitsEnabled)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -155,6 +157,10 @@ public:
     void setLanguage(QString language);
     QVector3D machineBounds();
     void setMachineBounds(QVector3D bounds);
+    bool homingEnabled();
+    void setHomingEnabled(bool homing);
+    bool softLimitsEnabled();
+    void setSoftLimitsEnabled(bool softLimits);    
 
 signals:
     void settingsSetByDefault();
@@ -194,6 +200,8 @@ private:
     int m_acceleration;
     int m_rapidSpeed;
     QVector3D m_machineBounds;
+    bool m_homingEnabled;
+    bool m_softLimitsEnabled;
 };
 
 #endif // FRMSETTINGS_H
