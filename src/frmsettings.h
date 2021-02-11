@@ -117,6 +117,10 @@ public:
     void setIgnoreErrors(bool value);
     bool autoLine();
     void setAutoLine(bool value);
+    QString serialHostname();
+    void setSerialHostname(QString hostName);
+    int serialTcpPort();
+    void setSerialTcpPort(int port);
 
 protected:
     void showEvent(QShowEvent *se);

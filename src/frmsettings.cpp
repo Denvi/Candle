@@ -583,6 +583,24 @@ void frmSettings::setAutoLine(bool value)
     ui->chkAutoLine->setChecked(value);
 }
 
+QString frmSettings::serialHostname()
+{
+    return "cncpi.lan";
+}
+
+void frmSettings::setSerialHostname(QString hostName)
+{
+}
+
+int frmSettings::serialTcpPort()
+{
+    return 6778;
+}
+
+void frmSettings::setSerialTcpPort(int port)
+{
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
