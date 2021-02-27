@@ -156,12 +156,6 @@ frmMain::frmMain(QWidget* parent)
     ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYPlus->setBackColor(ui->cmdXMinus->backColor());
 
-    ui->cmdFit->setParent(ui->glwVisualizer);
-    ui->cmdIsometric->setParent(ui->glwVisualizer);
-    ui->cmdTop->setParent(ui->glwVisualizer);
-    ui->cmdFront->setParent(ui->glwVisualizer);
-    ui->cmdLeft->setParent(ui->glwVisualizer);
-
     ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
@@ -348,8 +342,6 @@ void frmMain::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
 
-    placeVisualizerButtons();
-
 #ifdef WINDOWS
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarButton == NULL) {
@@ -370,7 +362,6 @@ void frmMain::resizeEvent(QResizeEvent *re)
 {
     Q_UNUSED(re)
 
-    placeVisualizerButtons();
     resizeTableHeightMapSections();
 }
 
@@ -2560,15 +2551,6 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
     m_programHeightmapModel.clear();
 }
 
-void frmMain::placeVisualizerButtons()
-{
-    ui->cmdIsometric->move(ui->glwVisualizer->width() - ui->cmdIsometric->width() - 8, 8);
-    ui->cmdTop->move(ui->cmdIsometric->geometry().left() - ui->cmdTop->width() - 8, 8);
-    ui->cmdLeft->move(ui->glwVisualizer->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
-    ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
-    ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
-}
-
 void frmMain::preloadSettings()
 {
     QSettings set(m_settingsFileName, QSettings::IniFormat);
@@ -2708,7 +2690,7 @@ void frmMain::loadSettings()
     emit pluginsLoaded();
 
     // Adjust docks width 
-    int w = qMax(ui->dockDevice->widget()->sizeHint().width(), 
+    int w = qMax(ui->dockDevice->widget()->sizeHint().width(),
         ui->dockModification->widget()->sizeHint().width());
     ui->dockDevice->setMinimumWidth(w);
     ui->dockDevice->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
@@ -2717,14 +2699,14 @@ void frmMain::loadSettings()
     ui->dockUser->setMinimumWidth(w);
     ui->dockUser->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
 
-        // Buttons
-    int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
-    int c = b * 0.8;
-    setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
-	    min-width: %1px;\n\
-	    min-height: %1px;\n\
-	    qproperty-iconSize: %2px;\n\
-        }").arg(b).arg(c));
+    // Buttons
+    //    int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
+    //    int c = b * 0.8;
+    //    setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
+    //	    min-width: %1px;\n\
+    //	    min-height: %1px;\n\
+    //	    qproperty-iconSize: %2px;\n\
+    //        }").arg(b).arg(c));
     ensurePolished();
 
     foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");

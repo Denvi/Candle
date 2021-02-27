@@ -214,7 +214,6 @@ private slots:
     void onScriptException(const QScriptValue &exception);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
-    void placeVisualizerButtons();
 
 protected:
     void showEvent(QShowEvent* se) override;
