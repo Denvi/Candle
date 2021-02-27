@@ -22,74 +22,79 @@
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
 
-frmMain::frmMain(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::frmMain)
+frmMain::frmMain(QWidget* parent)
+    : QMainWindow(parent)
+    , ui(new Ui::frmMain)
+    , m_deviceStatuses {
+        { DeviceUnknown, QStringLiteral("Unknown") },
+        { DeviceIdle, QStringLiteral("Idle") },
+        { DeviceAlarm, QStringLiteral("Alarm") },
+        { DeviceRun, QStringLiteral("Run") },
+        { DeviceHome, QStringLiteral("Home") },
+        { DeviceHold0, QStringLiteral("Hold:0") },
+        { DeviceHold1, QStringLiteral("Hold:1") },
+        { DeviceQueue, QStringLiteral("Queue") },
+        { DeviceCheck, QStringLiteral("Check") },
+        { DeviceDoor0, QStringLiteral("Door:0") },
+        { DeviceDoor1, QStringLiteral("Door:1") },
+        { DeviceDoor2, QStringLiteral("Door:2") },
+        { DeviceDoor3, QStringLiteral("Door:3") },
+        { DeviceJog, QStringLiteral("Jog") },
+        { DeviceSleep, QStringLiteral("Sleep") },
+    }
+    , m_statusCaptions {
+        { DeviceUnknown, tr("Unknown") },
+        { DeviceIdle, tr("Idle") },
+        { DeviceAlarm, tr("Alarm") },
+        { DeviceRun, tr("Run") },
+        { DeviceHome, tr("Home") },
+        { DeviceHold0, tr("Hold") + " (0)" },
+        { DeviceHold1, tr("Hold") + " (1)" },
+        { DeviceQueue, tr("Queue") },
+        { DeviceCheck, tr("Check") },
+        { DeviceDoor0, tr("Door") + " (0)" },
+        { DeviceDoor1, tr("Door") + " (1)" },
+        { DeviceDoor2, tr("Door") + " (2)" },
+        { DeviceDoor3, tr("Door") + " (3)" },
+        { DeviceJog, tr("Jog") },
+        { DeviceSleep, tr("Sleep") },
+    }
+    , m_statusBackColors {
+        { DeviceUnknown, QStringLiteral("red") },
+        { DeviceIdle, QStringLiteral("palette(button)") },
+        { DeviceAlarm, QStringLiteral("red") },
+        { DeviceRun, QStringLiteral("lime") },
+        { DeviceHome, QStringLiteral("lime") },
+        { DeviceHold0, QStringLiteral("yellow") },
+        { DeviceHold1, QStringLiteral("yellow") },
+        { DeviceQueue, QStringLiteral("yellow") },
+        { DeviceCheck, QStringLiteral("palette(button)") },
+        { DeviceDoor0, QStringLiteral("red") },
+        { DeviceDoor1, QStringLiteral("red") },
+        { DeviceDoor2, QStringLiteral("red") },
+        { DeviceDoor3, QStringLiteral("red") },
+        { DeviceJog, QStringLiteral("lime") },
+        { DeviceSleep, QStringLiteral("blue") },
+    }
+    , m_statusForeColors {
+        { DeviceUnknown, QStringLiteral("white") },
+        { DeviceIdle, QStringLiteral("palette(text)") },
+        { DeviceAlarm, QStringLiteral("white") },
+        { DeviceRun, QStringLiteral("black") },
+        { DeviceHome, QStringLiteral("black") },
+        { DeviceHold0, QStringLiteral("black") },
+        { DeviceHold1, QStringLiteral("black") },
+        { DeviceQueue, QStringLiteral("black") },
+        { DeviceCheck, QStringLiteral("palette(text)") },
+        { DeviceDoor0, QStringLiteral("white") },
+        { DeviceDoor1, QStringLiteral("white") },
+        { DeviceDoor2, QStringLiteral("white") },
+        { DeviceDoor3, QStringLiteral("white") },
+        { DeviceJog, QStringLiteral("black") },
+        { DeviceSleep, QStringLiteral("white") },
+    }
 {
     // Initializing variables
-    m_deviceStatuses[DeviceUnknown] = "Unknown";
-    m_deviceStatuses[DeviceIdle] = "Idle";
-    m_deviceStatuses[DeviceAlarm] = "Alarm";
-    m_deviceStatuses[DeviceRun] = "Run";
-    m_deviceStatuses[DeviceHome] = "Home";
-    m_deviceStatuses[DeviceHold0] = "Hold:0";
-    m_deviceStatuses[DeviceHold1] = "Hold:1";
-    m_deviceStatuses[DeviceQueue] = "Queue";
-    m_deviceStatuses[DeviceCheck] = "Check";
-    m_deviceStatuses[DeviceDoor0] = "Door:0";
-    m_deviceStatuses[DeviceDoor1] = "Door:1";
-    m_deviceStatuses[DeviceDoor2] = "Door:2";
-    m_deviceStatuses[DeviceDoor3] = "Door:3";
-    m_deviceStatuses[DeviceJog] = "Jog";
-    m_deviceStatuses[DeviceSleep] = "Sleep";
-
-	m_statusCaptions[DeviceUnknown] = tr("Unknown");
-	m_statusCaptions[DeviceIdle] = tr("Idle");
-	m_statusCaptions[DeviceAlarm] = tr("Alarm");
-	m_statusCaptions[DeviceRun] = tr("Run");
-	m_statusCaptions[DeviceHome] = tr("Home");
-	m_statusCaptions[DeviceHold0] = tr("Hold") + " (0)";
-	m_statusCaptions[DeviceHold1] = tr("Hold") + " (1)";
-	m_statusCaptions[DeviceQueue] = tr("Queue");
-	m_statusCaptions[DeviceCheck] = tr("Check");
-	m_statusCaptions[DeviceDoor0] = tr("Door") + " (0)";
-	m_statusCaptions[DeviceDoor1] = tr("Door") + " (1)";
-	m_statusCaptions[DeviceDoor2] = tr("Door") + " (2)";
-	m_statusCaptions[DeviceDoor3] = tr("Door") + " (3)";
-	m_statusCaptions[DeviceJog] = tr("Jog");
-	m_statusCaptions[DeviceSleep] = tr("Sleep");
-
-	m_statusBackColors[DeviceUnknown] = "red";
-	m_statusBackColors[DeviceIdle] = "palette(button)";
-	m_statusBackColors[DeviceAlarm] = "red";
-	m_statusBackColors[DeviceRun] = "lime";
-	m_statusBackColors[DeviceHome] = "lime";
-	m_statusBackColors[DeviceHold0] = "yellow";
-	m_statusBackColors[DeviceHold1] = "yellow";
-	m_statusBackColors[DeviceQueue] = "yellow";
-	m_statusBackColors[DeviceCheck] = "palette(button)";
-	m_statusBackColors[DeviceDoor0] = "red";
-	m_statusBackColors[DeviceDoor1] = "red";
-	m_statusBackColors[DeviceDoor2] = "red";
-	m_statusBackColors[DeviceDoor3] = "red";
-	m_statusBackColors[DeviceJog] = "lime";
-	m_statusBackColors[DeviceSleep] = "blue";
-
-	m_statusForeColors[DeviceUnknown] = "white";
-	m_statusForeColors[DeviceIdle] = "palette(text)";
-	m_statusForeColors[DeviceAlarm] = "white";
-	m_statusForeColors[DeviceRun] = "black";
-	m_statusForeColors[DeviceHome] = "black";
-	m_statusForeColors[DeviceHold0] = "black";
-	m_statusForeColors[DeviceHold1] = "black";
-	m_statusForeColors[DeviceQueue] = "black";
-	m_statusForeColors[DeviceCheck] = "palette(text)";
-	m_statusForeColors[DeviceDoor0] = "white";
-	m_statusForeColors[DeviceDoor1] = "white";
-	m_statusForeColors[DeviceDoor2] = "white";
-	m_statusForeColors[DeviceDoor3] = "white";
-	m_statusForeColors[DeviceJog] = "black";
-	m_statusForeColors[DeviceSleep] = "white";
 
     m_fileChanged = false;
     m_heightMapChanged = false;
