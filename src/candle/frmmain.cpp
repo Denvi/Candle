@@ -399,7 +399,9 @@ void frmMain::closeEvent(QCloseEvent *ce)
         return;
     }
 
+    m_timerConnection.stop();
     if (m_serialPort.isOpen()) m_serialPort.close();
+    
     if (m_queue.length() > 0) {
         m_commands.clear();
         m_queue.clear();
