@@ -175,7 +175,7 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
-    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
+    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegularExpression("cmdUser\\d"))) {
         connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
     }
 
@@ -274,7 +274,7 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     // Prepare jog buttons
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
+    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegularExpression("cmdJogFeed\\d")))
     {
         connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
     }
@@ -522,6 +522,7 @@ void frmMain::on_actFileNew_triggered()
 
         m_heightMapChanged = false;
     }
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 
     updateControlsState();
 }
@@ -609,6 +610,241 @@ void frmMain::on_actServiceSettings_triggered()
     table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
 
     qSort(acts.begin(), acts.end(), frmMain::actionLessThan);
+    for (int i = 0; i < acts.count(); i++) {
+        table->setItem(i, 0, new QTableWidgetItem(acts.at(i)->objectName()));
+        table->setItem(i, 1, new QTableWidgetItem(acts.at(i)->text().remove("&")));
+        table->setItem(i, 2, new QTableWidgetItem(acts.at(i)->shortcut().toString()));
+
+        table->item(i, 0)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 1)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 2)->setFlags(Qt::ItemIsEnabled | Qt::ItemIsEditable);
+=======
+
+    updateControlsState();
+}
+
+void frmMain::on_actFileOpen_triggered()
+{
+    on_cmdFileOpen_clicked();
+}
+
+void frmMain::on_actFileSave_triggered()
+{
+    if (!m_heightMapMode) {
+        // G-code saving
+        if (m_programFileName.isEmpty()) on_actFileSaveAs_triggered(); else {
+            saveProgramToFile(m_programFileName, &m_programModel);
+            m_fileChanged = false;
+        }
+    } else {
+        // Height map saving
+        if (m_heightMapFileName.isEmpty()) on_actFileSaveAs_triggered(); else saveHeightMap(m_heightMapFileName);
+    }
+}
+
+void frmMain::on_actFileSaveAs_triggered()
+{
+    if (!m_heightMapMode) {
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+
+        if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
+            m_programFileName = fileName;
+            m_fileChanged = false;
+
+            addRecentFile(fileName);
+            updateRecentFilesMenu();
+
+            updateControlsState();
+        }
+    } else {
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("Heightmap files (*.map)")));
+
+        if (!fileName.isEmpty()) if (saveHeightMap(fileName)) {
+            ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+            m_heightMapFileName = fileName;
+            m_heightMapChanged = false;
+
+            addRecentHeightmap(fileName);
+            updateRecentFilesMenu();
+
+            updateControlsState();
+        }
+    }
+}
+
+void frmMain::on_actFileSaveTransformedAs_triggered()
+{
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+
+    if (!fileName.isEmpty()) {
+        saveProgramToFile(fileName, &m_programHeightmapModel);
+>>>>>>> Stashed changes:src/frmmain.cpp
+    }
+}
+
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
+    table->resizeColumnsToContents();
+    table->setMinimumHeight(table->rowHeight(0) * 10
+        + table->horizontalHeader()->height() + table->frameWidth() * 2);
+    table->horizontalHeader()->setMinimumSectionSize(table->horizontalHeader()->sectionSize(2));
+    table->horizontalHeader()->setStretchLastSection(true);
+
+    emit settingsAboutToShow();
+
+    if (m_settings->exec()) {
+        if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
+                                           m_settings->baud() != m_serialPort.baudRate())) {
+            if (m_serialPort.isOpen()) m_serialPort.close();
+            m_serialPort.setPortName(m_settings->port());
+            m_serialPort.setBaudRate(m_settings->baud());
+            openPort();
+        }
+
+        updateControlsState();
+        applySettings();
+
+        // Update shortcuts
+        for (int i = 0; i < acts.count(); i++) {
+            acts[i]->setShortcut(QKeySequence(table->item(i, 2)->data(Qt::DisplayRole).toString()));
+        }
+
+        emit settingsAccepted();
+
+    } else {
+        m_settings->undo();
+
+        emit settingsRejected();
+    }
+}
+
+void frmMain::on_actAbout_triggered()
+{
+    m_frmAbout.exec();
+}
+
+void frmMain::on_actJogStepNext_triggered()
+{
+    ui->cboJogStep->setCurrentNext();
+}
+
+void frmMain::on_actJogStepPrevious_triggered()
+{
+    ui->cboJogStep->setCurrentPrevious();
+}
+
+void frmMain::on_actJogFeedNext_triggered()
+{
+    ui->cboJogFeed->setCurrentNext();
+}
+
+void frmMain::on_actJogFeedPrevious_triggered()
+{
+    ui->cboJogFeed->setCurrentPrevious();
+}
+
+void frmMain::on_actSpindleSpeedPlus_triggered()
+{
+    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() + 1);
+}
+
+void frmMain::on_actSpindleSpeedMinus_triggered()
+{
+    ui->slbSpindle->setSliderPosition(ui->slbSpindle->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideFeedPlus_triggered()
+{
+    ui->slbFeedOverride->setSliderPosition(ui->slbFeedOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideFeedMinus_triggered()
+{
+    ui->slbFeedOverride->setSliderPosition(ui->slbFeedOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideRapidPlus_triggered()
+{
+    ui->slbRapidOverride->setSliderPosition(ui->slbRapidOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideRapidMinus_triggered()
+{
+    ui->slbRapidOverride->setSliderPosition(ui->slbRapidOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_actOverrideSpindlePlus_triggered()
+{
+    ui->slbSpindleOverride->setSliderPosition(ui->slbSpindleOverride->sliderPosition() + 1);
+}
+
+void frmMain::on_actOverrideSpindleMinus_triggered()
+{
+    ui->slbSpindleOverride->setSliderPosition(ui->slbSpindleOverride->sliderPosition() - 1);
+}
+
+void frmMain::on_actViewLockWindows_toggled(bool checked)
+{
+    QList<QDockWidget*> dl = findChildren<QDockWidget*>();
+
+    foreach (QDockWidget *d, dl) {
+        d->setFeatures(checked ? QDockWidget::NoDockWidgetFeatures : QDockWidget::AllDockWidgetFeatures);
+    }
+}
+
+void frmMain::on_cmdFileOpen_clicked()
+{
+    if (!m_heightMapMode) {
+        if (!saveChanges(false)) return;
+
+        QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
+                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+
+        if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
+
+        if (fileName != "") {
+            addRecentFile(fileName);
+            updateRecentFilesMenu();
+
+            loadFile(fileName);
+        }
+    } else {
+        if (!saveChanges(true)) return;
+
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder, tr("Heightmap files (*.map)"));
+
+        if (fileName != "") {
+            addRecentHeightmap(fileName);
+            updateRecentFilesMenu();
+            loadHeightMap(fileName);
+        }
+=======
+void frmMain::on_actRecentClear_triggered()
+{
+    if (!m_heightMapMode) m_recentFiles.clear(); else m_recentHeightmaps.clear();
+    updateRecentFilesMenu();
+}
+
+void frmMain::on_actFileExit_triggered()
+{
+    close();
+}
+
+void frmMain::on_actServiceSettings_triggered()
+{
+    QList<QAction*> acts = findChildren<QAction*>(QRegularExpression("act.*"));
+    QTableWidget *table = m_settings->ui->tblShortcuts;
+
+    table->clear();
+    table->setColumnCount(3);
+    table->setRowCount(acts.count());
+    table->setHorizontalHeaderLabels(QStringList() << tr("Command") << tr("Text") << tr("Shortcuts"));
+
+    table->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
+
+
+    //qSort(acts.begin(), acts.end(), frmMain::actionLessThan);
+    std::sort(acts.begin(), acts.end());
     for (int i = 0; i < acts.count(); i++) {
         table->setItem(i, 0, new QTableWidgetItem(acts.at(i)->objectName()));
         table->setItem(i, 1, new QTableWidgetItem(acts.at(i)->text().remove("&")));
@@ -753,6 +989,7 @@ void frmMain::on_cmdFileOpen_clicked()
             updateRecentFilesMenu();
             loadHeightMap(fileName);
         }
+>>>>>>> Stashed changes:src/frmmain.cpp
     }
 }
 
@@ -827,6 +1064,7 @@ void frmMain::on_cmdFilePause_clicked(bool checked)
 void frmMain::on_cmdFileAbort_clicked()
 {
     ui->cmdFileAbort->setEnabled(false);
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 
     if ((m_senderState == SenderPaused) || (m_senderState == SenderChangingTool)) {
         sendCommand("M2", -1, m_settings->showUICommands(), false);
@@ -949,6 +1187,130 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
     style()->unpolish(ui->grpSpindle);
     ui->grpSpindle->ensurePolished();
 
+=======
+
+    if ((m_senderState == SenderPaused) || (m_senderState == SenderChangingTool)) {
+        sendCommand("M2", -1, m_settings->showUICommands(), false);
+    } else {
+        sendCommand("M2", -1, m_settings->showUICommands(), true);
+    }
+}
+
+void frmMain::on_cmdFileReset_clicked()
+{
+    m_fileCommandIndex = 0;
+    m_fileProcessedCommandIndex = 0;
+    m_lastDrawnLineIndex = 0;
+    m_probeIndex = -1;
+
+    if (!m_heightMapMode) {
+        QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+
+        QList<int> indexes;
+        for (int i = 0; i < list.count(); i++) {
+            list[i]->setDrawn(false);
+            indexes.append(i);
+        }
+        m_codeDrawer->update(indexes);
+
+        ui->tblProgram->setUpdatesEnabled(false);
+
+        for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
+            m_currentModel->data()[i].state = GCodeItem::InQueue;
+            m_currentModel->data()[i].response = QString();
+        }
+        ui->tblProgram->setUpdatesEnabled(true);
+
+        ui->tblProgram->scrollTo(m_currentModel->index(0, 0));
+        ui->tblProgram->clearSelection();
+        ui->tblProgram->selectRow(0);
+
+        ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+    } else {
+        ui->txtHeightMapGridX->setEnabled(true);
+        ui->txtHeightMapGridY->setEnabled(true);
+        ui->txtHeightMapGridZBottom->setEnabled(true);
+        ui->txtHeightMapGridZTop->setEnabled(true);
+
+        delete m_heightMapInterpolationDrawer.data();
+        m_heightMapInterpolationDrawer.setData(NULL);
+
+        m_heightMapModel.clear();
+        updateHeightMapGrid();
+    }
+}
+
+void frmMain::on_cmdCommandSend_clicked()
+{
+    QString command = ui->cboCommand->currentText();
+    if (command.isEmpty()) return;
+
+    ui->cboCommand->storeText();
+    ui->cboCommand->setCurrentText("");
+    sendCommand(command, -1);
+}
+
+void frmMain::on_cmdClearConsole_clicked()
+{
+    ui->txtConsole->clear();
+}
+
+void frmMain::on_cmdHome_clicked()
+{
+    m_homing = true;
+    m_updateSpindleSpeed = true;
+    sendCommand("$H", -1, m_settings->showUICommands());
+}
+
+void frmMain::on_cmdCheck_clicked(bool checked)
+{
+    if (checked) {
+        storeParserState();
+        sendCommand("$C", -1, m_settings->showUICommands());
+    } else {
+        m_aborting = true;
+        grblReset();
+    };
+}
+
+void frmMain::on_cmdReset_clicked()
+{
+    grblReset();
+}
+
+void frmMain::on_cmdUnlock_clicked()
+{
+    m_updateSpindleSpeed = true;
+    sendCommand("$X", -1, m_settings->showUICommands());
+}
+
+void frmMain::on_cmdHold_clicked(bool checked)
+{
+    sendCommand(checked ? "!" : "~", -1, m_settings->showUICommands());
+}
+
+void frmMain::on_cmdSleep_clicked()
+{
+    sendCommand("$SLP", -1, m_settings->showUICommands());
+}
+
+void frmMain::on_cmdDoor_clicked()
+{
+    m_serialPort.write(QByteArray(1, (char)0x84));
+}
+
+void frmMain::on_cmdFlood_clicked()
+{
+    m_serialPort.write(QByteArray(1, (char)0xa0));
+}
+
+void frmMain::on_cmdSpindle_toggled(bool checked)
+{
+    ui->grpSpindle->setProperty("overrided", checked);
+    style()->unpolish(ui->grpSpindle);
+    ui->grpSpindle->ensurePolished();
+
+>>>>>>> Stashed changes:src/frmmain.cpp
     if (checked) {
         if (!ui->grpSpindle->isChecked()) ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
     } else {
@@ -1046,6 +1408,14 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
 
     if ((m_senderState != SenderTransferring) && (m_senderState != SenderStopping)) 
         m_storedKeyboardControl = checked;
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
+
+    updateJogTitle();
+    updateControlsState();
+}
+
+void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
+=======
 
     updateJogTitle();
     updateControlsState();
@@ -1058,6 +1428,15 @@ void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
     updateControlsState();
 }
 
+void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
+>>>>>>> Stashed changes:src/frmmain.cpp
+{
+    Q_UNUSED(checked)
+
+    updateControlsState();
+}
+
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
     Q_UNUSED(checked)
@@ -1242,6 +1621,185 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                 }
                 lastCommandIndex = line;
 
+=======
+void frmMain::on_chkHeightMapUse_clicked(bool checked)
+{
+//    static bool fileChanged;
+
+    // Reset table view
+    QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+    ui->tblProgram->setModel(NULL);
+
+    CancelException cancel;
+
+    if (checked) try {
+
+        // Prepare progress dialog
+        QProgressDialog progress(tr("Applying heightmap..."), tr("Abort"), 0, 0, this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.setFixedHeight(progress.sizeHint().height());
+        progress.show();
+        progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
+
+        // Set current model to prevent reseting heightmap cache
+        m_currentModel = &m_programHeightmapModel;
+
+        // Update heightmap-modificated program if not cached
+        if (m_programHeightmapModel.rowCount() == 0) {
+
+            // Modifying linesegments
+            QList<LineSegment*> *list = m_viewParser.getLines();
+            QRectF borderRect = borderRectFromTextboxes();
+            double x, y, z;
+            QVector3D point;
+
+            progress.setLabelText(tr("Subdividing segments..."));
+            progress.setMaximum(list->count() - 1);
+
+            for (int i = 0; i < list->count(); i++) {
+                if (!list->at(i)->isZMovement()) {
+                    QList<LineSegment*> subSegments = subdivideSegment(list->at(i));
+
+                    if (subSegments.count() > 0) {
+                        delete list->at(i);
+                        list->removeAt(i);
+                        foreach (LineSegment* subSegment, subSegments) list->insert(i++, subSegment);
+                        i--;
+                    }
+                }
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setMaximum(list->count() - 1);
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
+            }
+
+            progress.setLabelText(tr("Updating Z-coordinates..."));
+            progress.setMaximum(list->count() - 1);
+
+            for (int i = 0; i < list->count(); i++) {
+                if (i == 0) {
+                    x = list->at(i)->getStart().x();
+                    y = list->at(i)->getStart().y();
+                    z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                    list->at(i)->setStart(QVector3D(x, y, z));
+                } else list->at(i)->setStart(list->at(i - 1)->getEnd());
+
+                x = list->at(i)->getEnd().x();
+                y = list->at(i)->getEnd().y();
+                z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                list->at(i)->setEnd(QVector3D(x, y, z));
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
+            }
+
+            progress.setLabelText(tr("Modifying G-code program..."));
+            progress.setMaximum(m_programModel.rowCount() - 2);
+
+            // Modifying g-code program
+            QString command;
+            QStringList args;
+            int line;
+            QString newCommand;
+            GCodeItem item;
+            int lastSegmentIndex = 0;
+            int lastCommandIndex = -1;
+
+            // Search strings
+            QString coords("XxYyZzIiJjKkRr");
+            QString g("Gg");
+            QString m("Mm");
+
+            char codeChar;          // Single code char G1 -> G
+            float codeNum;          // Code number      G1 -> 1
+
+            QString lastCode;
+            bool isLinearMove;
+            bool hasCommand;
+
+            m_programLoading = true;
+            for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
+                command = m_programModel.data().at(i).command;
+                line = m_programModel.data().at(i).line;
+                isLinearMove = false;
+                hasCommand = false;
+
+                if (line < 0 || line == lastCommandIndex || lastSegmentIndex == list->count() - 1) {
+                    item.command = command;
+                    m_programHeightmapModel.data().append(item);
+                } else {
+                    // Get commands args
+                    args = m_programModel.data().at(i).args;
+                    newCommand.clear();
+
+                    // Parse command args
+                    foreach (QString arg, args) {                   // arg examples: G1, G2, M3, X100...
+                        codeChar = arg.at(0).toLatin1();            // codeChar: G, M, X...
+                        if (!coords.contains(codeChar)) {           // Not parameter
+                            codeNum = arg.mid(1).toDouble();
+                            if (g.contains(codeChar)) {             // 'G'-command
+                                // Store 'G0' & 'G1'
+                                if (codeNum == 0.0f || codeNum == 1.0f) {
+                                    lastCode = arg;
+                                    isLinearMove = true;            // Store linear move
+                                }
+
+                                // Replace 'G2' & 'G3' with 'G1'
+                                if (codeNum == 2.0f || codeNum == 3.0f) {
+                                    newCommand.append("G1");
+                                    isLinearMove = true;
+                                // Drop plane command for arcs
+                                } else if (codeNum != 17.0f && codeNum != 18.0f && codeNum != 19.0f) {
+                                    newCommand.append(arg);
+                                }
+
+                                hasCommand = true;                  // Command has 'G'
+                            } else {
+                                if (m.contains(codeChar))
+                                    hasCommand = true;              // Command has 'M'
+                                newCommand.append(arg);       // Other commands
+                            }
+                        }
+                    }
+
+                    // Find first linesegment by command index
+                    for (int j = lastSegmentIndex; j < list->count(); j++) {
+                        if (list->at(j)->getLineNumber() == line) {
+                            if (!qIsNaN(list->at(j)->getEnd().length()) && (isLinearMove || (!hasCommand && !lastCode.isEmpty()))) {
+                                // Create new commands for each linesegment with given command index
+                                while ((j < list->count()) && (list->at(j)->getLineNumber() == line)) {
+
+                                    point = list->at(j)->getEnd();
+                                    if (!list->at(j)->isAbsolute()) point -= list->at(j)->getStart();
+                                    if (!list->at(j)->isMetric()) point /= 25.4f;
+
+                                    item.command = newCommand + QString("X%1Y%2Z%3")
+                                            .arg(point.x(), 0, 'f', 3).arg(point.y(), 0, 'f', 3).arg(point.z(), 0, 'f', 3);
+                                    m_programHeightmapModel.data().append(item);
+
+                                    if (!newCommand.isEmpty()) newCommand.clear();
+                                    j++;
+                                }
+                            // Copy original command if not G0 or G1
+                            } else {
+                                item.command = command;
+                                m_programHeightmapModel.data().append(item);
+                            }
+
+                            lastSegmentIndex = j;
+                            break;
+                        }
+                    }
+                }
+                lastCommandIndex = line;
+
+>>>>>>> Stashed changes:src/frmmain.cpp
                 if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
                     progress.setValue(i);
                     qApp->processEvents();
@@ -1578,7 +2136,12 @@ void frmMain::on_mnuViewWindows_aboutToShow()
         al.append(a);
     }
 
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
     qSort(al.begin(), al.end(), frmMain::actionTextLessThan);
+=======
+    std::sort(al.begin(),al.end());
+    //qSort(al.begin(), al.end(), frmMain::actionTextLessThan);
+>>>>>>> Stashed changes:src/frmmain.cpp
 
     ui->mnuViewWindows->clear();
     ui->mnuViewWindows->addActions(al);
@@ -1648,6 +2211,7 @@ void frmMain::onSerialPortReadyRead()
                     ui->txtMPosY->value(),
                     ui->txtMPosZ->value()));
             }
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 
             // Status
             static QRegExp stx("<([^,^>^|]*)");
@@ -1719,6 +2283,79 @@ void frmMain::onSerialPortReadyRead()
             static QVector3D workOffset;
             static QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
 
+=======
+
+            // Status
+            static QRegExp stx("<([^,^>^|]*)");
+            if (stx.indexIn(data) != -1) {
+                state = m_deviceStatuses.key(stx.cap(1), DeviceUnknown);
+
+                // Update status
+                if (state != m_deviceState) {
+                    ui->txtStatus->setText(m_statusCaptions[state]);
+                    ui->txtStatus->setStyleSheet(QString("background-color: %1; color: %2;")
+                                                 .arg(m_statusBackColors[state]).arg(m_statusForeColors[state]));
+                }
+
+                // Update controls
+                ui->cmdCheck->setEnabled(state != DeviceRun && (m_senderState == SenderStopped));
+                ui->cmdCheck->setChecked(state == DeviceCheck);
+                ui->cmdHold->setChecked(state == DeviceHold0 || state == DeviceHold1 || state == DeviceQueue);
+                ui->cmdSpindle->setEnabled(state == DeviceHold0 || ((m_senderState != SenderTransferring) &&
+                    (m_senderState != SenderStopping)));
+
+                // Update "elapsed time" timer
+                if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) {
+                    QTime time(0, 0, 0);
+                    int elapsed = m_startTime.elapsed();
+                    ui->glwVisualizer->setSpendTime(time.addMSecs(elapsed));
+                }
+
+                // Test for job complete
+                if ((m_senderState == SenderStopping) &&
+                        ((state == DeviceIdle && m_deviceState == DeviceRun) || state == DeviceCheck)) 
+                {
+                    completeTransfer();
+                }
+
+                // Abort
+                static double x = sNan;
+                static double y = sNan;
+                static double z = sNan;
+
+                if (m_aborting) {
+                    switch (state) {
+                    case DeviceIdle: // Idle
+                        if ((m_senderState == SenderStopped) && m_resetCompleted) {
+                            m_aborting = false;
+                            restoreParserState();
+                            restoreOffsets();
+                            return;
+                        }
+                        break;
+                    case DeviceHold0: // Hold
+                    case DeviceHold1:
+                    case DeviceQueue:
+                        if (!m_reseting && compareCoordinates(x, y, z)) {
+                            x = sNan;
+                            y = sNan;
+                            z = sNan;
+                            grblReset();
+                        } else {
+                            x = ui->txtMPosX->value();
+                            y = ui->txtMPosY->value();
+                            z = ui->txtMPosZ->value();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Store work offset
+            static QVector3D workOffset;
+            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
+
+>>>>>>> Stashed changes:src/frmmain.cpp
             if (wpx.indexIn(data) != -1)
             {
                 workOffset = QVector3D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble());
@@ -2902,7 +3539,11 @@ void frmMain::saveSettings()
     ShortcutsMap m;
     QByteArray ba;
     QDataStream s(&ba, QIODevice::WriteOnly);
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
     QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
+=======
+    QList<QAction*> acts = findChildren<QAction*>(QRegularExpression("act.*"));
+>>>>>>> Stashed changes:src/frmmain.cpp
 
     foreach (QAction *a, acts) m[a->objectName()] = a->shortcuts();
     s << m;
@@ -2978,6 +3619,7 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setFps(m_settings->fps());
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 
     ui->slbSpindle->setRatio((m_settings->spindleSpeedMax() - m_settings->spindleSpeedMin()) / 100);
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
@@ -3026,6 +3668,57 @@ void frmMain::applySettings() {
     ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
     ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
 
+=======
+
+    ui->slbSpindle->setRatio((m_settings->spindleSpeedMax() - m_settings->spindleSpeedMin()) / 100);
+    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
+    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
+
+    //ui->cboCommand->setCompleter(m_settings->autoCompletion());
+    ui->cboCommand->completer();
+
+    m_codeDrawer->setSimplify(m_settings->simplify());
+    m_codeDrawer->setSimplifyPrecision(m_settings->simplifyPrecision());
+    m_codeDrawer->setColorNormal(m_settings->colors("ToolpathNormal"));
+    m_codeDrawer->setColorDrawn(m_settings->colors("ToolpathDrawn"));
+    m_codeDrawer->setColorHighlight(m_settings->colors("ToolpathHighlight"));
+    m_codeDrawer->setColorZMovement(m_settings->colors("ToolpathZMovement"));
+    m_codeDrawer->setColorStart(m_settings->colors("ToolpathStart"));
+    m_codeDrawer->setColorEnd(m_settings->colors("ToolpathEnd"));
+    m_codeDrawer->setIgnoreZ(m_settings->grayscaleSegments() || !m_settings->drawModeVectors());
+    m_codeDrawer->setGrayscaleSegments(m_settings->grayscaleSegments());
+    m_codeDrawer->setGrayscaleCode(m_settings->grayscaleSCode() ? GcodeDrawer::S : GcodeDrawer::Z);
+    m_codeDrawer->setDrawMode(m_settings->drawModeVectors() ? GcodeDrawer::Vectors : GcodeDrawer::Raster);
+    m_codeDrawer->setGrayscaleMin(m_settings->laserPowerMin());
+    m_codeDrawer->setGrayscaleMax(m_settings->laserPowerMax());
+    m_codeDrawer->update();    
+
+    m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
+
+    // Adapt visualizer buttons colors
+    const int LIGHTBOUND = 127;
+    const int NORMALSHIFT = 40;
+    const int HIGHLIGHTSHIFT = 80;
+
+    QColor base = m_settings->colors("VisualizerBackground");
+    bool light = base.value() > LIGHTBOUND;
+    QColor normal, highlight;
+
+    normal.setHsv(base.hue(), base.saturation(), base.value() + (light ? -NORMALSHIFT : NORMALSHIFT));
+    highlight.setHsv(base.hue(), base.saturation(), base.value() + (light ? -HIGHLIGHTSHIFT : HIGHLIGHTSHIFT));
+
+    ui->glwVisualizer->setStyleSheet(QString("QToolButton {border: 1px solid %1; \
+                background-color: %3} QToolButton:hover {border: 1px solid %2;}")
+                .arg(normal.name()).arg(highlight.name())
+                .arg(base.name()));
+
+    ui->cmdFit->setIcon(QIcon(":/images/fit_1.png"));
+    ui->cmdIsometric->setIcon(QIcon(":/images/cube.png"));
+    ui->cmdFront->setIcon(QIcon(":/images/cubeFront.png"));
+    ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
+    ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
+
+>>>>>>> Stashed changes:src/frmmain.cpp
     if (!light) {
         Util::invertButtonIconColors(ui->cmdFit);
         Util::invertButtonIconColors(ui->cmdIsometric);
@@ -4106,6 +4799,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                     if (acts.at(i)->shortcut().matches(ks) == QKeySequence::ExactMatch) {
                         buttons.at(i)->pressed();
                         buttons.at(i)->setDown(true);
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
                     }
                 } else if (buttons.at(i)->isDown() && (event->type() == QEvent::KeyRelease)) {
                     if ((acts.at(i)->shortcut().matches(ks) == QKeySequence::ExactMatch) 
@@ -4116,6 +4810,18 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                         buttons.at(i)->released();
                         buttons.at(i)->setDown(false);
                     }
+=======
+                    }
+                } else if (buttons.at(i)->isDown() && (event->type() == QEvent::KeyRelease)) {
+                    if ((acts.at(i)->shortcut().matches(ks) == QKeySequence::ExactMatch) 
+                        || (acts.at(i)->shortcut().toString().contains(ks.toString()))
+                        || (ks.toString().contains(acts.at(i)->shortcut().toString()))
+                        ) 
+                    {
+                        buttons.at(i)->released();
+                        buttons.at(i)->setDown(false);
+                    }
+>>>>>>> Stashed changes:src/frmmain.cpp
                 }
             }
         }
@@ -4126,6 +4832,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             ui->chkAutoScroll->setChecked(false);
         }
     }
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 
     // Visualizer updates
     if (obj == this && event->type() == QEvent::WindowStateChange) {
@@ -4153,6 +4860,35 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 QDrag *drag = new QDrag(this);
                 WidgetMimeData *mimeData = new WidgetMimeData();
 
+=======
+
+    // Visualizer updates
+    if (obj == this && event->type() == QEvent::WindowStateChange) {
+        ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+    }
+
+    // Drag & drop panels
+    if (!ui->actViewLockPanels->isChecked() && obj->inherits("QGroupBox") 
+        && (obj->parent()->objectName() == "scrollContentsDevice"
+        || obj->parent()->objectName() == "scrollContentsModification"
+        || obj->parent()->objectName() == "scrollContentsUser")
+        && obj->objectName().startsWith("grp")) {
+
+        if (event->type() == QEvent::MouseButtonPress) {
+            
+            QMouseEvent *e = static_cast<QMouseEvent*>(event);
+            m_mousePressPos = e->pos();
+
+        } else if (event->type() == QEvent::MouseMove) {
+
+            QMouseEvent *e = static_cast<QMouseEvent*>(event);
+            int d = (e->pos() - m_mousePressPos).manhattanLength();
+
+            if (e->buttons() & Qt::LeftButton && d > QApplication::startDragDistance()) {
+                QDrag *drag = new QDrag(this);
+                WidgetMimeData *mimeData = new WidgetMimeData();
+
+>>>>>>> Stashed changes:src/frmmain.cpp
                 mimeData->setWidget(static_cast<QWidget*>(obj));
 
                 QPixmap *pix = new QPixmap(static_cast<QWidget*>(obj)->size());
@@ -4500,4 +5236,8 @@ bool frmMain::actionTextLessThan(const QAction *a1, const QAction *a2)
 QScriptValue frmMain::importExtension(QScriptContext *context, QScriptEngine *engine)
 {
     return engine->importExtension(context->argument(0).toString());
+<<<<<<< Updated upstream:src/candle/frmmain.cpp
 }
+=======
+}
+>>>>>>> Stashed changes:src/frmmain.cpp
