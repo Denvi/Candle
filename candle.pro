@@ -2,9 +2,8 @@ TEMPLATE = subdirs
  
 SUBDIRS =   src/designerplugins \
             src/candle \
-            src/candleplugins \
-            #src/scriptbindings
-            
+            src/candleplugins
+
 # Make plugins translations
 system(qmake src/candleplugins/candleplugins.pro)
 
