@@ -7,12 +7,23 @@
 QT       = core gui opengl serialport script uitools
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+ARCH = "x86_64"
 win32: {
-    QT += winextras
-    DEFINES += WINDOWS
-    QMAKE_LFLAGS += "-Wl,--large-address-aware"
-    QMAKE_CXXFLAGS_DEBUG += -g3 -pg
-    QMAKE_LFLAGS_DEBUG += -pg -lgmon
+    !contains(ARCH, x86_64) {
+        #x86
+        QT += winextras
+        DEFINES += WINDOWS
+        QMAKE_LFLAGS += "-Wl,--large-address-aware"
+        QMAKE_CXXFLAGS_DEBUG += -g3 -pg
+        QMAKE_LFLAGS_DEBUG += -pg -lgmon
+
+    } else {
+        #IA64
+        QT += winextras
+        DEFINES += WINDOWS
+        QMAKE_CXXFLAGS_DEBUG += -g3 -pg
+        QMAKE_LFLAGS_DEBUG += -pg -lgmon
+    }
 }
 
 unix:!macx {
@@ -104,7 +115,7 @@ RESOURCES += \
 
 INCLUDEPATH += ../designerplugins/customwidgetsplugin
 
-LIBS += -L../designerplugins/customwidgetsplugin/release -lcustomwidgets
+LIBS += -L../designerplugins/customwidgetsplugin/release -L../designerplugins/customwidgetsplugin/debug -lcustomwidgets
 
 qtPrepareTool(LRELEASE, lrelease)
 for(tsfile, TRANSLATIONS) {

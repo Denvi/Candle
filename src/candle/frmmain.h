@@ -325,11 +325,7 @@ private:
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
-<<<<<<< Updated upstream:src/candle/frmmain.h
-    QTime m_startTime;
-=======
     QElapsedTimer m_startTime;
->>>>>>> Stashed changes:src/frmmain.h
 
     // Stored parser params
     QString m_storedParserStatus;

@@ -70,7 +70,7 @@ void DropWidget::dragMoveEvent(QDragMoveEvent *dme)
 
             QList<int> yl;
             foreach (QGroupBox* b, bl) yl << b->pos().y();
-            qSort(yl.begin(), yl.end());
+            std::sort(yl.begin(), yl.end());
 
             int i = 0;
             while (y >= yl.at(i) && i < yl.count()) i++;
