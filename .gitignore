@@ -78,3 +78,6 @@ bin
 
 #script bindings binaries
 src/scriptbindings/plugins/script
+
+#rc
+src/candle/Candle_resource.rc

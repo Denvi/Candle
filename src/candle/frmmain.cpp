@@ -395,7 +395,9 @@ void frmMain::closeEvent(QCloseEvent *ce)
         return;
     }
 
+    m_timerConnection.stop();
     if (m_serialPort.isOpen()) m_serialPort.close();
+    
     if (m_queue.length() > 0) {
         m_commands.clear();
         m_queue.clear();
@@ -3270,7 +3272,7 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
     QString uncomment = GcodePreprocessorUtils::removeComment(command);
 
     // Processing spindle speed only from g-code program
-    QRegExp s("[Ss]0*(\\d+)");
+    static QRegExp s("[Ss]0*(\\d+)");
     if (s.indexIn(uncomment) != -1 && ca.tableIndex > -2) {
         int speed = s.cap(1).toInt();
         if (ui->slbSpindle->value() != speed) {
@@ -3324,7 +3326,7 @@ void frmMain::sendNextFileCommands() {
 QString frmMain::evaluateCommand(QString command)
 {
     // Evaluate script  
-    static QRegExp sx("\\{([^\\}]+)\\}");
+    QRegExp sx("\\{([^\\}]+)\\}");
     QScriptValue v;
     QString vs;
     while (sx.indexIn(command) != -1) {
