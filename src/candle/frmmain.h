@@ -406,6 +406,8 @@ private:
     bool saveHeightMap(QString fileName);
     void clearTable();
     void resetHeightmap();
+    void newFile();
+    void newHeightmap();
 
     // Ui
     void setupCoordsTextboxes();

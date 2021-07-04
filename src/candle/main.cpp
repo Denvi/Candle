@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setApplicationDisplayName("Candle");
-    a.setApplicationVersion("1.2.13b");
+    a.setApplicationVersion("1.2.14b");
 
 #ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");

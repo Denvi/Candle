@@ -472,58 +472,10 @@ void frmMain::on_actFileNew_triggered()
     if (!saveChanges(m_heightMapMode)) return;
 
     if (!m_heightMapMode) {
-        // Reset tables
-        clearTable();
-        m_probeModel.clear();
-        m_programHeightmapModel.clear();
-        m_currentModel = &m_programModel;
-
-        // Reset parsers
-        m_viewParser.reset();
-        m_probeParser.reset();
-
-        // Reset code drawer
-        m_codeDrawer->update();
-        m_currentDrawer = m_codeDrawer;
-        ui->glwVisualizer->fitDrawable();
-        updateProgramEstimatedTime(QList<LineSegment*>());
-
-        m_programFileName = "";
-        ui->chkHeightMapUse->setChecked(false);
-        ui->grpHeightMap->setProperty("overrided", false);
-        style()->unpolish(ui->grpHeightMap);
-        ui->grpHeightMap->ensurePolished();
-
-        // Reset tableview
-        QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-        ui->tblProgram->setModel(NULL);
-
-        // Set table model
-        ui->tblProgram->setModel(&m_programModel);
-        ui->tblProgram->horizontalHeader()->restoreState(headerState);
-
-        // Update tableview
-        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
-        ui->tblProgram->selectRow(0);
-
-        // Clear selection marker
-        m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
-        m_selectionDrawer.update();
-
-        resetHeightmap();
+        newFile();
     } else {
-        m_heightMapModel.clear();
-        on_cmdFileReset_clicked();
-        ui->txtHeightMap->setText(tr("Untitled"));
-        m_heightMapFileName.clear();
-
-        updateHeightMapBorderDrawer();
-        updateHeightMapGrid();
-
-        m_heightMapChanged = false;
+        newHeightmap();
     }
-
-    updateControlsState();
 }
 
 void frmMain::on_actFileOpen_triggered()
@@ -3754,6 +3706,66 @@ void frmMain::resetHeightmap()
     ui->txtHeightMap->clear();
     m_heightMapFileName.clear();
     m_heightMapChanged = false;
+}
+
+void frmMain::newFile()
+{
+    // Reset tables
+    clearTable();
+    m_probeModel.clear();
+    m_programHeightmapModel.clear();
+    m_currentModel = &m_programModel;
+
+    // Reset parsers
+    m_viewParser.reset();
+    m_probeParser.reset();
+
+    // Reset code drawer
+    m_codeDrawer->update();
+    m_currentDrawer = m_codeDrawer;
+    ui->glwVisualizer->fitDrawable();
+    updateProgramEstimatedTime(QList<LineSegment*>());
+
+    m_programFileName = "";
+    ui->chkHeightMapUse->setChecked(false);
+    ui->grpHeightMap->setProperty("overrided", false);
+    style()->unpolish(ui->grpHeightMap);
+    ui->grpHeightMap->ensurePolished();
+
+    // Reset tableview
+    QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+    ui->tblProgram->setModel(NULL);
+
+    // Set table model
+    ui->tblProgram->setModel(&m_programModel);
+    ui->tblProgram->horizontalHeader()->restoreState(headerState);
+
+    // Update tableview
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+    ui->tblProgram->selectRow(0);
+
+    // Clear selection marker
+    m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
+    m_selectionDrawer.update();
+
+    resetHeightmap();
+
+    updateControlsState();
+}
+
+void frmMain::newHeightmap()
+{
+    m_heightMapModel.clear();
+    on_cmdFileReset_clicked();
+    ui->txtHeightMap->setText(tr("Untitled"));
+    m_heightMapFileName.clear();
+
+    updateHeightMapBorderDrawer();
+    updateHeightMapGrid();
+
+    m_heightMapChanged = false;
+
+    updateControlsState();
 }
 
 void frmMain::setupCoordsTextboxes()
