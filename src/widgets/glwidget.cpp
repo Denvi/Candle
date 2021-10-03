@@ -7,12 +7,15 @@
 #include <QtWidgets>
 #include <QPainter>
 #include <QEasingCurve>
+#include <iostream>
 
 #ifdef GLES
 #include <GLES/gl.h>
 #endif
 
 #define ZOOMSTEP 1.1
+#define DEFAULT_ZOOM 200
+#define MIN_ZOOM  0.2
 
 #ifdef GLES
 GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
@@ -30,15 +33,15 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_xRotTarget = 90;
     m_yRotTarget = 0;
 
-    m_zoom = 1;
+    m_zoomDistance = DEFAULT_ZOOM;
 
-    m_xPan = 0;
-    m_yPan = 0;
-    m_distance = 100;
+    m_lookAt = QVector3D(0,0,0);
+    
+    m_perspective = true;
 
-    m_xLookAt = 0;
-    m_yLookAt = 0;
-    m_zLookAt = 0;
+    m_fov = 30;
+    m_near = 0.5;
+    m_far = 5000.0;
 
     m_xMin = 0;
     m_xMax = 0;
@@ -82,26 +85,23 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
 {
     stopViewAnimation();
 
+    m_zoomDistance = DEFAULT_ZOOM;
+
     if (drawable != NULL) {
         updateExtremes(drawable);
 
-        double a = m_ySize / 2 / 0.25 * 1.3
-                + (m_zMax - m_zMin) / 2;
-        double b = m_xSize / 2 / 0.25 * 1.3
-                / ((double)this->width() / this->height())
-                + (m_zMax - m_zMin) / 2;
-        m_distance = qMax(a, b);
+        double largestSize = qMax(qMax(m_xSize, m_ySize), m_zSize);       
 
-        if (m_distance == 0) m_distance = 200;
+        double newZoom = largestSize / (1.25 * tan((m_fov * 0.0174533) / 2.0));
+        m_zoomDistance = newZoom > 0 ? qMax(newZoom, MIN_ZOOM) : DEFAULT_ZOOM;
 
-        m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
-        m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
-        m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
+        m_lookAt = QVector3D(
+            m_xSize / 2 + m_xMin,
+            m_ySize / 2 + m_yMin,
+            m_zSize / 2 + m_zMin
+        );
     } else {
-        m_distance = 200;
-        m_xLookAt = 0;
-        m_yLookAt = 0;
-        m_zLookAt = 0;
+        m_lookAt = QVector3D(0,0,0);
 
         m_xMin = 0;
         m_xMax = 0;
@@ -114,10 +114,6 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
         m_ySize = 0;
         m_zSize = 0;
     }
-
-    m_xPan = 0;
-    m_yPan = 0;
-    m_zoom = 1;
 
     updateProjection();
     updateView();
@@ -230,6 +226,33 @@ void GLWidget::setZBuffer(bool zBuffer)
     m_zBuffer = zBuffer;
 }
 
+double GLWidget::fov() {
+    return m_fov;
+}
+
+void GLWidget::setFov(double fov) {
+    m_fov = fov;
+    updateProjection();
+}
+
+double GLWidget::nearPlane() {
+    return m_near;
+}
+
+void GLWidget::setNearPlane(double near) {
+    m_near = near;
+    updateProjection();
+}
+
+double GLWidget::farPlane() {
+    return m_far;
+}
+
+void GLWidget::setFarPlane(double far) {
+    m_far = far;
+    updateProjection();
+}
+
 QString GLWidget::bufferState() const
 {
     return m_bufferState;
@@ -282,6 +305,12 @@ void GLWidget::setLeftView()
     beginViewAnimation();
 }
 
+void GLWidget::toggleProjectionType() {
+    m_perspective = !m_perspective;
+    updateProjection();
+    updateView();
+}
+
 int GLWidget::fps()
 {
     return m_targetFps;
@@ -289,7 +318,9 @@ int GLWidget::fps()
 
 void GLWidget::setIsometricView()
 {
-    m_xRotTarget = 45;
+    m_perspective = false;
+    updateProjection();
+    m_xRotTarget = 35.264;
     m_yRotTarget = m_yRot > 180 ? 405 : 45;
     beginViewAnimation();
 }
@@ -387,7 +418,13 @@ void GLWidget::updateProjection()
     m_projectionMatrix.setToIdentity();
 
     double asp = (double)width() / height();
-    m_projectionMatrix.frustum((-0.5 + m_xPan) * asp, (0.5 + m_xPan) * asp, -0.5 + m_yPan, 0.5 + m_yPan, 2, m_distance * 2);
+    double orthoSize = m_zoomDistance * tan((m_fov * 0.0174533) / 2.0);
+
+    // perspective / orthographic projection
+    if (m_perspective)
+        m_projectionMatrix.perspective(m_fov, asp, m_near, m_far);
+    else
+        m_projectionMatrix.ortho(-orthoSize * asp, orthoSize * asp, -orthoSize, orthoSize, -m_far/2.0, m_far/2.0);
 }
 
 void GLWidget::updateView()
@@ -395,21 +432,16 @@ void GLWidget::updateView()
     // Set view matrix
     m_viewMatrix.setToIdentity();
 
-    double r = m_distance;
     double angY = M_PI / 180 * m_yRot;
     double angX = M_PI / 180 * m_xRot;
 
-    QVector3D eye(r * cos(angX) * sin(angY) + m_xLookAt, r * sin(angX) + m_yLookAt, r * cos(angX) * cos(angY) + m_zLookAt);
-    QVector3D center(m_xLookAt, m_yLookAt, m_zLookAt);
+    QVector3D eye(cos(angX) * sin(angY), sin(angX), cos(angX) * cos(angY));
     QVector3D up(fabs(m_xRot) == 90 ? -sin(angY + (m_xRot < 0 ? M_PI : 0)) : 0, cos(angX), fabs(m_xRot) == 90 ? -cos(angY + (m_xRot < 0 ? M_PI : 0)) : 0);
-
-    m_viewMatrix.lookAt(eye, center, up.normalized());
-
-    m_viewMatrix.translate(m_xLookAt, m_yLookAt, m_zLookAt);
-    m_viewMatrix.scale(m_zoom, m_zoom, m_zoom);
-    m_viewMatrix.translate(-m_xLookAt, -m_yLookAt, -m_zLookAt);
+    
+    m_viewMatrix.lookAt(eye * m_zoomDistance, QVector3D(0,0,0), up.normalized());
 
     m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
+    m_viewMatrix.translate(-m_lookAt);
 }
 
 #ifdef GLES
@@ -515,8 +547,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     m_lastPos = event->pos();
     m_xLastRot = m_xRot;
     m_yLastRot = m_yRot;
-    m_xLastPan = m_xPan;
-    m_yLastPan = m_yPan;
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -536,31 +566,55 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
 
     if ((event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) || event->buttons() & Qt::RightButton) {
-        m_xPan = m_xLastPan - (event->pos().x() - m_lastPos.x()) * 1 / (double)width();
-        m_yPan = m_yLastPan + (event->pos().y() - m_lastPos.y()) * 1 / (double)height();
 
-        updateProjection();
+        // Get world to clip
+        QMatrix4x4 mvp(m_projectionMatrix * m_viewMatrix);
+        // Get clip to world
+        QMatrix4x4 mvpi(mvp.inverted());
+
+        QVector4D centerVector(mvp * QVector4D(m_lookAt.x(),m_lookAt.y(),m_lookAt.z(), 1.0));
+
+        // Get last mouse XY in clip
+        QVector4D lastMouseInWorld(
+            (m_lastPos.x() / (double)width()) * 2.0 - 1.0,
+            -((m_lastPos.y() / (double)height()) * 2.0 - 1.0),
+            0, 1.0
+        );
+        // Project last mouse pos to world
+        lastMouseInWorld = mvpi * lastMouseInWorld * centerVector.w();
+
+        // Get current mouse XY in clip
+        QVector4D currentMouseInWorld(
+            (event->pos().x() / (double)width()) * 2.0 - 1.0,
+            -((event->pos().y() / (double)height()) * 2.0 - 1.0),
+            0, 1.0
+        );
+        // Project current mouse pos to world
+        currentMouseInWorld = mvpi * currentMouseInWorld * centerVector.w();
+
+        //currentMouseInWorld /= currentMouseInWorld.w();
+
+        // Get difference
+        QVector4D difference = currentMouseInWorld - lastMouseInWorld;
+
+        // Subtract difference from center point
+        m_lookAt -= QVector3D(difference.x(), difference.y(), difference.z());
+
+        m_lastPos = event->pos();
+
+        updateView();
     }
 }
 
 void GLWidget::wheelEvent(QWheelEvent *we)
 {
-    if (m_zoom > 0.1 && we->delta() < 0) {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - 1 / ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - 1 / ZOOMSTEP);
+    if (m_zoomDistance > MIN_ZOOM && we->delta() < 0)
+        m_zoomDistance /= ZOOMSTEP;
+    else if (we->delta() > 0)
+        m_zoomDistance *= ZOOMSTEP;
 
-        m_zoom /= ZOOMSTEP;
-    }
-    else if (m_zoom < 10 && we->delta() > 0)
-    {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - ZOOMSTEP);
-
-        m_zoom *= ZOOMSTEP;
-    }
-
-    updateProjection();
-    updateView();
+    if (!m_perspective) updateProjection();
+    else updateView();
 }
 
 void GLWidget::timerEvent(QTimerEvent *te)
