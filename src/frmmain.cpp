@@ -344,7 +344,6 @@ void frmMain::loadSettings()
     m_settings->setPort(set.value("port").toString());
     m_settings->setBaud(set.value("baud").toInt());
     m_settings->setSerialHostname(set.value("serialHostname").toString());
-    m_settings->setSerialTcpPort(set.value("serialTcpPort").toInt());
     m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
     m_settings->setAutoLine(set.value("autoLine", true).toBool());
     m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
@@ -497,7 +496,6 @@ void frmMain::saveSettings()
     set.setValue("port", m_settings->port());
     set.setValue("baud", m_settings->baud());
     set.setValue("serialHostname", m_settings->serialHostname());
-    set.setValue("serialTcpPort", m_settings->serialTcpPort());
     set.setValue("ignoreErrors", m_settings->ignoreErrors());
     set.setValue("autoLine", m_settings->autoLine());
     set.setValue("toolDiameter", m_settings->toolDiameter());
@@ -2205,16 +2203,15 @@ void frmMain::on_actServiceSettings_triggered()
     if (m_settings->exec()) {
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_settings->port() << "Baud:" << m_settings->baud();
-        qDebug() << "Hostname:" << m_settings->serialHostname() << "TCPPort:" << m_settings->serialTcpPort();
+        qDebug() << "Hostname:" << m_settings->serialHostname() << ":" << m_settings->serialTcpPort();
 
-        if (m_settings->serialHostname() != "" && (m_settings->serialHostname() != m_serialSocket.peerName() ||
+        if (!m_settings->serialHostname().isEmpty() && (m_settings->serialHostname() != m_serialSocket.peerName() ||
             m_settings->serialTcpPort() != m_serialSocket.peerPort())) {
-            if (m_serialSocket.isOpen()) m_serialSocket.close();
-            openPort();
-        }
-
-        if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
-                                           m_settings->baud() != m_serialPort.baudRate())) {
+            if (m_serialSocket.isOpen())
+                m_serialSocket.close();
+            // The socket will be reconnected in the timer event handler
+        } else if (!m_settings->port().isEmpty() && (m_settings->port() != m_serialPort.portName() ||
+            m_settings->baud() != m_serialPort.baudRate())) {
             if (m_serialPort.isOpen()) m_serialPort.close();
             m_serialPort.setPortName(m_settings->port());
             m_serialPort.setBaudRate(m_settings->baud());

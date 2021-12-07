@@ -120,13 +120,13 @@ public:
     QString serialHostname();
     void setSerialHostname(QString hostName);
     int serialTcpPort();
-    void setSerialTcpPort(int port);
 
 protected:
     void showEvent(QShowEvent *se);
 
 private slots:
     void onScrollBarValueChanged(int value);
+    void onHostnameEdited(const QString& newValue);
 
     void on_cmdRefresh_clicked();
     void on_cmdOK_clicked();

@@ -72,8 +72,8 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>436</width>
-          <height>1749</height>
+          <width>368</width>
+          <height>1571</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -84,11 +84,14 @@ QGroupBox {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,1">
+             <layout class="QHBoxLayout" name="serialPortLayout" stretch="0,1,0,0,1">
               <item>
                <widget class="QLabel" name="label">
                 <property name="text">
                  <string>Port:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>cboPort</cstring>
                 </property>
                </widget>
               </item>
@@ -123,6 +126,9 @@ QGroupBox {
                <widget class="QLabel" name="label_2">
                 <property name="text">
                  <string>Baud:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>cboBaud</cstring>
                 </property>
                </widget>
               </item>
@@ -164,6 +170,27 @@ QGroupBox {
                   <string>115200</string>
                  </property>
                 </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Hostname:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>hostEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="hostEdit">
+                <property name="toolTip">
+                 <string>Connect to a remote server (HOST:PORT syntax)</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -224,6 +251,9 @@ QGroupBox {
                <widget class="QLabel" name="label_11">
                 <property name="text">
                  <string>Status query period:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtQueryStateTime</cstring>
                 </property>
                </widget>
               </item>
@@ -286,12 +316,18 @@ QGroupBox {
                 <property name="text">
                  <string>Units:</string>
                 </property>
+                <property name="buddy">
+                 <cstring>cboUnits</cstring>
+                </property>
                </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_10">
                 <property name="text">
                  <string>Rapid speed:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtRapidSpeed</cstring>
                 </property>
                </widget>
               </item>
@@ -318,6 +354,9 @@ QGroupBox {
                 <property name="text">
                  <string>Acceleration:</string>
                 </property>
+                <property name="buddy">
+                 <cstring>txtAcceleration</cstring>
+                </property>
                </widget>
               </item>
               <item row="1" column="4">
@@ -343,12 +382,18 @@ QGroupBox {
                 <property name="text">
                  <string>max.:</string>
                 </property>
+                <property name="buddy">
+                 <cstring>txtSpindleSpeedMax</cstring>
+                </property>
                </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_12">
                 <property name="text">
                  <string>Spindle speed min.:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtSpindleSpeedMin</cstring>
                 </property>
                </widget>
               </item>
@@ -375,6 +420,9 @@ QGroupBox {
                 <property name="text">
                  <string>Laser power min.:</string>
                 </property>
+                <property name="buddy">
+                 <cstring>txtLaserPowerMin</cstring>
+                </property>
                </widget>
               </item>
               <item row="3" column="1">
@@ -399,6 +447,9 @@ QGroupBox {
                <widget class="QLabel" name="label_35">
                 <property name="text">
                  <string>max.:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtLaserPowerMax</cstring>
                 </property>
                </widget>
               </item>
@@ -442,6 +493,9 @@ QGroupBox {
               <property name="indent">
                <number>0</number>
               </property>
+              <property name="buddy">
+               <cstring>txtTouchCommand</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -464,6 +518,9 @@ QGroupBox {
               </property>
               <property name="indent">
                <number>0</number>
+              </property>
+              <property name="buddy">
+               <cstring>txtSafeCommand</cstring>
               </property>
              </widget>
             </item>
@@ -551,6 +608,9 @@ QGroupBox {
               <property name="indent">
                <number>0</number>
               </property>
+              <property name="buddy">
+               <cstring>txtUserCommand0</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -573,6 +633,9 @@ QGroupBox {
               </property>
               <property name="indent">
                <number>0</number>
+              </property>
+              <property name="buddy">
+               <cstring>txtUserCommand1</cstring>
               </property>
              </widget>
             </item>
@@ -597,6 +660,9 @@ QGroupBox {
               <property name="indent">
                <number>0</number>
               </property>
+              <property name="buddy">
+               <cstring>txtUserCommand2</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -619,6 +685,9 @@ QGroupBox {
               </property>
               <property name="indent">
                <number>0</number>
+              </property>
+              <property name="buddy">
+               <cstring>txtUserCommand3</cstring>
               </property>
              </widget>
             </item>
@@ -647,6 +716,9 @@ QGroupBox {
                <widget class="QLabel" name="label_38">
                 <property name="text">
                  <string>Heightmap probing feed:</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtHeightMapProbingFeed</cstring>
                 </property>
                </widget>
               </item>
@@ -826,6 +898,9 @@ QGroupBox {
                   <property name="text">
                    <string>Line width:</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>txtLineWidth</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -852,6 +927,9 @@ QGroupBox {
                  <widget class="QLabel" name="label_7">
                   <property name="text">
                    <string>FPS lock:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>cboFps</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1027,12 +1105,18 @@ QGroupBox {
               <property name="text">
                <string>Type:</string>
               </property>
+              <property name="buddy">
+               <cstring>cboToolType</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_4">
               <property name="text">
                <string>Diameter:</string>
+              </property>
+              <property name="buddy">
+               <cstring>txtToolDiameter</cstring>
               </property>
              </widget>
             </item>
@@ -1064,12 +1148,18 @@ QGroupBox {
               <property name="text">
                <string>Angle:</string>
               </property>
+              <property name="buddy">
+               <cstring>txtToolAngle</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="4">
              <widget class="QLabel" name="lblToolLength">
               <property name="text">
                <string>Length:</string>
+              </property>
+              <property name="buddy">
+               <cstring>txtToolLength</cstring>
               </property>
              </widget>
             </item>
@@ -1378,6 +1468,9 @@ QGroupBox {
              <widget class="QLabel" name="label_29">
               <property name="text">
                <string>Size:</string>
+              </property>
+              <property name="buddy">
+               <cstring>cboFontSize</cstring>
               </property>
              </widget>
             </item>
