@@ -20,9 +20,9 @@ void ScriptFunctions::sendCommands(QString commands, int index)
     m_frmMain->sendCommands(commands, index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int index)
+void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
 {
-    m_frmMain->sendCommand(command, index);
+    m_frmMain->sendCommand(command, index, showInConsole);
 }
 
 void ScriptFunctions::newFile()

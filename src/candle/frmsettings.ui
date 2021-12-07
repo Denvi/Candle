@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>620</width>
-         <height>2272</height>
+         <y>-319</y>
+         <width>586</width>
+         <height>2093</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -482,9 +482,9 @@ QSplitter::handle:horizontal {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QLabel" name="lblStartCommands">
+            <widget class="QCheckBox" name="chkUseStartCommands">
              <property name="text">
-              <string>Program start commands:</string>
+              <string>Use program start commands:</string>
              </property>
             </widget>
            </item>
@@ -492,9 +492,9 @@ QSplitter::handle:horizontal {
             <widget class="QPlainTextEdit" name="txtStartCommands"/>
            </item>
            <item>
-            <widget class="QLabel" name="lblEndCommands">
+            <widget class="QCheckBox" name="chkUseEndCommands">
              <property name="text">
-              <string>Program end commands:</string>
+              <string>Use program end commands:</string>
              </property>
             </widget>
            </item>
@@ -502,14 +502,31 @@ QSplitter::handle:horizontal {
             <widget class="QPlainTextEdit" name="txtEndCommands"/>
            </item>
            <item>
-            <widget class="QLabel" name="lblToolChangeCommands">
+            <widget class="QCheckBox" name="chkToolChangeUseCommands">
              <property name="text">
-              <string>Tool change commands:</string>
+              <string>Use tool change commands:</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPlainTextEdit" name="txtToolChangeCommands"/>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkToolChangeUseCommandsConfirm">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Confirm tool change commands execution</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkToolChangePause">
+             <property name="text">
+              <string>Pause sender on M6 command</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QCheckBox" name="chkIgnoreErrors">
@@ -522,13 +539,6 @@ QSplitter::handle:horizontal {
             <widget class="QCheckBox" name="chkAutoLine">
              <property name="text">
               <string>Automatically set parser state before sending from selected line</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="chkPauseToolChange">
-             <property name="text">
-              <string>Pause on tool change</string>
              </property>
             </widget>
            </item>
@@ -1308,12 +1318,12 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>240</y>
+     <x>765</x>
+     <y>575</y>
     </hint>
     <hint type="destinationlabel">
-     <x>484</x>
-     <y>240</y>
+     <x>943</x>
+     <y>575</y>
     </hint>
    </hints>
   </connection>
@@ -1324,12 +1334,12 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>367</y>
+     <x>574</x>
+     <y>691</y>
     </hint>
     <hint type="destinationlabel">
-     <x>386</x>
-     <y>367</y>
+     <x>765</x>
+     <y>691</y>
     </hint>
    </hints>
   </connection>
@@ -1340,12 +1350,12 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>367</y>
+     <x>574</x>
+     <y>691</y>
     </hint>
     <hint type="destinationlabel">
-     <x>487</x>
-     <y>367</y>
+     <x>943</x>
+     <y>691</y>
     </hint>
    </hints>
   </connection>
@@ -1356,12 +1366,12 @@ QSplitter::handle:horizontal {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>271</y>
+     <x>765</x>
+     <y>606</y>
     </hint>
     <hint type="destinationlabel">
-     <x>184</x>
-     <y>270</y>
+     <x>485</x>
+     <y>605</y>
     </hint>
    </hints>
   </connection>
@@ -1372,12 +1382,12 @@ QSplitter::handle:horizontal {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>271</y>
+     <x>765</x>
+     <y>606</y>
     </hint>
     <hint type="destinationlabel">
-     <x>243</x>
-     <y>270</y>
+     <x>573</x>
+     <y>605</y>
     </hint>
    </hints>
   </connection>
@@ -1388,12 +1398,12 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>421</x>
-     <y>170</y>
+     <x>810</x>
+     <y>-373</y>
     </hint>
     <hint type="destinationlabel">
-     <x>498</x>
-     <y>169</y>
+     <x>943</x>
+     <y>-374</y>
     </hint>
    </hints>
   </connection>
@@ -1404,12 +1414,12 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>339</y>
+     <x>574</x>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
-     <x>386</x>
-     <y>338</y>
+     <x>765</x>
+     <y>662</y>
     </hint>
    </hints>
   </connection>
@@ -1420,12 +1430,28 @@ QSplitter::handle:horizontal {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>339</y>
+     <x>574</x>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
-     <x>487</x>
-     <y>338</y>
+     <x>943</x>
+     <y>662</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkToolChangeUseCommands</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>chkToolChangeUseCommandsConfirm</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>509</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>580</x>
+     <y>376</y>
     </hint>
    </hints>
   </connection>

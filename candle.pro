@@ -12,7 +12,7 @@ install_main.path = bin
 install_main.files += src/candle/release/candle.exe
 
 install_plugins.path = bin/plugins
-install_plugins.files = src/candleplugins/camera src/candleplugins/test1 src/candleplugins/usercommands src/candleplugins/coordinatesystem
+install_plugins.files = src/candleplugins/camera src/candleplugins/emergencybutton src/candleplugins/usercommands src/candleplugins/coordinatesystem
 
 install_translations.path = bin/translations
 install_translations.files = src/candle/translations/*

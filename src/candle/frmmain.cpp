@@ -736,7 +736,7 @@ void frmMain::on_cmdFileSend_clicked()
     updateControlsState();
     ui->cmdFilePause->setFocus();
 
-    sendCommands(m_settings->startCommands());
+    if (m_settings->useStartCommands()) sendCommands(m_settings->startCommands());
     sendNextFileCommands();
 }
 
@@ -751,23 +751,6 @@ void frmMain::on_cmdFilePause_clicked(bool checked)
         ui->cmdFilePause->setEnabled(false);
     } else {
         if (m_senderState == SenderChangingTool) {
-            QString commands = getLineInitCommands(m_fileCommandIndex);
-
-            QMessageBox box(this);
-            box.setIcon(QMessageBox::Information);
-            box.setText(tr("Following commands will be sent before continue:\n") + commands);
-            box.setWindowTitle(qApp->applicationDisplayName());
-            box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-            box.addButton(tr("Skip"), QMessageBox::DestructiveRole);
-
-            int res = box.exec();
-            if (res == QMessageBox::Cancel) {
-                ui->cmdFilePause->setChecked(true);
-                return;
-            } else if (res == QMessageBox::Ok) {
-                sendCommands(commands, -1);
-            }
-
             setSenderState(SenderTransferring);
         } else {
             setSenderState(s);
@@ -877,7 +860,7 @@ void frmMain::on_cmdUnlock_clicked()
 
 void frmMain::on_cmdHold_clicked(bool checked)
 {
-    sendCommand(checked ? "!" : "~", -1, m_settings->showUICommands());
+    m_serialPort.write(QByteArray(1, checked ? (char)'!' : (char)'~'));
 }
 
 void frmMain::on_cmdSleep_clicked()
@@ -1907,7 +1890,7 @@ void frmMain::onSerialPortReadyRead()
 
                     // Update probe coords on user commands
                     if (uncomment.contains("G38.2") && ca.tableIndex < 0) {
-                        static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^]^:]*)");
+                        static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^,:]*)");
                         if (PRB.indexIn(response) != -1) {
                             m_storedVars.setCoords("PRB", QVector3D(
                                 PRB.cap(1).toDouble(),
@@ -1921,7 +1904,8 @@ void frmMain::onSerialPortReadyRead()
                     if (uncomment.contains("G38.2") && m_heightMapMode && ca.tableIndex > -1) {
                         // Get probe Z coordinate
                         // "[PRB:0.000,0.000,0.000:0];ok"
-                        QRegExp rx(".*PRB:([^,]*),([^,]*),([^]^:]*)");
+                        // "[PRB:0.000,0.000,0.000,0.000:0];ok"
+                        QRegExp rx(".*PRB:([^,]*),([^,]*),([^,:]*)");
                         double z = qQNaN();
                         if (rx.indexIn(response) != -1) {
                             z = toMetric(rx.cap(3).toDouble());
@@ -2064,24 +2048,40 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Tool change mode
-                    static QRegExp M6("(M0*6|M25)(?!\\d)");
+                    static QRegExp M6("(M0*6)(?!\\d)");
                     if ((m_senderState == SenderPausing) && uncomment.contains(M6)) {
-                        sendCommands(m_settings->toolChangeCommands());
 
                         response.clear();
-                        setSenderState(SenderChangingTool);
-                        updateControlsState();
 
-                        if (m_settings->pauseToolChange()) {                        
+                        if (m_settings->toolChangePause()) {                        
                             QMessageBox::information(this, qApp->applicationDisplayName(), 
                                 tr("Change tool and press 'Pause' button to continue job"));
                         }
+
+                        if (m_settings->toolChangeUseCommands()) {
+                            if (m_settings->toolChangeUseCommandsConfirm()) {
+                                QMessageBox box(this);
+                                box.setIcon(QMessageBox::Information);
+                                box.setText(tr("M6 command detected. Send tool change commands?\n"));
+                                box.setWindowTitle(qApp->applicationDisplayName());
+                                box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                                box.setCheckBox(new QCheckBox(tr("Don't show again")));
+                                int res = box.exec();
+                                if (box.checkBox()->isChecked()) m_settings->setToolChangeUseCommandsConfirm(false);
+                                if (res == QMessageBox::Yes) {
+                                    sendCommands(m_settings->toolChangeCommands());
+                                }
+                            } else {
+                                sendCommands(m_settings->toolChangeCommands());
+                            }
+                        }
+
+                        setSenderState(SenderChangingTool);
+                        updateControlsState();
                     }
-                    if ((m_senderState == SenderChangingTool) && !m_settings->pauseToolChange() 
+                    if ((m_senderState == SenderChangingTool) && !m_settings->toolChangePause() 
                         && m_commands.isEmpty()) 
                     {
-                        QString commands = getLineInitCommands(m_fileCommandIndex);
-                        sendCommands(commands, -1);
                         setSenderState(SenderTransferring);
                     }
 
@@ -2572,10 +2572,14 @@ void frmMain::loadSettings()
     m_settings->setToolType(set.value("toolType", 0).toInt());
     m_settings->setFps(set.value("fps", 60).toInt());
     m_settings->setQueryStateTime(set.value("queryStateTime", 250).toInt());
+    m_settings->setUseStartCommands(set.value("useStartCommands").toBool());
     m_settings->setStartCommands(set.value("startCommands").toString());
+    m_settings->setUseEndCommands(set.value("useEndCommands").toBool());
     m_settings->setEndCommands(set.value("endCommands").toString());
     m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
-    m_settings->setPauseToolChange(set.value("pauseToolChange").toBool());
+    m_settings->setToolChangePause(set.value("toolChangePause").toBool());
+    m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
+    m_settings->setToolChangeUseCommandsConfirm(set.value("toolChangeUseCommandsConfirm").toBool());
     m_settings->setLanguage(set.value("language", "en").toString());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
@@ -2802,10 +2806,14 @@ void frmMain::saveSettings()
     set.setValue("lastFolder", m_lastFolder);
     set.setValue("fontSize", m_settings->fontSize());
 
+    set.setValue("useStartCommands", m_settings->useStartCommands());
     set.setValue("startCommands", m_settings->startCommands());
+    set.setValue("useEndCommands", m_settings->useEndCommands());
     set.setValue("endCommands", m_settings->endCommands());
     set.setValue("toolChangeCommands", m_settings->toolChangeCommands());
-    set.setValue("pauseToolChange", m_settings->pauseToolChange());
+    set.setValue("toolChangePause", m_settings->toolChangePause());
+    set.setValue("toolChangeUseCommands", m_settings->toolChangeUseCommands());
+    set.setValue("toolChangeUseCommandsConfirm", m_settings->toolChangeUseCommandsConfirm());
     set.setValue("language", m_settings->language());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
@@ -3247,8 +3255,9 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
 
     // Set M2 & M30 commands sent flag
     static QRegExp M230("(M0*2|M30|M0*6|M25)(?!\\d)");
+    static QRegExp M6("(M0*6)(?!\\d)");
     if ((m_senderState == SenderTransferring) && uncomment.contains(M230)) {
-        setSenderState(SenderPausing);
+        if (!uncomment.contains(M6) || m_settings->toolChangeUseCommands() || m_settings->toolChangePause()) setSenderState(SenderPausing);
     }
 
     // Queue offsets request on G92, G10 commands
@@ -3274,12 +3283,12 @@ void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
     QString command = m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString();
-    static QRegExp M230("(M0*2|M30)(?!\\d)");
+    static QRegExp M230("(M0*2|M30|M0*6)(?!\\d)");
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
         && m_fileCommandIndex < m_currentModel->rowCount() - 1
-        && !(!m_commands.isEmpty()
-        && GcodePreprocessorUtils::removeComment(m_commands.last().command).contains(M230))) 
+        && !(!m_commands.isEmpty() && GcodePreprocessorUtils::removeComment(m_commands.last().command).contains(M230))
+        ) 
     {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), GCodeItem::Sent);
         sendCommand(command, m_fileCommandIndex, m_settings->showProgramCommands());
@@ -4439,7 +4448,7 @@ void frmMain::completeTransfer()
     updateControlsState();
 
     // Send end commands
-    sendCommands(m_settings->endCommands());
+    if (m_settings->useEndCommands()) sendCommands(m_settings->endCommands());
 
     // Show message box
     qApp->beep();
@@ -4452,7 +4461,6 @@ void frmMain::completeTransfer()
     m_timerStateQuery.setInterval(m_settings->queryStateTime());
     m_timerConnection.start();
     m_timerStateQuery.start();
-
 }
 
 QString frmMain::getLineInitCommands(int row)
@@ -4462,38 +4470,40 @@ QString frmMain::getLineInitCommands(int row)
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
-
-    int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
-    LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
-    LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
-    LineSegment* feedSegment = lastSegment;
-    LineSegment* plungeSegment = lastSegment;
-    int segmentIndex = list.indexOf(feedSegment);
-    while (feedSegment->isFastTraverse() && (segmentIndex > 0))
-        feedSegment = list.at(--segmentIndex);
-    while (!(plungeSegment->isZMovement() && !plungeSegment->isFastTraverse()) && (segmentIndex > 0))
-        plungeSegment = list.at(--segmentIndex);
-
     QString commands;
+    int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
+    
+    if (lineNumber != -1) {
+        LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
+        LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
+        LineSegment* feedSegment = lastSegment;
+        LineSegment* plungeSegment = lastSegment;
+        int segmentIndex = list.indexOf(feedSegment);
+        while (feedSegment->isFastTraverse() && (segmentIndex > 0))
+            feedSegment = list.at(--segmentIndex);
+        while (!(plungeSegment->isZMovement() && !plungeSegment->isFastTraverse()) && (segmentIndex > 0))
+            plungeSegment = list.at(--segmentIndex);
 
-    commands.append(QString("M3 S%1\n").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
 
-    commands.append(QString("G21 G90 G0 X%1 Y%2\n")
-                    .arg(firstSegment->getStart().x())
-                    .arg(firstSegment->getStart().y()));
-    commands.append(QString("G1 Z%1 F%2\n")
-                    .arg(firstSegment->getStart().z())
-                    .arg(plungeSegment->getSpeed()));
+        commands.append(QString("M3 S%1\n").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
 
-    commands.append(QString("%1 %2 %3 F%4\n")
-                    .arg(lastSegment->isMetric() ? "G21" : "G20")
-                    .arg(lastSegment->isAbsolute() ? "G90" : "G91")
-                    .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
-                    .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+        commands.append(QString("G21 G90 G0 X%1 Y%2\n")
+                        .arg(firstSegment->getStart().x())
+                        .arg(firstSegment->getStart().y()));
+        commands.append(QString("G1 Z%1 F%2\n")
+                        .arg(firstSegment->getStart().z())
+                        .arg(plungeSegment->getSpeed()));
 
-    if (lastSegment->isArc()) {
-        commands.append(lastSegment->plane() == PointSegment::XY ? "G17"
-        : lastSegment->plane() == PointSegment::ZX ? "G18" : "G19");
+        commands.append(QString("%1 %2 %3 F%4\n")
+                        .arg(lastSegment->isMetric() ? "G21" : "G20")
+                        .arg(lastSegment->isAbsolute() ? "G90" : "G91")
+                        .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
+                        .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+
+        if (lastSegment->isArc()) {
+            commands.append(lastSegment->plane() == PointSegment::XY ? "G17"
+            : lastSegment->plane() == PointSegment::ZX ? "G18" : "G19");
+        }
     }
 
     return commands;

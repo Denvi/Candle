@@ -554,6 +554,16 @@ void frmSettings::setAutoLine(bool value)
     ui->chkAutoLine->setChecked(value);
 }
 
+bool frmSettings::useStartCommands()
+{
+    return ui->chkUseStartCommands->isChecked();
+}
+
+void frmSettings::setUseStartCommands(bool value)
+{
+    ui->chkUseStartCommands->setChecked(value);
+}
+
 QString frmSettings::startCommands()
 {
     return ui->txtStartCommands->toPlainText();
@@ -562,6 +572,16 @@ QString frmSettings::startCommands()
 void frmSettings::setStartCommands(QString commands)
 {
     ui->txtStartCommands->setPlainText(commands);
+}
+
+bool frmSettings::useEndCommands()
+{
+    return ui->chkUseEndCommands->isChecked();
+}
+
+void frmSettings::setUseEndCommands(bool value)
+{
+    ui->chkUseEndCommands->setChecked(value);
 }
 
 QString frmSettings::endCommands()
@@ -584,14 +604,34 @@ void frmSettings::setToolChangeCommands(QString commands)
     ui->txtToolChangeCommands->setPlainText(commands);
 }
 
-bool frmSettings::pauseToolChange()
+bool frmSettings::toolChangeUseCommands()
 {
-    return ui->chkPauseToolChange->isChecked();
+    return ui->chkToolChangeUseCommands->isChecked();
 }
 
-void frmSettings::setPauseToolChange(bool pause)
+void frmSettings::setToolChangeUseCommands(bool value)
 {
-    ui->chkPauseToolChange->setChecked(pause);
+    ui->chkToolChangeUseCommands->setChecked(value);
+}
+
+bool frmSettings::toolChangeUseCommandsConfirm()
+{
+    return ui->chkToolChangeUseCommandsConfirm->isChecked();
+}
+
+void frmSettings::setToolChangeUseCommandsConfirm(bool value)
+{
+    ui->chkToolChangeUseCommandsConfirm->setChecked(value);
+}
+
+bool frmSettings::toolChangePause()
+{
+    return ui->chkToolChangePause->isChecked();
+}
+
+void frmSettings::setToolChangePause(bool pause)
+{
+    ui->chkToolChangePause->setChecked(pause);
 }
 
 QString frmSettings::language()
@@ -758,7 +798,9 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->txtStartCommands->clear();
     ui->txtEndCommands->clear();
     ui->txtToolChangeCommands->clear();
-    ui->chkPauseToolChange->setChecked(true);
+    ui->chkToolChangePause->setChecked(false);
+    ui->chkToolChangeUseCommands->setChecked(false);
+    ui->chkToolChangeUseCommandsConfirm->setChecked(false);
     setLanguage("en");
 
     emit settingsSetByDefault();

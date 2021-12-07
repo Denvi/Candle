@@ -19,7 +19,7 @@ public:
 
 public slots:
     void sendCommands(QString commands, int index = -100);
-    void sendCommand(QString command, int index = -100);
+    void sendCommand(QString command, int index = -100, bool showInConsole = true);
     
     void newFile();
     void loadFile(QString fileName);
