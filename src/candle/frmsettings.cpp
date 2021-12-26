@@ -675,6 +675,36 @@ void frmSettings::setSoftLimitsEnabled(bool softLimits)
     m_softLimitsEnabled = softLimits;
 }
 
+bool frmSettings::referenceXPlus()
+{
+    return ui->radReferenceXPlus->isChecked();
+}
+
+void frmSettings::setReferenceXPlus(bool value)
+{
+    ui->radReferenceXPlus->setChecked(value);
+}
+
+bool frmSettings::referenceYPlus()
+{
+    return ui->radReferenceYPlus->isChecked();
+}
+
+void frmSettings::setReferenceYPlus(bool value)
+{
+    ui->radReferenceYPlus->setChecked(value);
+}
+
+bool frmSettings::referenceZPlus()
+{
+    return ui->radReferenceZPlus->isChecked();
+}
+
+void frmSettings::setReferenceZPlus(bool value)
+{
+    ui->radReferenceZPlus->setChecked(value);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)

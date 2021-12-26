@@ -1861,8 +1861,13 @@ void frmMain::onSerialPortReadyRead()
                         if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
                         if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
                         if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
-                            m_settings->setMachineBounds(QVector3D(set[130], set[131], set[132]));
-                            m_machineBoundsDrawer.setBorderRect(QRectF(0, 0, -set[130], -set[131]));
+                            m_settings->setMachineBounds(QVector3D(
+                                m_settings->referenceXPlus() ? -set[130] : set[130],
+                                m_settings->referenceYPlus() ? -set[131] : set[131],
+                                m_settings->referenceZPlus() ? -set[132] : set[132]));
+                            m_machineBoundsDrawer.setBorderRect(QRectF(0, 0, 
+                                m_settings->referenceXPlus() ? -set[130] : set[130], 
+                                m_settings->referenceYPlus() ? -set[131] : set[131]));
                         }
 
                         setupCoordsTextboxes();
@@ -2580,6 +2585,9 @@ void frmMain::loadSettings()
     m_settings->setToolChangePause(set.value("toolChangePause").toBool());
     m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
     m_settings->setToolChangeUseCommandsConfirm(set.value("toolChangeUseCommandsConfirm").toBool());
+    m_settings->setReferenceXPlus(set.value("referenceXPlus", false).toBool());
+    m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
+    m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
     m_settings->setLanguage(set.value("language", "en").toString());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
@@ -2814,6 +2822,9 @@ void frmMain::saveSettings()
     set.setValue("toolChangePause", m_settings->toolChangePause());
     set.setValue("toolChangeUseCommands", m_settings->toolChangeUseCommands());
     set.setValue("toolChangeUseCommandsConfirm", m_settings->toolChangeUseCommandsConfirm());
+    set.setValue("referenceXPlus", m_settings->referenceXPlus());
+    set.setValue("referenceYPlus", m_settings->referenceYPlus());
+    set.setValue("referenceZPlus", m_settings->referenceZPlus());
     set.setValue("language", m_settings->language());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
@@ -4352,9 +4363,9 @@ void frmMain::jogContinuous()
             // Minimum distance to bounds
             double d = 0;
             if (m_settings->softLimitsEnabled()) {
-                t = QVector3D(j.x() > 0 ? 0 - m.x() : -b.x() - m.x(), 
-                            j.y() > 0 ? 0 - m.y() : -b.y() - m.y(),
-                            j.z() > 0 ? 0 - m.z() : -b.z() - m.z());
+                t = QVector3D(j.x() * b.x() < 0 ? 0 - m.x() : b.x() - m.x(), 
+                              j.y() * b.y() < 0 ? 0 - m.y() : b.y() - m.y(),
+                              j.z() * b.z() < 0 ? 0 - m.z() : b.z() - m.z());
                 for (int i = 0; i < 3; i++) if ((j[i] && (qAbs(t[i]) < d)) || (j[i] && !d)) d = qAbs(t[i]);
                 // Coords not aligned, add some bounds offset
                 d -= m_settings->units() ? toMetric(0.0005) : 0.005;

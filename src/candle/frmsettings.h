@@ -173,6 +173,12 @@ public:
     void setHomingEnabled(bool homing);
     bool softLimitsEnabled();
     void setSoftLimitsEnabled(bool softLimits);    
+    bool referenceXPlus();
+    void setReferenceXPlus(bool value);
+    bool referenceYPlus();
+    void setReferenceYPlus(bool value);
+    bool referenceZPlus();
+    void setReferenceZPlus(bool value);
 
 signals:
     void settingsSetByDefault();
