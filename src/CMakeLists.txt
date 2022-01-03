@@ -48,3 +48,5 @@ target_link_libraries(Candle
     Qt5::Gui
     Qt5::SerialPort
     )
+
+install(TARGETS Candle)
