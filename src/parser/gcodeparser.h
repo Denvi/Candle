@@ -78,7 +78,7 @@ private:
     QList<PointSegment*> m_points;
 
     PointSegment *processCommand(const QStringList &args);
-    void handleMCode(float code, const QStringList &args);
+    void handleMCode(const QStringList &args);
     PointSegment *handleGCode(float code, const QStringList &args);
     PointSegment *addLinearPointSegment(const QVector3D &nextPoint, bool fastTraverse);
     PointSegment *addArcPointSegment(const QVector3D &nextPoint, bool clockwise, const QStringList &args);

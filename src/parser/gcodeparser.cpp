@@ -319,7 +319,7 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, bool c
     return ps;
 }
 
-void GcodeParser::handleMCode(float code, const QStringList &args)
+void GcodeParser::handleMCode(const QStringList &args)
 {
     double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
     if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
