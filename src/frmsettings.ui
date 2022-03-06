@@ -1011,6 +1011,96 @@ QGroupBox {
                 </property>
                </widget>
               </item>
+              <item row="5" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_1">
+                  <item>
+                  <widget class="QLabel" name="label_1">
+                    <property name="text">
+                    <string>FOV:</string>
+                    </property>
+                  </widget>
+                  </item>
+                  <item>
+                    <widget class="QDoubleSpinBox" name="txtFov">
+                      <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                      </property>
+                      <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="decimals">
+                      <number>2</number>
+                      </property>
+                      <property name="minimum">
+                      <double>20</double>
+                      </property>
+                      <property name="maximum">
+                      <double>179</double>
+                      </property>
+                    </widget>
+                  </item>
+               </layout>
+              </item>
+              <item row="5" column="3">
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                  <widget class="QLabel" name="label_8">
+                    <property name="text">
+                    <string>Near plane:</string>
+                    </property>
+                  </widget>
+                  </item>
+                  <item>
+                    <widget class="QDoubleSpinBox" name="txtNear">
+                      <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                      </property>
+                      <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="decimals">
+                      <number>2</number>
+                      </property>
+                      <property name="minimum">
+                      <double>0.01</double>
+                      </property>
+                      <property name="maximum">
+                      <double>100000.00</double>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item row="5" column="4">
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                  <widget class="QLabel" name="label_9">
+                    <property name="text">
+                    <string>Far plane:</string>
+                    </property>
+                  </widget>
+                  </item>
+                  <item>
+                    <widget class="QDoubleSpinBox" name="txtFar">
+                      <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                      </property>
+                      <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                      </property>
+                      <property name="decimals">
+                      <number>2</number>
+                      </property>
+                      <property name="minimum">
+                      <double>0.01</double>
+                      </property>
+                      <property name="maximum">
+                      <double>100000.00</double>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
              </layout>
             </item>
            </layout>

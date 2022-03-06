@@ -36,6 +36,12 @@ public:
     void setAntialiasing(bool antialiasing);
     bool zBuffer();
     void setZBuffer(bool zBuffer);
+    double fov();
+    void setFov(double fov);
+    double nearPlane();
+    void setNearPlane(double nearPlane);
+    double farPlane();
+    void setFarPlane(double farPlane);
     double lineWidth();
     void setLineWidth(double lineWidth);
     double arcLength();

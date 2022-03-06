@@ -865,8 +865,8 @@
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1615"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)</source>
-        <translation>Файлы G-Code (*.nc *.ncc *.ngc *.tap *.txt);;Все файлы (*.*)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;All files (*.*)</source>
+        <translation>Файлы G-Code (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;Все файлы (*.*)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1704"/>
@@ -881,8 +881,8 @@
     <message>
         <location filename="../frmmain.cpp" line="2613"/>
         <location filename="../frmmain.cpp" line="2623"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt)</source>
-        <translation>Файлы G-Code (*.nc *.ncc *.ngc *.tap *.txt)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</source>
+        <translation>Файлы G-Code (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</translation>
     </message>
     <message>
         <source>File was changed. Save?</source>
@@ -900,8 +900,8 @@ Time elapsed: %1</source>
         <translation type="vanished">Буфер: %1 / %2</translation>
     </message>
     <message>
-        <source>G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)</source>
-        <translation type="vanished">Файлы G-Code (*.nc *.ncc *.tap *.txt);;Все файлы (*.*)</translation>
+        <source>G-Code files (*.nc *.ncc *.gcode *.tap *.txt);;All files (*.*)</source>
+        <translation type="vanished">Файлы G-Code (*.nc *.ncc *.gcode *.tap *.txt);;Все файлы (*.*)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="2130"/>
@@ -963,8 +963,8 @@ Time elapsed: %1</source>
         <translation>Без имени</translation>
     </message>
     <message>
-        <source>G-Code files (*.nc *.ncc *.tap *.txt)</source>
-        <translation type="vanished">Файлы G-Code (*.nc *.ncc *.tap *.txt)</translation>
+        <source>G-Code files (*.nc *.ncc *.gcode *.tap *.txt)</source>
+        <translation type="vanished">Файлы G-Code (*.nc *.ncc *.gcode *.tap *.txt)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="3119"/>

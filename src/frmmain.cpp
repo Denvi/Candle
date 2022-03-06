@@ -116,6 +116,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYPlus->setBackColor(ui->cmdXMinus->backColor());
 
+    ui->cmdToggleProjection->setParent(ui->glwVisualizer);
     ui->cmdFit->setParent(ui->glwVisualizer);
     ui->cmdIsometric->setParent(ui->glwVisualizer);
     ui->cmdTop->setParent(ui->glwVisualizer);
@@ -300,7 +301,8 @@ bool frmMain::isGCodeFile(QString fileName)
           || fileName.endsWith(".nc", Qt::CaseInsensitive)
           || fileName.endsWith(".ncc", Qt::CaseInsensitive)
           || fileName.endsWith(".ngc", Qt::CaseInsensitive)
-          || fileName.endsWith(".tap", Qt::CaseInsensitive);
+          || fileName.endsWith(".tap", Qt::CaseInsensitive)
+          || fileName.endsWith(".gcode", Qt::CaseInsensitive);
 }
 
 bool frmMain::isHeightmapFile(QString fileName)
@@ -344,6 +346,9 @@ void frmMain::loadSettings()
     m_settings->setMsaa(set.value("msaa", true).toBool());
     m_settings->setVsync(set.value("vsync", false).toBool());
     m_settings->setZBuffer(set.value("zBuffer", false).toBool());
+    m_settings->setFov(set.value("fov", 60).toDouble());
+    m_settings->setNearPlane(set.value("nearPlane", 0.5).toDouble());
+    m_settings->setFarPlane(set.value("farPlane", 10000.0).toDouble());
     m_settings->setSimplify(set.value("simplify", false).toBool());
     m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
     m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
@@ -495,6 +500,9 @@ void frmMain::saveSettings()
     set.setValue("msaa", m_settings->msaa());
     set.setValue("vsync", m_settings->vsync());
     set.setValue("zBuffer", m_settings->zBuffer());
+    set.setValue("fov", m_settings->fov());
+    set.setValue("nearPlane", m_settings->nearPlane());
+    set.setValue("farPlane", m_settings->farPlane());
     set.setValue("simplify", m_settings->simplify());
     set.setValue("simplifyPrecision", m_settings->simplifyPrecision());
     set.setValue("grayscaleSegments", m_settings->grayscaleSegments());
@@ -1431,6 +1439,7 @@ void frmMain::placeVisualizerButtons()
     ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
 //    ui->cmdFit->move(ui->cmdTop->geometry().left() - ui->cmdFit->width() - 10, 10);
     ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
+    ui->cmdToggleProjection->move(ui->cmdFit->geometry().left() - ui->cmdToggleProjection->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
 }
 
 void frmMain::showEvent(QShowEvent *se)
@@ -1609,7 +1618,7 @@ void frmMain::on_cmdFileOpen_clicked()
         if (!saveChanges(false)) return;
 
         QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
-                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+                                   tr("G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;All files (*.*)"));
 
         if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
 
@@ -2201,6 +2210,9 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setAntialiasing(m_settings->antialiasing());
     ui->glwVisualizer->setMsaa(m_settings->msaa());
     ui->glwVisualizer->setZBuffer(m_settings->zBuffer());
+    ui->glwVisualizer->setFov(m_settings->fov());
+    ui->glwVisualizer->setNearPlane(m_settings->nearPlane());
+    ui->glwVisualizer->setFarPlane(m_settings->farPlane());
     ui->glwVisualizer->setVsync(m_settings->vsync());
     ui->glwVisualizer->setFps(m_settings->fps());
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
@@ -2255,6 +2267,7 @@ void frmMain::applySettings() {
                 .arg(normal.name()).arg(highlight.name())
                 .arg(base.name()));
 
+    ui->cmdToggleProjection->setIcon(QIcon(":/images/toggle.png"));
     ui->cmdFit->setIcon(QIcon(":/images/fit_1.png"));
     ui->cmdIsometric->setIcon(QIcon(":/images/cube.png"));
     ui->cmdFront->setIcon(QIcon(":/images/cubeFront.png"));
@@ -2262,6 +2275,7 @@ void frmMain::applySettings() {
     ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
 
     if (!light) {
+        Util::invertButtonIconColors(ui->cmdToggleProjection);
         Util::invertButtonIconColors(ui->cmdFit);
         Util::invertButtonIconColors(ui->cmdIsometric);
         Util::invertButtonIconColors(ui->cmdFront);
@@ -2618,7 +2632,7 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 
 void frmMain::on_actFileSaveTransformedAs_triggered()
 {
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt)")));
 
     if (!fileName.isEmpty()) {
         saveProgramToFile(fileName, &m_programHeightmapModel);
@@ -2628,7 +2642,7 @@ void frmMain::on_actFileSaveTransformedAs_triggered()
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt)")));
 
         if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
@@ -2687,6 +2701,10 @@ void frmMain::on_cmdLeft_clicked()
 void frmMain::on_cmdIsometric_clicked()
 {
     ui->glwVisualizer->setIsometricView();
+}
+
+void frmMain::on_cmdToggleProjection_clicked() {
+    ui->glwVisualizer->toggleProjectionType();
 }
 
 void frmMain::on_actAbout_triggered()

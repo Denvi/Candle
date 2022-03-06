@@ -175,6 +175,30 @@ void frmSettings::setZBuffer(bool zBuffer)
     ui->chkZBuffer->setChecked(zBuffer);
 }
 
+double frmSettings::fov() {
+    return ui->txtFov->value();
+}
+
+void frmSettings::setFov(double fov) {
+    ui->txtFov->setValue(fov);
+}
+
+double frmSettings::nearPlane() {
+    return ui->txtNear->value();
+}
+
+void frmSettings::setNearPlane(double near) {
+    ui->txtNear->setValue(near);
+}
+
+double frmSettings::farPlane() {
+    return ui->txtFar->value();
+}
+
+void frmSettings::setFarPlane(double far) {
+    ui->txtFar->setValue(far);
+}
+
 double frmSettings::lineWidth()
 {
     return ui->txtLineWidth->value();
@@ -656,6 +680,9 @@ void frmSettings::on_cmdDefaults_clicked()
     setSimplifyPrecision(0.0);
     setFps(60);
     setZBuffer(false);
+    setFov(60.0);
+    setNearPlane(0.5);
+    setFarPlane(10000.0);
     setGrayscaleSegments(false);
     setGrayscaleSCode(true);
     setDrawModeVectors(true);

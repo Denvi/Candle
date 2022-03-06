@@ -870,8 +870,8 @@
     <message>
         <location filename="../frmmain.cpp" line="2613"/>
         <location filename="../frmmain.cpp" line="2623"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt)</source>
-        <translation>Archivos de G-Code (*.nc *.ncc *.ngc *.tap *.txt)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</source>
+        <translation>Archivos de G-Code (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</translation>
     </message>
     <message>
         <source>Connected</source>
@@ -905,16 +905,16 @@ Tiempo transcurrido: %1</translation>
         <translation>Envio de archivo en progreso. Detener y salir?</translation>
     </message>
     <message>
-        <source>G-Code files (*.nc *.ncc *.tap *.txt);;All files (*.*)</source>
-        <translation type="vanished">Archivos de G-Code (*.nc *.ncc *.tap *.txt);;Todos los archivos (*.*)</translation>
+        <source>G-Code files (*.nc *.ncc *.gcode *.tap *.txt);;All files (*.*)</source>
+        <translation type="vanished">Archivos de G-Code (*.nc *.ncc *.gcode *.tap *.txt);;Todos los archivos (*.*)</translation>
     </message>
     <message>
         <source>Sent</source>
         <translation type="vanished">Enviado</translation>
     </message>
     <message>
-        <source>G-Code files (*.nc *.ncc *.tap *.txt)</source>
-        <translation type="vanished">Archivos de G-Code (*.nc *.ncc *.tap *.txt)</translation>
+        <source>G-Code files (*.nc *.ncc *.gcode *.tap *.txt)</source>
+        <translation type="vanished">Archivos de G-Code (*.nc *.ncc *.gcode *.tap *.txt)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1628"/>
@@ -938,8 +938,8 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1615"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)</source>
-        <translation>Archivos de G-Code (*.nc *.ncc *.ngc *.tap *.txt);;Todos los archivos (*.*)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;All files (*.*)</source>
+        <translation>Archivos de G-Code (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;Todos los archivos (*.*)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1777"/>

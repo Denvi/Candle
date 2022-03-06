@@ -914,8 +914,8 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1615"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)</source>
-        <translation>G-Code fichiers (*.nc *.ncc *.ngc *.tap *.txt);;Tous les fichiers (*.*)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;All files (*.*)</source>
+        <translation>G-Code fichiers (*.nc *.ncc *.ngc *.gcode *.tap *.txt);;Tous les fichiers (*.*)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="1704"/>
@@ -970,8 +970,8 @@ Temps écoulé: %1</translation>
     <message>
         <location filename="../frmmain.cpp" line="2613"/>
         <location filename="../frmmain.cpp" line="2623"/>
-        <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt)</source>
-        <translation>G-Code fichiers (*.nc *.ncc *.ngc *.tap *.txt)</translation>
+        <source>G-Code files (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</source>
+        <translation>G-Code fichiers (*.nc *.ncc *.ngc *.gcode *.tap *.txt)</translation>
     </message>
     <message>
         <location filename="../frmmain.cpp" line="3119"/>

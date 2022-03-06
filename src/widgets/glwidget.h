@@ -43,6 +43,7 @@ public:
     void setTopView();
     void setFrontView();
     void setLeftView();
+    void toggleProjectionType();
 
     int fps();
     void setFps(int fps);
@@ -55,6 +56,15 @@ public:
 
     bool zBuffer() const;
     void setZBuffer(bool zBuffer);
+
+    double fov();
+    void setFov(double fov);
+
+    double nearPlane();
+    void setNearPlane(double near);
+    
+    double farPlane();
+    void setFarPlane(double far);
 
     bool updatesEnabled() const;
     void setUpdatesEnabled(bool updatesEnabled);
@@ -92,11 +102,12 @@ private slots:
 
 private:
     double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
-    double m_xPan, m_yPan, m_xLastPan, m_yLastPan;
-    double m_xLookAt, m_yLookAt, m_zLookAt;
+    QVector3D m_lookAt;
+    QVector3D m_eye;
+    bool m_perspective;
     QPoint m_lastPos;
-    double m_zoom;
-    double m_distance;
+    double m_zoomDistance;
+    double m_fov, m_near, m_far;
     double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
     double m_lineWidth;
     double m_pointSize;
