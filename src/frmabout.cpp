@@ -12,8 +12,11 @@ frmAbout::frmAbout(QWidget *parent) :
     ui->setupUi(this);
 
     ui->lblAbout->setText(ui->lblAbout->text().arg(qApp->applicationVersion()));
-
+#ifdef UNIX
+    QFile file("/usr/share/doc/" + qApp->applicationDisplayName() + "/LICENSE");
+#else
     QFile file(qApp->applicationDirPath() + "/LICENSE");
+#endif
 
     if (file.open(QIODevice::ReadOnly)) {
         ui->txtLicense->setPlainText(file.readAll());

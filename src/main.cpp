@@ -44,7 +44,11 @@ int main(int argc, char *argv[])
 //    QLocale::setDefault(QLocale("es"));
 
     QString loc = QLocale().name().left(2);
+#ifdef UNIX
+    QString translationsFolder = "/usr/share/" + qApp->applicationDisplayName() + "/translations/";
+#else
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
+#endif
     QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
 
     qDebug() << "locale:" << loc;
