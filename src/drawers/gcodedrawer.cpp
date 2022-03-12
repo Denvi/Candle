@@ -39,6 +39,9 @@ bool GcodeDrawer::updateData()
     case GcodeDrawer::Raster:
         if (m_indexes.isEmpty()) return prepareRaster(); else return updateRaster();
     }
+    
+    // Nothing to update; success
+    return true;
 }
 
 bool GcodeDrawer::prepareVectors()
