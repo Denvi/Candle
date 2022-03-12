@@ -103,8 +103,8 @@ private slots:
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onConsoleResized(QSize size);
     void onPanelsSizeChanged(QSize size);
-    void onCmdUserClicked(bool checked);
-    void onOverridingToggled(bool checked);
+    void onCmdUserClicked();
+    void onOverridingToggled();
     void onActSendFromLineTriggered();
 
     void on_actFileExit_triggered();

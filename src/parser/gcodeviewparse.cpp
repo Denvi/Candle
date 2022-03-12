@@ -101,7 +101,6 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
     QList<PointSegment*> psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
     double minArcLength = 0.1;
-    double length;
 
     QVector3D *start, *end;
     start = NULL;
