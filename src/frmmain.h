@@ -159,13 +159,16 @@ private slots:
     void on_cmdHeightMapMode_toggled(bool checked);
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
     void on_cmdHeightMapLoad_clicked();
+    void on_cmdHeightMapSave_clicked();
+    void on_cmdHeightMapSaveAs_clicked();
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
     void on_chkHeightMapUse_clicked(bool checked);
+    void on_chkHeightMapInvert_toggled(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
     void on_cmdFileAbort_clicked();
-    void on_cmdSpindle_clicked(bool checked);   
+    void on_cmdSpindle_clicked(bool checked);
 
     void on_cmdYPlus_pressed();
 
@@ -211,7 +214,7 @@ private:
 
     OriginDrawer *m_originDrawer;
 
-    GcodeDrawer *m_codeDrawer;    
+    GcodeDrawer *m_codeDrawer;
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
 

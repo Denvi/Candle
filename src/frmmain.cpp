@@ -125,6 +125,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapSave->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
     ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
@@ -221,7 +222,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
-    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));    
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     clearTable();
 
     // Console window handling
@@ -287,7 +288,7 @@ frmMain::frmMain(QWidget *parent) :
 }
 
 frmMain::~frmMain()
-{    
+{
     saveSettings();
 
     delete m_senderErrorBox;
@@ -297,6 +298,7 @@ frmMain::~frmMain()
 bool frmMain::isGCodeFile(QString fileName)
 {
     return fileName.endsWith(".txt", Qt::CaseInsensitive)
+          || fileName.endsWith(".cnc", Qt::CaseInsensitive)
           || fileName.endsWith(".nc", Qt::CaseInsensitive)
           || fileName.endsWith(".ncc", Qt::CaseInsensitive)
           || fileName.endsWith(".ngc", Qt::CaseInsensitive)
@@ -348,7 +350,7 @@ void frmMain::loadSettings()
     m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
     m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
     m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
-    m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());    
+    m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
     m_settings->setMoveOnRestore(set.value("moveOnRestore", false).toBool());
     m_settings->setRestoreMode(set.value("restoreMode", 0).toInt());
     m_settings->setLineWidth(set.value("lineWidth", 1).toDouble());
@@ -525,7 +527,7 @@ void frmMain::saveSettings()
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("splitter", ui->splitter->saveState());
     set.setValue("formGeometry", this->saveGeometry());
-    set.setValue("formSettingsSize", m_settings->size());    
+    set.setValue("formSettingsSize", m_settings->size());
     set.setValue("userCommandsPanel", ui->grpUserCommands->isChecked());
     set.setValue("heightmapPanel", ui->grpHeightMap->isChecked());
     set.setValue("spindlePanel", ui->grpSpindle->isChecked());
@@ -718,12 +720,13 @@ void frmMain::updateControlsState() {
     ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
+    ui->chkHeightMapInvert->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
 
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());    
+    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::openPort()
@@ -1031,7 +1034,7 @@ void frmMain::onSerialPortReadyRead()
             // Get overridings
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1)
-            {                
+            {
                 updateOverride(ui->slbFeedOverride, ov.cap(1).toInt(), 0x91);
                 updateOverride(ui->slbSpindleOverride, ov.cap(3).toInt(), 0x9a);
 
@@ -1082,7 +1085,7 @@ void frmMain::onSerialPortReadyRead()
             }
 
             // Get feed/spindle values
-            static QRegExp fs("FS:([^,]*),([^,^|^>]*)");            
+            static QRegExp fs("FS:([^,]*),([^,^|^>]*)");
             if (fs.indexIn(data) != -1) {
                 ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(fs.cap(2))));
             }
@@ -1256,7 +1259,7 @@ void frmMain::onSerialPortReadyRead()
                         if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
-#endif                                               
+#endif
                         // Process error messages
                         static bool holding = false;
                         static QString errors;
@@ -1571,7 +1574,7 @@ void frmMain::dragEnterEvent(QDragEnterEvent *dee)
 }
 
 void frmMain::dropEvent(QDropEvent *de)
-{    
+{
     QString fileName = de->mimeData()->urls().at(0).toLocalFile();
 
     if (!m_heightMapMode) {
@@ -1609,7 +1612,7 @@ void frmMain::on_cmdFileOpen_clicked()
         if (!saveChanges(false)) return;
 
         QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
-                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+                                   tr("G-Code files (*.cnc *.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
 
         if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
 
@@ -1680,7 +1683,7 @@ void frmMain::loadFile(QList<QString> data)
     // Prepare parser
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings->rapidSpeed());
-    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0.f));
 
     qDebug() << "Prepared to load:" << time.elapsed();
     time.start();
@@ -1990,7 +1993,7 @@ void frmMain::on_cmdFileAbort_clicked()
 }
 
 void frmMain::storeParserState()
-{    
+{
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
                 QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
 }
@@ -2234,7 +2237,7 @@ void frmMain::applySettings() {
     m_codeDrawer->setDrawMode(m_settings->drawModeVectors() ? GcodeDrawer::Vectors : GcodeDrawer::Raster);
     m_codeDrawer->setGrayscaleMin(m_settings->laserPowerMin());
     m_codeDrawer->setGrayscaleMax(m_settings->laserPowerMax());
-    m_codeDrawer->update();    
+    m_codeDrawer->update();
 
     m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
 
@@ -2618,7 +2621,7 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 
 void frmMain::on_actFileSaveTransformedAs_triggered()
 {
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.cnc *.nc *.ncc *.ngc *.tap *.txt)")));
 
     if (!fileName.isEmpty()) {
         saveProgramToFile(fileName, &m_programHeightmapModel);
@@ -2628,7 +2631,7 @@ void frmMain::on_actFileSaveTransformedAs_triggered()
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.cnc *.nc *.ncc *.ngc *.tap *.txt)")));
 
         if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
@@ -2788,7 +2791,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 && !static_cast<QKeyEvent*>(event)->isAutoRepeat()) {
 
             switch (static_cast<QKeyEvent*>(event)->key()) {
-            case Qt::Key_4:                
+            case Qt::Key_4:
                 if (event->type() == QEvent::KeyPress) emit ui->cmdXMinus->pressed(); else emit ui->cmdXMinus->released();
                 break;
             case Qt::Key_6:
@@ -3425,7 +3428,7 @@ void frmMain::loadHeightMap(QString fileName)
     m_heightMapModel.clear();   // To avoid probe data wipe message
     updateHeightMapGrid();
 
-    list = textStream.readLine().split(";");
+    list = textStream.readLine().split(";"); // skip interpolation values since they are in the file already
 
 //    ui->chkHeightMapBorderAuto->setChecked(false);
 //    ui->chkHeightMapBorderAuto->setEnabled(false);
@@ -3466,6 +3469,18 @@ void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
     updateControlsState();
 }
 
+void frmMain::on_cmdHeightMapSave_clicked()
+{
+  m_heightMapMode = true;
+  on_actFileSave_triggered();
+}
+
+void frmMain::on_cmdHeightMapSaveAs_clicked()
+{
+  m_heightMapMode = true;
+  on_actFileSaveAs_triggered();
+}
+
 void frmMain::on_cmdHeightMapLoad_clicked()
 {
     if (!saveChanges(true)) {
@@ -3503,6 +3518,19 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
     Q_UNUSED(arg1)
 
     updateHeightMapInterpolationDrawer();
+}
+
+void frmMain::on_chkHeightMapInvert_toggled(bool checked)
+{
+  Q_UNUSED(checked)
+  // force recreation of the model
+  m_programHeightmapModel.clear();
+  if (ui->chkHeightMapUse->isChecked())
+  {
+    // update map
+    on_chkHeightMapUse_clicked(false);
+    on_chkHeightMapUse_clicked(true);
+  }
 }
 
 void frmMain::on_chkHeightMapUse_clicked(bool checked)
@@ -3572,17 +3600,19 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
             progress.setMaximum(list->count() - 1);
             time.start();
 
+            bool invert = ui->chkHeightMapInvert->isChecked();
+
             for (int i = 0; i < list->count(); i++) {
                 if (i == 0) {
                     x = list->at(i)->getStart().x();
                     y = list->at(i)->getStart().y();
-                    z = list->at(i)->getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                    z = list->at(i)->getStart().z() + ((invert ? -1. : 1.) * Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
                     list->at(i)->setStart(QVector3D(x, y, z));
                 } else list->at(i)->setStart(list->at(i - 1)->getEnd());
 
                 x = list->at(i)->getEnd().x();
                 y = list->at(i)->getEnd().y();
-                z = list->at(i)->getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                z = list->at(i)->getEnd().z() + ((invert ? -1. : 1.) * Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
                 list->at(i)->setEnd(QVector3D(x, y, z));
 
                 if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
