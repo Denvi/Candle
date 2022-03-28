@@ -10,7 +10,7 @@ Supported functions:
 
 System requirements for running "Candle":
 -------------------
-* Windows/Linux x86
+* Windows/Linux x86/MacOS ??
 * CPU with SSE2 instruction set support
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
@@ -18,6 +18,9 @@ System requirements for running "Candle":
 Build requirements:
 ------------------
 Qt 5.4.2 with MinGW/GCC compiler
+
+Additionally for MacOS: 
+CMake
 
 Downloads:
 ----------
