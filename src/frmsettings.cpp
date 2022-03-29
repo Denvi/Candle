@@ -28,6 +28,7 @@ frmSettings::frmSettings(QWidget *parent) :
 
     ui->listCategories->item(0)->setSelected(true);
     connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onScrollBarValueChanged(int)));
+    connect(ui->hostEdit, SIGNAL(textChanged(QString)), this, SLOT(onHostnameEdited(QString)));
 
     searchPorts();
 }
@@ -583,6 +584,37 @@ void frmSettings::setAutoLine(bool value)
     ui->chkAutoLine->setChecked(value);
 }
 
+QString frmSettings::serialHostname()
+{
+    auto hostname = ui->hostEdit->text();
+    auto parts = hostname.splitRef(':');
+    if (parts.length() == 2) {
+        return parts[0].toString();
+    }
+    return hostname;
+}
+
+void frmSettings::setSerialHostname(QString hostName)
+{
+    ui->hostEdit->setText(hostName);
+}
+
+int frmSettings::serialTcpPort()
+{
+    auto hostname = this->serialHostname();
+    if (hostname.isEmpty())
+        return -1;
+    auto parts = hostname.splitRef(':');
+    if (parts.length() == 2) {
+        auto portRef = parts[1];
+        bool ok;
+        auto port = portRef.toInt(&ok);
+        if (ok)
+            return port;
+    }
+    return 6778;
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -715,4 +747,15 @@ void frmSettings::on_radGrayscaleS_toggled(bool checked)
 void frmSettings::on_radGrayscaleZ_toggled(bool checked)
 {
     ui->radGrayscaleS->setChecked(!checked);
+}
+
+void frmSettings::onHostnameEdited(const QString& newValue)
+{
+    if (newValue.isEmpty()) {
+        ui->cboPort->setEnabled(true);
+        ui->cboBaud->setEnabled(true);
+    } else {
+        ui->cboPort->setEnabled(false);
+        ui->cboBaud->setEnabled(false);
+    }
 }

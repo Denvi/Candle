@@ -264,9 +264,16 @@ frmMain::frmMain(QWidget *parent) :
         m_serialPort.setPortName(m_settings->port());
         m_serialPort.setBaudRate(m_settings->baud());
     }
+    // Setup TCP socket
+    //  set the socket to low delay to avoid too much buffering
+    //  since it's expected the connection to be on a local network where congestion is not an issue
+    m_serialSocket.setSocketOption(QAbstractSocket::SocketOption::LowDelayOption, 1);
 
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
+    connect(&m_serialSocket, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
+    connect(&m_serialSocket, SIGNAL(connected()), this, SLOT(onSerialSocketConnected()), Qt::QueuedConnection);
+    connect(&m_serialSocket, SIGNAL(errorOccured(QAbstractSocket::SocketError)), this, SLOT(onSerialSocketError(QAbstractSocket::SocketError)));
 
     this->installEventFilter(this);
     ui->tblProgram->installEventFilter(this);
@@ -336,6 +343,7 @@ void frmMain::loadSettings()
     m_settings->setFontSize(set.value("fontSize", 8).toInt());
     m_settings->setPort(set.value("port").toString());
     m_settings->setBaud(set.value("baud").toInt());
+    m_settings->setSerialHostname(set.value("serialHostname").toString());
     m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
     m_settings->setAutoLine(set.value("autoLine", true).toBool());
     m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
@@ -487,6 +495,7 @@ void frmMain::saveSettings()
 
     set.setValue("port", m_settings->port());
     set.setValue("baud", m_settings->baud());
+    set.setValue("serialHostname", m_settings->serialHostname());
     set.setValue("ignoreErrors", m_settings->ignoreErrors());
     set.setValue("autoLine", m_settings->autoLine());
     set.setValue("toolDiameter", m_settings->toolDiameter());
@@ -622,7 +631,7 @@ bool frmMain::saveChanges(bool heightMapMode)
 }
 
 void frmMain::updateControlsState() {
-    bool portOpened = m_serialPort.isOpen();
+    bool portOpened = getIODevice().isOpen();
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
@@ -728,6 +737,10 @@ void frmMain::updateControlsState() {
 
 void frmMain::openPort()
 {
+    // Don't open serial port if already connected/connecting via TCP
+    if (m_serialSocket.state() != QAbstractSocket::SocketState::UnconnectedState
+        && m_serialSocket.state() != QAbstractSocket::SocketState::ClosingState)
+        return;
     if (m_serialPort.open(QIODevice::ReadWrite)) {
         ui->txtStatus->setText(tr("Port opened"));
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
@@ -738,7 +751,7 @@ void frmMain::openPort()
 
 void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
 {
-    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
+    if (!getIODevice().isOpen() || !m_resetCompleted) return;
 
     command = command.toUpper();
 
@@ -787,14 +800,14 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
         m_fileEndSent = true;
     }
 
-    m_serialPort.write((command + "\r").toLatin1());
+    getIODevice().write((command + "\r").toLatin1());
 }
 
 void frmMain::grblReset()
 {
     qDebug() << "grbl reset";
 
-    m_serialPort.write(QByteArray(1, (char)24));
+    getIODevice().write(QByteArray(1, (char)24));
 //    m_serialPort.flush();
 
     m_processingFile = false;
@@ -837,8 +850,9 @@ int frmMain::bufferLength()
 
 void frmMain::onSerialPortReadyRead()
 {
-    while (m_serialPort.canReadLine()) {
-        QString data = m_serialPort.readLine().trimmed();
+    auto& ioDevice = getIODevice();
+    while (ioDevice.canReadLine()) {
+        QString data = ioDevice.readLine().trimmed();
 
         // Filter prereset responses
         if (m_reseting) {
@@ -1042,13 +1056,13 @@ void frmMain::onSerialPortReadyRead()
 
                 if (rapid != target) switch (target) {
                 case 25:
-                    m_serialPort.write(QByteArray(1, char(0x97)));
+                    getIODevice().write(QByteArray(1, char(0x97)));
                     break;
                 case 50:
-                    m_serialPort.write(QByteArray(1, char(0x96)));
+                    getIODevice().write(QByteArray(1, char(0x96)));
                     break;
                 case 100:
-                    m_serialPort.write(QByteArray(1, char(0x95)));
+                    getIODevice().write(QByteArray(1, char(0x95)));
                     break;
                 }
 
@@ -1271,7 +1285,7 @@ void frmMain::onSerialPortReadyRead()
                                 holding = true;         // Hold transmit while messagebox is visible
                                 response.clear();
 
-                                m_serialPort.write("!");
+                                getIODevice().write("!");
                                 m_senderErrorBox->checkBox()->setChecked(false);
                                 qApp->beep();
                                 int result = m_senderErrorBox->exec();
@@ -1279,7 +1293,7 @@ void frmMain::onSerialPortReadyRead()
                                 holding = false;
                                 errors.clear();
                                 if (m_senderErrorBox->checkBox()->isChecked()) m_settings->setIgnoreErrors(true);
-                                if (result == QMessageBox::Ignore) m_serialPort.write("~"); else on_cmdFileAbort_clicked();
+                                if (result == QMessageBox::Ignore) getIODevice().write("~"); else on_cmdFileAbort_clicked();
                             }
                         }
 
@@ -1380,10 +1394,37 @@ void frmMain::onSerialPortError(QSerialPort::SerialPortError error)
     }
 }
 
+void frmMain::onSerialSocketConnected()
+{
+    ui->txtStatus->setText(tr("TCP serial opened"));
+    ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
+    //        updateControlsState();
+    grblReset();
+}
+
+void frmMain::onSerialSocketError(QAbstractSocket::SocketError socketError)
+{
+    static QAbstractSocket::SocketError previousSocketError;
+
+    if (socketError != previousSocketError) {
+        previousSocketError = socketError;
+        ui->txtConsole->appendPlainText(tr("TCP Socket error ") + QString::number(socketError) + ": " + m_serialSocket.errorString());
+        if (m_serialSocket.isOpen()) {
+            m_serialSocket.close();
+            updateControlsState();
+        }
+    }
+}
+
 void frmMain::onTimerConnection()
 {
-    if (!m_serialPort.isOpen()) {
-        openPort();
+    if (m_serialSocket.state() == QAbstractSocket::SocketState::UnconnectedState && !m_serialPort.isOpen()) {
+        if (m_serialSocket.state() == QAbstractSocket::SocketState::UnconnectedState && m_settings->serialHostname() != "") {
+            m_serialSocket.connectToHost(m_settings->serialHostname(), m_settings->serialTcpPort());
+        }
+        else {
+            openPort();
+        }
     } else if (!m_homing/* && !m_reseting*/ && !ui->cmdFilePause->isChecked() && m_queue.length() == 0) {
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
@@ -1398,8 +1439,9 @@ void frmMain::onTimerConnection()
 
 void frmMain::onTimerStateQuery()
 {
-    if (m_serialPort.isOpen() && m_resetCompleted && m_statusReceived) {
-        m_serialPort.write(QByteArray(1, '?'));
+    auto& ioDevice = getIODevice();
+    if (ioDevice.isOpen() && m_resetCompleted && m_statusReceived) {
+        ioDevice.write(QByteArray(1, '?'));
         m_statusReceived = false;
     }
 
@@ -1549,7 +1591,8 @@ void frmMain::closeEvent(QCloseEvent *ce)
         return;
     }
 
-    if (m_serialPort.isOpen()) m_serialPort.close();
+    auto& ioDevice = getIODevice();
+    if (ioDevice.isOpen()) ioDevice.close();
     if (m_queue.length() > 0) {
         m_commands.clear();
         m_queue.clear();
@@ -1983,7 +2026,7 @@ void frmMain::on_cmdFileAbort_clicked()
 {
     m_aborting = true;
     if (!ui->chkTestMode->isChecked()) {
-        m_serialPort.write("!");
+        getIODevice().write("!");
     } else {
         grblReset();
     }
@@ -2160,9 +2203,15 @@ void frmMain::on_actServiceSettings_triggered()
     if (m_settings->exec()) {
         qDebug() << "Applying settings";
         qDebug() << "Port:" << m_settings->port() << "Baud:" << m_settings->baud();
+        qDebug() << "Hostname:" << m_settings->serialHostname() << ":" << m_settings->serialTcpPort();
 
-        if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
-                                           m_settings->baud() != m_serialPort.baudRate())) {
+        if (!m_settings->serialHostname().isEmpty() && (m_settings->serialHostname() != m_serialSocket.peerName() ||
+            m_settings->serialTcpPort() != m_serialSocket.peerPort())) {
+            if (m_serialSocket.isOpen())
+                m_serialSocket.close();
+            // The socket will be reconnected in the timer event handler
+        } else if (!m_settings->port().isEmpty() && (m_settings->port() != m_serialPort.portName() ||
+            m_settings->baud() != m_serialPort.baudRate())) {
             if (m_serialPort.isOpen()) m_serialPort.close();
             m_serialPort.setPortName(m_settings->port());
             m_serialPort.setBaudRate(m_settings->baud());
@@ -2452,7 +2501,7 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
 void frmMain::on_cmdSpindle_clicked(bool checked)
 {
     if (ui->cmdFilePause->isChecked()) {
-        m_serialPort.write(QByteArray(1, char(0x9e)));
+        getIODevice().write(QByteArray(1, char(0x9e)));
     } else {
         sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
     }
@@ -2472,7 +2521,7 @@ void frmMain::on_chkTestMode_clicked(bool checked)
 
 void frmMain::on_cmdFilePause_clicked(bool checked)
 {
-    m_serialPort.write(checked ? "!" : "~");
+    getIODevice().write(checked ? "!" : "~");
 }
 
 void frmMain::on_cmdFileReset_clicked()
@@ -3861,9 +3910,9 @@ void frmMain::updateOverride(SliderBox *slider, int value, char command)
     bool smallStep = abs(target - slider->currentValue()) < 10 || m_settings->queryStateTime() < 100;
 
     if (slider->currentValue() < target) {
-        m_serialPort.write(QByteArray(1, char(smallStep ? command + 2 : command)));
+        getIODevice().write(QByteArray(1, char(smallStep ? command + 2 : command)));
     } else if (slider->currentValue() > target) {
-        m_serialPort.write(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
+        getIODevice().write(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
     }
 }
 
@@ -3898,6 +3947,13 @@ void frmMain::jogStep()
                     .arg(vec.z(), 0, 'g', 4)
                     .arg(speed), -3, m_settings->showUICommands());
     }
+}
+
+QIODevice& frmMain::getIODevice()
+{
+    if (m_serialSocket.isOpen())
+        return m_serialSocket;
+    return m_serialPort;
 }
 
 void frmMain::on_cmdYPlus_pressed()
@@ -3975,5 +4031,5 @@ void frmMain::on_cmdZMinus_released()
 void frmMain::on_cmdStop_clicked()
 {
     m_queue.clear();
-    m_serialPort.write(QByteArray(1, char(0x85)));
+    getIODevice().write(QByteArray(1, char(0x85)));
 }
