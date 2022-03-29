@@ -1,0 +1,8 @@
+If you using Linux Ubuntu 16.04 LTS x64 (64 bit), you must install this libraries for properly working Candle:
+
+sudo apt-get install libqt5libqgtk2:i386
+sudo apt-get install libcanberra-gtk-module:i386
+sudo apt-get install libatk-adaptor:i386 libgail-common:i386
+sudo apt-get install overlay-scrollbar-gtk2:i386
+sudo apt-get install gtk2-engines-murrine:i386
+sudo apt-get install gtk2-engines-pixbuf:i386
