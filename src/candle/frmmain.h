@@ -61,13 +61,31 @@ struct CommandAttributes {
     int consoleIndex;
     int tableIndex;
     QString command;
+
+    CommandAttributes() {
+    }
+
+    CommandAttributes(int len, int consoleIdx, int tableIdx, QString cmd) {
+        length = len;
+        consoleIndex = consoleIdx;
+        tableIndex = tableIdx;
+        command = cmd;
+    }
 };
 
 struct CommandQueue {
     QString command;
     int tableIndex;
     bool showInConsole;
-    bool wait;
+
+    CommandQueue() {
+    }
+
+    CommandQueue(QString cmd, int idx, bool show) {
+        command = cmd;
+        tableIndex = idx;
+        showInConsole = show;
+    }
 };
 
 class CancelException : public std::exception {
@@ -259,6 +277,12 @@ private:
         DeviceSleep =14
     };
 
+    enum SendCommandResult {
+        SendDone = 0,
+        SendEmpty = 1,
+        SendQueue = 2
+    };
+
     // Ui
     Ui::frmMain *ui;
 
@@ -385,7 +409,7 @@ private:
     // Communication
     void openPort();
     void grblReset();
-    int sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool wait = false);
+    SendCommandResult sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool wait = false);
     void sendCommands(QString commands, int tableIndex = -1);
     void sendNextFileCommands();
     QString evaluateCommand(QString command);

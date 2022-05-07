@@ -1967,19 +1967,20 @@ void frmMain::onSerialPortReadyRead()
                     }
 
                     // Check queue
-                    if (m_queue.length() > 0) {
-                        CommandQueue cq = m_queue.takeFirst();
-                        while (true) {
-                            if ((bufferLength() + cq.command.length() + 1) <= BUFFERLENGTH) {
-                                int r = 0;
-                                if (!cq.command.isEmpty()) r = sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
-                                if ((!r && !cq.command.isEmpty() && (m_queue.isEmpty() || cq.wait)) || m_queue.isEmpty()) break; 
-                                    else cq = m_queue.takeFirst();
-                            } else {
-                                m_queue.insert(0, cq);
+                    static bool processingQueue = false;
+                    if (m_queue.length() > 0 && !processingQueue) {
+                        processingQueue = true;
+                        while (m_queue.length() > 0) {
+                            CommandQueue cq = m_queue.takeFirst();
+                            SendCommandResult r = sendCommand(cq.command, cq.tableIndex, cq.showInConsole);
+                            if (r == SendDone) {
+                                break;
+                            } else if (r == SendQueue) {
+                                m_queue.prepend(m_queue.takeLast());
                                 break;
                             }
                         }
+                        processingQueue = false;
                     }
 
                     // Add response to table, send next program commands
@@ -3209,7 +3210,7 @@ void frmMain::grblReset()
     updateControlsState();
 }
 
-int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool wait)
+frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool wait)
 {
     // tableIndex:
     // 0...n - commands from g-code program
@@ -3217,25 +3218,28 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
     // -2 - utility commands
     // -3 - utility commands
 
-    if (!m_serialPort.isOpen() || !m_resetCompleted) return 0;
+    if (!m_serialPort.isOpen() || !m_resetCompleted) return SendDone;
 
-    // Commands queue
-    if (wait || (bufferLength() + command.length() + 1) > BUFFERLENGTH) {
-        CommandQueue cq;
+    // Check command
+    if (command.isEmpty()) return SendEmpty;
 
-        cq.command = command;
-        cq.tableIndex = tableIndex;
-        cq.showInConsole = showInConsole;
-        cq.wait = wait;
-
-        m_queue.append(cq);
-        return 0;
+    // Place to queue on 'wait' flag
+    if (wait) {
+        m_queue.append(CommandQueue(command, tableIndex, showInConsole));
+        return SendQueue;
     }
-
+    
     // Evaluate scripts in command
     if (tableIndex < 0) command = evaluateCommand(command);
 
-    if (command.isEmpty()) return 1;
+    // Check evaluated command
+    if (command.isEmpty()) return SendEmpty;
+
+    // Place to queue if command buffer is full
+    if ((bufferLength() + command.length() + 1) > BUFFERLENGTH) {
+        m_queue.append(CommandQueue(command, tableIndex, showInConsole));
+        return SendQueue;
+    }
 
     command = command.toUpper();
 
@@ -3277,7 +3281,7 @@ int frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bo
 
     m_serialPort.write((command + "\r").toLatin1());
 
-    return 0;
+    return SendDone;
 }
 
 void frmMain::sendCommands(QString commands, int tableIndex)
@@ -3286,7 +3290,8 @@ void frmMain::sendCommands(QString commands, int tableIndex)
 
     bool q = false;
     foreach (QString cmd, list) {
-        if (!cmd.isEmpty()) if (sendCommand(cmd.trimmed(), tableIndex, m_settings->showUICommands(), q) == 0) q = true;
+        SendCommandResult r = sendCommand(cmd.trimmed(), tableIndex, m_settings->showUICommands(), q);
+        if (r == SendDone || r == SendQueue) q = true;
     }
 }
 
@@ -3311,14 +3316,17 @@ void frmMain::sendNextFileCommands() {
 QString frmMain::evaluateCommand(QString command)
 {
     // Evaluate script  
-    QRegExp sx("\\{([^\\}]+)\\}");
+    static QRegularExpression rx("\\{(?:(?>[^\\{\\}])|(?0))*\\}");
+    QRegularExpressionMatch m; 
     QScriptValue v;
     QString vs;
-    while (sx.indexIn(command) != -1) {
-        v = m_scriptEngine.evaluate(sx.cap(1));
+   
+    while ((m = rx.match(command)).hasMatch()) {
+        v = m_scriptEngine.evaluate(m.captured(0));
         vs = v.isUndefined() ? "" : v.isNumber() ? QString::number(v.toNumber(), 'f', 4) : v.toString();
-        command.replace(sx.cap(0), vs);
+        command.replace(m.captured(0), vs);
     }
+    
     return command;
 }
 
