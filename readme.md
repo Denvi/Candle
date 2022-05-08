@@ -21,12 +21,25 @@ Qt 5.4.2 with MinGW/GCC compiler
 
 Downloads:
 ----------
+Experimental versions:
+
+* [Version 1.2b release](https://github.com/Denvi/Candle/releases/tag/v1.2b)
+
+
 For GRBL v1.1 firmware
 
 * Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
 * Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
 
 (for GRBL v0.9 and below use Candle 1.0)
+
+Before creating new issue:
+------
+Candle works with CNC controlled by GRBL firmware, many problems can be solved by using proper version of GRBL, using proper configuration.
+
+Please read GRBL wiki: 
+- GRBL v0.9-: https://github.com/grbl/grbl/wiki
+- GRBL v1.1: https://github.com/gnea/grbl/wiki
 
 "Candle" main window:
 ![screenshot](/screenshots/screenshot_heightmap_original.png)
