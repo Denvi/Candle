@@ -56,9 +56,28 @@ bin/*
 
 # VS
 .vs
-/src/debug
-/src/release
-/src/candle.vcxproj.filters
-/src/Candle_resource.aps
-/src/Candle_resource.rc
-/src/ui_*
+debug
+release
+ui_*
+uic_*
+
+#vscode
+.vscode
+
+#makefiles
+Makefile*
+
+#binaries
+bin
+
+#wrappers
+*_wrapper.bat
+
+#pdb
+*.pdb
+
+#script bindings binaries
+src/scriptbindings/plugins/script
+
+#rc
+src/candle/Candle_resource.rc

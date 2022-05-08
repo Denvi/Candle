@@ -1,0 +1,44 @@
+<RCC>
+  <qresource prefix="/">
+    <file>images/flood.png</file>
+    <file>images/door.png</file>
+    <file>images/pause.png</file>
+    <file>images/search_for_home2.png</file>
+    <file>images/check1.png</file>
+    <file>images/restart.png</file>
+    <file>images/power4.png</file>
+    <file>images/handle_horizontal.png</file>
+    <file>images/handle_vertical.png</file>
+    <file>images/1401562699_icon-arrow-up-b.png</file>
+    <file>images/1401562699_icon-arrow-down-b.png</file>
+    <file>images/1401562173_chevron-down.png</file>
+    <file>images/1401562173_chevron-up.png</file>
+    <file>images/1401562173_chevron-right.png</file>
+    <file>images/1401561986_chevron-left.png</file>
+    <file>images/cutter.png</file>
+    <file>images/handle2s.png</file>
+    <file>images/handle2sh.png</file>
+    <file>images/cube.png</file>
+    <file>images/fit_1.png</file>
+    <file>images/send_1.png</file>
+    <file>images/erase_1.png</file>
+    <file>images/cubeFront.png</file>
+    <file>images/cubeLeft.png</file>
+    <file>images/cubeTop.png</file>
+    <file>images/expand.png</file>
+    <file>images/collapse.png</file>
+    <file>images/collapse_disabled.png</file>
+    <file>images/expand_disabled.png</file>
+    <file>images/small_arrow.png</file>
+    <file>images/shadow.png</file>
+    <file>images/handle_small.png</file>
+    <file>images/candle_256.png</file>
+    <file>images/num1.png</file>
+    <file>images/num2.png</file>
+    <file>images/unlock1.png</file>
+    <file>images/num3.png</file>
+    <file>images/num4.png</file>
+    <file>images/handle2s1.png</file>
+    <file>images/brake.png</file>
+  </qresource>
+</RCC>
