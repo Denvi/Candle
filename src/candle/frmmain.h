@@ -101,7 +101,7 @@ public:
     }
 };
 
-class frmMain : public QMainWindow
+class frmMain final: public QMainWindow
 {
     Q_OBJECT
 
@@ -232,22 +232,21 @@ private slots:
     void onScriptException(const QScriptValue &exception);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
-    void placeVisualizerButtons();
 
 protected:
-    void showEvent(QShowEvent *se);
-    void hideEvent(QHideEvent *he);
-    void resizeEvent(QResizeEvent *re);
-    void timerEvent(QTimerEvent *);
-    void closeEvent(QCloseEvent *ce);
-    void dragEnterEvent(QDragEnterEvent *dee);
-    void dropEvent(QDropEvent *de);
-    QMenu *createPopupMenu() override;
+    void showEvent(QShowEvent* se) override;
+    void hideEvent(QHideEvent* he) override;
+    void resizeEvent(QResizeEvent* re) override;
+    void timerEvent(QTimerEvent*) override;
+    void closeEvent(QCloseEvent* ce) override;
+    void dragEnterEvent(QDragEnterEvent* dee) override;
+    void dropEvent(QDropEvent* de) override;
+    QMenu* createPopupMenu() override;
 
 private:
     static const int BUFFERLENGTH = 127;
     static const int PROGRESSMINLINES = 10000;
-    static const int PROGRESSSTEP = 1000;    
+    static const int PROGRESSSTEP = 1000;
 
     enum SenderState {
         SenderUnknown = -1,
@@ -274,7 +273,7 @@ private:
         DeviceDoor2 = 11,
         DeviceDoor3 = 12,
         DeviceJog = 13,
-        DeviceSleep =14
+        DeviceSleep = 14
     };
 
     enum SendCommandResult {
@@ -286,10 +285,10 @@ private:
     // Ui
     Ui::frmMain *ui;
 
-    QMap<DeviceState, QString> m_deviceStatuses;
-    QMap<DeviceState, QString> m_statusCaptions;
-    QMap<DeviceState, QString> m_statusBackColors;
-    QMap<DeviceState, QString> m_statusForeColors;
+    const QMap<DeviceState, QString> m_deviceStatuses;
+    const QMap<DeviceState, QString> m_statusCaptions;
+    const QMap<DeviceState, QString> m_statusBackColors;
+    const QMap<DeviceState, QString> m_statusForeColors;
 
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;
