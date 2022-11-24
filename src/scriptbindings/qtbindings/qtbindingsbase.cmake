@@ -6,7 +6,7 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}/script)
 endif()
 
-if(WIN32)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_compile_options(/MP /GS /Zi)
     add_link_options(/DEBUG /OPT:REF /OPT:ICF)
 endif()
