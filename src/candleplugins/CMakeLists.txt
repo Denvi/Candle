@@ -1,16 +1,6 @@
-#/*******************************************************************************
-#* Author    :  Damir Bakiev                                                    *
-#* Version   :  na                                                              *
-#* Date      :  11 November 2021                                                *
-#* Website   :  na                                                              *
-#* Copyright :  Damir Bakiev 2016-2022                                          *
-#* License:                                                                     *
-#* Use, modification & distribution is subject to Boost Software License Ver 1. *
-#* http://www.boost.org/LICENSE_1_0.txt                                         *
-#*******************************************************************************/
 cmake_minimum_required(VERSION 3.20)
 
-function(COPY SOURCE_DIR OUTPUT_DIR)
+function(COPY_PLUGIN SOURCE_DIR OUTPUT_DIR)
     file(GLOB_RECURSE PLUGIN_FILES *.ui *.qm *.ts *js *png)
     foreach(FILE  ${PLUGIN_FILES})
         string(REPLACE ${SOURCE_DIR} "" OUTPUT_FILE ${FILE})

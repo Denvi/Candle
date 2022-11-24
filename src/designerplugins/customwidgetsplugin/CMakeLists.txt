@@ -1,13 +1,3 @@
-#/*******************************************************************************
-#* Author    :  Damir Bakiev                                                    *
-#* Version   :  na                                                              *
-#* Date      :  11 November 2021                                                *
-#* Website   :  na                                                              *
-#* Copyright :  Damir Bakiev 2016-2022                                          *
-#* License:                                                                     *
-#* Use, modification & distribution is subject to Boost Software License Ver 1. *
-#* http://www.boost.org/LICENSE_1_0.txt                                         *
-#*******************************************************************************/
 cmake_minimum_required(VERSION 3.20)
 
 project(customwidgets LANGUAGES CXX)
@@ -22,7 +12,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 
-
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     Core
     Gui
@@ -33,28 +22,11 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     REQUIRED
 )
 
-add_library(${PROJECT_NAME} SHARED
-    colorpicker.cpp
-    colorpicker.h
-    colorpickerplugin.cpp
-    colorpickerplugin.h
-    customwidgetsplugin.cpp
-    customwidgetsplugin.h
-    slider.cpp
-    slider.h
-    sliderbox.cpp
-    sliderbox.h
-    sliderbox.ui
-    sliderboxplugin.cpp
-    sliderboxplugin.h
-    sliderplugin.cpp
-    sliderplugin.h
-    styledtoolbutton.cpp
-    styledtoolbutton.h
-    styledtoolbuttonplugin.cpp
-    styledtoolbuttonplugin.h
-)
+file(GLOB_RECURSE SOURCES  *.cpp *.h *.ui)
 
+add_library(${PROJECT_NAME} SHARED
+    ${SOURCES}
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Core

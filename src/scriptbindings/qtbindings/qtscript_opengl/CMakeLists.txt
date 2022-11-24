@@ -1,13 +1,3 @@
-#/*******************************************************************************
-#* Author    :  Damir Bakiev                                                    *
-#* Version   :  na                                                              *
-#* Date      :  11 November 2021                                                *
-#* Website   :  na                                                              *
-#* Copyright :  Damir Bakiev 2016-2022                                          *
-#* License:                                                                     *
-#* Use, modification & distribution is subject to Boost Software License Ver 1. *
-#* http://www.boost.org/LICENSE_1_0.txt                                         *
-#*******************************************************************************/
 cmake_minimum_required(VERSION 3.20)
 
 set(NAME opengl)
@@ -25,16 +15,15 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL REQUIRED)
 
 include(../qtbindingsbase.cmake)
 
-
 add_library(${PROJECT_NAME} SHARED
     ${HEADERS}
     ${SOURCES}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-	Qt${QT_VERSION_MAJOR}::Script
-	Qt${QT_VERSION_MAJOR}::OpenGL
-	)
+    Qt${QT_VERSION_MAJOR}::Script
+    Qt${QT_VERSION_MAJOR}::OpenGL
+)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::OpenGLWidgets)

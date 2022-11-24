@@ -1,19 +1,10 @@
-#/*******************************************************************************
-#* Author    :  Damir Bakiev                                                    *
-#* Version   :  na                                                              *
-#* Date      :  11 November 2021                                                *
-#* Website   :  na                                                              *
-#* Copyright :  Damir Bakiev 2016-2022                                          *
-#* License:                                                                     *
-#* Use, modification & distribution is subject to Boost Software License Ver 1. *
-#* http://www.boost.org/LICENSE_1_0.txt                                         *
-#********************************************************************************/
 cmake_minimum_required(VERSION 3.20)
 
 set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
 set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CMAKE_COMMAND} -E time")
 
 project(CandleProject)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -23,31 +14,29 @@ set_property(GLOBAL PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 add_definitions(
 #    -DQT_MESSAGELOGCONTEXT# qDebug()
 #    -DQT_DISABLE_DEPRECATED_BEFORE=0x060000
--DsNan=65536
 )
-#add_definitions("-D__cpp_consteval")# source_location
 
 set(OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin_${CMAKE_BUILD_TYPE})
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-#    add_compile_options(
-#        -Winvalid-pch
-##        -fmodules-ts
-#    )
-# set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT "gcc")
-# set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FLAG "${compiler_flags_for_module_map} -fmodule-mapper=<MODULE_MAP_FILE>")
-# target_compile_options(example PRIVATE -fmodules-ts)
-# add_compile_options(-H)
-# add_compile_options(-ftime-report)
-# -pthread
-# -ltbbD
+    #    add_compile_options(
+    #        -Winvalid-pch
+    ##        -fmodules-ts
+    #    )
+    # set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT "gcc")
+    # set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FLAG "${compiler_flags_for_module_map} -fmodule-mapper=<MODULE_MAP_FILE>")
+    # target_compile_options(example PRIVATE -fmodules-ts)
+    # add_compile_options(-H)
+    # add_compile_options(-ftime-report)
+    # -pthread
+    # -ltbbD
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_definitions(-D_USE_MATH_DEFINES)
 endif()
 
-#include_directories(src/designerplugins/customwidgetsplugin)
+include_directories(src/designerplugins/customwidgetsplugin)
 
 add_subdirectory(src/candle)
 
