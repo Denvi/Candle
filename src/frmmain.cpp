@@ -300,7 +300,8 @@ bool frmMain::isGCodeFile(QString fileName)
           || fileName.endsWith(".nc", Qt::CaseInsensitive)
           || fileName.endsWith(".ncc", Qt::CaseInsensitive)
           || fileName.endsWith(".ngc", Qt::CaseInsensitive)
-          || fileName.endsWith(".tap", Qt::CaseInsensitive);
+          || fileName.endsWith(".tap", Qt::CaseInsensitive)
+          || fileName.endsWith(".gcode", Qt::CaseInsensitive);
 }
 
 bool frmMain::isHeightmapFile(QString fileName)
@@ -1609,7 +1610,7 @@ void frmMain::on_cmdFileOpen_clicked()
         if (!saveChanges(false)) return;
 
         QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
-                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.gcode *.txt);;All files (*.*)"));
 
         if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
 
