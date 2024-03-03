@@ -110,7 +110,9 @@ class frmMain : public QMainWindow
 public:
     explicit frmMain(QWidget *parent = 0);
     ~frmMain();
-
+    
+    void writeConsole(QString command);
+    
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
     void statusReceived(QString status);
@@ -256,7 +258,8 @@ private:
         SenderPaused = 2,
         SenderStopping = 3,
         SenderStopped = 4,
-        SenderChangingTool = 5
+        SenderChangingTool = 5,
+        SenderPausing2 = 6
     };
 
     enum DeviceState {
@@ -410,6 +413,7 @@ private:
     void openPort();
     void grblReset();
     SendCommandResult sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool wait = false);
+    void sendRealtimeCommand(QString command);
     void sendCommands(QString commands, int tableIndex = -1);
     void sendNextFileCommands();
     QString evaluateCommand(QString command);

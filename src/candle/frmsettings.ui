@@ -84,9 +84,9 @@ QSplitter::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>586</width>
-         <height>2149</height>
+         <y>-642</y>
+         <width>642</width>
+         <height>2352</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -611,6 +611,23 @@ QSplitter::handle:horizontal {
            </item>
            <item>
             <widget class="QPlainTextEdit" name="txtEndCommands"/>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkUsePauseCommands">
+             <property name="text">
+              <string>Use pause commands</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="grpPauseCommands">
+             <item>
+              <widget class="QPlainTextEdit" name="txtBeforePauseCommands"/>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="txtAfterPauseCommands"/>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QCheckBox" name="chkToolChangeUseCommands">

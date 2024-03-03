@@ -242,11 +242,11 @@ QLabel[overrided=&quot;false&quot;] {
            <property name="gridStyle">
             <enum>Qt::DashLine</enum>
            </property>
-           <attribute name="horizontalHeaderHighlightSections">
-            <bool>false</bool>
-           </attribute>
            <attribute name="horizontalHeaderMinimumSectionSize">
             <number>50</number>
+           </attribute>
+           <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
            </attribute>
            <attribute name="verticalHeaderVisible">
             <bool>false</bool>
@@ -365,7 +365,7 @@ QLabel[overrided=&quot;false&quot;] {
      <x>0</x>
      <y>0</y>
      <width>1469</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -427,9 +427,6 @@ QLabel[overrided=&quot;false&quot;] {
    <addaction name="mnuHelp"/>
   </widget>
   <widget class="QDockWidget" name="dockModification">
-   <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
-   </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
@@ -460,8 +457,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>275</width>
-          <height>804</height>
+          <width>209</width>
+          <height>710</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -699,7 +696,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -724,7 +721,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -759,7 +756,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -798,7 +795,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -882,7 +879,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -913,7 +910,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -941,7 +938,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -983,7 +980,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1021,7 +1018,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1108,7 +1105,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1139,7 +1136,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
+                         <locale language="C" country="AnyTerritory"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1253,9 +1250,6 @@ QLabel[overrided=&quot;false&quot;] {
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockDevice">
-   <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
-   </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
@@ -1285,9 +1279,9 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>347</width>
-          <height>801</height>
+          <y>-329</y>
+          <width>223</width>
+          <height>741</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -1342,7 +1336,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>X</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1379,7 +1373,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Y</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1416,7 +1410,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Z</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1472,7 +1466,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>X</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1509,7 +1503,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Y</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1546,7 +1540,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Z</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyCountry"/>
+                   <locale language="C" country="AnyTerritory"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -2381,9 +2375,6 @@ QLabel[overrided=&quot;false&quot;] {
    </widget>
   </widget>
   <widget class="QDockWidget" name="dockVisualizer">
-   <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
-   </property>
    <property name="windowTitle">
     <string>Visualizer</string>
    </property>
@@ -2563,7 +2554,7 @@ QLabel[overrided=&quot;false&quot;] {
   </widget>
   <widget class="QDockWidget" name="dockConsole">
    <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
+    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable</set>
    </property>
    <property name="windowTitle">
     <string>Console</string>
@@ -2771,8 +2762,8 @@ padding-right: 8;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>347</width>
-          <height>106</height>
+          <width>232</width>
+          <height>131</height>
          </rect>
         </property>
         <property name="acceptDrops">

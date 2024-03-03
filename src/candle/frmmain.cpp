@@ -745,14 +745,20 @@ void frmMain::on_cmdFilePause_clicked(bool checked)
     static SenderState s;
 
     if (checked) {
+        //PAUSE
         s = m_senderState;
         // setSenderState(SenderPaused);
         setSenderState(SenderPausing);
+        ui->cmdFilePause->setText(tr("Pausing..."));
         ui->cmdFilePause->setEnabled(false);
     } else {
+        //RESUME
         if (m_senderState == SenderChangingTool) {
             setSenderState(SenderTransferring);
         } else {
+            if (m_settings->usePauseCommands()) {
+                sendCommands(m_settings->afterPauseCommands());
+            }
             setSenderState(s);
         }
         updateControlsState();
@@ -1646,6 +1652,18 @@ void frmMain::onSerialPortReadyRead()
                             z = ui->txtMPosZ->value();
                         }
                         break;
+                    case DeviceUnknown:
+                    case DeviceAlarm:
+                    case DeviceRun:
+                    case DeviceHome:
+                    case DeviceCheck:
+                    case DeviceDoor0:
+                    case DeviceDoor1:
+                    case DeviceDoor2:
+                    case DeviceDoor3:
+                    case DeviceJog:
+                    case DeviceSleep:
+                        break;
                     }
                 }
             }
@@ -1682,7 +1700,7 @@ void frmMain::onSerialPortReadyRead()
 
             // Toolpath shadowing
             if (((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)
-                || (m_senderState == SenderPausing) || (m_senderState == SenderPaused)) && state != DeviceCheck) {
+                || (m_senderState == SenderPausing) || (m_senderState == SenderPausing2) || (m_senderState == SenderPaused)) && state != DeviceCheck) {
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
 
                 bool toolOntoolpath = false;
@@ -1852,22 +1870,41 @@ void frmMain::onSerialPortReadyRead()
                             set[gs.cap(1).toInt()] = gs.cap(2).toDouble();
                             p += gs.matchedLength();
                         }
-                        if (set.keys().contains(13)) m_settings->setUnits(set[13]);
-                        if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
-                        if (set.keys().contains(22)) {
+                        QList<int> keys = set.keys();
+                        if (keys.contains(13)) m_settings->setUnits(set[13]);
+                        if (keys.contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
+                        if (keys.contains(22)) {
                             m_settings->setHomingEnabled(set[22]);
                             m_machineBoundsDrawer.setVisible(set[22]);
                         }
-                        if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
-                        if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
-                        if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
-                            m_settings->setMachineBounds(QVector3D(
-                                m_settings->referenceXPlus() ? -set[130] : set[130],
-                                m_settings->referenceYPlus() ? -set[131] : set[131],
-                                m_settings->referenceZPlus() ? -set[132] : set[132]));
+                        if (keys.contains(110)) m_settings->setRapidSpeed(set[110]);
+                        if (keys.contains(120)) m_settings->setAcceleration(set[120]);
+                        if (keys.contains(130) && keys.contains(131) && keys.contains(132)) {
+                            QVector3D bounds = QVector3D(
+                               m_settings->referenceXPlus() ? -set[130] : set[130],
+                               m_settings->referenceYPlus() ? -set[131] : set[131],
+                               m_settings->referenceZPlus() ? -set[132] : set[132]
+                            );
+                            m_settings->setMachineBounds(bounds);
                             m_machineBoundsDrawer.setBorderRect(QRectF(0, 0, 
                                 m_settings->referenceXPlus() ? -set[130] : set[130], 
                                 m_settings->referenceYPlus() ? -set[131] : set[131]));
+                            qDebug() << "Machine bounds (3-axis)" << bounds;
+                        } else if (keys.contains(130) && keys.contains(131)) {
+                            // 2 axis
+                            QVector3D bounds = QVector3D(
+                                m_settings->referenceXPlus() ? -set[130] : set[130],
+                                m_settings->referenceYPlus() ? -set[131] : set[131],
+                                0
+                            );
+                            m_settings->setMachineBounds(QVector3D(
+                                m_settings->referenceXPlus() ? -set[130] : set[130],
+                                m_settings->referenceYPlus() ? -set[131] : set[131],
+                                0));
+                            m_machineBoundsDrawer.setBorderRect(QRectF(0, 0,
+                               m_settings->referenceXPlus() ? -set[130] : set[130],
+                               m_settings->referenceYPlus() ? -set[131] : set[131]));
+                            qDebug() << "Machine bounds (2-axis)" << bounds;
                         }
 
                         setupCoordsTextboxes();
@@ -2056,7 +2093,6 @@ void frmMain::onSerialPortReadyRead()
                     // Tool change mode
                     static QRegExp M6("(M0*6)(?!\\d)");
                     if ((m_senderState == SenderPausing) && uncomment.contains(M6)) {
-
                         response.clear();
 
                         if (m_settings->toolChangePause()) {                        
@@ -2085,14 +2121,22 @@ void frmMain::onSerialPortReadyRead()
                         setSenderState(SenderChangingTool);
                         updateControlsState();
                     }
-                    if ((m_senderState == SenderChangingTool) && !m_settings->toolChangePause() 
+                    // Pausing on button?
+                    if ((m_senderState == SenderPausing) && !uncomment.contains(M6)) {
+                        if (m_settings->usePauseCommands()) {
+                            sendCommands(m_settings->beforePauseCommands());
+                            setSenderState(SenderPausing2);
+                            updateControlsState();
+                        }
+                    }
+                    if ((m_senderState == SenderChangingTool) && !m_settings->toolChangePause()
                         && m_commands.isEmpty()) 
                     {
                         setSenderState(SenderTransferring);
                     }
 
                     // Switch to pause mode
-                    if ((m_senderState == SenderPausing) && m_commands.isEmpty()) {
+                    if ((m_senderState == SenderPausing || m_senderState == SenderPausing2) && m_commands.isEmpty()) {
                         setSenderState(SenderPaused);
                         updateControlsState();
                     }
@@ -2582,6 +2626,9 @@ void frmMain::loadSettings()
     m_settings->setStartCommands(set.value("startCommands").toString());
     m_settings->setUseEndCommands(set.value("useEndCommands").toBool());
     m_settings->setEndCommands(set.value("endCommands").toString());
+    m_settings->setUsePauseCommands(set.value("usePauseCommands").toBool());
+    m_settings->setBeforePauseCommands(set.value("beforePauseCommands").toString());
+    m_settings->setAfterPauseCommands(set.value("afterPauseCommands").toString());
     m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
     m_settings->setToolChangePause(set.value("toolChangePause").toBool());
     m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
@@ -2819,6 +2866,9 @@ void frmMain::saveSettings()
     set.setValue("startCommands", m_settings->startCommands());
     set.setValue("useEndCommands", m_settings->useEndCommands());
     set.setValue("endCommands", m_settings->endCommands());
+    set.setValue("usePauseCommands", m_settings->usePauseCommands());
+    set.setValue("afterPauseCommands", m_settings->afterPauseCommands());
+    set.setValue("beforePauseCommands", m_settings->beforePauseCommands());
     set.setValue("toolChangeCommands", m_settings->toolChangeCommands());
     set.setValue("toolChangePause", m_settings->toolChangePause());
     set.setValue("toolChangeUseCommands", m_settings->toolChangeUseCommands());
@@ -3210,6 +3260,11 @@ void frmMain::grblReset()
     updateControlsState();
 }
 
+void frmMain::writeConsole(QString command)
+{
+    ui->txtConsole->appendPlainText(command);
+}
+
 frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex, bool showInConsole, bool wait)
 {
     // tableIndex:
@@ -3245,7 +3300,7 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
 
     CommandAttributes ca;
     if (showInConsole) {
-        ui->txtConsole->appendPlainText(command);
+        writeConsole(command);
         ca.consoleIndex = ui->txtConsole->blockCount() - 1;
     } else {
         ca.consoleIndex = -1;
@@ -3282,6 +3337,14 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
     m_serialPort.write((command + "\r").toLatin1());
 
     return SendDone;
+}
+
+void frmMain::sendRealtimeCommand(QString command)
+{
+    if (command.length() != 1) return;
+    if (!m_serialPort.isOpen() || !m_resetCompleted) return;
+
+    m_serialPort.write(command.toLatin1());
 }
 
 void frmMain::sendCommands(QString commands, int tableIndex)
@@ -3825,7 +3888,7 @@ void frmMain::setupCoordsTextboxes()
 void frmMain::updateControlsState() {
     bool portOpened = m_serialPort.isOpen();
     bool process = (m_senderState == SenderTransferring) || (m_senderState == SenderStopping);
-    bool paused = (m_senderState == SenderPausing) || (m_senderState == SenderPaused) || (m_senderState == SenderChangingTool);
+    bool paused = (m_senderState == SenderPausing) || (m_senderState == SenderPausing2) || (m_senderState == SenderPaused) || (m_senderState == SenderChangingTool);
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
@@ -3847,7 +3910,20 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(m_senderState == SenderStopped);
     ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
-    ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing));
+    switch (m_senderState) {
+        case SenderPausing:
+        case SenderPausing2:
+            ui->cmdFilePause->setText(tr("Pausing..."));
+            break;
+        case SenderPaused:
+        case SenderChangingTool:
+            ui->cmdFilePause->setText(tr("Resume"));
+            break;
+        default:
+            ui->cmdFilePause->setText(tr("Pause"));
+            break;
+    }
+    ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing) && (m_senderState != SenderPausing2));
     ui->cmdFilePause->setChecked(paused);
     ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping);
     ui->mnuRecent->setEnabled((m_senderState == SenderStopped) && ((m_recentFiles.count() > 0 && !m_heightMapMode)
@@ -3871,12 +3947,9 @@ void frmMain::updateControlsState() {
     if (!process) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
 #ifdef WINDOWS
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
-        if (m_taskBarProgress) m_taskBarProgress->setPaused(paused);
-    }
-
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
-        if (m_taskBarProgress && m_senderState == SenderStopped) m_taskBarProgress->hide();
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7 && m_taskBarProgress) {
+        m_taskBarProgress->setPaused(paused);
+        if (m_senderState == SenderStopped) m_taskBarProgress->hide();
     }
 #endif
 

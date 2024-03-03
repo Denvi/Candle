@@ -11,3 +11,5 @@ SUBDIRS = qtscript_core \
           qtscript_uitools \
           qtscript_custom
 
+CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14

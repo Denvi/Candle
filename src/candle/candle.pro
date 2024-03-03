@@ -5,12 +5,11 @@
 #-------------------------------------------------
 
 QT       = core gui opengl serialport script uitools
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 win32: {
     QT += winextras
     DEFINES += WINDOWS
-    QMAKE_LFLAGS += "-Wl,--large-address-aware"
     QMAKE_CXXFLAGS_DEBUG += -g3 -pg
     QMAKE_LFLAGS_DEBUG += -pg -lgmon
 }
@@ -34,6 +33,9 @@ RC_ICONS += images/candle.ico
 DEFINES += sNan=\"65536\"
 
 TRANSLATIONS += translations/candle_en.ts translations/candle_ru.ts translations/candle_es.ts translations/candle_fr.ts translations/candle_pt.ts
+
+CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += main.cpp\
         frmmain.cpp \
@@ -93,6 +95,7 @@ HEADERS  += frmmain.h \
     widgets/dropwidget.h
 
 FORMS    += frmmain.ui \
+    frmdebug.ui \
     frmsettings.ui \
     frmabout.ui
 

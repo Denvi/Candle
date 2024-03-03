@@ -4,7 +4,7 @@ QT += widgets uiplugin
 
 TARGET = joystickplugin
 
-SUBDIRS = SFML-2.6.1
+SUBDIRS = SFML
 
 HEADERS +=  \
             joystickwidget.h \
@@ -14,7 +14,7 @@ SOURCES +=  \
             joystickwidget.cpp \
             joystickplugin.cpp
 
-INCLUDEPATH += SFML-2.6.1/include
+INCLUDEPATH += SFML/include
 
 LIBS += -L"$$PWD\build\SFML-2.6.1-Release\lib"
 LIBS += -l"sfml-graphics" -l"sfml-system" -l"sfml-window"

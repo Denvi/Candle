@@ -55,6 +55,9 @@ class frmSettings : public QDialog
     Q_PROPERTY(QString startCommands READ startCommands WRITE setStartCommands)
     Q_PROPERTY(bool useEndCommands READ useEndCommands WRITE setUseEndCommands)
     Q_PROPERTY(QString endCommands READ endCommands WRITE setEndCommands)
+    Q_PROPERTY(bool usePauseCommands READ usePauseCommands WRITE setUsePauseCommands)
+    Q_PROPERTY(QString beforePauseCommands READ beforePauseCommands WRITE setBeforePauseCommands)
+    Q_PROPERTY(QString afterPauseCommands READ afterPauseCommands WRITE setAfterPauseCommands)
     Q_PROPERTY(QString toolChangeCommands READ toolChangeCommands WRITE setToolChangeCommands)
     Q_PROPERTY(bool toolChangePause READ toolChangePause WRITE setToolChangePause)
     Q_PROPERTY(bool toolChangeUseCommands READ toolChangeUseCommands WRITE setToolChangeUseCommands)
@@ -179,7 +182,13 @@ public:
     void setReferenceYPlus(bool value);
     bool referenceZPlus();
     void setReferenceZPlus(bool value);
-
+    
+    void setUsePauseCommands(bool);
+    void setBeforePauseCommands(QString);
+    void setAfterPauseCommands(QString);
+    bool usePauseCommands();
+    QString beforePauseCommands();
+    QString afterPauseCommands();
 signals:
     void settingsSetByDefault();
 

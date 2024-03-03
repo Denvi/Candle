@@ -705,6 +705,36 @@ void frmSettings::setReferenceZPlus(bool value)
     ui->radReferenceZPlus->setChecked(value);
 }
 
+void frmSettings::setUsePauseCommands(bool value)
+{
+    ui->chkUsePauseCommands->setChecked(value);
+}
+
+bool frmSettings::usePauseCommands()
+{
+    return ui->chkUsePauseCommands->isChecked();
+}
+
+void frmSettings::setBeforePauseCommands(QString text)
+{
+    ui->txtBeforePauseCommands->setPlainText(text);
+}
+
+void frmSettings::setAfterPauseCommands(QString text)
+{
+    ui->txtAfterPauseCommands->setPlainText(text);
+}
+
+QString frmSettings::beforePauseCommands()
+{
+    return ui->txtBeforePauseCommands->toPlainText();
+}
+
+QString frmSettings::afterPauseCommands()
+{
+    return ui->txtAfterPauseCommands->toPlainText();
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)

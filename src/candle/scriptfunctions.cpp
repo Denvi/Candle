@@ -1,5 +1,6 @@
 #include "scriptfunctions.h"
 #include "frmmain.h"
+#include <QDebug>
 
 ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
 {
@@ -20,9 +21,14 @@ void ScriptFunctions::sendCommands(QString commands, int index)
     m_frmMain->sendCommands(commands, index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
+int ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
 {
-    m_frmMain->sendCommand(command, index, showInConsole);
+    return m_frmMain->sendCommand(command, index, showInConsole);
+}
+
+void ScriptFunctions::sendRealtimeCommand(QChar command)
+{
+    m_frmMain->sendRealtimeCommand(command);
 }
 
 void ScriptFunctions::newFile()
@@ -45,6 +51,16 @@ void ScriptFunctions::loadFile(QVariantList data)
 bool ScriptFunctions::saveFile()
 {
     return m_frmMain->saveChanges(false);
+}
+
+void ScriptFunctions::debug(QString text)
+{
+    qDebug() << text;
+}
+
+void ScriptFunctions::console(QString text)
+{
+    m_frmMain->writeConsole(text);
 }
 
 void ScriptFunctions::saveFile(QString fileName)
@@ -73,6 +89,11 @@ int ScriptFunctions::commandsLength()
 int ScriptFunctions::queueLength()
 {
     return m_frmMain->m_queue.length();
+}
+
+void ScriptFunctions::testDebug()
+{
+    qDebug() << "Test debug";
 }
 
 int ScriptFunctions::buttonSize()

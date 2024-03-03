@@ -19,17 +19,22 @@ public:
 
 public slots:
     void sendCommands(QString commands, int index = -100);
-    void sendCommand(QString command, int index = -100, bool showInConsole = true);
+    int sendCommand(QString command, int index = -100, bool showInConsole = true);
+    void sendRealtimeCommand(QChar command);
     
     void newFile();
     void loadFile(QString fileName);
     void loadFile(QVariantList data);
     bool saveFile();
     void saveFile(QString fileName);
-    
+    void debug(QString text);
+    void console(QString text);
+
     int bufferLength();
     int commandsLength();
     int queueLength();
+
+    void testDebug();
 
     int buttonSize();
     void addAction(QAction *action);
