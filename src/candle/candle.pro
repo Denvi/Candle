@@ -38,6 +38,7 @@ CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += main.cpp\
+    connection.cpp \
         frmmain.cpp \
     frmsettings.cpp \
     frmabout.cpp \
@@ -66,6 +67,7 @@ SOURCES += main.cpp\
     widgets/dropwidget.cpp
 
 HEADERS  += frmmain.h \
+    connection.h \
     frmsettings.h \
     frmabout.h \
     drawers/gcodedrawer.h \
