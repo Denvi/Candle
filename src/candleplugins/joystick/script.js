@@ -9,10 +9,6 @@ var appPath = app.path;
 var pluginPath = script.path;
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
-// var storedName;
-// var storedResolution;
-// var storedZoom;
-// var storedPosition;
 
 // Ui
 var uiWindow;
@@ -21,12 +17,17 @@ var uiSettings;
 var DEVICE_STATE_IDLE = 1;
 var DEVICE_STATE_JOG = 13;
 var SENDER_STATE_STOPPED = 4;
+var DIR_NONE = null;
+var DIR_LEFT = 1;
+var DIR_RIGHT = 2;
 var deviceState = null;
 var senderState = null;
 var canJog = false;
 var jogging = false;
 var joggingAxis = null;
 var joggingSpeed = null;
+var joggingDir = DIR_NONE;
+var stoppingJogging = false;
 
 function init()
 {
@@ -44,14 +45,15 @@ function init()
     app.deviceStateChanged.connect(onDeviceStateChanged);
     app.responseReceived.connect(onResponseReceived);// (QString command, int tableIndex, QString response);
     app.senderStateChanged.connect(onSenderStateChanged); // (bool state);
-    //app.statusReceived.connect(onStatusReceived); // (QString status);
 }
 
 var joggingQueue = [];
 
 function queueNewJoggingCommand()
 {
-    var command = '$J=G21 G91 X-1 F' + Math.abs(joggingSpeed) + ";" + Math.random();
+    var speed = Math.abs(joggingSpeed);
+    var distance = 0.05 * (speed / 200);
+    var command = "$J=G21 G91 " + joggingAxis + (joggingSpeed < 0 ? "-" : "") + distance.toFixed(2) + " F" + speed+ ";" + Math.random().toFixed(3);
     if (app.sendCommand(command) == 0) {
         joggingQueue.push(command);
 
@@ -65,15 +67,16 @@ function startJogging()
 {
     if (!canJog || jogging) return;
 
-    app.console("startJogging");
+    app.console("Start jogging");
 
     if (queueNewJoggingCommand()) {
-        queueNewJoggingCommand();
+        //app.console("Command queued");
+        joggingDir = joggingSpeed > 0 ? DIR_RIGHT : DIR_LEFT;
         jogging = true;
     }
 }
 
-function startOrUpdateJogging(x, y, z)
+function startOrUpdateJogging_(x, y, z)
 {
     if (!joggingAxis) {
         switch (true) {
@@ -81,15 +84,13 @@ function startOrUpdateJogging(x, y, z)
             case (y != 0): joggingAxis = "Y"; break;
             case (z != 0): joggingAxis = "Z"; break;
             default:
-                stopJogging();
+                stopJogging("Unknown axis");
                 return;
         }
     }
-    var newJoggingSpeed = joggingAxisPos(x, y, z) * 10;
-    if (newJoggingSpeed < -200) newJoggingSpeed = -200;
-    if (newJoggingSpeed > 200) newJoggingSpeed = 200;
+    var newJoggingSpeed = limitJoggingSpeed(joggingAxisPos(x, y, z) * 20);
     if (joggingSpeed != newJoggingSpeed) {
-        app.console("speed to " + newJoggingSpeed + " from " + joggingSpeed);
+//        app.console("speed to " + newJoggingSpeed + " from " + joggingSpeed);
         joggingSpeed = newJoggingSpeed;
         if (jogging) {
             app.console("restart...");
@@ -114,19 +115,46 @@ function startOrUpdateJogging(x, y, z)
     }
 }
 
-function stopJogging()
+function limitJoggingSpeed(speed)
 {
-    if (!jogging) return;
-    app.console("stopJogging");
+    var max = 1500;
+    if (speed < -max) return -max;
+    if (speed > max) return max;
+    return speed;
+}
+
+function startOrUpdateJogging(x, y, z)
+{
+    if (!joggingAxis) {
+        switch (true) {
+            case (x != 0): joggingAxis = "X"; break;
+            case (y != 0): joggingAxis = "Y"; break;
+            case (z != 0): joggingAxis = "Z"; break;
+            default:
+                stopJogging("Unknown axis");
+                return;
+        }
+    }
+    joggingSpeed = limitJoggingSpeed(joggingAxisPos(x, y, z) * 15);
+    startJogging();
+}
+
+function stopJogging(info)
+{
+    if (!jogging || stoppingJogging) return;
+
+    stoppingJogging = true;
+    app.console("stopJogging, sending 0x85, " + info);
     app.sendRealtimeCommand(String.fromCharCode(0x85));
-    joggingQueue = [];
-    jogging = false;
-    joggingAxis = null;
-    joggingSpeed = null;
-    //     int bufferLength();
-    // int commandsLength();
-    // int queueLength();
-    app.console("queue: " + app.queueLength() + " buffer: " + app.bufferLength() + " commands: " + app.commandsLength());
+    setTimeout(function() {
+        app.sendRealtimeCommand(String.fromCharCode(0x85));
+        jogging = false;
+        joggingQueue = [];
+        joggingAxis = null;
+        joggingSpeed = null;
+        joggingDir = DIR_NONE;
+        stoppingJogging = false;
+    }, 50);
 }
 
 function updateCanJog()
@@ -135,7 +163,7 @@ function updateCanJog()
     app.debug("Can jog: " + canJog);
 
     if (!canJog && jogging) {
-        stopJogging();
+        stopJogging('Cannot jog now');
     }
 }
 
@@ -154,14 +182,13 @@ function onResponseReceived(command, tableIndex, response)
 
     for (var queueIndex in joggingQueue) {
         if (joggingQueue[queueIndex] == command) {
-            //app.console("ack found");
             joggingQueue.splice(queueIndex, 1);
             break;
         }
     }
 
-    //app.console(joggingQueue.length + " in queue");
-    if (joggingQueue.length < 3 && jogging) {
+    // zawsze tylko 1 komenda na której OK czekamy
+    if (joggingQueue.length == 0 && jogging) {
         queueNewJoggingCommand();
     }
 }
@@ -174,7 +201,7 @@ function onStatusReceived(status)
 function onDeviceStateChanged(state)
 {
     deviceState = state;
-    app.console("Device state changed: " + state);
+    //app.console("Device state changed: " + state);
     updateCanJog();
 }
 
@@ -190,9 +217,15 @@ function joggingAxisPos(x, y, z)
 
 function onPosChanged(x, y, z)
 {
-    //app.debug("Pos changed: " + x + ", " + y + ", " + z);
-    if ((joggingAxis != null && joggingAxisPos(x, y, z) == 0) || (x == 0 && y == 0 && z == 0))  {
-        stopJogging();
+    var newJoggingAxisPos = joggingAxisPos(x, y, z);
+    var newJoggingDir = newJoggingAxisPos > 0 ? DIR_RIGHT : (newJoggingAxisPos < 0 ? DIR_LEFT : DIR_NONE);
+    // app.console("newJoggingAxisPos: " + newJoggingAxisPos + ", newJoggingDir: " + newJoggingDir);
+    if ((joggingAxis != null && newJoggingAxisPos == 0) || (x == 0 && y == 0 && z == 0))  {
+        stopJogging("Axis at center (1)");
+    } else if (jogging && newJoggingDir == DIR_NONE) {
+        stopJogging("Axis at center (2)");
+    } else if (jogging && joggingDir != newJoggingDir) {
+        stopJogging("Axis changed direction");
     } else {
         startOrUpdateJogging(x, y, z);
     }
@@ -247,53 +280,15 @@ function createSettingsWidget()
     uiWindow.joystickMain.buttonPushed.connect(onBtnPushed);
     uiWindow.joystickMain.posChanged.connect(onPosChanged); // (this->posx, this->posy, this->posz);
 
-    // setInterval(function() { app.debug('t'); }, 500);
-    // setTimeout(function() { app.debug('ta'); }, 1500);
-
     return uiSettings;
 }
 
 function onAppSettingsSaved()
 {
-    settings.setValue("name", uiSettings.cboCameraName.currentText);
-    settings.setValue("resolution", uiSettings.cboCameraResolution.currentText);
-    settings.setValue("zoom", uiSettings.txtCameraZoom.text);
-    settings.setValue("position", uiSettings.txtCameraPosition.text);
-    // settings.setValue("aimPosition", uiSettings.txtCameraAimPosition.text);
-    // settings.setValue("aimSize", uiSettings.txtCameraAimSize.value);
-    // settings.setValue("aimLineWidth", uiSettings.txtCameraAimLineWidth.value);
-    // settings.setValue("aimColor", uiSettings.colCameraAimColor.colorInt);
 }
 
 function onAppSettingsLoaded()
 {
-    // // Load settings
-    // uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
-    // uiSettings.cboCameraName.currentText = settings.value("name");
-    // uiSettings.cboCameraResolution.currentText = settings.value("resolution", "1280x720");
-    // uiSettings.txtCameraZoom.text = settings.value("zoom", 1);
-    // uiSettings.txtCameraPosition.text = settings.value("position", "0, 0");
-    // uiSettings.txtCameraAimPosition.text = settings.value("aimPosition", "0, 0");
-    // uiSettings.txtCameraAimSize.value = settings.value("aimSize", 20);
-    // uiSettings.txtCameraAimLineWidth.value = settings.value("aimLineWidth", 1);
-    // uiSettings.colCameraAimColor.colorInt = settings.value("aimColor", -65536);
-
-    // // Apply settings
-    // applySettings();
-
-    // // Update resolutions list
-    // var r = uiSettings.cboCameraResolution.currentText;
-    // uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
-    // uiSettings.cboCameraResolution.currentText = r;
-
-    // // Connect signals/slots
-    // uiWindow.camMain.posChanged.connect(onPosChanged);
-    // uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
-    // uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
-    // uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
-    // uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
-    // uiWindow.camMain.zoomChanged.connect(onZoomChanged);
-    // uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
 }
 
 function onBtnPushed()
@@ -304,112 +299,20 @@ function onBtnPushed()
 
 function onAppSettingsAboutToShow()
 {
-    storedName = uiSettings.cboCameraName.currentText;
-    storedResolution = uiSettings.cboCameraResolution.currentText;
-    storedZoom = uiSettings.txtCameraZoom.text;
-    storedPosition = uiSettings.txtCameraPosition.text;
-    storedAimPosition = uiSettings.txtCameraAimPosition.text;
-    storedAimSize = uiSettings.txtCameraAimSize.value;
-    storedAimLineWidth = uiSettings.txtCameraAimLineWidth.value;
-    storedAimColor = uiSettings.colCameraAimColor.colorInt;
 }
 
 function onAppSettingsAccepted()
 {
-    applySettings();
 }
 
 function onAppSettingsRejected()
 {
-    applySettings();
 }
 
 function onAppSettingsDefault()
 {
-    uiSettings.cboCameraName.currentText = "";
-    uiSettings.cboCameraResolution.currentText = "";
-    uiSettings.txtCameraZoom.text = "1.0";
-    uiSettings.txtCameraPosition.text = "0, 0";
-    uiSettings.txtCameraAimPosition.text = "0, 0";
-    uiSettings.txtCameraAimSize.value = "20";
-    uiSettings.txtCameraAimLineWidth.value = "1";
-    uiSettings.colCameraAimColor.colorInt = -65536;
 }
 
 function applySettings()
 {
-    // Resolution
-    if (uiSettings.cboCameraResolution.currentText != "") {
-        var l = uiSettings.cboCameraResolution.currentText.split("x");
-        uiWindow.camMain.resolution = [parseInt(l[0]), parseInt(l[1])];
-    }
-
-    // Zoom
-    if (uiSettings.txtCameraZoom.text == "") uiSettings.txtCameraZoom.text = "1.0";
-    uiWindow.camMain.zoom = parseFloat(uiSettings.txtCameraZoom.text);
-
-    // Pv ing
-    if (uiSettings.txtCameraPosition.text == "") uiSettings.txtCameraPosition.text = "0, 0";
-    l = uiSettings.txtCameraPosition.text.split(",");
-    uiWindow.camMain.pos = [parseInt(l[0]), parseInt(l[1])];
-
-    // Aim position
-    if (uiSettings.txtCameraAimPosition.text == "") uiSettings.txtCameraAimPosition.text = "0, 0";
-    l = uiSettings.txtCameraAimPosition.text.split(",");
-    uiWindow.camMain.aimPos = [parseFloat(l[0]), parseFloat(l[1])];
-
-    // Aim size
-    uiWindow.camMain.aimSize = parseInt(uiSettings.txtCameraAimSize.value);
-
-    // Aim line width
-    uiWindow.camMain.aimLineWidth = parseInt(uiSettings.txtCameraAimLineWidth.value);
-
-    // Aim color
-    uiWindow.camMain.aimColor = parseInt(uiSettings.colCameraAimColor.colorInt);
-
-    // Update camera
-    uiWindow.camMain.cameraName = uiSettings.cboCameraName.currentText;
 }
-
-// function onCameraNameChanged(name)
-// {
-//     // Update camera
-//     uiWindow.camMain.cameraName = name;
-
-//     // Update resolutions list
-//     var r = uiSettings.cboCameraResolution.currentText;
-//     uiSettings.cboCameraResolution.clear();
-//     uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
-//     uiSettings.cboCameraResolution.currentText = r;
-// }
-
-// function onPosChanged(pos)
-// {
-//     uiSettings.txtCameraPosition.text = pos.join(", ");
-// }
-
-// function onAimPosChanged(aimPos)
-// {
-//     p = [parseFloat(aimPos[0].toFixed(3)), parseFloat(aimPos[1].toFixed(3))];
-//     uiSettings.txtCameraAimPosition.text = p.join(", ");
-// }
-
-// function onAimSizeChanged(aimSize)
-// {
-//     uiSettings.txtCameraAimSize.text = aimSize;
-// }
-
-// function onAimLineWidthChanged(aimLineWidth)
-// {
-//     uiSettings.txtCameraAimLineWidth.text = aimLineWidth;
-// }
-
-// function onAimColorChanged(aimColor)
-// {
-//     uiSettings.colCameraAimColor.colorInt = aimColor;
-// }
-
-// function onZoomChanged(zoom)
-// {
-//     uiSettings.txtCameraZoom.text = zoom.toFixed(3);
-// }

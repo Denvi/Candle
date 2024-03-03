@@ -1,0 +1,7 @@
+[submodule "SFML-2.6.1"]
+	path = src/designerplugins/joystickplugin/SFML-2.6.1
+	url = https://github.com/SFML/SFML
+        tag = 2.6.1
+[submodule "src/test"]
+	path = src/test
+	url = https://github.com/SFML/SFML
