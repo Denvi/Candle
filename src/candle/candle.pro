@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       = core gui opengl serialport script uitools
-greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
+equals(QT_MAJOR_VERSION, 5): QT += widgets
 
 win32: {
     QT += winextras
@@ -38,6 +38,11 @@ CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += main.cpp\
+    communicator.cpp \
+    config/configuration.cpp \
+    config/formtoconfigurationtransformer.cpp \
+    config/persister.cpp \
+    config/provider.cpp \
     connection.cpp \
         frmmain.cpp \
     frmsettings.cpp \
@@ -50,6 +55,7 @@ SOURCES += main.cpp\
     drawers/shaderdrawable.cpp \
     drawers/tooldrawer.cpp \
     drawers/machineboundsdrawer.cpp \
+    machine/settings.cpp \
     parser/arcproperties.cpp \
     parser/gcodeparser.cpp \
     parser/gcodepreprocessorutils.cpp \
@@ -67,6 +73,11 @@ SOURCES += main.cpp\
     widgets/dropwidget.cpp
 
 HEADERS  += frmmain.h \
+    communicator.h \
+    config/configuration.h \
+    config/formtoconfigurationtransformer.h \
+    config/persister.h \
+    config/provider.h \
     connection.h \
     frmsettings.h \
     frmabout.h \
@@ -78,6 +89,7 @@ HEADERS  += frmmain.h \
     drawers/shaderdrawable.h \
     drawers/tooldrawer.h \
     drawers/machineboundsdrawer.h \
+    machine/settings.h \
     parser/arcproperties.h \
     parser/gcodeparser.h \
     parser/gcodepreprocessorutils.h \
