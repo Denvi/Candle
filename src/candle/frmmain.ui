@@ -696,7 +696,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -721,7 +721,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -756,7 +756,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -795,7 +795,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -879,7 +879,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -910,7 +910,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -938,7 +938,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -980,7 +980,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1018,7 +1018,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1105,7 +1105,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1136,7 +1136,7 @@ QLabel[overrided=&quot;false&quot;] {
                          </sizepolicy>
                         </property>
                         <property name="locale">
-                         <locale language="C" country="AnyTerritory"/>
+                         <locale language="C" country="AnyCountry"/>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1279,9 +1279,9 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-329</y>
-          <width>223</width>
-          <height>741</height>
+          <y>-359</y>
+          <width>272</width>
+          <height>801</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -1336,7 +1336,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>X</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1373,7 +1373,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Y</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1410,7 +1410,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Z</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1466,7 +1466,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>X</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1503,7 +1503,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Y</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1540,7 +1540,7 @@ QLabel[overrided=&quot;false&quot;] {
                    <string>Z</string>
                   </property>
                   <property name="locale">
-                   <locale language="C" country="AnyTerritory"/>
+                   <locale language="C" country="AnyCountry"/>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -2234,8 +2234,8 @@ QLabel[overrided=&quot;false&quot;] {
                 </layout>
                </item>
                <item>
-                <layout class="QGridLayout" name="gridLayout_8">
-                 <item row="0" column="1">
+                <layout class="QGridLayout" name="gridLayout_2">
+                 <item row="1" column="1">
                   <widget class="ComboBoxKey" name="cboJogStep">
                    <property name="editable">
                     <bool>true</bool>
@@ -2280,21 +2280,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </item>
                   </widget>
                  </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_20">
-                   <property name="text">
-                    <string>Step:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_22">
-                   <property name="text">
-                    <string>Feed:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
+                 <item row="3" column="1">
                   <widget class="ComboBoxKey" name="cboJogFeed">
                    <property name="editable">
                     <bool>true</bool>
@@ -2330,6 +2316,42 @@ QLabel[overrided=&quot;false&quot;] {
                    <item>
                     <property name="text">
                      <string>2000</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_22">
+                   <property name="text">
+                    <string>Feed:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Step:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QFontComboBox" name="fontComboBox"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="fontCombo">
+                   <item>
+                    <property name="text">
+                     <string>A</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>B</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
                     </property>
                    </item>
                   </widget>
@@ -3230,12 +3252,12 @@ padding-right: 8;</string>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1415</x>
-     <y>663</y>
+     <x>1429</x>
+     <y>599</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1415</x>
-     <y>1060</y>
+     <x>1429</x>
+     <y>992</y>
     </hint>
    </hints>
   </connection>
@@ -3246,12 +3268,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>1196</y>
+     <x>272</x>
+     <y>724</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1415</x>
-     <y>450</y>
+     <x>1429</x>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -3262,12 +3284,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>183</x>
-     <y>1196</y>
+     <x>207</x>
+     <y>724</y>
     </hint>
     <hint type="destinationlabel">
-     <x>417</x>
-     <y>527</y>
+     <x>689</x>
+     <y>919</y>
     </hint>
    </hints>
   </connection>
@@ -3278,8 +3300,8 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>1196</y>
+     <x>168</x>
+     <y>724</y>
     </hint>
     <hint type="destinationlabel">
      <x>428</x>
@@ -3294,12 +3316,12 @@ padding-right: 8;</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>1196</y>
+     <x>272</x>
+     <y>724</y>
     </hint>
     <hint type="destinationlabel">
-     <x>245</x>
-     <y>898</y>
+     <x>222</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>
@@ -3314,8 +3336,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>121</y>
+     <x>42</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -3330,8 +3352,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>159</y>
+     <x>42</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -3346,8 +3368,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>197</y>
+     <x>42</x>
+     <y>184</y>
     </hint>
    </hints>
   </connection>
@@ -3362,8 +3384,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>235</y>
+     <x>42</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
@@ -3378,8 +3400,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>273</y>
+     <x>42</x>
+     <y>254</y>
     </hint>
    </hints>
   </connection>
@@ -3394,8 +3416,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
-     <y>660</y>
+     <x>82</x>
+     <y>248</y>
     </hint>
    </hints>
   </connection>
@@ -3410,8 +3432,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>169</x>
-     <y>660</y>
+     <x>82</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>
@@ -3426,8 +3448,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>243</x>
-     <y>707</y>
+     <x>208</x>
+     <y>248</y>
     </hint>
    </hints>
   </connection>
@@ -3442,8 +3464,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>318</x>
-     <y>707</y>
+     <x>271</x>
+     <y>248</y>
     </hint>
    </hints>
   </connection>
@@ -3458,8 +3480,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>516</x>
-     <y>674</y>
+     <x>325</x>
+     <y>950</y>
     </hint>
    </hints>
   </connection>
@@ -3474,8 +3496,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>788</x>
-     <y>663</y>
+     <x>987</x>
+     <y>951</y>
     </hint>
    </hints>
   </connection>
@@ -3490,8 +3512,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>879</x>
-     <y>663</y>
+     <x>1033</x>
+     <y>951</y>
     </hint>
    </hints>
   </connection>
@@ -3506,8 +3528,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>970</x>
-     <y>663</y>
+     <x>1119</x>
+     <y>951</y>
     </hint>
    </hints>
   </connection>
@@ -3522,8 +3544,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1091</x>
-     <y>663</y>
+     <x>1205</x>
+     <y>951</y>
     </hint>
    </hints>
   </connection>
@@ -3538,8 +3560,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1415</x>
-     <y>529</y>
+     <x>1429</x>
+     <y>485</y>
     </hint>
    </hints>
   </connection>
@@ -3554,8 +3576,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1297</x>
-     <y>628</y>
+     <x>1334</x>
+     <y>569</y>
     </hint>
    </hints>
   </connection>
@@ -3570,8 +3592,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1414</x>
-     <y>628</y>
+     <x>1428</x>
+     <y>569</y>
     </hint>
    </hints>
   </connection>
@@ -3586,8 +3608,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1415</x>
-     <y>663</y>
+     <x>1429</x>
+     <y>599</y>
     </hint>
    </hints>
   </connection>
@@ -3602,8 +3624,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1353</x>
-     <y>796</y>
+     <x>1381</x>
+     <y>717</y>
     </hint>
    </hints>
   </connection>
@@ -3618,8 +3640,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1341</x>
-     <y>931</y>
+     <x>1358</x>
+     <y>870</y>
     </hint>
    </hints>
   </connection>
@@ -3634,8 +3656,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1389</x>
-     <y>1067</y>
+     <x>1395</x>
+     <y>990</y>
     </hint>
    </hints>
   </connection>
@@ -3650,8 +3672,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1437</x>
-     <y>982</y>
+     <x>1453</x>
+     <y>1247</y>
     </hint>
    </hints>
   </connection>
@@ -3666,8 +3688,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>300</x>
-     <y>879</y>
+     <x>272</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>
@@ -3682,8 +3704,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>173</x>
-     <y>1185</y>
+     <x>197</x>
+     <y>724</y>
     </hint>
    </hints>
   </connection>
@@ -3698,8 +3720,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1302</x>
-     <y>407</y>
+     <x>1429</x>
+     <y>366</y>
     </hint>
    </hints>
   </connection>
@@ -3714,8 +3736,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1302</x>
-     <y>426</y>
+     <x>1429</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>
@@ -3730,8 +3752,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1302</x>
-     <y>445</y>
+     <x>1429</x>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -3746,8 +3768,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>96</x>
-     <y>1023</y>
+     <x>111</x>
+     <y>518</y>
     </hint>
    </hints>
   </connection>
@@ -3762,8 +3784,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>146</x>
-     <y>523</y>
+     <x>145</x>
+     <y>248</y>
     </hint>
    </hints>
   </connection>
@@ -3778,8 +3800,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>146</x>
-     <y>570</y>
+     <x>145</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>
@@ -3794,8 +3816,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>228</x>
-     <y>570</y>
+     <x>208</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>
@@ -3810,8 +3832,8 @@ padding-right: 8;</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>309</x>
-     <y>570</y>
+     <x>271</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>
