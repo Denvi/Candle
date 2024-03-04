@@ -45,6 +45,8 @@ SOURCES += main.cpp\
     config/provider.cpp \
     connection/connection.cpp \
     connection/serialconnection.cpp \
+    form_partial/main/jog.cpp \
+    form_partial/main/state.cpp \
         frmmain.cpp \
     frmsettings.cpp \
     frmabout.cpp \
@@ -82,6 +84,8 @@ HEADERS  += frmmain.h \
     config/provider.h \
     connection/connection.h \
     connection/serialconnection.h \
+    form_partial/main/jog.h \
+    form_partial/main/state.h \
     frmsettings.h \
     frmabout.h \
     drawers/gcodedrawer.h \
@@ -113,6 +117,8 @@ HEADERS  += frmmain.h \
     widgets/dropwidget.h
 
 FORMS    += frmmain.ui \
+    form_partial/main/jog.ui \
+    form_partial/main/state.ui \
     frmdebug.ui \
     frmsettings.ui \
     frmabout.ui
