@@ -6,9 +6,9 @@
 #include <QTextCursor>
 #include <parser/gcodeviewparse.h>
 
-Communicator::Communicator(Connection *connection) : m_connection(connection) {
+Communicator::Communicator(Connection *connection) : m_connection(connection)
+{
 }
-
 
 void Communicator::onSerialPortReadyRead(QString data)
 {

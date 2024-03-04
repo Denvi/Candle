@@ -21,11 +21,14 @@
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
+#include "connection/serialconnection.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
 {
+    m_connection = new SerialConnection(this);
+
     // Initializing variables
     m_deviceStatuses[DeviceUnknown] = "Unknown";
     m_deviceStatuses[DeviceIdle] = "Idle";
@@ -293,10 +296,11 @@ frmMain::frmMain(QWidget *parent) :
     // m_serialPort.setStopBits(QSerialPort::OneStop);
 
     if (m_settings->port() != "") {
-        m_connection.setPortName(m_settings->port());
-        m_connection.setBaudRate(m_settings->baud());
-        // m_serialPort.setPortName(m_settings->port());
-        // m_serialPort.setBaudRate(m_settings->baud());
+        SerialConnection *connection = qobject_cast<SerialConnection*>(m_connection);
+        if (connection != nullptr) {
+            connection->setPortName(m_settings->port());
+            connection->setBaudRate(m_settings->baud());
+        }
     }
 
     // Enable form actions
@@ -321,10 +325,8 @@ frmMain::frmMain(QWidget *parent) :
     m_scriptEngine.globalObject().setProperty("script", sv);
 
     // Signals/slots
-    connect(&m_connection, SIGNAL(lineReceived(QString)), this, SLOT(onConnectionLineReceived(QString)), Qt::QueuedConnection);
-    connect(&m_connection, SIGNAL(error(QString)), this, SLOT(onConnectionError(QString)));
-    // connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
-    // connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
+    connect(m_connection, SIGNAL(lineReceived(QString)), this, SLOT(onConnectionLineReceived(QString)));//, Qt::QueuedConnection);
+    // connect(m_connection, SIGNAL(error(QString)), this, SLOT(onConnectionError(QString)));
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     connect(&m_scriptEngine, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
@@ -404,7 +406,7 @@ void frmMain::closeEvent(QCloseEvent *ce)
     }
 
     m_timerConnection.stop();
-    m_connection.closeConnection();
+    m_connection->closeConnection();
     
     if (m_queue.length() > 0) {
         m_commands.clear();
@@ -871,7 +873,7 @@ void frmMain::on_cmdUnlock_clicked()
 
 void frmMain::on_cmdHold_clicked(bool checked)
 {
-    m_connection.sendByteArray(QByteArray(1, checked ? (char)'!' : (char)'~'));
+    m_connection->sendByteArray(QByteArray(1, checked ? (char)'!' : (char)'~'));
 }
 
 void frmMain::on_cmdSleep_clicked()
@@ -881,12 +883,12 @@ void frmMain::on_cmdSleep_clicked()
 
 void frmMain::on_cmdDoor_clicked()
 {
-    m_connection.sendByteArray(QByteArray(1, (char)0x84));
+    m_connection->sendByteArray(QByteArray(1, (char)0x84));
 }
 
 void frmMain::on_cmdFlood_clicked()
 {
-    m_connection.sendByteArray(QByteArray(1, (char)0xa0));
+    m_connection->sendByteArray(QByteArray(1, (char)0xa0));
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked)
@@ -905,7 +907,7 @@ void frmMain::on_cmdSpindle_toggled(bool checked)
 void frmMain::on_cmdSpindle_clicked(bool checked)
 {
     if (ui->cmdHold->isChecked()) {
-        m_connection.sendByteArray(QByteArray(1, char(0x9e)));
+        m_connection->sendByteArray(QByteArray(1, char(0x9e)));
     } else {
         sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
     }
@@ -1494,7 +1496,7 @@ void frmMain::on_cmdStop_clicked()
 {
     m_jogVector = QVector3D(0, 0, 0);
     m_queue.clear();
-    m_connection.sendByteArray(QByteArray(1, char(0x85)));
+    m_connection->sendByteArray(QByteArray(1, char(0x85)));
 }
 
 void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
@@ -1743,13 +1745,13 @@ void frmMain::onConnectionLineReceived(QString data)
 
             if (rapid != target) switch (target) {
             case 25:
-                m_connection.sendByteArray(QByteArray(1, char(0x97)));
+                m_connection->sendByteArray(QByteArray(1, char(0x97)));
                 break;
             case 50:
-                m_connection.sendByteArray(QByteArray(1, char(0x96)));
+                m_connection->sendByteArray(QByteArray(1, char(0x96)));
                 break;
             case 100:
-                m_connection.sendByteArray(QByteArray(1, char(0x95)));
+                m_connection->sendByteArray(QByteArray(1, char(0x95)));
                 break;
             }
 
@@ -2057,7 +2059,7 @@ void frmMain::onConnectionLineReceived(QString data)
                             holding = true;         // Hold transmit while messagebox is visible
                             response.clear();
 
-                            m_connection.sendByteArray(QByteArray("!"));
+                            m_connection->sendByteArray(QByteArray("!"));
                             //m_serialPort.write("!");11001
                             m_senderErrorBox->checkBox()->setChecked(false);
                             qApp->beep();
@@ -2067,9 +2069,9 @@ void frmMain::onConnectionLineReceived(QString data)
                             errors.clear();
                             if (m_senderErrorBox->checkBox()->isChecked()) m_settings->setIgnoreErrors(true);
                             if (result == QMessageBox::Ignore) {
-                                m_connection.sendByteArray(QByteArray("~"));
+                                m_connection->sendByteArray(QByteArray("~"));
                             } else {
-                                m_connection.sendByteArray(QByteArray("~"));
+                                m_connection->sendByteArray(QByteArray("~"));
                                 ui->cmdFileAbort->click();
                             }
                         }
@@ -2234,7 +2236,7 @@ void frmMain::onConnectionError(QString error)
 
 void frmMain::onTimerConnection()
 {
-    if (!m_connection.isConnected()) {
+    if (!m_connection->isConnected()) {
         openPort();
     } else if (!m_homing/* && !m_reseting*/ && !ui->cmdHold->isChecked() && m_queue.length() == 0) {
         if (m_updateSpindleSpeed) {
@@ -2250,8 +2252,8 @@ void frmMain::onTimerConnection()
 
 void frmMain::onTimerStateQuery()
 {
-    if (m_connection.isConnected() && m_resetCompleted && m_statusReceived) {
-        m_connection.sendByteArray(QByteArray(1, '?'));
+    if (m_connection->isConnected() && m_resetCompleted && m_statusReceived) {
+        m_connection->sendByteArray(QByteArray(1, '?'));
         m_statusReceived = false;
     }
 
@@ -3226,7 +3228,7 @@ void frmMain::loadPlugins()
 
 void frmMain::openPort()
 {
-    if (m_connection.openConnection()) {
+    if (m_connection->openConnection()) {
         ui->txtStatus->setText(tr("Port opened"));
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
         grblReset();
@@ -3235,7 +3237,7 @@ void frmMain::openPort()
 
 void frmMain::grblReset()
 {
-    m_connection.sendByteArray(QByteArray(1, (char)24));
+    m_connection->sendByteArray(QByteArray(1, (char)24));
 
     setSenderState(SenderStopped);
     setDeviceState(DeviceUnknown);
@@ -3276,7 +3278,7 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
     // -2 - utility commands
     // -3 - utility commands
 
-    if (!m_connection.isConnected() || !m_resetCompleted) return SendDone;
+    if (!m_connection->isConnected() || !m_resetCompleted) return SendDone;
 
     // Check command
     if (command.isEmpty()) return SendEmpty;
@@ -3337,7 +3339,7 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
     static QRegExp G92("(G92|G10)(?!\\d)");
     if (uncomment.contains(G92)) sendCommand("$#", -3, showInConsole, true);
 
-    m_connection.sendLine(command);
+    m_connection->sendLine(command);
 
     return SendDone;
 }
@@ -3345,9 +3347,9 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
 void frmMain::sendRealtimeCommand(QString command)
 {
     if (command.length() != 1) return;
-    if (!m_connection.isConnected() || !m_resetCompleted) return;
+    if (!m_connection->isConnected() || !m_resetCompleted) return;
 
-    m_connection.sendByteArray(QByteArray(command.toLatin1(), 1));
+    m_connection->sendByteArray(QByteArray(command.toLatin1(), 1));
 }
 
 void frmMain::sendCommands(QString commands, int tableIndex)
@@ -3889,7 +3891,7 @@ void frmMain::setupCoordsTextboxes()
 }
 
 void frmMain::updateControlsState() {
-    bool portOpened = m_connection.isConnected();
+    bool portOpened = m_connection->isConnected();
     bool process = (m_senderState == SenderTransferring) || (m_senderState == SenderStopping);
     bool paused = (m_senderState == SenderPausing) || (m_senderState == SenderPausing2) || (m_senderState == SenderPaused) || (m_senderState == SenderChangingTool);
 
@@ -4033,9 +4035,9 @@ void frmMain::updateOverride(SliderBox *slider, int value, char command)
     bool smallStep = abs(target - slider->currentValue()) < 10 || m_settings->queryStateTime() < 100;
 
     if (slider->currentValue() < target) {
-        m_connection.sendByteArray(QByteArray(1, char(smallStep ? command + 2 : command)));
+        m_connection->sendByteArray(QByteArray(1, char(smallStep ? command + 2 : command)));
     } else if (slider->currentValue() > target) {
-        m_connection.sendByteArray(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
+        m_connection->sendByteArray(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
     }
 }
 
@@ -4433,7 +4435,7 @@ void frmMain::jogContinuous()
 
             if (v.length()) {
                 block = true;
-                m_connection.sendByteArray(QByteArray(1, char(0x85)));
+                m_connection->sendByteArray(QByteArray(1, char(0x85)));
                 while (m_deviceState == DeviceJog) qApp->processEvents();
                 block = false;
             }

@@ -1,6 +1,7 @@
-#include "connection.h"
+#include "serialconnection.h"
+#include <QDebug>
 
-Connection::Connection() : QObject(nullptr) {
+SerialConnection::SerialConnection(QObject *parent) : Connection(parent) {
     setupSerialPort();
 
     // if (m_settings->port() != "") {
@@ -9,47 +10,47 @@ Connection::Connection() : QObject(nullptr) {
     // }
 }
 
-Connection::~Connection()
+SerialConnection::~SerialConnection()
 {
     if (m_serialPort.isOpen()) m_serialPort.close();
 }
 
-bool Connection::openConnection()
+bool SerialConnection::openConnection()
 {
     return m_serialPort.open(QIODevice::ReadWrite);
 }
 
-void Connection::setPortName(QString portName)
+void SerialConnection::setPortName(QString portName)
 {
     m_serialPort.setPortName(portName);
 }
 
-void Connection::setBaudRate(int baudRate)
+void SerialConnection::setBaudRate(int baudRate)
 {
     m_serialPort.setBaudRate(baudRate);
 }
 
-void Connection::sendByteArray(QByteArray data)
+void SerialConnection::sendByteArray(QByteArray data)
 {
     m_serialPort.write(data);
 }
 
-bool Connection::isConnected()
+bool SerialConnection::isConnected()
 {
     return m_serialPort.isOpen();
 }
 
-void Connection::sendLine(QString data)
+void SerialConnection::sendLine(QString data)
 {
     m_serialPort.write((data + "\n").toLatin1());
 }
 
-void Connection::closeConnection()
+void SerialConnection::closeConnection()
 {
     if (m_serialPort.isOpen()) m_serialPort.close();
 }
 
-void Connection::setupSerialPort()
+void SerialConnection::setupSerialPort()
 {
     m_serialPort.setParity(QSerialPort::NoParity);
     m_serialPort.setDataBits(QSerialPort::Data8);
@@ -61,7 +62,7 @@ void Connection::setupSerialPort()
     connect(&m_serialPort, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(onSerialPortError(QSerialPort::SerialPortError)));
 }
 
-void Connection::onSerialPortReadyRead()
+void SerialConnection::onSerialPortReadyRead()
 {
     while (m_serialPort.canReadLine()) {
         QString line = m_serialPort.readLine().trimmed();
@@ -69,7 +70,7 @@ void Connection::onSerialPortReadyRead()
     }
 }
 
-void Connection::onSerialPortError(QSerialPort::SerialPortError error)
+void SerialConnection::onSerialPortError(QSerialPort::SerialPortError error)
 {
     static QSerialPort::SerialPortError previousError;
 

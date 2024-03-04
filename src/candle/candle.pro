@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     config/formtoconfigurationtransformer.cpp \
     config/persister.cpp \
     config/provider.cpp \
-    connection.cpp \
+    connection/connection.cpp \
+    connection/serialconnection.cpp \
         frmmain.cpp \
     frmsettings.cpp \
     frmabout.cpp \
@@ -78,7 +79,8 @@ HEADERS  += frmmain.h \
     config/formtoconfigurationtransformer.h \
     config/persister.h \
     config/provider.h \
-    connection.h \
+    connection/connection.h \
+    connection/serialconnection.h \
     frmsettings.h \
     frmabout.h \
     drawers/gcodedrawer.h \

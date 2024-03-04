@@ -1,7 +1,7 @@
 #ifndef COMMUNICATOR_H
 #define COMMUNICATOR_H
 
-#include "connection.h"
+#include "connection/connection.h"
 #include "machine/settings.h"
 
 struct CommandAttributes {

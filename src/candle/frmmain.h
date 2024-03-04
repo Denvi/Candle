@@ -20,7 +20,7 @@
 #include <QGroupBox>
 #include <exception>
 
-#include "connection.h"
+#include "connection/connection.h"
 #include "parser/gcodeviewparse.h"
 
 #include "drawers/origindrawer.h"
@@ -333,9 +333,8 @@ private:
     GCodeTableModel *m_currentModel;
     HeightMapTableModel m_heightMapModel;
 
-    // Serial port
-    //QSerialPort m_serialPort;
-    Connection m_connection;
+    // Connection
+    Connection *m_connection;
 
     // Queues
     QList<CommandAttributes> m_commands;
