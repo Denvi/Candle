@@ -44,8 +44,8 @@
 #include "frmsettings.h"
 #include "frmabout.h"
 
-#include "scriptvars.h"
-#include "scriptfunctions.h"
+#include "scripting/scriptvars.h"
+#include "scripting/scriptfunctions.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>

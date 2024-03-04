@@ -63,14 +63,15 @@ SOURCES += main.cpp\
     parser/gcodeviewparse.cpp \
     parser/linesegment.cpp \
     parser/pointsegment.cpp \
+    scripting/scripting.cpp \
     tables/gcodetablemodel.cpp \
     tables/heightmaptablemodel.cpp \
     widgets/combobox.cpp \
     widgets/comboboxkey.cpp \
     widgets/glwidget.cpp \
     drawers/selectiondrawer.cpp \
-    scriptvars.cpp \
-    scriptfunctions.cpp \
+    scripting/scriptvars.cpp \
+    scripting/scriptfunctions.cpp \
     widgets/dropwidget.cpp
 
 HEADERS  += frmmain.h \
@@ -98,6 +99,7 @@ HEADERS  += frmmain.h \
     parser/gcodeviewparse.h \
     parser/linesegment.h \
     parser/pointsegment.h \
+    scripting/scripting.h \
     tables/gcodetablemodel.h \
     tables/heightmaptablemodel.h \
     utils/interpolation.h \
@@ -106,8 +108,8 @@ HEADERS  += frmmain.h \
     widgets/comboboxkey.h \
     widgets/glwidget.h \
     drawers/selectiondrawer.h \
-    scriptvars.h \
-    scriptfunctions.h \
+    scripting/scriptvars.h \
+    scripting/scriptfunctions.h \
     widgets/dropwidget.h
 
 FORMS    += frmmain.ui \
