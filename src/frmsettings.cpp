@@ -621,11 +621,8 @@ void frmSettings::on_cboToolType_currentIndexChanged(int index)
     ui->txtToolAngle->setEnabled(index == 1);
 }
 
-void frmSettings::on_cmdDefaults_clicked()
+void frmSettings::setDefaults()
 {
-    if (QMessageBox::warning(this, qApp->applicationDisplayName(), tr("Reset settings to default values?"),
-                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
-
     setPort("");
     setBaud(115200);
 
@@ -686,6 +683,14 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
 
     setFontSize(9);
+}
+
+void frmSettings::on_cmdDefaults_clicked()
+{
+    if (QMessageBox::warning(this, qApp->applicationDisplayName(), tr("Reset settings to default values?"),
+                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
+
+    setDefaults();
 }
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)

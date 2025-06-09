@@ -479,6 +479,13 @@ void frmMain::loadSettings()
     ui->cboCommand->setCurrentIndex(-1);
 
     m_settingsLoading = false;
+
+    if (!set.value("valid", false).toBool()) {
+	m_settings->setDefaults();
+	applySettings();
+	show();
+	ui->scrollArea->updateMinimumWidth();
+    }
 }
 
 void frmMain::saveSettings()
@@ -593,6 +600,7 @@ void frmMain::saveSettings()
 
     for (int i = 0; i < ui->cboCommand->count(); i++) list.append(ui->cboCommand->itemText(i));
     set.setValue("recentCommands", list);
+    set.setValue("valid", true);
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
