@@ -236,7 +236,8 @@ private:
     frmSettings *m_settings;
     frmAbout m_frmAbout;
 
-    QString m_settingsFileName;
+    QString m_settingsOrg;
+    QString m_settingsApp;
     QString m_programFileName;
     QString m_heightMapFileName;
     QString m_lastFolder;

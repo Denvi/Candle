@@ -85,7 +85,8 @@ frmMain::frmMain(QWidget *parent) :
                        << "black";
 
     // Loading settings
-    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
+    m_settingsOrg = "Candle";
+    m_settingsApp = "candle";
     preloadSettings();
 
     m_settings = new frmSettings(this);
@@ -281,7 +282,7 @@ frmMain::frmMain(QWidget *parent) :
     m_timerStateQuery.start();
 
     // Handle file drop
-    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
+    if (qApp->arguments().count() > 1) {
         loadFile(qApp->arguments().last());
     }
 }
@@ -315,7 +316,7 @@ double frmMain::toolZPosition()
 
 void frmMain::preloadSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    QSettings set(m_settingsOrg, m_settingsApp);
     set.setIniCodec("UTF-8");
 
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + set.value("fontSize", "8").toString()));
@@ -328,7 +329,7 @@ void frmMain::preloadSettings()
 
 void frmMain::loadSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    QSettings set(m_settingsOrg, m_settingsApp);
     set.setIniCodec("UTF-8");
 
     m_settingsLoading = true;
@@ -478,11 +479,18 @@ void frmMain::loadSettings()
     ui->cboCommand->setCurrentIndex(-1);
 
     m_settingsLoading = false;
+
+    if (!set.value("valid", false).toBool()) {
+	m_settings->setDefaults();
+	applySettings();
+	show();
+	ui->scrollArea->updateMinimumWidth();
+    }
 }
 
 void frmMain::saveSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
+    QSettings set(m_settingsOrg, m_settingsApp);
     set.setIniCodec("UTF-8");
 
     set.setValue("port", m_settings->port());
@@ -592,6 +600,7 @@ void frmMain::saveSettings()
 
     for (int i = 0; i < ui->cboCommand->count(); i++) list.append(ui->cboCommand->itemText(i));
     set.setValue("recentCommands", list);
+    set.setValue("valid", true);
 }
 
 bool frmMain::saveChanges(bool heightMapMode)

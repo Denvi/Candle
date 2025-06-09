@@ -117,6 +117,7 @@ public:
     void setIgnoreErrors(bool value);
     bool autoLine();
     void setAutoLine(bool value);
+    void setDefaults();
 
 protected:
     void showEvent(QShowEvent *se);
