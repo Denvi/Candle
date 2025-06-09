@@ -282,7 +282,7 @@ frmMain::frmMain(QWidget *parent) :
     m_timerStateQuery.start();
 
     // Handle file drop
-    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
+    if (qApp->arguments().count() > 1) {
         loadFile(qApp->arguments().last());
     }
 }
