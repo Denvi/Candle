@@ -9,5 +9,5 @@ target_link_libraries(cameraplugin PRIVATE Qt5::Core Qt5::Widgets Qt5::UiPlugin 
 install(TARGETS cameraplugin RUNTIME DESTINATION designerplugins)
 
 if(WIN32)
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll PATTERN cameraplugin.dll EXCLUDE)
 endif()
