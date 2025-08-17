@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QStringList>
 #include <QTextBlock>
 #include <QTextCursor>
@@ -608,9 +609,24 @@ void frmMain::on_actServiceSettings_triggered()
     }
 }
 
-void frmMain::on_actAbout_triggered()
+void frmMain::on_actHelpAbout_triggered()
 {
     m_about->exec();
+}
+
+void frmMain::on_actHelpDocumentation_triggered()
+{
+    const QString docsFolder = "doc";
+    const QString fallbackHelpFileName = docsFolder + "/help_en.html";
+
+    QString helpFileName = docsFolder + "/help_" + (!m_settings->language().isEmpty() ? m_settings->language() : "en")
+        + ".html";
+
+    if (!QFile::exists(helpFileName)) {
+        helpFileName = fallbackHelpFileName;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(helpFileName));
 }
 
 void frmMain::on_actJogStepNext_triggered()

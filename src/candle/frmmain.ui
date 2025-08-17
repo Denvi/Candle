@@ -242,11 +242,11 @@ QLabel[overrided=&quot;false&quot;] {
            <property name="gridStyle">
             <enum>Qt::DashLine</enum>
            </property>
-           <attribute name="horizontalHeaderHighlightSections">
-            <bool>false</bool>
-           </attribute>
            <attribute name="horizontalHeaderMinimumSectionSize">
             <number>50</number>
+           </attribute>
+           <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
            </attribute>
            <attribute name="verticalHeaderVisible">
             <bool>false</bool>
@@ -365,7 +365,7 @@ QLabel[overrided=&quot;false&quot;] {
      <x>0</x>
      <y>0</y>
      <width>1469</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">
@@ -399,7 +399,9 @@ QLabel[overrided=&quot;false&quot;] {
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="actAbout"/>
+    <addaction name="actHelpDocumentation"/>
+    <addaction name="separator"/>
+    <addaction name="actHelpAbout"/>
    </widget>
    <widget class="QMenu" name="menu_View">
     <property name="title">
@@ -460,8 +462,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>275</width>
-          <height>804</height>
+          <width>214</width>
+          <height>703</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2875,7 +2877,7 @@ padding-right: 8;</string>
     <string>&amp;Settings</string>
    </property>
   </action>
-  <action name="actAbout">
+  <action name="actHelpAbout">
    <property name="text">
     <string>&amp;About</string>
    </property>
@@ -3161,6 +3163,11 @@ padding-right: 8;</string>
   <action name="actControlFlood">
    <property name="text">
     <string>Flood</string>
+   </property>
+  </action>
+  <action name="actHelpDocumentation">
+   <property name="text">
+    <string>&amp;Documentation</string>
    </property>
   </action>
  </widget>

@@ -135,7 +135,8 @@ private slots:
     void on_actRecentClear_triggered();
     void on_actFileExit_triggered();
     void on_actServiceSettings_triggered();
-    void on_actAbout_triggered();
+    void on_actHelpAbout_triggered();
+    void on_actHelpDocumentation_triggered();
     void on_actJogStepNext_triggered();
     void on_actJogStepPrevious_triggered();
     void on_actJogFeedNext_triggered();

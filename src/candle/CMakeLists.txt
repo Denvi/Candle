@@ -4,6 +4,7 @@ find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script LinguistTools 
 
 file(GLOB_RECURSE SRC_FILES *.cpp)
 file(GLOB TS_FILES translations/*.ts)
+file(GLOB UI_FILES *.ui)
 
 qt5_add_resources(RSC_FILES
         shaders.qrc
@@ -14,6 +15,14 @@ qt5_add_resources(RSC_FILES
 qt5_add_translation(QM_FILES ${TS_FILES})
 
 add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
+
+add_custom_target(
+    lupdate ALL
+    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
+        ${SRC_FILES} ${UI_FILES}
+        -ts ${TS_FILES}
+    VERBATIM
+)
 
 target_include_directories(candle PRIVATE . ../customwidgets)
 
@@ -32,6 +41,7 @@ install(FILES ${QM_FILES} DESTINATION translations)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
 install(FILES ${CMAKE_SOURCE_DIR}/src/candle/settings.ini DESTINATION .)
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc DESTINATION . FILES_MATCHING PATTERN *.png PATTERN *.html)
 
 if(WIN32)
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll PATTERN qt.conf)
