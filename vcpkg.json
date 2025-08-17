@@ -1,0 +1,13 @@
+{
+  "dependencies": [
+    {
+      "name": "qt5",
+      "features": [
+        "serialport",
+        "script",
+        "extras",
+        "multimedia"
+      ]
+    }
+  ]
+}

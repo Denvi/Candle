@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>help_en.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///g%3A/prj/clion/Candle/doc/styles.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<style type="text/css" rel="stylesheet">
+img[src*='#center'] {
+    display: block;
+    margin: auto;
+}
+.center {
+    text-align: center;
+}
+table {
+    width: 100%;
+}
+</style>
+<h1 id="program-%22candle%22">Program &quot;Candle&quot;</h1>
+<h1 id="table-of-contents">Table of contents</h1>
+<p><a href="#1-purpose-of-the-program">1 Purpose of the program</a><br>
+<a href="#2-program-requirements">2 Program requirements</a><br>
+    <a href="#21-hardware-requirements">2.1 Hardware requirements</a><br>
+    <a href="#22-software-requirements">2.2 Software requirements</a><br>
+<a href="#3-program-execution">3 Program execution</a><br>
+    <a href="#31-installation">3.1 Installation</a><br>
+    <a href="#32-running">3.2 Running</a><br>
+    <a href="#33-main-window">3.3 Main window</a><br>
+        <a href="#331-main-menu">3.3.1 Main menu</a><br>
+        <a href="#332-windows">3.3.2 Windows</a><br>
+            <a href="#3321-window-gcode-program">3.3.2.1 Window &quot;G-code program&quot;</a><br>
+            <a href="#3322-window-visualizer">3.3.2.2 Window &quot;Visualizer&quot;</a><br>
+            <a href="#3323-window-camera">3.3.2.3 Window &quot;Camera&quot;</a><br>
+            <a href="#3324-window-console">3.3.2.4 Window &quot;Console&quot;</a><br>
+            <a href="#3325-windows-device-modification-user">3.3.2.5 Windows &quot;Device&quot;, &quot;Modification&quot;, &quot;User&quot;</a><br>
+        <a href="#333-instrument-panels">3.3.3 Instrument panels</a><br>
+            <a href="#3331-panel-status">3.3.3.1 Panel &quot;Status&quot;</a><br>
+            <a href="#3332-panel-control">3.3.3.2 Panel &quot;Control&quot;</a><br>
+            <a href="#3333-panel-coordinate-system">3.3.3.3 Panel &quot;Coordinate system&quot;</a><br>
+            <a href="#3334-panel-spindle">3.3.3.4 Panel &quot;Spindle&quot;</a><br>
+            <a href="#3335-panel-jogging">3.3.3.5 Panel &quot;Jogging&quot;</a><br>
+            <a href="#3336-panel-correction">3.3.3.6 Panel &quot;Correction&quot;</a><br>
+            <a href="#3337-panel-height-map">3.3.3.7 Panel &quot;Height map&quot;</a><br>
+            <a href="#3338-panel-user-commands">3.3.3.8 Panel &quot;User commands&quot;</a><br>
+    <a href="#34-settings-window">3.4 Settings window</a><br>
+    <a href="#35-preparing-the-program-for-operation">3.5 Preparing the program for operation</a><br>
+    <a href="#36-loading-the-control-program">3.6 Loading the control program</a><br>
+    <a href="#37-creating-a-height-map">3.7 Creating a height map</a><br>
+    <a href="#38-executing-the-control-program">3.8 Executing the control program</a><br>
+<a href="#4-operator-messages">4 Operator messages</a><br>
+<a href="#5-extension-development">5 Extension development</a><br>
+    <a href="#51-extension-configuration-file">5.1 Extension configuration file</a><br>
+    <a href="#52-script-file">5.2 Script file</a><br>
+    <a href="#53-translation-file">5.3 Translation file</a><br>
+<a href="#appendix-a-controller-settings">Appendix A: Controller settings</a><br>
+<a href="#appendix-b-g-code-command-table">Appendix B: G-code command table</a></p>
+<hr>
+<h1 id="1-purpose-of-the-program">1 Purpose of the program</h1>
+<p>The “Candle” program (hereinafter referred to as the <em>program</em>) is intended for controlling CNC machines equipped with a GRBL controller using a PC.</p>
+<p>It allows operation of 3‑axis milling machines and laser plotters.</p>
+<p><strong>Main functions of the program</strong></p>
+<ul>
+<li>Loading, editing, saving control programs (hereinafter – CP).</li>
+<li>Visualizing CP.</li>
+<li>Scanning a surface roughness map, correcting CP according to the specified map.</li>
+<li>Transmitting CP to CNC.</li>
+<li>Displaying CNC status.</li>
+<li>Manual control of CNC.</li>
+</ul>
+<h1 id="2-program-requirements">2 Program requirements</h1>
+<h2 id="21-hardware-requirements">2.1 Hardware requirements</h2>
+<p>For proper operation the PC must have the following characteristics:</p>
+<ul>
+<li>processor supporting the SSE2 instruction set;</li>
+<li>graphics adapter supporting OpenGL 2.0 or higher;</li>
+<li>display resolution 1280×720;</li>
+<li>an available USB or RS‑232 port for connecting the PC to the CNC controller;</li>
+<li>at least 20 MB of free storage space.</li>
+</ul>
+<h2 id="22-software-requirements">2.2 Software requirements</h2>
+<p>The program requires a Windows 7 (or newer) operating system, with an OpenGL driver installed and, when the CNC is connected via USB, a USB‑UART converter driver.</p>
+<h1 id="3-program-execution">3 Program execution</h1>
+<h2 id="31-installation">3.1 Installation</h2>
+<p>The program is distributed as an archive:</p>
+<ul>
+<li><code>candle_v.v.v_x86.zip</code> for 32‑bit processors;</li>
+<li><code>candle_v.v.v_x64.zip</code> for 64‑bit processors, where <strong>v.v.v</strong> denotes the version number.</li>
+</ul>
+<p>To install, extract the archive into a working folder (e.g., <code>D:\</code>). A directory named <code>Candle</code> containing all necessary files will be created.</p>
+<p>After extraction, create a shortcut to the executable <code>D:\Candle\candle.exe</code> for quick launch.</p>
+<h2 id="32-running">3.2 Running</h2>
+<p>Run the program by executing <code>candle.exe</code> from the installation folder or via the shortcut created earlier.</p>
+<h2 id="33-main-window">3.3 Main window</h2>
+<p>When launched, the main window should appear on the display as shown in Figure 1.</p>
+<p><img src="images_en/mainwindow.png#center" alt="Main window of the program"></p>
+<p class="center">Figure 1 – Main window of the program</p>
+<p>The main window consists of a top menu, a set of windows, and instrument panels:</p>
+<ul>
+<li><strong>“G‑code program”</strong> – primary window showing the list of commands in the current CP.</li>
+<li><strong>“Visualizer”</strong> – graphical representation of CP.</li>
+<li><strong>“Camera”</strong> – camera image.</li>
+<li><strong>“Console”</strong> – window for sending commands to the GRBL CNC controller and displaying responses.</li>
+<li><strong>“Device”</strong> – window with panels for controlling the CNC.</li>
+<li><strong>“Modification”</strong> – window with panels for correcting CP.</li>
+<li><strong>“User”</strong> – window with user‑defined panels.</li>
+</ul>
+<p>Each window has a title area containing the window name, “Detach”, and “Close” buttons; the content area holds input elements, information displays, and toolbars.</p>
+<p>All windows except the “G‑code program” can be moved by dragging the left mouse button (LMB) on their title bar. While moving, the main window’s layout updates dynamically to indicate the future position of the dragged window.</p>
+<p>Windows may be detached from the main window by clicking the “Detach” button in the title bar and closed via the “Close” button. Detached windows can be re‑attached to the main window by dragging their title; closed windows can be reopened through the corresponding item in the main menu <strong>View → Windows</strong>.</p>
+<p>Window sizes are changed by pressing LMB on the border of a window and dragging it in the desired direction.</p>
+<h2 id="331-main-menu">3.3.1 Main menu</h2>
+<p>The program’s main menu gives access to its core functions.<br>
+It is divided into groups and items, whose descriptions are shown in Table 1.</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File</td>
+<td>New</td>
+<td>Create a new CP</td>
+</tr>
+<tr>
+<td></td>
+<td>Open</td>
+<td>Load a CP file</td>
+</tr>
+<tr>
+<td></td>
+<td>Recent files</td>
+<td>Load one of the most recent CP files</td>
+</tr>
+<tr>
+<td></td>
+<td>Save</td>
+<td>Write changes to the current CP file</td>
+</tr>
+<tr>
+<td></td>
+<td>Save As</td>
+<td>Write the CP to a specified file</td>
+</tr>
+<tr>
+<td>View</td>
+<td>Windows</td>
+<td>Choose which windows are displayed</td>
+</tr>
+<tr>
+<td></td>
+<td>Panels</td>
+<td>Choose which panels are displayed</td>
+</tr>
+<tr>
+<td></td>
+<td>Lock windows</td>
+<td>Disable/enable moving of windows</td>
+</tr>
+<tr>
+<td></td>
+<td>Lock panels</td>
+<td>Disable/enable moving of panels</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Settings</td>
+<td>Open the program’s settings window</td>
+</tr>
+<tr>
+<td>Help</td>
+<td>Contents</td>
+<td>Launch the help system</td>
+</tr>
+<tr>
+<td></td>
+<td>About program</td>
+<td>Open the dialog with information about the program</td>
+</tr>
+</tbody>
+</table>
+<h2 id="332-windows">3.3.2 Windows</h2>
+<h3 id="3321-window-g%E2%80%91code-program">3.3.2.1 Window “G‑code program”</h3>
+<p>The current CP is displayed in the <strong>“G‑code program”</strong> window shown in Figure 2.</p>
+<p><img src="images_en/g-codeprogram.png#center" alt="Window “G‑code program”"></p>
+<p class="center">Figure 2 – “G‑code program” window</p>
+<p>Each row of the table corresponds to a line of the CP and contains the following columns:</p>
+<ul>
+<li><strong>“№”</strong> – CP line number.</li>
+<li><strong>“Command”</strong> – The command itself.</li>
+<li><strong>“State”</strong> – Current state of the command: “Queued”, “Sent”, “Processed”, or “Missed”.</li>
+<li><strong>“Response”</strong> – Response from the GRBL controller to the sent command.</li>
+</ul>
+<p>The CP can be edited; the following functions are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>How it works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Change a command in a selected row</td>
+<td>Double‑click the cell in the <em>Command</em> column or press <code>&lt;F2&gt;</code> while the cell is highlighted. Confirm with <code>&lt;Enter&gt;</code> or <code>&lt;Tab&gt;</code>, cancel with <code>&lt;Esc&gt;</code>.</td>
+</tr>
+<tr>
+<td>Add new rows</td>
+<td>Select the row before which the new one should be inserted, then choose <strong>“Insert row”</strong> from the context menu (right‑click in the table) or press the <code>&lt;Ins&gt;</code> key.</td>
+</tr>
+<tr>
+<td>Delete selected rows</td>
+<td>Use <strong>“Delete rows”</strong> from the context menu or press <code>&lt;Del&gt;</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Below the table are controls for loading and sending CP to the CNC controller:</p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Open</strong></td>
+<td>Opens a file‑selection dialog; upon confirmation, loads the chosen CP.</td>
+</tr>
+<tr>
+<td><strong>Reset</strong></td>
+<td>Clears all selections in the table, sets the first line as current, and resets command states.</td>
+</tr>
+<tr>
+<td><strong>Send</strong></td>
+<td>Starts the transmission of the CP to the CNC controller.</td>
+</tr>
+<tr>
+<td><strong>Pause</strong></td>
+<td>Pauses the transmission process.</td>
+</tr>
+<tr>
+<td><strong>Stop</strong></td>
+<td>Stops the transmission.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong> – When “Pause” or “Stop” is activated, the actual CNC halt occurs only after the controller’s command input buffer has been emptied. For an immediate stop use the <strong>“Hold”</strong> and <strong>“Reset”</strong> commands from the <em>Control</em> panel.</p>
+</blockquote>
+<p>To the left of these buttons lies a flag that enables automatic scrolling of the table during CP transmission. If the CP is actively being sent while the user manually scrolls, this flag resets automatically.</p>
+<h4 id="3322-window-visualizer">3.3.2.2 Window “Visualizer”</h4>
+<p>The graphical representation of the CP is displayed in the <strong>Window &quot;Visualizer&quot;</strong> (Figure 3).</p>
+<p><img src="images_en/visualizer.png#center" alt="Window “Visualizer”"></p>
+<p class="center">Figure 3 – Window “Visualizer”</p>
+<p>In this window five functional areas can be identified:</p>
+<ul>
+<li><strong>Central or main area</strong>, where the CP tool trajectory is rendered as a three‑dimensional (3D) projection.</li>
+<li><strong>Controller status</strong> in the upper‑left corner.</li>
+<li><strong>View‑control buttons</strong> in the upper‑right corner.</li>
+<li><strong>Processing limits information</strong> in the lower‑left corner.</li>
+<li><strong>Auxiliary information</strong> in the lower‑right corner.</li>
+</ul>
+<p>The CP tool trajectory is represented by a set of line segments:</p>
+<ul>
+<li>Solid black lines denote portions of linear and circular interpolation.</li>
+<li>Dashed black lines indicate accelerated moves.</li>
+<li>Red lines represent vertical movements.</li>
+</ul>
+<p>When the CP is sent to the CNC controller, some segments change colour according to the following rules: the part already processed by the CNC is coloured grey; the portion that has been transmitted to the CNC is coloured violet.</p>
+<p>Three circle markers are overlaid on the trajectory:</p>
+<ul>
+<li><strong>Red marker</strong> – start of the trajectory.</li>
+<li><strong>Green marker</strong> – end of the trajectory.</li>
+<li><strong>Purple marker</strong> – segment corresponding to the command highlighted in the &quot;G‑code program&quot; window table.</li>
+</ul>
+<p>In the main area the origin is shown as a red rectangle in the X–Y plane, with axes coloured: X – red, Y – green, Z – blue. A conditional representation of the tool appears as an orange wireframe model.</p>
+<p><strong>Navigation in the main area</strong></p>
+<ul>
+<li>Rotate the 3D projection by holding the left‑mouse button (LMB) on the main area and moving the cursor, or click one of the view buttons in the upper‑right corner (“Top”, “Front”, “Left”, “Isometric”).</li>
+<li>Move the projection within the area by pressing LMB while holding the <code>&lt;Shift&gt;</code> key and dragging.</li>
+<li>Scale the projection using the mouse wheel or by clicking the <strong>Fit</strong> button in the upper‑right corner.</li>
+</ul>
+<p>In the upper‑left corner the current CNC controller state is displayed: the interpreter status string, the current feed and spindle speed values, and the states of CNC components (spindle, cooling system).</p>
+<p>The status string has the form:</p>
+<p class="center">[GC:G1 G54 G17 G21 G90 G94 M3 M9 T0 F75 S8000]</p>
+<p>It shows the interpreter’s current mode for all 12 modal groups, tool number, feed rate and spindle speed. The groups and possible modes are listed in Table 2.</p>
+<h3 id="table-2-%E2%80%93-cnc-controller-interpreter-operating-modes">Table 2 – CNC controller interpreter operating modes</h3>
+<table>
+<thead>
+<tr>
+<th>Modal group</th>
+<th>Modes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Movement</strong></td>
+<td>G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80</td>
+</tr>
+<tr>
+<td><strong>Coordinate system</strong></td>
+<td>G54, G55, G56, G57, G58, G59</td>
+</tr>
+<tr>
+<td><strong>Workplane</strong></td>
+<td>G17, G18, G19</td>
+</tr>
+<tr>
+<td><strong>Distance mode</strong></td>
+<td>G90, G91</td>
+</tr>
+<tr>
+<td><strong>IJK circular interpolation</strong></td>
+<td>G91.1</td>
+</tr>
+<tr>
+<td><strong>Feed rate</strong></td>
+<td>G93, G94</td>
+</tr>
+<tr>
+<td><strong>Units of measurement</strong></td>
+<td>G20, G21</td>
+</tr>
+<tr>
+<td><strong>Tool radius compensation</strong></td>
+<td>G40</td>
+</tr>
+<tr>
+<td><strong>Tool length compensation</strong></td>
+<td>G43.1, G49</td>
+</tr>
+<tr>
+<td><strong>Program motion control</strong></td>
+<td>M0, M1, M2, M30</td>
+</tr>
+<tr>
+<td><strong>Spindle state</strong></td>
+<td>M3, M4, M5</td>
+</tr>
+<tr>
+<td><strong>Cooling system state</strong></td>
+<td>M7, M8, M9</td>
+</tr>
+</tbody>
+</table>
+<p>The CNC component status string appears as:</p>
+<p class="center">CS: SFM</p>
+<ul>
+<li><strong>S</strong> indicates spindle rotation clockwise; it is replaced by <strong>C</strong> when rotating counter‑clockwise and omitted when the spindle stops.</li>
+<li><strong>F</strong> appears when water cooling is active; <strong>M</strong> denotes air cooling.</li>
+</ul>
+<p>The CP processing limits shown in the lower‑left corner list the minimum and maximum coordinates for each axis, as well as the dimensions of the machining zone (excluding tool diameter).</p>
+<p>In the lower‑right corner, the current operating time under the loaded CP is displayed, along with an estimated total runtime based on the CP.</p>
+<p>Below this area a line presents command‑queue information: the total number of commands sent and currently being processed by the CNC controller; the count of processed commands; and the number of injected commands (commands sent in addition to the CP) present in the queue.</p>
+<p>The same section also shows auxiliary data: the total number of vertices forming the 3D projection, and the frames‑per‑second rate at which the projection is being built.</p>
+<h4 id="3323-window-camera">3.3.2.3 Window “Camera”</h4>
+<p>The image from the camera connected to the PC is displayed in the <strong>“Camera”</strong> window (Figure 4).</p>
+<p><img src="images_en/camera.png#center" alt="Window “Camera”"></p>
+<p class="center">Figure 4 – Camera window</p>
+<p>View navigation inside the window is performed by holding the left mouse button (LMB) and moving the cursor in the desired direction; zooming is controlled with the mouse wheel.</p>
+<p>The window contains reticle elements: a vertical line, a horizontal line, and a circle whose centre lies at the intersection of the two lines. The intersection point can be moved by pressing LMB while holding the <strong>Shift</strong> key on the keyboard and dragging the cursor in the desired direction.</p>
+<p>Parameters such as camera image resolution, colour and thickness of the reticle elements are available in the program’s settings window.</p>
+<h4 id="3324-window-console">3.3.2.4 Window “Console”</h4>
+<p>For manual CNC control, as well as for configuring and displaying controller status information, the <strong>“Console”</strong> window is provided (Figure 5).</p>
+<p><img src="images_en/console.png#center" alt="Window “Console”"></p>
+<p class="center">Figure 5 – Console window</p>
+<p>At the bottom of the window there is a command‑entry field and two buttons: <strong>Send Command</strong> and <strong>Clear Console</strong>. At the top a multiline output area shows replies from the controller.</p>
+<p>To send a command to the CNC controller, type it into the entry field and press the <strong>Enter</strong> key or click <strong>Send Command</strong>. After the controller processes the command, the command and its reply are displayed above in the following format:</p>
+<p class="center">Command < Response</p>
+<p>If the program setting <em>“Display user‑interface commands”</em> is enabled, all commands sent to the controller by toolbar controls will appear in the output area. When <em>“Display G‑code program commands”</em> is turned on, every command from the CP that is transmitted to the controller will also be shown.</p>
+<p>The output field can be cleared by clicking <strong>Clear Console</strong>.</p>
+<h4 id="3325-windows-device-modification-user">3.3.2.5 Windows “Device”, “Modification”, “User”</h4>
+<p>Instrument panels containing controls and status information of the CNC are located in the <strong>“Device”</strong>, <strong>“Modification”</strong>, and <strong>“User”</strong> windows.</p>
+<p>The name of each window indicates the functional purpose of the panels it contains, but this does not restrict their composition – all panels can be freely moved both within a given window and between windows.</p>
+<p>Movement is performed by dragging a panel’s title bar with LMB. While dragging, the window shows the future position of the panel as a blue line.</p>
+<p>Most instrument panels are collapsible to save screen space. In the expanded state a panel’s header displays a “‑” sign to its left; in the collapsed state it shows a “≡”. Panels can be collapsed or expanded by clicking their title bar with LMB.</p>
+<p>Header text is normally black, but when critical functions of a panel are activated it turns red.</p>
+<p>At program startup some panels appear inactive and become active only after the CNC is connected to the PC.</p>
+<h2 id="333-instrument-panels">3.3.3 Instrument panels</h2>
+<h3 id="3331-panel-status">3.3.3.1 Panel “Status”</h3>
+<p>The <strong>Status</strong> panel (Figure 6) displays the current work‑ and machine‑coordinates, as well as the operating mode of the CNC controller.<br>
+Coordinates are shown in output fields arranged horizontally in the order: <strong>X, Y, Z</strong>.</p>
+<h4 id="controller-operating-modes-field-status">Controller operating modes (field <em>“Status”</em>)</h4>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ready</strong></td>
+<td>The controller is ready to receive commands.</td>
+</tr>
+<tr>
+<td><strong>Alarm</strong></td>
+<td>An emergency state.</td>
+</tr>
+<tr>
+<td><strong>Run</strong></td>
+<td>Executing a control program (CP).</td>
+</tr>
+<tr>
+<td><strong>Home</strong></td>
+<td>Searching for the home position.</td>
+</tr>
+<tr>
+<td><strong>Hold</strong></td>
+<td>Motion is paused, awaiting further continue/reset commands.</td>
+</tr>
+<tr>
+<td><strong>Check</strong></td>
+<td>Incoming G‑code is interpreted without actual tool movement.</td>
+</tr>
+<tr>
+<td><strong>Door</strong></td>
+<td>Door‑sensor triggered mode.</td>
+</tr>
+<tr>
+<td><strong>Jogging</strong></td>
+<td>Executing special jogging commands.</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong></td>
+<td>Low‑power standby mode.</td>
+</tr>
+</tbody>
+</table>
+<p>In the same field, states that are not related to the controller’s operating mode are shown:</p>
+<ul>
+<li><strong>No connection</strong> – when the serial port cannot be opened for the CNC.</li>
+<li><strong>Port opened</strong> – the serial port is open but no connection with the GRBL controller has been established.</li>
+</ul>
+<p>The background colour of the <em>Status</em> field may change depending on the state.</p>
+<p><img src="images_en/status.png#center" alt="Panel “Status”"></p>
+<p class="center">Figure 6 – Panel “Status”</p>
+<h3 id="3332-panel-control">3.3.3.2 Panel “Control”</h3>
+<p>The <strong>Control</strong> panel contains a set of buttons that send basic GRBL commands (Figure 7).<br>
+Table 3 lists the button, the command it sends (command code), and its description in the order they appear on the panel – left to right, top to bottom.</p>
+<p><img src="images_en/control.png#center" alt="Panel “Control”"></p>
+<p class="center">Figure 7 – Panel “Control”</p>
+<p><strong>Table 3 – Control Panel Buttons</strong></p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Home</strong></td>
+<td><code>$H</code></td>
+<td>Search for the home position.</td>
+</tr>
+<tr>
+<td><strong>Hold</strong></td>
+<td><code>!</code> or <code>~</code></td>
+<td>Stop current motion (<code>!</code>) or resume movement (<code>~</code>).</td>
+</tr>
+<tr>
+<td><strong>Reset</strong></td>
+<td><code>0x18</code></td>
+<td>Software reset of the controller.</td>
+</tr>
+<tr>
+<td><strong>Unlock</strong></td>
+<td><code>$X</code></td>
+<td>Force unlock from alarm state.</td>
+</tr>
+<tr>
+<td><strong>Check</strong></td>
+<td><code>$C</code> or <code>0x18</code></td>
+<td>Enable (<code>$C</code>) / disable (<code>0x18</code>) CP check mode.</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong></td>
+<td><code>$SLP</code></td>
+<td>Put the controller into low‑power mode.</td>
+</tr>
+<tr>
+<td><strong>Door</strong></td>
+<td><code>0x84</code></td>
+<td>Force the controller into door‑triggered mode.</td>
+</tr>
+<tr>
+<td><strong>Cooling</strong></td>
+<td><code>0xA0</code></td>
+<td>Toggle water cooling system on/off.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note: When disabling CP check mode, a software reset command is sent followed by restoration of the controller state and work‑coordinate offsets.</p>
+</blockquote>
+<h3 id="3333-panel-coordinate-system">3.3.3.3 Panel “Coordinate System”</h3>
+<p>Figure 8 shows the panel for managing the CNC coordinate system (CS).</p>
+<p><img src="images_en/coordinatesystem.png#center" alt="Panel “Coordinate System”"></p>
+<p class="center">Figure 8 – Panel “Coordinate System”</p>
+<p>The upper part of the panel displays the offsets for the active CS on axes <strong>X, Y</strong> and <strong>Z</strong>.<br>
+Below are buttons to select a CS and to reset the current coordinates on one or all axes for the active CS.</p>
+<h3 id="3334-panel-spindle">3.3.3.4 Panel “Spindle”</h3>
+<p>On the spindle‑control panel (Figure 9) you will find:</p>
+<ul>
+<li>An input field for setting / displaying the desired spindle speed.</li>
+<li>A horizontal slider for adjusting the spindle speed.</li>
+<li>A button to enable/disable the spindle.</li>
+</ul>
+<p><img src="images_en/spindle.png#center" alt="Panel “Spindle”"></p>
+<p class="center">Figure 9 – Panel “Spindle”</p>
+<p>The spindle speed can be set either by typing a number into the field or by using the slider.<br>
+Text in the input field may appear <strong>black</strong> if the current spindle speed matches the desired value, or <strong>red</strong> otherwise.</p>
+<p>The slider’s knob is a gray circle with a dark outline; the marker – a lighter‑coloured circle indicating the current speed.</p>
+<p>During CP transmission to the controller the spindle speed can be altered via the above controls using injected G‑code <code>S</code>, or through the “Correction” panel’s override function.<br>
+Spindle on/off during transmission is possible only while the controller is in <em>Hold</em> mode.</p>
+<h3 id="3335-panel-jogging">3.3.3.5 Panel “Jogging”</h3>
+<p>The <strong>Jogging</strong> panel contains controls for moving the CNC tool:</p>
+<ul>
+<li>Arrow buttons for axes <strong>X</strong> (left/right), <strong>Y</strong> (up/down) and <strong>Z</strong> (up/down on the right side).</li>
+<li>A central <strong>Stop</strong> button that force‑stops motion.</li>
+<li>A drop‑down list <strong>Step</strong>, where you can set the jog step size.</li>
+<li>A drop‑down list <strong>Feed</strong>, selecting the jog feed rate.</li>
+<li>A flag <strong>Keyboard Control</strong> to enable keyboard jogging from the PC.</li>
+</ul>
+<p><img src="images_en/jogging.png#center" alt="Panel “Jogging”"></p>
+<p class="center">Figure 10 – Panel “Jogging”</p>
+<p>The <em>Step</em> and <em>Feed</em> lists provide predefined values but allow entry of arbitrary numbers.<br>
+Values entered while <strong>Keyboard Control</strong> is enabled are remembered and can be reused on subsequent program launches.</p>
+<p>Each button, as well as changing the <em>Step</em> and <em>Feed</em> values, may have hotkeys defined in the program’s <strong>Settings</strong> window.  Keyboard control must be turned on for these shortcuts to work.</p>
+<h3 id="3336-panel-correction">3.3.3.6 Panel “Correction”</h3>
+<p>Figure 11 shows the <strong>Correction</strong> panel.<br>
+It contains controls similar to those on the spindle panel but overrides feed rate, idle speed and spindle speed during CP transmission.</p>
+<p>The only difference is that the spindle button has been replaced by a corresponding flag (checkbox).</p>
+<p><img src="images_en/overriding.png#center" alt="Panel “Correction”"></p>
+<p class="center">Figure 11 – Panel “Correction”</p>
+<h3 id="3337-panel-height-map">3.3.3.7 Panel “Height Map”</h3>
+<p>The <strong>Height Map</strong> panel (Figure 12) is responsible for creating, loading, scanning a surface roughness map and subsequently correcting the CP to level the part’s curvature when machining with a CNC.<br>
+This feature is useful for PCB milling and engraving.</p>
+<p><img src="images_en/heightmap.png#center" alt="Panel “Height Map”"></p>
+<p class="center">Figure 12 – Panel “Height Map”</p>
+<p>The panel provides controls to:</p>
+<ul>
+<li>Create, load and enable the height‑map mode.</li>
+<li>Define a rectangular map area.</li>
+<li>Set the number of probe points along <strong>X</strong> and <strong>Y</strong> axes.</li>
+<li>Specify the working height above the surface and probing depth.</li>
+<li>Set feed rate.</li>
+<li>Choose grid line count for CP partitioning on <strong>X</strong> and <strong>Y</strong>.</li>
+</ul>
+<p>CP correction based on the active height map is performed by enabling the <strong>Use Height Map</strong> flag.</p>
+<p>More detailed information on using the height‑map feature can be found in § <a href="#37-creating-a-height-map">3.7 “Creating a Height Map”</a> of this manual.</p>
+<h3 id="3338-panel-user-commands">3.3.3.8 Panel “User Commands”</h3>
+<p>To extend program functionality for CNC control, a <strong>User Commands</strong> panel is provided (Figure 13).<br>
+Each button on the panel sends pre‑defined commands to the GRBL controller when pressed.</p>
+<p><img src="images_en/usercommands.png#center" alt="Panel “User Commands”"></p>
+<p class="center">Figure 13 – Panel “User Commands”</p>
+<p>Command configuration occurs in the program’s <strong>Settings</strong> window.  Within the <em>User Commands</em> group, a table lists each command and allows you to:</p>
+<ul>
+<li>Add, delete or reorder commands.</li>
+<li>Set a tooltip shown when hovering over the button.</li>
+<li>Assign an icon to the button.</li>
+<li>Define one or more G‑code commands that are sent to the controller upon clicking the button.</li>
+</ul>
+<p>The program includes a limited set of icons; additional user‑defined icons can be added by placing image files in <code>plugins/usercommands/images</code> inside the installation folder.</p>
+<p>A command may consist of a single G‑code line or multiple lines, one per cell row under <strong>G‑code</strong>.<br>
+Within G‑code commands you can embed JavaScript snippets enclosed in braces <code>{}</code>. For example:</p>
+<ul>
+<li>Reset work‑coordinate X and store the offset in variable <code>storedG92x</code></li>
+</ul>
+<pre class="hljs"><code><div>G92X0
+{<span class="hljs-keyword">var</span> storedG92x = vars.G92x}
+</div></code></pre>
+<ul>
+<li>Restore X offset after a controller reset</li>
+</ul>
+<pre class="hljs"><code><div>G92X{vars.Mx - storedG92x - vars.x}
+</div></code></pre>
+<ul>
+<li>Launch the Notepad application</li>
+</ul>
+<pre class="hljs"><code><div>{script.importExtension(<span class="hljs-string">"qt.core"</span>)}
+{<span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> QProcess()}
+{p.start(<span class="hljs-string">"notepad"</span>, [])}
+</div></code></pre>
+<p>For a full discussion of using JavaScript within the program, see § <a href="#5-extension-development">5 Extension development</a> in this manual.</p>
+<h2 id="34-settings-window">3.4 Settings window</h2>
+<p>The program settings are available in the <strong>Settings</strong> dialog (Figure 14), invoked by selecting “Settings” from the <strong>Service</strong> menu of the application.</p>
+<p><img src="images_en/settings.png#center" alt="Settings window"></p>
+<p class="center">Figure 14 – Settings window</p>
+<p>The dialog contains three areas: a left panel with a list of setting groups, a right panel with controls for the selected group, and a bottom bar with buttons to reset settings to defaults, confirm changes, or cancel them.</p>
+<p>Below is information about all available program settings: group, parameter, description, permissible values, and default value.</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Parameter</th>
+<th>Description</th>
+<th>Permissible values</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Connection</strong></td>
+<td><strong>Port</strong></td>
+<td>Serial port used to connect to the CNC controller</td>
+<td>Path to device</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Speed</strong></td>
+<td>Baud rate for serial communication</td>
+<td>9600, 14400, 19200, 38400, 57600, 115200, any integer value</td>
+<td>115200</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Polling period</strong></td>
+<td>Time between status requests to the controller</td>
+<td>10–9999 ms</td>
+<td>100</td>
+</tr>
+<tr>
+<td><strong>Machine information</strong></td>
+<td><strong>Spindle speed min.</strong></td>
+<td>Minimum spindle rotation speed (used by the “Spindle” panel)</td>
+<td>0–99 999 RPM</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Spindle speed max.</strong></td>
+<td>Maximum spindle rotation speed</td>
+<td>0–99 999 RPM</td>
+<td>10 000</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Laser power min.</strong></td>
+<td>Minimum laser power (used for half‑tone raster visualisation of CP)</td>
+<td>0–99 999</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Laser power max.</strong></td>
+<td>Maximum laser power</td>
+<td>0–99 999</td>
+<td>100</td>
+</tr>
+<tr>
+<td><strong>Parser</strong></td>
+<td><strong>Arc segment size – by length</strong></td>
+<td>Length of segments that split arcs in CP when displayed in the “Visualizer” and during height‑map creation</td>
+<td>0.1–99 mm (0 = disabled)</td>
+<td>0.1 (disabled)</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Arc segment size – by angle</strong></td>
+<td>Angle used to subdivide arcs in CP for the same purposes</td>
+<td>0–180°</td>
+<td>5 ° (enabled)</td>
+</tr>
+<tr>
+<td><strong>File sending</strong></td>
+<td><strong>Start program commands</strong></td>
+<td>G‑code commands sent to the CNC controller before transmitting the CP</td>
+<td>Set of G‑code commands (JavaScript allowed)</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>End program commands</strong></td>
+<td>G‑code commands sent after the CP has been transmitted</td>
+<td>Same as above</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Tool change commands</strong></td>
+<td>G‑code commands sent when processing tool‑change instructions</td>
+<td>Same as above</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Ignore errors during file sending</strong></td>
+<td>Flag that determines whether to abort CP transmission when the controller reports an error</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Auto‑configure parser before sending from selected line</strong></td>
+<td>Enable sending of parser‑configuration commands before transmitting the CP from a chosen line</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Pause file transfer on tool change commands</strong></td>
+<td>Control whether to pause CP transmission while processing tool‑change instructions</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><strong>Visualizer</strong></td>
+<td><strong>Line thickness</strong></td>
+<td>Thickness of 3D projection lines in the visualiser</td>
+<td>1–9</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Smoothing</strong></td>
+<td>Enable line smoothing for the 3D projection</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>MSAA</strong></td>
+<td>Multi‑sample anti‑aliasing for the 3D projection</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Frame rate</strong></td>
+<td>FPS of the 3D projection rendering</td>
+<td>30, 60, 120, any integer</td>
+<td>60</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>V-sync</strong></td>
+<td>Enable vertical sync</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Depth buffer</strong></td>
+<td>Enable depth‑buffering for line overlap control</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Rendering mode</strong></td>
+<td>Method of CP projection: “Vector” (lines) or “Raster” (points)</td>
+<td>Vector, Raster</td>
+<td>Vector</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Simplify geometry</strong></td>
+<td>Limit the minimum segment size when rendering the CP</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Simplify geometry – Precision</strong></td>
+<td>Minimum segment length used for simplification (0 = only segments on a single line are converted)</td>
+<td>0–99 mm</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale shading</strong></td>
+<td>Enable point colourization in raster rendering</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale shading – by 'S' code</strong></td>
+<td>Colour points according to the ‘S’ G‑code value</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale shading – by 'Z' code</strong></td>
+<td>Colour points according to the ‘Z’ G‑code value</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td><strong>Colors</strong></td>
+<td><strong>Visualizer – Background</strong></td>
+<td>Background colour in the “Visualizer” window</td>
+<td>Any colour</td>
+<td>White</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Visualizer – Text</strong></td>
+<td>Text colour in the “Visualizer” window</td>
+<td>Any colour</td>
+<td>Black</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Visualizer – Tool</strong></td>
+<td>Colour of the tool model in the “Visualizer”</td>
+<td>Any colour</td>
+<td>Orange</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – Primary</strong></td>
+<td>Colour of the main trajectory paths in the CP projection</td>
+<td>Any colour</td>
+<td>Black</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – Completed</strong></td>
+<td>Colour of parts already processed by the CNC when sending the CP</td>
+<td>Any colour</td>
+<td>Gray</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – Highlight</strong></td>
+<td>Colour of lines sent to the CNC; colour of the marker for the selected CP line</td>
+<td>Any colour</td>
+<td>Purple</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – Z movements</strong></td>
+<td>Colour of vertical trajectory moves</td>
+<td>Any colour</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – Start</strong></td>
+<td>Colour of the start marker for the CP</td>
+<td>Any colour</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Trajectory – End</strong></td>
+<td>Colour of the end marker for the CP</td>
+<td>Any colour</td>
+<td>Green</td>
+</tr>
+<tr>
+<td><strong>Fret model</strong></td>
+<td><strong>Type</strong></td>
+<td>Tool model type in the “Visualizer”</td>
+<td>Flat, Conical</td>
+<td>Conical</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Angle</strong></td>
+<td>Cone angle of the conical tool model</td>
+<td>0–180°</td>
+<td>15 °</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Diameter</strong></td>
+<td>Diameter of the tool model</td>
+<td>0–99 mm</td>
+<td>3 mm</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Length</strong></td>
+<td>Length of the tool model</td>
+<td>0–999 mm</td>
+<td>30 mm</td>
+</tr>
+<tr>
+<td><strong>Quick shortcuts</strong></td>
+<td>–</td>
+<td>Key combinations for fast invocation of program functions</td>
+<td>Any key combination</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td><strong>Display G‑code commands in CP</strong></td>
+<td>Show G‑code commands of the CP in the “Console” during transmission to the controller</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Display UI commands</strong></td>
+<td>Show commands sent via instrument panel elements</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Auto‑complete command</strong></td>
+<td>Auto‑finish a command when entering it in the “Console” field based on previously typed text</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><strong>User interface</strong></td>
+<td><strong>Font size</strong></td>
+<td>Size of UI font</td>
+<td>8, 9, 10, 11, 12 pt or any integer</td>
+<td>9</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Interface language</strong></td>
+<td>Language used for UI labels</td>
+<td>American English, Russian (list can be extended)</td>
+<td>American English</td>
+</tr>
+<tr>
+<td><strong>Camera</strong></td>
+<td><strong>Name</strong></td>
+<td>Name of the camera whose image is shown in the “Camera” window</td>
+<td>List of available cameras or any custom name</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Resolution</strong></td>
+<td>Image resolution displayed from the camera</td>
+<td>Supported resolutions list or any custom resolution</td>
+<td>1280×720</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Position</strong></td>
+<td>Horizontal/vertical offset of the camera image in the “Camera” window</td>
+<td>Any offset in points</td>
+<td>0, 0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Scale</strong></td>
+<td>Scaling factor for the camera image</td>
+<td>Any number</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Crosshair position</strong></td>
+<td>Relative offset of targeting elements horizontally/vertically</td>
+<td>Offset between 0 and 1 in relative units</td>
+<td>0, 0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Crosshair size</strong></td>
+<td>Diameter of the targeting circle</td>
+<td>1–100</td>
+<td>20</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Crosshair color</strong></td>
+<td>Colour of targeting elements</td>
+<td>Any colour</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Line thickness</strong></td>
+<td>Thickness of crosshair lines</td>
+<td>0–100</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>User commands</strong></td>
+<td>–</td>
+<td>Table of commands for the “User Commands” panel</td>
+<td>Any set of commands</td>
+<td>Test commands</td>
+</tr>
+</tbody>
+</table>
+<h2 id="35-preparing-the-program-for-operation">3.5 Preparing the program for operation</h2>
+<h2 id="36-loading-the-control-program">3.6 Loading the control program</h2>
+<h2 id="37-creating-a-height-map">3.7 Creating a height map</h2>
+<h2 id="38-executing-the-control-program">3.8 Executing the control program</h2>
+<h1 id="4-operator-messages">4 Operator messages</h1>
+<h1 id="5-extension-development">5 Extension development</h1>
+<p>The program supports extensions that add new features and UI elements.<br>
+Each extension is a folder placed in the <strong>plugins</strong> directory of the installation folder and contains several files:</p>
+<ul>
+<li><code>config.ini</code> – text file describing the extension.</li>
+<li><code>script.js</code> – JavaScript code implementing the extension logic.</li>
+<li>Supporting resources (Qt Designer <code>.ui</code> files, translation files, images, etc.).</li>
+</ul>
+<p>The default installation already includes three extensions:</p>
+<table>
+<thead>
+<tr>
+<th>Extension name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>camera</code></td>
+<td>“Camera” panel functionality</td>
+</tr>
+<tr>
+<td><code>coordinatessytem</code></td>
+<td>“Coordinate system” panel functionality</td>
+</tr>
+<tr>
+<td><code>usercommands</code></td>
+<td>“User commands” panel functionality</td>
+</tr>
+</tbody>
+</table>
+<p>The set of extensions can grow over time.</p>
+<h2 id="51-extension-configuration-file">5.1 Extension Configuration File</h2>
+<p>The configuration file must contain two text keys in the <strong>General</strong> group:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>Window or panel header title</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Unique extension identifier (no spaces)</td>
+</tr>
+</tbody>
+</table>
+<p>Example for the <em>Coordinate system</em> plugin (<code>config.ini</code>):</p>
+<pre class="hljs"><code><div><span class="hljs-section">[General]</span>
+<span class="hljs-attr">title</span>=<span class="hljs-string">"Coordinate system"</span>
+<span class="hljs-attr">name</span>=<span class="hljs-string">"CoordinateSystemPlugin"</span>
+</div></code></pre>
+<h2 id="52-script-file">5.2 Script File</h2>
+<p>The script must be written in <strong>JavaScript</strong> and implement the required functionality.<br>
+An extension can provide UI panels for the “Device”, “Modification”, “User” windows, a dedicated window in the main program area, settings panel, or none of them.</p>
+<p>When the main program loads an extension it calls its functions in the order listed below:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Arguments</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>init()</code></td>
+<td>–</td>
+<td>–</td>
+<td>Extension initialisation routine</td>
+</tr>
+<tr>
+<td><code>createPanelWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a panel widget for “Device”, “Modification” or “User” windows</td>
+</tr>
+<tr>
+<td><code>createWindowWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a standalone window in the main program area</td>
+</tr>
+<tr>
+<td><code>createSettingsWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a settings widget (appears in the Settings dialog)</td>
+</tr>
+</tbody>
+</table>
+<p>The following global objects are available to the script.<br>
+All names and signatures are kept identical; only the descriptions are translated.</p>
+<h3 id="521-global-objects">5.2.1 Global objects</h3>
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Property/Method</th>
+<th>Type</th>
+<th>Arguments</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app</code></td>
+<td><code>sendCommand(command, index)</code></td>
+<td>Function</td>
+<td>command string, optional index</td>
+<td>–</td>
+<td>Sends a single G‑code command to the CNC controller; negative index values are ignored if <code>&lt;‑99</code>.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>sendCommands(commands, index)</code></td>
+<td>Function</td>
+<td>array of commands, optional index</td>
+<td>–</td>
+<td>Sends an array of commands as a single string separated by “\n”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>addAction(action)</code></td>
+<td>Function</td>
+<td><code>QAction</code> object</td>
+<td>–</td>
+<td>Adds an action to the application; shortcuts can be attached.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>removeAction(action)</code></td>
+<td>Function</td>
+<td><code>QAction</code> object</td>
+<td>–</td>
+<td>Removes a previously added action.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>buttonSize()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>size</td>
+<td>Returns standard button size for program panels.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>responseReceived(command, index, response)</code></td>
+<td>Signal</td>
+<td>command string, index, response string</td>
+<td>–</td>
+<td>Emitted when the controller replies to a sent command.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>statusReceived(status)</code></td>
+<td>Signal</td>
+<td>status string</td>
+<td>–</td>
+<td>Emitted when a “?” status is received from the controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>senderStateChanged(state)</code></td>
+<td>Signal</td>
+<td>state integer</td>
+<td>–</td>
+<td>Sent when the program’s sending state changes (see Table 7).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>deviceStateChanged(state)</code></td>
+<td>Signal</td>
+<td>state integer</td>
+<td>–</td>
+<td>Sent when the CNC controller state changes (see Table 8).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToLoad()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Before settings are loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsLoaded()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After settings have been loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToSave()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Before settings are saved.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsSaved()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After settings have been written to disk.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToShow()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Right before the Settings dialog is shown.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAccepted()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When user accepts changes in the Settings dialog.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsRejected()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When user cancels changes in the Settings dialog.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsSetByDefault()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When settings are reset to default values.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>pluginsLoaded()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After all extensions have been loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settings</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>The global settings object (see below).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>path</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Absolute installation path of the program.</td>
+</tr>
+<tr>
+<td><code>app.settings</code></td>
+<td><code>port</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Connection – Port” setting.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>baud</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Connection – Baudrate”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>queryStateTime</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Connection – Query interval”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>spindleSpeedMin</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine info – Min spindle speed”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>spindleSpeedMax</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine info – Max spindle speed”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>laserPowerMin</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine info – Min laser power”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>laserPowerMax</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine info – Max laser power”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Arc approximation – Length”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcDegree</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Arc approximation – Degree”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcDegreeMode</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Arc‑by‑degree mode toggle.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>startCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – Start commands”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>endCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – End commands”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolChangeCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – Tool change commands”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>ignoreErrors</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – Ignore errors”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>autoLine</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – Auto‑parse line”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>pauseToolChange</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“File send – Pause on tool change”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>lineWidth</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Line width”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>antialiasing</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Antialiasing”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>msaa</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – MSAA”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>fps</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – FPS”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>vsync</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – V‑Sync”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>zBuffer</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Z‑buffer”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>drawModeVectors</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Draw mode” (0 raster, 1 vector).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>simplify</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Simplify geometry”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>simplifyPrecision</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Simplification precision”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>grayscaleSegments</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Grayscale segments”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>grayscaleSCode</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Visualizer – Grayscale by S‑code”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolType</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Tool model – Type” (0 flat, 1 conical).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolAngle</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Tool model – Angle”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolDiameter</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Tool model – Diameter”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Tool model – Length”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>showProgramCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Console – Show G‑code program commands”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>showUICommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Console – Show UI commands”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>autoCompletion</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Console – Auto‑complete command”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>fontSize</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“UI – Font size”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>language</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“UI – Interface language” (ISO 639‑1).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>units</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>CNC units (0 metric, 1 imperial).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>rapidSpeed</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Rapid movement speed.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>acceleration</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Acceleration of movements.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>machineBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>CNC movement bounds.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>homingEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Homing enabled flag.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>softLimitsEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Soft limits enabled flag.</td>
+</tr>
+<tr>
+<td><strong>vars</strong></td>
+<td><code>Mx</code>, <code>My</code>, <code>Mz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current machine coordinates X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Wx</code>, <code>Wy</code>, <code>Wz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current workpiece coordinates X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G54x</code>, …, <code>G59z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Coordinate‑system offsets for G54–G59.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>CS</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current coordinate system string (“G54”…“G59”).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>x</code>, <code>y</code>, <code>z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Offset of current system’s X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G92x</code>, …, <code>G92z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Workpiece offsets.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G28x</code>, …, <code>G30z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Saved positions for G28/G30 commands.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>TLOx</code>, …, <code>TLOz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Tool‑offsets X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>PRBx</code>, <code>PRBy</code>, <code>PRBz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Probe contact coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>tool</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current tool number.</td>
+</tr>
+<tr>
+<td><code>script</code></td>
+<td><code>importExtension(name)</code></td>
+<td>Function</td>
+<td>extension name string</td>
+<td>–</td>
+<td>Loads another JavaScript extension; the list of available extensions is in Table 9.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>path</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Absolute path to this extension folder.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="522-sending%E2%80%91state-enumerations-table-7">5.2.2 Sending‑state enumerations (Table 7)</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>Unknown state</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Sending program</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Transition to pause state</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pause in progress</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Program finished – all CP commands sent</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Transfer completed – controller processed all CP commands</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Manual tool change</td>
+</tr>
+</tbody>
+</table>
+<h3 id="523-controller-state-enumerations-table-8">5.2.3 Controller state enumerations (Table 8)</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>Unknown state</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Ready to receive commands</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Alarm</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Running</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Searching home position</td>
+</tr>
+<tr>
+<td>5</td>
+<td>End of “Hold” mode transition</td>
+</tr>
+<tr>
+<td>6</td>
+<td>In “Hold” mode</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CP verification mode</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Door closed, ready to resume</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Door open, CNC stopped</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Door open, pausing or parking</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Door closed, resuming work or returning from parking</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Movement state</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Sleep mode</td>
+</tr>
+</tbody>
+</table>
+<h3 id="524-extension-script-list-table-9">5.2.4 Extension script list (Table 9)</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>qt.core</code></td>
+<td>Core Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.custom</code></td>
+<td>Custom UI elements – see Table 10</td>
+</tr>
+<tr>
+<td><code>qt.gui</code></td>
+<td>GUI Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.multimedia</code></td>
+<td>Multimedia Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.network</code></td>
+<td>Network‑supporting Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.opengl</code></td>
+<td>OpenGL‑supporting Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.printsupport</code></td>
+<td>Print‑supporting Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.sql</code></td>
+<td>Database‑supporting Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.uitools</code></td>
+<td>Tools for dynamic UI creation</td>
+</tr>
+<tr>
+<td><code>qt.xml</code></td>
+<td>XML‑supporting Qt objects</td>
+</tr>
+<tr>
+<td><code>qt.widgets</code></td>
+<td>Standard Qt widgets</td>
+</tr>
+</tbody>
+</table>
+<h3 id="525-custom-ui-elements-table-10">5.2.5 Custom UI elements (Table 10)</h3>
+<table>
+<thead>
+<tr>
+<th>Object type</th>
+<th>Base class</th>
+<th>Purpose</th>
+<th>Property</th>
+<th>Type</th>
+<th>Arguments</th>
+<th>Return value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ColorPicker</code></td>
+<td><code>QWidget</code></td>
+<td>Color selection</td>
+<td><code>colorInt</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>32‑bit color code in AARRGGBB format.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>colorSelected</code></td>
+<td>Signal</td>
+<td>Color</td>
+<td>–</td>
+<td>Emitted when user selects a color.</td>
+</tr>
+<tr>
+<td><code>Slider</code></td>
+<td><code>QSlider</code></td>
+<td>Slider with current value display</td>
+<td><code>currentValue</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current slider value.</td>
+</tr>
+<tr>
+<td><code>SliderBox</code></td>
+<td><code>QWidget</code></td>
+<td>Slider + line edit + enable flag</td>
+<td><code>value</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Parameter setting.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>currentValue</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current value.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>minimum</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Minimum allowed value.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>maximum</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Maximum allowed value.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>sliderPosition</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Slider position.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>ratio</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Ratio of line‑edit value to slider position.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>title</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Parameter name.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>suffix</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Units of measurement.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>isCheckable</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Whether a check box is shown.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>isChecked</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current check state.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>valueUserChanged</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Emitted when user changes the value.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>valueChanged</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Emitted when value changes internally.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>toggled</code></td>
+<td>Signal</td>
+<td>State</td>
+<td>–</td>
+<td>Emitted on toggle of check flag.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>click</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Programmatic toggle.</td>
+</tr>
+<tr>
+<td><code>StyledToolButton</code></td>
+<td><code>QToolButton</code></td>
+<td>Toolbar button</td>
+<td><code>backgroundColor</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Button background color (<code>QColor</code>).</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>foregroundColor</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Text color.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>highlightColor</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Highlight border color.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="53-translation-file">5.3 Translation file</h2>
+<p>Each extension may provide a translation file for its UI strings.<br>
+The filename format is:</p>
+<pre class="hljs"><code><div>translation_xx.qm
+</div></code></pre>
+<p>where <strong>xx</strong> is the two‑letter language code.</p>
+<p>Compiled <code>.qm</code> files are produced from source <code>.ts</code> files using Qt Linguist or the <code>lrelease</code> command that ships with the Qt framework.</p>
+<p>For details on creating translation files, see the Qt documentation:<br>
+<a href="https://doc.qt.io/qt-5/qtlinguist-index.html">Qt Linguist Manual</a>.</p>
+<h1 id="appendix-a-controller-settings">Appendix A: Controller settings</h1>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+<th>Valid values</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Step pulse duration for stepper drivers, microseconds</td>
+<td></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Timeout for turning off stepper drivers, milliseconds</td>
+<td></td>
+<td><code>25</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bit mask of step signal inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bit mask of direction signal inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Enable signal inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>End‑stop inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Probe signal inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Bit mask of status output</td>
+<td>bit 0 – work coords, bit 1 – machine coords, bit 2 – buffer info</td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Junction deviation parameter (mm)</td>
+<td></td>
+<td><code>0.01</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Max arc‑to‑segment approximation error (mm)</td>
+<td></td>
+<td><code>0.002</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Output units in inches flag</td>
+<td><code>0</code> mm, <code>1</code> inch</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td>Software limits enable flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td>Hardware limits enable flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td>Homing enabled flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>23</td>
+<td>Bit mask of homing direction inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td>Homing speed (mm/s)</td>
+<td></td>
+<td><code>25</code></td>
+</tr>
+<tr>
+<td>25</td>
+<td>Initial homing speed (mm/s)</td>
+<td></td>
+<td><code>250</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td>End‑stop debounce time (ms)</td>
+<td></td>
+<td><code>250</code></td>
+</tr>
+<tr>
+<td>27</td>
+<td>Home offset distance after end‑stops (mm)</td>
+<td></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>30</td>
+<td>Max spindle speed (rev/s)</td>
+<td></td>
+<td><code>10000</code></td>
+</tr>
+<tr>
+<td>31</td>
+<td>Min spindle speed (rev/s)</td>
+<td></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>32</td>
+<td>Laser mode flag (no stop on “S” command)</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>100</td>
+<td>Steps per mm for X axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>101</td>
+<td>Steps per mm for Y axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>102</td>
+<td>Steps per mm for Z axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>110</td>
+<td>Max feed rate X (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>111</td>
+<td>Max feed rate Y (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>112</td>
+<td>Max feed rate Z (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>120</td>
+<td>Acceleration X (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>121</td>
+<td>Acceleration Y (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>122</td>
+<td>Acceleration Z (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>130</td>
+<td>Max X travel from home (software limit)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>131</td>
+<td>Max Y travel from home</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>132</td>
+<td>Max Z travel from home</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="appendix-b-g-code-command-table">Appendix B: G-code command table</h1>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>G0</code></td>
+<td>Rapid positioning</td>
+<td><code>G0 X10 Y20 Z30</code></td>
+</tr>
+<tr>
+<td><code>G1</code></td>
+<td>Linear interpolation</td>
+<td><code>G1 X0 Y0 Z0 F100</code></td>
+</tr>
+<tr>
+<td><code>G2</code></td>
+<td>Clockwise circular interpolation</td>
+<td><code>G2 X10 Y0 R5 F100</code></td>
+</tr>
+<tr>
+<td><code>G3</code></td>
+<td>Counter‑clockwise circular interpolation</td>
+<td><code>G3 X10 Y0 R5 F100</code></td>
+</tr>
+<tr>
+<td><code>G4</code></td>
+<td>Program delay, P – seconds</td>
+<td><code>G4 P0.5</code></td>
+</tr>
+<tr>
+<td><code>G10</code></td>
+<td>Set coordinate offsets</td>
+<td><code>G10 L2 X10</code>, <code>G10 L20 X0</code></td>
+</tr>
+<tr>
+<td><code>G17</code></td>
+<td>Select XY plane for circular interpolation</td>
+<td><code>G17</code></td>
+</tr>
+<tr>
+<td><code>G18</code></td>
+<td>Select ZX plane</td>
+<td><code>G18</code></td>
+</tr>
+<tr>
+<td><code>G19</code></td>
+<td>Select YZ plane</td>
+<td><code>G19</code></td>
+</tr>
+<tr>
+<td><code>G20</code></td>
+<td>Switch to inch units</td>
+<td><code>G20</code></td>
+</tr>
+<tr>
+<td><code>G21</code></td>
+<td>Switch to metric units</td>
+<td><code>G21</code></td>
+</tr>
+<tr>
+<td><code>G28</code></td>
+<td>Return to home position</td>
+<td><code>G28 G91 X0 Y0 Z0</code></td>
+</tr>
+<tr>
+<td><code>G28.1</code></td>
+<td>Set current position as new home</td>
+<td><code>G28.1</code></td>
+</tr>
+<tr>
+<td><code>G30</code></td>
+<td>Return to tool‑change position</td>
+<td><code>G30 G91 Z0</code></td>
+</tr>
+<tr>
+<td><code>G30.1</code></td>
+<td>Set current position as tool‑change position</td>
+<td><code>G30.1</code></td>
+</tr>
+<tr>
+<td><code>G38.2</code></td>
+<td>Probe towards workpiece, error on no contact</td>
+<td><code>G38.2 G91 X10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.3</code></td>
+<td>Probe towards workpiece</td>
+<td><code>G38.3 G91 X10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.4</code></td>
+<td>Probe away from workpiece, error on lost contact</td>
+<td><code>G38.4 G91 X-10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.5</code></td>
+<td>Probe away from workpiece</td>
+<td><code>G38.5 G91 X-10 F10</code></td>
+</tr>
+<tr>
+<td><code>G40</code></td>
+<td>Cancel tool radius compensation</td>
+<td><code>G40</code></td>
+</tr>
+<tr>
+<td><code>G43.1</code></td>
+<td>Tool length compensation</td>
+<td><code>G43.1 Z0.5</code></td>
+</tr>
+<tr>
+<td><code>G49</code></td>
+<td>Cancel tool length compensation</td>
+<td><code>G49</code></td>
+</tr>
+<tr>
+<td><code>G53</code></td>
+<td>Use machine (absolute) coordinates</td>
+<td><code>G53 G90 G0 X0 Y0</code></td>
+</tr>
+<tr>
+<td><code>G54…G59</code></td>
+<td>Select coordinate system</td>
+<td><code>G55</code></td>
+</tr>
+<tr>
+<td><code>G61</code></td>
+<td>Enable precise stop mode</td>
+<td><code>G1 G61 X10 F100</code></td>
+</tr>
+<tr>
+<td><code>G80</code></td>
+<td>Cancel cycles</td>
+<td><code>G80</code></td>
+</tr>
+<tr>
+<td><code>G90</code></td>
+<td>Use absolute coordinates</td>
+<td><code>G1 G90 X10 Y10 Z0</code></td>
+</tr>
+<tr>
+<td><code>G91</code></td>
+<td>Use relative coordinates</td>
+<td><code>G1 G91 X10</code></td>
+</tr>
+<tr>
+<td><code>G91.1</code></td>
+<td>Use I,J,K for circular interpolation</td>
+<td><code>G91.1</code></td>
+</tr>
+<tr>
+<td><code>G92</code></td>
+<td>Set work coordinate offsets</td>
+<td><code>G92 X0 Y0</code></td>
+</tr>
+<tr>
+<td><code>G92.1</code></td>
+<td>Reset work coordinate offsets</td>
+<td><code>G92.1</code></td>
+</tr>
+<tr>
+<td><code>G93</code></td>
+<td>Feed in reverse time units (1/F min)</td>
+<td><code>G93</code></td>
+</tr>
+<tr>
+<td><code>G94</code></td>
+<td>Feed in mm/min</td>
+<td><code>G94</code></td>
+</tr>
+<tr>
+<td><code>M0</code></td>
+<td>Pause program</td>
+<td><code>M0</code></td>
+</tr>
+<tr>
+<td><code>M1</code></td>
+<td>Optional pause</td>
+<td><code>M1</code></td>
+</tr>
+<tr>
+<td><code>M2</code></td>
+<td>End program</td>
+<td><code>M2</code></td>
+</tr>
+<tr>
+<td><code>M3</code></td>
+<td>Spindle clockwise</td>
+<td><code>M3</code></td>
+</tr>
+<tr>
+<td><code>M4</code></td>
+<td>Spindle counter‑clockwise</td>
+<td><code>M4</code></td>
+</tr>
+<tr>
+<td><code>M5</code></td>
+<td>Stop spindle</td>
+<td><code>M5</code></td>
+</tr>
+<tr>
+<td><code>M7</code></td>
+<td>Water coolant on</td>
+<td><code>M7</code></td>
+</tr>
+<tr>
+<td><code>M8</code></td>
+<td>Air coolant on</td>
+<td><code>M8</code></td>
+</tr>
+<tr>
+<td><code>M9</code></td>
+<td>Coolant off</td>
+<td><code>M9</code></td>
+</tr>
+<tr>
+<td><code>M30</code></td>
+<td>End program and rewind</td>
+<td><code>M30</code></td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
