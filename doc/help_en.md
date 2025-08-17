@@ -13,8 +13,7 @@ table {
 
 # Program "Candle"
 
-
-# Table of contents
+## Table of contents
 [1 Purpose of the program](#1-purpose-of-the-program)  
 [2 Program requirements](#2-program-requirements)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.1 Hardware requirements](#21-hardware-requirements)  
@@ -52,7 +51,6 @@ table {
 [Appendix A: Controller settings](#appendix-a-controller-settings)  
 [Appendix B: G-code command table](#appendix-b-g-code-command-table)  
 
-----
 
 # 1 Purpose of the program
 

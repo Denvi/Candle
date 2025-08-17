@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QStringList>
 #include <QTextBlock>
 #include <QTextCursor>
@@ -113,6 +114,7 @@ frmMain::frmMain(QWidget *parent) :
     preloadSettings();
 
     m_settings = new frmSettings(this);
+    m_about = new frmAbout(this);
     ui->setupUi(this);
 
     // Drag&drop placeholders
@@ -335,6 +337,8 @@ frmMain::frmMain(QWidget *parent) :
 
 frmMain::~frmMain()
 {
+    qApp->removeEventFilter(this);
+
     delete m_senderErrorBox;
     delete ui;
 }
@@ -605,9 +609,24 @@ void frmMain::on_actServiceSettings_triggered()
     }
 }
 
-void frmMain::on_actAbout_triggered()
+void frmMain::on_actHelpAbout_triggered()
 {
-    m_frmAbout.exec();
+    m_about->exec();
+}
+
+void frmMain::on_actHelpDocumentation_triggered()
+{
+    const QString docsFolder = "doc";
+    const QString fallbackHelpFileName = docsFolder + "/help_en.html";
+
+    QString helpFileName = docsFolder + "/help_" + (!m_settings->language().isEmpty() ? m_settings->language() : "en")
+        + ".html";
+
+    if (!QFile::exists(helpFileName)) {
+        helpFileName = fallbackHelpFileName;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(helpFileName));
 }
 
 void frmMain::on_actJogStepNext_triggered()
