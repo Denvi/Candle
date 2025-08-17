@@ -335,6 +335,8 @@ frmMain::frmMain(QWidget *parent) :
 
 frmMain::~frmMain()
 {
+    qApp->removeEventFilter(this);
+
     delete m_senderErrorBox;
     delete ui;
 }
