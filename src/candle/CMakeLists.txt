@@ -36,13 +36,25 @@ target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::O
 
 set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
 
+# Main executable
 install(TARGETS candle RUNTIME DESTINATION .)
-install(FILES ${QM_FILES} DESTINATION translations)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
-install(FILES ${CMAKE_SOURCE_DIR}/src/candle/settings.ini DESTINATION .)
-install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc DESTINATION . FILES_MATCHING PATTERN *.png PATTERN *.html)
 
+# Translations
+install(FILES ${QM_FILES} DESTINATION translations)
+
+# Candle plugins
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
+
+# Default settings
+install(FILES ${CMAKE_SOURCE_DIR}/src/candle/settings.ini DESTINATION .)
+
+# License
+install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
+
+# Documentation
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc DESTINATION . FILES_MATCHING PATTERN *.png PATTERN *.html PATTERN *.ico)
+
+# Shared libraries
 if(WIN32)
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll PATTERN qt.conf)
 endif()

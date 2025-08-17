@@ -24,19 +24,19 @@ table {
 &nbsp;&nbsp;&nbsp;&nbsp;[3.3 Main window](#33-main-window)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.1 Main menu](#331-main-menu)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2 Windows](#332-windows)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.1 Window "G-code program"](#3321-window-gcode-program)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.1 Window "G-code program"](#3321-window-g-code-program)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.2 Window "Visualizer"](#3322-window-visualizer)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.3 Window "Camera"](#3323-window-camera)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.4 Window "Console"](#3324-window-console)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.5 Windows "Device", "Modification", "User"](#3325-windows-device-modification-user)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3 Instrument panels](#333-instrument-panels)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.1 Panel "Status"](#3331-panel-status)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.1 Panel "State"](#3331-panel-state)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.2 Panel "Control"](#3332-panel-control)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.3 Panel "Coordinate system"](#3333-panel-coordinate-system)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.4 Panel "Spindle"](#3334-panel-spindle)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.5 Panel "Jogging"](#3335-panel-jogging)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.6 Panel "Correction"](#3336-panel-correction)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.7 Panel "Height map"](#3337-panel-height-map)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.5 Panel "Jog"](#3335-panel-jog)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.6 Panel "Overriding"](#3336-panel-overriding)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.7 Panel "Heightmap"](#3337-panel-heightmap)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.8 Panel "User commands"](#3338-panel-user-commands)  
 &nbsp;&nbsp;&nbsp;&nbsp;[3.4 Settings window](#34-settings-window)  
 &nbsp;&nbsp;&nbsp;&nbsp;[3.5 Preparing the program for operation](#35-preparing-the-program-for-operation)  
@@ -137,17 +137,18 @@ It is divided into groups and items, whose descriptions are shown in Table 1.
 |       | Recent files  | Load one of the most recent CP files                |
 |       | Save          | Write changes to the current CP file                 |
 |       | Save As       | Write the CP to a specified file                     |
+|       | Exit          | Exit the program                                    |
 | View  | Windows       | Choose which windows are displayed                  |
 |       | Panels        | Choose which panels are displayed                   |
 |       | Lock windows  | Disable/enable moving of windows                    |
 |       | Lock panels   | Disable/enable moving of panels                      |
 | Service | Settings     | Open the program’s settings window                  |
-| Help  | Contents      | Launch the help system                               |
+| Help  | Documentation | Open the program documentation                       |
 |       | About program | Open the dialog with information about the program  |
 
 ## 3.3.2 Windows
 
-### 3.3.2.1 Window “G‑code program”
+### 3.3.2.1 Window “G-code program”
 
 The current CP is displayed in the **“G‑code program”** window shown in Figure 2.
 
@@ -156,9 +157,9 @@ The current CP is displayed in the **“G‑code program”** window shown in Fi
 
 Each row of the table corresponds to a line of the CP and contains the following columns:
 
-* **“№”** – CP line number.  
+* **“#”** – CP line number.  
 * **“Command”** – The command itself.  
-* **“State”** – Current state of the command: “Queued”, “Sent”, “Processed”, or “Missed”.  
+* **“State”** – Current state of the command: “In queue”, “Sent”, “Processed”, or “Skipped”.  
 * **“Response”** – Response from the GRBL controller to the sent command.
 
 The CP can be edited; the following functions are supported:
@@ -166,8 +167,8 @@ The CP can be edited; the following functions are supported:
 | Function | How it works |
 |----------|--------------|
 | Change a command in a selected row | Double‑click the cell in the *Command* column or press `<F2>` while the cell is highlighted. Confirm with `<Enter>` or `<Tab>`, cancel with `<Esc>`. |
-| Add new rows | Select the row before which the new one should be inserted, then choose **“Insert row”** from the context menu (right‑click in the table) or press the `<Ins>` key. |
-| Delete selected rows | Use **“Delete rows”** from the context menu or press `<Del>`. |
+| Add new rows | Select the row before which the new one should be inserted, then choose **“Insert line”** from the context menu (right‑click in the table) or press the `<Ins>` key. |
+| Delete selected rows | Use **“Delete lines”** from the context menu or press `<Del>`. |
 
 Below the table are controls for loading and sending CP to the CNC controller:
 
@@ -181,11 +182,11 @@ Below the table are controls for loading and sending CP to the CNC controller:
 
 > **Note** – When “Pause” or “Stop” is activated, the actual CNC halt occurs only after the controller’s command input buffer has been emptied. For an immediate stop use the **“Hold”** and **“Reset”** commands from the *Control* panel.
 
-To the left of these buttons lies a flag that enables automatic scrolling of the table during CP transmission. If the CP is actively being sent while the user manually scrolls, this flag resets automatically.
+There is a **"Scroll"** checkbox to the left of these buttons that enables automatic scrolling of the table during CP transmission. If the CP is actively being sent while the user manually scrolls, this checkbox resets automatically.
 
 #### 3.3.2.2 Window “Visualizer”
 
-The graphical representation of the CP is displayed in the **Window "Visualizer"** (Figure 3).
+The graphical representation of the CP is displayed in the window **"Visualizer"** (Figure 3).
 
 ![Window “Visualizer”](images_en/visualizer.png#center)
 <p class="center">Figure 3 – Window “Visualizer”</p>
@@ -204,7 +205,7 @@ The CP tool trajectory is represented by a set of line segments:
 - Dashed black lines indicate accelerated moves.  
 - Red lines represent vertical movements.
 
-When the CP is sent to the CNC controller, some segments change colour according to the following rules: the part already processed by the CNC is coloured grey; the portion that has been transmitted to the CNC is coloured violet.
+When the CP is sent to the CNC controller, some segments change color according to the following rules: the part already processed by the CNC is colored grey; the portion that has been transmitted to the CNC is colored violet.
 
 Three circle markers are overlaid on the trajectory:
 
@@ -212,7 +213,7 @@ Three circle markers are overlaid on the trajectory:
 - **Green marker** – end of the trajectory.  
 - **Purple marker** – segment corresponding to the command highlighted in the "G‑code program" window table.
 
-In the main area the origin is shown as a red rectangle in the X–Y plane, with axes coloured: X – red, Y – green, Z – blue. A conditional representation of the tool appears as an orange wireframe model.
+In the main area the origin is shown as a red rectangle in the X–Y plane, with axes colored: X – red, Y – green, Z – blue. A conditional representation of the tool appears as an orange wireframe model.
 
 **Navigation in the main area**
 
@@ -247,7 +248,7 @@ It shows the interpreter’s current mode for all 12 modal groups, tool number, 
 
 The CNC component status string appears as:
 
-<p class="center">CS: SFM</p>
+<p class="center">AS: SFM</p>
 
 - **S** indicates spindle rotation clockwise; it is replaced by **C** when rotating counter‑clockwise and omitted when the spindle stops.  
 - **F** appears when water cooling is active; **M** denotes air cooling.
@@ -271,7 +272,7 @@ View navigation inside the window is performed by holding the left mouse button 
 
 The window contains reticle elements: a vertical line, a horizontal line, and a circle whose centre lies at the intersection of the two lines. The intersection point can be moved by pressing LMB while holding the **Shift** key on the keyboard and dragging the cursor in the desired direction.
 
-Parameters such as camera image resolution, colour and thickness of the reticle elements are available in the program’s settings window.
+Parameters such as camera image resolution, color and thickness of the reticle elements are available in the program’s settings window.
 
 #### 3.3.2.4 Window “Console”
 
@@ -286,7 +287,7 @@ To send a command to the CNC controller, type it into the entry field and press 
 
 <p class="center">Command < Response</p>
 
-If the program setting *“Display user‑interface commands”* is enabled, all commands sent to the controller by toolbar controls will appear in the output area. When *“Display G‑code program commands”* is turned on, every command from the CP that is transmitted to the controller will also be shown.
+If the program setting *“Show UI commands”* is enabled, all commands sent to the controller by toolbar controls will appear in the output area. When *“Show G‑code program commands”* is turned on, every command from the CP that is transmitted to the controller will also be shown.
 
 The output field can be cleared by clicking **Clear Console**.
 
@@ -306,34 +307,34 @@ At program startup some panels appear inactive and become active only after the 
 
 ## 3.3.3 Instrument panels
 
-### 3.3.3.1 Panel “Status”
+### 3.3.3.1 Panel “State”
 
-The **Status** panel (Figure 6) displays the current work‑ and machine‑coordinates, as well as the operating mode of the CNC controller.  
+The **State** panel (Figure 6) displays the current work‑ and machine‑coordinates, as well as the operating mode of the CNC controller.  
 Coordinates are shown in output fields arranged horizontally in the order: **X, Y, Z**.
 
 #### Controller operating modes (field *“Status”*)
 
 | Mode | Description |
 |------|-------------|
-| **Ready** | The controller is ready to receive commands. |
+| **Idle** | The controller is ready to receive commands. |
 | **Alarm** | An emergency state. |
 | **Run** | Executing a control program (CP). |
 | **Home** | Searching for the home position. |
 | **Hold**  | Motion is paused, awaiting further continue/reset commands. |
 | **Check**  | Incoming G‑code is interpreted without actual tool movement. |
 | **Door**  | Door‑sensor triggered mode. |
-| **Jogging**  | Executing special jogging commands. |
+| **Jog**  | Executing special jogging commands. |
 | **Sleep** | Low‑power standby mode. |
 
 In the same field, states that are not related to the controller’s operating mode are shown:
 
-- **No connection** – when the serial port cannot be opened for the CNC.
-- **Port opened** – the serial port is open but no connection with the GRBL controller has been established.
+- **Not connected** – when the serial port cannot be opened for the CNC.
+- **Port opened** – the serial port is open, but no communication with the GRBL controller has been established.
 
-The background colour of the *Status* field may change depending on the state.
+The background color of the *Status* field may change depending on the state.
 
-![Panel “Status”](images_en/status.png#center)
-<p class="center">Figure 6 – Panel “Status”</p>
+![Panel “State”](images_en/status.png#center)
+<p class="center">Figure 6 – Panel “State”</p>
 
 ### 3.3.3.2 Panel “Control”
 
@@ -354,7 +355,7 @@ Table 3 lists the button, the command it sends (command code), and its descript
 | **Check** | `$C` or `0x18` | Enable (`$C`) / disable (`0x18`) CP check mode. |
 | **Sleep** | `$SLP` | Put the controller into low‑power mode. |
 | **Door** | `0x84` | Force the controller into door‑triggered mode. |
-| **Cooling** | `0xA0` | Toggle water cooling system on/off. |
+| **Flood** | `0xA0` | Toggle water cooling system on/off. |
 
 > Note: When disabling CP check mode, a software reset command is sent followed by restoration of the controller state and work‑coordinate offsets.
 
@@ -374,7 +375,7 @@ On the spindle‑control panel (Figure 9) you will find:
 
 - An input field for setting / displaying the desired spindle speed.
 - A horizontal slider for adjusting the spindle speed.
-- A button to enable/disable the spindle.
+- A button to turn on/off the spindle.
 
 ![Panel “Spindle”](images_en/spindle.png#center)
 <p class="center">Figure 9 – Panel “Spindle”</p>
@@ -382,46 +383,46 @@ On the spindle‑control panel (Figure 9) you will find:
 The spindle speed can be set either by typing a number into the field or by using the slider.  
 Text in the input field may appear **black** if the current spindle speed matches the desired value, or **red** otherwise.
 
-The slider’s knob is a gray circle with a dark outline; the marker – a lighter‑coloured circle indicating the current speed.
+The slider’s knob is a gray circle with a dark outline; the marker – a lighter‑colored circle indicating the current speed.
 
 During CP transmission to the controller the spindle speed can be altered via the above controls using injected G‑code `S`, or through the “Correction” panel’s override function.  
 Spindle on/off during transmission is possible only while the controller is in *Hold* mode.
 
-### 3.3.3.5 Panel “Jogging”
+### 3.3.3.5 Panel “Jog”
 
-The **Jogging** panel contains controls for moving the CNC tool:
+The **Jog** panel contains controls for moving the CNC tool:
 
 - Arrow buttons for axes **X** (left/right), **Y** (up/down) and **Z** (up/down on the right side).
 - A central **Stop** button that force‑stops motion.
 - A drop‑down list **Step**, where you can set the jog step size.
 - A drop‑down list **Feed**, selecting the jog feed rate.
-- A flag **Keyboard Control** to enable keyboard jogging from the PC.
+- A checkbox **Keyboard Control** to enable keyboard jogging from the PC.
 
 ![Panel “Jogging”](images_en/jogging.png#center)
-<p class="center">Figure 10 – Panel “Jogging”</p>
+<p class="center">Figure 10 – Panel “Jog”</p>
 
 The *Step* and *Feed* lists provide predefined values but allow entry of arbitrary numbers.  
-Values entered while **Keyboard Control** is enabled are remembered and can be reused on subsequent program launches.
+Values entered right before **Keyboard Control** is enabled are remembered and can be reused on subsequent program launches.
 
 Each button, as well as changing the *Step* and *Feed* values, may have hotkeys defined in the program’s **Settings** window.  Keyboard control must be turned on for these shortcuts to work.
 
-### 3.3.3.6 Panel “Correction”
+### 3.3.3.6 Panel “Overriding”
 
-Figure 11 shows the **Correction** panel.  
+Figure 11 shows the **Overriding** panel.  
 It contains controls similar to those on the spindle panel but overrides feed rate, idle speed and spindle speed during CP transmission.
 
-The only difference is that the spindle button has been replaced by a corresponding flag (checkbox).
+The only difference is that the spindle button has been replaced by a corresponding checkbox.
 
-![Panel “Correction”](images_en/overriding.png#center)
-<p class="center">Figure 11 – Panel “Correction”</p>
+![Panel “Overriding”](images_en/overriding.png#center)
+<p class="center">Figure 11 – Panel “Overriding”</p>
 
-### 3.3.3.7 Panel “Height Map”
+### 3.3.3.7 Panel “Heightmap”
 
-The **Height Map** panel (Figure 12) is responsible for creating, loading, scanning a surface roughness map and subsequently correcting the CP to level the part’s curvature when machining with a CNC.  
+The **Heightmap** panel (Figure 12) is responsible for creating, loading, scanning a surface roughness map and subsequently correcting the CP to level the part’s curvature when machining with a CNC.  
 This feature is useful for PCB milling and engraving.
 
 ![Panel “Height Map”](images_en/heightmap.png#center)
-<p class="center">Figure 12 – Panel “Height Map”</p>
+<p class="center">Figure 12 – Panel “Heightmap”</p>
 
 The panel provides controls to:
 
@@ -432,26 +433,26 @@ The panel provides controls to:
 - Set feed rate.
 - Choose grid line count for CP partitioning on **X** and **Y**.
 
-CP correction based on the active height map is performed by enabling the **Use Height Map** flag.
+CP correction based on the active height map is performed by enabling the **Use heightmap** checkbox.
 
 More detailed information on using the height‑map feature can be found in § [3.7 “Creating a Height Map”](#37-creating-a-height-map) of this manual.
 
-### 3.3.3.8 Panel “User Commands”
+### 3.3.3.8 Panel “User commands”
 
-To extend program functionality for CNC control, a **User Commands** panel is provided (Figure 13).  
+To extend program functionality for CNC control, a **User commands** panel is provided (Figure 13).  
 Each button on the panel sends pre‑defined commands to the GRBL controller when pressed.
 
-![Panel “User Commands”](images_en/usercommands.png#center)
-<p class="center">Figure 13 – Panel “User Commands”</p>
+![Panel “User commands”](images_en/usercommands.png#center)
+<p class="center">Figure 13 – Panel “User commands”</p>
 
-Command configuration occurs in the program’s **Settings** window.  Within the *User Commands* group, a table lists each command and allows you to:
+Command configuration occurs in the program’s **Settings** window.  Within the *User commands* group, a table lists each command and allows you to:
 
 - Add, delete or reorder commands.
 - Set a tooltip shown when hovering over the button.
 - Assign an icon to the button.
 - Define one or more G‑code commands that are sent to the controller upon clicking the button.
 
-The program includes a limited set of icons; additional user‑defined icons can be added by placing image files in `plugins/usercommands/images` inside the installation folder.
+The program includes a limited set of icons; additional user‑defined icons can be added by placing image files in `candleplugins/usercommands/images` inside the installation folder.
 
 A command may consist of a single G‑code line or multiple lines, one per cell row under **G‑code**.  
 Within G‑code commands you can embed JavaScript snippets enclosed in braces `{}`. For example:
@@ -493,75 +494,85 @@ Below is information about all available program settings: group, parameter, des
 | Group                      | Parameter                                 | Description                                                                                                   | Permissible values                                              | Default value         |
 |----------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|-----------------------|
 | **Connection**             | **Port**                                  | Serial port used to connect to the CNC controller                                                             | Path to device                                                | None                  |
-|                            | **Speed**                                 | Baud rate for serial communication                                                                          | 9600, 14400, 19200, 38400, 57600, 115200, any integer value      | 115200                |
-|                            | **Polling period**                        | Time between status requests to the controller                                                              | 10–9999 ms                                                   | 100                   |
+|                            | **Baud**                                 | Baud rate for serial communication                                                                          | 9600, 14400, 19200, 38400, 57600, 115200, any integer value      | 115200                |
+|                            | **Status query period**                        | Time between status requests to the controller                                                              | 10–9999 ms                                                   | 100                   |
 | **Machine information**    | **Spindle speed min.**                    | Minimum spindle rotation speed (used by the “Spindle” panel)                                                  | 0–99 999 RPM                                                 | 0                     |
 |                            | **Spindle speed max.**                    | Maximum spindle rotation speed                                                                               | 0–99 999 RPM                                                 | 10 000                |
 |                            | **Laser power min.**                      | Minimum laser power (used for half‑tone raster visualisation of CP)                                            | 0–99 999                                                    | 0                     |
 |                            | **Laser power max.**                      | Maximum laser power                                                                                           | 0–99 999                                                    | 100                   |
-| **Parser**                 | **Arc segment size – by length**          | Length of segments that split arcs in CP when displayed in the “Visualizer” and during height‑map creation   | 0.1–99 mm (0 = disabled)                                     | 0.1 (disabled)       |
-|                            | **Arc segment size – by angle**           | Angle used to subdivide arcs in CP for the same purposes                                                     | 0–180°                                                       | 5 ° (enabled)        |
-| **File sending**           | **Start program commands**                | G‑code commands sent to the CNC controller before transmitting the CP                                       | Set of G‑code commands (JavaScript allowed)                    | None                  |
-|                            | **End program commands**                  | G‑code commands sent after the CP has been transmitted                                                     | Same as above                                                | None                  |
-|                            | **Tool change commands**                  | G‑code commands sent when processing tool‑change instructions                                               | Same as above                                                | None                  |
-|                            | **Ignore errors during file sending**     | Flag that determines whether to abort CP transmission when the controller reports an error                   | Enabled, Disabled                                            | Disabled              |
-|                            | **Auto‑configure parser before sending from selected line** | Enable sending of parser‑configuration commands before transmitting the CP from a chosen line                 | Enabled, Disabled                                            | Enabled               |
-|                            | **Pause file transfer on tool change commands** | Control whether to pause CP transmission while processing tool‑change instructions                         | Enabled, Disabled                                            | Enabled               |
-| **Visualizer**             | **Line thickness**                        | Thickness of 3D projection lines in the visualiser                                                          | 1–9                                                           | 1.5                   |
+| **Parser**                 | **Arc approximation segment size – by length**          | Length of segments that split arcs in CP when displayed in the “Visualizer” and during height‑map creation   | 0.1–99 mm (0 = disabled)                                     | 0.1 (disabled)       |
+|                            | **Arc approximation segment size – by angle**           | Angle used to subdivide arcs in CP for the same purposes                                                     | 0–180°                                                       | 5 ° (enabled)        |
+| **Sender**           | **Use program start commands**                | G‑code commands sent to the CNC controller before transmitting the CP                                       | Set of G‑code commands (JavaScript allowed)                    | None                  |
+|                            | **Use program end commands**                  | G‑code commands sent after the CP has been transmitted                                                     | Same as above                                                | None                  |
+|                            | **Use tool change commands**                  | G‑code commands sent when processing tool‑change instructions                                               | Same as above                                                | None                  |
+|                            | **Ignore error responses**     | Flag that determines whether to abort CP transmission when the controller reports an error                   | Enabled, Disabled                                            | Disabled              |
+|                            | **Automatically set parser state before sending from selected line** | Enable sending of parser‑configuration commands before transmitting the CP from a chosen line                 | Enabled, Disabled                                            | Enabled               |
+|                            | **Pause sender on M6 command** | Control whether to pause CP transmission while processing tool‑change instructions                         | Enabled, Disabled                                            | Enabled               |
+| **Visualizer**             | **Line width**                        | Thickness of 3D projection lines in the visualiser                                                          | 1–9                                                           | 1.5                   |
 |                            | **Smoothing**                             | Enable line smoothing for the 3D projection                                                               | Enabled, Disabled                                            | Enabled               |
 |                            | **MSAA**                                  | Multi‑sample anti‑aliasing for the 3D projection                                                            | Enabled, Disabled                                            | Enabled               |
-|                            | **Frame rate**                            | FPS of the 3D projection rendering                                                                           | 30, 60, 120, any integer                                     | 60                    |
+|                            | **FPS lock**                            | FPS of the 3D projection rendering                                                                           | 30, 60, 120, any integer                                     | 60                    |
 |                            | **V-sync**                                | Enable vertical sync                                                                                        | Enabled, Disabled                                            | Disabled              |
-|                            | **Depth buffer**                          | Enable depth‑buffering for line overlap control                                                              | Enabled, Disabled                                            | Disabled              |
-|                            | **Rendering mode**                        | Method of CP projection: “Vector” (lines) or “Raster” (points)                                              | Vector, Raster                                                | Vector                |
+|                            | **Z-buffer**                          | Enable depth‑buffering for line overlap control                                                              | Enabled, Disabled                                            | Disabled              |
+|                            | **Program draw mode**                        | Method of CP projection: “Vector” (lines) or “Raster” (points)                                              | Vectors, Raster                                                | Vector                |
 |                            | **Simplify geometry**                     | Limit the minimum segment size when rendering the CP                                                      | Enabled, Disabled                                            | Enabled               |
 |                            | **Simplify geometry – Precision**         | Minimum segment length used for simplification (0 = only segments on a single line are converted)            | 0–99 mm                                                       | 0                     |
-|                            | **Grayscale shading**                     | Enable point colourization in raster rendering                                                             | Enabled, Disabled                                            | Disabled              |
-|                            | **Grayscale shading – by 'S' code**        | Colour points according to the ‘S’ G‑code value                                                            | Enabled, Disabled                                            | Enabled               |
-|                            | **Grayscale shading – by 'Z' code**        | Colour points according to the ‘Z’ G‑code value                                                            | Enabled, Disabled                                            | Disabled              |
-| **Colors**                 | **Visualizer – Background**               | Background colour in the “Visualizer” window                                                               | Any colour                                                    | White                 |
-|                            | **Visualizer – Text**                     | Text colour in the “Visualizer” window                                                                     | Any colour                                                    | Black                 |
-|                            | **Visualizer – Tool**                     | Colour of the tool model in the “Visualizer”                                                              | Any colour                                                    | Orange                |
-|                            | **Trajectory – Primary**                  | Colour of the main trajectory paths in the CP projection                                                   | Any colour                                                    | Black                 |
-|                            | **Trajectory – Completed**                | Colour of parts already processed by the CNC when sending the CP                                         | Any colour                                                    | Gray                  |
-|                            | **Trajectory – Highlight**                | Colour of lines sent to the CNC; colour of the marker for the selected CP line                           | Any colour                                                    | Purple                |
-|                            | **Trajectory – Z movements**              | Colour of vertical trajectory moves                                                                       | Any colour                                                    | Red                   |
-|                            | **Trajectory – Start**                    | Colour of the start marker for the CP                                                                      | Any colour                                                    | Red                   |
-|                            | **Trajectory – End**                      | Colour of the end marker for the CP                                                                        | Any colour                                                    | Green                 |
-| **Fret model**             | **Type**                                  | Tool model type in the “Visualizer”                                                                       | Flat, Conical                                                 | Conical               |
+|                            | **Grayscale segments**                     | Enable point colorization in raster rendering                                                             | Enabled, Disabled                                            | Disabled              |
+|                            | **Grayscale segments – by 'S' code**        | Color points according to the ‘S’ G‑code value                                                            | Enabled, Disabled                                            | Enabled               |
+|                            | **Grayscale segments – by 'Z' code**        | Color points according to the ‘Z’ G‑code value                                                            | Enabled, Disabled                                            | Disabled              |
+| **Colors**                 | **Visualizer – Background**               | Background color in the “Visualizer” window                                                               | Any color                                                    | White                 |
+|                            | **Visualizer – Text**                     | Text color in the “Visualizer” window                                                                     | Any color                                                    | Black                 |
+|                            | **Visualizer – Tool**                     | Color of the tool model in the “Visualizer”                                                              | Any color                                                    | Orange                |
+|                            | **Toolpath – Normal**                  | Color of the main trajectory paths in the CP projection                                                   | Any color                                                    | Black                 |
+|                            | **Toolpath – Drawn**                | Color of parts already processed by the CNC when sending the CP                                         | Any color                                                    | Gray                  |
+|                            | **Toolpath – Highlight**                | Color of lines sent to the CNC; color of the marker for the selected CP line                           | Any color                                                    | Purple                |
+|                            | **Toolpath – Z-movement**              | Color of vertical trajectory moves                                                                       | Any color                                                    | Red                   |
+|                            | **Toolpath – Start point**                    | Color of the start marker for the CP                                                                      | Any color                                                    | Red                   |
+|                            | **Toolpath – End point**                      | Color of the end marker for the CP                                                                        | Any color                                                    | Green                 |
+| **Tool model**             | **Type**                                  | Tool model type in the “Visualizer”                                                                       | Flat, Conic                                                 | Conical               |
 |                            | **Angle**                                 | Cone angle of the conical tool model                                                                    | 0–180°                                                       | 15 °                  |
 |                            | **Diameter**                              | Diameter of the tool model                                                                               | 0–99 mm                                                      | 3 mm                  |
 |                            | **Length**                                | Length of the tool model                                                                                | 0–999 mm                                                     | 30 mm                 |
-| **Quick shortcuts**        | –                                         | Key combinations for fast invocation of program functions                                               | Any key combination                                          | None                  |
-| **Console**                | **Display G‑code commands in CP**          | Show G‑code commands of the CP in the “Console” during transmission to the controller                    | Enabled, Disabled                                            | Disabled              |
-|                            | **Display UI commands**                   | Show commands sent via instrument panel elements                                                          | Enabled, Disabled                                            | Enabled               |
-|                            | **Auto‑complete command**                 | Auto‑finish a command when entering it in the “Console” field based on previously typed text             | Enabled, Disabled                                            | Enabled               |
+| **Shortcuts**        | –                                         | Key combinations for fast invocation of program functions                                               | Any key combination                                          | None                  |
+| **Console**                | **Show G‑code program commands**          | Show G‑code commands of the CP in the “Console” during transmission to the controller                    | Enabled, Disabled                                            | Disabled              |
+|                            | **Show UI commands**                   | Show commands sent via instrument panel elements                                                          | Enabled, Disabled                                            | Enabled               |
+|                            | **Command auto‑completion**                 | Auto‑finish a command when entering it in the “Console” field based on previously typed text             | Enabled, Disabled                                            | Enabled               |
 | **User interface**         | **Font size**                             | Size of UI font                                                                                           | 8, 9, 10, 11, 12 pt or any integer                          | 9                     |
-|                            | **Interface language**                    | Language used for UI labels                                                                              | American English, Russian (list can be extended)               | American English      |
+|                            | **Language**                    | Language used for UI labels                                                                              | American English, Russian (list can be extended)               | American English      |
 | **Camera**                 | **Name**                                  | Name of the camera whose image is shown in the “Camera” window                                            | List of available cameras or any custom name                  | None                  |
 |                            | **Resolution**                            | Image resolution displayed from the camera                                                               | Supported resolutions list or any custom resolution           | 1280×720              |
 |                            | **Position**                              | Horizontal/vertical offset of the camera image in the “Camera” window                                      | Any offset in points                                         | 0, 0                  |
-|                            | **Scale**                                 | Scaling factor for the camera image                                                                      | Any number                                                   | 1                     |
-|                            | **Crosshair position**                    | Relative offset of targeting elements horizontally/vertically                                            | Offset between 0 and 1 in relative units                      | 0, 0                  |
-|                            | **Crosshair size**                        | Diameter of the targeting circle                                                                        | 1–100                                                         | 20                    |
-|                            | **Crosshair color**                       | Colour of targeting elements                                                                            | Any colour                                                   | Red                   |
-|                            | **Line thickness**                        | Thickness of crosshair lines                                                                             | 0–100                                                         | 1                     |
-| **User commands**          | –                                         | Table of commands for the “User Commands” panel                                                          | Any set of commands                                          | Test commands         |
+|                            | **Zoom**                                 | Scaling factor for the camera image                                                                      | Any number                                                   | 1                     |
+|                            | **Aim position**                    | Relative offset of targeting elements horizontally/vertically                                            | Offset between 0 and 1 in relative units                      | 0, 0                  |
+|                            | **Aim size**                        | Diameter of the targeting circle                                                                        | 1–100                                                         | 20                    |
+|                            | **Aim color**                       | Color of targeting elements                                                                            | Any color                                                   | Red                   |
+|                            | **Aim line width**                        | Thickness of crosshair lines                                                                             | 0–100                                                         | 1                     |
+| **User commands**          | –                                         | Table of commands for the “User commands” panel                                                          | Any set of commands                                          | Test commands         |
 
 ## 3.5 Preparing the program for operation
 
+Under development.
+
 ## 3.6 Loading the control program
+
+Under development.
 
 ## 3.7 Creating a height map
 
+Under development.
+
 ## 3.8 Executing the control program
 
+Under development.
+
 # 4 Operator messages
+
+Under development.
 
 # 5 Extension development
 
 The program supports extensions that add new features and UI elements.  
-Each extension is a folder placed in the **plugins** directory of the installation folder and contains several files:
+Each extension is a folder placed in the **candleplugins** directory of the installation folder and contains several files:
 
 - `config.ini` – text file describing the extension.
 - `script.js` – JavaScript code implementing the extension logic.
@@ -636,44 +647,44 @@ All names and signatures are kept identical; only the descriptions are translate
 |        | `settings`               | Object     | –                                  | –            | The global settings object (see below). |
 |        | `path`                   | Value      | –                                  | –            | Absolute installation path of the program. |
 | `app.settings` | `port`                 | Value       | –                                 | –            | “Connection – Port” setting. |
-|                | `baud`                  | Value       | –                                 | –            | “Connection – Baudrate”. |
-|                | `queryStateTime`         | Value       | –                                 | –            | “Connection – Query interval”. |
-|                | `spindleSpeedMin`        | Value       | –                                 | –            | “Machine info – Min spindle speed”. |
-|                | `spindleSpeedMax`        | Value       | –                                 | –            | “Machine info – Max spindle speed”. |
-|                | `laserPowerMin`          | Value       | –                                 | –            | “Machine info – Min laser power”. |
-|                | `laserPowerMax`          | Value       | –                                 | –            | “Machine info – Max laser power”. |
-|                | `arcLength`              | Value       | –                                 | –            | “Arc approximation – Length”. |
-|                | `arcDegree`              | Value       | –                                 | –            | “Arc approximation – Degree”. |
-|                | `arcDegreeMode`          | Value       | –                                 | –            | Arc‑by‑degree mode toggle. |
-|                | `startCommands`          | Value       | –                                 | –            | “File send – Start commands”. |
-|                | `endCommands`            | Value       | –                                 | –            | “File send – End commands”. |
-|                | `toolChangeCommands`     | Value       | –                                 | –            | “File send – Tool change commands”. |
-|                | `ignoreErrors`           | Value       | –                                 | –            | “File send – Ignore errors”. |
-|                | `autoLine`               | Value       | –                                 | –            | “File send – Auto‑parse line”. |
-|                | `pauseToolChange`        | Value       | –                                 | –            | “File send – Pause on tool change”. |
+|                | `baud`                  | Value       | –                                 | –            | “Connection – Baud”. |
+|                | `queryStateTime`         | Value       | –                                 | –            | “Connection – Status query period”. |
+|                | `spindleSpeedMin`        | Value       | –                                 | –            | “Machine information – Spindle speed min”. |
+|                | `spindleSpeedMax`        | Value       | –                                 | –            | “Machine information – Spindle speed max”. |
+|                | `laserPowerMin`          | Value       | –                                 | –            | “Machine information – Laser power min”. |
+|                | `laserPowerMax`          | Value       | –                                 | –            | “Machine information – Laser power max”. |
+|                | `arcLength`              | Value       | –                                 | –            | “Arc approximation segments size – by length”. |
+|                | `arcDegree`              | Value       | –                                 | –            | “Arc approximation segments – by angle”. |
+|                | `arcDegreeMode`          | Value       | –                                 | –            | Arc approximation segments ‑ by angle mode toggle. |
+|                | `startCommands`          | Value       | –                                 | –            | “Sender – Use program start commands”. |
+|                | `endCommands`            | Value       | –                                 | –            | “Sender – Use program end commands”. |
+|                | `toolChangeCommands`     | Value       | –                                 | –            | “Sender – Use tool change commands”. |
+|                | `ignoreErrors`           | Value       | –                                 | –            | “Sender – Ignore error responses”. |
+|                | `autoLine`               | Value       | –                                 | –            | “Sender – Automatically set parser state before sending from selected line”. |
+|                | `pauseToolChange`        | Value       | –                                 | –            | “Sender – Pause sender on M6 command. |
 |                | `lineWidth`              | Value       | –                                 | –            | “Visualizer – Line width”. |
-|                | `antialiasing`           | Value       | –                                 | –            | “Visualizer – Antialiasing”. |
+|                | `antialiasing`           | Value       | –                                 | –            | “Visualizer – Smoothing”. |
 |                | `msaa`                   | Value       | –                                 | –            | “Visualizer – MSAA”. |
-|                | `fps`                    | Value       | –                                 | –            | “Visualizer – FPS”. |
+|                | `fps`                    | Value       | –                                 | –            | “Visualizer – FPS lock”. |
 |                | `vsync`                  | Value       | –                                 | –            | “Visualizer – V‑Sync”. |
 |                | `zBuffer`                | Value       | –                                 | –            | “Visualizer – Z‑buffer”. |
-|                | `drawModeVectors`        | Value       | –                                 | –            | “Visualizer – Draw mode” (0 raster, 1 vector). |
+|                | `drawModeVectors`        | Value       | –                                 | –            | “Visualizer – Program draw mode” (0 raster, 1 vectors). |
 |                | `simplify`               | Value       | –                                 | –            | “Visualizer – Simplify geometry”. |
-|                | `simplifyPrecision`      | Value       | –                                 | –            | “Visualizer – Simplification precision”. |
+|                | `simplifyPrecision`      | Value       | –                                 | –            | “Visualizer – Simplify geometry - Precision”. |
 |                | `grayscaleSegments`      | Value       | –                                 | –            | “Visualizer – Grayscale segments”. |
-|                | `grayscaleSCode`         | Value       | –                                 | –            | “Visualizer – Grayscale by S‑code”. |
-|                | `toolType`               | Value       | –                                 | –            | “Tool model – Type” (0 flat, 1 conical). |
+|                | `grayscaleSCode`         | Value       | –                                 | –            | “Visualizer – Grayscale segments - By 'S'‑code”. |
+|                | `toolType`               | Value       | –                                 | –            | “Tool model – Type” (0 flat, 1 conic). |
 |                | `toolAngle`              | Value       | –                                 | –            | “Tool model – Angle”. |
 |                | `toolDiameter`           | Value       | –                                 | –            | “Tool model – Diameter”. |
 |                | `toolLength`             | Value       | –                                 | –            | “Tool model – Length”. |
 |                | `showProgramCommands`    | Value       | –                                 | –            | “Console – Show G‑code program commands”. |
 |                | `showUICommands`         | Value       | –                                 | –            | “Console – Show UI commands”. |
-|                | `autoCompletion`         | Value       | –                                 | –            | “Console – Auto‑complete command”. |
-|                | `fontSize`               | Value       | –                                 | –            | “UI – Font size”. |
-|                | `language`               | Value       | –                                 | –            | “UI – Interface language” (ISO 639‑1). |
+|                | `autoCompletion`         | Value       | –                                 | –            | “Console – Command auto‑completion”. |
+|                | `fontSize`               | Value       | –                                 | –            | “User interface – Font size”. |
+|                | `language`               | Value       | –                                 | –            | “User interface – Language” (ISO 639‑1). |
 |                | `units`                  | Value       | –                                 | –            | CNC units (0 metric, 1 imperial). |
 |                | `rapidSpeed`             | Value       | –                                 | –            | Rapid movement speed. |
-|                | `acceleration`           | Value       | –                                 | –            | Acceleration of movements. |
+|                | `acceleration`           | Value       | –                                 | –            | Acceleration. |
 |                | `machineBounds`          | Value       | –                                 | –            | CNC movement bounds. |
 |                | `homingEnabled`          | Value       | –                                 | –            | Homing enabled flag. |
 |                | `softLimitsEnabled`      | Value       | –                                 | –            | Soft limits enabled flag. |
