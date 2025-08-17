@@ -5,6 +5,10 @@ project(Candle)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(MSVC)
+    add_compile_options(/MP)
+endif()
+
 add_subdirectory(src/customwidgets)
 add_subdirectory(src/candle)
 add_subdirectory(src/designerplugins)
