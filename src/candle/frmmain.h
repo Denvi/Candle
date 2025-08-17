@@ -335,7 +335,7 @@ private:
 
     // Forms
     frmSettings *m_settings;
-    frmAbout m_frmAbout;
+    frmAbout *m_about;
 
     // Filenames
     QString m_settingsFileName;

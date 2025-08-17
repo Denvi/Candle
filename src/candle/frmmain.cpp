@@ -113,6 +113,7 @@ frmMain::frmMain(QWidget *parent) :
     preloadSettings();
 
     m_settings = new frmSettings(this);
+    m_about = new frmAbout(this);
     ui->setupUi(this);
 
     // Drag&drop placeholders
@@ -609,7 +610,7 @@ void frmMain::on_actServiceSettings_triggered()
 
 void frmMain::on_actAbout_triggered()
 {
-    m_frmAbout.exec();
+    m_about->exec();
 }
 
 void frmMain::on_actJogStepNext_triggered()
