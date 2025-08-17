@@ -1,0 +1,2 @@
+add_subdirectory(cameraplugin)
+add_subdirectory(customwidgetsplugin)

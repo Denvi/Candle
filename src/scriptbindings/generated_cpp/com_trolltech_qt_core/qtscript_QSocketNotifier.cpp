@@ -53,7 +53,6 @@ static QScriptValue qtscript_QSocketNotifier_throw_ambiguity_error_helper(
 }
 
 Q_DECLARE_METATYPE(QSocketNotifier*)
-Q_DECLARE_METATYPE(QSocketNotifier::Type)
 
 static QScriptValue qtscript_create_enum_class_helper(
     QScriptEngine *engine,

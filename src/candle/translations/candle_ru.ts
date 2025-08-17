@@ -74,7 +74,7 @@
         <translation type="vanished">Сегменты: %1</translation>
     </message>
     <message>
-        <location filename="../widgets/glwidget.cpp" line="502"/>
+        <location filename="../customwidgets/glwidget.cpp" line="502"/>
         <source>Vertices: %1</source>
         <translation>Вершины: %1</translation>
     </message>

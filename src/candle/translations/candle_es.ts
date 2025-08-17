@@ -62,7 +62,7 @@
 <context>
     <name>GLWidget</name>
     <message>
-        <location filename="../widgets/glwidget.cpp" line="502"/>
+        <location filename="../customwidgets/glwidget.cpp" line="502"/>
         <source>Vertices: %1</source>
         <translation>Vertices: %1</translation>
     </message>

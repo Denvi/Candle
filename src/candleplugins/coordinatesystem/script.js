@@ -10,6 +10,7 @@ script.importExtension("qt.uitools");
 // Vars
 var appPath = app.path;
 var pluginPath = script.path;
+var designerPluginsPath = app.path + "/designerplugins";
 var loader = new QUiLoader();
 var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var deviceState = -1;
@@ -24,7 +25,7 @@ var uiSettings;
 function init()
 {
     loader.setWorkingDirectory(new QDir(pluginPath));
-    loader.addPluginPath(appPath);
+    loader.addPluginPath(designerPluginsPath);
 
     app.deviceStateChanged.connect(onAppDeviceStateChanged);
     app.senderStateChanged.connect(onAppSenderStateChanged);

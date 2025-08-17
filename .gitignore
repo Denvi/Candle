@@ -81,3 +81,9 @@ src/scriptbindings/plugins/script
 
 #rc
 src/candle/Candle_resource.rc
+
+#vcpkg
+vcpkg_installed
+
+#cmake build
+build
