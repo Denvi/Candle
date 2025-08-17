@@ -2,6 +2,8 @@ Candle
 -----------
 GRBL controller application with G-Code visualizer written in Qt.
 
+![screenshot](/screenshots/screenshot_main_window.png)
+
 Supported functions:
 * Controlling GRBL-based cnc-machine via console commands, buttons on form, numpad.
 * Monitoring cnc-machine state.
@@ -15,23 +17,58 @@ System requirements for running "Candle":
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
 
-Build requirements:
+Build instructions (windows):
 ------------------
-Qt 5.4.2 with MinGW/GCC compiler
+
+* Install cmake
+* Install vcpkg
+
+```
+git clone https://github.com/microsoft/vcpkg.git
+vcpkg\bootstrap-vcpkg.bat
+```
+
+* Get Candle sources
+
+```
+git clone https://github.com/Denvi/Candle.git
+cd Candle
+```
+
+* Install packages
+
+```
+vcpkg install
+```
+
+* Build and install
+
+```
+mkdir build; cd build
+cmake .. -DCMAKE_INSTALL_PREFIX="$(pwd)/Candle"
+cmake --build . --config=Release --parallel
+cmake --install .
+```
+
+Executable can be found in `build/Candle` directory.
 
 Downloads:
 ----------
-Experimental versions:
+Latest version:
 
 * [Version 1.2b release](https://github.com/Denvi/Candle/releases/tag/v1.2b)
 
+Previous versions:
 
 For GRBL v1.1 firmware
 
 * Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
 * Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
 
-(for GRBL v0.9 and below use Candle 1.0)
+For GRBL v0.9 and below
+
+* Windows: [candle_1.0.11.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.zip)
+* Linux: [candle_1.0.11.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.tar.gz)
 
 Before creating new issue:
 ------
@@ -40,6 +77,3 @@ Candle works with CNC controlled by GRBL firmware, many problems can be solved b
 Please read GRBL wiki: 
 - GRBL v0.9-: https://github.com/grbl/grbl/wiki
 - GRBL v1.1: https://github.com/gnea/grbl/wiki
-
-"Candle" main window:
-![screenshot](/screenshots/screenshot_heightmap_original.png)
