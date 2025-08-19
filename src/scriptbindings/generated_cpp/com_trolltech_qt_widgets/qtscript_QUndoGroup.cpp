@@ -266,7 +266,7 @@ static void qtscript_QUndoGroup_fromScriptValue(const QScriptValue &value, QUndo
 QScriptValue qtscript_create_QUndoGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUndoGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUndoGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUndoGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUndoGroup_prototype_call, qtscript_QUndoGroup_function_lengths[i+1]);

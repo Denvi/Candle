@@ -159,12 +159,12 @@ static QScriptValue qtscript_QDomDocumentType_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QDomDocumentType _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomDocumentType _q_arg0 = qscriptvalue_cast<QDomDocumentType>(context->argument(0));
         QDomDocumentType _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -180,7 +180,7 @@ static QScriptValue qtscript_QDomDocumentType_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QDomDocumentType_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomDocumentType*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomDocumentType*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomDocumentType*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDomNode*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomDocumentType_prototype_call, qtscript_QDomDocumentType_function_lengths[i+1]);

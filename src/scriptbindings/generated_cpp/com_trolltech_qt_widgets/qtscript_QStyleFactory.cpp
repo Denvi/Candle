@@ -106,7 +106,7 @@ static QScriptValue qtscript_QStyleFactory_static_call(QScriptContext *context, 
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleFactory* _q_cpp_result = new QtScriptShell_QStyleFactory();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleFactory*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleFactory*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -138,7 +138,7 @@ static QScriptValue qtscript_QStyleFactory_static_call(QScriptContext *context, 
 QScriptValue qtscript_create_QStyleFactory_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleFactory*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleFactory*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleFactory*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleFactory*>(), proto);
 

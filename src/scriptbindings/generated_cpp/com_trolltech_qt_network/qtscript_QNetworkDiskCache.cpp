@@ -193,7 +193,7 @@ static void qtscript_QNetworkDiskCache_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QNetworkDiskCache_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkDiskCache*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkDiskCache*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkDiskCache*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractNetworkCache*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkDiskCache_prototype_call, qtscript_QNetworkDiskCache_function_lengths[i+1]);

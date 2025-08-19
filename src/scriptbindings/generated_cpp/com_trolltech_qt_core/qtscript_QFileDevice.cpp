@@ -178,7 +178,7 @@ static QScriptValue qtscript_create_QFileDevice_MemoryMapFlags_class(QScriptEngi
         qtscript_QFileDevice_MemoryMapFlags_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDevice_MemoryMapFlags_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDevice_MemoryMapFlags_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDevice_MemoryMapFlags_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -269,7 +269,7 @@ static QScriptValue qtscript_create_QFileDevice_Permission_class(QScriptEngine *
         qtscript_QFileDevice_Permission_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 12; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDevice_Permission_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDevice_Permission_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDevice_Permission_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -281,7 +281,7 @@ static QScriptValue qtscript_create_QFileDevice_Permission_class(QScriptEngine *
 
 static QScriptValue qtscript_QFileDevice_Permissions_toScriptValue(QScriptEngine *engine, const QFileDevice::Permissions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QFileDevice_Permissions_fromScriptValue(const QScriptValue &value, QFileDevice::Permissions &out)
@@ -310,7 +310,7 @@ static QScriptValue qtscript_construct_QFileDevice_Permissions(QScriptContext *c
             result |= qvariant_cast<QFileDevice::Permission>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QFileDevice_Permissions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -412,7 +412,7 @@ static QScriptValue qtscript_create_QFileDevice_FileHandleFlag_class(QScriptEngi
         qtscript_QFileDevice_FileHandleFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDevice_FileHandleFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDevice_FileHandleFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDevice_FileHandleFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -424,7 +424,7 @@ static QScriptValue qtscript_create_QFileDevice_FileHandleFlag_class(QScriptEngi
 
 static QScriptValue qtscript_QFileDevice_FileHandleFlags_toScriptValue(QScriptEngine *engine, const QFileDevice::FileHandleFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QFileDevice_FileHandleFlags_fromScriptValue(const QScriptValue &value, QFileDevice::FileHandleFlags &out)
@@ -453,7 +453,7 @@ static QScriptValue qtscript_construct_QFileDevice_FileHandleFlags(QScriptContex
             result |= qvariant_cast<QFileDevice::FileHandleFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QFileDevice_FileHandleFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -581,7 +581,7 @@ static QScriptValue qtscript_create_QFileDevice_FileError_class(QScriptEngine *e
         qtscript_QFileDevice_FileError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 15; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDevice_FileError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDevice_FileError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDevice_FileError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -732,7 +732,7 @@ static void qtscript_QFileDevice_fromScriptValue(const QScriptValue &value, QFil
 QScriptValue qtscript_create_QFileDevice_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileDevice*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileDevice*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileDevice*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileDevice_prototype_call, qtscript_QFileDevice_function_lengths[i+1]);

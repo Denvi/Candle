@@ -259,7 +259,7 @@ static void qtscript_QUdpSocket_fromScriptValue(const QScriptValue &value, QUdpS
 QScriptValue qtscript_create_QUdpSocket_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUdpSocket*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUdpSocket*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUdpSocket*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSocket*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUdpSocket_prototype_call, qtscript_QUdpSocket_function_lengths[i+1]);

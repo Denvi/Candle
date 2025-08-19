@@ -165,7 +165,7 @@ static void qtscript_QTextObject_fromScriptValue(const QScriptValue &value, QTex
 QScriptValue qtscript_create_QTextObject_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextObject*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextObject*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextObject*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextObject_prototype_call, qtscript_QTextObject_function_lengths[i+1]);

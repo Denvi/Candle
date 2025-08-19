@@ -170,7 +170,7 @@ static QScriptValue qtscript_QTextImageFormat_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextImageFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextImageFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextImageFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -187,7 +187,7 @@ static QScriptValue qtscript_QTextImageFormat_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QTextImageFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextImageFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextImageFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextImageFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextCharFormat*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextImageFormat_prototype_call, qtscript_QTextImageFormat_function_lengths[i+1]);

@@ -152,7 +152,7 @@ static QScriptValue qtscript_create_QGraphicsBlurEffect_BlurHint_class(QScriptEn
         qtscript_QGraphicsBlurEffect_BlurHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsBlurEffect_BlurHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsBlurEffect_BlurHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsBlurEffect_BlurHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -164,7 +164,7 @@ static QScriptValue qtscript_create_QGraphicsBlurEffect_BlurHint_class(QScriptEn
 
 static QScriptValue qtscript_QGraphicsBlurEffect_BlurHints_toScriptValue(QScriptEngine *engine, const QGraphicsBlurEffect::BlurHints &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGraphicsBlurEffect_BlurHints_fromScriptValue(const QScriptValue &value, QGraphicsBlurEffect::BlurHints &out)
@@ -193,7 +193,7 @@ static QScriptValue qtscript_construct_QGraphicsBlurEffect_BlurHints(QScriptCont
             result |= qvariant_cast<QGraphicsBlurEffect::BlurHint>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGraphicsBlurEffect_BlurHints_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -318,7 +318,7 @@ static void qtscript_QGraphicsBlurEffect_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QGraphicsBlurEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsBlurEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsBlurEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsBlurEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsEffect*>()));
 
     qScriptRegisterMetaType<QGraphicsBlurEffect*>(engine, qtscript_QGraphicsBlurEffect_toScriptValue, 

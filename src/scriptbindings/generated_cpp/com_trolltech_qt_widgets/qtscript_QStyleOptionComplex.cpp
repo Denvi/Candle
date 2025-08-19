@@ -126,7 +126,7 @@ static QScriptValue qtscript_create_QStyleOptionComplex_StyleOptionVersion_class
         qtscript_QStyleOptionComplex_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionComplex_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionComplex_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionComplex_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleOptionComplex_StyleOptionType_class(QS
         qtscript_QStyleOptionComplex_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionComplex_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionComplex_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionComplex_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,20 +248,20 @@ static QScriptValue qtscript_QStyleOptionComplex_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionComplex _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionComplex)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionComplex)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QStyleOptionComplex>() == context->argument(0).toVariant().userType())) {
             QStyleOptionComplex _q_arg0 = qscriptvalue_cast<QStyleOptionComplex>(context->argument(0));
             QtScriptShell_QStyleOptionComplex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionComplex)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionComplex)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QtScriptShell_QStyleOptionComplex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionComplex)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionComplex)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -269,7 +269,7 @@ static QScriptValue qtscript_QStyleOptionComplex_static_call(QScriptContext *con
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QtScriptShell_QStyleOptionComplex _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionComplex)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionComplex)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -286,7 +286,7 @@ static QScriptValue qtscript_QStyleOptionComplex_static_call(QScriptContext *con
 QScriptValue qtscript_create_QStyleOptionComplex_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionComplex*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionComplex*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionComplex*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionComplex>(), proto);

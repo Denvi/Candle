@@ -141,7 +141,7 @@ static QScriptValue qtscript_create_QSql_Location_class(QScriptEngine *engine, Q
         qtscript_QSql_Location_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSql_Location_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSql_Location_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSql_Location_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -212,7 +212,7 @@ static QScriptValue qtscript_create_QSql_ParamTypeFlag_class(QScriptEngine *engi
         qtscript_QSql_ParamTypeFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSql_ParamTypeFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSql_ParamTypeFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSql_ParamTypeFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -224,7 +224,7 @@ static QScriptValue qtscript_create_QSql_ParamTypeFlag_class(QScriptEngine *engi
 
 static QScriptValue qtscript_QSql_ParamType_toScriptValue(QScriptEngine *engine, const QSql::ParamType &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QSql_ParamType_fromScriptValue(const QScriptValue &value, QSql::ParamType &out)
@@ -253,7 +253,7 @@ static QScriptValue qtscript_construct_QSql_ParamType(QScriptContext *context, Q
             result |= qvariant_cast<QSql::ParamTypeFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QSql_ParamType_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -363,7 +363,7 @@ static QScriptValue qtscript_create_QSql_NumericalPrecisionPolicy_class(QScriptE
         qtscript_QSql_NumericalPrecisionPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSql_NumericalPrecisionPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSql_NumericalPrecisionPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSql_NumericalPrecisionPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -438,7 +438,7 @@ static QScriptValue qtscript_create_QSql_TableType_class(QScriptEngine *engine, 
         qtscript_QSql_TableType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSql_TableType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSql_TableType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSql_TableType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;

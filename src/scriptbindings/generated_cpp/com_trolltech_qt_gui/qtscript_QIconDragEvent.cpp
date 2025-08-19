@@ -96,7 +96,7 @@ static QScriptValue qtscript_QIconDragEvent_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QIconDragEvent* _q_cpp_result = new QIconDragEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -112,7 +112,7 @@ static QScriptValue qtscript_QIconDragEvent_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QIconDragEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QIconDragEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QIconDragEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QIconDragEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QIconDragEvent*>(), proto);

@@ -164,7 +164,7 @@ static void qtscript_QShortcut_fromScriptValue(const QScriptValue &value, QShort
 QScriptValue qtscript_create_QShortcut_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QShortcut*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QShortcut*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QShortcut*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QShortcut_prototype_call, qtscript_QShortcut_function_lengths[i+1]);

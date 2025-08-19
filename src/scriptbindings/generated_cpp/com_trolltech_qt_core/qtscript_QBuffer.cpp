@@ -174,7 +174,7 @@ static void qtscript_QBuffer_fromScriptValue(const QScriptValue &value, QBuffer*
 QScriptValue qtscript_create_QBuffer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBuffer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBuffer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBuffer*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBuffer_prototype_call, qtscript_QBuffer_function_lengths[i+1]);

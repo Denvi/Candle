@@ -156,12 +156,12 @@ static QScriptValue qtscript_QTableWidgetSelectionRange_static_call(QScriptConte
     }
     if (context->argumentCount() == 0) {
         QTableWidgetSelectionRange _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QTableWidgetSelectionRange _q_arg0 = qscriptvalue_cast<QTableWidgetSelectionRange>(context->argument(0));
         QTableWidgetSelectionRange _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -169,7 +169,7 @@ static QScriptValue qtscript_QTableWidgetSelectionRange_static_call(QScriptConte
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QTableWidgetSelectionRange _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -185,7 +185,7 @@ static QScriptValue qtscript_QTableWidgetSelectionRange_static_call(QScriptConte
 QScriptValue qtscript_create_QTableWidgetSelectionRange_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTableWidgetSelectionRange*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTableWidgetSelectionRange*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTableWidgetSelectionRange*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTableWidgetSelectionRange_prototype_call, qtscript_QTableWidgetSelectionRange_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

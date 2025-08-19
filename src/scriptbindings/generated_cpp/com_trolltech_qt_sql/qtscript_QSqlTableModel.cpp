@@ -188,7 +188,7 @@ static QScriptValue qtscript_create_QSqlTableModel_EditStrategy_class(QScriptEng
         qtscript_QSqlTableModel_EditStrategy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlTableModel_EditStrategy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlTableModel_EditStrategy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlTableModel_EditStrategy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -399,7 +399,7 @@ static void qtscript_QSqlTableModel_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QSqlTableModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlTableModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlTableModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlTableModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QSqlQueryModel*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlTableModel_prototype_call, qtscript_QSqlTableModel_function_lengths[i+1]);

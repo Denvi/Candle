@@ -132,7 +132,7 @@ static QScriptValue qtscript_create_QDoubleValidator_Notation_class(QScriptEngin
         qtscript_QDoubleValidator_Notation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDoubleValidator_Notation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDoubleValidator_Notation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDoubleValidator_Notation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -255,7 +255,7 @@ static void qtscript_QDoubleValidator_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QDoubleValidator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDoubleValidator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDoubleValidator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDoubleValidator*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QValidator*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDoubleValidator_prototype_call, qtscript_QDoubleValidator_function_lengths[i+1]);

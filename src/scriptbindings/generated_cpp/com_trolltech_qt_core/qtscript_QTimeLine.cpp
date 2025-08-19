@@ -160,7 +160,7 @@ static QScriptValue qtscript_create_QTimeLine_Direction_class(QScriptEngine *eng
         qtscript_QTimeLine_Direction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTimeLine_Direction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTimeLine_Direction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTimeLine_Direction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -235,7 +235,7 @@ static QScriptValue qtscript_create_QTimeLine_CurveShape_class(QScriptEngine *en
         qtscript_QTimeLine_CurveShape_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTimeLine_CurveShape_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTimeLine_CurveShape_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTimeLine_CurveShape_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -304,7 +304,7 @@ static QScriptValue qtscript_create_QTimeLine_State_class(QScriptEngine *engine,
         qtscript_QTimeLine_State_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTimeLine_State_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTimeLine_State_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTimeLine_State_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -477,7 +477,7 @@ static void qtscript_QTimeLine_fromScriptValue(const QScriptValue &value, QTimeL
 QScriptValue qtscript_create_QTimeLine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTimeLine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTimeLine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTimeLine*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTimeLine_prototype_call, qtscript_QTimeLine_function_lengths[i+1]);

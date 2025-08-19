@@ -392,7 +392,7 @@ static void qtscript_QFile_fromScriptValue(const QScriptValue &value, QFile* &ou
 QScriptValue qtscript_create_QFile_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFile*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFile*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFile*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFileDevice*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFile_prototype_call, qtscript_QFile_function_lengths[i+13]);

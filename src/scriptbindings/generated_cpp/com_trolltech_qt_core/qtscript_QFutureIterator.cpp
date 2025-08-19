@@ -138,7 +138,7 @@ static QScriptValue qtscript_QFutureIterator_static_call(QScriptContext *context
 
                 const QtScriptFuture & _q_arg0 = *qscriptvalue_cast<QtScriptFuture*>(context->argument(0));
                     QtScriptFutureIterator* _q_cpp_result = new QtScriptFutureIterator(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -154,7 +154,7 @@ static QScriptValue qtscript_QFutureIterator_static_call(QScriptContext *context
 QScriptValue qtscript_create_QFutureIterator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QtScriptFutureIterator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QtScriptFutureIterator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QtScriptFutureIterator*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFutureIterator_prototype_call, qtscript_QFutureIterator_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

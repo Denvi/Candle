@@ -222,7 +222,7 @@ static QScriptValue qtscript_create_QApplication_ColorSpec_class(QScriptEngine *
         qtscript_QApplication_ColorSpec_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QApplication_ColorSpec_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QApplication_ColorSpec_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QApplication_ColorSpec_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -505,7 +505,7 @@ static void qtscript_QApplication_fromScriptValue(const QScriptValue &value, QAp
 QScriptValue qtscript_create_QApplication_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QApplication*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QApplication*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QApplication*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGuiApplication*>()));
 
     qScriptRegisterMetaType<QApplication*>(engine, qtscript_QApplication_toScriptValue, 

@@ -282,13 +282,13 @@ static QScriptValue qtscript_QLayoutItem_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QLayoutItem* _q_cpp_result = new QtScriptShell_QLayoutItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QLayoutItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QLayoutItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QFlags<Qt::AlignmentFlag> _q_arg0 = qscriptvalue_cast<QFlags<Qt::AlignmentFlag> >(context->argument(0));
         QtScriptShell_QLayoutItem* _q_cpp_result = new QtScriptShell_QLayoutItem(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QLayoutItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QLayoutItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -305,7 +305,7 @@ static QScriptValue qtscript_QLayoutItem_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QLayoutItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLayoutItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLayoutItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLayoutItem*)0));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLayoutItem_prototype_call, qtscript_QLayoutItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

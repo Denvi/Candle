@@ -641,7 +641,7 @@ static void qtscript_QGLWidget_fromScriptValue(const QScriptValue &value, QGLWid
 QScriptValue qtscript_create_QGLWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLWidget_prototype_call, qtscript_QGLWidget_function_lengths[i+2]);

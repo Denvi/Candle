@@ -387,13 +387,13 @@ static QScriptValue qtscript_QFontMetricsF_static_call(QScriptContext *context, 
     if (context->argumentCount() == 1) {
         QFont _q_arg0 = qscriptvalue_cast<QFont>(context->argument(0));
         QFontMetricsF* _q_cpp_result = new QFontMetricsF(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QFont _q_arg0 = qscriptvalue_cast<QFont>(context->argument(0));
         QPaintDevice* _q_arg1 = qscriptvalue_cast<QPaintDevice*>(context->argument(1));
         QFontMetricsF* _q_cpp_result = new QFontMetricsF(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -409,7 +409,7 @@ static QScriptValue qtscript_QFontMetricsF_static_call(QScriptContext *context, 
 QScriptValue qtscript_create_QFontMetricsF_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFontMetricsF*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFontMetricsF*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFontMetricsF*)0));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFontMetricsF_prototype_call, qtscript_QFontMetricsF_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

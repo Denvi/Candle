@@ -197,7 +197,7 @@ static QScriptValue qtscript_create_QCalendarWidget_HorizontalHeaderFormat_class
         qtscript_QCalendarWidget_HorizontalHeaderFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QCalendarWidget_HorizontalHeaderFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QCalendarWidget_HorizontalHeaderFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QCalendarWidget_HorizontalHeaderFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -354,7 +354,7 @@ static void qtscript_QCalendarWidget_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QCalendarWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCalendarWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCalendarWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCalendarWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCalendarWidget_prototype_call, qtscript_QCalendarWidget_function_lengths[i+1]);

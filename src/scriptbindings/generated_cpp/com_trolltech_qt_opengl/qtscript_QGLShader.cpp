@@ -178,7 +178,7 @@ static QScriptValue qtscript_create_QGLShader_ShaderTypeBit_class(QScriptEngine 
         qtscript_QGLShader_ShaderTypeBit_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGLShader_ShaderTypeBit_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGLShader_ShaderTypeBit_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGLShader_ShaderTypeBit_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -190,7 +190,7 @@ static QScriptValue qtscript_create_QGLShader_ShaderTypeBit_class(QScriptEngine 
 
 static QScriptValue qtscript_QGLShader_ShaderType_toScriptValue(QScriptEngine *engine, const QGLShader::ShaderType &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGLShader_ShaderType_fromScriptValue(const QScriptValue &value, QGLShader::ShaderType &out)
@@ -219,7 +219,7 @@ static QScriptValue qtscript_construct_QGLShader_ShaderType(QScriptContext *cont
             result |= qvariant_cast<QGLShader::ShaderTypeBit>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGLShader_ShaderType_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -440,7 +440,7 @@ static void qtscript_QGLShader_fromScriptValue(const QScriptValue &value, QGLSha
 QScriptValue qtscript_create_QGLShader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLShader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLShader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLShader*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLShader_prototype_call, qtscript_QGLShader_function_lengths[i+2]);

@@ -195,7 +195,7 @@ static QScriptValue qtscript_create_QPaintDevice_PaintDeviceMetric_class(QScript
         qtscript_QPaintDevice_PaintDeviceMetric_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 12; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPaintDevice_PaintDeviceMetric_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPaintDevice_PaintDeviceMetric_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPaintDevice_PaintDeviceMetric_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -374,7 +374,7 @@ static QScriptValue qtscript_QPaintDevice_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QPaintDevice_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPaintDevice*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPaintDevice*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPaintDevice*)0));
     for (int i = 0; i < 16; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPaintDevice_prototype_call, qtscript_QPaintDevice_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

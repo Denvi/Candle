@@ -141,7 +141,7 @@ static void qtscript_QGraphicsOpacityEffect_fromScriptValue(const QScriptValue &
 QScriptValue qtscript_create_QGraphicsOpacityEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsOpacityEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsOpacityEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsOpacityEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsEffect*>()));
 
     qScriptRegisterMetaType<QGraphicsOpacityEffect*>(engine, qtscript_QGraphicsOpacityEffect_toScriptValue, 

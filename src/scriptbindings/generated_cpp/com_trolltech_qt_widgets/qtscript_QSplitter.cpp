@@ -382,7 +382,7 @@ static void qtscript_QSplitter_fromScriptValue(const QScriptValue &value, QSplit
 QScriptValue qtscript_create_QSplitter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSplitter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSplitter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSplitter*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 19; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSplitter_prototype_call, qtscript_QSplitter_function_lengths[i+1]);

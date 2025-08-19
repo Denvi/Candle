@@ -98,7 +98,7 @@ static QScriptValue qtscript_QMatrix3x3_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QMatrix3x3 _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QMatrix3x3)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QMatrix3x3)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -115,7 +115,7 @@ static QScriptValue qtscript_QMatrix3x3_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QMatrix3x3_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMatrix3x3*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMatrix3x3*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMatrix3x3*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QMatrix3x3>(), proto);
     engine->setDefaultPrototype(qMetaTypeId<QMatrix3x3*>(), proto);

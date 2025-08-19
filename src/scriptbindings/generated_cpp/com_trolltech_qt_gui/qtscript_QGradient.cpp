@@ -181,7 +181,7 @@ static QScriptValue qtscript_create_QGradient_Type_class(QScriptEngine *engine, 
         qtscript_QGradient_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGradient_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGradient_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGradient_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -308,7 +308,7 @@ static QScriptValue qtscript_QGradient_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QGradient _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -324,7 +324,7 @@ static QScriptValue qtscript_QGradient_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QGradient_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGradient*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGradient*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGradient*)0));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGradient_prototype_call, qtscript_QGradient_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

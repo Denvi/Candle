@@ -215,7 +215,7 @@ static QScriptValue qtscript_create_QDockWidget_DockWidgetFeature_class(QScriptE
         qtscript_QDockWidget_DockWidgetFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDockWidget_DockWidgetFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDockWidget_DockWidgetFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDockWidget_DockWidgetFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -227,7 +227,7 @@ static QScriptValue qtscript_create_QDockWidget_DockWidgetFeature_class(QScriptE
 
 static QScriptValue qtscript_QDockWidget_DockWidgetFeatures_toScriptValue(QScriptEngine *engine, const QDockWidget::DockWidgetFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QDockWidget_DockWidgetFeatures_fromScriptValue(const QScriptValue &value, QDockWidget::DockWidgetFeatures &out)
@@ -256,7 +256,7 @@ static QScriptValue qtscript_construct_QDockWidget_DockWidgetFeatures(QScriptCon
             result |= qvariant_cast<QDockWidget::DockWidgetFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QDockWidget_DockWidgetFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -475,7 +475,7 @@ static void qtscript_QDockWidget_fromScriptValue(const QScriptValue &value, QDoc
 QScriptValue qtscript_create_QDockWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDockWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDockWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDockWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDockWidget_prototype_call, qtscript_QDockWidget_function_lengths[i+1]);

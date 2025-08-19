@@ -176,7 +176,7 @@ static void qtscript_QSizeGrip_fromScriptValue(const QScriptValue &value, QSizeG
 QScriptValue qtscript_create_QSizeGrip_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSizeGrip*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSizeGrip*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSizeGrip*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSizeGrip_prototype_call, qtscript_QSizeGrip_function_lengths[i+1]);

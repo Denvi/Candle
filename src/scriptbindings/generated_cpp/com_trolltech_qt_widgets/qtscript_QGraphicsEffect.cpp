@@ -158,7 +158,7 @@ static QScriptValue qtscript_create_QGraphicsEffect_PixmapPadMode_class(QScriptE
         qtscript_QGraphicsEffect_PixmapPadMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsEffect_PixmapPadMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsEffect_PixmapPadMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsEffect_PixmapPadMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -233,7 +233,7 @@ static QScriptValue qtscript_create_QGraphicsEffect_ChangeFlag_class(QScriptEngi
         qtscript_QGraphicsEffect_ChangeFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsEffect_ChangeFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsEffect_ChangeFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsEffect_ChangeFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -245,7 +245,7 @@ static QScriptValue qtscript_create_QGraphicsEffect_ChangeFlag_class(QScriptEngi
 
 static QScriptValue qtscript_QGraphicsEffect_ChangeFlags_toScriptValue(QScriptEngine *engine, const QGraphicsEffect::ChangeFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGraphicsEffect_ChangeFlags_fromScriptValue(const QScriptValue &value, QGraphicsEffect::ChangeFlags &out)
@@ -274,7 +274,7 @@ static QScriptValue qtscript_construct_QGraphicsEffect_ChangeFlags(QScriptContex
             result |= qvariant_cast<QGraphicsEffect::ChangeFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGraphicsEffect_ChangeFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -414,7 +414,7 @@ static void qtscript_QGraphicsEffect_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QGraphicsEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsEffect_prototype_call, qtscript_QGraphicsEffect_function_lengths[i+1]);

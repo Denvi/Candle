@@ -109,12 +109,12 @@ static QScriptValue qtscript_QDomText_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QDomText _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomText _q_arg0 = qscriptvalue_cast<QDomText>(context->argument(0));
         QDomText _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -130,7 +130,7 @@ static QScriptValue qtscript_QDomText_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QDomText_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomText*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomText*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomText*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDomCharacterData*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomText_prototype_call, qtscript_QDomText_function_lengths[i+1]);

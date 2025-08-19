@@ -224,12 +224,12 @@ static QScriptValue qtscript_QGLFramebufferObjectFormat_static_call(QScriptConte
     }
     if (context->argumentCount() == 0) {
         QGLFramebufferObjectFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGLFramebufferObjectFormat _q_arg0 = qscriptvalue_cast<QGLFramebufferObjectFormat>(context->argument(0));
         QGLFramebufferObjectFormat _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -245,7 +245,7 @@ static QScriptValue qtscript_QGLFramebufferObjectFormat_static_call(QScriptConte
 QScriptValue qtscript_create_QGLFramebufferObjectFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLFramebufferObjectFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLFramebufferObjectFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLFramebufferObjectFormat*)0));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLFramebufferObjectFormat_prototype_call, qtscript_QGLFramebufferObjectFormat_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

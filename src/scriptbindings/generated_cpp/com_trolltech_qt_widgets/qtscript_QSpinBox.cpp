@@ -175,7 +175,7 @@ static void qtscript_QSpinBox_fromScriptValue(const QScriptValue &value, QSpinBo
 QScriptValue qtscript_create_QSpinBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSpinBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSpinBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSpinBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSpinBox*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSpinBox_prototype_call, qtscript_QSpinBox_function_lengths[i+1]);

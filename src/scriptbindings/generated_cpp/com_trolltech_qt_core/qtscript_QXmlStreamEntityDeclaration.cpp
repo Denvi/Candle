@@ -178,12 +178,12 @@ static QScriptValue qtscript_QXmlStreamEntityDeclaration_static_call(QScriptCont
     }
     if (context->argumentCount() == 0) {
         QXmlStreamEntityDeclaration _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QXmlStreamEntityDeclaration _q_arg0 = qscriptvalue_cast<QXmlStreamEntityDeclaration>(context->argument(0));
         QXmlStreamEntityDeclaration _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -199,7 +199,7 @@ static QScriptValue qtscript_QXmlStreamEntityDeclaration_static_call(QScriptCont
 QScriptValue qtscript_create_QXmlStreamEntityDeclaration_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlStreamEntityDeclaration*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlStreamEntityDeclaration*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlStreamEntityDeclaration*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlStreamEntityDeclaration_prototype_call, qtscript_QXmlStreamEntityDeclaration_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

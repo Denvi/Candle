@@ -228,7 +228,7 @@ static QScriptValue qtscript_create_QTextFrameFormat_BorderStyle_class(QScriptEn
         qtscript_QTextFrameFormat_BorderStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextFrameFormat_BorderStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextFrameFormat_BorderStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextFrameFormat_BorderStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -297,7 +297,7 @@ static QScriptValue qtscript_create_QTextFrameFormat_Position_class(QScriptEngin
         qtscript_QTextFrameFormat_Position_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextFrameFormat_Position_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextFrameFormat_Position_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextFrameFormat_Position_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -561,7 +561,7 @@ static QScriptValue qtscript_QTextFrameFormat_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextFrameFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextFrameFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextFrameFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -578,7 +578,7 @@ static QScriptValue qtscript_QTextFrameFormat_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QTextFrameFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextFrameFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextFrameFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextFrameFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFormat*>()));
     for (int i = 0; i < 27; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextFrameFormat_prototype_call, qtscript_QTextFrameFormat_function_lengths[i+1]);

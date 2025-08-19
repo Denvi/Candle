@@ -215,7 +215,7 @@ static void qtscript_QSignalMapper_fromScriptValue(const QScriptValue &value, QS
 QScriptValue qtscript_create_QSignalMapper_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSignalMapper*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSignalMapper*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSignalMapper*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSignalMapper_prototype_call, qtscript_QSignalMapper_function_lengths[i+1]);

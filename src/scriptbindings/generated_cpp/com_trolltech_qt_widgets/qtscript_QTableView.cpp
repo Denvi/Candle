@@ -408,7 +408,7 @@ static void qtscript_QTableView_fromScriptValue(const QScriptValue &value, QTabl
 QScriptValue qtscript_create_QTableView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTableView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTableView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTableView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemView*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTableView_prototype_call, qtscript_QTableView_function_lengths[i+1]);

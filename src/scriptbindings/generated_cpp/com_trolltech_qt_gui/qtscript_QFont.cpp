@@ -351,7 +351,7 @@ static QScriptValue qtscript_create_QFont_StyleStrategy_class(QScriptEngine *eng
         qtscript_QFont_StyleStrategy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 13; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_StyleStrategy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_StyleStrategy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_StyleStrategy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -436,7 +436,7 @@ static QScriptValue qtscript_create_QFont_Stretch_class(QScriptEngine *engine, Q
         qtscript_QFont_Stretch_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_Stretch_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_Stretch_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_Stretch_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -521,7 +521,7 @@ static QScriptValue qtscript_create_QFont_Weight_class(QScriptEngine *engine, QS
         qtscript_QFont_Weight_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_Weight_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_Weight_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_Weight_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -590,7 +590,7 @@ static QScriptValue qtscript_create_QFont_Style_class(QScriptEngine *engine, QSc
         qtscript_QFont_Style_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_Style_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_Style_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_Style_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -671,7 +671,7 @@ static QScriptValue qtscript_create_QFont_StyleHint_class(QScriptEngine *engine,
         qtscript_QFont_StyleHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_StyleHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_StyleHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_StyleHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -744,7 +744,7 @@ static QScriptValue qtscript_create_QFont_Capitalization_class(QScriptEngine *en
         qtscript_QFont_Capitalization_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_Capitalization_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_Capitalization_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_Capitalization_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -811,7 +811,7 @@ static QScriptValue qtscript_create_QFont_SpacingType_class(QScriptEngine *engin
         qtscript_QFont_SpacingType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFont_SpacingType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFont_SpacingType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFont_SpacingType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1307,18 +1307,18 @@ static QScriptValue qtscript_QFont_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QFont _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QFont>() == context->argument(0).toVariant().userType())) {
             QFont _q_arg0 = qscriptvalue_cast<QFont>(context->argument(0));
             QFont _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QFont _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -1327,14 +1327,14 @@ static QScriptValue qtscript_QFont_static_call(QScriptContext *context, QScriptE
             QFont _q_arg0 = qscriptvalue_cast<QFont>(context->argument(0));
             QPaintDevice* _q_arg1 = qscriptvalue_cast<QPaintDevice*>(context->argument(1));
             QFont _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && context->argument(1).isNumber()) {
             QString _q_arg0 = context->argument(0).toString();
             int _q_arg1 = context->argument(1).toInt32();
             QFont _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -1342,7 +1342,7 @@ static QScriptValue qtscript_QFont_static_call(QScriptContext *context, QScriptE
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QFont _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         QString _q_arg0 = context->argument(0).toString();
@@ -1350,7 +1350,7 @@ static QScriptValue qtscript_QFont_static_call(QScriptContext *context, QScriptE
         int _q_arg2 = context->argument(2).toInt32();
         bool _q_arg3 = context->argument(3).toBoolean();
         QFont _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -1437,7 +1437,7 @@ static QScriptValue qtscript_QFont_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QFont_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFont*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFont*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFont*)0));
     for (int i = 0; i < 57; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFont_prototype_call, qtscript_QFont_function_lengths[i+10]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

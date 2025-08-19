@@ -380,7 +380,7 @@ static void qtscript_QUiLoader_fromScriptValue(const QScriptValue &value, QUiLoa
 QScriptValue qtscript_create_QUiLoader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUiLoader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUiLoader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUiLoader*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUiLoader_prototype_call, qtscript_QUiLoader_function_lengths[i+1]);

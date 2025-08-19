@@ -126,7 +126,7 @@ static QScriptValue qtscript_create_QStyleOptionSpinBox_StyleOptionVersion_class
         qtscript_QStyleOptionSpinBox_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionSpinBox_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionSpinBox_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionSpinBox_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleOptionSpinBox_StyleOptionType_class(QS
         qtscript_QStyleOptionSpinBox_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionSpinBox_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionSpinBox_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionSpinBox_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,13 +248,13 @@ static QScriptValue qtscript_QStyleOptionSpinBox_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionSpinBox _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionSpinBox)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionSpinBox)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionSpinBox _q_arg0 = qscriptvalue_cast<QStyleOptionSpinBox>(context->argument(0));
         QtScriptShell_QStyleOptionSpinBox _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionSpinBox)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionSpinBox)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -271,7 +271,7 @@ static QScriptValue qtscript_QStyleOptionSpinBox_static_call(QScriptContext *con
 QScriptValue qtscript_create_QStyleOptionSpinBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionSpinBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionSpinBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionSpinBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOptionComplex*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionSpinBox>(), proto);

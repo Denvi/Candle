@@ -410,7 +410,7 @@ static void qtscript_QGuiApplication_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QGuiApplication_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGuiApplication*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGuiApplication*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGuiApplication*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QCoreApplication*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGuiApplication_prototype_call, qtscript_QGuiApplication_function_lengths[i+21]);

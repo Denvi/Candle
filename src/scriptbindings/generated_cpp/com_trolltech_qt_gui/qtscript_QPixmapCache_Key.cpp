@@ -129,12 +129,12 @@ static QScriptValue qtscript_QPixmapCache_Key_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QPixmapCache::Key _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QPixmapCache::Key _q_arg0 = qscriptvalue_cast<QPixmapCache::Key>(context->argument(0));
         QPixmapCache::Key _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -150,7 +150,7 @@ static QScriptValue qtscript_QPixmapCache_Key_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QPixmapCache_Key_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPixmapCache::Key*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPixmapCache::Key*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPixmapCache::Key*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPixmapCache_Key_prototype_call, qtscript_QPixmapCache_Key_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

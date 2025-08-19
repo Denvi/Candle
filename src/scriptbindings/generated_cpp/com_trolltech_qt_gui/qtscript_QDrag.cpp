@@ -285,7 +285,7 @@ static void qtscript_QDrag_fromScriptValue(const QScriptValue &value, QDrag* &ou
 QScriptValue qtscript_create_QDrag_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDrag*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDrag*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDrag*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDrag_prototype_call, qtscript_QDrag_function_lengths[i+1]);

@@ -163,20 +163,20 @@ static QScriptValue qtscript_QGraphicsSimpleTextItem_static_call(QScriptContext 
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsSimpleTextItem* _q_cpp_result = new QtScriptShell_QGraphicsSimpleTextItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QGraphicsItem*>(context->argument(0))) {
             QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
             QtScriptShell_QGraphicsSimpleTextItem* _q_cpp_result = new QtScriptShell_QGraphicsSimpleTextItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QGraphicsSimpleTextItem* _q_cpp_result = new QtScriptShell_QGraphicsSimpleTextItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -184,7 +184,7 @@ static QScriptValue qtscript_QGraphicsSimpleTextItem_static_call(QScriptContext 
         QString _q_arg0 = context->argument(0).toString();
         QGraphicsItem* _q_arg1 = qscriptvalue_cast<QGraphicsItem*>(context->argument(1));
         QtScriptShell_QGraphicsSimpleTextItem* _q_cpp_result = new QtScriptShell_QGraphicsSimpleTextItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsSimpleTextItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -201,7 +201,7 @@ static QScriptValue qtscript_QGraphicsSimpleTextItem_static_call(QScriptContext 
 QScriptValue qtscript_create_QGraphicsSimpleTextItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSimpleTextItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSimpleTextItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSimpleTextItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractGraphicsShapeItem*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSimpleTextItem_prototype_call, qtscript_QGraphicsSimpleTextItem_function_lengths[i+1]);

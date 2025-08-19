@@ -128,7 +128,7 @@ static QScriptValue qtscript_create_Global_QtMsgType_class(QScriptEngine *engine
         qtscript_Global_QtMsgType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Global_QtMsgType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Global_QtMsgType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Global_QtMsgType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -195,7 +195,7 @@ static QScriptValue qtscript_Global_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_Global_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<Global*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((Global*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((Global*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<Global*>(), proto);
 

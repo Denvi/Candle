@@ -198,7 +198,7 @@ static void qtscript_QCommandLinkButton_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QCommandLinkButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCommandLinkButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCommandLinkButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCommandLinkButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QPushButton*>()));
 
     qScriptRegisterMetaType<QCommandLinkButton*>(engine, qtscript_QCommandLinkButton_toScriptValue, 

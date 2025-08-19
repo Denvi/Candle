@@ -153,7 +153,7 @@ static QScriptValue qtscript_create_QCryptographicHash_Algorithm_class(QScriptEn
         qtscript_QCryptographicHash_Algorithm_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QCryptographicHash_Algorithm_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QCryptographicHash_Algorithm_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QCryptographicHash_Algorithm_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -239,7 +239,7 @@ static QScriptValue qtscript_QCryptographicHash_static_call(QScriptContext *cont
     if (context->argumentCount() == 1) {
         QCryptographicHash::Algorithm _q_arg0 = qscriptvalue_cast<QCryptographicHash::Algorithm>(context->argument(0));
         QCryptographicHash* _q_cpp_result = new QCryptographicHash(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -264,7 +264,7 @@ static QScriptValue qtscript_QCryptographicHash_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QCryptographicHash_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCryptographicHash*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCryptographicHash*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCryptographicHash*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCryptographicHash_prototype_call, qtscript_QCryptographicHash_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

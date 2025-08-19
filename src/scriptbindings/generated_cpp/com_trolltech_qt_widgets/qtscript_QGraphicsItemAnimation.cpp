@@ -454,7 +454,7 @@ static void qtscript_QGraphicsItemAnimation_fromScriptValue(const QScriptValue &
 QScriptValue qtscript_create_QGraphicsItemAnimation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsItemAnimation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsItemAnimation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsItemAnimation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsItemAnimation_prototype_call, qtscript_QGraphicsItemAnimation_function_lengths[i+1]);

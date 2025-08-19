@@ -234,7 +234,7 @@ static QScriptValue qtscript_create_QLineEdit_EchoMode_class(QScriptEngine *engi
         qtscript_QLineEdit_EchoMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLineEdit_EchoMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLineEdit_EchoMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLineEdit_EchoMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -537,7 +537,7 @@ static void qtscript_QLineEdit_fromScriptValue(const QScriptValue &value, QLineE
 QScriptValue qtscript_create_QLineEdit_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLineEdit*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLineEdit*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLineEdit*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 24; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLineEdit_prototype_call, qtscript_QLineEdit_function_lengths[i+1]);

@@ -202,7 +202,7 @@ static void qtscript_QAbstractNetworkCache_fromScriptValue(const QScriptValue &v
 QScriptValue qtscript_create_QAbstractNetworkCache_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractNetworkCache*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractNetworkCache*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractNetworkCache*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractNetworkCache_prototype_call, qtscript_QAbstractNetworkCache_function_lengths[i+1]);

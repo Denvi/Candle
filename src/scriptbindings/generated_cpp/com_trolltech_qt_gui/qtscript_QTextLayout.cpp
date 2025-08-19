@@ -256,7 +256,7 @@ static QScriptValue qtscript_create_QTextLayout_CursorMode_class(QScriptEngine *
         qtscript_QTextLayout_CursorMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextLayout_CursorMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextLayout_CursorMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextLayout_CursorMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -642,32 +642,32 @@ static QScriptValue qtscript_QTextLayout_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QTextLayout* _q_cpp_result = new QTextLayout();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QTextLayout* _q_cpp_result = new QTextLayout(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QTextBlock>() == context->argument(0).toVariant().userType())) {
             QTextBlock _q_arg0 = qscriptvalue_cast<QTextBlock>(context->argument(0));
             QTextLayout* _q_cpp_result = new QTextLayout(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QFont _q_arg1 = qscriptvalue_cast<QFont>(context->argument(1));
         QTextLayout* _q_cpp_result = new QTextLayout(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QString _q_arg0 = context->argument(0).toString();
         QFont _q_arg1 = qscriptvalue_cast<QFont>(context->argument(1));
         QPaintDevice* _q_arg2 = qscriptvalue_cast<QPaintDevice*>(context->argument(2));
         QTextLayout* _q_cpp_result = new QTextLayout(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -683,7 +683,7 @@ static QScriptValue qtscript_QTextLayout_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTextLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextLayout*)0));
     for (int i = 0; i < 40; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextLayout_prototype_call, qtscript_QTextLayout_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -203,7 +203,7 @@ static QScriptValue qtscript_create_QDialogButtonBox_ButtonLayout_class(QScriptE
         qtscript_QDialogButtonBox_ButtonLayout_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDialogButtonBox_ButtonLayout_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDialogButtonBox_ButtonLayout_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDialogButtonBox_ButtonLayout_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -288,7 +288,7 @@ static QScriptValue qtscript_create_QDialogButtonBox_ButtonRole_class(QScriptEng
         qtscript_QDialogButtonBox_ButtonRole_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDialogButtonBox_ButtonRole_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDialogButtonBox_ButtonRole_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDialogButtonBox_ButtonRole_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -393,7 +393,7 @@ static QScriptValue qtscript_create_QDialogButtonBox_StandardButton_class(QScrip
         qtscript_QDialogButtonBox_StandardButton_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 19; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDialogButtonBox_StandardButton_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDialogButtonBox_StandardButton_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDialogButtonBox_StandardButton_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -405,7 +405,7 @@ static QScriptValue qtscript_create_QDialogButtonBox_StandardButton_class(QScrip
 
 static QScriptValue qtscript_QDialogButtonBox_StandardButtons_toScriptValue(QScriptEngine *engine, const QDialogButtonBox::StandardButtons &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QDialogButtonBox_StandardButtons_fromScriptValue(const QScriptValue &value, QDialogButtonBox::StandardButtons &out)
@@ -434,7 +434,7 @@ static QScriptValue qtscript_construct_QDialogButtonBox_StandardButtons(QScriptC
             result |= qvariant_cast<QDialogButtonBox::StandardButton>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QDialogButtonBox_StandardButtons_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -676,7 +676,7 @@ static void qtscript_QDialogButtonBox_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QDialogButtonBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDialogButtonBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDialogButtonBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDialogButtonBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDialogButtonBox_prototype_call, qtscript_QDialogButtonBox_function_lengths[i+1]);

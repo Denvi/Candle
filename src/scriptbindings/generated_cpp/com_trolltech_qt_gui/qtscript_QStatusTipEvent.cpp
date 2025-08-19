@@ -107,7 +107,7 @@ static QScriptValue qtscript_QStatusTipEvent_static_call(QScriptContext *context
     if (context->argumentCount() == 1) {
         QString _q_arg0 = context->argument(0).toString();
         QStatusTipEvent* _q_cpp_result = new QStatusTipEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -123,7 +123,7 @@ static QScriptValue qtscript_QStatusTipEvent_static_call(QScriptContext *context
 QScriptValue qtscript_create_QStatusTipEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStatusTipEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStatusTipEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStatusTipEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStatusTipEvent_prototype_call, qtscript_QStatusTipEvent_function_lengths[i+1]);

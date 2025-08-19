@@ -157,7 +157,7 @@ static void qtscript_QEventTransition_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QEventTransition_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QEventTransition*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QEventTransition*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QEventTransition*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractTransition*>()));
 
     qScriptRegisterMetaType<QEventTransition*>(engine, qtscript_QEventTransition_toScriptValue, 

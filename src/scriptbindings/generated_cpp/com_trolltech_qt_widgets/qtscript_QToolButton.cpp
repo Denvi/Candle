@@ -175,7 +175,7 @@ static QScriptValue qtscript_create_QToolButton_ToolButtonPopupMode_class(QScrip
         qtscript_QToolButton_ToolButtonPopupMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QToolButton_ToolButtonPopupMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QToolButton_ToolButtonPopupMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QToolButton_ToolButtonPopupMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -301,7 +301,7 @@ static void qtscript_QToolButton_fromScriptValue(const QScriptValue &value, QToo
 QScriptValue qtscript_create_QToolButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QToolButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QToolButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QToolButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractButton*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QToolButton_prototype_call, qtscript_QToolButton_function_lengths[i+1]);

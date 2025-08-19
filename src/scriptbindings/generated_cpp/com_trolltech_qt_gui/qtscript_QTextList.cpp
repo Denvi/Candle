@@ -234,7 +234,7 @@ static void qtscript_QTextList_fromScriptValue(const QScriptValue &value, QTextL
 QScriptValue qtscript_create_QTextList_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextList*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextList*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextList*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextBlockGroup*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextList_prototype_call, qtscript_QTextList_function_lengths[i+1]);

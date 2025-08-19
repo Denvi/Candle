@@ -122,7 +122,7 @@ static QScriptValue qtscript_QXmlSimpleReader_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlSimpleReader* _q_cpp_result = new QtScriptShell_QXmlSimpleReader();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlSimpleReader*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlSimpleReader*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -139,7 +139,7 @@ static QScriptValue qtscript_QXmlSimpleReader_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QXmlSimpleReader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlSimpleReader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlSimpleReader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlSimpleReader*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QXmlReader*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlSimpleReader_prototype_call, qtscript_QXmlSimpleReader_function_lengths[i+1]);

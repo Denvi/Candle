@@ -179,7 +179,7 @@ static QScriptValue qtscript_create_QPrintPreviewWidget_ZoomMode_class(QScriptEn
         qtscript_QPrintPreviewWidget_ZoomMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrintPreviewWidget_ZoomMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrintPreviewWidget_ZoomMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrintPreviewWidget_ZoomMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,7 +248,7 @@ static QScriptValue qtscript_create_QPrintPreviewWidget_ViewMode_class(QScriptEn
         qtscript_QPrintPreviewWidget_ViewMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrintPreviewWidget_ViewMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrintPreviewWidget_ViewMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrintPreviewWidget_ViewMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -422,7 +422,7 @@ static void qtscript_QPrintPreviewWidget_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QPrintPreviewWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPrintPreviewWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPrintPreviewWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPrintPreviewWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPrintPreviewWidget_prototype_call, qtscript_QPrintPreviewWidget_function_lengths[i+1]);

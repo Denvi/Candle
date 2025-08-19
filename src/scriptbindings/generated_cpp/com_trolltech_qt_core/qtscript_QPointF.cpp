@@ -227,18 +227,18 @@ static QScriptValue qtscript_QPointF_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QPointF _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
         QPointF _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
         qreal _q_arg1 = qscriptvalue_cast<qreal>(context->argument(1));
         QPointF _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -263,7 +263,7 @@ static QScriptValue qtscript_QPointF_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QPointF_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPointF*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPointF*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPointF*)0));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPointF_prototype_call, qtscript_QPointF_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

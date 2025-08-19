@@ -526,7 +526,7 @@ static void qtscript_QStandardItemModel_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QStandardItemModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStandardItemModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStandardItemModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStandardItemModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemModel*>()));
     for (int i = 0; i < 28; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStandardItemModel_prototype_call, qtscript_QStandardItemModel_function_lengths[i+1]);

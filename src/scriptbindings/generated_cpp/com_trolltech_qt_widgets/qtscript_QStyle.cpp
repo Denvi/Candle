@@ -282,7 +282,7 @@ static QScriptValue qtscript_create_QStyle_ComplexControl_class(QScriptEngine *e
         qtscript_QStyle_ComplexControl_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 10; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_ComplexControl_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_ComplexControl_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_ComplexControl_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -449,7 +449,7 @@ static QScriptValue qtscript_create_QStyle_PrimitiveElement_class(QScriptEngine 
         qtscript_QStyle_PrimitiveElement_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 50; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_PrimitiveElement_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_PrimitiveElement_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_PrimitiveElement_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -612,7 +612,7 @@ static QScriptValue qtscript_create_QStyle_ControlElement_class(QScriptEngine *e
         qtscript_QStyle_ControlElement_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 48; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_ControlElement_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_ControlElement_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_ControlElement_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -869,7 +869,7 @@ static QScriptValue qtscript_create_QStyle_PixelMetric_class(QScriptEngine *engi
         qtscript_QStyle_PixelMetric_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 95; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_PixelMetric_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_PixelMetric_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_PixelMetric_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -984,7 +984,7 @@ static QScriptValue qtscript_create_QStyle_ContentsType_class(QScriptEngine *eng
         qtscript_QStyle_ContentsType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 24; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_ContentsType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_ContentsType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_ContentsType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1161,7 +1161,7 @@ static QScriptValue qtscript_create_QStyle_SubElement_class(QScriptEngine *engin
         qtscript_QStyle_SubElement_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 55; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_SubElement_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_SubElement_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_SubElement_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1228,7 +1228,7 @@ static QScriptValue qtscript_create_QStyle_RequestSoftwareInputPanel_class(QScri
         qtscript_QStyle_RequestSoftwareInputPanel_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_RequestSoftwareInputPanel_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_RequestSoftwareInputPanel_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_RequestSoftwareInputPanel_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1439,7 +1439,7 @@ static QScriptValue qtscript_create_QStyle_StandardPixmap_class(QScriptEngine *e
         qtscript_QStyle_StandardPixmap_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 72; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_StandardPixmap_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_StandardPixmap_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_StandardPixmap_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1562,7 +1562,7 @@ static QScriptValue qtscript_create_QStyle_StateFlag_class(QScriptEngine *engine
         qtscript_QStyle_StateFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 28; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyle_StateFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyle_StateFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyle_StateFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1574,7 +1574,7 @@ static QScriptValue qtscript_create_QStyle_StateFlag_class(QScriptEngine *engine
 
 static QScriptValue qtscript_QStyle_State_toScriptValue(QScriptEngine *engine, const QStyle::State &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyle_State_fromScriptValue(const QScriptValue &value, QStyle::State &out)
@@ -1603,7 +1603,7 @@ static QScriptValue qtscript_construct_QStyle_State(QScriptContext *context, QSc
             result |= qvariant_cast<QStyle::StateFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyle_State_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2173,7 +2173,7 @@ static void qtscript_QStyle_fromScriptValue(const QScriptValue &value, QStyle* &
 QScriptValue qtscript_create_QStyle_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyle*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyle*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyle*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStyle_prototype_call, qtscript_QStyle_function_lengths[i+7]);

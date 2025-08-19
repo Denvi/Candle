@@ -1102,18 +1102,18 @@ static QScriptValue qtscript_QByteArray_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QByteArray _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
         QByteArray _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         int _q_arg0 = context->argument(0).toInt32();
         char _q_arg1 = qscriptvalue_cast<char>(context->argument(1));
         QByteArray _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -1208,7 +1208,7 @@ static QScriptValue qtscript_QByteArray_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QByteArray_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QByteArray*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QByteArray*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QByteArray*)0));
     for (int i = 0; i < 58; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QByteArray_prototype_call, qtscript_QByteArray_function_lengths[i+7]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

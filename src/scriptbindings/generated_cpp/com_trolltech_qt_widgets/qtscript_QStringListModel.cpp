@@ -180,7 +180,7 @@ static void qtscript_QStringListModel_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QStringListModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStringListModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStringListModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStringListModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractListModel*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStringListModel_prototype_call, qtscript_QStringListModel_function_lengths[i+1]);

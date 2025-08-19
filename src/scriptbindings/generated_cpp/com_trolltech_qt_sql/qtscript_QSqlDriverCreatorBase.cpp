@@ -110,7 +110,7 @@ static QScriptValue qtscript_QSqlDriverCreatorBase_static_call(QScriptContext *c
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QSqlDriverCreatorBase* _q_cpp_result = new QtScriptShell_QSqlDriverCreatorBase();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSqlDriverCreatorBase*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSqlDriverCreatorBase*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -127,7 +127,7 @@ static QScriptValue qtscript_QSqlDriverCreatorBase_static_call(QScriptContext *c
 QScriptValue qtscript_create_QSqlDriverCreatorBase_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlDriverCreatorBase*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlDriverCreatorBase*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlDriverCreatorBase*)0));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlDriverCreatorBase_prototype_call, qtscript_QSqlDriverCreatorBase_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

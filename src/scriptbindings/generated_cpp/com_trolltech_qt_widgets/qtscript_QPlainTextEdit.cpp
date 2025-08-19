@@ -296,7 +296,7 @@ static QScriptValue qtscript_create_QPlainTextEdit_LineWrapMode_class(QScriptEng
         qtscript_QPlainTextEdit_LineWrapMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPlainTextEdit_LineWrapMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPlainTextEdit_LineWrapMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPlainTextEdit_LineWrapMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -740,7 +740,7 @@ static void qtscript_QPlainTextEdit_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QPlainTextEdit_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPlainTextEdit*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPlainTextEdit*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPlainTextEdit*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractScrollArea*>()));
     for (int i = 0; i < 41; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPlainTextEdit_prototype_call, qtscript_QPlainTextEdit_function_lengths[i+1]);

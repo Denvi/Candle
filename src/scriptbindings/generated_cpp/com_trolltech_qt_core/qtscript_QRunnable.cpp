@@ -128,7 +128,7 @@ static QScriptValue qtscript_QRunnable_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QRunnable* _q_cpp_result = new QtScriptShell_QRunnable();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QRunnable*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QRunnable*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -145,7 +145,7 @@ static QScriptValue qtscript_QRunnable_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QRunnable_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRunnable*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRunnable*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRunnable*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRunnable_prototype_call, qtscript_QRunnable_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

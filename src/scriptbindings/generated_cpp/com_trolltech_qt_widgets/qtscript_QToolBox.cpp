@@ -345,7 +345,7 @@ static void qtscript_QToolBox_fromScriptValue(const QScriptValue &value, QToolBo
 QScriptValue qtscript_create_QToolBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QToolBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QToolBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QToolBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QToolBox_prototype_call, qtscript_QToolBox_function_lengths[i+1]);

@@ -158,7 +158,7 @@ static void qtscript_QSignalTransition_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QSignalTransition_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSignalTransition*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSignalTransition*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSignalTransition*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractTransition*>()));
 
     qScriptRegisterMetaType<QSignalTransition*>(engine, qtscript_QSignalTransition_toScriptValue, 

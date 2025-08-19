@@ -201,7 +201,7 @@ static void qtscript_QPageSetupDialog_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QPageSetupDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPageSetupDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPageSetupDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPageSetupDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPageSetupDialog_prototype_call, qtscript_QPageSetupDialog_function_lengths[i+1]);

@@ -182,7 +182,7 @@ static void qtscript_QFocusFrame_fromScriptValue(const QScriptValue &value, QFoc
 QScriptValue qtscript_create_QFocusFrame_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFocusFrame*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFocusFrame*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFocusFrame*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFocusFrame_prototype_call, qtscript_QFocusFrame_function_lengths[i+1]);

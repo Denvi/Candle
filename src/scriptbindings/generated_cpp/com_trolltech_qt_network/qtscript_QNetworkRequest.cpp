@@ -182,7 +182,7 @@ static QScriptValue qtscript_create_QNetworkRequest_LoadControl_class(QScriptEng
         qtscript_QNetworkRequest_LoadControl_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkRequest_LoadControl_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkRequest_LoadControl_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkRequest_LoadControl_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -253,7 +253,7 @@ static QScriptValue qtscript_create_QNetworkRequest_CacheLoadControl_class(QScri
         qtscript_QNetworkRequest_CacheLoadControl_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkRequest_CacheLoadControl_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkRequest_CacheLoadControl_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkRequest_CacheLoadControl_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -368,7 +368,7 @@ static QScriptValue qtscript_create_QNetworkRequest_Attribute_class(QScriptEngin
         qtscript_QNetworkRequest_Attribute_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 24; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkRequest_Attribute_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkRequest_Attribute_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkRequest_Attribute_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -449,7 +449,7 @@ static QScriptValue qtscript_create_QNetworkRequest_KnownHeaders_class(QScriptEn
         qtscript_QNetworkRequest_KnownHeaders_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkRequest_KnownHeaders_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkRequest_KnownHeaders_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkRequest_KnownHeaders_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -522,7 +522,7 @@ static QScriptValue qtscript_create_QNetworkRequest_Priority_class(QScriptEngine
         qtscript_QNetworkRequest_Priority_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkRequest_Priority_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkRequest_Priority_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkRequest_Priority_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -727,18 +727,18 @@ static QScriptValue qtscript_QNetworkRequest_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QNetworkRequest _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QNetworkRequest>() == context->argument(0).toVariant().userType())) {
             QNetworkRequest _q_arg0 = qscriptvalue_cast<QNetworkRequest>(context->argument(0));
             QNetworkRequest _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QUrl>() == context->argument(0).toVariant().userType())) {
             QUrl _q_arg0 = qscriptvalue_cast<QUrl>(context->argument(0));
             QNetworkRequest _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -755,7 +755,7 @@ static QScriptValue qtscript_QNetworkRequest_static_call(QScriptContext *context
 QScriptValue qtscript_create_QNetworkRequest_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkRequest*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkRequest*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkRequest*)0));
     for (int i = 0; i < 19; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkRequest_prototype_call, qtscript_QNetworkRequest_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -755,34 +755,34 @@ static QScriptValue qtscript_QPolygonF_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QPolygonF _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPolygon>() == context->argument(0).toVariant().userType())) {
             QPolygon _q_arg0 = qscriptvalue_cast<QPolygon>(context->argument(0));
             QPolygonF _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPolygonF>() == context->argument(0).toVariant().userType())) {
             QPolygonF _q_arg0 = qscriptvalue_cast<QPolygonF>(context->argument(0));
             QPolygonF _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QRectF>() == context->argument(0).toVariant().userType())) {
             QRectF _q_arg0 = qscriptvalue_cast<QRectF>(context->argument(0));
             QPolygonF _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isArray()) {
             QVector<QPointF> _q_arg0;
             qScriptValueToSequence(context->argument(0), _q_arg0);
             QPolygonF _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QPolygonF _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -808,7 +808,7 @@ static QScriptValue qtscript_QPolygonF_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QPolygonF_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPolygonF*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPolygonF*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPolygonF*)0));
     for (int i = 0; i < 56; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPolygonF_prototype_call, qtscript_QPolygonF_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

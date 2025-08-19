@@ -219,7 +219,7 @@ static QScriptValue qtscript_create_QMdiSubWindow_SubWindowOption_class(QScriptE
         qtscript_QMdiSubWindow_SubWindowOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMdiSubWindow_SubWindowOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMdiSubWindow_SubWindowOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMdiSubWindow_SubWindowOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -231,7 +231,7 @@ static QScriptValue qtscript_create_QMdiSubWindow_SubWindowOption_class(QScriptE
 
 static QScriptValue qtscript_QMdiSubWindow_SubWindowOptions_toScriptValue(QScriptEngine *engine, const QMdiSubWindow::SubWindowOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QMdiSubWindow_SubWindowOptions_fromScriptValue(const QScriptValue &value, QMdiSubWindow::SubWindowOptions &out)
@@ -260,7 +260,7 @@ static QScriptValue qtscript_construct_QMdiSubWindow_SubWindowOptions(QScriptCon
             result |= qvariant_cast<QMdiSubWindow::SubWindowOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QMdiSubWindow_SubWindowOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -486,7 +486,7 @@ static void qtscript_QMdiSubWindow_fromScriptValue(const QScriptValue &value, QM
 QScriptValue qtscript_create_QMdiSubWindow_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMdiSubWindow*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMdiSubWindow*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMdiSubWindow*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMdiSubWindow_prototype_call, qtscript_QMdiSubWindow_function_lengths[i+1]);

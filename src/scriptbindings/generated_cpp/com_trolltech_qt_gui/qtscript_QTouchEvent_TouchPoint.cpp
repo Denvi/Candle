@@ -548,18 +548,18 @@ static QScriptValue qtscript_QTouchEvent_TouchPoint_static_call(QScriptContext *
     }
     if (context->argumentCount() == 0) {
         QTouchEvent::TouchPoint _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QTouchEvent::TouchPoint>() == context->argument(0).toVariant().userType())) {
             QTouchEvent::TouchPoint _q_arg0 = qscriptvalue_cast<QTouchEvent::TouchPoint>(context->argument(0));
             QTouchEvent::TouchPoint _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QTouchEvent::TouchPoint _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -576,7 +576,7 @@ static QScriptValue qtscript_QTouchEvent_TouchPoint_static_call(QScriptContext *
 QScriptValue qtscript_create_QTouchEvent_TouchPoint_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTouchEvent::TouchPoint*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTouchEvent::TouchPoint*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTouchEvent::TouchPoint*)0));
     for (int i = 0; i < 43; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTouchEvent_TouchPoint_prototype_call, qtscript_QTouchEvent_TouchPoint_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

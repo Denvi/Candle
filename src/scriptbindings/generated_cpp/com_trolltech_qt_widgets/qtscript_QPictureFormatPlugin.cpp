@@ -174,7 +174,7 @@ static void qtscript_QPictureFormatPlugin_fromScriptValue(const QScriptValue &va
 QScriptValue qtscript_create_QPictureFormatPlugin_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPictureFormatPlugin*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPictureFormatPlugin*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPictureFormatPlugin*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPictureFormatPlugin_prototype_call, qtscript_QPictureFormatPlugin_function_lengths[i+1]);

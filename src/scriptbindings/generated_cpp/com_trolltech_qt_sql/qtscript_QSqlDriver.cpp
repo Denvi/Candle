@@ -220,7 +220,7 @@ static QScriptValue qtscript_create_QSqlDriver_IdentifierType_class(QScriptEngin
         qtscript_QSqlDriver_IdentifierType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlDriver_IdentifierType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlDriver_IdentifierType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlDriver_IdentifierType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -313,7 +313,7 @@ static QScriptValue qtscript_create_QSqlDriver_DriverFeature_class(QScriptEngine
         qtscript_QSqlDriver_DriverFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 15; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlDriver_DriverFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlDriver_DriverFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlDriver_DriverFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -386,7 +386,7 @@ static QScriptValue qtscript_create_QSqlDriver_StatementType_class(QScriptEngine
         qtscript_QSqlDriver_StatementType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlDriver_StatementType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlDriver_StatementType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlDriver_StatementType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -709,7 +709,7 @@ static void qtscript_QSqlDriver_fromScriptValue(const QScriptValue &value, QSqlD
 QScriptValue qtscript_create_QSqlDriver_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlDriver*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlDriver*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlDriver*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlDriver_prototype_call, qtscript_QSqlDriver_function_lengths[i+1]);

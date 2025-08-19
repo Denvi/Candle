@@ -109,7 +109,7 @@ static QScriptValue qtscript_QDesktopServices_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QDesktopServices* _q_cpp_result = new QtScriptShell_QDesktopServices();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QDesktopServices*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QDesktopServices*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -152,7 +152,7 @@ static QScriptValue qtscript_QDesktopServices_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QDesktopServices_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDesktopServices*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDesktopServices*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDesktopServices*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QDesktopServices*>(), proto);
 

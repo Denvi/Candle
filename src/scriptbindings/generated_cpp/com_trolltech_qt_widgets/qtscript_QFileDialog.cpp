@@ -340,7 +340,7 @@ static QScriptValue qtscript_create_QFileDialog_Option_class(QScriptEngine *engi
         qtscript_QFileDialog_Option_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDialog_Option_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDialog_Option_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDialog_Option_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -352,7 +352,7 @@ static QScriptValue qtscript_create_QFileDialog_Option_class(QScriptEngine *engi
 
 static QScriptValue qtscript_QFileDialog_Options_toScriptValue(QScriptEngine *engine, const QFileDialog::Options &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QFileDialog_Options_fromScriptValue(const QScriptValue &value, QFileDialog::Options &out)
@@ -381,7 +381,7 @@ static QScriptValue qtscript_construct_QFileDialog_Options(QScriptContext *conte
             result |= qvariant_cast<QFileDialog::Option>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QFileDialog_Options_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -483,7 +483,7 @@ static QScriptValue qtscript_create_QFileDialog_ViewMode_class(QScriptEngine *en
         qtscript_QFileDialog_ViewMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileDialog_ViewMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileDialog_ViewMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileDialog_ViewMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1154,7 +1154,7 @@ static void qtscript_QFileDialog_fromScriptValue(const QScriptValue &value, QFil
 QScriptValue qtscript_create_QFileDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 38; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileDialog_prototype_call, qtscript_QFileDialog_function_lengths[i+9]);

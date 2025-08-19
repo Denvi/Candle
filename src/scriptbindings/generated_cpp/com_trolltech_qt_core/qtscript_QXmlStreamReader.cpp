@@ -309,7 +309,7 @@ static QScriptValue qtscript_create_QXmlStreamReader_TokenType_class(QScriptEngi
         qtscript_QXmlStreamReader_TokenType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QXmlStreamReader_TokenType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QXmlStreamReader_TokenType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QXmlStreamReader_TokenType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -382,7 +382,7 @@ static QScriptValue qtscript_create_QXmlStreamReader_Error_class(QScriptEngine *
         qtscript_QXmlStreamReader_Error_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QXmlStreamReader_Error_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QXmlStreamReader_Error_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QXmlStreamReader_Error_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -451,7 +451,7 @@ static QScriptValue qtscript_create_QXmlStreamReader_ReadElementTextBehaviour_cl
         qtscript_QXmlStreamReader_ReadElementTextBehaviour_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QXmlStreamReader_ReadElementTextBehaviour_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QXmlStreamReader_ReadElementTextBehaviour_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QXmlStreamReader_ReadElementTextBehaviour_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -943,23 +943,23 @@ static QScriptValue qtscript_QXmlStreamReader_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QXmlStreamReader* _q_cpp_result = new QXmlStreamReader();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))) {
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QXmlStreamReader* _q_cpp_result = new QXmlStreamReader(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QByteArray>() == context->argument(0).toVariant().userType())) {
             QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
             QXmlStreamReader* _q_cpp_result = new QXmlStreamReader(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QXmlStreamReader* _q_cpp_result = new QXmlStreamReader(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -976,7 +976,7 @@ static QScriptValue qtscript_QXmlStreamReader_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QXmlStreamReader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlStreamReader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlStreamReader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlStreamReader*)0));
     for (int i = 0; i < 53; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlStreamReader_prototype_call, qtscript_QXmlStreamReader_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

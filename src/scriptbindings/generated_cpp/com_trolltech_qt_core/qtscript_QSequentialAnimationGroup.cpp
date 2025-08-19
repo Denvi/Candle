@@ -163,7 +163,7 @@ static void qtscript_QSequentialAnimationGroup_fromScriptValue(const QScriptValu
 QScriptValue qtscript_create_QSequentialAnimationGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSequentialAnimationGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSequentialAnimationGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSequentialAnimationGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAnimationGroup*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSequentialAnimationGroup_prototype_call, qtscript_QSequentialAnimationGroup_function_lengths[i+1]);

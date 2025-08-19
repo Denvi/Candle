@@ -140,7 +140,7 @@ static QScriptValue qtscript_QGraphicsSceneResizeEvent_static_call(QScriptContex
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneResizeEvent* _q_cpp_result = new QGraphicsSceneResizeEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -156,7 +156,7 @@ static QScriptValue qtscript_QGraphicsSceneResizeEvent_static_call(QScriptContex
 QScriptValue qtscript_create_QGraphicsSceneResizeEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneResizeEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneResizeEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneResizeEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneResizeEvent_prototype_call, qtscript_QGraphicsSceneResizeEvent_function_lengths[i+1]);

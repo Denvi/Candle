@@ -138,7 +138,7 @@ static QScriptValue qtscript_create_QAbstractAnimation_Direction_class(QScriptEn
         qtscript_QAbstractAnimation_Direction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractAnimation_Direction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractAnimation_Direction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractAnimation_Direction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -249,7 +249,7 @@ static void qtscript_QAbstractAnimation_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QAbstractAnimation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractAnimation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractAnimation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractAnimation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractAnimation_prototype_call, qtscript_QAbstractAnimation_function_lengths[i+1]);

@@ -202,7 +202,7 @@ static QScriptValue qtscript_QMargins_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QMargins _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -210,7 +210,7 @@ static QScriptValue qtscript_QMargins_static_call(QScriptContext *context, QScri
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QMargins _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -226,7 +226,7 @@ static QScriptValue qtscript_QMargins_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QMargins_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMargins*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMargins*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMargins*)0));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMargins_prototype_call, qtscript_QMargins_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

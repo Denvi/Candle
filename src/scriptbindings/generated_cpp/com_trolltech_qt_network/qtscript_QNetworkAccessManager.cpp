@@ -193,7 +193,7 @@ static QScriptValue qtscript_create_QNetworkAccessManager_NetworkAccessibility_c
         qtscript_QNetworkAccessManager_NetworkAccessibility_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkAccessManager_NetworkAccessibility_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkAccessManager_NetworkAccessibility_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkAccessManager_NetworkAccessibility_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -270,7 +270,7 @@ static QScriptValue qtscript_create_QNetworkAccessManager_Operation_class(QScrip
         qtscript_QNetworkAccessManager_Operation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkAccessManager_Operation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkAccessManager_Operation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkAccessManager_Operation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -524,7 +524,7 @@ static void qtscript_QNetworkAccessManager_fromScriptValue(const QScriptValue &v
 QScriptValue qtscript_create_QNetworkAccessManager_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkAccessManager*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkAccessManager*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkAccessManager*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkAccessManager_prototype_call, qtscript_QNetworkAccessManager_function_lengths[i+1]);

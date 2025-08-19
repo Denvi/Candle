@@ -147,7 +147,7 @@ static QScriptValue qtscript_create_QStackedLayout_StackingMode_class(QScriptEng
         qtscript_QStackedLayout_StackingMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStackedLayout_StackingMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStackedLayout_StackingMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStackedLayout_StackingMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -277,7 +277,7 @@ static void qtscript_QStackedLayout_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QStackedLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStackedLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStackedLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStackedLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayout*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStackedLayout_prototype_call, qtscript_QStackedLayout_function_lengths[i+1]);

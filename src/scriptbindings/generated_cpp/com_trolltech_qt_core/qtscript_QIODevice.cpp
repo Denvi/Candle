@@ -247,7 +247,7 @@ static QScriptValue qtscript_create_QIODevice_OpenModeFlag_class(QScriptEngine *
         qtscript_QIODevice_OpenModeFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QIODevice_OpenModeFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QIODevice_OpenModeFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QIODevice_OpenModeFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -259,7 +259,7 @@ static QScriptValue qtscript_create_QIODevice_OpenModeFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_QIODevice_OpenMode_toScriptValue(QScriptEngine *engine, const QIODevice::OpenMode &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QIODevice_OpenMode_fromScriptValue(const QScriptValue &value, QIODevice::OpenMode &out)
@@ -288,7 +288,7 @@ static QScriptValue qtscript_construct_QIODevice_OpenMode(QScriptContext *contex
             result |= qvariant_cast<QIODevice::OpenModeFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QIODevice_OpenMode_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -631,7 +631,7 @@ static void qtscript_QIODevice_fromScriptValue(const QScriptValue &value, QIODev
 QScriptValue qtscript_create_QIODevice_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QIODevice*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QIODevice*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QIODevice*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 29; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QIODevice_prototype_call, qtscript_QIODevice_function_lengths[i+1]);

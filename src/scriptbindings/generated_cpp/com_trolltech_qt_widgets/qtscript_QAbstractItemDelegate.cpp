@@ -178,7 +178,7 @@ static QScriptValue qtscript_create_QAbstractItemDelegate_EndEditHint_class(QScr
         qtscript_QAbstractItemDelegate_EndEditHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractItemDelegate_EndEditHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractItemDelegate_EndEditHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractItemDelegate_EndEditHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -364,7 +364,7 @@ static void qtscript_QAbstractItemDelegate_fromScriptValue(const QScriptValue &v
 QScriptValue qtscript_create_QAbstractItemDelegate_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractItemDelegate*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractItemDelegate*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractItemDelegate*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractItemDelegate_prototype_call, qtscript_QAbstractItemDelegate_function_lengths[i+1]);

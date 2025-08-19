@@ -143,7 +143,7 @@ static QScriptValue qtscript_QChildEvent_static_call(QScriptContext *context, QS
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QObject* _q_arg1 = context->argument(1).toQObject();
         QtScriptShell_QChildEvent* _q_cpp_result = new QtScriptShell_QChildEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QChildEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QChildEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -160,7 +160,7 @@ static QScriptValue qtscript_QChildEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QChildEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QChildEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QChildEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QChildEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QChildEvent_prototype_call, qtscript_QChildEvent_function_lengths[i+1]);

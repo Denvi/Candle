@@ -145,7 +145,7 @@ static QScriptValue qtscript_create_QStyleOptionButton_StyleOptionVersion_class(
         qtscript_QStyleOptionButton_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionButton_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionButton_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionButton_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -224,7 +224,7 @@ static QScriptValue qtscript_create_QStyleOptionButton_ButtonFeature_class(QScri
         qtscript_QStyleOptionButton_ButtonFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionButton_ButtonFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionButton_ButtonFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionButton_ButtonFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -236,7 +236,7 @@ static QScriptValue qtscript_create_QStyleOptionButton_ButtonFeature_class(QScri
 
 static QScriptValue qtscript_QStyleOptionButton_ButtonFeatures_toScriptValue(QScriptEngine *engine, const QStyleOptionButton::ButtonFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionButton_ButtonFeatures_fromScriptValue(const QScriptValue &value, QStyleOptionButton::ButtonFeatures &out)
@@ -265,7 +265,7 @@ static QScriptValue qtscript_construct_QStyleOptionButton_ButtonFeatures(QScript
             result |= qvariant_cast<QStyleOptionButton::ButtonFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionButton_ButtonFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -365,7 +365,7 @@ static QScriptValue qtscript_create_QStyleOptionButton_StyleOptionType_class(QSc
         qtscript_QStyleOptionButton_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionButton_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionButton_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionButton_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -422,13 +422,13 @@ static QScriptValue qtscript_QStyleOptionButton_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionButton _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionButton)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionButton)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionButton _q_arg0 = qscriptvalue_cast<QStyleOptionButton>(context->argument(0));
         QtScriptShell_QStyleOptionButton _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionButton)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionButton)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -445,7 +445,7 @@ static QScriptValue qtscript_QStyleOptionButton_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QStyleOptionButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionButton>(), proto);

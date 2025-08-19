@@ -215,7 +215,7 @@ static void qtscript_QGraphicsProxyWidget_fromScriptValue(const QScriptValue &va
 QScriptValue qtscript_create_QGraphicsProxyWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsProxyWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsProxyWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsProxyWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsWidget*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsProxyWidget_prototype_call, qtscript_QGraphicsProxyWidget_function_lengths[i+1]);

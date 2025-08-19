@@ -515,7 +515,7 @@ static void qtscript_QGridLayout_fromScriptValue(const QScriptValue &value, QGri
 QScriptValue qtscript_create_QGridLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGridLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGridLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGridLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayout*>()));
     for (int i = 0; i < 26; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGridLayout_prototype_call, qtscript_QGridLayout_function_lengths[i+1]);

@@ -251,7 +251,7 @@ static void qtscript_QProgressDialog_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QProgressDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QProgressDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QProgressDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QProgressDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QProgressDialog_prototype_call, qtscript_QProgressDialog_function_lengths[i+1]);

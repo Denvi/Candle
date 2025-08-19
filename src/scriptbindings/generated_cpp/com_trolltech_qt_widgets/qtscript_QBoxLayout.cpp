@@ -199,7 +199,7 @@ static QScriptValue qtscript_create_QBoxLayout_Direction_class(QScriptEngine *en
         qtscript_QBoxLayout_Direction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QBoxLayout_Direction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QBoxLayout_Direction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QBoxLayout_Direction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -497,7 +497,7 @@ static void qtscript_QBoxLayout_fromScriptValue(const QScriptValue &value, QBoxL
 QScriptValue qtscript_create_QBoxLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBoxLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBoxLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBoxLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayout*>()));
     for (int i = 0; i < 20; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBoxLayout_prototype_call, qtscript_QBoxLayout_function_lengths[i+1]);

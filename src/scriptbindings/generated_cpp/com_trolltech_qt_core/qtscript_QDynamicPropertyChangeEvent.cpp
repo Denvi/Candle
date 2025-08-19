@@ -108,7 +108,7 @@ static QScriptValue qtscript_QDynamicPropertyChangeEvent_static_call(QScriptCont
     if (context->argumentCount() == 1) {
         QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
         QDynamicPropertyChangeEvent* _q_cpp_result = new QDynamicPropertyChangeEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -124,7 +124,7 @@ static QScriptValue qtscript_QDynamicPropertyChangeEvent_static_call(QScriptCont
 QScriptValue qtscript_create_QDynamicPropertyChangeEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDynamicPropertyChangeEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDynamicPropertyChangeEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDynamicPropertyChangeEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDynamicPropertyChangeEvent_prototype_call, qtscript_QDynamicPropertyChangeEvent_function_lengths[i+1]);

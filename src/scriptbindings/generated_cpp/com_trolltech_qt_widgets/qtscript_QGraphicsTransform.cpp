@@ -147,7 +147,7 @@ static void qtscript_QGraphicsTransform_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QGraphicsTransform_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsTransform*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsTransform*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsTransform*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsTransform_prototype_call, qtscript_QGraphicsTransform_function_lengths[i+1]);

@@ -179,7 +179,7 @@ static void qtscript_Slider_fromScriptValue(const QScriptValue &value, Slider* &
 QScriptValue qtscript_create_Slider_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<Slider*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((Slider*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((Slider*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QSlider*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_Slider_prototype_call, qtscript_Slider_function_lengths[i+1]);

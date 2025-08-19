@@ -142,7 +142,7 @@ static QScriptValue qtscript_QXmlErrorHandler_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlErrorHandler* _q_cpp_result = new QtScriptShell_QXmlErrorHandler();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlErrorHandler*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlErrorHandler*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -159,7 +159,7 @@ static QScriptValue qtscript_QXmlErrorHandler_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QXmlErrorHandler_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlErrorHandler*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlErrorHandler*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlErrorHandler*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlErrorHandler_prototype_call, qtscript_QXmlErrorHandler_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -373,7 +373,7 @@ static QScriptValue qtscript_create_QTextCursor_MoveOperation_class(QScriptEngin
         qtscript_QTextCursor_MoveOperation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 25; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCursor_MoveOperation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCursor_MoveOperation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCursor_MoveOperation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -444,7 +444,7 @@ static QScriptValue qtscript_create_QTextCursor_SelectionType_class(QScriptEngin
         qtscript_QTextCursor_SelectionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCursor_SelectionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCursor_SelectionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCursor_SelectionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -511,7 +511,7 @@ static QScriptValue qtscript_create_QTextCursor_MoveMode_class(QScriptEngine *en
         qtscript_QTextCursor_MoveMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCursor_MoveMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCursor_MoveMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCursor_MoveMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1097,28 +1097,28 @@ static QScriptValue qtscript_QTextCursor_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QTextCursor _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QTextDocument*>(context->argument(0))) {
             QTextDocument* _q_arg0 = qscriptvalue_cast<QTextDocument*>(context->argument(0));
             QTextCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<QTextFrame*>(context->argument(0))) {
             QTextFrame* _q_arg0 = qscriptvalue_cast<QTextFrame*>(context->argument(0));
             QTextCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QTextBlock>() == context->argument(0).toVariant().userType())) {
             QTextBlock _q_arg0 = qscriptvalue_cast<QTextBlock>(context->argument(0));
             QTextCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QTextCursor>() == context->argument(0).toVariant().userType())) {
             QTextCursor _q_arg0 = qscriptvalue_cast<QTextCursor>(context->argument(0));
             QTextCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -1135,7 +1135,7 @@ static QScriptValue qtscript_QTextCursor_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTextCursor_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextCursor*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextCursor*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextCursor*)0));
     for (int i = 0; i < 61; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextCursor_prototype_call, qtscript_QTextCursor_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

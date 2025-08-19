@@ -319,7 +319,7 @@ static QScriptValue qtscript_create_QInputDialog_InputDialogOption_class(QScript
         qtscript_QInputDialog_InputDialogOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QInputDialog_InputDialogOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QInputDialog_InputDialogOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QInputDialog_InputDialogOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -331,7 +331,7 @@ static QScriptValue qtscript_create_QInputDialog_InputDialogOption_class(QScript
 
 static QScriptValue qtscript_QInputDialog_InputDialogOptions_toScriptValue(QScriptEngine *engine, const QInputDialog::InputDialogOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QInputDialog_InputDialogOptions_fromScriptValue(const QScriptValue &value, QInputDialog::InputDialogOptions &out)
@@ -360,7 +360,7 @@ static QScriptValue qtscript_construct_QInputDialog_InputDialogOptions(QScriptCo
             result |= qvariant_cast<QInputDialog::InputDialogOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QInputDialog_InputDialogOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -464,7 +464,7 @@ static QScriptValue qtscript_create_QInputDialog_InputMode_class(QScriptEngine *
         qtscript_QInputDialog_InputMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QInputDialog_InputMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QInputDialog_InputMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QInputDialog_InputMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1090,7 +1090,7 @@ static void qtscript_QInputDialog_fromScriptValue(const QScriptValue &value, QIn
 QScriptValue qtscript_create_QInputDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QInputDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QInputDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QInputDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 40; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QInputDialog_prototype_call, qtscript_QInputDialog_function_lengths[i+6]);

@@ -326,7 +326,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
     if (context->argumentCount() == 1) {
         QSize _q_arg0 = qscriptvalue_cast<QSize>(context->argument(0));
         QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
@@ -335,7 +335,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
             QSize _q_arg0 = qscriptvalue_cast<QSize>(context->argument(0));
             QGLFormat _q_arg1 = qscriptvalue_cast<QGLFormat>(context->argument(1));
             QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()
@@ -343,7 +343,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
             int _q_arg0 = context->argument(0).toInt32();
             int _q_arg1 = context->argument(1).toInt32();
             QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -355,7 +355,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
             QGLFormat _q_arg1 = qscriptvalue_cast<QGLFormat>(context->argument(1));
             QGLWidget* _q_arg2 = qscriptvalue_cast<QGLWidget*>(context->argument(2));
             QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()
@@ -365,7 +365,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
             int _q_arg1 = context->argument(1).toInt32();
             QGLFormat _q_arg2 = qscriptvalue_cast<QGLFormat>(context->argument(2));
             QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -375,7 +375,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
         QGLFormat _q_arg2 = qscriptvalue_cast<QGLFormat>(context->argument(2));
         QGLWidget* _q_arg3 = qscriptvalue_cast<QGLWidget*>(context->argument(3));
         QtScriptShell_QGLPixelBuffer* _q_cpp_result = new QtScriptShell_QGLPixelBuffer(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLPixelBuffer*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLPixelBuffer*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -399,7 +399,7 @@ static QScriptValue qtscript_QGLPixelBuffer_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QGLPixelBuffer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLPixelBuffer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLPixelBuffer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLPixelBuffer*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QPaintDevice*>()));
     for (int i = 0; i < 16; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLPixelBuffer_prototype_call, qtscript_QGLPixelBuffer_function_lengths[i+2]);

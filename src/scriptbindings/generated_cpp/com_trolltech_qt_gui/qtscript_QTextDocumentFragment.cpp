@@ -142,23 +142,23 @@ static QScriptValue qtscript_QTextDocumentFragment_static_call(QScriptContext *c
     }
     if (context->argumentCount() == 0) {
         QTextDocumentFragment _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QTextCursor>() == context->argument(0).toVariant().userType())) {
             QTextCursor _q_arg0 = qscriptvalue_cast<QTextCursor>(context->argument(0));
             QTextDocumentFragment _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<const QTextDocument*>(context->argument(0))) {
             const QTextDocument* _q_arg0 = qscriptvalue_cast<const QTextDocument*>(context->argument(0));
             QTextDocumentFragment _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QTextDocumentFragment>() == context->argument(0).toVariant().userType())) {
             QTextDocumentFragment _q_arg0 = qscriptvalue_cast<QTextDocumentFragment>(context->argument(0));
             QTextDocumentFragment _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -197,7 +197,7 @@ static QScriptValue qtscript_QTextDocumentFragment_static_call(QScriptContext *c
 QScriptValue qtscript_create_QTextDocumentFragment_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextDocumentFragment*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextDocumentFragment*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextDocumentFragment*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextDocumentFragment_prototype_call, qtscript_QTextDocumentFragment_function_lengths[i+3]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

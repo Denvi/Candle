@@ -221,7 +221,7 @@ static QScriptValue qtscript_create_QLayout_SizeConstraint_class(QScriptEngine *
         qtscript_QLayout_SizeConstraint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLayout_SizeConstraint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLayout_SizeConstraint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLayout_SizeConstraint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -522,7 +522,7 @@ static void qtscript_QLayout_fromScriptValue(const QScriptValue &value, QLayout*
 QScriptValue qtscript_create_QLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     proto.setProperty(QString::fromLatin1("__QLayoutItem__"),
         engine->defaultPrototype(qMetaTypeId<QLayoutItem*>()),

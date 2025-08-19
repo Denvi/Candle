@@ -188,7 +188,7 @@ static void qtscript_QActionGroup_fromScriptValue(const QScriptValue &value, QAc
 QScriptValue qtscript_create_QActionGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QActionGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QActionGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QActionGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QActionGroup_prototype_call, qtscript_QActionGroup_function_lengths[i+1]);

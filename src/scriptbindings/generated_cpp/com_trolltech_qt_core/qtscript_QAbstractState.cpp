@@ -146,7 +146,7 @@ static void qtscript_QAbstractState_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QAbstractState_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractState*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractState*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractState*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractState_prototype_call, qtscript_QAbstractState_function_lengths[i+1]);

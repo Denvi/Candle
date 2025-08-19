@@ -145,7 +145,7 @@ static void qtscript_QTimer_fromScriptValue(const QScriptValue &value, QTimer* &
 QScriptValue qtscript_create_QTimer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTimer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTimer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTimer*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTimer_prototype_call, qtscript_QTimer_function_lengths[i+1]);

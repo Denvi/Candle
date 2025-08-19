@@ -122,7 +122,7 @@ static QScriptValue qtscript_create_QStyleHintReturnMask_StyleOptionVersion_clas
         qtscript_QStyleHintReturnMask_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleHintReturnMask_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleHintReturnMask_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleHintReturnMask_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -187,7 +187,7 @@ static QScriptValue qtscript_create_QStyleHintReturnMask_StyleOptionType_class(Q
         qtscript_QStyleHintReturnMask_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleHintReturnMask_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleHintReturnMask_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleHintReturnMask_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -244,7 +244,7 @@ static QScriptValue qtscript_QStyleHintReturnMask_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleHintReturnMask* _q_cpp_result = new QtScriptShell_QStyleHintReturnMask();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleHintReturnMask*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleHintReturnMask*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -261,7 +261,7 @@ static QScriptValue qtscript_QStyleHintReturnMask_static_call(QScriptContext *co
 QScriptValue qtscript_create_QStyleHintReturnMask_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleHintReturnMask*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleHintReturnMask*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleHintReturnMask*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleHintReturn*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleHintReturnMask*>(), proto);

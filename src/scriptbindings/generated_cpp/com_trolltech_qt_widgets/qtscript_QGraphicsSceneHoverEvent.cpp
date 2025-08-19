@@ -247,12 +247,12 @@ static QScriptValue qtscript_QGraphicsSceneHoverEvent_static_call(QScriptContext
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneHoverEvent* _q_cpp_result = new QGraphicsSceneHoverEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QGraphicsSceneHoverEvent* _q_cpp_result = new QGraphicsSceneHoverEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -268,7 +268,7 @@ static QScriptValue qtscript_QGraphicsSceneHoverEvent_static_call(QScriptContext
 QScriptValue qtscript_create_QGraphicsSceneHoverEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneHoverEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneHoverEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneHoverEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneHoverEvent_prototype_call, qtscript_QGraphicsSceneHoverEvent_function_lengths[i+1]);

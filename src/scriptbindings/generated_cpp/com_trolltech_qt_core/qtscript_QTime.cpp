@@ -308,20 +308,20 @@ static QScriptValue qtscript_QTime_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QTime _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QTime _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QTime _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -329,7 +329,7 @@ static QScriptValue qtscript_QTime_static_call(QScriptContext *context, QScriptE
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QTime _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -401,7 +401,7 @@ static QScriptValue qtscript_QTime_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QTime_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTime*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTime*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTime*)0));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTime_prototype_call, qtscript_QTime_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

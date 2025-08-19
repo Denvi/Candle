@@ -396,7 +396,7 @@ static void qtscript_QGraphicsTextItem_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QGraphicsTextItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsTextItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsTextItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsTextItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsObject*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsTextItem_prototype_call, qtscript_QGraphicsTextItem_function_lengths[i+1]);

@@ -567,7 +567,7 @@ static void qtscript_QTreeWidget_fromScriptValue(const QScriptValue &value, QTre
 QScriptValue qtscript_create_QTreeWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTreeWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTreeWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTreeWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTreeView*>()));
     for (int i = 0; i < 32; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTreeWidget_prototype_call, qtscript_QTreeWidget_function_lengths[i+1]);

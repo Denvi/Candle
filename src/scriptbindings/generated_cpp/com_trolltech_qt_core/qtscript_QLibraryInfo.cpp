@@ -173,7 +173,7 @@ static QScriptValue qtscript_create_QLibraryInfo_LibraryLocation_class(QScriptEn
         qtscript_QLibraryInfo_LibraryLocation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 15; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLibraryInfo_LibraryLocation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLibraryInfo_LibraryLocation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLibraryInfo_LibraryLocation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -291,7 +291,7 @@ static QScriptValue qtscript_QLibraryInfo_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QLibraryInfo_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLibraryInfo*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLibraryInfo*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLibraryInfo*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QLibraryInfo*>(), proto);
 

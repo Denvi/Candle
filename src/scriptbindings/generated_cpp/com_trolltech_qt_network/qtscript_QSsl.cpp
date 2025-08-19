@@ -123,7 +123,7 @@ static QScriptValue qtscript_create_QSsl_EncodingFormat_class(QScriptEngine *eng
         qtscript_QSsl_EncodingFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSsl_EncodingFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSsl_EncodingFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSsl_EncodingFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -194,7 +194,7 @@ static QScriptValue qtscript_create_QSsl_KeyAlgorithm_class(QScriptEngine *engin
         qtscript_QSsl_KeyAlgorithm_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSsl_KeyAlgorithm_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSsl_KeyAlgorithm_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSsl_KeyAlgorithm_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -281,7 +281,7 @@ static QScriptValue qtscript_create_QSsl_SslProtocol_class(QScriptEngine *engine
         qtscript_QSsl_SslProtocol_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 12; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSsl_SslProtocol_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSsl_SslProtocol_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSsl_SslProtocol_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -348,7 +348,7 @@ static QScriptValue qtscript_create_QSsl_KeyType_class(QScriptEngine *engine, QS
         qtscript_QSsl_KeyType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSsl_KeyType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSsl_KeyType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSsl_KeyType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;

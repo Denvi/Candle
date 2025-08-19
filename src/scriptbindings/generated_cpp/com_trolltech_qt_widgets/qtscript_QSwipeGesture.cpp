@@ -134,7 +134,7 @@ static QScriptValue qtscript_create_QSwipeGesture_SwipeDirection_class(QScriptEn
         qtscript_QSwipeGesture_SwipeDirection_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSwipeGesture_SwipeDirection_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSwipeGesture_SwipeDirection_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSwipeGesture_SwipeDirection_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -224,7 +224,7 @@ static void qtscript_QSwipeGesture_fromScriptValue(const QScriptValue &value, QS
 QScriptValue qtscript_create_QSwipeGesture_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSwipeGesture*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSwipeGesture*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSwipeGesture*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGesture*>()));
 
     qScriptRegisterMetaType<QSwipeGesture*>(engine, qtscript_QSwipeGesture_toScriptValue, 

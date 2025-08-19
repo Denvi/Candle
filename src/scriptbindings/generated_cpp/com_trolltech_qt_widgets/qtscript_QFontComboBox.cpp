@@ -189,7 +189,7 @@ static QScriptValue qtscript_create_QFontComboBox_FontFilter_class(QScriptEngine
         qtscript_QFontComboBox_FontFilter_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFontComboBox_FontFilter_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFontComboBox_FontFilter_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFontComboBox_FontFilter_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -201,7 +201,7 @@ static QScriptValue qtscript_create_QFontComboBox_FontFilter_class(QScriptEngine
 
 static QScriptValue qtscript_QFontComboBox_FontFilters_toScriptValue(QScriptEngine *engine, const QFontComboBox::FontFilters &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QFontComboBox_FontFilters_fromScriptValue(const QScriptValue &value, QFontComboBox::FontFilters &out)
@@ -230,7 +230,7 @@ static QScriptValue qtscript_construct_QFontComboBox_FontFilters(QScriptContext 
             result |= qvariant_cast<QFontComboBox::FontFilter>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QFontComboBox_FontFilters_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -355,7 +355,7 @@ static void qtscript_QFontComboBox_fromScriptValue(const QScriptValue &value, QF
 QScriptValue qtscript_create_QFontComboBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFontComboBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFontComboBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFontComboBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QComboBox*>()));
 
     qScriptRegisterMetaType<QFontComboBox*>(engine, qtscript_QFontComboBox_toScriptValue, 

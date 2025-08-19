@@ -189,7 +189,7 @@ static QScriptValue qtscript_create_QNetworkCookie_RawForm_class(QScriptEngine *
         qtscript_QNetworkCookie_RawForm_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkCookie_RawForm_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkCookie_RawForm_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkCookie_RawForm_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -404,25 +404,25 @@ static QScriptValue qtscript_QNetworkCookie_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QNetworkCookie _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QByteArray>() == context->argument(0).toVariant().userType())) {
             QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
             QNetworkCookie _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QNetworkCookie>() == context->argument(0).toVariant().userType())) {
             QNetworkCookie _q_arg0 = qscriptvalue_cast<QNetworkCookie>(context->argument(0));
             QNetworkCookie _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
         QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
         QNetworkCookie _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -446,7 +446,7 @@ static QScriptValue qtscript_QNetworkCookie_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QNetworkCookie_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkCookie*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkCookie*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkCookie*)0));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkCookie_prototype_call, qtscript_QNetworkCookie_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

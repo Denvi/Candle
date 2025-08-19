@@ -240,7 +240,7 @@ static void qtscript_QPushButton_fromScriptValue(const QScriptValue &value, QPus
 QScriptValue qtscript_create_QPushButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPushButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPushButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPushButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractButton*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPushButton_prototype_call, qtscript_QPushButton_function_lengths[i+1]);

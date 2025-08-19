@@ -162,7 +162,7 @@ static QScriptValue qtscript_create_QKeySequence_SequenceMatch_class(QScriptEngi
         qtscript_QKeySequence_SequenceMatch_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QKeySequence_SequenceMatch_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QKeySequence_SequenceMatch_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QKeySequence_SequenceMatch_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -367,7 +367,7 @@ static QScriptValue qtscript_create_QKeySequence_StandardKey_class(QScriptEngine
         qtscript_QKeySequence_StandardKey_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 71; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QKeySequence_StandardKey_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QKeySequence_StandardKey_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QKeySequence_StandardKey_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -485,28 +485,28 @@ static QScriptValue qtscript_QKeySequence_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QKeySequence _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QKeySequence::StandardKey>() == context->argument(0).toVariant().userType())) {
             QKeySequence::StandardKey _q_arg0 = qscriptvalue_cast<QKeySequence::StandardKey>(context->argument(0));
             QKeySequence _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QKeySequence>() == context->argument(0).toVariant().userType())) {
             QKeySequence _q_arg0 = qscriptvalue_cast<QKeySequence>(context->argument(0));
             QKeySequence _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QKeySequence _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QKeySequence _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -515,14 +515,14 @@ static QScriptValue qtscript_QKeySequence_static_call(QScriptContext *context, Q
             QString _q_arg0 = context->argument(0).toString();
             QKeySequence::SequenceFormat _q_arg1 = qscriptvalue_cast<QKeySequence::SequenceFormat>(context->argument(1));
             QKeySequence _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()
             && context->argument(1).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             int _q_arg1 = context->argument(1).toInt32();
             QKeySequence _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -530,7 +530,7 @@ static QScriptValue qtscript_QKeySequence_static_call(QScriptContext *context, Q
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QKeySequence _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -538,7 +538,7 @@ static QScriptValue qtscript_QKeySequence_static_call(QScriptContext *context, Q
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QKeySequence _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -614,7 +614,7 @@ static QScriptValue qtscript_QKeySequence_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QKeySequence_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QKeySequence*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QKeySequence*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QKeySequence*)0));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QKeySequence_prototype_call, qtscript_QKeySequence_function_lengths[i+6]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

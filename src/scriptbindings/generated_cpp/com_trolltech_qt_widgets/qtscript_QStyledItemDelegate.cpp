@@ -180,7 +180,7 @@ static void qtscript_QStyledItemDelegate_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QStyledItemDelegate_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyledItemDelegate*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyledItemDelegate*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyledItemDelegate*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemDelegate*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStyledItemDelegate_prototype_call, qtscript_QStyledItemDelegate_function_lengths[i+1]);

@@ -205,7 +205,7 @@ static QScriptValue qtscript_create_QSqlField_RequiredStatus_class(QScriptEngine
         qtscript_QSqlField_RequiredStatus_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlField_RequiredStatus_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlField_RequiredStatus_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlField_RequiredStatus_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -466,25 +466,25 @@ static QScriptValue qtscript_QSqlField_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QSqlField _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QSqlField>() == context->argument(0).toVariant().userType())) {
             QSqlField _q_arg0 = qscriptvalue_cast<QSqlField>(context->argument(0));
             QSqlField _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QSqlField _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QVariant::Type _q_arg1 = qscriptvalue_cast<QVariant::Type>(context->argument(1));
         QSqlField _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -500,7 +500,7 @@ static QScriptValue qtscript_QSqlField_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QSqlField_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlField*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlField*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlField*)0));
     for (int i = 0; i < 28; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlField_prototype_call, qtscript_QSqlField_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

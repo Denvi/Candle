@@ -163,7 +163,7 @@ static QScriptValue qtscript_create_QSqlError_ErrorType_class(QScriptEngine *eng
         qtscript_QSqlError_ErrorType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSqlError_ErrorType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSqlError_ErrorType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSqlError_ErrorType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -311,32 +311,32 @@ static QScriptValue qtscript_QSqlError_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QSqlError _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QSqlError>() == context->argument(0).toVariant().userType())) {
             QSqlError _q_arg0 = qscriptvalue_cast<QSqlError>(context->argument(0));
             QSqlError _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QSqlError _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QSqlError _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QSqlError::ErrorType _q_arg2 = qscriptvalue_cast<QSqlError::ErrorType>(context->argument(2));
         QSqlError _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         if (context->argument(0).isString()
@@ -348,7 +348,7 @@ static QScriptValue qtscript_QSqlError_static_call(QScriptContext *context, QScr
             QSqlError::ErrorType _q_arg2 = qscriptvalue_cast<QSqlError::ErrorType>(context->argument(2));
             QString _q_arg3 = context->argument(3).toString();
             QSqlError _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && context->argument(1).isString()
@@ -359,7 +359,7 @@ static QScriptValue qtscript_QSqlError_static_call(QScriptContext *context, QScr
             QSqlError::ErrorType _q_arg2 = qscriptvalue_cast<QSqlError::ErrorType>(context->argument(2));
             int _q_arg3 = context->argument(3).toInt32();
             QSqlError _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -376,7 +376,7 @@ static QScriptValue qtscript_QSqlError_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QSqlError_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlError*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlError*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlError*)0));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlError_prototype_call, qtscript_QSqlError_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

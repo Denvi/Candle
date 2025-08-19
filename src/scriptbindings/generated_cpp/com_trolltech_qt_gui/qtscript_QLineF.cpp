@@ -205,7 +205,7 @@ static QScriptValue qtscript_create_QLineF_IntersectType_class(QScriptEngine *en
         qtscript_QLineF_IntersectType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLineF_IntersectType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLineF_IntersectType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLineF_IntersectType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -480,18 +480,18 @@ static QScriptValue qtscript_QLineF_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QLineF _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QLine _q_arg0 = qscriptvalue_cast<QLine>(context->argument(0));
         QLineF _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
         QPointF _q_arg1 = qscriptvalue_cast<QPointF>(context->argument(1));
         QLineF _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -499,7 +499,7 @@ static QScriptValue qtscript_QLineF_static_call(QScriptContext *context, QScript
         qreal _q_arg2 = qscriptvalue_cast<qreal>(context->argument(2));
         qreal _q_arg3 = qscriptvalue_cast<qreal>(context->argument(3));
         QLineF _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -524,7 +524,7 @@ static QScriptValue qtscript_QLineF_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QLineF_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLineF*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLineF*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLineF*)0));
     for (int i = 0; i < 27; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLineF_prototype_call, qtscript_QLineF_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

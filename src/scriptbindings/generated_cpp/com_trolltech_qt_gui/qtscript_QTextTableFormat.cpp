@@ -244,7 +244,7 @@ static QScriptValue qtscript_QTextTableFormat_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextTableFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextTableFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextTableFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -261,7 +261,7 @@ static QScriptValue qtscript_QTextTableFormat_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QTextTableFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextTableFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextTableFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextTableFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFrameFormat*>()));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextTableFormat_prototype_call, qtscript_QTextTableFormat_function_lengths[i+1]);

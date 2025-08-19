@@ -167,7 +167,7 @@ static QScriptValue qtscript_create_QAbstractSlider_SliderAction_class(QScriptEn
         qtscript_QAbstractSlider_SliderAction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSlider_SliderAction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSlider_SliderAction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSlider_SliderAction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -265,7 +265,7 @@ static void qtscript_QAbstractSlider_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QAbstractSlider_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractSlider*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractSlider*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractSlider*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractSlider_prototype_call, qtscript_QAbstractSlider_function_lengths[i+1]);

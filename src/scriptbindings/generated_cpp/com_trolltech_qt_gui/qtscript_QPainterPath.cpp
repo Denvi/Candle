@@ -297,7 +297,7 @@ static QScriptValue qtscript_create_QPainterPath_ElementType_class(QScriptEngine
         qtscript_QPainterPath_ElementType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPainterPath_ElementType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPainterPath_ElementType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPainterPath_ElementType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -976,18 +976,18 @@ static QScriptValue qtscript_QPainterPath_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QPainterPath _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPainterPath>() == context->argument(0).toVariant().userType())) {
             QPainterPath _q_arg0 = qscriptvalue_cast<QPainterPath>(context->argument(0));
             QPainterPath _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPointF>() == context->argument(0).toVariant().userType())) {
             QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
             QPainterPath _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -1004,7 +1004,7 @@ static QScriptValue qtscript_QPainterPath_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QPainterPath_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPainterPath*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPainterPath*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPainterPath*)0));
     for (int i = 0; i < 54; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPainterPath_prototype_call, qtscript_QPainterPath_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -133,7 +133,7 @@ static QScriptValue qtscript_create_QHistoryState_HistoryType_class(QScriptEngin
         qtscript_QHistoryState_HistoryType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QHistoryState_HistoryType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QHistoryState_HistoryType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QHistoryState_HistoryType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -238,7 +238,7 @@ static void qtscript_QHistoryState_fromScriptValue(const QScriptValue &value, QH
 QScriptValue qtscript_create_QHistoryState_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHistoryState*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHistoryState*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHistoryState*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractState*>()));
 
     qScriptRegisterMetaType<QHistoryState*>(engine, qtscript_QHistoryState_toScriptValue, 

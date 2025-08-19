@@ -189,7 +189,7 @@ static QScriptValue qtscript_create_QStyleOption_OptionType_class(QScriptEngine 
         qtscript_QStyleOption_OptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 26; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOption_OptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOption_OptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOption_OptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -254,7 +254,7 @@ static QScriptValue qtscript_create_QStyleOption_StyleOptionVersion_class(QScrip
         qtscript_QStyleOption_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOption_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOption_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOption_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -319,7 +319,7 @@ static QScriptValue qtscript_create_QStyleOption_StyleOptionType_class(QScriptEn
         qtscript_QStyleOption_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOption_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOption_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOption_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -391,20 +391,20 @@ static QScriptValue qtscript_QStyleOption_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOption _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOption)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOption)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QStyleOption>() == context->argument(0).toVariant().userType())) {
             QStyleOption _q_arg0 = qscriptvalue_cast<QStyleOption>(context->argument(0));
             QtScriptShell_QStyleOption _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOption)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOption)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QtScriptShell_QStyleOption _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOption)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOption)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -412,7 +412,7 @@ static QScriptValue qtscript_QStyleOption_static_call(QScriptContext *context, Q
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QtScriptShell_QStyleOption _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOption)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOption)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -429,7 +429,7 @@ static QScriptValue qtscript_QStyleOption_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QStyleOption_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOption*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOption*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOption*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStyleOption_prototype_call, qtscript_QStyleOption_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

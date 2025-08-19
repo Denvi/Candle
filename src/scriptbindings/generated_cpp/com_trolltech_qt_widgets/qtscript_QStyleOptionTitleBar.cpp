@@ -126,7 +126,7 @@ static QScriptValue qtscript_create_QStyleOptionTitleBar_StyleOptionVersion_clas
         qtscript_QStyleOptionTitleBar_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTitleBar_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTitleBar_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTitleBar_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleOptionTitleBar_StyleOptionType_class(Q
         qtscript_QStyleOptionTitleBar_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTitleBar_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTitleBar_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTitleBar_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,13 +248,13 @@ static QScriptValue qtscript_QStyleOptionTitleBar_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionTitleBar _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTitleBar)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTitleBar)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionTitleBar _q_arg0 = qscriptvalue_cast<QStyleOptionTitleBar>(context->argument(0));
         QtScriptShell_QStyleOptionTitleBar _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTitleBar)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTitleBar)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -271,7 +271,7 @@ static QScriptValue qtscript_QStyleOptionTitleBar_static_call(QScriptContext *co
 QScriptValue qtscript_create_QStyleOptionTitleBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTitleBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionTitleBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionTitleBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOptionComplex*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTitleBar>(), proto);

@@ -314,25 +314,25 @@ static QScriptValue qtscript_QItemSelectionRange_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QItemSelectionRange _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QItemSelectionRange>() == context->argument(0).toVariant().userType())) {
             QItemSelectionRange _q_arg0 = qscriptvalue_cast<QItemSelectionRange>(context->argument(0));
             QItemSelectionRange _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QModelIndex>() == context->argument(0).toVariant().userType())) {
             QModelIndex _q_arg0 = qscriptvalue_cast<QModelIndex>(context->argument(0));
             QItemSelectionRange _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QModelIndex _q_arg0 = qscriptvalue_cast<QModelIndex>(context->argument(0));
         QModelIndex _q_arg1 = qscriptvalue_cast<QModelIndex>(context->argument(1));
         QItemSelectionRange _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -348,7 +348,7 @@ static QScriptValue qtscript_QItemSelectionRange_static_call(QScriptContext *con
 QScriptValue qtscript_create_QItemSelectionRange_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QItemSelectionRange*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QItemSelectionRange*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QItemSelectionRange*)0));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QItemSelectionRange_prototype_call, qtscript_QItemSelectionRange_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

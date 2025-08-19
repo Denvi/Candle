@@ -126,7 +126,7 @@ static QScriptValue qtscript_create_QStyleOptionDockWidget_StyleOptionVersion_cl
         qtscript_QStyleOptionDockWidget_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionDockWidget_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionDockWidget_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionDockWidget_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleOptionDockWidget_StyleOptionType_class
         qtscript_QStyleOptionDockWidget_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionDockWidget_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionDockWidget_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionDockWidget_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,13 +248,13 @@ static QScriptValue qtscript_QStyleOptionDockWidget_static_call(QScriptContext *
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionDockWidget _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionDockWidget)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionDockWidget)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionDockWidget _q_arg0 = qscriptvalue_cast<QStyleOptionDockWidget>(context->argument(0));
         QtScriptShell_QStyleOptionDockWidget _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionDockWidget)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionDockWidget)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -271,7 +271,7 @@ static QScriptValue qtscript_QStyleOptionDockWidget_static_call(QScriptContext *
 QScriptValue qtscript_create_QStyleOptionDockWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionDockWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionDockWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionDockWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionDockWidget>(), proto);

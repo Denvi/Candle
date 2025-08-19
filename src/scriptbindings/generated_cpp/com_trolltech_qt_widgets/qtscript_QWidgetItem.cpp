@@ -105,7 +105,7 @@ static QScriptValue qtscript_QWidgetItem_static_call(QScriptContext *context, QS
     if (context->argumentCount() == 1) {
         QWidget* _q_arg0 = qscriptvalue_cast<QWidget*>(context->argument(0));
         QtScriptShell_QWidgetItem* _q_cpp_result = new QtScriptShell_QWidgetItem(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QWidgetItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QWidgetItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -122,7 +122,7 @@ static QScriptValue qtscript_QWidgetItem_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QWidgetItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWidgetItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWidgetItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWidgetItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayoutItem*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QWidgetItem*>(), proto);

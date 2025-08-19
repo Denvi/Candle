@@ -470,20 +470,20 @@ static QScriptValue qtscript_QGraphicsLayoutItem_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsLayoutItem* _q_cpp_result = new QtScriptShell_QGraphicsLayoutItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLayoutItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLayoutItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsLayoutItem* _q_arg0 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0));
         QtScriptShell_QGraphicsLayoutItem* _q_cpp_result = new QtScriptShell_QGraphicsLayoutItem(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLayoutItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLayoutItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QGraphicsLayoutItem* _q_arg0 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0));
         bool _q_arg1 = context->argument(1).toBoolean();
         QtScriptShell_QGraphicsLayoutItem* _q_cpp_result = new QtScriptShell_QGraphicsLayoutItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLayoutItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLayoutItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -500,7 +500,7 @@ static QScriptValue qtscript_QGraphicsLayoutItem_static_call(QScriptContext *con
 QScriptValue qtscript_create_QGraphicsLayoutItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsLayoutItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsLayoutItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsLayoutItem*)0));
     for (int i = 0; i < 32; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsLayoutItem_prototype_call, qtscript_QGraphicsLayoutItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

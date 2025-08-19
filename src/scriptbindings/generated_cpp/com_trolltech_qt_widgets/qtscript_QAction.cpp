@@ -188,7 +188,7 @@ static QScriptValue qtscript_create_QAction_ActionEvent_class(QScriptEngine *eng
         qtscript_QAction_ActionEvent_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAction_ActionEvent_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAction_ActionEvent_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAction_ActionEvent_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -265,7 +265,7 @@ static QScriptValue qtscript_create_QAction_MenuRole_class(QScriptEngine *engine
         qtscript_QAction_MenuRole_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAction_MenuRole_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAction_MenuRole_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAction_MenuRole_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -490,7 +490,7 @@ static void qtscript_QAction_fromScriptValue(const QScriptValue &value, QAction*
 QScriptValue qtscript_create_QAction_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAction*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAction*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAction*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 16; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAction_prototype_call, qtscript_QAction_function_lengths[i+1]);

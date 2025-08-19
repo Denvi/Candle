@@ -171,7 +171,7 @@ static void qtscript_QErrorMessage_fromScriptValue(const QScriptValue &value, QE
 QScriptValue qtscript_create_QErrorMessage_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QErrorMessage*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QErrorMessage*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QErrorMessage*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
 
     qScriptRegisterMetaType<QErrorMessage*>(engine, qtscript_QErrorMessage_toScriptValue, 

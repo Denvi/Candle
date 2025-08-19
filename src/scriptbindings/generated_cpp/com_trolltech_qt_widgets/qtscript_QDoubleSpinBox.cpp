@@ -197,7 +197,7 @@ static void qtscript_QDoubleSpinBox_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QDoubleSpinBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDoubleSpinBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDoubleSpinBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDoubleSpinBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSpinBox*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDoubleSpinBox_prototype_call, qtscript_QDoubleSpinBox_function_lengths[i+1]);

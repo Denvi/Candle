@@ -139,7 +139,7 @@ static void qtscript_QTcpSocket_fromScriptValue(const QScriptValue &value, QTcpS
 QScriptValue qtscript_create_QTcpSocket_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTcpSocket*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTcpSocket*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTcpSocket*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSocket*>()));
 
     qScriptRegisterMetaType<QTcpSocket*>(engine, qtscript_QTcpSocket_toScriptValue, 

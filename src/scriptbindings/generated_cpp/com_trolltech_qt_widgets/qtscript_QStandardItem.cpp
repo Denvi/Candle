@@ -370,7 +370,7 @@ static QScriptValue qtscript_create_QStandardItem_ItemType_class(QScriptEngine *
         qtscript_QStandardItem_ItemType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStandardItem_ItemType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStandardItem_ItemType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStandardItem_ItemType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1082,20 +1082,20 @@ static QScriptValue qtscript_QStandardItem_static_call(QScriptContext *context, 
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStandardItem* _q_cpp_result = new QtScriptShell_QStandardItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStandardItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStandardItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QStandardItem* _q_cpp_result = new QtScriptShell_QStandardItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStandardItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStandardItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QtScriptShell_QStandardItem* _q_cpp_result = new QtScriptShell_QStandardItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStandardItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStandardItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -1105,7 +1105,7 @@ static QScriptValue qtscript_QStandardItem_static_call(QScriptContext *context, 
             QIcon _q_arg0 = qscriptvalue_cast<QIcon>(context->argument(0));
             QString _q_arg1 = context->argument(1).toString();
             QtScriptShell_QStandardItem* _q_cpp_result = new QtScriptShell_QStandardItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStandardItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStandardItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()
@@ -1113,7 +1113,7 @@ static QScriptValue qtscript_QStandardItem_static_call(QScriptContext *context, 
             int _q_arg0 = context->argument(0).toInt32();
             int _q_arg1 = context->argument(1).toInt32();
             QtScriptShell_QStandardItem* _q_cpp_result = new QtScriptShell_QStandardItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStandardItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStandardItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -1131,7 +1131,7 @@ static QScriptValue qtscript_QStandardItem_static_call(QScriptContext *context, 
 QScriptValue qtscript_create_QStandardItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStandardItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStandardItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStandardItem*)0));
     for (int i = 0; i < 78; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStandardItem_prototype_call, qtscript_QStandardItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

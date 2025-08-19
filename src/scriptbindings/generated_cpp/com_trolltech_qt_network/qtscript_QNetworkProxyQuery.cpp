@@ -172,7 +172,7 @@ static QScriptValue qtscript_create_QNetworkProxyQuery_QueryType_class(QScriptEn
         qtscript_QNetworkProxyQuery_QueryType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkProxyQuery_QueryType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkProxyQuery_QueryType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkProxyQuery_QueryType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -335,23 +335,23 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QNetworkProxyQuery _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QNetworkProxyQuery>() == context->argument(0).toVariant().userType())) {
             QNetworkProxyQuery _q_arg0 = qscriptvalue_cast<QNetworkProxyQuery>(context->argument(0));
             QNetworkProxyQuery _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QUrl>() == context->argument(0).toVariant().userType())) {
             QUrl _q_arg0 = qscriptvalue_cast<QUrl>(context->argument(0));
             QNetworkProxyQuery _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             unsigned short _q_arg0 = qscriptvalue_cast<unsigned short>(context->argument(0));
             QNetworkProxyQuery _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -360,21 +360,21 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
             QString _q_arg0 = context->argument(0).toString();
             int _q_arg1 = context->argument(1).toInt32();
             QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QUrl>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<QNetworkProxyQuery::QueryType>() == context->argument(1).toVariant().userType())) {
             QUrl _q_arg0 = qscriptvalue_cast<QUrl>(context->argument(0));
             QNetworkProxyQuery::QueryType _q_arg1 = qscriptvalue_cast<QNetworkProxyQuery::QueryType>(context->argument(1));
             QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()
             && context->argument(1).isString()) {
             unsigned short _q_arg0 = qscriptvalue_cast<unsigned short>(context->argument(0));
             QString _q_arg1 = context->argument(1).toString();
             QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -385,7 +385,7 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
             int _q_arg1 = context->argument(1).toInt32();
             QString _q_arg2 = context->argument(2).toString();
             QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()
             && context->argument(1).isString()
@@ -394,7 +394,7 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
             QString _q_arg1 = context->argument(1).toString();
             QNetworkProxyQuery::QueryType _q_arg2 = qscriptvalue_cast<QNetworkProxyQuery::QueryType>(context->argument(2));
             QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 4) {
@@ -403,7 +403,7 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
         QString _q_arg2 = context->argument(2).toString();
         QNetworkProxyQuery::QueryType _q_arg3 = qscriptvalue_cast<QNetworkProxyQuery::QueryType>(context->argument(3));
         QNetworkProxyQuery _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -419,7 +419,7 @@ static QScriptValue qtscript_QNetworkProxyQuery_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QNetworkProxyQuery_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkProxyQuery*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkProxyQuery*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkProxyQuery*)0));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkProxyQuery_prototype_call, qtscript_QNetworkProxyQuery_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

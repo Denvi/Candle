@@ -168,7 +168,7 @@ static QScriptValue qtscript_create_QDialog_DialogCode_class(QScriptEngine *engi
         qtscript_QDialog_DialogCode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDialog_DialogCode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDialog_DialogCode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDialog_DialogCode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -302,7 +302,7 @@ static void qtscript_QDialog_fromScriptValue(const QScriptValue &value, QDialog*
 QScriptValue qtscript_create_QDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDialog_prototype_call, qtscript_QDialog_function_lengths[i+1]);

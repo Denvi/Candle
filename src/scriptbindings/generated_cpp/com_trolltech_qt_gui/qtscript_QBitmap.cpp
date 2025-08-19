@@ -155,20 +155,20 @@ static QScriptValue qtscript_QBitmap_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QBitmap _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBitmap)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBitmap)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             QtScriptShell_QBitmap _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBitmap)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBitmap)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QSize>() == context->argument(0).toVariant().userType())) {
             QSize _q_arg0 = qscriptvalue_cast<QSize>(context->argument(0));
             QtScriptShell_QBitmap _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBitmap)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBitmap)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -182,7 +182,7 @@ static QScriptValue qtscript_QBitmap_static_call(QScriptContext *context, QScrip
           const char * _q_arg1 = tmp__q_arg1.constData();
     // TEMPLATE - core.convert_string_arg_to_char* - END
                     QtScriptShell_QBitmap _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBitmap)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBitmap)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()
@@ -190,7 +190,7 @@ static QScriptValue qtscript_QBitmap_static_call(QScriptContext *context, QScrip
             int _q_arg0 = context->argument(0).toInt32();
             int _q_arg1 = context->argument(1).toInt32();
             QtScriptShell_QBitmap _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBitmap)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBitmap)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -208,7 +208,7 @@ static QScriptValue qtscript_QBitmap_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QBitmap_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBitmap*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBitmap*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBitmap*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QPixmap*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBitmap_prototype_call, qtscript_QBitmap_function_lengths[i+1]);

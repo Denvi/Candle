@@ -193,7 +193,7 @@ static QScriptValue qtscript_create_QAbstractSpinBox_CorrectionMode_class(QScrip
         qtscript_QAbstractSpinBox_CorrectionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSpinBox_CorrectionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSpinBox_CorrectionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSpinBox_CorrectionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -262,7 +262,7 @@ static QScriptValue qtscript_create_QAbstractSpinBox_ButtonSymbols_class(QScript
         qtscript_QAbstractSpinBox_ButtonSymbols_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSpinBox_ButtonSymbols_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSpinBox_ButtonSymbols_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSpinBox_ButtonSymbols_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -331,7 +331,7 @@ static QScriptValue qtscript_create_QAbstractSpinBox_StepEnabledFlag_class(QScri
         qtscript_QAbstractSpinBox_StepEnabledFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSpinBox_StepEnabledFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSpinBox_StepEnabledFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSpinBox_StepEnabledFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -343,7 +343,7 @@ static QScriptValue qtscript_create_QAbstractSpinBox_StepEnabledFlag_class(QScri
 
 static QScriptValue qtscript_QAbstractSpinBox_StepEnabled_toScriptValue(QScriptEngine *engine, const QAbstractSpinBox::StepEnabled &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QAbstractSpinBox_StepEnabled_fromScriptValue(const QScriptValue &value, QAbstractSpinBox::StepEnabled &out)
@@ -372,7 +372,7 @@ static QScriptValue qtscript_construct_QAbstractSpinBox_StepEnabled(QScriptConte
             result |= qvariant_cast<QAbstractSpinBox::StepEnabledFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QAbstractSpinBox_StepEnabled_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -543,7 +543,7 @@ static void qtscript_QAbstractSpinBox_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QAbstractSpinBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractSpinBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractSpinBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractSpinBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractSpinBox_prototype_call, qtscript_QAbstractSpinBox_function_lengths[i+1]);

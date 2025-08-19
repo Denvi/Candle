@@ -1352,7 +1352,7 @@ static void qtscript_QGLShaderProgram_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QGLShaderProgram_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLShaderProgram*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLShaderProgram*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLShaderProgram*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 36; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLShaderProgram_prototype_call, qtscript_QGLShaderProgram_function_lengths[i+2]);

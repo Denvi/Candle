@@ -199,7 +199,7 @@ static QScriptValue qtscript_create_QTextLine_CursorPosition_class(QScriptEngine
         qtscript_QTextLine_CursorPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextLine_CursorPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextLine_CursorPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextLine_CursorPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -266,7 +266,7 @@ static QScriptValue qtscript_create_QTextLine_Edge_class(QScriptEngine *engine, 
         qtscript_QTextLine_Edge_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextLine_Edge_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextLine_Edge_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextLine_Edge_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -524,7 +524,7 @@ static QScriptValue qtscript_QTextLine_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QTextLine _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -540,7 +540,7 @@ static QScriptValue qtscript_QTextLine_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QTextLine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextLine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextLine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextLine*)0));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextLine_prototype_call, qtscript_QTextLine_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

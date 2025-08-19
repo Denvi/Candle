@@ -212,7 +212,7 @@ static void qtscript_QColumnView_fromScriptValue(const QScriptValue &value, QCol
 QScriptValue qtscript_create_QColumnView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QColumnView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QColumnView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QColumnView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemView*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QColumnView_prototype_call, qtscript_QColumnView_function_lengths[i+1]);

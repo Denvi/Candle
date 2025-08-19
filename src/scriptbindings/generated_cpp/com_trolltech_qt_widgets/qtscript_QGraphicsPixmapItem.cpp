@@ -170,7 +170,7 @@ static QScriptValue qtscript_create_QGraphicsPixmapItem_ShapeMode_class(QScriptE
         qtscript_QGraphicsPixmapItem_ShapeMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsPixmapItem_ShapeMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsPixmapItem_ShapeMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsPixmapItem_ShapeMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -293,20 +293,20 @@ static QScriptValue qtscript_QGraphicsPixmapItem_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsPixmapItem* _q_cpp_result = new QtScriptShell_QGraphicsPixmapItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPixmapItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPixmapItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QGraphicsItem*>(context->argument(0))) {
             QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
             QtScriptShell_QGraphicsPixmapItem* _q_cpp_result = new QtScriptShell_QGraphicsPixmapItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPixmapItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPixmapItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             QtScriptShell_QGraphicsPixmapItem* _q_cpp_result = new QtScriptShell_QGraphicsPixmapItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPixmapItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPixmapItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -314,7 +314,7 @@ static QScriptValue qtscript_QGraphicsPixmapItem_static_call(QScriptContext *con
         QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
         QGraphicsItem* _q_arg1 = qscriptvalue_cast<QGraphicsItem*>(context->argument(1));
         QtScriptShell_QGraphicsPixmapItem* _q_cpp_result = new QtScriptShell_QGraphicsPixmapItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPixmapItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPixmapItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -331,7 +331,7 @@ static QScriptValue qtscript_QGraphicsPixmapItem_static_call(QScriptContext *con
 QScriptValue qtscript_create_QGraphicsPixmapItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsPixmapItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsPixmapItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsPixmapItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsItem*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsPixmapItem_prototype_call, qtscript_QGraphicsPixmapItem_function_lengths[i+1]);

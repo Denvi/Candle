@@ -479,7 +479,7 @@ static void qtscript_QMenu_fromScriptValue(const QScriptValue &value, QMenu* &ou
 QScriptValue qtscript_create_QMenu_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMenu*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMenu*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMenu*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMenu_prototype_call, qtscript_QMenu_function_lengths[i+2]);

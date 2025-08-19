@@ -136,7 +136,7 @@ static void qtscript_QPanGesture_fromScriptValue(const QScriptValue &value, QPan
 QScriptValue qtscript_create_QPanGesture_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPanGesture*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPanGesture*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPanGesture*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGesture*>()));
 
     qScriptRegisterMetaType<QPanGesture*>(engine, qtscript_QPanGesture_toScriptValue, 

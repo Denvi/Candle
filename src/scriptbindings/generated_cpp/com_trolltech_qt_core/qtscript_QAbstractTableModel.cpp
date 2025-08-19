@@ -142,7 +142,7 @@ static void qtscript_QAbstractTableModel_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QAbstractTableModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractTableModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractTableModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractTableModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemModel*>()));
 
     qScriptRegisterMetaType<QAbstractTableModel*>(engine, qtscript_QAbstractTableModel_toScriptValue, 

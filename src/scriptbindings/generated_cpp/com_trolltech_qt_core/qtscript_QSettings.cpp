@@ -262,7 +262,7 @@ static QScriptValue qtscript_create_QSettings_Format_class(QScriptEngine *engine
         qtscript_QSettings_Format_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 19; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSettings_Format_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSettings_Format_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSettings_Format_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -329,7 +329,7 @@ static QScriptValue qtscript_create_QSettings_Scope_class(QScriptEngine *engine,
         qtscript_QSettings_Scope_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSettings_Scope_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSettings_Scope_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSettings_Scope_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -398,7 +398,7 @@ static QScriptValue qtscript_create_QSettings_Status_class(QScriptEngine *engine
         qtscript_QSettings_Status_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSettings_Status_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSettings_Status_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSettings_Status_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -843,7 +843,7 @@ static void qtscript_QSettings_fromScriptValue(const QScriptValue &value, QSetti
 QScriptValue qtscript_create_QSettings_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSettings*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSettings*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSettings*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 28; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSettings_prototype_call, qtscript_QSettings_function_lengths[i+4]);

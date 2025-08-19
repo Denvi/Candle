@@ -317,7 +317,7 @@ static void qtscript_QUndoStack_fromScriptValue(const QScriptValue &value, QUndo
 QScriptValue qtscript_create_QUndoStack_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUndoStack*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUndoStack*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUndoStack*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUndoStack_prototype_call, qtscript_QUndoStack_function_lengths[i+1]);

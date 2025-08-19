@@ -145,7 +145,7 @@ static QScriptValue qtscript_create_QStyleOptionToolButton_StyleOptionVersion_cl
         qtscript_QStyleOptionToolButton_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolButton_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolButton_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolButton_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -222,7 +222,7 @@ static QScriptValue qtscript_create_QStyleOptionToolButton_ToolButtonFeature_cla
         qtscript_QStyleOptionToolButton_ToolButtonFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolButton_ToolButtonFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolButton_ToolButtonFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolButton_ToolButtonFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -234,7 +234,7 @@ static QScriptValue qtscript_create_QStyleOptionToolButton_ToolButtonFeature_cla
 
 static QScriptValue qtscript_QStyleOptionToolButton_ToolButtonFeatures_toScriptValue(QScriptEngine *engine, const QStyleOptionToolButton::ToolButtonFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionToolButton_ToolButtonFeatures_fromScriptValue(const QScriptValue &value, QStyleOptionToolButton::ToolButtonFeatures &out)
@@ -263,7 +263,7 @@ static QScriptValue qtscript_construct_QStyleOptionToolButton_ToolButtonFeatures
             result |= qvariant_cast<QStyleOptionToolButton::ToolButtonFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionToolButton_ToolButtonFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -363,7 +363,7 @@ static QScriptValue qtscript_create_QStyleOptionToolButton_StyleOptionType_class
         qtscript_QStyleOptionToolButton_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolButton_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolButton_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolButton_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -420,13 +420,13 @@ static QScriptValue qtscript_QStyleOptionToolButton_static_call(QScriptContext *
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionToolButton _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolButton)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolButton)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionToolButton _q_arg0 = qscriptvalue_cast<QStyleOptionToolButton>(context->argument(0));
         QtScriptShell_QStyleOptionToolButton _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolButton)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolButton)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -443,7 +443,7 @@ static QScriptValue qtscript_QStyleOptionToolButton_static_call(QScriptContext *
 QScriptValue qtscript_create_QStyleOptionToolButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionToolButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionToolButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOptionComplex*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolButton>(), proto);

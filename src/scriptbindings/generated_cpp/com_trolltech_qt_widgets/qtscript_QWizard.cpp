@@ -237,7 +237,7 @@ static QScriptValue qtscript_create_QWizard_WizardPixmap_class(QScriptEngine *en
         qtscript_QWizard_WizardPixmap_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QWizard_WizardPixmap_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QWizard_WizardPixmap_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QWizard_WizardPixmap_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -322,7 +322,7 @@ static QScriptValue qtscript_create_QWizard_WizardButton_class(QScriptEngine *en
         qtscript_QWizard_WizardButton_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QWizard_WizardButton_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QWizard_WizardButton_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QWizard_WizardButton_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -395,7 +395,7 @@ static QScriptValue qtscript_create_QWizard_WizardStyle_class(QScriptEngine *eng
         qtscript_QWizard_WizardStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QWizard_WizardStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QWizard_WizardStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QWizard_WizardStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -682,7 +682,7 @@ static void qtscript_QWizard_fromScriptValue(const QScriptValue &value, QWizard*
 QScriptValue qtscript_create_QWizard_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWizard*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWizard*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWizard*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 24; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QWizard_prototype_call, qtscript_QWizard_function_lengths[i+1]);

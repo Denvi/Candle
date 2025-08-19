@@ -287,7 +287,7 @@ static QScriptValue qtscript_create_QImageReader_ImageReaderError_class(QScriptE
         qtscript_QImageReader_ImageReaderError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QImageReader_ImageReaderError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QImageReader_ImageReaderError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QImageReader_ImageReaderError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -660,18 +660,18 @@ static QScriptValue qtscript_QImageReader_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QImageReader* _q_cpp_result = new QImageReader();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))) {
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QImageReader* _q_cpp_result = new QImageReader(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QImageReader* _q_cpp_result = new QImageReader(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -680,14 +680,14 @@ static QScriptValue qtscript_QImageReader_static_call(QScriptContext *context, Q
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QImageReader* _q_cpp_result = new QImageReader(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && (qMetaTypeId<QByteArray>() == context->argument(1).toVariant().userType())) {
             QString _q_arg0 = context->argument(0).toString();
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QImageReader* _q_cpp_result = new QImageReader(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -774,7 +774,7 @@ static QScriptValue qtscript_QImageReader_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QImageReader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QImageReader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QImageReader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QImageReader*)0));
     for (int i = 0; i < 44; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QImageReader_prototype_call, qtscript_QImageReader_function_lengths[i+6]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

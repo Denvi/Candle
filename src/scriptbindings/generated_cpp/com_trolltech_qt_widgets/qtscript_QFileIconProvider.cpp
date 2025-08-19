@@ -141,7 +141,7 @@ static QScriptValue qtscript_create_QFileIconProvider_IconType_class(QScriptEngi
         qtscript_QFileIconProvider_IconType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFileIconProvider_IconType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFileIconProvider_IconType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFileIconProvider_IconType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -220,7 +220,7 @@ static QScriptValue qtscript_QFileIconProvider_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QFileIconProvider* _q_cpp_result = new QtScriptShell_QFileIconProvider();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QFileIconProvider*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QFileIconProvider*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -237,7 +237,7 @@ static QScriptValue qtscript_QFileIconProvider_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QFileIconProvider_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileIconProvider*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileIconProvider*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileIconProvider*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileIconProvider_prototype_call, qtscript_QFileIconProvider_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

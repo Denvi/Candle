@@ -170,23 +170,23 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QCursor _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<Qt::CursorShape>() == context->argument(0).toVariant().userType())) {
             Qt::CursorShape _q_arg0 = qscriptvalue_cast<Qt::CursorShape>(context->argument(0));
             QCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QCursor>() == context->argument(0).toVariant().userType())) {
             QCursor _q_arg0 = qscriptvalue_cast<QCursor>(context->argument(0));
             QCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             QCursor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -195,14 +195,14 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
             QBitmap _q_arg0 = qscriptvalue_cast<QBitmap>(context->argument(0));
             QBitmap _q_arg1 = qscriptvalue_cast<QBitmap>(context->argument(1));
             QCursor _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())
             && context->argument(1).isNumber()) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             int _q_arg1 = context->argument(1).toInt32();
             QCursor _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -213,7 +213,7 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
             QBitmap _q_arg1 = qscriptvalue_cast<QBitmap>(context->argument(1));
             int _q_arg2 = context->argument(2).toInt32();
             QCursor _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())
             && context->argument(1).isNumber()
@@ -222,7 +222,7 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
             int _q_arg1 = context->argument(1).toInt32();
             int _q_arg2 = context->argument(2).toInt32();
             QCursor _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 4) {
@@ -231,7 +231,7 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QCursor _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -268,7 +268,7 @@ static QScriptValue qtscript_QCursor_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QCursor_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCursor*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCursor*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCursor*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCursor_prototype_call, qtscript_QCursor_function_lengths[i+3]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

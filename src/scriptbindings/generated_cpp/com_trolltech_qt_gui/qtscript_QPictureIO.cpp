@@ -327,7 +327,7 @@ static QScriptValue qtscript_QPictureIO_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QPictureIO* _q_cpp_result = new QPictureIO();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))
@@ -339,7 +339,7 @@ static QScriptValue qtscript_QPictureIO_static_call(QScriptContext *context, QSc
           const char * _q_arg1 = tmp__q_arg1.constData();
     // TEMPLATE - core.convert_string_arg_to_char* - END
                     QPictureIO* _q_cpp_result = new QPictureIO(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && context->argument(1).isString()) {
@@ -350,7 +350,7 @@ static QScriptValue qtscript_QPictureIO_static_call(QScriptContext *context, QSc
           const char * _q_arg1 = tmp__q_arg1.constData();
     // TEMPLATE - core.convert_string_arg_to_char* - END
                     QPictureIO* _q_cpp_result = new QPictureIO(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -395,7 +395,7 @@ static QScriptValue qtscript_QPictureIO_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QPictureIO_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPictureIO*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPictureIO*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPictureIO*)0));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPictureIO_prototype_call, qtscript_QPictureIO_function_lengths[i+4]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

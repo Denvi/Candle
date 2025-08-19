@@ -239,7 +239,7 @@ static QScriptValue qtscript_QXmlAttributes_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlAttributes _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlAttributes)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlAttributes)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -256,7 +256,7 @@ static QScriptValue qtscript_QXmlAttributes_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QXmlAttributes_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlAttributes*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlAttributes*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlAttributes*)0));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlAttributes_prototype_call, qtscript_QXmlAttributes_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

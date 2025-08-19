@@ -177,7 +177,7 @@ static void qtscript_ColorPicker_fromScriptValue(const QScriptValue &value, Colo
 QScriptValue qtscript_create_ColorPicker_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<ColorPicker*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((ColorPicker*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((ColorPicker*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_ColorPicker_prototype_call, qtscript_ColorPicker_function_lengths[i+1]);

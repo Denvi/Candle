@@ -119,7 +119,7 @@ static QScriptValue qtscript_QStateMachine_WrappedEvent_static_call(QScriptConte
         QObject* _q_arg0 = context->argument(0).toQObject();
         QEvent* _q_arg1 = qscriptvalue_cast<QEvent*>(context->argument(1));
         QStateMachine::WrappedEvent* _q_cpp_result = new QStateMachine::WrappedEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -135,7 +135,7 @@ static QScriptValue qtscript_QStateMachine_WrappedEvent_static_call(QScriptConte
 QScriptValue qtscript_create_QStateMachine_WrappedEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStateMachine::WrappedEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStateMachine::WrappedEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStateMachine::WrappedEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStateMachine_WrappedEvent_prototype_call, qtscript_QStateMachine_WrappedEvent_function_lengths[i+1]);

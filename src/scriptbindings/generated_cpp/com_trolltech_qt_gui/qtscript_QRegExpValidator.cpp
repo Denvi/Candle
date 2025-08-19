@@ -153,7 +153,7 @@ static void qtscript_QRegExpValidator_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QRegExpValidator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRegExpValidator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRegExpValidator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRegExpValidator*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QValidator*>()));
 
     qScriptRegisterMetaType<QRegExpValidator*>(engine, qtscript_QRegExpValidator_toScriptValue, 

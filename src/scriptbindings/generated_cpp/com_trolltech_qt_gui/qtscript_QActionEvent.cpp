@@ -120,14 +120,14 @@ static QScriptValue qtscript_QActionEvent_static_call(QScriptContext *context, Q
         int _q_arg0 = context->argument(0).toInt32();
         QAction* _q_arg1 = qscriptvalue_cast<QAction*>(context->argument(1));
         QActionEvent* _q_cpp_result = new QActionEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         int _q_arg0 = context->argument(0).toInt32();
         QAction* _q_arg1 = qscriptvalue_cast<QAction*>(context->argument(1));
         QAction* _q_arg2 = qscriptvalue_cast<QAction*>(context->argument(2));
         QActionEvent* _q_cpp_result = new QActionEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -143,7 +143,7 @@ static QScriptValue qtscript_QActionEvent_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QActionEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QActionEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QActionEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QActionEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QActionEvent_prototype_call, qtscript_QActionEvent_function_lengths[i+1]);

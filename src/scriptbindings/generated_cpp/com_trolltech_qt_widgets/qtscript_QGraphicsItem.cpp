@@ -656,7 +656,7 @@ static QScriptValue qtscript_create_QGraphicsItem_GraphicsItemChange_class(QScri
         qtscript_QGraphicsItem_GraphicsItemChange_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 34; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsItem_GraphicsItemChange_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsItem_GraphicsItemChange_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsItem_GraphicsItemChange_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -725,7 +725,7 @@ static QScriptValue qtscript_create_QGraphicsItem_PanelModality_class(QScriptEng
         qtscript_QGraphicsItem_PanelModality_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsItem_PanelModality_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsItem_PanelModality_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsItem_PanelModality_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -794,7 +794,7 @@ static QScriptValue qtscript_create_QGraphicsItem_CacheMode_class(QScriptEngine 
         qtscript_QGraphicsItem_CacheMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsItem_CacheMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsItem_CacheMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsItem_CacheMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -901,7 +901,7 @@ static QScriptValue qtscript_create_QGraphicsItem_GraphicsItemFlag_class(QScript
         qtscript_QGraphicsItem_GraphicsItemFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsItem_GraphicsItemFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsItem_GraphicsItemFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsItem_GraphicsItemFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -913,7 +913,7 @@ static QScriptValue qtscript_create_QGraphicsItem_GraphicsItemFlag_class(QScript
 
 static QScriptValue qtscript_QGraphicsItem_GraphicsItemFlags_toScriptValue(QScriptEngine *engine, const QGraphicsItem::GraphicsItemFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGraphicsItem_GraphicsItemFlags_fromScriptValue(const QScriptValue &value, QGraphicsItem::GraphicsItemFlags &out)
@@ -942,7 +942,7 @@ static QScriptValue qtscript_construct_QGraphicsItem_GraphicsItemFlags(QScriptCo
             result |= qvariant_cast<QGraphicsItem::GraphicsItemFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGraphicsItem_GraphicsItemFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2451,13 +2451,13 @@ static QScriptValue qtscript_QGraphicsItem_static_call(QScriptContext *context, 
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsItem* _q_cpp_result = new QtScriptShell_QGraphicsItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
         QtScriptShell_QGraphicsItem* _q_cpp_result = new QtScriptShell_QGraphicsItem(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -2474,7 +2474,7 @@ static QScriptValue qtscript_QGraphicsItem_static_call(QScriptContext *context, 
 QScriptValue qtscript_create_QGraphicsItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsItem*)0));
     for (int i = 0; i < 138; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsItem_prototype_call, qtscript_QGraphicsItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

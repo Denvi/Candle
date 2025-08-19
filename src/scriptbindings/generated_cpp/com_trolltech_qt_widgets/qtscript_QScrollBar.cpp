@@ -188,7 +188,7 @@ static void qtscript_QScrollBar_fromScriptValue(const QScriptValue &value, QScro
 QScriptValue qtscript_create_QScrollBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QScrollBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QScrollBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QScrollBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSlider*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QScrollBar_prototype_call, qtscript_QScrollBar_function_lengths[i+1]);

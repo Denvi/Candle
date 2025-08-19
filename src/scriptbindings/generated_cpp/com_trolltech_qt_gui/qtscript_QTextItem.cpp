@@ -169,7 +169,7 @@ static QScriptValue qtscript_create_QTextItem_RenderFlag_class(QScriptEngine *en
         qtscript_QTextItem_RenderFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextItem_RenderFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextItem_RenderFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextItem_RenderFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -181,7 +181,7 @@ static QScriptValue qtscript_create_QTextItem_RenderFlag_class(QScriptEngine *en
 
 static QScriptValue qtscript_QTextItem_RenderFlags_toScriptValue(QScriptEngine *engine, const QTextItem::RenderFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QTextItem_RenderFlags_fromScriptValue(const QScriptValue &value, QTextItem::RenderFlags &out)
@@ -210,7 +210,7 @@ static QScriptValue qtscript_construct_QTextItem_RenderFlags(QScriptContext *con
             result |= qvariant_cast<QTextItem::RenderFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QTextItem_RenderFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -344,7 +344,7 @@ static QScriptValue qtscript_QTextItem_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextItem* _q_cpp_result = new QtScriptShell_QTextItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -361,7 +361,7 @@ static QScriptValue qtscript_QTextItem_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QTextItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextItem*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextItem_prototype_call, qtscript_QTextItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

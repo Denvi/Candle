@@ -156,25 +156,25 @@ static QScriptValue qtscript_QStringMatcher_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QStringMatcher _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QStringMatcher _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QStringMatcher>() == context->argument(0).toVariant().userType())) {
             QStringMatcher _q_arg0 = qscriptvalue_cast<QStringMatcher>(context->argument(0));
             QStringMatcher _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         Qt::CaseSensitivity _q_arg1 = qscriptvalue_cast<Qt::CaseSensitivity>(context->argument(1));
         QStringMatcher _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -190,7 +190,7 @@ static QScriptValue qtscript_QStringMatcher_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QStringMatcher_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStringMatcher*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStringMatcher*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStringMatcher*)0));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStringMatcher_prototype_call, qtscript_QStringMatcher_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

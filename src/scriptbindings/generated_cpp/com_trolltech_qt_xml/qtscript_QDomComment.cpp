@@ -98,12 +98,12 @@ static QScriptValue qtscript_QDomComment_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QDomComment _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomComment _q_arg0 = qscriptvalue_cast<QDomComment>(context->argument(0));
         QDomComment _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -119,7 +119,7 @@ static QScriptValue qtscript_QDomComment_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QDomComment_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomComment*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomComment*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomComment*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDomCharacterData*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QDomComment>(), proto);

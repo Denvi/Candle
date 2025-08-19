@@ -96,7 +96,7 @@ static QScriptValue qtscript_QCloseEvent_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QCloseEvent* _q_cpp_result = new QCloseEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -112,7 +112,7 @@ static QScriptValue qtscript_QCloseEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QCloseEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCloseEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCloseEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCloseEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QCloseEvent*>(), proto);

@@ -259,13 +259,13 @@ static QScriptValue qtscript_QFutureVoid_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptVoidFuture _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
 
                 const QtScriptVoidFuture & _q_arg0 = *qscriptvalue_cast<QtScriptVoidFuture*>(context->argument(0));
                     QtScriptVoidFuture _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -281,7 +281,7 @@ static QScriptValue qtscript_QFutureVoid_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QFutureVoid_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QtScriptVoidFuture*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QtScriptVoidFuture*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QtScriptVoidFuture*)0));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFutureVoid_prototype_call, qtscript_QFutureVoid_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

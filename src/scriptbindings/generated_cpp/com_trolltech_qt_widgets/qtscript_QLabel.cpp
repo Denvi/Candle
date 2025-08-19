@@ -274,7 +274,7 @@ static void qtscript_QLabel_fromScriptValue(const QScriptValue &value, QLabel* &
 QScriptValue qtscript_create_QLabel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLabel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLabel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLabel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLabel_prototype_call, qtscript_QLabel_function_lengths[i+1]);

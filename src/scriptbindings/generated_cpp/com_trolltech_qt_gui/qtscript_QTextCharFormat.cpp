@@ -311,7 +311,7 @@ static QScriptValue qtscript_create_QTextCharFormat_UnderlineStyle_class(QScript
         qtscript_QTextCharFormat_UnderlineStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCharFormat_UnderlineStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCharFormat_UnderlineStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCharFormat_UnderlineStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -388,7 +388,7 @@ static QScriptValue qtscript_create_QTextCharFormat_VerticalAlignment_class(QScr
         qtscript_QTextCharFormat_VerticalAlignment_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCharFormat_VerticalAlignment_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCharFormat_VerticalAlignment_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCharFormat_VerticalAlignment_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -857,7 +857,7 @@ static QScriptValue qtscript_QTextCharFormat_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextCharFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextCharFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextCharFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -874,7 +874,7 @@ static QScriptValue qtscript_QTextCharFormat_static_call(QScriptContext *context
 QScriptValue qtscript_create_QTextCharFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextCharFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextCharFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextCharFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFormat*>()));
     for (int i = 0; i < 55; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextCharFormat_prototype_call, qtscript_QTextCharFormat_function_lengths[i+1]);

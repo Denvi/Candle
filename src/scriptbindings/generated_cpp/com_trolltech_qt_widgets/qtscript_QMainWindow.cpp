@@ -300,7 +300,7 @@ static QScriptValue qtscript_create_QMainWindow_DockOption_class(QScriptEngine *
         qtscript_QMainWindow_DockOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMainWindow_DockOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMainWindow_DockOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMainWindow_DockOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -312,7 +312,7 @@ static QScriptValue qtscript_create_QMainWindow_DockOption_class(QScriptEngine *
 
 static QScriptValue qtscript_QMainWindow_DockOptions_toScriptValue(QScriptEngine *engine, const QMainWindow::DockOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QMainWindow_DockOptions_fromScriptValue(const QScriptValue &value, QMainWindow::DockOptions &out)
@@ -341,7 +341,7 @@ static QScriptValue qtscript_construct_QMainWindow_DockOptions(QScriptContext *c
             result |= qvariant_cast<QMainWindow::DockOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QMainWindow_DockOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -775,7 +775,7 @@ static void qtscript_QMainWindow_fromScriptValue(const QScriptValue &value, QMai
 QScriptValue qtscript_create_QMainWindow_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMainWindow*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMainWindow*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMainWindow*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 34; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMainWindow_prototype_call, qtscript_QMainWindow_function_lengths[i+1]);

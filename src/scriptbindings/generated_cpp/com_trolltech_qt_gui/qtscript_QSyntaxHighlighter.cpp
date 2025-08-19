@@ -165,7 +165,7 @@ static void qtscript_QSyntaxHighlighter_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QSyntaxHighlighter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSyntaxHighlighter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSyntaxHighlighter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSyntaxHighlighter*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSyntaxHighlighter_prototype_call, qtscript_QSyntaxHighlighter_function_lengths[i+1]);

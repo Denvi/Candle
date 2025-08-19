@@ -139,13 +139,13 @@ static QScriptValue qtscript_QGraphicsItemGroup_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsItemGroup* _q_cpp_result = new QtScriptShell_QGraphicsItemGroup();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsItemGroup*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsItemGroup*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
         QtScriptShell_QGraphicsItemGroup* _q_cpp_result = new QtScriptShell_QGraphicsItemGroup(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsItemGroup*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsItemGroup*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -162,7 +162,7 @@ static QScriptValue qtscript_QGraphicsItemGroup_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QGraphicsItemGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsItemGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsItemGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsItemGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsItem*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsItemGroup_prototype_call, qtscript_QGraphicsItemGroup_function_lengths[i+1]);

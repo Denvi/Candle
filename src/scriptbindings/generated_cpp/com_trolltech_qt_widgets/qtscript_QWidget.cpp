@@ -551,7 +551,7 @@ static QScriptValue qtscript_create_QWidget_RenderFlag_class(QScriptEngine *engi
         qtscript_QWidget_RenderFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QWidget_RenderFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QWidget_RenderFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QWidget_RenderFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -563,7 +563,7 @@ static QScriptValue qtscript_create_QWidget_RenderFlag_class(QScriptEngine *engi
 
 static QScriptValue qtscript_QWidget_RenderFlags_toScriptValue(QScriptEngine *engine, const QWidget::RenderFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QWidget_RenderFlags_fromScriptValue(const QScriptValue &value, QWidget::RenderFlags &out)
@@ -592,7 +592,7 @@ static QScriptValue qtscript_construct_QWidget_RenderFlags(QScriptContext *conte
             result |= qvariant_cast<QWidget::RenderFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QWidget_RenderFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1789,7 +1789,7 @@ static void qtscript_QWidget_fromScriptValue(const QScriptValue &value, QWidget*
 QScriptValue qtscript_create_QWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     proto.setProperty(QString::fromLatin1("__QPaintDevice__"),
         engine->defaultPrototype(qMetaTypeId<QPaintDevice*>()),

@@ -327,7 +327,7 @@ static QScriptValue qtscript_create_QDomNode_EncodingPolicy_class(QScriptEngine 
         qtscript_QDomNode_EncodingPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDomNode_EncodingPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDomNode_EncodingPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDomNode_EncodingPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -422,7 +422,7 @@ static QScriptValue qtscript_create_QDomNode_NodeType_class(QScriptEngine *engin
         qtscript_QDomNode_NodeType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 14; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDomNode_NodeType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDomNode_NodeType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDomNode_NodeType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -971,12 +971,12 @@ static QScriptValue qtscript_QDomNode_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QDomNode _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomNode _q_arg0 = qscriptvalue_cast<QDomNode>(context->argument(0));
         QDomNode _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -992,7 +992,7 @@ static QScriptValue qtscript_QDomNode_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QDomNode_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomNode*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomNode*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomNode*)0));
     for (int i = 0; i < 64; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomNode_prototype_call, qtscript_QDomNode_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

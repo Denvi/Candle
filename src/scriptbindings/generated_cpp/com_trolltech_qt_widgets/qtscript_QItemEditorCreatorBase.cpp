@@ -121,7 +121,7 @@ static QScriptValue qtscript_QItemEditorCreatorBase_static_call(QScriptContext *
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QItemEditorCreatorBase* _q_cpp_result = new QtScriptShell_QItemEditorCreatorBase();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QItemEditorCreatorBase*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QItemEditorCreatorBase*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -138,7 +138,7 @@ static QScriptValue qtscript_QItemEditorCreatorBase_static_call(QScriptContext *
 QScriptValue qtscript_create_QItemEditorCreatorBase_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QItemEditorCreatorBase*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QItemEditorCreatorBase*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QItemEditorCreatorBase*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QItemEditorCreatorBase_prototype_call, qtscript_QItemEditorCreatorBase_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

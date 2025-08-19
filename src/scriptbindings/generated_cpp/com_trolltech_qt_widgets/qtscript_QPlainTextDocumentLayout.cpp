@@ -198,7 +198,7 @@ static QScriptValue qtscript_QPlainTextDocumentLayout_static_call(QScriptContext
     if (context->argumentCount() == 1) {
         QTextDocument* _q_arg0 = qscriptvalue_cast<QTextDocument*>(context->argument(0));
         QtScriptShell_QPlainTextDocumentLayout* _q_cpp_result = new QtScriptShell_QPlainTextDocumentLayout(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPlainTextDocumentLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPlainTextDocumentLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -215,7 +215,7 @@ static QScriptValue qtscript_QPlainTextDocumentLayout_static_call(QScriptContext
 QScriptValue qtscript_create_QPlainTextDocumentLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPlainTextDocumentLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPlainTextDocumentLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPlainTextDocumentLayout*)0));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPlainTextDocumentLayout_prototype_call, qtscript_QPlainTextDocumentLayout_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

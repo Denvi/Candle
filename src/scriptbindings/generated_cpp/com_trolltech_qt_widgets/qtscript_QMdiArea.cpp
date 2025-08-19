@@ -198,7 +198,7 @@ static QScriptValue qtscript_create_QMdiArea_AreaOption_class(QScriptEngine *eng
         qtscript_QMdiArea_AreaOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMdiArea_AreaOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMdiArea_AreaOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMdiArea_AreaOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -210,7 +210,7 @@ static QScriptValue qtscript_create_QMdiArea_AreaOption_class(QScriptEngine *eng
 
 static QScriptValue qtscript_QMdiArea_AreaOptions_toScriptValue(QScriptEngine *engine, const QMdiArea::AreaOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QMdiArea_AreaOptions_fromScriptValue(const QScriptValue &value, QMdiArea::AreaOptions &out)
@@ -239,7 +239,7 @@ static QScriptValue qtscript_construct_QMdiArea_AreaOptions(QScriptContext *cont
             result |= qvariant_cast<QMdiArea::AreaOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QMdiArea_AreaOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -343,7 +343,7 @@ static QScriptValue qtscript_create_QMdiArea_WindowOrder_class(QScriptEngine *en
         qtscript_QMdiArea_WindowOrder_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMdiArea_WindowOrder_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMdiArea_WindowOrder_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMdiArea_WindowOrder_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -503,7 +503,7 @@ static void qtscript_QMdiArea_fromScriptValue(const QScriptValue &value, QMdiAre
 QScriptValue qtscript_create_QMdiArea_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMdiArea*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMdiArea*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMdiArea*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractScrollArea*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMdiArea_prototype_call, qtscript_QMdiArea_function_lengths[i+1]);

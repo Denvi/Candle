@@ -180,7 +180,7 @@ static QScriptValue qtscript_create_QCompleter_ModelSorting_class(QScriptEngine 
         qtscript_QCompleter_ModelSorting_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QCompleter_ModelSorting_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QCompleter_ModelSorting_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QCompleter_ModelSorting_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -249,7 +249,7 @@ static QScriptValue qtscript_create_QCompleter_CompletionMode_class(QScriptEngin
         qtscript_QCompleter_CompletionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QCompleter_CompletionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QCompleter_CompletionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QCompleter_CompletionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -477,7 +477,7 @@ static void qtscript_QCompleter_fromScriptValue(const QScriptValue &value, QComp
 QScriptValue qtscript_create_QCompleter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCompleter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCompleter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCompleter*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCompleter_prototype_call, qtscript_QCompleter_function_lengths[i+1]);

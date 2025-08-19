@@ -318,7 +318,7 @@ static void qtscript_QTcpServer_fromScriptValue(const QScriptValue &value, QTcpS
 QScriptValue qtscript_create_QTcpServer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTcpServer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTcpServer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTcpServer*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTcpServer_prototype_call, qtscript_QTcpServer_function_lengths[i+1]);

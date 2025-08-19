@@ -122,7 +122,7 @@ static QScriptValue qtscript_QPixmapCache_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPixmapCache* _q_cpp_result = new QtScriptShell_QPixmapCache();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPixmapCache*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPixmapCache*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -216,7 +216,7 @@ static QScriptValue qtscript_QPixmapCache_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QPixmapCache_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPixmapCache*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPixmapCache*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPixmapCache*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QPixmapCache*>(), proto);
 

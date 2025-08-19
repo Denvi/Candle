@@ -230,7 +230,7 @@ static void qtscript_QButtonGroup_fromScriptValue(const QScriptValue &value, QBu
 QScriptValue qtscript_create_QButtonGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QButtonGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QButtonGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QButtonGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QButtonGroup_prototype_call, qtscript_QButtonGroup_function_lengths[i+1]);

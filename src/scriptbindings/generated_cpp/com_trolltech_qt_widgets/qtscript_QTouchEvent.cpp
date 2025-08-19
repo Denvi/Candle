@@ -176,7 +176,7 @@ static QScriptValue qtscript_QTouchEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTouchEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTouchEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTouchEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTouchEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QInputEvent*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTouchEvent_prototype_call, qtscript_QTouchEvent_function_lengths[i+1]);

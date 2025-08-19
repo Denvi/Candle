@@ -245,7 +245,7 @@ static void qtscript_QTextBrowser_fromScriptValue(const QScriptValue &value, QTe
 QScriptValue qtscript_create_QTextBrowser_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextBrowser*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextBrowser*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextBrowser*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextEdit*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextBrowser_prototype_call, qtscript_QTextBrowser_function_lengths[i+1]);

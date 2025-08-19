@@ -145,7 +145,7 @@ static QScriptValue qtscript_QDragMoveEvent_static_call(QScriptContext *context,
         QFlags<Qt::MouseButton> _q_arg3 = qscriptvalue_cast<QFlags<Qt::MouseButton> >(context->argument(3));
         QFlags<Qt::KeyboardModifier> _q_arg4 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(4));
         QtScriptShell_QDragMoveEvent* _q_cpp_result = new QtScriptShell_QDragMoveEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QDragMoveEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QDragMoveEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 6) {
@@ -156,7 +156,7 @@ static QScriptValue qtscript_QDragMoveEvent_static_call(QScriptContext *context,
         QFlags<Qt::KeyboardModifier> _q_arg4 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(4));
         QEvent::Type _q_arg5 = qscriptvalue_cast<QEvent::Type>(context->argument(5));
         QtScriptShell_QDragMoveEvent* _q_cpp_result = new QtScriptShell_QDragMoveEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QDragMoveEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QDragMoveEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -173,7 +173,7 @@ static QScriptValue qtscript_QDragMoveEvent_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QDragMoveEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDragMoveEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDragMoveEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDragMoveEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDropEvent*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDragMoveEvent_prototype_call, qtscript_QDragMoveEvent_function_lengths[i+1]);

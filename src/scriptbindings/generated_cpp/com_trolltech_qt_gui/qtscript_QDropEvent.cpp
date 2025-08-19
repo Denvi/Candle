@@ -224,7 +224,7 @@ static QScriptValue qtscript_QDropEvent_static_call(QScriptContext *context, QSc
         QFlags<Qt::MouseButton> _q_arg3 = qscriptvalue_cast<QFlags<Qt::MouseButton> >(context->argument(3));
         QFlags<Qt::KeyboardModifier> _q_arg4 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(4));
         QtScriptShell_QDropEvent* _q_cpp_result = new QtScriptShell_QDropEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QDropEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QDropEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 6) {
@@ -235,7 +235,7 @@ static QScriptValue qtscript_QDropEvent_static_call(QScriptContext *context, QSc
         QFlags<Qt::KeyboardModifier> _q_arg4 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(4));
         QEvent::Type _q_arg5 = qscriptvalue_cast<QEvent::Type>(context->argument(5));
         QtScriptShell_QDropEvent* _q_cpp_result = new QtScriptShell_QDropEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QDropEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QDropEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -252,7 +252,7 @@ static QScriptValue qtscript_QDropEvent_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QDropEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDropEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDropEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDropEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDropEvent_prototype_call, qtscript_QDropEvent_function_lengths[i+1]);

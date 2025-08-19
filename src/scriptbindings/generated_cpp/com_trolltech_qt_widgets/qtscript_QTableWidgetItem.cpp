@@ -233,7 +233,7 @@ static QScriptValue qtscript_create_QTableWidgetItem_ItemType_class(QScriptEngin
         qtscript_QTableWidgetItem_ItemType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTableWidgetItem_ItemType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTableWidgetItem_ItemType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTableWidgetItem_ItemType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -537,20 +537,20 @@ static QScriptValue qtscript_QTableWidgetItem_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -560,7 +560,7 @@ static QScriptValue qtscript_QTableWidgetItem_static_call(QScriptContext *contex
             QIcon _q_arg0 = qscriptvalue_cast<QIcon>(context->argument(0));
             QString _q_arg1 = context->argument(1).toString();
             QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()
@@ -568,7 +568,7 @@ static QScriptValue qtscript_QTableWidgetItem_static_call(QScriptContext *contex
             QString _q_arg0 = context->argument(0).toString();
             int _q_arg1 = context->argument(1).toInt32();
             QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -577,7 +577,7 @@ static QScriptValue qtscript_QTableWidgetItem_static_call(QScriptContext *contex
         QString _q_arg1 = context->argument(1).toString();
         int _q_arg2 = context->argument(2).toInt32();
         QtScriptShell_QTableWidgetItem* _q_cpp_result = new QtScriptShell_QTableWidgetItem(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTableWidgetItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTableWidgetItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -594,7 +594,7 @@ static QScriptValue qtscript_QTableWidgetItem_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QTableWidgetItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTableWidgetItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTableWidgetItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTableWidgetItem*)0));
     for (int i = 0; i < 34; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTableWidgetItem_prototype_call, qtscript_QTableWidgetItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

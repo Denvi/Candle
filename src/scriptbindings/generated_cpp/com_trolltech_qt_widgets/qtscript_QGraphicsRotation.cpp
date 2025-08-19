@@ -149,7 +149,7 @@ static void qtscript_QGraphicsRotation_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QGraphicsRotation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsRotation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsRotation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsRotation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsTransform*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsRotation_prototype_call, qtscript_QGraphicsRotation_function_lengths[i+1]);

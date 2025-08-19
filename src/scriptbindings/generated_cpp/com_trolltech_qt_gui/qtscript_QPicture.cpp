@@ -263,20 +263,20 @@ static QScriptValue qtscript_QPicture_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPicture _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPicture)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPicture)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPicture>() == context->argument(0).toVariant().userType())) {
             QPicture _q_arg0 = qscriptvalue_cast<QPicture>(context->argument(0));
             QtScriptShell_QPicture _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPicture)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPicture)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QtScriptShell_QPicture _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPicture)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPicture)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -294,7 +294,7 @@ static QScriptValue qtscript_QPicture_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QPicture_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPicture*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPicture*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPicture*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QPaintDevice*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPicture_prototype_call, qtscript_QPicture_function_lengths[i+1]);

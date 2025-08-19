@@ -397,7 +397,7 @@ static void qtscript_QTreeView_fromScriptValue(const QScriptValue &value, QTreeV
 QScriptValue qtscript_create_QTreeView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTreeView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTreeView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTreeView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemView*>()));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTreeView_prototype_call, qtscript_QTreeView_function_lengths[i+1]);

@@ -566,13 +566,13 @@ static QScriptValue qtscript_QGraphicsGridLayout_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsGridLayout* _q_cpp_result = new QtScriptShell_QGraphicsGridLayout();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsGridLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsGridLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsLayoutItem* _q_arg0 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0));
         QtScriptShell_QGraphicsGridLayout* _q_cpp_result = new QtScriptShell_QGraphicsGridLayout(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsGridLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsGridLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -589,7 +589,7 @@ static QScriptValue qtscript_QGraphicsGridLayout_static_call(QScriptContext *con
 QScriptValue qtscript_create_QGraphicsGridLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsGridLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsGridLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsGridLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsLayout*>()));
     for (int i = 0; i < 39; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsGridLayout_prototype_call, qtscript_QGraphicsGridLayout_function_lengths[i+1]);

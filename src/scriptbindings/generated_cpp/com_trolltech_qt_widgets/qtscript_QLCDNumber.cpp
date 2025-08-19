@@ -161,7 +161,7 @@ static QScriptValue qtscript_create_QLCDNumber_Mode_class(QScriptEngine *engine,
         qtscript_QLCDNumber_Mode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLCDNumber_Mode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLCDNumber_Mode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLCDNumber_Mode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -280,7 +280,7 @@ static void qtscript_QLCDNumber_fromScriptValue(const QScriptValue &value, QLCDN
 QScriptValue qtscript_create_QLCDNumber_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLCDNumber*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLCDNumber*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLCDNumber*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLCDNumber_prototype_call, qtscript_QLCDNumber_function_lengths[i+1]);

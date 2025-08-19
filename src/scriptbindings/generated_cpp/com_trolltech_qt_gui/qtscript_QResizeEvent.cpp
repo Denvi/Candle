@@ -122,7 +122,7 @@ static QScriptValue qtscript_QResizeEvent_static_call(QScriptContext *context, Q
         QSize _q_arg0 = qscriptvalue_cast<QSize>(context->argument(0));
         QSize _q_arg1 = qscriptvalue_cast<QSize>(context->argument(1));
         QtScriptShell_QResizeEvent* _q_cpp_result = new QtScriptShell_QResizeEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QResizeEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QResizeEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -139,7 +139,7 @@ static QScriptValue qtscript_QResizeEvent_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QResizeEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QResizeEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QResizeEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QResizeEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QResizeEvent_prototype_call, qtscript_QResizeEvent_function_lengths[i+1]);

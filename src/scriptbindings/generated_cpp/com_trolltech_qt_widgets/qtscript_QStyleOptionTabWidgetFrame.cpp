@@ -126,7 +126,7 @@ static QScriptValue qtscript_create_QStyleOptionTabWidgetFrame_StyleOptionVersio
         qtscript_QStyleOptionTabWidgetFrame_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTabWidgetFrame_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTabWidgetFrame_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTabWidgetFrame_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleOptionTabWidgetFrame_StyleOptionType_c
         qtscript_QStyleOptionTabWidgetFrame_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTabWidgetFrame_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTabWidgetFrame_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTabWidgetFrame_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,13 +248,13 @@ static QScriptValue qtscript_QStyleOptionTabWidgetFrame_static_call(QScriptConte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionTabWidgetFrame _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTabWidgetFrame)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTabWidgetFrame)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionTabWidgetFrame _q_arg0 = qscriptvalue_cast<QStyleOptionTabWidgetFrame>(context->argument(0));
         QtScriptShell_QStyleOptionTabWidgetFrame _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTabWidgetFrame)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTabWidgetFrame)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -271,7 +271,7 @@ static QScriptValue qtscript_QStyleOptionTabWidgetFrame_static_call(QScriptConte
 QScriptValue qtscript_create_QStyleOptionTabWidgetFrame_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTabWidgetFrame*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionTabWidgetFrame*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionTabWidgetFrame*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTabWidgetFrame>(), proto);

@@ -369,12 +369,12 @@ static QScriptValue qtscript_QSqlRecord_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QSqlRecord _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QSqlRecord _q_arg0 = qscriptvalue_cast<QSqlRecord>(context->argument(0));
         QSqlRecord _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -390,7 +390,7 @@ static QScriptValue qtscript_QSqlRecord_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QSqlRecord_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlRecord*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlRecord*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlRecord*)0));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlRecord_prototype_call, qtscript_QSqlRecord_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

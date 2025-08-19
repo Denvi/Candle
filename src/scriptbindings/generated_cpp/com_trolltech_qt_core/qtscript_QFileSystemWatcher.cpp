@@ -219,7 +219,7 @@ static void qtscript_QFileSystemWatcher_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QFileSystemWatcher_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileSystemWatcher*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileSystemWatcher*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileSystemWatcher*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileSystemWatcher_prototype_call, qtscript_QFileSystemWatcher_function_lengths[i+1]);
