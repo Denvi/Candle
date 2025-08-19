@@ -1,4 +1,4 @@
-name: Release / Windows (x64)
+name: Nightly / Windows (x64)
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.bat
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
@@ -45,8 +45,28 @@ jobs:
     - name: Install
       run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
+    - name: Create archive
+      run: |
+        Compress-Archive -Path ${{github.workspace}}/build/Candle -DestinationPath candle.zip
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Candle-${{ github.sha }}
-        path: ${{github.workspace}}/build/dist/
+        path: ${{github.workspace}}/candle.zip
+
+    - name: Update tag
+      run: |
+        git tag -f nightly
+        git push origin tag nightly --force
+
+    - name: Deploy to release
+      uses: WebFreak001/deploy-nightly@v3.2.0
+      with:
+        upload_url: https://uploads.github.com/repos/Denvi/Candle/releases/240990238/assets{?name,label}
+        release_id: 240990238
+        asset_path: ${{github.workspace}}/candle.zip
+        asset_name: candle-$$.zip
+        asset_content_type: application/zip
+        max_releases: 5
+        ignore_hash: true
