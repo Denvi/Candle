@@ -1,4 +1,4 @@
-name: Windows build
+name: Release / Windows (x64)
 
 on:
   workflow_dispatch:
@@ -19,7 +19,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup vcpkg
+    - name: Cache vcpkg
+      uses: actions/cache@v4
+      id: cache-vcpkg
+      with:
+        path: vcpkg
+        key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+
+    - name: Bootstrap vcpkg
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
       run: |
         git clone https://github.com/microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg.bat
@@ -28,10 +36,16 @@ jobs:
       run: ./vcpkg/vcpkg.exe install
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Install
       run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Candle
+        path: ${{github.workspace}}/build/Candle/
