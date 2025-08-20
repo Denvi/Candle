@@ -17,7 +17,31 @@ System requirements for running "Candle":
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
 
-Build instructions (windows):
+Downloads
+----------
+Latest release versions:
+
+* [Version 1.2b release](https://github.com/Denvi/Candle/releases/tag/v1.2b)
+
+Nightly build versions:
+
+[![Nightly / Windows (x64)](https://github.com/Denvi/Candle/actions/workflows/nightly-windows.yml/badge.svg)](https://github.com/Denvi/Candle/actions/workflows/nightly-windows.yml)
+
+* [Nightly](https://github.com/Denvi/Candle/releases/tag/nightly)
+
+Previous versions:
+
+For GRBL v1.1 firmware
+
+* Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
+* Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
+
+For GRBL v0.9 and below
+
+* Windows: [candle_1.0.11.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.zip)
+* Linux: [candle_1.0.11.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.tar.gz)
+
+Build instructions (windows)
 ------------------
 
 * Install cmake
@@ -58,25 +82,7 @@ cmake --install .
 
 Executable can be found in `build/Candle` directory.
 
-Downloads:
-----------
-Latest version:
-
-* [Version 1.2b release](https://github.com/Denvi/Candle/releases/tag/v1.2b)
-
-Previous versions:
-
-For GRBL v1.1 firmware
-
-* Windows: [candle_1.1.7.zip](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.zip)
-* Linux: [candle_1.1.7.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.1/Candle_1.1.7.tar.gz)
-
-For GRBL v0.9 and below
-
-* Windows: [candle_1.0.11.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.zip)
-* Linux: [candle_1.0.11.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.tar.gz)
-
-Before creating new issue:
+Before creating new issue
 ------
 Candle works with CNC controlled by GRBL firmware, many problems can be solved by using proper version of GRBL, using proper configuration.
 
