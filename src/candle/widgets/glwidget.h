@@ -144,6 +144,9 @@ private:
     QMatrix4x4 m_projectionMatrix;
     QMatrix4x4 m_viewMatrix;
 
+    double m_planeDepth;
+    double m_windowSizeWorld;
+
     QColor m_colorBackground;
     QColor m_colorText;
 

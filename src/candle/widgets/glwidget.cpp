@@ -356,12 +356,19 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::updateProjection()
 {
+    const double zNear = 2.0;
+    const double zFar = m_distance * 2;
+
     // Reset projection
     m_projectionMatrix.setToIdentity();
 
     double asp = (double)width() / height();
     m_projectionMatrix.frustum((-0.5 + m_pan.x()) * asp, (0.5 + m_pan.x()) * asp,
-                               -0.5 + m_pan.y(), 0.5 + m_pan.y(), 2, m_distance * 2);
+                               -0.5 + m_pan.y(), 0.5 + m_pan.y(), zNear, zFar);
+
+    // Update xy-plane z-depth
+    double z = m_distance + (m_viewUpperBounds + m_viewLowerBounds).z() / 2 * m_zoom;
+    m_planeDepth = (1 / z - 1 / zNear) / (1 / zFar - 1 / zNear) * 2 - 1;
 }
 
 void GLWidget::updateView()
@@ -388,6 +395,10 @@ void GLWidget::updateView()
     m_viewMatrix.translate(-m_lookAt);
 
     m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
+
+    // Update visualizer window size in world coordinates
+    QMatrix4x4 ivp = (m_projectionMatrix * m_viewMatrix).inverted();
+    m_windowSizeWorld = (ivp * QVector3D(0, 1, m_planeDepth) - ivp * QVector3D(0, 0, m_planeDepth)).length() * 2.0;
 }
 
 #ifdef GLES
@@ -440,6 +451,9 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {
             if (drawable->visible()) {
+                if (drawable->windowScaling()) {
+                    drawable->setWorldScale(m_windowSizeWorld * drawable->windowScale());
+                }
                 m_shaderProgram->setUniformValue("m_matrix", drawable->modelMatrix());
                 drawable->draw(m_shaderProgram);
                 vertices += drawable->getVertexCount();
@@ -456,6 +470,20 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     glDisable(GL_BLEND);
 
     painter.endNativePainting();
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QMatrix4x4 w;
+    w.scale(width() / 2, -height() / 2);
+    w.translate(1, -1);
+    w *= m_projectionMatrix * m_viewMatrix;
+
+    foreach (ShaderDrawable *drawable, m_shaderDrawables) {
+        if (drawable->visible()) {
+            painter.save();
+            drawable->drawPainter(painter, w * drawable->modelMatrix(), height() / m_windowSizeWorld);
+            painter.restore();
+        }
+    }
 
     QPen pen(m_colorText);
     painter.setPen(pen);

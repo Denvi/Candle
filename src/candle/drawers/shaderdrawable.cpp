@@ -14,6 +14,9 @@ ShaderDrawable::ShaderDrawable()
     m_lineWidth = 1.0;
     m_pointSize = 1.0;
     m_texture = NULL;
+    m_worldScale = 1.0;
+    m_windowScaling = false;
+    m_windowScale = 1.0;
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -185,6 +188,9 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
     if (m_vao.isCreated()) m_vao.release(); else m_vbo.release();
 }
 
+void ShaderDrawable::drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio) {
+}
+
 QVector3D ShaderDrawable::getViewRanges()
 {
     return Util::nAssign(getViewUpperBounds()) - Util::nAssign(getViewLowerBounds());
@@ -258,34 +264,73 @@ void ShaderDrawable::setModelMatrix(const QMatrix4x4 &modelMatrix)
 }
 
 const QMatrix4x4 &ShaderDrawable::rotation() {
-    return m_rotation;
+    return m_rotationMatrix;
 }
 
 void ShaderDrawable::setRotation(const QMatrix4x4 &rotation) {
-    m_rotation = rotation;
-    m_modelMatrix = m_translation * m_rotation;
+    m_rotationMatrix = rotation;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
 }
 
 void ShaderDrawable::setRotation(double angle, const QVector3D &axis)
 {
-    m_rotation.setToIdentity();
-    m_rotation.rotate(angle, axis);
-    m_modelMatrix = m_translation * m_rotation;
+    m_rotationMatrix.setToIdentity();
+    m_rotationMatrix.rotate(angle, axis);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
 }
 
 const QMatrix4x4 &ShaderDrawable::translation()
 {
-    return m_translation;
+    return m_translationMatrix;
 }
 
-void ShaderDrawable::setTranslation(const QMatrix4x4 &translation) {
-    m_translation = translation;
-    m_modelMatrix = m_translation * m_rotation;
+void ShaderDrawable::setTranslation(const QMatrix4x4 &translation)
+{
+    m_translationMatrix = translation;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
 }
 
 void ShaderDrawable::setTranslation(const QVector3D &translation)
 {
-    m_translation.setToIdentity();
-    m_translation.translate(translation);
-    m_modelMatrix = m_translation * m_rotation;
+    m_translationMatrix.setToIdentity();
+    m_translationMatrix.translate(translation);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+const QMatrix4x4 &ShaderDrawable::scale()
+{
+    return m_translationMatrix;
+}
+
+void ShaderDrawable::setScale(const QMatrix4x4 &scale)
+{
+    m_scaleMatrix = scale;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+double ShaderDrawable::worldScale() {
+    return m_worldScale;
+}
+
+void ShaderDrawable::setWorldScale(double scale) {
+    m_worldScale = scale;
+    m_scaleMatrix.setToIdentity();
+    m_scaleMatrix.scale(scale);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+bool ShaderDrawable::windowScaling() {
+    return m_windowScaling;
+}
+
+void ShaderDrawable::setWindowScaling(bool windowScaling) {
+    m_windowScaling = windowScaling;
+}
+
+double ShaderDrawable::windowScale() {
+    return m_windowScale;
+}
+
+void ShaderDrawable::setWindowScale(double windowScale) {
+    m_windowScale = windowScale;
 }

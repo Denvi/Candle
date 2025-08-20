@@ -220,6 +220,7 @@ frmMain::frmMain(QWidget *parent) :
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
     m_selectionDrawer.setVisible(false);
+    m_machineBoundsDrawer.setVisible(false);
 
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
@@ -2342,7 +2343,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
     if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
         QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
-        m_selectionDrawer.setEndPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+        m_selectionDrawer.setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
         m_selectionDrawer.setVisible(true);
         m_selectionDrawer.update();
     } else {

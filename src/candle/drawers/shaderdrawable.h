@@ -5,6 +5,7 @@
 #define SHADERDRAWABLE_H
 
 #include <QObject>
+#include <QPainter>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
@@ -35,6 +36,7 @@ public:
     ~ShaderDrawable();
     void update();
     void draw(QOpenGLShaderProgram *shaderProgram);
+    virtual void drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio);
 
     bool needsUpdateGeometry() const;
     void updateGeometry(QOpenGLShaderProgram *shaderProgram = 0);
@@ -69,6 +71,18 @@ public:
     void setTranslation(const QMatrix4x4 &translation);
     void setTranslation(const QVector3D &translation);
 
+    const QMatrix4x4 &scale();
+    void setScale(const QMatrix4x4 &scale);
+
+    double worldScale();
+    void setWorldScale(double scale);
+
+    bool windowScaling();
+    void setWindowScaling(bool windowScaling);
+
+    double windowScale();
+    void setWindowScale(double windowScale);
+
 signals:
 
 public slots:
@@ -82,8 +96,13 @@ protected:
     QVector<VertexData> m_triangles;
     QOpenGLTexture *m_texture;
     QMatrix4x4 m_modelMatrix;
-    QMatrix4x4 m_translation;
-    QMatrix4x4 m_rotation;
+    QMatrix4x4 m_translationMatrix;
+    QMatrix4x4 m_rotationMatrix;
+    QMatrix4x4 m_scaleMatrix;
+
+    double m_worldScale;
+    bool m_windowScaling;
+    double m_windowScale;
 
     QOpenGLBuffer m_vbo; // Protected for direct vbo access
 

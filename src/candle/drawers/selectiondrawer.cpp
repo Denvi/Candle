@@ -15,21 +15,11 @@ bool SelectionDrawer::updateData()
     VertexData vertex;
     vertex.type = VertexDataTypePoint;
     vertex.color = Util::colorToVector(m_color);
-    vertex.position = m_endPosition;
+    vertex.position = m_position;
     vertex.data = QVector3D(m_pointSize, 0, 0);
     m_points.append(vertex);
 
     return true;
-}
-
-QVector3D SelectionDrawer::endPosition() const
-{
-    return m_endPosition;
-}
-
-void SelectionDrawer::setEndPosition(const QVector3D &endPosition)
-{
-    m_endPosition = endPosition;
 }
 
 QColor SelectionDrawer::color() const
@@ -42,12 +32,12 @@ void SelectionDrawer::setColor(const QColor &color)
     m_color = color;
 }
 
-QVector3D SelectionDrawer::startPosition() const
+const QVector3D &SelectionDrawer::position()
 {
-    return m_startPosition;
+    return m_position;
 }
 
-void SelectionDrawer::setStartPosition(const QVector3D &startPosition)
+void SelectionDrawer::setPosition(const QVector3D &position)
 {
-    m_startPosition = startPosition;
+    m_position = position;
 }
