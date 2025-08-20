@@ -45,7 +45,29 @@ bool OriginDrawer::updateData()
         << VertexData(QVector3D(-1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
         << VertexData(QVector3D(1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
         << VertexData(QVector3D(1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan));
+        << VertexData(QVector3D(1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+
+        // X-label
+        << VertexData(QVector3D(8.5, 3, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(10, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(8.5, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(10, 3, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+
+        // Y-label
+        << VertexData(QVector3D(1, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(2.5, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1.75, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+
+        // Z-label
+        << VertexData(QVector3D(1, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(2.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(2.5, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(1, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        << VertexData(QVector3D(2.5, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan));
 
     return true;
 }
