@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QDebug>
 #include <QDragEnterEvent>
@@ -41,9 +41,8 @@ QStringList DropWidget::saveState()
 void DropWidget::dragEnterEvent(QDragEnterEvent *dee)
 {
     if (dee->mimeData()->hasFormat(WidgetMimeData::mimeType())) {
-        m_layoutIndex = -2;
+        m_layoutIndex = 0;
         dee->acceptProposedAction();
-
     }
 
     QWidget::dragEnterEvent(dee);
@@ -52,8 +51,11 @@ void DropWidget::dragEnterEvent(QDragEnterEvent *dee)
 void DropWidget::dragLeaveEvent(QDragLeaveEvent *dle)
 {
     QFrame *f = findChild<QFrame*>(QString(), Qt::FindDirectChildrenOnly);
-    if (f) f->setVisible(false);
-    // m_layoutIndex = -2;
+
+    if (f) {
+        f->setVisible(false);
+        repaint();
+    }
 
     QWidget::dragLeaveEvent(dle);
 }
@@ -70,17 +72,17 @@ void DropWidget::dragMoveEvent(QDragMoveEvent *dme)
 
             QList<int> yl;
             foreach (QGroupBox* b, bl) yl << b->pos().y();
-            qSort(yl.begin(), yl.end());
+            std::sort(yl.begin(), yl.end());
 
             int i = 0;
-            while (y >= yl.at(i) && i < yl.count()) i++;
+            while (i < yl.count() && y >= yl.at(i)) i++;
 
-            if (i != m_layoutIndex) {
-                static_cast<QVBoxLayout*>(layout())->insertWidget(i - 1, f);
+            if (i && m_layoutIndex != i) {
+                m_layoutIndex = i;
+                static_cast<QVBoxLayout*>(this->layout())->insertWidget(i - 1, f);
                 if (!f->isVisible()) f->setVisible(true);
-                f->update();
+                repaint();
             }
-            m_layoutIndex = i;
         }
     }
 
@@ -89,14 +91,14 @@ void DropWidget::dragMoveEvent(QDragMoveEvent *dme)
 
 void DropWidget::dropEvent(QDropEvent *de)
 {
-    if (de->mimeData()->hasFormat(WidgetMimeData::mimeType())) {
+    if (m_layoutIndex && de->mimeData()->hasFormat(WidgetMimeData::mimeType())) {
         QFrame *f = findChild<QFrame*>(QString(), Qt::FindDirectChildrenOnly);
         if (f) {
             const WidgetMimeData *md = static_cast<const WidgetMimeData*>(de->mimeData());
-            f->setVisible(false);
-            f->update();
             static_cast<QVBoxLayout*>(layout())->insertWidget(m_layoutIndex - 1, md->widget());
             md->widget()->update();
+            f->setVisible(false);
+            repaint();
         }
     }
 }

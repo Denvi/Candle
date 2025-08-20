@@ -1288,8 +1288,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>347</width>
-          <height>801</height>
+          <width>240</width>
+          <height>726</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2737,14 +2737,8 @@ padding-right: 8;</string>
    </attribute>
   </widget>
   <widget class="QDockWidget" name="dockUser">
-   <property name="minimumSize">
-    <size>
-     <width>105</width>
-     <height>160</height>
-    </size>
-   </property>
    <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>User</string>
@@ -2773,8 +2767,8 @@ padding-right: 8;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>347</width>
-          <height>106</height>
+          <width>240</width>
+          <height>121</height>
          </rect>
         </property>
         <property name="acceptDrops">
