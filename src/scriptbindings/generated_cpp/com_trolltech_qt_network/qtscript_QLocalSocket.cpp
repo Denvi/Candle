@@ -176,7 +176,7 @@ static QScriptValue qtscript_create_QLocalSocket_LocalSocketState_class(QScriptE
         qtscript_QLocalSocket_LocalSocketState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocalSocket_LocalSocketState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocalSocket_LocalSocketState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocalSocket_LocalSocketState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -261,7 +261,7 @@ static QScriptValue qtscript_create_QLocalSocket_LocalSocketError_class(QScriptE
         qtscript_QLocalSocket_LocalSocketError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocalSocket_LocalSocketError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocalSocket_LocalSocketError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocalSocket_LocalSocketError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -478,7 +478,7 @@ static void qtscript_QLocalSocket_fromScriptValue(const QScriptValue &value, QLo
 QScriptValue qtscript_create_QLocalSocket_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLocalSocket*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLocalSocket*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLocalSocket*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLocalSocket_prototype_call, qtscript_QLocalSocket_function_lengths[i+1]);

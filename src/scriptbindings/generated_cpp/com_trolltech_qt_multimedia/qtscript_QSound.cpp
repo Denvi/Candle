@@ -142,7 +142,7 @@ static QScriptValue qtscript_create_QSound_Loop_class(QScriptEngine *engine, QSc
         qtscript_QSound_Loop_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSound_Loop_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSound_Loop_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSound_Loop_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -278,7 +278,7 @@ static void qtscript_QSound_fromScriptValue(const QScriptValue &value, QSound* &
 QScriptValue qtscript_create_QSound_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSound*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSound*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSound*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSound_prototype_call, qtscript_QSound_function_lengths[i+2]);

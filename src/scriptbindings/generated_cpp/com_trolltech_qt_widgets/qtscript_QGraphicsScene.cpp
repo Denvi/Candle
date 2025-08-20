@@ -320,7 +320,7 @@ static QScriptValue qtscript_create_QGraphicsScene_ItemIndexMethod_class(QScript
         qtscript_QGraphicsScene_ItemIndexMethod_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsScene_ItemIndexMethod_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsScene_ItemIndexMethod_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsScene_ItemIndexMethod_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -395,7 +395,7 @@ static QScriptValue qtscript_create_QGraphicsScene_SceneLayer_class(QScriptEngin
         qtscript_QGraphicsScene_SceneLayer_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsScene_SceneLayer_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsScene_SceneLayer_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsScene_SceneLayer_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -407,7 +407,7 @@ static QScriptValue qtscript_create_QGraphicsScene_SceneLayer_class(QScriptEngin
 
 static QScriptValue qtscript_QGraphicsScene_SceneLayers_toScriptValue(QScriptEngine *engine, const QGraphicsScene::SceneLayers &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGraphicsScene_SceneLayers_fromScriptValue(const QScriptValue &value, QGraphicsScene::SceneLayers &out)
@@ -436,7 +436,7 @@ static QScriptValue qtscript_construct_QGraphicsScene_SceneLayers(QScriptContext
             result |= qvariant_cast<QGraphicsScene::SceneLayer>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGraphicsScene_SceneLayers_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1307,7 +1307,7 @@ static void qtscript_QGraphicsScene_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QGraphicsScene_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsScene*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsScene*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsScene*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 43; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsScene_prototype_call, qtscript_QGraphicsScene_function_lengths[i+1]);

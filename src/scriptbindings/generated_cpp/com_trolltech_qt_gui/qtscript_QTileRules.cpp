@@ -100,20 +100,20 @@ static QScriptValue qtscript_QTileRules_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTileRules _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTileRules)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTileRules)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         Qt::TileRule _q_arg0 = qscriptvalue_cast<Qt::TileRule>(context->argument(0));
         QtScriptShell_QTileRules _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTileRules)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTileRules)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
         Qt::TileRule _q_arg0 = qscriptvalue_cast<Qt::TileRule>(context->argument(0));
         Qt::TileRule _q_arg1 = qscriptvalue_cast<Qt::TileRule>(context->argument(1));
         QtScriptShell_QTileRules _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTileRules)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTileRules)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -130,7 +130,7 @@ static QScriptValue qtscript_QTileRules_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QTileRules_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTileRules*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTileRules*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTileRules*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QTileRules>(), proto);
     engine->setDefaultPrototype(qMetaTypeId<QTileRules*>(), proto);

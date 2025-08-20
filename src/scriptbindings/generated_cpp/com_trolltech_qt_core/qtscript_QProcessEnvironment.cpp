@@ -229,12 +229,12 @@ static QScriptValue qtscript_QProcessEnvironment_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QProcessEnvironment _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QProcessEnvironment _q_arg0 = qscriptvalue_cast<QProcessEnvironment>(context->argument(0));
         QProcessEnvironment _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -257,7 +257,7 @@ static QScriptValue qtscript_QProcessEnvironment_static_call(QScriptContext *con
 QScriptValue qtscript_create_QProcessEnvironment_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QProcessEnvironment*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QProcessEnvironment*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QProcessEnvironment*)0));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QProcessEnvironment_prototype_call, qtscript_QProcessEnvironment_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

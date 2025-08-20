@@ -131,7 +131,7 @@ static QScriptValue qtscript_create_QSocketNotifier_Type_class(QScriptEngine *en
         qtscript_QSocketNotifier_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSocketNotifier_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSocketNotifier_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSocketNotifier_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -222,7 +222,7 @@ static void qtscript_QSocketNotifier_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QSocketNotifier_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSocketNotifier*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSocketNotifier*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSocketNotifier*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSocketNotifier_prototype_call, qtscript_QSocketNotifier_function_lengths[i+1]);

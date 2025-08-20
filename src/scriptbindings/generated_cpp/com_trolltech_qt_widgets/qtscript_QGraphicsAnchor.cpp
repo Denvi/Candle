@@ -128,7 +128,7 @@ static void qtscript_QGraphicsAnchor_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QGraphicsAnchor_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsAnchor*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsAnchor*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsAnchor*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsAnchor_prototype_call, qtscript_QGraphicsAnchor_function_lengths[i+1]);

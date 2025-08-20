@@ -342,7 +342,7 @@ static void qtscript_QTextTable_fromScriptValue(const QScriptValue &value, QText
 QScriptValue qtscript_create_QTextTable_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextTable*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextTable*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextTable*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFrame*>()));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextTable_prototype_call, qtscript_QTextTable_function_lengths[i+1]);

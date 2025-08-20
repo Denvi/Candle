@@ -380,12 +380,12 @@ static QScriptValue qtscript_QMatrix_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QMatrix _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QMatrix _q_arg0 = qscriptvalue_cast<QMatrix>(context->argument(0));
         QMatrix _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 6) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -395,7 +395,7 @@ static QScriptValue qtscript_QMatrix_static_call(QScriptContext *context, QScrip
         qreal _q_arg4 = qscriptvalue_cast<qreal>(context->argument(4));
         qreal _q_arg5 = qscriptvalue_cast<qreal>(context->argument(5));
         QMatrix _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -411,7 +411,7 @@ static QScriptValue qtscript_QMatrix_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QMatrix_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMatrix*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMatrix*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMatrix*)0));
     for (int i = 0; i < 23; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMatrix_prototype_call, qtscript_QMatrix_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

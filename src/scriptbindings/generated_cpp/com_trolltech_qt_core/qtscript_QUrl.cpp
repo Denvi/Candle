@@ -238,7 +238,7 @@ static QScriptValue qtscript_create_QUrl_ParsingMode_class(QScriptEngine *engine
         qtscript_QUrl_ParsingMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QUrl_ParsingMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QUrl_ParsingMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QUrl_ParsingMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -561,25 +561,25 @@ static QScriptValue qtscript_QUrl_static_call(QScriptContext *context, QScriptEn
     }
     if (context->argumentCount() == 0) {
         QUrl _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QUrl _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QUrl>() == context->argument(0).toVariant().userType())) {
             QUrl _q_arg0 = qscriptvalue_cast<QUrl>(context->argument(0));
             QUrl _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QUrl::ParsingMode _q_arg1 = qscriptvalue_cast<QUrl::ParsingMode>(context->argument(1));
         QUrl _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -702,7 +702,7 @@ static QScriptValue qtscript_QUrl_static_call(QScriptContext *context, QScriptEn
 QScriptValue qtscript_create_QUrl_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUrl*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUrl*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUrl*)0));
     for (int i = 0; i < 28; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUrl_prototype_call, qtscript_QUrl_function_lengths[i+11]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -99,7 +99,7 @@ static QScriptValue qtscript_QIPv6Address_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QIPv6Address _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QIPv6Address)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QIPv6Address)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -116,7 +116,7 @@ static QScriptValue qtscript_QIPv6Address_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QIPv6Address_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QIPv6Address*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QIPv6Address*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QIPv6Address*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QIPv6Address>(), proto);
     engine->setDefaultPrototype(qMetaTypeId<QIPv6Address*>(), proto);

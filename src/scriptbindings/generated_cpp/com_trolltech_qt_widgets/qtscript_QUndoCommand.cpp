@@ -192,20 +192,20 @@ static QScriptValue qtscript_QUndoCommand_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QUndoCommand* _q_cpp_result = new QtScriptShell_QUndoCommand();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUndoCommand*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUndoCommand*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QUndoCommand*>(context->argument(0))) {
             QUndoCommand* _q_arg0 = qscriptvalue_cast<QUndoCommand*>(context->argument(0));
             QtScriptShell_QUndoCommand* _q_cpp_result = new QtScriptShell_QUndoCommand(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUndoCommand*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUndoCommand*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QUndoCommand* _q_cpp_result = new QtScriptShell_QUndoCommand(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUndoCommand*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUndoCommand*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -213,7 +213,7 @@ static QScriptValue qtscript_QUndoCommand_static_call(QScriptContext *context, Q
         QString _q_arg0 = context->argument(0).toString();
         QUndoCommand* _q_arg1 = qscriptvalue_cast<QUndoCommand*>(context->argument(1));
         QtScriptShell_QUndoCommand* _q_cpp_result = new QtScriptShell_QUndoCommand(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUndoCommand*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUndoCommand*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -230,7 +230,7 @@ static QScriptValue qtscript_QUndoCommand_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QUndoCommand_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUndoCommand*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUndoCommand*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUndoCommand*)0));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUndoCommand_prototype_call, qtscript_QUndoCommand_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

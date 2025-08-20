@@ -231,7 +231,7 @@ static QScriptValue qtscript_create_QTabBar_SelectionBehavior_class(QScriptEngin
         qtscript_QTabBar_SelectionBehavior_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTabBar_SelectionBehavior_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTabBar_SelectionBehavior_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTabBar_SelectionBehavior_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -310,7 +310,7 @@ static QScriptValue qtscript_create_QTabBar_Shape_class(QScriptEngine *engine, Q
         qtscript_QTabBar_Shape_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTabBar_Shape_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTabBar_Shape_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTabBar_Shape_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -615,7 +615,7 @@ static void qtscript_QTabBar_fromScriptValue(const QScriptValue &value, QTabBar*
 QScriptValue qtscript_create_QTabBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTabBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTabBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTabBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTabBar_prototype_call, qtscript_QTabBar_function_lengths[i+1]);

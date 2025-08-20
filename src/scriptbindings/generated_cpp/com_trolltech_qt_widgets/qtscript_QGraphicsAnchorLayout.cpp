@@ -224,13 +224,13 @@ static QScriptValue qtscript_QGraphicsAnchorLayout_static_call(QScriptContext *c
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsAnchorLayout* _q_cpp_result = new QtScriptShell_QGraphicsAnchorLayout();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsAnchorLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsAnchorLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsLayoutItem* _q_arg0 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0));
         QtScriptShell_QGraphicsAnchorLayout* _q_cpp_result = new QtScriptShell_QGraphicsAnchorLayout(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsAnchorLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsAnchorLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -247,7 +247,7 @@ static QScriptValue qtscript_QGraphicsAnchorLayout_static_call(QScriptContext *c
 QScriptValue qtscript_create_QGraphicsAnchorLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsAnchorLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsAnchorLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsAnchorLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsLayout*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsAnchorLayout_prototype_call, qtscript_QGraphicsAnchorLayout_function_lengths[i+1]);

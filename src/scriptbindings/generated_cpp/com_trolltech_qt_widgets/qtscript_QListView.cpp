@@ -170,7 +170,7 @@ static QScriptValue qtscript_create_QListView_Movement_class(QScriptEngine *engi
         qtscript_QListView_Movement_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QListView_Movement_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QListView_Movement_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QListView_Movement_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -284,7 +284,7 @@ static void qtscript_QListView_fromScriptValue(const QScriptValue &value, QListV
 QScriptValue qtscript_create_QListView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QListView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QListView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QListView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemView*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QListView_prototype_call, qtscript_QListView_function_lengths[i+1]);

@@ -127,7 +127,7 @@ static QScriptValue qtscript_QSqlResult_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QSqlResult_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlResult*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlResult*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlResult*)0));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlResult_prototype_call, qtscript_QSqlResult_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

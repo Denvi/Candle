@@ -231,7 +231,7 @@ static void qtscript_QThreadPool_fromScriptValue(const QScriptValue &value, QThr
 QScriptValue qtscript_create_QThreadPool_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QThreadPool*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QThreadPool*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QThreadPool*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QThreadPool_prototype_call, qtscript_QThreadPool_function_lengths[i+2]);

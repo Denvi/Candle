@@ -128,7 +128,7 @@ static QScriptValue qtscript_QNetworkProxyFactory_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QNetworkProxyFactory* _q_cpp_result = new QtScriptShell_QNetworkProxyFactory();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QNetworkProxyFactory*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QNetworkProxyFactory*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -181,7 +181,7 @@ static QScriptValue qtscript_QNetworkProxyFactory_static_call(QScriptContext *co
 QScriptValue qtscript_create_QNetworkProxyFactory_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkProxyFactory*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkProxyFactory*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkProxyFactory*)0));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkProxyFactory_prototype_call, qtscript_QNetworkProxyFactory_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

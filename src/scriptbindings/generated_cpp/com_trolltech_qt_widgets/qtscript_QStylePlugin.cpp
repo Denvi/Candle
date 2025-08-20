@@ -147,7 +147,7 @@ static void qtscript_QStylePlugin_fromScriptValue(const QScriptValue &value, QSt
 QScriptValue qtscript_create_QStylePlugin_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStylePlugin*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStylePlugin*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStylePlugin*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStylePlugin_prototype_call, qtscript_QStylePlugin_function_lengths[i+1]);

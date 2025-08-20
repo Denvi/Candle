@@ -172,7 +172,7 @@ static QScriptValue qtscript_create_QHostInfo_HostInfoError_class(QScriptEngine 
         qtscript_QHostInfo_HostInfoError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QHostInfo_HostInfoError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QHostInfo_HostInfoError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QHostInfo_HostInfoError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -305,18 +305,18 @@ static QScriptValue qtscript_QHostInfo_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QHostInfo _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QHostInfo>() == context->argument(0).toVariant().userType())) {
             QHostInfo _q_arg0 = qscriptvalue_cast<QHostInfo>(context->argument(0));
             QHostInfo _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QHostInfo _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -377,7 +377,7 @@ static QScriptValue qtscript_QHostInfo_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QHostInfo_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHostInfo*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHostInfo*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHostInfo*)0));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QHostInfo_prototype_call, qtscript_QHostInfo_function_lengths[i+6]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -186,7 +186,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         int _q_arg1 = context->argument(1).toInt32();
         QFlags<Qt::KeyboardModifier> _q_arg2 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(2));
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 4) {
@@ -195,7 +195,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         QFlags<Qt::KeyboardModifier> _q_arg2 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(2));
         QString _q_arg3 = context->argument(3).toString();
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 5) {
@@ -205,7 +205,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         QString _q_arg3 = context->argument(3).toString();
         bool _q_arg4 = context->argument(4).toBoolean();
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 6) {
@@ -222,7 +222,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
             bool _q_arg4 = context->argument(4).toBoolean();
             ushort _q_arg5 = qscriptvalue_cast<ushort>(context->argument(5));
             QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QEvent::Type>() == context->argument(0).toVariant().userType())
@@ -238,7 +238,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
             uint _q_arg4 = context->argument(4).toUInt32();
             uint _q_arg5 = context->argument(5).toUInt32();
             QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -251,7 +251,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         uint _q_arg5 = context->argument(5).toUInt32();
         QString _q_arg6 = context->argument(6).toString();
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 8) {
@@ -264,7 +264,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         QString _q_arg6 = context->argument(6).toString();
         bool _q_arg7 = context->argument(7).toBoolean();
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 9) {
@@ -278,7 +278,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
         bool _q_arg7 = context->argument(7).toBoolean();
         ushort _q_arg8 = qscriptvalue_cast<ushort>(context->argument(8));
         QtScriptShell_QKeyEvent* _q_cpp_result = new QtScriptShell_QKeyEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QKeyEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QKeyEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -295,7 +295,7 @@ static QScriptValue qtscript_QKeyEvent_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QKeyEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QKeyEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QKeyEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QKeyEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QInputEvent*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QKeyEvent_prototype_call, qtscript_QKeyEvent_function_lengths[i+1]);

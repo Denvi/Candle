@@ -144,7 +144,7 @@ static QScriptValue qtscript_QItemEditorFactory_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QItemEditorFactory* _q_cpp_result = new QtScriptShell_QItemEditorFactory();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QItemEditorFactory*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QItemEditorFactory*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -176,7 +176,7 @@ static QScriptValue qtscript_QItemEditorFactory_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QItemEditorFactory_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QItemEditorFactory*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QItemEditorFactory*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QItemEditorFactory*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QItemEditorFactory_prototype_call, qtscript_QItemEditorFactory_function_lengths[i+3]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

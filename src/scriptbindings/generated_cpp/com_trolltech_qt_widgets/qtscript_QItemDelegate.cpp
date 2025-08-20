@@ -170,7 +170,7 @@ static void qtscript_QItemDelegate_fromScriptValue(const QScriptValue &value, QI
 QScriptValue qtscript_create_QItemDelegate_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QItemDelegate*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QItemDelegate*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QItemDelegate*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemDelegate*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QItemDelegate_prototype_call, qtscript_QItemDelegate_function_lengths[i+1]);

@@ -152,25 +152,25 @@ static QScriptValue qtscript_QByteArrayMatcher_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QByteArrayMatcher _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QByteArray>() == context->argument(0).toVariant().userType())) {
             QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
             QByteArrayMatcher _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QByteArrayMatcher>() == context->argument(0).toVariant().userType())) {
             QByteArrayMatcher _q_arg0 = qscriptvalue_cast<QByteArrayMatcher>(context->argument(0));
             QByteArrayMatcher _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         const char* _q_arg0 = qscriptvalue_cast<const char*>(context->argument(0));
         int _q_arg1 = context->argument(1).toInt32();
         QByteArrayMatcher _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -186,7 +186,7 @@ static QScriptValue qtscript_QByteArrayMatcher_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QByteArrayMatcher_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QByteArrayMatcher*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QByteArrayMatcher*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QByteArrayMatcher*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QByteArrayMatcher_prototype_call, qtscript_QByteArrayMatcher_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

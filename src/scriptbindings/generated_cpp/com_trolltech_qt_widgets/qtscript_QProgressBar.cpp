@@ -162,7 +162,7 @@ static QScriptValue qtscript_create_QProgressBar_Direction_class(QScriptEngine *
         qtscript_QProgressBar_Direction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QProgressBar_Direction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QProgressBar_Direction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QProgressBar_Direction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -273,7 +273,7 @@ static void qtscript_QProgressBar_fromScriptValue(const QScriptValue &value, QPr
 QScriptValue qtscript_create_QProgressBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QProgressBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QProgressBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QProgressBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QProgressBar_prototype_call, qtscript_QProgressBar_function_lengths[i+1]);

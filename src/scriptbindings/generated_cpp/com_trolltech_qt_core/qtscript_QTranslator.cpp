@@ -238,7 +238,7 @@ static void qtscript_QTranslator_fromScriptValue(const QScriptValue &value, QTra
 QScriptValue qtscript_create_QTranslator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTranslator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTranslator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTranslator*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTranslator_prototype_call, qtscript_QTranslator_function_lengths[i+1]);

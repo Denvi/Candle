@@ -143,7 +143,7 @@ static void qtscript_QVBoxLayout_fromScriptValue(const QScriptValue &value, QVBo
 QScriptValue qtscript_create_QVBoxLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QVBoxLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QVBoxLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QVBoxLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QBoxLayout*>()));
 
     qScriptRegisterMetaType<QVBoxLayout*>(engine, qtscript_QVBoxLayout_toScriptValue, 

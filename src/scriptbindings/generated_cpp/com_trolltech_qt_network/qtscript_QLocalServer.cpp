@@ -275,7 +275,7 @@ static void qtscript_QLocalServer_fromScriptValue(const QScriptValue &value, QLo
 QScriptValue qtscript_create_QLocalServer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLocalServer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLocalServer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLocalServer*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLocalServer_prototype_call, qtscript_QLocalServer_function_lengths[i+2]);

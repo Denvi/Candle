@@ -249,7 +249,7 @@ static QScriptValue qtscript_create_QMessageBox_Icon_class(QScriptEngine *engine
         qtscript_QMessageBox_Icon_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMessageBox_Icon_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMessageBox_Icon_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMessageBox_Icon_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -362,7 +362,7 @@ static QScriptValue qtscript_create_QMessageBox_StandardButton_class(QScriptEngi
         qtscript_QMessageBox_StandardButton_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 23; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMessageBox_StandardButton_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMessageBox_StandardButton_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMessageBox_StandardButton_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -374,7 +374,7 @@ static QScriptValue qtscript_create_QMessageBox_StandardButton_class(QScriptEngi
 
 static QScriptValue qtscript_QMessageBox_StandardButtons_toScriptValue(QScriptEngine *engine, const QMessageBox::StandardButtons &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QMessageBox_StandardButtons_fromScriptValue(const QScriptValue &value, QMessageBox::StandardButtons &out)
@@ -403,7 +403,7 @@ static QScriptValue qtscript_construct_QMessageBox_StandardButtons(QScriptContex
             result |= qvariant_cast<QMessageBox::StandardButton>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QMessageBox_StandardButtons_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -920,7 +920,7 @@ static void qtscript_QMessageBox_fromScriptValue(const QScriptValue &value, QMes
 QScriptValue qtscript_create_QMessageBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMessageBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMessageBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMessageBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMessageBox_prototype_call, qtscript_QMessageBox_function_lengths[i+7]);

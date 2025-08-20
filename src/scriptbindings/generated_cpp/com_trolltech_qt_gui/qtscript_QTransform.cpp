@@ -276,7 +276,7 @@ static QScriptValue qtscript_create_QTransform_TransformationType_class(QScriptE
         qtscript_QTransform_TransformationType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTransform_TransformationType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTransform_TransformationType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTransform_TransformationType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -695,12 +695,12 @@ static QScriptValue qtscript_QTransform_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QTransform _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QMatrix _q_arg0 = qscriptvalue_cast<QMatrix>(context->argument(0));
         QTransform _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 6) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -710,7 +710,7 @@ static QScriptValue qtscript_QTransform_static_call(QScriptContext *context, QSc
         qreal _q_arg4 = qscriptvalue_cast<qreal>(context->argument(4));
         qreal _q_arg5 = qscriptvalue_cast<qreal>(context->argument(5));
         QTransform _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 8) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -722,7 +722,7 @@ static QScriptValue qtscript_QTransform_static_call(QScriptContext *context, QSc
         qreal _q_arg6 = qscriptvalue_cast<qreal>(context->argument(6));
         qreal _q_arg7 = qscriptvalue_cast<qreal>(context->argument(7));
         QTransform _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 9) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -735,7 +735,7 @@ static QScriptValue qtscript_QTransform_static_call(QScriptContext *context, QSc
         qreal _q_arg7 = qscriptvalue_cast<qreal>(context->argument(7));
         qreal _q_arg8 = qscriptvalue_cast<qreal>(context->argument(8));
         QTransform _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -797,7 +797,7 @@ static QScriptValue qtscript_QTransform_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QTransform_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTransform*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTransform*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTransform*)0));
     for (int i = 0; i < 41; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTransform_prototype_call, qtscript_QTransform_function_lengths[i+6]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

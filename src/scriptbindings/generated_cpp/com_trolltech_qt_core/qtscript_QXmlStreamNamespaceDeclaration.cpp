@@ -136,18 +136,18 @@ static QScriptValue qtscript_QXmlStreamNamespaceDeclaration_static_call(QScriptC
     }
     if (context->argumentCount() == 0) {
         QXmlStreamNamespaceDeclaration _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QXmlStreamNamespaceDeclaration _q_arg0 = qscriptvalue_cast<QXmlStreamNamespaceDeclaration>(context->argument(0));
         QXmlStreamNamespaceDeclaration _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QXmlStreamNamespaceDeclaration _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -163,7 +163,7 @@ static QScriptValue qtscript_QXmlStreamNamespaceDeclaration_static_call(QScriptC
 QScriptValue qtscript_create_QXmlStreamNamespaceDeclaration_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlStreamNamespaceDeclaration*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlStreamNamespaceDeclaration*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlStreamNamespaceDeclaration*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlStreamNamespaceDeclaration_prototype_call, qtscript_QXmlStreamNamespaceDeclaration_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

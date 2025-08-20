@@ -193,7 +193,7 @@ static void qtscript_QDial_fromScriptValue(const QScriptValue &value, QDial* &ou
 QScriptValue qtscript_create_QDial_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDial*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDial*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDial*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSlider*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDial_prototype_call, qtscript_QDial_function_lengths[i+1]);

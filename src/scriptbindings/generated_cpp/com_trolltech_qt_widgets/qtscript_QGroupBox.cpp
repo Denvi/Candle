@@ -197,7 +197,7 @@ static void qtscript_QGroupBox_fromScriptValue(const QScriptValue &value, QGroup
 QScriptValue qtscript_create_QGroupBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGroupBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGroupBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGroupBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGroupBox_prototype_call, qtscript_QGroupBox_function_lengths[i+1]);

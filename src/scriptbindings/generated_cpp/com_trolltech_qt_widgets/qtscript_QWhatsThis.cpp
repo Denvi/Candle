@@ -184,7 +184,7 @@ static QScriptValue qtscript_QWhatsThis_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QWhatsThis_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWhatsThis*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWhatsThis*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWhatsThis*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QWhatsThis*>(), proto);
 

@@ -479,18 +479,18 @@ static QScriptValue qtscript_QQuaternion_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QQuaternion _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>(context->argument(0));
         QQuaternion _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         float _q_arg0 = qscriptvalue_cast<float>(context->argument(0));
         QVector3D _q_arg1 = qscriptvalue_cast<QVector3D>(context->argument(1));
         QQuaternion _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         float _q_arg0 = qscriptvalue_cast<float>(context->argument(0));
@@ -498,7 +498,7 @@ static QScriptValue qtscript_QQuaternion_static_call(QScriptContext *context, QS
         float _q_arg2 = qscriptvalue_cast<float>(context->argument(2));
         float _q_arg3 = qscriptvalue_cast<float>(context->argument(3));
         QQuaternion _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -611,7 +611,7 @@ static QScriptValue qtscript_QQuaternion_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QQuaternion_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QQuaternion*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QQuaternion*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QQuaternion*)0));
     for (int i = 0; i < 32; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QQuaternion_prototype_call, qtscript_QQuaternion_function_lengths[i+10]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

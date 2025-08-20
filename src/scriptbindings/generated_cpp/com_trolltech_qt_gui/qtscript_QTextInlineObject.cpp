@@ -231,7 +231,7 @@ static QScriptValue qtscript_QTextInlineObject_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QTextInlineObject _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -247,7 +247,7 @@ static QScriptValue qtscript_QTextInlineObject_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QTextInlineObject_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextInlineObject*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextInlineObject*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextInlineObject*)0));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextInlineObject_prototype_call, qtscript_QTextInlineObject_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -244,7 +244,7 @@ static QScriptValue qtscript_create_QNetworkReply_NetworkError_class(QScriptEngi
         qtscript_QNetworkReply_NetworkError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 34; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkReply_NetworkError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkReply_NetworkError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkReply_NetworkError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -424,7 +424,7 @@ static void qtscript_QNetworkReply_fromScriptValue(const QScriptValue &value, QN
 QScriptValue qtscript_create_QNetworkReply_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkReply*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkReply*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkReply*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkReply_prototype_call, qtscript_QNetworkReply_function_lengths[i+1]);

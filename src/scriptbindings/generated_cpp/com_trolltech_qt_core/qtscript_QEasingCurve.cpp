@@ -256,7 +256,7 @@ static QScriptValue qtscript_create_QEasingCurve_Type_class(QScriptEngine *engin
         qtscript_QEasingCurve_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 49; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QEasingCurve_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QEasingCurve_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QEasingCurve_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -419,12 +419,12 @@ static QScriptValue qtscript_QEasingCurve_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QEasingCurve _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QEasingCurve::Type _q_arg0 = qscriptvalue_cast<QEasingCurve::Type>(context->argument(0));
         QEasingCurve _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -440,7 +440,7 @@ static QScriptValue qtscript_QEasingCurve_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QEasingCurve_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QEasingCurve*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QEasingCurve*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QEasingCurve*)0));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QEasingCurve_prototype_call, qtscript_QEasingCurve_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

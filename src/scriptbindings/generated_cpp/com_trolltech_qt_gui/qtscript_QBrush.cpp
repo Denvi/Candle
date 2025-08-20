@@ -281,39 +281,39 @@ static QScriptValue qtscript_QBrush_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QBrush _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<Qt::BrushStyle>() == context->argument(0).toVariant().userType())) {
             Qt::BrushStyle _q_arg0 = qscriptvalue_cast<Qt::BrushStyle>(context->argument(0));
             QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QBrush>() == context->argument(0).toVariant().userType())) {
             QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
             QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<QGradient*>(context->argument(0))) {
 
         QGradient & _q_arg0 = *qscriptvalue_cast<QGradient*>(context->argument(0));
                     QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QImage>() == context->argument(0).toVariant().userType())) {
             QImage _q_arg0 = qscriptvalue_cast<QImage>(context->argument(0));
             QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             QBrush _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -322,21 +322,21 @@ static QScriptValue qtscript_QBrush_static_call(QScriptContext *context, QScript
             Qt::GlobalColor _q_arg0 = qscriptvalue_cast<Qt::GlobalColor>(context->argument(0));
             QPixmap _q_arg1 = qscriptvalue_cast<QPixmap>(context->argument(1));
             QBrush _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<Qt::BrushStyle>() == context->argument(1).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             Qt::BrushStyle _q_arg1 = qscriptvalue_cast<Qt::BrushStyle>(context->argument(1));
             QBrush _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<QPixmap>() == context->argument(1).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             QPixmap _q_arg1 = qscriptvalue_cast<QPixmap>(context->argument(1));
             QBrush _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -353,7 +353,7 @@ static QScriptValue qtscript_QBrush_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QBrush_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBrush*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBrush*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBrush*)0));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBrush_prototype_call, qtscript_QBrush_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -107,7 +107,7 @@ static QScriptValue qtscript_QToolBarChangeEvent_static_call(QScriptContext *con
     if (context->argumentCount() == 1) {
         bool _q_arg0 = context->argument(0).toBoolean();
         QToolBarChangeEvent* _q_cpp_result = new QToolBarChangeEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -123,7 +123,7 @@ static QScriptValue qtscript_QToolBarChangeEvent_static_call(QScriptContext *con
 QScriptValue qtscript_create_QToolBarChangeEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QToolBarChangeEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QToolBarChangeEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QToolBarChangeEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QToolBarChangeEvent_prototype_call, qtscript_QToolBarChangeEvent_function_lengths[i+1]);

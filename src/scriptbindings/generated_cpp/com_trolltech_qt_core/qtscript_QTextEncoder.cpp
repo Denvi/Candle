@@ -120,13 +120,13 @@ static QScriptValue qtscript_QTextEncoder_static_call(QScriptContext *context, Q
     if (context->argumentCount() == 1) {
         const QTextCodec* _q_arg0 = qscriptvalue_cast<const QTextCodec*>(context->argument(0));
         QTextEncoder* _q_cpp_result = new QTextEncoder(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         const QTextCodec* _q_arg0 = qscriptvalue_cast<const QTextCodec*>(context->argument(0));
         QFlags<QTextCodec::ConversionFlag> _q_arg1 = qscriptvalue_cast<QFlags<QTextCodec::ConversionFlag> >(context->argument(1));
         QTextEncoder* _q_cpp_result = new QTextEncoder(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -142,7 +142,7 @@ static QScriptValue qtscript_QTextEncoder_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QTextEncoder_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextEncoder*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextEncoder*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextEncoder*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextEncoder_prototype_call, qtscript_QTextEncoder_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

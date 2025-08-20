@@ -220,7 +220,7 @@ static void qtscript_QPrintDialog_fromScriptValue(const QScriptValue &value, QPr
 QScriptValue qtscript_create_QPrintDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPrintDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPrintDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPrintDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractPrintDialog*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPrintDialog_prototype_call, qtscript_QPrintDialog_function_lengths[i+1]);

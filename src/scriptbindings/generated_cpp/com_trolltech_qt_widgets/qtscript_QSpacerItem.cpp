@@ -144,7 +144,7 @@ static QScriptValue qtscript_QSpacerItem_static_call(QScriptContext *context, QS
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QtScriptShell_QSpacerItem* _q_cpp_result = new QtScriptShell_QSpacerItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSpacerItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSpacerItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 3) {
@@ -152,7 +152,7 @@ static QScriptValue qtscript_QSpacerItem_static_call(QScriptContext *context, QS
         int _q_arg1 = context->argument(1).toInt32();
         QSizePolicy::Policy _q_arg2 = qscriptvalue_cast<QSizePolicy::Policy>(context->argument(2));
         QtScriptShell_QSpacerItem* _q_cpp_result = new QtScriptShell_QSpacerItem(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSpacerItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSpacerItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 4) {
@@ -161,7 +161,7 @@ static QScriptValue qtscript_QSpacerItem_static_call(QScriptContext *context, QS
         QSizePolicy::Policy _q_arg2 = qscriptvalue_cast<QSizePolicy::Policy>(context->argument(2));
         QSizePolicy::Policy _q_arg3 = qscriptvalue_cast<QSizePolicy::Policy>(context->argument(3));
         QtScriptShell_QSpacerItem* _q_cpp_result = new QtScriptShell_QSpacerItem(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSpacerItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSpacerItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -178,7 +178,7 @@ static QScriptValue qtscript_QSpacerItem_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QSpacerItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSpacerItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSpacerItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSpacerItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayoutItem*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSpacerItem_prototype_call, qtscript_QSpacerItem_function_lengths[i+1]);

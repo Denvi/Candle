@@ -99,7 +99,7 @@ static QScriptValue qtscript_QTextEdit_ExtraSelection_static_call(QScriptContext
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextEdit_ExtraSelection _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextEdit::ExtraSelection)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextEdit::ExtraSelection)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -116,7 +116,7 @@ static QScriptValue qtscript_QTextEdit_ExtraSelection_static_call(QScriptContext
 QScriptValue qtscript_create_QTextEdit_ExtraSelection_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextEdit::ExtraSelection*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextEdit::ExtraSelection*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextEdit::ExtraSelection*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QTextEdit::ExtraSelection>(), proto);
     engine->setDefaultPrototype(qMetaTypeId<QTextEdit::ExtraSelection*>(), proto);

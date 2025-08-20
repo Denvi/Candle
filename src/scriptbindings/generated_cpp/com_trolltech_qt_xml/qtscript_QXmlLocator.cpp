@@ -117,7 +117,7 @@ static QScriptValue qtscript_QXmlLocator_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlLocator* _q_cpp_result = new QtScriptShell_QXmlLocator();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlLocator*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlLocator*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -134,7 +134,7 @@ static QScriptValue qtscript_QXmlLocator_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QXmlLocator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlLocator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlLocator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlLocator*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlLocator_prototype_call, qtscript_QXmlLocator_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

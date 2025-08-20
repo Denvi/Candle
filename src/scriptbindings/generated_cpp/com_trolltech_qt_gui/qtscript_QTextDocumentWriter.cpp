@@ -209,12 +209,12 @@ static QScriptValue qtscript_QTextDocumentWriter_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QTextDocumentWriter* _q_cpp_result = new QTextDocumentWriter();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QString _q_arg0 = context->argument(0).toString();
         QTextDocumentWriter* _q_cpp_result = new QTextDocumentWriter(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))
@@ -222,14 +222,14 @@ static QScriptValue qtscript_QTextDocumentWriter_static_call(QScriptContext *con
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QTextDocumentWriter* _q_cpp_result = new QTextDocumentWriter(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && (qMetaTypeId<QByteArray>() == context->argument(1).toVariant().userType())) {
             QString _q_arg0 = context->argument(0).toString();
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QTextDocumentWriter* _q_cpp_result = new QTextDocumentWriter(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -253,7 +253,7 @@ static QScriptValue qtscript_QTextDocumentWriter_static_call(QScriptContext *con
 QScriptValue qtscript_create_QTextDocumentWriter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextDocumentWriter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextDocumentWriter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextDocumentWriter*)0));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextDocumentWriter_prototype_call, qtscript_QTextDocumentWriter_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -257,7 +257,7 @@ static QScriptValue qtscript_create_QGraphicsView_DragMode_class(QScriptEngine *
         qtscript_QGraphicsView_DragMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsView_DragMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsView_DragMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsView_DragMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -326,7 +326,7 @@ static QScriptValue qtscript_create_QGraphicsView_ViewportAnchor_class(QScriptEn
         qtscript_QGraphicsView_ViewportAnchor_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsView_ViewportAnchor_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsView_ViewportAnchor_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsView_ViewportAnchor_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -930,7 +930,7 @@ static void qtscript_QGraphicsView_fromScriptValue(const QScriptValue &value, QG
 QScriptValue qtscript_create_QGraphicsView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractScrollArea*>()));
     for (int i = 0; i < 28; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsView_prototype_call, qtscript_QGraphicsView_function_lengths[i+1]);

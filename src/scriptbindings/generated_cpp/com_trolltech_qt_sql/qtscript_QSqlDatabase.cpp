@@ -478,13 +478,13 @@ static QScriptValue qtscript_QSqlDatabase_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QSqlDatabase _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSqlDatabase)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSqlDatabase)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QSqlDatabase _q_arg0 = qscriptvalue_cast<QSqlDatabase>(context->argument(0));
         QtScriptShell_QSqlDatabase _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QSqlDatabase)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QSqlDatabase)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -589,7 +589,7 @@ static QScriptValue qtscript_QSqlDatabase_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QSqlDatabase_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlDatabase*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlDatabase*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlDatabase*)0));
     for (int i = 0; i < 31; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlDatabase_prototype_call, qtscript_QSqlDatabase_function_lengths[i+10]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

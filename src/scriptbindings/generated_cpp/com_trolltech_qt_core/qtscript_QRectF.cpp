@@ -715,12 +715,12 @@ static QScriptValue qtscript_QRectF_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QRectF _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QRect _q_arg0 = qscriptvalue_cast<QRect>(context->argument(0));
         QRectF _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         if ((qMetaTypeId<QPointF>() == context->argument(0).toVariant().userType())
@@ -728,14 +728,14 @@ static QScriptValue qtscript_QRectF_static_call(QScriptContext *context, QScript
             QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
             QPointF _q_arg1 = qscriptvalue_cast<QPointF>(context->argument(1));
             QRectF _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPointF>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<QSizeF>() == context->argument(1).toVariant().userType())) {
             QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
             QSizeF _q_arg1 = qscriptvalue_cast<QSizeF>(context->argument(1));
             QRectF _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 4) {
@@ -744,7 +744,7 @@ static QScriptValue qtscript_QRectF_static_call(QScriptContext *context, QScript
         qreal _q_arg2 = qscriptvalue_cast<qreal>(context->argument(2));
         qreal _q_arg3 = qscriptvalue_cast<qreal>(context->argument(3));
         QRectF _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -760,7 +760,7 @@ static QScriptValue qtscript_QRectF_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QRectF_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRectF*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRectF*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRectF*)0));
     for (int i = 0; i < 55; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRectF_prototype_call, qtscript_QRectF_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -137,7 +137,7 @@ static void qtscript_QGraphicsScale_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QGraphicsScale_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsScale*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsScale*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsScale*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsTransform*>()));
 
     qScriptRegisterMetaType<QGraphicsScale*>(engine, qtscript_QGraphicsScale_toScriptValue, 

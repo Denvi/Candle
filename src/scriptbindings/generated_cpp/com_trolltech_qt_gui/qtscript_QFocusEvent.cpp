@@ -119,13 +119,13 @@ static QScriptValue qtscript_QFocusEvent_static_call(QScriptContext *context, QS
     if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QFocusEvent* _q_cpp_result = new QFocusEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         Qt::FocusReason _q_arg1 = qscriptvalue_cast<Qt::FocusReason>(context->argument(1));
         QFocusEvent* _q_cpp_result = new QFocusEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -141,7 +141,7 @@ static QScriptValue qtscript_QFocusEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QFocusEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFocusEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFocusEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFocusEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFocusEvent_prototype_call, qtscript_QFocusEvent_function_lengths[i+1]);

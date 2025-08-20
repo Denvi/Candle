@@ -184,7 +184,7 @@ static void qtscript_QGraphicsObject_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QGraphicsObject_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsObject*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsObject*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsObject*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     proto.setProperty(QString::fromLatin1("__QGraphicsItem__"),
         engine->defaultPrototype(qMetaTypeId<QGraphicsItem*>()),

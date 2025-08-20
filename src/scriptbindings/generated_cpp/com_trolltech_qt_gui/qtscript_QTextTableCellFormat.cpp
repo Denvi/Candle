@@ -202,7 +202,7 @@ static QScriptValue qtscript_QTextTableCellFormat_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextTableCellFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextTableCellFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextTableCellFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -219,7 +219,7 @@ static QScriptValue qtscript_QTextTableCellFormat_static_call(QScriptContext *co
 QScriptValue qtscript_create_QTextTableCellFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextTableCellFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextTableCellFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextTableCellFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextCharFormat*>()));
     for (int i = 0; i < 10; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextTableCellFormat_prototype_call, qtscript_QTextTableCellFormat_function_lengths[i+1]);

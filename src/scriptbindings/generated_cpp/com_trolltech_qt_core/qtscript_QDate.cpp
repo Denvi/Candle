@@ -206,7 +206,7 @@ static QScriptValue qtscript_create_QDate_MonthNameType_class(QScriptEngine *eng
         qtscript_QDate_MonthNameType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDate_MonthNameType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDate_MonthNameType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDate_MonthNameType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -426,14 +426,14 @@ static QScriptValue qtscript_QDate_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QDate _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QDate _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -561,7 +561,7 @@ static QScriptValue qtscript_QDate_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QDate_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDate*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDate*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDate*)0));
     for (int i = 0; i < 20; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDate_prototype_call, qtscript_QDate_function_lengths[i+10]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

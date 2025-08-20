@@ -28,6 +28,12 @@ git clone https://github.com/microsoft/vcpkg.git
 vcpkg\bootstrap-vcpkg.bat
 ```
 
+* Set environment variable
+
+```
+CMAKE_TOOLCHAIN_FILE={PATH_TO_VCPKG}/scripts/buildsystems/vcpkg.cmake
+```
+
 * Get Candle sources
 
 ```

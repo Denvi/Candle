@@ -216,7 +216,7 @@ static QScriptValue qtscript_create_QImageWriter_ImageWriterError_class(QScriptE
         qtscript_QImageWriter_ImageWriterError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QImageWriter_ImageWriterError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QImageWriter_ImageWriterError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QImageWriter_ImageWriterError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -461,12 +461,12 @@ static QScriptValue qtscript_QImageWriter_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QImageWriter* _q_cpp_result = new QImageWriter();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QString _q_arg0 = context->argument(0).toString();
         QImageWriter* _q_cpp_result = new QImageWriter(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))
@@ -474,14 +474,14 @@ static QScriptValue qtscript_QImageWriter_static_call(QScriptContext *context, Q
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QImageWriter* _q_cpp_result = new QImageWriter(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()
             && (qMetaTypeId<QByteArray>() == context->argument(1).toVariant().userType())) {
             QString _q_arg0 = context->argument(0).toString();
             QByteArray _q_arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
             QImageWriter* _q_cpp_result = new QImageWriter(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -554,7 +554,7 @@ static QScriptValue qtscript_QImageWriter_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QImageWriter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QImageWriter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QImageWriter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QImageWriter*)0));
     for (int i = 0; i < 26; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QImageWriter_prototype_call, qtscript_QImageWriter_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

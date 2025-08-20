@@ -227,13 +227,13 @@ static QScriptValue qtscript_QPoint_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QPoint _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QPoint _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -258,7 +258,7 @@ static QScriptValue qtscript_QPoint_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QPoint_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPoint*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPoint*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPoint*)0));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPoint_prototype_call, qtscript_QPoint_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

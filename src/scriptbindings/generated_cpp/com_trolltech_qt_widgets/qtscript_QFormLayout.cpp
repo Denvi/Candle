@@ -179,7 +179,7 @@ static QScriptValue qtscript_create_QFormLayout_FieldGrowthPolicy_class(QScriptE
         qtscript_QFormLayout_FieldGrowthPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFormLayout_FieldGrowthPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFormLayout_FieldGrowthPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFormLayout_FieldGrowthPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -468,7 +468,7 @@ static void qtscript_QFormLayout_fromScriptValue(const QScriptValue &value, QFor
 QScriptValue qtscript_create_QFormLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFormLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFormLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFormLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QLayout*>()));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFormLayout_prototype_call, qtscript_QFormLayout_function_lengths[i+1]);

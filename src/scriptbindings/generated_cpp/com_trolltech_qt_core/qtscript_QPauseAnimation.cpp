@@ -152,7 +152,7 @@ static void qtscript_QPauseAnimation_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QPauseAnimation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPauseAnimation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPauseAnimation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPauseAnimation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractAnimation*>()));
 
     qScriptRegisterMetaType<QPauseAnimation*>(engine, qtscript_QPauseAnimation_toScriptValue, 

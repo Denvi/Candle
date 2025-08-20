@@ -231,7 +231,7 @@ static QScriptValue qtscript_create_QGLContext_BindOption_class(QScriptEngine *e
         qtscript_QGLContext_BindOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 10; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGLContext_BindOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGLContext_BindOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGLContext_BindOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -243,7 +243,7 @@ static QScriptValue qtscript_create_QGLContext_BindOption_class(QScriptEngine *e
 
 static QScriptValue qtscript_QGLContext_BindOptions_toScriptValue(QScriptEngine *engine, const QGLContext::BindOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QGLContext_BindOptions_fromScriptValue(const QScriptValue &value, QGLContext::BindOptions &out)
@@ -272,7 +272,7 @@ static QScriptValue qtscript_construct_QGLContext_BindOptions(QScriptContext *co
             result |= qvariant_cast<QGLContext::BindOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QGLContext_BindOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -583,14 +583,14 @@ static QScriptValue qtscript_QGLContext_static_call(QScriptContext *context, QSc
     if (context->argumentCount() == 1) {
         QGLFormat _q_arg0 = qscriptvalue_cast<QGLFormat>(context->argument(0));
         QtScriptShell_QGLContext* _q_cpp_result = new QtScriptShell_QGLContext(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLContext*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLContext*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QGLFormat _q_arg0 = qscriptvalue_cast<QGLFormat>(context->argument(0));
         QPaintDevice* _q_arg1 = qscriptvalue_cast<QPaintDevice*>(context->argument(1));
         QtScriptShell_QGLContext* _q_cpp_result = new QtScriptShell_QGLContext(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLContext*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLContext*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -638,7 +638,7 @@ static QScriptValue qtscript_QGLContext_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QGLContext_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLContext*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLContext*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLContext*)0));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLContext_prototype_call, qtscript_QGLContext_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

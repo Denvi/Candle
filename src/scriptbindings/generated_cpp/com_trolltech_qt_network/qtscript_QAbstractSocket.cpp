@@ -202,7 +202,7 @@ static QScriptValue qtscript_create_QAbstractSocket_PauseMode_class(QScriptEngin
         qtscript_QAbstractSocket_PauseMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSocket_PauseMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSocket_PauseMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSocket_PauseMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -271,7 +271,7 @@ static QScriptValue qtscript_create_QAbstractSocket_SocketType_class(QScriptEngi
         qtscript_QAbstractSocket_SocketType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractSocket_SocketType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractSocket_SocketType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractSocket_SocketType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -564,7 +564,7 @@ static void qtscript_QAbstractSocket_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QAbstractSocket_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractSocket*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractSocket*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractSocket*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 23; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractSocket_prototype_call, qtscript_QAbstractSocket_function_lengths[i+1]);

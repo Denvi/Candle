@@ -122,7 +122,7 @@ static QScriptValue qtscript_QXmlEntityResolver_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlEntityResolver* _q_cpp_result = new QtScriptShell_QXmlEntityResolver();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlEntityResolver*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlEntityResolver*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -139,7 +139,7 @@ static QScriptValue qtscript_QXmlEntityResolver_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QXmlEntityResolver_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlEntityResolver*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlEntityResolver*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlEntityResolver*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlEntityResolver_prototype_call, qtscript_QXmlEntityResolver_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

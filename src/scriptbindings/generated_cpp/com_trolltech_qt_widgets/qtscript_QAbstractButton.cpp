@@ -172,7 +172,7 @@ static void qtscript_QAbstractButton_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QAbstractButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractButton_prototype_call, qtscript_QAbstractButton_function_lengths[i+1]);

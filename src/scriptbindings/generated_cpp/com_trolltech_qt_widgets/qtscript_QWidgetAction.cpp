@@ -182,7 +182,7 @@ static void qtscript_QWidgetAction_fromScriptValue(const QScriptValue &value, QW
 QScriptValue qtscript_create_QWidgetAction_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWidgetAction*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWidgetAction*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWidgetAction*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAction*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QWidgetAction_prototype_call, qtscript_QWidgetAction_function_lengths[i+1]);

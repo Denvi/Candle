@@ -184,7 +184,7 @@ static QScriptValue qtscript_create_QIcon_State_class(QScriptEngine *engine, QSc
         qtscript_QIcon_State_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QIcon_State_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QIcon_State_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QIcon_State_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -255,7 +255,7 @@ static QScriptValue qtscript_create_QIcon_Mode_class(QScriptEngine *engine, QScr
         qtscript_QIcon_Mode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QIcon_Mode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QIcon_Mode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QIcon_Mode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -601,23 +601,23 @@ static QScriptValue qtscript_QIcon_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QIcon _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QIcon>() == context->argument(0).toVariant().userType())) {
             QIcon _q_arg0 = qscriptvalue_cast<QIcon>(context->argument(0));
             QIcon _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPixmap>() == context->argument(0).toVariant().userType())) {
             QPixmap _q_arg0 = qscriptvalue_cast<QPixmap>(context->argument(0));
             QIcon _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QIcon _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -687,7 +687,7 @@ static QScriptValue qtscript_QIcon_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QIcon_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QIcon*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QIcon*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QIcon*)0));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QIcon_prototype_call, qtscript_QIcon_function_lengths[i+7]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

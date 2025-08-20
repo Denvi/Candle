@@ -135,7 +135,7 @@ static QScriptValue qtscript_create_QReadWriteLock_RecursionMode_class(QScriptEn
         qtscript_QReadWriteLock_RecursionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QReadWriteLock_RecursionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QReadWriteLock_RecursionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QReadWriteLock_RecursionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -237,12 +237,12 @@ static QScriptValue qtscript_QReadWriteLock_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QReadWriteLock* _q_cpp_result = new QReadWriteLock();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QReadWriteLock::RecursionMode _q_arg0 = qscriptvalue_cast<QReadWriteLock::RecursionMode>(context->argument(0));
         QReadWriteLock* _q_cpp_result = new QReadWriteLock(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -258,7 +258,7 @@ static QScriptValue qtscript_QReadWriteLock_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QReadWriteLock_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QReadWriteLock*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QReadWriteLock*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QReadWriteLock*)0));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QReadWriteLock_prototype_call, qtscript_QReadWriteLock_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

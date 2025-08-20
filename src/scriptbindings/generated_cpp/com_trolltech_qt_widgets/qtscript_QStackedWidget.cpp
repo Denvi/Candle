@@ -228,7 +228,7 @@ static void qtscript_QStackedWidget_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QStackedWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStackedWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStackedWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStackedWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStackedWidget_prototype_call, qtscript_QStackedWidget_function_lengths[i+1]);

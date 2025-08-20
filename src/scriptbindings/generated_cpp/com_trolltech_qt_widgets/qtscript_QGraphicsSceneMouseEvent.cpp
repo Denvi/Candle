@@ -360,12 +360,12 @@ static QScriptValue qtscript_QGraphicsSceneMouseEvent_static_call(QScriptContext
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneMouseEvent* _q_cpp_result = new QGraphicsSceneMouseEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QGraphicsSceneMouseEvent* _q_cpp_result = new QGraphicsSceneMouseEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -381,7 +381,7 @@ static QScriptValue qtscript_QGraphicsSceneMouseEvent_static_call(QScriptContext
 QScriptValue qtscript_create_QGraphicsSceneMouseEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneMouseEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneMouseEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneMouseEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 25; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneMouseEvent_prototype_call, qtscript_QGraphicsSceneMouseEvent_function_lengths[i+1]);

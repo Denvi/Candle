@@ -246,7 +246,7 @@ static QScriptValue qtscript_create_Qt_TextInteractionFlag_class(QScriptEngine *
         qtscript_Qt_TextInteractionFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TextInteractionFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TextInteractionFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TextInteractionFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -258,7 +258,7 @@ static QScriptValue qtscript_create_Qt_TextInteractionFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_Qt_TextInteractionFlags_toScriptValue(QScriptEngine *engine, const Qt::TextInteractionFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_TextInteractionFlags_fromScriptValue(const QScriptValue &value, Qt::TextInteractionFlags &out)
@@ -287,7 +287,7 @@ static QScriptValue qtscript_construct_Qt_TextInteractionFlags(QScriptContext *c
             result |= qvariant_cast<Qt::TextInteractionFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_TextInteractionFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -391,7 +391,7 @@ static QScriptValue qtscript_create_Qt_ScrollBarPolicy_class(QScriptEngine *engi
         qtscript_Qt_ScrollBarPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ScrollBarPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ScrollBarPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ScrollBarPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -460,7 +460,7 @@ static QScriptValue qtscript_create_Qt_EventPriority_class(QScriptEngine *engine
         qtscript_Qt_EventPriority_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_EventPriority_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_EventPriority_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_EventPriority_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -543,7 +543,7 @@ static QScriptValue qtscript_create_Qt_WindowFrameSection_class(QScriptEngine *e
         qtscript_Qt_WindowFrameSection_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 10; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WindowFrameSection_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WindowFrameSection_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WindowFrameSection_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -610,7 +610,7 @@ static QScriptValue qtscript_create_Qt_SortOrder_class(QScriptEngine *engine, QS
         qtscript_Qt_SortOrder_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_SortOrder_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_SortOrder_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_SortOrder_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -677,7 +677,7 @@ static QScriptValue qtscript_create_Qt_BGMode_class(QScriptEngine *engine, QScri
         qtscript_Qt_BGMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_BGMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_BGMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_BGMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -746,7 +746,7 @@ static QScriptValue qtscript_create_Qt_TileRule_class(QScriptEngine *engine, QSc
         qtscript_Qt_TileRule_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TileRule_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TileRule_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TileRule_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1031,7 +1031,7 @@ static QScriptValue qtscript_create_Qt_WidgetAttribute_class(QScriptEngine *engi
         qtscript_Qt_WidgetAttribute_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 109; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WidgetAttribute_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WidgetAttribute_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WidgetAttribute_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1098,7 +1098,7 @@ static QScriptValue qtscript_create_Qt_TransformationMode_class(QScriptEngine *e
         qtscript_Qt_TransformationMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TransformationMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TransformationMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TransformationMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1175,7 +1175,7 @@ static QScriptValue qtscript_create_Qt_PenJoinStyle_class(QScriptEngine *engine,
         qtscript_Qt_PenJoinStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_PenJoinStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_PenJoinStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_PenJoinStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1256,7 +1256,7 @@ static QScriptValue qtscript_create_Qt_FocusReason_class(QScriptEngine *engine, 
         qtscript_Qt_FocusReason_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_FocusReason_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_FocusReason_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_FocusReason_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1325,7 +1325,7 @@ static QScriptValue qtscript_create_Qt_WindowModality_class(QScriptEngine *engin
         qtscript_Qt_WindowModality_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WindowModality_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WindowModality_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WindowModality_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1402,7 +1402,7 @@ static QScriptValue qtscript_create_Qt_ScreenOrientation_class(QScriptEngine *en
         qtscript_Qt_ScreenOrientation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ScreenOrientation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ScreenOrientation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ScreenOrientation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1481,7 +1481,7 @@ static QScriptValue qtscript_create_Qt_DropAction_class(QScriptEngine *engine, Q
         qtscript_Qt_DropAction_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_DropAction_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_DropAction_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_DropAction_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1493,7 +1493,7 @@ static QScriptValue qtscript_create_Qt_DropAction_class(QScriptEngine *engine, Q
 
 static QScriptValue qtscript_Qt_DropActions_toScriptValue(QScriptEngine *engine, const Qt::DropActions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_DropActions_fromScriptValue(const QScriptValue &value, Qt::DropActions &out)
@@ -1522,7 +1522,7 @@ static QScriptValue qtscript_construct_Qt_DropActions(QScriptContext *context, Q
             result |= qvariant_cast<Qt::DropAction>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_DropActions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1698,7 +1698,7 @@ static QScriptValue qtscript_create_Qt_WindowType_class(QScriptEngine *engine, Q
         qtscript_Qt_WindowType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 37; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WindowType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WindowType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WindowType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1710,7 +1710,7 @@ static QScriptValue qtscript_create_Qt_WindowType_class(QScriptEngine *engine, Q
 
 static QScriptValue qtscript_Qt_WindowFlags_toScriptValue(QScriptEngine *engine, const Qt::WindowFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_WindowFlags_fromScriptValue(const QScriptValue &value, Qt::WindowFlags &out)
@@ -1739,7 +1739,7 @@ static QScriptValue qtscript_construct_Qt_WindowFlags(QScriptContext *context, Q
             result |= qvariant_cast<Qt::WindowType>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_WindowFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1869,7 +1869,7 @@ static QScriptValue qtscript_create_Qt_ImageConversionFlag_class(QScriptEngine *
         qtscript_Qt_ImageConversionFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 14; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ImageConversionFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ImageConversionFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ImageConversionFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1881,7 +1881,7 @@ static QScriptValue qtscript_create_Qt_ImageConversionFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_Qt_ImageConversionFlags_toScriptValue(QScriptEngine *engine, const Qt::ImageConversionFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_ImageConversionFlags_fromScriptValue(const QScriptValue &value, Qt::ImageConversionFlags &out)
@@ -1910,7 +1910,7 @@ static QScriptValue qtscript_construct_Qt_ImageConversionFlags(QScriptContext *c
             result |= qvariant_cast<Qt::ImageConversionFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_ImageConversionFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2020,7 +2020,7 @@ static QScriptValue qtscript_create_Qt_AnchorPoint_class(QScriptEngine *engine, 
         qtscript_Qt_AnchorPoint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_AnchorPoint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_AnchorPoint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_AnchorPoint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2115,7 +2115,7 @@ static QScriptValue qtscript_create_Qt_TextFlag_class(QScriptEngine *engine, QSc
         qtscript_Qt_TextFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 14; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TextFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TextFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TextFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2202,7 +2202,7 @@ static QScriptValue qtscript_create_Qt_MatchFlag_class(QScriptEngine *engine, QS
         qtscript_Qt_MatchFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 10; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_MatchFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_MatchFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_MatchFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2214,7 +2214,7 @@ static QScriptValue qtscript_create_Qt_MatchFlag_class(QScriptEngine *engine, QS
 
 static QScriptValue qtscript_Qt_MatchFlags_toScriptValue(QScriptEngine *engine, const Qt::MatchFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_MatchFlags_fromScriptValue(const QScriptValue &value, Qt::MatchFlags &out)
@@ -2243,7 +2243,7 @@ static QScriptValue qtscript_construct_Qt_MatchFlags(QScriptContext *context, QS
             result |= qvariant_cast<Qt::MatchFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_MatchFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2359,7 +2359,7 @@ static QScriptValue qtscript_create_Qt_DateFormat_class(QScriptEngine *engine, Q
         qtscript_Qt_DateFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_DateFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_DateFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_DateFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2424,7 +2424,7 @@ static QScriptValue qtscript_create_Qt_DockWidgetAreaSizes_class(QScriptEngine *
         qtscript_Qt_DockWidgetAreaSizes_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_DockWidgetAreaSizes_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_DockWidgetAreaSizes_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_DockWidgetAreaSizes_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2497,7 +2497,7 @@ static QScriptValue qtscript_create_Qt_ArrowType_class(QScriptEngine *engine, QS
         qtscript_Qt_ArrowType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ArrowType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ArrowType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ArrowType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2584,7 +2584,7 @@ static QScriptValue qtscript_create_Qt_ItemFlag_class(QScriptEngine *engine, QSc
         qtscript_Qt_ItemFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 10; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ItemFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ItemFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ItemFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2596,7 +2596,7 @@ static QScriptValue qtscript_create_Qt_ItemFlag_class(QScriptEngine *engine, QSc
 
 static QScriptValue qtscript_Qt_ItemFlags_toScriptValue(QScriptEngine *engine, const Qt::ItemFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_ItemFlags_fromScriptValue(const QScriptValue &value, Qt::ItemFlags &out)
@@ -2625,7 +2625,7 @@ static QScriptValue qtscript_construct_Qt_ItemFlags(QScriptContext *context, QSc
             result |= qvariant_cast<Qt::ItemFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_ItemFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2735,7 +2735,7 @@ static QScriptValue qtscript_create_Qt_PenCapStyle_class(QScriptEngine *engine, 
         qtscript_Qt_PenCapStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_PenCapStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_PenCapStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_PenCapStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2818,7 +2818,7 @@ static QScriptValue qtscript_create_Qt_KeyboardModifier_class(QScriptEngine *eng
         qtscript_Qt_KeyboardModifier_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_KeyboardModifier_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_KeyboardModifier_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_KeyboardModifier_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2830,7 +2830,7 @@ static QScriptValue qtscript_create_Qt_KeyboardModifier_class(QScriptEngine *eng
 
 static QScriptValue qtscript_Qt_KeyboardModifiers_toScriptValue(QScriptEngine *engine, const Qt::KeyboardModifiers &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_KeyboardModifiers_fromScriptValue(const QScriptValue &value, Qt::KeyboardModifiers &out)
@@ -2859,7 +2859,7 @@ static QScriptValue qtscript_construct_Qt_KeyboardModifiers(QScriptContext *cont
             result |= qvariant_cast<Qt::KeyboardModifier>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_KeyboardModifiers_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2963,7 +2963,7 @@ static QScriptValue qtscript_create_Qt_LayoutDirection_class(QScriptEngine *engi
         qtscript_Qt_LayoutDirection_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_LayoutDirection_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_LayoutDirection_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_LayoutDirection_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3044,7 +3044,7 @@ static QScriptValue qtscript_create_Qt_GestureType_class(QScriptEngine *engine, 
         qtscript_Qt_GestureType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_GestureType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_GestureType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_GestureType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3123,7 +3123,7 @@ static QScriptValue qtscript_create_Qt_DockWidgetArea_class(QScriptEngine *engin
         qtscript_Qt_DockWidgetArea_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_DockWidgetArea_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_DockWidgetArea_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_DockWidgetArea_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3135,7 +3135,7 @@ static QScriptValue qtscript_create_Qt_DockWidgetArea_class(QScriptEngine *engin
 
 static QScriptValue qtscript_Qt_DockWidgetAreas_toScriptValue(QScriptEngine *engine, const Qt::DockWidgetAreas &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_DockWidgetAreas_fromScriptValue(const QScriptValue &value, Qt::DockWidgetAreas &out)
@@ -3164,7 +3164,7 @@ static QScriptValue qtscript_construct_Qt_DockWidgetAreas(QScriptContext *contex
             result |= qvariant_cast<Qt::DockWidgetArea>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_DockWidgetAreas_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -3276,7 +3276,7 @@ static QScriptValue qtscript_create_Qt_UIEffect_class(QScriptEngine *engine, QSc
         qtscript_Qt_UIEffect_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_UIEffect_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_UIEffect_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_UIEffect_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3385,7 +3385,7 @@ static QScriptValue qtscript_create_Qt_InputMethodHint_class(QScriptEngine *engi
         qtscript_Qt_InputMethodHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 21; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_InputMethodHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_InputMethodHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_InputMethodHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3397,7 +3397,7 @@ static QScriptValue qtscript_create_Qt_InputMethodHint_class(QScriptEngine *engi
 
 static QScriptValue qtscript_Qt_InputMethodHints_toScriptValue(QScriptEngine *engine, const Qt::InputMethodHints &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_InputMethodHints_fromScriptValue(const QScriptValue &value, Qt::InputMethodHints &out)
@@ -3426,7 +3426,7 @@ static QScriptValue qtscript_construct_Qt_InputMethodHints(QScriptContext *conte
             result |= qvariant_cast<Qt::InputMethodHint>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_InputMethodHints_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -3528,7 +3528,7 @@ static QScriptValue qtscript_create_Qt_CoordinateSystem_class(QScriptEngine *eng
         qtscript_Qt_CoordinateSystem_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_CoordinateSystem_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_CoordinateSystem_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_CoordinateSystem_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3599,7 +3599,7 @@ static QScriptValue qtscript_create_Qt_TextElideMode_class(QScriptEngine *engine
         qtscript_Qt_TextElideMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TextElideMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TextElideMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TextElideMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3710,7 +3710,7 @@ static QScriptValue qtscript_create_Qt_ApplicationAttribute_class(QScriptEngine 
         qtscript_Qt_ApplicationAttribute_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 22; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ApplicationAttribute_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ApplicationAttribute_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ApplicationAttribute_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3837,7 +3837,7 @@ static QScriptValue qtscript_create_Qt_MouseButton_class(QScriptEngine *engine, 
         qtscript_Qt_MouseButton_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 30; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_MouseButton_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_MouseButton_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_MouseButton_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3849,7 +3849,7 @@ static QScriptValue qtscript_create_Qt_MouseButton_class(QScriptEngine *engine, 
 
 static QScriptValue qtscript_Qt_MouseButtons_toScriptValue(QScriptEngine *engine, const Qt::MouseButtons &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_MouseButtons_fromScriptValue(const QScriptValue &value, Qt::MouseButtons &out)
@@ -3878,7 +3878,7 @@ static QScriptValue qtscript_construct_Qt_MouseButtons(QScriptContext *context, 
             result |= qvariant_cast<Qt::MouseButton>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_MouseButtons_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -4022,7 +4022,7 @@ static QScriptValue qtscript_create_Qt_ItemDataRole_class(QScriptEngine *engine,
         qtscript_Qt_ItemDataRole_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 21; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ItemDataRole_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ItemDataRole_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ItemDataRole_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4137,7 +4137,7 @@ static QScriptValue qtscript_create_Qt_CursorShape_class(QScriptEngine *engine, 
         qtscript_Qt_CursorShape_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 24; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_CursorShape_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_CursorShape_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_CursorShape_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4204,7 +4204,7 @@ static QScriptValue qtscript_create_Qt_FillRule_class(QScriptEngine *engine, QSc
         qtscript_Qt_FillRule_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_FillRule_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_FillRule_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_FillRule_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4273,7 +4273,7 @@ static QScriptValue qtscript_create_Qt_AspectRatioMode_class(QScriptEngine *engi
         qtscript_Qt_AspectRatioMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_AspectRatioMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_AspectRatioMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_AspectRatioMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4342,7 +4342,7 @@ static QScriptValue qtscript_create_Qt_TextFormat_class(QScriptEngine *engine, Q
         qtscript_Qt_TextFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TextFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TextFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TextFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4409,7 +4409,7 @@ static QScriptValue qtscript_create_Qt_CursorMoveStyle_class(QScriptEngine *engi
         qtscript_Qt_CursorMoveStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_CursorMoveStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_CursorMoveStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_CursorMoveStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4492,7 +4492,7 @@ static QScriptValue qtscript_create_Qt_PenStyle_class(QScriptEngine *engine, QSc
         qtscript_Qt_PenStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_PenStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_PenStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_PenStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4561,7 +4561,7 @@ static QScriptValue qtscript_create_Qt_TimerType_class(QScriptEngine *engine, QS
         qtscript_Qt_TimerType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TimerType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TimerType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TimerType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4630,7 +4630,7 @@ static QScriptValue qtscript_create_Qt_ClipOperation_class(QScriptEngine *engine
         qtscript_Qt_ClipOperation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ClipOperation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ClipOperation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ClipOperation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4733,7 +4733,7 @@ static QScriptValue qtscript_create_Qt_GlobalColor_class(QScriptEngine *engine, 
         qtscript_Qt_GlobalColor_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_GlobalColor_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_GlobalColor_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_GlobalColor_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4800,7 +4800,7 @@ static QScriptValue qtscript_create_Qt_FindChildOption_class(QScriptEngine *engi
         qtscript_Qt_FindChildOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_FindChildOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_FindChildOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_FindChildOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4871,7 +4871,7 @@ static QScriptValue qtscript_create_Qt_ShortcutContext_class(QScriptEngine *engi
         qtscript_Qt_ShortcutContext_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ShortcutContext_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ShortcutContext_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ShortcutContext_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -4948,7 +4948,7 @@ static QScriptValue qtscript_create_Qt_ConnectionType_class(QScriptEngine *engin
         qtscript_Qt_ConnectionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ConnectionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ConnectionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ConnectionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -5013,7 +5013,7 @@ static QScriptValue qtscript_create_Qt_ToolBarAreaSizes_class(QScriptEngine *eng
         qtscript_Qt_ToolBarAreaSizes_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ToolBarAreaSizes_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ToolBarAreaSizes_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ToolBarAreaSizes_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -5956,7 +5956,7 @@ static QScriptValue qtscript_create_Qt_Key_class(QScriptEngine *engine, QScriptV
         qtscript_Qt_Key_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 438; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_Key_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_Key_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_Key_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6029,7 +6029,7 @@ static QScriptValue qtscript_create_Qt_GestureFlag_class(QScriptEngine *engine, 
         qtscript_Qt_GestureFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_GestureFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_GestureFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_GestureFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6041,7 +6041,7 @@ static QScriptValue qtscript_create_Qt_GestureFlag_class(QScriptEngine *engine, 
 
 static QScriptValue qtscript_Qt_GestureFlags_toScriptValue(QScriptEngine *engine, const Qt::GestureFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_GestureFlags_fromScriptValue(const QScriptValue &value, Qt::GestureFlags &out)
@@ -6070,7 +6070,7 @@ static QScriptValue qtscript_construct_Qt_GestureFlags(QScriptContext *context, 
             result |= qvariant_cast<Qt::GestureFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_GestureFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -6178,7 +6178,7 @@ static QScriptValue qtscript_create_Qt_SizeHint_class(QScriptEngine *engine, QSc
         qtscript_Qt_SizeHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_SizeHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_SizeHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_SizeHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6251,7 +6251,7 @@ static QScriptValue qtscript_create_Qt_ToolButtonStyle_class(QScriptEngine *engi
         qtscript_Qt_ToolButtonStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ToolButtonStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ToolButtonStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ToolButtonStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6322,7 +6322,7 @@ static QScriptValue qtscript_create_Qt_ItemSelectionMode_class(QScriptEngine *en
         qtscript_Qt_ItemSelectionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ItemSelectionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ItemSelectionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ItemSelectionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6413,7 +6413,7 @@ static QScriptValue qtscript_create_Qt_AlignmentFlag_class(QScriptEngine *engine
         qtscript_Qt_AlignmentFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 12; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_AlignmentFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_AlignmentFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_AlignmentFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6425,7 +6425,7 @@ static QScriptValue qtscript_create_Qt_AlignmentFlag_class(QScriptEngine *engine
 
 static QScriptValue qtscript_Qt_Alignment_toScriptValue(QScriptEngine *engine, const Qt::Alignment &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_Alignment_fromScriptValue(const QScriptValue &value, Qt::Alignment &out)
@@ -6454,7 +6454,7 @@ static QScriptValue qtscript_construct_Qt_Alignment(QScriptContext *context, QSc
             result |= qvariant_cast<Qt::AlignmentFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_Alignment_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -6560,7 +6560,7 @@ static QScriptValue qtscript_create_Qt_TimeSpec_class(QScriptEngine *engine, QSc
         qtscript_Qt_TimeSpec_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TimeSpec_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TimeSpec_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TimeSpec_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6629,7 +6629,7 @@ static QScriptValue qtscript_create_Qt_Axis_class(QScriptEngine *engine, QScript
         qtscript_Qt_Axis_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_Axis_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_Axis_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_Axis_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6698,7 +6698,7 @@ static QScriptValue qtscript_create_Qt_CheckState_class(QScriptEngine *engine, Q
         qtscript_Qt_CheckState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_CheckState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_CheckState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_CheckState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6803,7 +6803,7 @@ static QScriptValue qtscript_create_Qt_BrushStyle_class(QScriptEngine *engine, Q
         qtscript_Qt_BrushStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 19; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_BrushStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_BrushStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_BrushStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6876,7 +6876,7 @@ static QScriptValue qtscript_create_Qt_ContextMenuPolicy_class(QScriptEngine *en
         qtscript_Qt_ContextMenuPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ContextMenuPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ContextMenuPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ContextMenuPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -6943,7 +6943,7 @@ static QScriptValue qtscript_create_Qt_CaseSensitivity_class(QScriptEngine *engi
         qtscript_Qt_CaseSensitivity_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_CaseSensitivity_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_CaseSensitivity_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_CaseSensitivity_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7014,7 +7014,7 @@ static QScriptValue qtscript_create_Qt_WhiteSpaceMode_class(QScriptEngine *engin
         qtscript_Qt_WhiteSpaceMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WhiteSpaceMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WhiteSpaceMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WhiteSpaceMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7081,7 +7081,7 @@ static QScriptValue qtscript_create_Qt_MaskMode_class(QScriptEngine *engine, QSc
         qtscript_Qt_MaskMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_MaskMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_MaskMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_MaskMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7148,7 +7148,7 @@ static QScriptValue qtscript_create_Qt_HitTestAccuracy_class(QScriptEngine *engi
         qtscript_Qt_HitTestAccuracy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_HitTestAccuracy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_HitTestAccuracy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_HitTestAccuracy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7221,7 +7221,7 @@ static QScriptValue qtscript_create_Qt_GestureState_class(QScriptEngine *engine,
         qtscript_Qt_GestureState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_GestureState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_GestureState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_GestureState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7288,7 +7288,7 @@ static QScriptValue qtscript_create_Qt_Orientation_class(QScriptEngine *engine, 
         qtscript_Qt_Orientation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_Orientation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_Orientation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_Orientation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7300,7 +7300,7 @@ static QScriptValue qtscript_create_Qt_Orientation_class(QScriptEngine *engine, 
 
 static QScriptValue qtscript_Qt_Orientations_toScriptValue(QScriptEngine *engine, const Qt::Orientations &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_Orientations_fromScriptValue(const QScriptValue &value, Qt::Orientations &out)
@@ -7329,7 +7329,7 @@ static QScriptValue qtscript_construct_Qt_Orientations(QScriptContext *context, 
             result |= qvariant_cast<Qt::Orientation>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_Orientations_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -7431,7 +7431,7 @@ static QScriptValue qtscript_create_Qt_SizeMode_class(QScriptEngine *engine, QSc
         qtscript_Qt_SizeMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_SizeMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_SizeMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_SizeMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7532,7 +7532,7 @@ static QScriptValue qtscript_create_Qt_InputMethodQuery_class(QScriptEngine *eng
         qtscript_Qt_InputMethodQuery_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 17; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_InputMethodQuery_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_InputMethodQuery_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_InputMethodQuery_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7611,7 +7611,7 @@ static QScriptValue qtscript_create_Qt_ToolBarArea_class(QScriptEngine *engine, 
         qtscript_Qt_ToolBarArea_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_ToolBarArea_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_ToolBarArea_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_ToolBarArea_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7623,7 +7623,7 @@ static QScriptValue qtscript_create_Qt_ToolBarArea_class(QScriptEngine *engine, 
 
 static QScriptValue qtscript_Qt_ToolBarAreas_toScriptValue(QScriptEngine *engine, const Qt::ToolBarAreas &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_ToolBarAreas_fromScriptValue(const QScriptValue &value, Qt::ToolBarAreas &out)
@@ -7652,7 +7652,7 @@ static QScriptValue qtscript_construct_Qt_ToolBarAreas(QScriptContext *context, 
             result |= qvariant_cast<Qt::ToolBarArea>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_ToolBarAreas_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -7764,7 +7764,7 @@ static QScriptValue qtscript_create_Qt_FocusPolicy_class(QScriptEngine *engine, 
         qtscript_Qt_FocusPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_FocusPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_FocusPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_FocusPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7835,7 +7835,7 @@ static QScriptValue qtscript_create_Qt_Corner_class(QScriptEngine *engine, QScri
         qtscript_Qt_Corner_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_Corner_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_Corner_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_Corner_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7910,7 +7910,7 @@ static QScriptValue qtscript_create_Qt_TouchPointState_class(QScriptEngine *engi
         qtscript_Qt_TouchPointState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_TouchPointState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_TouchPointState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_TouchPointState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -7922,7 +7922,7 @@ static QScriptValue qtscript_create_Qt_TouchPointState_class(QScriptEngine *engi
 
 static QScriptValue qtscript_Qt_TouchPointStates_toScriptValue(QScriptEngine *engine, const Qt::TouchPointStates &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_TouchPointStates_fromScriptValue(const QScriptValue &value, Qt::TouchPointStates &out)
@@ -7951,7 +7951,7 @@ static QScriptValue qtscript_construct_Qt_TouchPointStates(QScriptContext *conte
             result |= qvariant_cast<Qt::TouchPointState>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_TouchPointStates_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -8063,7 +8063,7 @@ static QScriptValue qtscript_create_Qt_WindowState_class(QScriptEngine *engine, 
         qtscript_Qt_WindowState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_WindowState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_WindowState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_WindowState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -8075,7 +8075,7 @@ static QScriptValue qtscript_create_Qt_WindowState_class(QScriptEngine *engine, 
 
 static QScriptValue qtscript_Qt_WindowStates_toScriptValue(QScriptEngine *engine, const Qt::WindowStates &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_Qt_WindowStates_fromScriptValue(const QScriptValue &value, Qt::WindowStates &out)
@@ -8104,7 +8104,7 @@ static QScriptValue qtscript_construct_Qt_WindowStates(QScriptContext *context, 
             result |= qvariant_cast<Qt::WindowState>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_Qt_WindowStates_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -8216,7 +8216,7 @@ static QScriptValue qtscript_create_Qt_DayOfWeek_class(QScriptEngine *engine, QS
         qtscript_Qt_DayOfWeek_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_DayOfWeek_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_DayOfWeek_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_DayOfWeek_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -8289,7 +8289,7 @@ static QScriptValue qtscript_create_Qt_NavigationMode_class(QScriptEngine *engin
         qtscript_Qt_NavigationMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_Qt_NavigationMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_Qt_NavigationMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_Qt_NavigationMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;

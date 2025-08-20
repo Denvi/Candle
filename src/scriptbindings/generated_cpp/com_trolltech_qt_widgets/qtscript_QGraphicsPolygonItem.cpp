@@ -163,20 +163,20 @@ static QScriptValue qtscript_QGraphicsPolygonItem_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsPolygonItem* _q_cpp_result = new QtScriptShell_QGraphicsPolygonItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPolygonItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPolygonItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QGraphicsItem*>(context->argument(0))) {
             QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
             QtScriptShell_QGraphicsPolygonItem* _q_cpp_result = new QtScriptShell_QGraphicsPolygonItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPolygonItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPolygonItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QPolygonF>() == context->argument(0).toVariant().userType())) {
             QPolygonF _q_arg0 = qscriptvalue_cast<QPolygonF>(context->argument(0));
             QtScriptShell_QGraphicsPolygonItem* _q_cpp_result = new QtScriptShell_QGraphicsPolygonItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPolygonItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPolygonItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -184,7 +184,7 @@ static QScriptValue qtscript_QGraphicsPolygonItem_static_call(QScriptContext *co
         QPolygonF _q_arg0 = qscriptvalue_cast<QPolygonF>(context->argument(0));
         QGraphicsItem* _q_arg1 = qscriptvalue_cast<QGraphicsItem*>(context->argument(1));
         QtScriptShell_QGraphicsPolygonItem* _q_cpp_result = new QtScriptShell_QGraphicsPolygonItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPolygonItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPolygonItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -201,7 +201,7 @@ static QScriptValue qtscript_QGraphicsPolygonItem_static_call(QScriptContext *co
 QScriptValue qtscript_create_QGraphicsPolygonItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsPolygonItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsPolygonItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsPolygonItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractGraphicsShapeItem*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsPolygonItem_prototype_call, qtscript_QGraphicsPolygonItem_function_lengths[i+1]);

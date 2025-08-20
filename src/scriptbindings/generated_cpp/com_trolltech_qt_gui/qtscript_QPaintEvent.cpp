@@ -123,13 +123,13 @@ static QScriptValue qtscript_QPaintEvent_static_call(QScriptContext *context, QS
         if ((qMetaTypeId<QRect>() == context->argument(0).toVariant().userType())) {
             QRect _q_arg0 = qscriptvalue_cast<QRect>(context->argument(0));
             QtScriptShell_QPaintEvent* _q_cpp_result = new QtScriptShell_QPaintEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPaintEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPaintEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QRegion>() == context->argument(0).toVariant().userType())) {
             QRegion _q_arg0 = qscriptvalue_cast<QRegion>(context->argument(0));
             QtScriptShell_QPaintEvent* _q_cpp_result = new QtScriptShell_QPaintEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPaintEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPaintEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -147,7 +147,7 @@ static QScriptValue qtscript_QPaintEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QPaintEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPaintEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPaintEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPaintEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPaintEvent_prototype_call, qtscript_QPaintEvent_function_lengths[i+1]);

@@ -151,7 +151,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_CornerWidget_class(QScriptEn
         qtscript_QStyleOptionTab_CornerWidget_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTab_CornerWidget_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTab_CornerWidget_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTab_CornerWidget_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -163,7 +163,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_CornerWidget_class(QScriptEn
 
 static QScriptValue qtscript_QStyleOptionTab_CornerWidgets_toScriptValue(QScriptEngine *engine, const QStyleOptionTab::CornerWidgets &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionTab_CornerWidgets_fromScriptValue(const QScriptValue &value, QStyleOptionTab::CornerWidgets &out)
@@ -192,7 +192,7 @@ static QScriptValue qtscript_construct_QStyleOptionTab_CornerWidgets(QScriptCont
             result |= qvariant_cast<QStyleOptionTab::CornerWidget>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionTab_CornerWidgets_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -296,7 +296,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_SelectedPosition_class(QScri
         qtscript_QStyleOptionTab_SelectedPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTab_SelectedPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTab_SelectedPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTab_SelectedPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -361,7 +361,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_StyleOptionVersion_class(QSc
         qtscript_QStyleOptionTab_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTab_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTab_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTab_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -426,7 +426,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_StyleOptionType_class(QScrip
         qtscript_QStyleOptionTab_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTab_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTab_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTab_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -497,7 +497,7 @@ static QScriptValue qtscript_create_QStyleOptionTab_TabPosition_class(QScriptEng
         qtscript_QStyleOptionTab_TabPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionTab_TabPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionTab_TabPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionTab_TabPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -554,13 +554,13 @@ static QScriptValue qtscript_QStyleOptionTab_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionTab _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTab)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTab)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionTab _q_arg0 = qscriptvalue_cast<QStyleOptionTab>(context->argument(0));
         QtScriptShell_QStyleOptionTab _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionTab)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionTab)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -577,7 +577,7 @@ static QScriptValue qtscript_QStyleOptionTab_static_call(QScriptContext *context
 QScriptValue qtscript_create_QStyleOptionTab_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTab*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionTab*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionTab*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionTab>(), proto);

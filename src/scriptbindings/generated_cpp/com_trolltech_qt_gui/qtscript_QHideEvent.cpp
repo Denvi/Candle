@@ -96,7 +96,7 @@ static QScriptValue qtscript_QHideEvent_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QHideEvent* _q_cpp_result = new QHideEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -112,7 +112,7 @@ static QScriptValue qtscript_QHideEvent_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QHideEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHideEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHideEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHideEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QHideEvent*>(), proto);

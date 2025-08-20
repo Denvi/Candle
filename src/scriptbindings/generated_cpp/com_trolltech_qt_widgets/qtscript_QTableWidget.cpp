@@ -612,7 +612,7 @@ static void qtscript_QTableWidget_fromScriptValue(const QScriptValue &value, QTa
 QScriptValue qtscript_create_QTableWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTableWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTableWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTableWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTableView*>()));
     for (int i = 0; i < 36; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTableWidget_prototype_call, qtscript_QTableWidget_function_lengths[i+1]);

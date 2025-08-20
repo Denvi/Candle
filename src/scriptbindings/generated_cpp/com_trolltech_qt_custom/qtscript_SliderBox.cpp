@@ -155,7 +155,7 @@ static void qtscript_SliderBox_fromScriptValue(const QScriptValue &value, Slider
 QScriptValue qtscript_create_SliderBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<SliderBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((SliderBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((SliderBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
 
     qScriptRegisterMetaType<SliderBox*>(engine, qtscript_SliderBox_toScriptValue, 

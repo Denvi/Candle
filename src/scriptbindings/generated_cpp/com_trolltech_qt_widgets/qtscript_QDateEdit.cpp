@@ -180,7 +180,7 @@ static void qtscript_QDateEdit_fromScriptValue(const QScriptValue &value, QDateE
 QScriptValue qtscript_create_QDateEdit_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDateEdit*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDateEdit*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDateEdit*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDateTimeEdit*>()));
 
     qScriptRegisterMetaType<QDateEdit*>(engine, qtscript_QDateEdit_toScriptValue, 

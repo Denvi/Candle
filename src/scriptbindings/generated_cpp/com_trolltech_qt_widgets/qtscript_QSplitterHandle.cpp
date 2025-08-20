@@ -209,7 +209,7 @@ static void qtscript_QSplitterHandle_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QSplitterHandle_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSplitterHandle*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSplitterHandle*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSplitterHandle*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSplitterHandle_prototype_call, qtscript_QSplitterHandle_function_lengths[i+1]);

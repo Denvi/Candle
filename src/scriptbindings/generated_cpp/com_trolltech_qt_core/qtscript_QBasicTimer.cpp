@@ -146,7 +146,7 @@ static QScriptValue qtscript_QBasicTimer_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QBasicTimer _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -162,7 +162,7 @@ static QScriptValue qtscript_QBasicTimer_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QBasicTimer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBasicTimer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBasicTimer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBasicTimer*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBasicTimer_prototype_call, qtscript_QBasicTimer_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

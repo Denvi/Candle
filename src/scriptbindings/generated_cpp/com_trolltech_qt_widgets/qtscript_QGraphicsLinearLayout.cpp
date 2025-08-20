@@ -300,20 +300,20 @@ static QScriptValue qtscript_QGraphicsLinearLayout_static_call(QScriptContext *c
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsLinearLayout* _q_cpp_result = new QtScriptShell_QGraphicsLinearLayout();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLinearLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLinearLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0))) {
             QGraphicsLayoutItem* _q_arg0 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(0));
             QtScriptShell_QGraphicsLinearLayout* _q_cpp_result = new QtScriptShell_QGraphicsLinearLayout(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLinearLayout*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLinearLayout*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<Qt::Orientation>() == context->argument(0).toVariant().userType())) {
             Qt::Orientation _q_arg0 = qscriptvalue_cast<Qt::Orientation>(context->argument(0));
             QtScriptShell_QGraphicsLinearLayout* _q_cpp_result = new QtScriptShell_QGraphicsLinearLayout(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLinearLayout*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLinearLayout*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -321,7 +321,7 @@ static QScriptValue qtscript_QGraphicsLinearLayout_static_call(QScriptContext *c
         Qt::Orientation _q_arg0 = qscriptvalue_cast<Qt::Orientation>(context->argument(0));
         QGraphicsLayoutItem* _q_arg1 = qscriptvalue_cast<QGraphicsLayoutItem*>(context->argument(1));
         QtScriptShell_QGraphicsLinearLayout* _q_cpp_result = new QtScriptShell_QGraphicsLinearLayout(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsLinearLayout*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsLinearLayout*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -338,7 +338,7 @@ static QScriptValue qtscript_QGraphicsLinearLayout_static_call(QScriptContext *c
 QScriptValue qtscript_create_QGraphicsLinearLayout_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsLinearLayout*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsLinearLayout*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsLinearLayout*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsLayout*>()));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsLinearLayout_prototype_call, qtscript_QGraphicsLinearLayout_function_lengths[i+1]);

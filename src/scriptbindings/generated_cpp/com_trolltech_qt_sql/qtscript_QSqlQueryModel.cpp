@@ -221,7 +221,7 @@ static void qtscript_QSqlQueryModel_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QSqlQueryModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlQueryModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlQueryModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlQueryModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractTableModel*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlQueryModel_prototype_call, qtscript_QSqlQueryModel_function_lengths[i+1]);

@@ -316,7 +316,7 @@ static QScriptValue qtscript_create_QTextDocument_MetaInformation_class(QScriptE
         qtscript_QTextDocument_MetaInformation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextDocument_MetaInformation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextDocument_MetaInformation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextDocument_MetaInformation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -389,7 +389,7 @@ static QScriptValue qtscript_create_QTextDocument_FindFlag_class(QScriptEngine *
         qtscript_QTextDocument_FindFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextDocument_FindFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextDocument_FindFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextDocument_FindFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -401,7 +401,7 @@ static QScriptValue qtscript_create_QTextDocument_FindFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_QTextDocument_FindFlags_toScriptValue(QScriptEngine *engine, const QTextDocument::FindFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QTextDocument_FindFlags_fromScriptValue(const QScriptValue &value, QTextDocument::FindFlags &out)
@@ -430,7 +430,7 @@ static QScriptValue qtscript_construct_QTextDocument_FindFlags(QScriptContext *c
             result |= qvariant_cast<QTextDocument::FindFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QTextDocument_FindFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -540,7 +540,7 @@ static QScriptValue qtscript_create_QTextDocument_ResourceType_class(QScriptEngi
         qtscript_QTextDocument_ResourceType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextDocument_ResourceType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextDocument_ResourceType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextDocument_ResourceType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -609,7 +609,7 @@ static QScriptValue qtscript_create_QTextDocument_Stacks_class(QScriptEngine *en
         qtscript_QTextDocument_Stacks_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextDocument_Stacks_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextDocument_Stacks_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextDocument_Stacks_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1166,7 +1166,7 @@ static void qtscript_QTextDocument_fromScriptValue(const QScriptValue &value, QT
 QScriptValue qtscript_create_QTextDocument_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextDocument*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextDocument*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextDocument*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 49; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextDocument_prototype_call, qtscript_QTextDocument_function_lengths[i+1]);

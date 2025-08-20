@@ -142,20 +142,20 @@ static QScriptValue qtscript_QGraphicsPathItem_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGraphicsPathItem* _q_cpp_result = new QtScriptShell_QGraphicsPathItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPathItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPathItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QGraphicsItem*>(context->argument(0))) {
             QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
             QtScriptShell_QGraphicsPathItem* _q_cpp_result = new QtScriptShell_QGraphicsPathItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPathItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPathItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QPainterPath>() == context->argument(0).toVariant().userType())) {
             QPainterPath _q_arg0 = qscriptvalue_cast<QPainterPath>(context->argument(0));
             QtScriptShell_QGraphicsPathItem* _q_cpp_result = new QtScriptShell_QGraphicsPathItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPathItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPathItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -163,7 +163,7 @@ static QScriptValue qtscript_QGraphicsPathItem_static_call(QScriptContext *conte
         QPainterPath _q_arg0 = qscriptvalue_cast<QPainterPath>(context->argument(0));
         QGraphicsItem* _q_arg1 = qscriptvalue_cast<QGraphicsItem*>(context->argument(1));
         QtScriptShell_QGraphicsPathItem* _q_cpp_result = new QtScriptShell_QGraphicsPathItem(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGraphicsPathItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGraphicsPathItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -180,7 +180,7 @@ static QScriptValue qtscript_QGraphicsPathItem_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QGraphicsPathItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsPathItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsPathItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsPathItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractGraphicsShapeItem*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsPathItem_prototype_call, qtscript_QGraphicsPathItem_function_lengths[i+1]);

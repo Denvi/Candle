@@ -224,7 +224,7 @@ static void qtscript_QAnimationGroup_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QAnimationGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAnimationGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAnimationGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAnimationGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractAnimation*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAnimationGroup_prototype_call, qtscript_QAnimationGroup_function_lengths[i+1]);

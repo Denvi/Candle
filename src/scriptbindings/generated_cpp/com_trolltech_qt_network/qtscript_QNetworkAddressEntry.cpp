@@ -203,12 +203,12 @@ static QScriptValue qtscript_QNetworkAddressEntry_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QNetworkAddressEntry _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QNetworkAddressEntry _q_arg0 = qscriptvalue_cast<QNetworkAddressEntry>(context->argument(0));
         QNetworkAddressEntry _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -224,7 +224,7 @@ static QScriptValue qtscript_QNetworkAddressEntry_static_call(QScriptContext *co
 QScriptValue qtscript_create_QNetworkAddressEntry_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkAddressEntry*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkAddressEntry*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkAddressEntry*)0));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkAddressEntry_prototype_call, qtscript_QNetworkAddressEntry_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

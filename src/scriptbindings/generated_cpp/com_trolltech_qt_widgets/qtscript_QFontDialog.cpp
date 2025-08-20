@@ -203,7 +203,7 @@ static QScriptValue qtscript_create_QFontDialog_FontDialogOption_class(QScriptEn
         qtscript_QFontDialog_FontDialogOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFontDialog_FontDialogOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFontDialog_FontDialogOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFontDialog_FontDialogOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -215,7 +215,7 @@ static QScriptValue qtscript_create_QFontDialog_FontDialogOption_class(QScriptEn
 
 static QScriptValue qtscript_QFontDialog_FontDialogOptions_toScriptValue(QScriptEngine *engine, const QFontDialog::FontDialogOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QFontDialog_FontDialogOptions_fromScriptValue(const QScriptValue &value, QFontDialog::FontDialogOptions &out)
@@ -244,7 +244,7 @@ static QScriptValue qtscript_construct_QFontDialog_FontDialogOptions(QScriptCont
             result |= qvariant_cast<QFontDialog::FontDialogOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QFontDialog_FontDialogOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -490,7 +490,7 @@ static void qtscript_QFontDialog_fromScriptValue(const QScriptValue &value, QFon
 QScriptValue qtscript_create_QFontDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFontDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFontDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFontDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFontDialog_prototype_call, qtscript_QFontDialog_function_lengths[i+2]);

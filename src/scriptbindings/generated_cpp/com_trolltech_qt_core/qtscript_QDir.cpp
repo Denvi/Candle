@@ -341,7 +341,7 @@ static QScriptValue qtscript_create_QDir_SortFlag_class(QScriptEngine *engine, Q
         qtscript_QDir_SortFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDir_SortFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDir_SortFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDir_SortFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -353,7 +353,7 @@ static QScriptValue qtscript_create_QDir_SortFlag_class(QScriptEngine *engine, Q
 
 static QScriptValue qtscript_QDir_SortFlags_toScriptValue(QScriptEngine *engine, const QDir::SortFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QDir_SortFlags_fromScriptValue(const QScriptValue &value, QDir::SortFlags &out)
@@ -382,7 +382,7 @@ static QScriptValue qtscript_construct_QDir_SortFlags(QScriptContext *context, Q
             result |= qvariant_cast<QDir::SortFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QDir_SortFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -524,7 +524,7 @@ static QScriptValue qtscript_create_QDir_Filter_class(QScriptEngine *engine, QSc
         qtscript_QDir_Filter_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDir_Filter_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDir_Filter_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDir_Filter_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -536,7 +536,7 @@ static QScriptValue qtscript_create_QDir_Filter_class(QScriptEngine *engine, QSc
 
 static QScriptValue qtscript_QDir_Filters_toScriptValue(QScriptEngine *engine, const QDir::Filters &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QDir_Filters_fromScriptValue(const QScriptValue &value, QDir::Filters &out)
@@ -565,7 +565,7 @@ static QScriptValue qtscript_construct_QDir_Filters(QScriptContext *context, QSc
             result |= qvariant_cast<QDir::Filter>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QDir_Filters_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1007,32 +1007,32 @@ static QScriptValue qtscript_QDir_static_call(QScriptContext *context, QScriptEn
     }
     if (context->argumentCount() == 0) {
         QDir _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QDir>() == context->argument(0).toVariant().userType())) {
             QDir _q_arg0 = qscriptvalue_cast<QDir>(context->argument(0));
             QDir _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QDir _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QDir _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QFlags<QDir::SortFlag> _q_arg2 = qscriptvalue_cast<QFlags<QDir::SortFlag> >(context->argument(2));
         QDir _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         QString _q_arg0 = context->argument(0).toString();
@@ -1040,7 +1040,7 @@ static QScriptValue qtscript_QDir_static_call(QScriptContext *context, QScriptEn
         QFlags<QDir::SortFlag> _q_arg2 = qscriptvalue_cast<QFlags<QDir::SortFlag> >(context->argument(2));
         QFlags<QDir::Filter> _q_arg3 = qscriptvalue_cast<QFlags<QDir::Filter> >(context->argument(3));
         QDir _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -1235,7 +1235,7 @@ static QScriptValue qtscript_QDir_static_call(QScriptContext *context, QScriptEn
 QScriptValue qtscript_create_QDir_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDir*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDir*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDir*)0));
     for (int i = 0; i < 37; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDir_prototype_call, qtscript_QDir_function_lengths[i+23]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

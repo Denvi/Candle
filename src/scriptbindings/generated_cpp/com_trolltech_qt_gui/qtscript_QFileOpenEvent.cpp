@@ -119,12 +119,12 @@ static QScriptValue qtscript_QFileOpenEvent_static_call(QScriptContext *context,
         if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QFileOpenEvent* _q_cpp_result = new QFileOpenEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QUrl>() == context->argument(0).toVariant().userType())) {
             QUrl _q_arg0 = qscriptvalue_cast<QUrl>(context->argument(0));
             QFileOpenEvent* _q_cpp_result = new QFileOpenEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -141,7 +141,7 @@ static QScriptValue qtscript_QFileOpenEvent_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QFileOpenEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileOpenEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileOpenEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileOpenEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileOpenEvent_prototype_call, qtscript_QFileOpenEvent_function_lengths[i+1]);

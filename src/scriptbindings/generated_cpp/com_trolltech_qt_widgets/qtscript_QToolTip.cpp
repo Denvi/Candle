@@ -218,7 +218,7 @@ static QScriptValue qtscript_QToolTip_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QToolTip_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QToolTip*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QToolTip*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QToolTip*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QToolTip*>(), proto);
 

@@ -282,7 +282,7 @@ static QScriptValue qtscript_create_QHeaderView_ResizeMode_class(QScriptEngine *
         qtscript_QHeaderView_ResizeMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QHeaderView_ResizeMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QHeaderView_ResizeMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QHeaderView_ResizeMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -694,7 +694,7 @@ static void qtscript_QHeaderView_fromScriptValue(const QScriptValue &value, QHea
 QScriptValue qtscript_create_QHeaderView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHeaderView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHeaderView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHeaderView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemView*>()));
     for (int i = 0; i < 40; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QHeaderView_prototype_call, qtscript_QHeaderView_function_lengths[i+1]);

@@ -141,7 +141,7 @@ static void qtscript_QGraphicsColorizeEffect_fromScriptValue(const QScriptValue 
 QScriptValue qtscript_create_QGraphicsColorizeEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsColorizeEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsColorizeEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsColorizeEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsEffect*>()));
 
     qScriptRegisterMetaType<QGraphicsColorizeEffect*>(engine, qtscript_QGraphicsColorizeEffect_toScriptValue, 

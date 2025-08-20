@@ -132,7 +132,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBox_SelectedPosition_class(Q
         qtscript_QStyleOptionToolBox_SelectedPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBox_SelectedPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBox_SelectedPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBox_SelectedPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -197,7 +197,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBox_StyleOptionVersion_class
         qtscript_QStyleOptionToolBox_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBox_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBox_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBox_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -262,7 +262,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBox_StyleOptionType_class(QS
         qtscript_QStyleOptionToolBox_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBox_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBox_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBox_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -333,7 +333,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBox_TabPosition_class(QScrip
         qtscript_QStyleOptionToolBox_TabPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBox_TabPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBox_TabPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBox_TabPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -390,13 +390,13 @@ static QScriptValue qtscript_QStyleOptionToolBox_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionToolBox _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolBox)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolBox)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionToolBox _q_arg0 = qscriptvalue_cast<QStyleOptionToolBox>(context->argument(0));
         QtScriptShell_QStyleOptionToolBox _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolBox)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolBox)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -413,7 +413,7 @@ static QScriptValue qtscript_QStyleOptionToolBox_static_call(QScriptContext *con
 QScriptValue qtscript_create_QStyleOptionToolBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionToolBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionToolBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolBox>(), proto);

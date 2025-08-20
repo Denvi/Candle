@@ -381,42 +381,42 @@ static QScriptValue qtscript_QVector4D_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QVector4D _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPoint>() == context->argument(0).toVariant().userType())) {
             QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
             QVector4D _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPointF>() == context->argument(0).toVariant().userType())) {
             QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
             QVector4D _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QVector2D>() == context->argument(0).toVariant().userType())) {
             QVector2D _q_arg0 = qscriptvalue_cast<QVector2D>(context->argument(0));
             QVector4D _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QVector3D>() == context->argument(0).toVariant().userType())) {
             QVector3D _q_arg0 = qscriptvalue_cast<QVector3D>(context->argument(0));
             QVector4D _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QVector3D _q_arg0 = qscriptvalue_cast<QVector3D>(context->argument(0));
         float _q_arg1 = qscriptvalue_cast<float>(context->argument(1));
         QVector4D _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QVector2D _q_arg0 = qscriptvalue_cast<QVector2D>(context->argument(0));
         float _q_arg1 = qscriptvalue_cast<float>(context->argument(1));
         float _q_arg2 = qscriptvalue_cast<float>(context->argument(2));
         QVector4D _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         float _q_arg0 = qscriptvalue_cast<float>(context->argument(0));
@@ -424,7 +424,7 @@ static QScriptValue qtscript_QVector4D_static_call(QScriptContext *context, QScr
         float _q_arg2 = qscriptvalue_cast<float>(context->argument(2));
         float _q_arg3 = qscriptvalue_cast<float>(context->argument(3));
         QVector4D _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -449,7 +449,7 @@ static QScriptValue qtscript_QVector4D_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QVector4D_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QVector4D*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QVector4D*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QVector4D*)0));
     for (int i = 0; i < 26; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QVector4D_prototype_call, qtscript_QVector4D_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

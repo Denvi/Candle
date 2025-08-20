@@ -135,7 +135,7 @@ static QScriptValue qtscript_create_QStyleOptionHeader_SectionPosition_class(QSc
         qtscript_QStyleOptionHeader_SectionPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionHeader_SectionPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionHeader_SectionPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionHeader_SectionPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -206,7 +206,7 @@ static QScriptValue qtscript_create_QStyleOptionHeader_SelectedPosition_class(QS
         qtscript_QStyleOptionHeader_SelectedPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionHeader_SelectedPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionHeader_SelectedPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionHeader_SelectedPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -271,7 +271,7 @@ static QScriptValue qtscript_create_QStyleOptionHeader_StyleOptionVersion_class(
         qtscript_QStyleOptionHeader_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionHeader_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionHeader_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionHeader_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -336,7 +336,7 @@ static QScriptValue qtscript_create_QStyleOptionHeader_StyleOptionType_class(QSc
         qtscript_QStyleOptionHeader_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionHeader_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionHeader_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionHeader_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -405,7 +405,7 @@ static QScriptValue qtscript_create_QStyleOptionHeader_SortIndicator_class(QScri
         qtscript_QStyleOptionHeader_SortIndicator_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionHeader_SortIndicator_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionHeader_SortIndicator_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionHeader_SortIndicator_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -462,13 +462,13 @@ static QScriptValue qtscript_QStyleOptionHeader_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionHeader _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionHeader)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionHeader)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionHeader _q_arg0 = qscriptvalue_cast<QStyleOptionHeader>(context->argument(0));
         QtScriptShell_QStyleOptionHeader _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionHeader)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionHeader)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -485,7 +485,7 @@ static QScriptValue qtscript_QStyleOptionHeader_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QStyleOptionHeader_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionHeader*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionHeader*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionHeader*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionHeader>(), proto);

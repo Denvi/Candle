@@ -160,7 +160,7 @@ static QScriptValue qtscript_create_QImageIOPlugin_Capability_class(QScriptEngin
         qtscript_QImageIOPlugin_Capability_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QImageIOPlugin_Capability_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QImageIOPlugin_Capability_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QImageIOPlugin_Capability_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -172,7 +172,7 @@ static QScriptValue qtscript_create_QImageIOPlugin_Capability_class(QScriptEngin
 
 static QScriptValue qtscript_QImageIOPlugin_Capabilities_toScriptValue(QScriptEngine *engine, const QImageIOPlugin::Capabilities &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QImageIOPlugin_Capabilities_fromScriptValue(const QScriptValue &value, QImageIOPlugin::Capabilities &out)
@@ -201,7 +201,7 @@ static QScriptValue qtscript_construct_QImageIOPlugin_Capabilities(QScriptContex
             result |= qvariant_cast<QImageIOPlugin::Capability>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QImageIOPlugin_Capabilities_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -349,7 +349,7 @@ static void qtscript_QImageIOPlugin_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QImageIOPlugin_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QImageIOPlugin*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QImageIOPlugin*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QImageIOPlugin*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QImageIOPlugin_prototype_call, qtscript_QImageIOPlugin_function_lengths[i+1]);

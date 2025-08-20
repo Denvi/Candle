@@ -231,7 +231,7 @@ static QScriptValue qtscript_create_QPalette_ColorGroup_class(QScriptEngine *eng
         qtscript_QPalette_ColorGroup_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPalette_ColorGroup_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPalette_ColorGroup_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPalette_ColorGroup_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -582,30 +582,30 @@ static QScriptValue qtscript_QPalette_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QPalette _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<Qt::GlobalColor>() == context->argument(0).toVariant().userType())) {
             Qt::GlobalColor _q_arg0 = qscriptvalue_cast<Qt::GlobalColor>(context->argument(0));
             QPalette _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             QPalette _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPalette>() == context->argument(0).toVariant().userType())) {
             QPalette _q_arg0 = qscriptvalue_cast<QPalette>(context->argument(0));
             QPalette _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
         QColor _q_arg1 = qscriptvalue_cast<QColor>(context->argument(1));
         QPalette _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 9) {
         QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
@@ -618,7 +618,7 @@ static QScriptValue qtscript_QPalette_static_call(QScriptContext *context, QScri
         QBrush _q_arg7 = qscriptvalue_cast<QBrush>(context->argument(7));
         QBrush _q_arg8 = qscriptvalue_cast<QBrush>(context->argument(8));
         QPalette _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -634,7 +634,7 @@ static QScriptValue qtscript_QPalette_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QPalette_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPalette*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPalette*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPalette*)0));
     for (int i = 0; i < 34; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPalette_prototype_call, qtscript_QPalette_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

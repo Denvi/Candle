@@ -157,13 +157,13 @@ static QScriptValue qtscript_QXmlInputSource_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlInputSource* _q_cpp_result = new QtScriptShell_QXmlInputSource();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlInputSource*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlInputSource*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
         QtScriptShell_QXmlInputSource* _q_cpp_result = new QtScriptShell_QXmlInputSource(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlInputSource*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlInputSource*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -180,7 +180,7 @@ static QScriptValue qtscript_QXmlInputSource_static_call(QScriptContext *context
 QScriptValue qtscript_create_QXmlInputSource_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlInputSource*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlInputSource*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlInputSource*)0));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlInputSource_prototype_call, qtscript_QXmlInputSource_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

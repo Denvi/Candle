@@ -213,12 +213,12 @@ static QScriptValue qtscript_QAuthenticator_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QAuthenticator _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QAuthenticator _q_arg0 = qscriptvalue_cast<QAuthenticator>(context->argument(0));
         QAuthenticator _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -234,7 +234,7 @@ static QScriptValue qtscript_QAuthenticator_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QAuthenticator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAuthenticator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAuthenticator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAuthenticator*)0));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAuthenticator_prototype_call, qtscript_QAuthenticator_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

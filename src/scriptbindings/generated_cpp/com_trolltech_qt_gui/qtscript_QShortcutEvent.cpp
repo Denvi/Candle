@@ -132,7 +132,7 @@ static QScriptValue qtscript_QShortcutEvent_static_call(QScriptContext *context,
         QKeySequence _q_arg0 = qscriptvalue_cast<QKeySequence>(context->argument(0));
         int _q_arg1 = context->argument(1).toInt32();
         QtScriptShell_QShortcutEvent* _q_cpp_result = new QtScriptShell_QShortcutEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QShortcutEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QShortcutEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 3) {
@@ -140,7 +140,7 @@ static QScriptValue qtscript_QShortcutEvent_static_call(QScriptContext *context,
         int _q_arg1 = context->argument(1).toInt32();
         bool _q_arg2 = context->argument(2).toBoolean();
         QtScriptShell_QShortcutEvent* _q_cpp_result = new QtScriptShell_QShortcutEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QShortcutEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QShortcutEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -157,7 +157,7 @@ static QScriptValue qtscript_QShortcutEvent_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QShortcutEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QShortcutEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QShortcutEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QShortcutEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QShortcutEvent_prototype_call, qtscript_QShortcutEvent_function_lengths[i+1]);

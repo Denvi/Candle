@@ -177,7 +177,7 @@ static QScriptValue qtscript_create_QTextBoundaryFinder_BoundaryType_class(QScri
         qtscript_QTextBoundaryFinder_BoundaryType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextBoundaryFinder_BoundaryType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextBoundaryFinder_BoundaryType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextBoundaryFinder_BoundaryType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -256,7 +256,7 @@ static QScriptValue qtscript_create_QTextBoundaryFinder_BoundaryReason_class(QSc
         qtscript_QTextBoundaryFinder_BoundaryReason_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextBoundaryFinder_BoundaryReason_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextBoundaryFinder_BoundaryReason_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextBoundaryFinder_BoundaryReason_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -268,7 +268,7 @@ static QScriptValue qtscript_create_QTextBoundaryFinder_BoundaryReason_class(QSc
 
 static QScriptValue qtscript_QTextBoundaryFinder_BoundaryReasons_toScriptValue(QScriptEngine *engine, const QTextBoundaryFinder::BoundaryReasons &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QTextBoundaryFinder_BoundaryReasons_fromScriptValue(const QScriptValue &value, QTextBoundaryFinder::BoundaryReasons &out)
@@ -297,7 +297,7 @@ static QScriptValue qtscript_construct_QTextBoundaryFinder_BoundaryReasons(QScri
             result |= qvariant_cast<QTextBoundaryFinder::BoundaryReason>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QTextBoundaryFinder_BoundaryReasons_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -467,18 +467,18 @@ static QScriptValue qtscript_QTextBoundaryFinder_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QTextBoundaryFinder _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QTextBoundaryFinder _q_arg0 = qscriptvalue_cast<QTextBoundaryFinder>(context->argument(0));
         QTextBoundaryFinder _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QTextBoundaryFinder::BoundaryType _q_arg0 = qscriptvalue_cast<QTextBoundaryFinder::BoundaryType>(context->argument(0));
         QString _q_arg1 = context->argument(1).toString();
         QTextBoundaryFinder _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -494,7 +494,7 @@ static QScriptValue qtscript_QTextBoundaryFinder_static_call(QScriptContext *con
 QScriptValue qtscript_create_QTextBoundaryFinder_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextBoundaryFinder*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextBoundaryFinder*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextBoundaryFinder*)0));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextBoundaryFinder_prototype_call, qtscript_QTextBoundaryFinder_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

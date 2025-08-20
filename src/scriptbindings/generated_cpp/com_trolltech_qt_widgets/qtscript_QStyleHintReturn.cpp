@@ -122,7 +122,7 @@ static QScriptValue qtscript_create_QStyleHintReturn_StyleOptionVersion_class(QS
         qtscript_QStyleHintReturn_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleHintReturn_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleHintReturn_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleHintReturn_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_create_QStyleHintReturn_HintReturnType_class(QScrip
         qtscript_QStyleHintReturn_HintReturnType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleHintReturn_HintReturnType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleHintReturn_HintReturnType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleHintReturn_HintReturnType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -256,7 +256,7 @@ static QScriptValue qtscript_create_QStyleHintReturn_StyleOptionType_class(QScri
         qtscript_QStyleHintReturn_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleHintReturn_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleHintReturn_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleHintReturn_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -313,20 +313,20 @@ static QScriptValue qtscript_QStyleHintReturn_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleHintReturn* _q_cpp_result = new QtScriptShell_QStyleHintReturn();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleHintReturn*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleHintReturn*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         int _q_arg0 = context->argument(0).toInt32();
         QtScriptShell_QStyleHintReturn* _q_cpp_result = new QtScriptShell_QStyleHintReturn(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleHintReturn*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleHintReturn*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
         int _q_arg0 = context->argument(0).toInt32();
         int _q_arg1 = context->argument(1).toInt32();
         QtScriptShell_QStyleHintReturn* _q_cpp_result = new QtScriptShell_QStyleHintReturn(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleHintReturn*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleHintReturn*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -343,7 +343,7 @@ static QScriptValue qtscript_QStyleHintReturn_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QStyleHintReturn_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleHintReturn*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleHintReturn*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleHintReturn*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleHintReturn*>(), proto);
 

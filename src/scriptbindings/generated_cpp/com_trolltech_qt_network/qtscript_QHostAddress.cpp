@@ -190,7 +190,7 @@ static QScriptValue qtscript_create_QHostAddress_SpecialAddress_class(QScriptEng
         qtscript_QHostAddress_SpecialAddress_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QHostAddress_SpecialAddress_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QHostAddress_SpecialAddress_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QHostAddress_SpecialAddress_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -376,38 +376,38 @@ static QScriptValue qtscript_QHostAddress_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QHostAddress _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QHostAddress::SpecialAddress>() == context->argument(0).toVariant().userType())) {
             QHostAddress::SpecialAddress _q_arg0 = qscriptvalue_cast<QHostAddress::SpecialAddress>(context->argument(0));
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QHostAddress>() == context->argument(0).toVariant().userType())) {
             QHostAddress _q_arg0 = qscriptvalue_cast<QHostAddress>(context->argument(0));
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QIPv6Address>() == context->argument(0).toVariant().userType())) {
             QIPv6Address _q_arg0 = qscriptvalue_cast<QIPv6Address>(context->argument(0));
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<const unsigned char*>(context->argument(0))) {
             const unsigned char* _q_arg0 = qscriptvalue_cast<const unsigned char*>(context->argument(0));
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             uint _q_arg0 = context->argument(0).toUInt32();
             QHostAddress _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -432,7 +432,7 @@ static QScriptValue qtscript_QHostAddress_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QHostAddress_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHostAddress*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHostAddress*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHostAddress*)0));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QHostAddress_prototype_call, qtscript_QHostAddress_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

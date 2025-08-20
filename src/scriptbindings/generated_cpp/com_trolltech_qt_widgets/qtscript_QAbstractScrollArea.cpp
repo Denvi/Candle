@@ -304,7 +304,7 @@ static void qtscript_QAbstractScrollArea_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QAbstractScrollArea_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractScrollArea*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractScrollArea*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractScrollArea*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFrame*>()));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractScrollArea_prototype_call, qtscript_QAbstractScrollArea_function_lengths[i+1]);

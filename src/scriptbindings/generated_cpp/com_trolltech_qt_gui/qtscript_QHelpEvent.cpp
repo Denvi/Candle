@@ -161,7 +161,7 @@ static QScriptValue qtscript_QHelpEvent_static_call(QScriptContext *context, QSc
         QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
         QPoint _q_arg2 = qscriptvalue_cast<QPoint>(context->argument(2));
         QHelpEvent* _q_cpp_result = new QHelpEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -177,7 +177,7 @@ static QScriptValue qtscript_QHelpEvent_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QHelpEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHelpEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHelpEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHelpEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QHelpEvent_prototype_call, qtscript_QHelpEvent_function_lengths[i+1]);

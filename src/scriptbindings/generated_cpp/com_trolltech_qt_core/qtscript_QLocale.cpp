@@ -1003,7 +1003,7 @@ static QScriptValue qtscript_create_QLocale_Language_class(QScriptEngine *engine
         qtscript_QLocale_Language_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 340; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_Language_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_Language_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_Language_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1070,7 +1070,7 @@ static QScriptValue qtscript_create_QLocale_NumberOption_class(QScriptEngine *en
         qtscript_QLocale_NumberOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_NumberOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_NumberOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_NumberOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1082,7 +1082,7 @@ static QScriptValue qtscript_create_QLocale_NumberOption_class(QScriptEngine *en
 
 static QScriptValue qtscript_QLocale_NumberOptions_toScriptValue(QScriptEngine *engine, const QLocale::NumberOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QLocale_NumberOptions_fromScriptValue(const QScriptValue &value, QLocale::NumberOptions &out)
@@ -1111,7 +1111,7 @@ static QScriptValue qtscript_construct_QLocale_NumberOptions(QScriptContext *con
             result |= qvariant_cast<QLocale::NumberOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QLocale_NumberOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -1725,7 +1725,7 @@ static QScriptValue qtscript_create_QLocale_Country_class(QScriptEngine *engine,
         qtscript_QLocale_Country_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 258; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_Country_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_Country_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_Country_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1794,7 +1794,7 @@ static QScriptValue qtscript_create_QLocale_CurrencySymbolFormat_class(QScriptEn
         qtscript_QLocale_CurrencySymbolFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_CurrencySymbolFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_CurrencySymbolFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_CurrencySymbolFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2113,7 +2113,7 @@ static QScriptValue qtscript_create_QLocale_Script_class(QScriptEngine *engine, 
         qtscript_QLocale_Script_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 128; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_Script_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_Script_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_Script_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -2180,7 +2180,7 @@ static QScriptValue qtscript_create_QLocale_QuotationStyle_class(QScriptEngine *
         qtscript_QLocale_QuotationStyle_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QLocale_QuotationStyle_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QLocale_QuotationStyle_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QLocale_QuotationStyle_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -3066,37 +3066,37 @@ static QScriptValue qtscript_QLocale_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QLocale _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QLocale::Language>() == context->argument(0).toVariant().userType())) {
             QLocale::Language _q_arg0 = qscriptvalue_cast<QLocale::Language>(context->argument(0));
             QLocale _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QLocale>() == context->argument(0).toVariant().userType())) {
             QLocale _q_arg0 = qscriptvalue_cast<QLocale>(context->argument(0));
             QLocale _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QLocale _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QLocale::Language _q_arg0 = qscriptvalue_cast<QLocale::Language>(context->argument(0));
         QLocale::Country _q_arg1 = qscriptvalue_cast<QLocale::Country>(context->argument(1));
         QLocale _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QLocale::Language _q_arg0 = qscriptvalue_cast<QLocale::Language>(context->argument(0));
         QLocale::Script _q_arg1 = qscriptvalue_cast<QLocale::Script>(context->argument(1));
         QLocale::Country _q_arg2 = qscriptvalue_cast<QLocale::Country>(context->argument(2));
         QLocale _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -3176,7 +3176,7 @@ static QScriptValue qtscript_QLocale_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QLocale_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLocale*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLocale*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLocale*)0));
     for (int i = 0; i < 49; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLocale_prototype_call, qtscript_QLocale_function_lengths[i+9]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

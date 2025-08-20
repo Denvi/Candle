@@ -763,7 +763,7 @@ static QScriptValue qtscript_QRect_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QRect _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         if ((qMetaTypeId<QPoint>() == context->argument(0).toVariant().userType())
@@ -771,14 +771,14 @@ static QScriptValue qtscript_QRect_static_call(QScriptContext *context, QScriptE
             QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
             QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
             QRect _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPoint>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<QSize>() == context->argument(1).toVariant().userType())) {
             QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
             QSize _q_arg1 = qscriptvalue_cast<QSize>(context->argument(1));
             QRect _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 4) {
@@ -787,7 +787,7 @@ static QScriptValue qtscript_QRect_static_call(QScriptContext *context, QScriptE
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QRect _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -803,7 +803,7 @@ static QScriptValue qtscript_QRect_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QRect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRect*)0));
     for (int i = 0; i < 57; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRect_prototype_call, qtscript_QRect_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

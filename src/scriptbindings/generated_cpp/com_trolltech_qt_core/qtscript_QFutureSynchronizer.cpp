@@ -97,7 +97,7 @@ static QScriptValue qtscript_QFutureSynchronizer_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QFutureSynchronizer* _q_cpp_result = new QtScriptShell_QFutureSynchronizer();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QtScriptFutureSynchronizer*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QtScriptFutureSynchronizer*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -114,7 +114,7 @@ static QScriptValue qtscript_QFutureSynchronizer_static_call(QScriptContext *con
 QScriptValue qtscript_create_QFutureSynchronizer_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QtScriptFutureSynchronizer*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QtScriptFutureSynchronizer*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QtScriptFutureSynchronizer*)0));
 
     engine->setDefaultPrototype(qMetaTypeId<QtScriptFutureSynchronizer*>(), proto);
 

@@ -204,7 +204,7 @@ static QScriptValue qtscript_create_QMovie_MovieState_class(QScriptEngine *engin
         qtscript_QMovie_MovieState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMovie_MovieState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMovie_MovieState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMovie_MovieState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -501,7 +501,7 @@ static void qtscript_QMovie_fromScriptValue(const QScriptValue &value, QMovie* &
 QScriptValue qtscript_create_QMovie_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMovie*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMovie*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMovie*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMovie_prototype_call, qtscript_QMovie_function_lengths[i+2]);

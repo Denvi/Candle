@@ -258,18 +258,18 @@ static QScriptValue qtscript_QPersistentModelIndex_static_call(QScriptContext *c
     }
     if (context->argumentCount() == 0) {
         QPersistentModelIndex _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QModelIndex>() == context->argument(0).toVariant().userType())) {
             QModelIndex _q_arg0 = qscriptvalue_cast<QModelIndex>(context->argument(0));
             QPersistentModelIndex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPersistentModelIndex>() == context->argument(0).toVariant().userType())) {
             QPersistentModelIndex _q_arg0 = qscriptvalue_cast<QPersistentModelIndex>(context->argument(0));
             QPersistentModelIndex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -286,7 +286,7 @@ static QScriptValue qtscript_QPersistentModelIndex_static_call(QScriptContext *c
 QScriptValue qtscript_create_QPersistentModelIndex_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPersistentModelIndex*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPersistentModelIndex*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPersistentModelIndex*)0));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPersistentModelIndex_prototype_call, qtscript_QPersistentModelIndex_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

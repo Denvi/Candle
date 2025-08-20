@@ -183,7 +183,7 @@ static void qtscript_QMouseEventTransition_fromScriptValue(const QScriptValue &v
 QScriptValue qtscript_create_QMouseEventTransition_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMouseEventTransition*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMouseEventTransition*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMouseEventTransition*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEventTransition*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMouseEventTransition_prototype_call, qtscript_QMouseEventTransition_function_lengths[i+1]);

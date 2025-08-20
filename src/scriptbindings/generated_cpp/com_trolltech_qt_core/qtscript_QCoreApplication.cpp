@@ -497,7 +497,7 @@ static void qtscript_QCoreApplication_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_QCoreApplication_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCoreApplication*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCoreApplication*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCoreApplication*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCoreApplication_prototype_call, qtscript_QCoreApplication_function_lengths[i+27]);

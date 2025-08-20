@@ -294,7 +294,7 @@ static QScriptValue qtscript_create_QPaintEngine_PaintEngineFeature_class(QScrip
         qtscript_QPaintEngine_PaintEngineFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPaintEngine_PaintEngineFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPaintEngine_PaintEngineFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPaintEngine_PaintEngineFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -306,7 +306,7 @@ static QScriptValue qtscript_create_QPaintEngine_PaintEngineFeature_class(QScrip
 
 static QScriptValue qtscript_QPaintEngine_PaintEngineFeatures_toScriptValue(QScriptEngine *engine, const QPaintEngine::PaintEngineFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QPaintEngine_PaintEngineFeatures_fromScriptValue(const QScriptValue &value, QPaintEngine::PaintEngineFeatures &out)
@@ -335,7 +335,7 @@ static QScriptValue qtscript_construct_QPaintEngine_PaintEngineFeatures(QScriptC
             result |= qvariant_cast<QPaintEngine::PaintEngineFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QPaintEngine_PaintEngineFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -477,7 +477,7 @@ static QScriptValue qtscript_create_QPaintEngine_Type_class(QScriptEngine *engin
         qtscript_QPaintEngine_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPaintEngine_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPaintEngine_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPaintEngine_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -572,7 +572,7 @@ static QScriptValue qtscript_create_QPaintEngine_DirtyFlag_class(QScriptEngine *
         qtscript_QPaintEngine_DirtyFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 14; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPaintEngine_DirtyFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPaintEngine_DirtyFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPaintEngine_DirtyFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -584,7 +584,7 @@ static QScriptValue qtscript_create_QPaintEngine_DirtyFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_QPaintEngine_DirtyFlags_toScriptValue(QScriptEngine *engine, const QPaintEngine::DirtyFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QPaintEngine_DirtyFlags_fromScriptValue(const QScriptValue &value, QPaintEngine::DirtyFlags &out)
@@ -613,7 +613,7 @@ static QScriptValue qtscript_construct_QPaintEngine_DirtyFlags(QScriptContext *c
             result |= qvariant_cast<QPaintEngine::DirtyFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QPaintEngine_DirtyFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -719,7 +719,7 @@ static QScriptValue qtscript_create_QPaintEngine_PolygonDrawMode_class(QScriptEn
         qtscript_QPaintEngine_PolygonDrawMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPaintEngine_PolygonDrawMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPaintEngine_PolygonDrawMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPaintEngine_PolygonDrawMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1063,13 +1063,13 @@ static QScriptValue qtscript_QPaintEngine_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPaintEngine* _q_cpp_result = new QtScriptShell_QPaintEngine();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPaintEngine*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPaintEngine*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QFlags<QPaintEngine::PaintEngineFeature> _q_arg0 = qscriptvalue_cast<QFlags<QPaintEngine::PaintEngineFeature> >(context->argument(0));
         QtScriptShell_QPaintEngine* _q_cpp_result = new QtScriptShell_QPaintEngine(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPaintEngine*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPaintEngine*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -1086,7 +1086,7 @@ static QScriptValue qtscript_QPaintEngine_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QPaintEngine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPaintEngine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPaintEngine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPaintEngine*)0));
     for (int i = 0; i < 30; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPaintEngine_prototype_call, qtscript_QPaintEngine_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

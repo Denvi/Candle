@@ -303,7 +303,7 @@ static QScriptValue qtscript_create_QTextFormat_FormatType_class(QScriptEngine *
         qtscript_QTextFormat_FormatType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextFormat_FormatType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextFormat_FormatType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextFormat_FormatType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -725,24 +725,24 @@ static QScriptValue qtscript_QTextFormat_static_call(QScriptContext *context, QS
     if ((context->argumentCount() == 1) && (qMetaTypeId<QTextFormat>() == context->argument(0).toVariant().userType())) {
         QTextFormat _q_arg0 = qscriptvalue_cast<QTextFormat>(context->argument(0));
         QTextFormat _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     
     if (context->argumentCount() == 0) {
         QTextFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QTextFormat>() == context->argument(0).toVariant().userType())) {
             QTextFormat _q_arg0 = qscriptvalue_cast<QTextFormat>(context->argument(0));
             QTextFormat _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             int _q_arg0 = context->argument(0).toInt32();
             QTextFormat _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -759,7 +759,7 @@ static QScriptValue qtscript_QTextFormat_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTextFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextFormat*)0));
     for (int i = 0; i < 49; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextFormat_prototype_call, qtscript_QTextFormat_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

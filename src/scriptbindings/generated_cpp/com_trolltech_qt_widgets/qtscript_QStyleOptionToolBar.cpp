@@ -146,7 +146,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBar_StyleOptionVersion_class
         qtscript_QStyleOptionToolBar_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBar_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBar_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBar_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -213,7 +213,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBar_ToolBarFeature_class(QSc
         qtscript_QStyleOptionToolBar_ToolBarFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBar_ToolBarFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBar_ToolBarFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBar_ToolBarFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -225,7 +225,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBar_ToolBarFeature_class(QSc
 
 static QScriptValue qtscript_QStyleOptionToolBar_ToolBarFeatures_toScriptValue(QScriptEngine *engine, const QStyleOptionToolBar::ToolBarFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionToolBar_ToolBarFeatures_fromScriptValue(const QScriptValue &value, QStyleOptionToolBar::ToolBarFeatures &out)
@@ -254,7 +254,7 @@ static QScriptValue qtscript_construct_QStyleOptionToolBar_ToolBarFeatures(QScri
             result |= qvariant_cast<QStyleOptionToolBar::ToolBarFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionToolBar_ToolBarFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -360,7 +360,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBar_ToolBarPosition_class(QS
         qtscript_QStyleOptionToolBar_ToolBarPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBar_ToolBarPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBar_ToolBarPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBar_ToolBarPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -425,7 +425,7 @@ static QScriptValue qtscript_create_QStyleOptionToolBar_StyleOptionType_class(QS
         qtscript_QStyleOptionToolBar_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionToolBar_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionToolBar_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionToolBar_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -482,13 +482,13 @@ static QScriptValue qtscript_QStyleOptionToolBar_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionToolBar _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolBar)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolBar)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionToolBar _q_arg0 = qscriptvalue_cast<QStyleOptionToolBar>(context->argument(0));
         QtScriptShell_QStyleOptionToolBar _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionToolBar)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionToolBar)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -505,7 +505,7 @@ static QScriptValue qtscript_QStyleOptionToolBar_static_call(QScriptContext *con
 QScriptValue qtscript_create_QStyleOptionToolBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionToolBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionToolBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionToolBar>(), proto);

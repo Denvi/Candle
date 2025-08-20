@@ -281,13 +281,13 @@ static QScriptValue qtscript_QLine_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QLine _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
         QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
         QLine _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -295,7 +295,7 @@ static QScriptValue qtscript_QLine_static_call(QScriptContext *context, QScriptE
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QLine _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -311,7 +311,7 @@ static QScriptValue qtscript_QLine_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QLine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLine*)0));
     for (int i = 0; i < 17; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLine_prototype_call, qtscript_QLine_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

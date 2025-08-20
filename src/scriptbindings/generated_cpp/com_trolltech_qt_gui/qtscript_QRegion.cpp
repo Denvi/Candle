@@ -182,7 +182,7 @@ static QScriptValue qtscript_create_QRegion_RegionType_class(QScriptEngine *engi
         qtscript_QRegion_RegionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QRegion_RegionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QRegion_RegionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QRegion_RegionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -417,28 +417,28 @@ static QScriptValue qtscript_QRegion_static_call(QScriptContext *context, QScrip
     }
     if (context->argumentCount() == 0) {
         QRegion _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QBitmap>() == context->argument(0).toVariant().userType())) {
             QBitmap _q_arg0 = qscriptvalue_cast<QBitmap>(context->argument(0));
             QRegion _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPolygon>() == context->argument(0).toVariant().userType())) {
             QPolygon _q_arg0 = qscriptvalue_cast<QPolygon>(context->argument(0));
             QRegion _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QRect>() == context->argument(0).toVariant().userType())) {
             QRect _q_arg0 = qscriptvalue_cast<QRect>(context->argument(0));
             QRegion _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QRegion>() == context->argument(0).toVariant().userType())) {
             QRegion _q_arg0 = qscriptvalue_cast<QRegion>(context->argument(0));
             QRegion _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
@@ -447,14 +447,14 @@ static QScriptValue qtscript_QRegion_static_call(QScriptContext *context, QScrip
             QPolygon _q_arg0 = qscriptvalue_cast<QPolygon>(context->argument(0));
             Qt::FillRule _q_arg1 = qscriptvalue_cast<Qt::FillRule>(context->argument(1));
             QRegion _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QRect>() == context->argument(0).toVariant().userType())
             && (qMetaTypeId<QRegion::RegionType>() == context->argument(1).toVariant().userType())) {
             QRect _q_arg0 = qscriptvalue_cast<QRect>(context->argument(0));
             QRegion::RegionType _q_arg1 = qscriptvalue_cast<QRegion::RegionType>(context->argument(1));
             QRegion _q_cpp_result(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 4) {
@@ -463,7 +463,7 @@ static QScriptValue qtscript_QRegion_static_call(QScriptContext *context, QScrip
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QRegion _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 5) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -472,7 +472,7 @@ static QScriptValue qtscript_QRegion_static_call(QScriptContext *context, QScrip
         int _q_arg3 = context->argument(3).toInt32();
         QRegion::RegionType _q_arg4 = qscriptvalue_cast<QRegion::RegionType>(context->argument(4));
         QRegion _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -488,7 +488,7 @@ static QScriptValue qtscript_QRegion_static_call(QScriptContext *context, QScrip
 QScriptValue qtscript_create_QRegion_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRegion*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRegion*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRegion*)0));
     for (int i = 0; i < 19; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRegion_prototype_call, qtscript_QRegion_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

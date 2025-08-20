@@ -271,13 +271,13 @@ static QScriptValue qtscript_QFontInfo_static_call(QScriptContext *context, QScr
         if ((qMetaTypeId<QFont>() == context->argument(0).toVariant().userType())) {
             QFont _q_arg0 = qscriptvalue_cast<QFont>(context->argument(0));
             QFontInfo* _q_cpp_result = new QFontInfo(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<QFontInfo*>(context->argument(0))) {
 
         QFontInfo & _q_arg0 = *qscriptvalue_cast<QFontInfo*>(context->argument(0));
                     QFontInfo* _q_cpp_result = new QFontInfo(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -294,7 +294,7 @@ static QScriptValue qtscript_QFontInfo_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QFontInfo_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFontInfo*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFontInfo*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFontInfo*)0));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFontInfo_prototype_call, qtscript_QFontInfo_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

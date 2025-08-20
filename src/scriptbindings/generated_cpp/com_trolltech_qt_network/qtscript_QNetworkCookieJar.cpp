@@ -195,7 +195,7 @@ static void qtscript_QNetworkCookieJar_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QNetworkCookieJar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkCookieJar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkCookieJar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkCookieJar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkCookieJar_prototype_call, qtscript_QNetworkCookieJar_function_lengths[i+1]);

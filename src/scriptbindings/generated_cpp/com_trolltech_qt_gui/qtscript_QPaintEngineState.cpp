@@ -304,7 +304,7 @@ static QScriptValue qtscript_QPaintEngineState_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPaintEngineState* _q_cpp_result = new QtScriptShell_QPaintEngineState();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPaintEngineState*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPaintEngineState*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -321,7 +321,7 @@ static QScriptValue qtscript_QPaintEngineState_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QPaintEngineState_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPaintEngineState*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPaintEngineState*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPaintEngineState*)0));
     for (int i = 0; i < 20; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPaintEngineState_prototype_call, qtscript_QPaintEngineState_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -170,12 +170,12 @@ static QScriptValue qtscript_QDomNodeList_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QDomNodeList _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomNodeList _q_arg0 = qscriptvalue_cast<QDomNodeList>(context->argument(0));
         QDomNodeList _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -191,7 +191,7 @@ static QScriptValue qtscript_QDomNodeList_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QDomNodeList_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomNodeList*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomNodeList*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomNodeList*)0));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomNodeList_prototype_call, qtscript_QDomNodeList_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

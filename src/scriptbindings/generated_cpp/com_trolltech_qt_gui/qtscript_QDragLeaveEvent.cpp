@@ -96,7 +96,7 @@ static QScriptValue qtscript_QDragLeaveEvent_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QDragLeaveEvent* _q_cpp_result = new QDragLeaveEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -112,7 +112,7 @@ static QScriptValue qtscript_QDragLeaveEvent_static_call(QScriptContext *context
 QScriptValue qtscript_create_QDragLeaveEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDragLeaveEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDragLeaveEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDragLeaveEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QDragLeaveEvent*>(), proto);

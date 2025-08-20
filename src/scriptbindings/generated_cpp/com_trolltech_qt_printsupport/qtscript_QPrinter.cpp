@@ -329,7 +329,7 @@ static QScriptValue qtscript_create_QPrinter_ColorMode_class(QScriptEngine *engi
         qtscript_QPrinter_ColorMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_ColorMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_ColorMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_ColorMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -400,7 +400,7 @@ static QScriptValue qtscript_create_QPrinter_DuplexMode_class(QScriptEngine *eng
         qtscript_QPrinter_DuplexMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_DuplexMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_DuplexMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_DuplexMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -493,7 +493,7 @@ static QScriptValue qtscript_create_QPrinter_PaperSource_class(QScriptEngine *en
         qtscript_QPrinter_PaperSource_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 15; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_PaperSource_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_PaperSource_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_PaperSource_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -560,7 +560,7 @@ static QScriptValue qtscript_create_QPrinter_OutputFormat_class(QScriptEngine *e
         qtscript_QPrinter_OutputFormat_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_OutputFormat_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_OutputFormat_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_OutputFormat_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -627,7 +627,7 @@ static QScriptValue qtscript_create_QPrinter_PageOrder_class(QScriptEngine *engi
         qtscript_QPrinter_PageOrder_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_PageOrder_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_PageOrder_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_PageOrder_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -698,7 +698,7 @@ static QScriptValue qtscript_create_QPrinter_PrinterState_class(QScriptEngine *e
         qtscript_QPrinter_PrinterState_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_PrinterState_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_PrinterState_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_PrinterState_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -767,7 +767,7 @@ static QScriptValue qtscript_create_QPrinter_PrinterMode_class(QScriptEngine *en
         qtscript_QPrinter_PrinterMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_PrinterMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_PrinterMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_PrinterMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -834,7 +834,7 @@ static QScriptValue qtscript_create_QPrinter_Orientation_class(QScriptEngine *en
         qtscript_QPrinter_Orientation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_Orientation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_Orientation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_Orientation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -905,7 +905,7 @@ static QScriptValue qtscript_create_QPrinter_PrintRange_class(QScriptEngine *eng
         qtscript_QPrinter_PrintRange_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_PrintRange_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_PrintRange_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_PrintRange_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -982,7 +982,7 @@ static QScriptValue qtscript_create_QPrinter_Unit_class(QScriptEngine *engine, Q
         qtscript_QPrinter_Unit_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrinter_Unit_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrinter_Unit_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrinter_Unit_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1520,20 +1520,20 @@ static QScriptValue qtscript_QPrinter_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPrinter* _q_cpp_result = new QtScriptShell_QPrinter();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPrinter*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPrinter*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QPrinter::PrinterMode>() == context->argument(0).toVariant().userType())) {
             QPrinter::PrinterMode _q_arg0 = qscriptvalue_cast<QPrinter::PrinterMode>(context->argument(0));
             QtScriptShell_QPrinter* _q_cpp_result = new QtScriptShell_QPrinter(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPrinter*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPrinter*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QPrinterInfo>() == context->argument(0).toVariant().userType())) {
             QPrinterInfo _q_arg0 = qscriptvalue_cast<QPrinterInfo>(context->argument(0));
             QtScriptShell_QPrinter* _q_cpp_result = new QtScriptShell_QPrinter(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPrinter*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPrinter*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -1541,7 +1541,7 @@ static QScriptValue qtscript_QPrinter_static_call(QScriptContext *context, QScri
         QPrinterInfo _q_arg0 = qscriptvalue_cast<QPrinterInfo>(context->argument(0));
         QPrinter::PrinterMode _q_arg1 = qscriptvalue_cast<QPrinter::PrinterMode>(context->argument(1));
         QtScriptShell_QPrinter* _q_cpp_result = new QtScriptShell_QPrinter(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPrinter*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPrinter*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -1558,7 +1558,7 @@ static QScriptValue qtscript_QPrinter_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QPrinter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPrinter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPrinter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPrinter*)0));
     for (int i = 0; i < 63; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPrinter_prototype_call, qtscript_QPrinter_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

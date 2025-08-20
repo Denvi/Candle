@@ -300,7 +300,7 @@ static void qtscript_QWizardPage_fromScriptValue(const QScriptValue &value, QWiz
 QScriptValue qtscript_create_QWizardPage_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWizardPage*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWizardPage*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWizardPage*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 14; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QWizardPage_prototype_call, qtscript_QWizardPage_function_lengths[i+1]);

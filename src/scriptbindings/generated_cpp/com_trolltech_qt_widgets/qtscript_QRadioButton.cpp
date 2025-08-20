@@ -198,7 +198,7 @@ static void qtscript_QRadioButton_fromScriptValue(const QScriptValue &value, QRa
 QScriptValue qtscript_create_QRadioButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRadioButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRadioButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRadioButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractButton*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRadioButton_prototype_call, qtscript_QRadioButton_function_lengths[i+1]);

@@ -96,7 +96,7 @@ static QScriptValue qtscript_QShowEvent_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QShowEvent* _q_cpp_result = new QShowEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -112,7 +112,7 @@ static QScriptValue qtscript_QShowEvent_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QShowEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QShowEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QShowEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QShowEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QShowEvent*>(), proto);

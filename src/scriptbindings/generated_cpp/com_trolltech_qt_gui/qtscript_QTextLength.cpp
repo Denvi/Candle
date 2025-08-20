@@ -134,7 +134,7 @@ static QScriptValue qtscript_create_QTextLength_Type_class(QScriptEngine *engine
         qtscript_QTextLength_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextLength_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextLength_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextLength_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -223,13 +223,13 @@ static QScriptValue qtscript_QTextLength_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QTextLength _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QTextLength::Type _q_arg0 = qscriptvalue_cast<QTextLength::Type>(context->argument(0));
         qreal _q_arg1 = qscriptvalue_cast<qreal>(context->argument(1));
         QTextLength _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -245,7 +245,7 @@ static QScriptValue qtscript_QTextLength_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTextLength_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextLength*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextLength*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextLength*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextLength_prototype_call, qtscript_QTextLength_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

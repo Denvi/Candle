@@ -220,7 +220,7 @@ static void qtscript_QCheckBox_fromScriptValue(const QScriptValue &value, QCheck
 QScriptValue qtscript_create_QCheckBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCheckBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCheckBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCheckBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractButton*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QCheckBox_prototype_call, qtscript_QCheckBox_function_lengths[i+1]);

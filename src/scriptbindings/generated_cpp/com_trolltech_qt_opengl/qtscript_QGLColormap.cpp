@@ -206,13 +206,13 @@ static QScriptValue qtscript_QGLColormap_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QGLColormap _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLColormap)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLColormap)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGLColormap _q_arg0 = qscriptvalue_cast<QGLColormap>(context->argument(0));
         QtScriptShell_QGLColormap _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QGLColormap)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QGLColormap)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -229,7 +229,7 @@ static QScriptValue qtscript_QGLColormap_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QGLColormap_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGLColormap*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGLColormap*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGLColormap*)0));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGLColormap_prototype_call, qtscript_QGLColormap_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

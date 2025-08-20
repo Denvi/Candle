@@ -165,7 +165,7 @@ static QScriptValue qtscript_create_QSlider_TickPosition_class(QScriptEngine *en
         qtscript_QSlider_TickPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSlider_TickPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSlider_TickPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSlider_TickPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -284,7 +284,7 @@ static void qtscript_QSlider_fromScriptValue(const QScriptValue &value, QSlider*
 QScriptValue qtscript_create_QSlider_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSlider*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSlider*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSlider*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractSlider*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSlider_prototype_call, qtscript_QSlider_function_lengths[i+1]);

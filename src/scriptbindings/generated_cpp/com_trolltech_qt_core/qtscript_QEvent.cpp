@@ -483,7 +483,7 @@ static QScriptValue qtscript_create_QEvent_Type_class(QScriptEngine *engine, QSc
         qtscript_QEvent_Type_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 168; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QEvent_Type_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QEvent_Type_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QEvent_Type_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -595,13 +595,13 @@ static QScriptValue qtscript_QEvent_static_call(QScriptContext *context, QScript
         if ((qMetaTypeId<QEvent::Type>() == context->argument(0).toVariant().userType())) {
             QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
             QtScriptShell_QEvent* _q_cpp_result = new QtScriptShell_QEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QEvent>() == context->argument(0).toVariant().userType())) {
             QEvent _q_arg0 = qscriptvalue_cast<QEvent>(context->argument(0));
             QtScriptShell_QEvent* _q_cpp_result = new QtScriptShell_QEvent(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QEvent*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QEvent*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -631,7 +631,7 @@ static QScriptValue qtscript_QEvent_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QEvent*)0));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QEvent_prototype_call, qtscript_QEvent_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

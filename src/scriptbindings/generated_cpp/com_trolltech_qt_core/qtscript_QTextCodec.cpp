@@ -204,7 +204,7 @@ static QScriptValue qtscript_create_QTextCodec_ConversionFlag_class(QScriptEngin
         qtscript_QTextCodec_ConversionFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextCodec_ConversionFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextCodec_ConversionFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextCodec_ConversionFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -216,7 +216,7 @@ static QScriptValue qtscript_create_QTextCodec_ConversionFlag_class(QScriptEngin
 
 static QScriptValue qtscript_QTextCodec_ConversionFlags_toScriptValue(QScriptEngine *engine, const QTextCodec::ConversionFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QTextCodec_ConversionFlags_fromScriptValue(const QScriptValue &value, QTextCodec::ConversionFlags &out)
@@ -245,7 +245,7 @@ static QScriptValue qtscript_construct_QTextCodec_ConversionFlags(QScriptContext
             result |= qvariant_cast<QTextCodec::ConversionFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QTextCodec_ConversionFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -501,7 +501,7 @@ static QScriptValue qtscript_QTextCodec_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QTextCodec_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextCodec*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextCodec*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextCodec*)0));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextCodec_prototype_call, qtscript_QTextCodec_function_lengths[i+9]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

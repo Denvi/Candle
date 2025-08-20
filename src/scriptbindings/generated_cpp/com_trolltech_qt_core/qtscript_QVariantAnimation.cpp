@@ -161,7 +161,7 @@ static void qtscript_QVariantAnimation_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QVariantAnimation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QVariantAnimation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QVariantAnimation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QVariantAnimation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractAnimation*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QVariantAnimation_prototype_call, qtscript_QVariantAnimation_function_lengths[i+1]);

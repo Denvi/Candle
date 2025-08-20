@@ -449,18 +449,18 @@ static QScriptValue qtscript_QXmlStreamWriter_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QXmlStreamWriter* _q_cpp_result = new QXmlStreamWriter();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QByteArray*>(context->argument(0))) {
             QByteArray* _q_arg0 = qscriptvalue_cast<QByteArray*>(context->argument(0));
             QXmlStreamWriter* _q_cpp_result = new QXmlStreamWriter(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<QIODevice*>(context->argument(0))) {
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QXmlStreamWriter* _q_cpp_result = new QXmlStreamWriter(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -477,7 +477,7 @@ static QScriptValue qtscript_QXmlStreamWriter_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QXmlStreamWriter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlStreamWriter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlStreamWriter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlStreamWriter*)0));
     for (int i = 0; i < 27; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlStreamWriter_prototype_call, qtscript_QXmlStreamWriter_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

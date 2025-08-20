@@ -246,7 +246,7 @@ static QScriptValue qtscript_create_QProcess_ProcessError_class(QScriptEngine *e
         qtscript_QProcess_ProcessError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QProcess_ProcessError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QProcess_ProcessError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QProcess_ProcessError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -678,7 +678,7 @@ static void qtscript_QProcess_fromScriptValue(const QScriptValue &value, QProces
 QScriptValue qtscript_create_QProcess_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QProcess*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QProcess*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QProcess*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QIODevice*>()));
     for (int i = 0; i < 31; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QProcess_prototype_call, qtscript_QProcess_function_lengths[i+5]);

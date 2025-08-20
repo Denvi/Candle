@@ -337,7 +337,7 @@ static void qtscript_QMenuBar_fromScriptValue(const QScriptValue &value, QMenuBa
 QScriptValue qtscript_create_QMenuBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMenuBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMenuBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMenuBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMenuBar_prototype_call, qtscript_QMenuBar_function_lengths[i+1]);

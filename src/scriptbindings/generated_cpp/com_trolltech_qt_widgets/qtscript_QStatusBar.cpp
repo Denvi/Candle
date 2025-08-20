@@ -253,7 +253,7 @@ static void qtscript_QStatusBar_fromScriptValue(const QScriptValue &value, QStat
 QScriptValue qtscript_create_QStatusBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStatusBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStatusBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStatusBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStatusBar_prototype_call, qtscript_QStatusBar_function_lengths[i+1]);

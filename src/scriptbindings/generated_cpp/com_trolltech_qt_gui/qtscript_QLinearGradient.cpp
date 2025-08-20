@@ -156,13 +156,13 @@ static QScriptValue qtscript_QLinearGradient_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QLinearGradient _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QPointF _q_arg0 = qscriptvalue_cast<QPointF>(context->argument(0));
         QPointF _q_arg1 = qscriptvalue_cast<QPointF>(context->argument(1));
         QLinearGradient _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         qreal _q_arg0 = qscriptvalue_cast<qreal>(context->argument(0));
@@ -170,7 +170,7 @@ static QScriptValue qtscript_QLinearGradient_static_call(QScriptContext *context
         qreal _q_arg2 = qscriptvalue_cast<qreal>(context->argument(2));
         qreal _q_arg3 = qscriptvalue_cast<qreal>(context->argument(3));
         QLinearGradient _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -186,7 +186,7 @@ static QScriptValue qtscript_QLinearGradient_static_call(QScriptContext *context
 QScriptValue qtscript_create_QLinearGradient_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QLinearGradient*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QLinearGradient*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QLinearGradient*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGradient*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QLinearGradient_prototype_call, qtscript_QLinearGradient_function_lengths[i+1]);

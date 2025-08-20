@@ -185,7 +185,7 @@ static void qtscript_QAbstractTransition_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QAbstractTransition_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractTransition*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractTransition*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractTransition*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractTransition_prototype_call, qtscript_QAbstractTransition_function_lengths[i+1]);

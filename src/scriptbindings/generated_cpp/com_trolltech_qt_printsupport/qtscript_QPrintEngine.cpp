@@ -204,7 +204,7 @@ static QScriptValue qtscript_create_QPrintEngine_PrintEnginePropertyKey_class(QS
         qtscript_QPrintEngine_PrintEnginePropertyKey_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 31; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPrintEngine_PrintEnginePropertyKey_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPrintEngine_PrintEnginePropertyKey_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPrintEngine_PrintEnginePropertyKey_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -307,7 +307,7 @@ static QScriptValue qtscript_QPrintEngine_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QPrintEngine* _q_cpp_result = new QtScriptShell_QPrintEngine();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QPrintEngine*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QPrintEngine*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -324,7 +324,7 @@ static QScriptValue qtscript_QPrintEngine_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QPrintEngine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPrintEngine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPrintEngine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPrintEngine*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPrintEngine_prototype_call, qtscript_QPrintEngine_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

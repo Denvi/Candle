@@ -109,7 +109,7 @@ static QScriptValue qtscript_QDragEnterEvent_static_call(QScriptContext *context
         QFlags<Qt::MouseButton> _q_arg3 = qscriptvalue_cast<QFlags<Qt::MouseButton> >(context->argument(3));
         QFlags<Qt::KeyboardModifier> _q_arg4 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(4));
         QDragEnterEvent* _q_cpp_result = new QDragEnterEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -125,7 +125,7 @@ static QScriptValue qtscript_QDragEnterEvent_static_call(QScriptContext *context
 QScriptValue qtscript_create_QDragEnterEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDragEnterEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDragEnterEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDragEnterEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDragMoveEvent*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QDragEnterEvent*>(), proto);

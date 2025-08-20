@@ -369,37 +369,37 @@ static QScriptValue qtscript_QPen_static_call(QScriptContext *context, QScriptEn
     }
     if (context->argumentCount() == 0) {
         QPen _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<Qt::PenStyle>() == context->argument(0).toVariant().userType())) {
             Qt::PenStyle _q_arg0 = qscriptvalue_cast<Qt::PenStyle>(context->argument(0));
             QPen _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             QPen _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QPen>() == context->argument(0).toVariant().userType())) {
             QPen _q_arg0 = qscriptvalue_cast<QPen>(context->argument(0));
             QPen _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
         qreal _q_arg1 = qscriptvalue_cast<qreal>(context->argument(1));
         QPen _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
         qreal _q_arg1 = qscriptvalue_cast<qreal>(context->argument(1));
         Qt::PenStyle _q_arg2 = qscriptvalue_cast<Qt::PenStyle>(context->argument(2));
         QPen _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
@@ -407,7 +407,7 @@ static QScriptValue qtscript_QPen_static_call(QScriptContext *context, QScriptEn
         Qt::PenStyle _q_arg2 = qscriptvalue_cast<Qt::PenStyle>(context->argument(2));
         Qt::PenCapStyle _q_arg3 = qscriptvalue_cast<Qt::PenCapStyle>(context->argument(3));
         QPen _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 5) {
         QBrush _q_arg0 = qscriptvalue_cast<QBrush>(context->argument(0));
@@ -416,7 +416,7 @@ static QScriptValue qtscript_QPen_static_call(QScriptContext *context, QScriptEn
         Qt::PenCapStyle _q_arg3 = qscriptvalue_cast<Qt::PenCapStyle>(context->argument(3));
         Qt::PenJoinStyle _q_arg4 = qscriptvalue_cast<Qt::PenJoinStyle>(context->argument(4));
         QPen _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -432,7 +432,7 @@ static QScriptValue qtscript_QPen_static_call(QScriptContext *context, QScriptEn
 QScriptValue qtscript_create_QPen_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPen*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPen*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPen*)0));
     for (int i = 0; i < 26; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPen_prototype_call, qtscript_QPen_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

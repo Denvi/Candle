@@ -149,7 +149,7 @@ static QScriptValue qtscript_create_QStyleOptionFrame_FrameFeature_class(QScript
         qtscript_QStyleOptionFrame_FrameFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionFrame_FrameFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionFrame_FrameFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionFrame_FrameFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -161,7 +161,7 @@ static QScriptValue qtscript_create_QStyleOptionFrame_FrameFeature_class(QScript
 
 static QScriptValue qtscript_QStyleOptionFrame_FrameFeatures_toScriptValue(QScriptEngine *engine, const QStyleOptionFrame::FrameFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionFrame_FrameFeatures_fromScriptValue(const QScriptValue &value, QStyleOptionFrame::FrameFeatures &out)
@@ -190,7 +190,7 @@ static QScriptValue qtscript_construct_QStyleOptionFrame_FrameFeatures(QScriptCo
             result |= qvariant_cast<QStyleOptionFrame::FrameFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionFrame_FrameFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -290,7 +290,7 @@ static QScriptValue qtscript_create_QStyleOptionFrame_StyleOptionVersion_class(Q
         qtscript_QStyleOptionFrame_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionFrame_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionFrame_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionFrame_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -355,7 +355,7 @@ static QScriptValue qtscript_create_QStyleOptionFrame_StyleOptionType_class(QScr
         qtscript_QStyleOptionFrame_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionFrame_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionFrame_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionFrame_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -412,13 +412,13 @@ static QScriptValue qtscript_QStyleOptionFrame_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionFrame _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionFrame)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionFrame)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionFrame _q_arg0 = qscriptvalue_cast<QStyleOptionFrame>(context->argument(0));
         QtScriptShell_QStyleOptionFrame _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionFrame)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionFrame)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -435,7 +435,7 @@ static QScriptValue qtscript_QStyleOptionFrame_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QStyleOptionFrame_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionFrame*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionFrame*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionFrame*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionFrame>(), proto);

@@ -361,7 +361,7 @@ static QScriptValue qtscript_create_QColor_Spec_class(QScriptEngine *engine, QSc
         qtscript_QColor_Spec_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QColor_Spec_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QColor_Spec_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QColor_Spec_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1016,28 +1016,28 @@ static QScriptValue qtscript_QColor_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QColor _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<Qt::GlobalColor>() == context->argument(0).toVariant().userType())) {
             Qt::GlobalColor _q_arg0 = qscriptvalue_cast<Qt::GlobalColor>(context->argument(0));
             QColor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QColor>() == context->argument(0).toVariant().userType())) {
             QColor _q_arg0 = qscriptvalue_cast<QColor>(context->argument(0));
             QColor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QColor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isNumber()) {
             uint _q_arg0 = context->argument(0).toUInt32();
             QColor _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -1045,7 +1045,7 @@ static QScriptValue qtscript_QColor_static_call(QScriptContext *context, QScript
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QColor _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 4) {
         int _q_arg0 = context->argument(0).toInt32();
@@ -1053,7 +1053,7 @@ static QScriptValue qtscript_QColor_static_call(QScriptContext *context, QScript
         int _q_arg2 = context->argument(2).toInt32();
         int _q_arg3 = context->argument(3).toInt32();
         QColor _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -1263,7 +1263,7 @@ static QScriptValue qtscript_QColor_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QColor_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QColor*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QColor*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QColor*)0));
     for (int i = 0; i < 66; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QColor_prototype_call, qtscript_QColor_function_lengths[i+13]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

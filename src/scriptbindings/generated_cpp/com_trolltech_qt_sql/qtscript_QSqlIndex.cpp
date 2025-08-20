@@ -177,25 +177,25 @@ static QScriptValue qtscript_QSqlIndex_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QSqlIndex _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QSqlIndex>() == context->argument(0).toVariant().userType())) {
             QSqlIndex _q_arg0 = qscriptvalue_cast<QSqlIndex>(context->argument(0));
             QSqlIndex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QSqlIndex _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         QString _q_arg1 = context->argument(1).toString();
         QSqlIndex _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -211,7 +211,7 @@ static QScriptValue qtscript_QSqlIndex_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QSqlIndex_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlIndex*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlIndex*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlIndex*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QSqlRecord*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlIndex_prototype_call, qtscript_QSqlIndex_function_lengths[i+1]);

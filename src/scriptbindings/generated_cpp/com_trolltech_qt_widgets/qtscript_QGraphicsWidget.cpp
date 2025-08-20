@@ -549,7 +549,7 @@ static void qtscript_QGraphicsWidget_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QGraphicsWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsObject*>()));
     proto.setProperty(QString::fromLatin1("__QGraphicsLayoutItem__"),
         engine->defaultPrototype(qMetaTypeId<QGraphicsLayoutItem*>()),

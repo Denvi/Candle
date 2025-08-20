@@ -203,7 +203,7 @@ static QScriptValue qtscript_create_QTabletEvent_TabletDevice_class(QScriptEngin
         qtscript_QTabletEvent_TabletDevice_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTabletEvent_TabletDevice_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTabletEvent_TabletDevice_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTabletEvent_TabletDevice_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -420,7 +420,7 @@ static QScriptValue qtscript_QTabletEvent_static_call(QScriptContext *context, Q
         QFlags<Qt::KeyboardModifier> _q_arg11 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(11));
         qint64 _q_arg12 = qscriptvalue_cast<qint64>(context->argument(12));
         QtScriptShell_QTabletEvent* _q_cpp_result = new QtScriptShell_QTabletEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8, _q_arg9, _q_arg10, _q_arg11, _q_arg12);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTabletEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTabletEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 15) {
@@ -440,7 +440,7 @@ static QScriptValue qtscript_QTabletEvent_static_call(QScriptContext *context, Q
         Qt::MouseButton _q_arg13 = qscriptvalue_cast<Qt::MouseButton>(context->argument(13));
         QFlags<Qt::MouseButton> _q_arg14 = qscriptvalue_cast<QFlags<Qt::MouseButton> >(context->argument(14));
         QtScriptShell_QTabletEvent* _q_cpp_result = new QtScriptShell_QTabletEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8, _q_arg9, _q_arg10, _q_arg11, _q_arg12, _q_arg13, _q_arg14);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTabletEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTabletEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -457,7 +457,7 @@ static QScriptValue qtscript_QTabletEvent_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QTabletEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTabletEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTabletEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTabletEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QInputEvent*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTabletEvent_prototype_call, qtscript_QTabletEvent_function_lengths[i+1]);

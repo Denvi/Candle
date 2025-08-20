@@ -124,7 +124,7 @@ static QScriptValue qtscript_create_QMutex_RecursionMode_class(QScriptEngine *en
         qtscript_QMutex_RecursionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QMutex_RecursionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QMutex_RecursionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QMutex_RecursionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -189,12 +189,12 @@ static QScriptValue qtscript_QMutex_static_call(QScriptContext *context, QScript
     }
     if (context->argumentCount() == 0) {
         QMutex* _q_cpp_result = new QMutex();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QMutex::RecursionMode _q_arg0 = qscriptvalue_cast<QMutex::RecursionMode>(context->argument(0));
         QMutex* _q_cpp_result = new QMutex(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -210,7 +210,7 @@ static QScriptValue qtscript_QMutex_static_call(QScriptContext *context, QScript
 QScriptValue qtscript_create_QMutex_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMutex*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMutex*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMutex*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QBasicMutex*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMutex_prototype_call, qtscript_QMutex_function_lengths[i+1]);

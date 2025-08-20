@@ -134,7 +134,7 @@ static QScriptValue qtscript_QXmlDTDHandler_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QXmlDTDHandler* _q_cpp_result = new QtScriptShell_QXmlDTDHandler();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QXmlDTDHandler*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QXmlDTDHandler*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -151,7 +151,7 @@ static QScriptValue qtscript_QXmlDTDHandler_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QXmlDTDHandler_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QXmlDTDHandler*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QXmlDTDHandler*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QXmlDTDHandler*)0));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QXmlDTDHandler_prototype_call, qtscript_QXmlDTDHandler_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

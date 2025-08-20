@@ -141,7 +141,7 @@ static void qtscript_QCommonStyle_fromScriptValue(const QScriptValue &value, QCo
 QScriptValue qtscript_create_QCommonStyle_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QCommonStyle*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QCommonStyle*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QCommonStyle*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyle*>()));
 
     qScriptRegisterMetaType<QCommonStyle*>(engine, qtscript_QCommonStyle_toScriptValue, 

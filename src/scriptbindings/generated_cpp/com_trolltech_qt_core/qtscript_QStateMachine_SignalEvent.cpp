@@ -132,7 +132,7 @@ static QScriptValue qtscript_QStateMachine_SignalEvent_static_call(QScriptContex
         QList<QVariant> _q_arg2;
         qScriptValueToSequence(context->argument(2), _q_arg2);
         QStateMachine::SignalEvent* _q_cpp_result = new QStateMachine::SignalEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -148,7 +148,7 @@ static QScriptValue qtscript_QStateMachine_SignalEvent_static_call(QScriptContex
 QScriptValue qtscript_create_QStateMachine_SignalEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStateMachine::SignalEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStateMachine::SignalEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStateMachine::SignalEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStateMachine_SignalEvent_prototype_call, qtscript_QStateMachine_SignalEvent_function_lengths[i+1]);

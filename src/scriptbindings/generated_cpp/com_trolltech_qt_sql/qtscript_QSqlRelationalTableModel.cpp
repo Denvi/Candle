@@ -192,7 +192,7 @@ static void qtscript_QSqlRelationalTableModel_fromScriptValue(const QScriptValue
 QScriptValue qtscript_create_QSqlRelationalTableModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSqlRelationalTableModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSqlRelationalTableModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSqlRelationalTableModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QSqlTableModel*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSqlRelationalTableModel_prototype_call, qtscript_QSqlRelationalTableModel_function_lengths[i+1]);

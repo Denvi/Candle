@@ -167,7 +167,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_ViewItemFeature_class(Q
         qtscript_QStyleOptionViewItem_ViewItemFeature_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionViewItem_ViewItemFeature_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionViewItem_ViewItemFeature_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionViewItem_ViewItemFeature_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -179,7 +179,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_ViewItemFeature_class(Q
 
 static QScriptValue qtscript_QStyleOptionViewItem_ViewItemFeatures_toScriptValue(QScriptEngine *engine, const QStyleOptionViewItem::ViewItemFeatures &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QStyleOptionViewItem_ViewItemFeatures_fromScriptValue(const QScriptValue &value, QStyleOptionViewItem::ViewItemFeatures &out)
@@ -208,7 +208,7 @@ static QScriptValue qtscript_construct_QStyleOptionViewItem_ViewItemFeatures(QSc
             result |= qvariant_cast<QStyleOptionViewItem::ViewItemFeature>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QStyleOptionViewItem_ViewItemFeatures_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -316,7 +316,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_ViewItemPosition_class(
         qtscript_QStyleOptionViewItem_ViewItemPosition_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionViewItem_ViewItemPosition_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionViewItem_ViewItemPosition_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionViewItem_ViewItemPosition_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -381,7 +381,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_StyleOptionVersion_clas
         qtscript_QStyleOptionViewItem_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionViewItem_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionViewItem_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionViewItem_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -452,7 +452,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_Position_class(QScriptE
         qtscript_QStyleOptionViewItem_Position_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionViewItem_Position_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionViewItem_Position_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionViewItem_Position_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -517,7 +517,7 @@ static QScriptValue qtscript_create_QStyleOptionViewItem_StyleOptionType_class(Q
         qtscript_QStyleOptionViewItem_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionViewItem_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionViewItem_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionViewItem_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -582,13 +582,13 @@ static QScriptValue qtscript_QStyleOptionViewItem_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionViewItem _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionViewItem)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionViewItem)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionViewItem _q_arg0 = qscriptvalue_cast<QStyleOptionViewItem>(context->argument(0));
         QtScriptShell_QStyleOptionViewItem _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionViewItem)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionViewItem)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -605,7 +605,7 @@ static QScriptValue qtscript_QStyleOptionViewItem_static_call(QScriptContext *co
 QScriptValue qtscript_create_QStyleOptionViewItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionViewItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionViewItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionViewItem*)0));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStyleOptionViewItem_prototype_call, qtscript_QStyleOptionViewItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

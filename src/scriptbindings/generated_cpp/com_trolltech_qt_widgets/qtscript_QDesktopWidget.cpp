@@ -251,7 +251,7 @@ static void qtscript_QDesktopWidget_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QDesktopWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDesktopWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDesktopWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDesktopWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDesktopWidget_prototype_call, qtscript_QDesktopWidget_function_lengths[i+1]);

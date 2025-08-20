@@ -416,7 +416,7 @@ static void qtscript_QToolBar_fromScriptValue(const QScriptValue &value, QToolBa
 QScriptValue qtscript_create_QToolBar_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QToolBar*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QToolBar*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QToolBar*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QToolBar_prototype_call, qtscript_QToolBar_function_lengths[i+1]);

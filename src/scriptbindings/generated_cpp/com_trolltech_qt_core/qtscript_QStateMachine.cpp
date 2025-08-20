@@ -177,7 +177,7 @@ static QScriptValue qtscript_create_QStateMachine_Error_class(QScriptEngine *eng
         qtscript_QStateMachine_Error_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStateMachine_Error_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStateMachine_Error_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStateMachine_Error_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -244,7 +244,7 @@ static QScriptValue qtscript_create_QStateMachine_EventPriority_class(QScriptEng
         qtscript_QStateMachine_EventPriority_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStateMachine_EventPriority_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStateMachine_EventPriority_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStateMachine_EventPriority_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -440,7 +440,7 @@ static void qtscript_QStateMachine_fromScriptValue(const QScriptValue &value, QS
 QScriptValue qtscript_create_QStateMachine_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStateMachine*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStateMachine*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStateMachine*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QState*>()));
     for (int i = 0; i < 12; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QStateMachine_prototype_call, qtscript_QStateMachine_function_lengths[i+1]);

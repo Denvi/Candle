@@ -157,7 +157,7 @@ static QScriptValue qtscript_create_QGraphicsSceneContextMenuEvent_Reason_class(
         qtscript_QGraphicsSceneContextMenuEvent_Reason_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGraphicsSceneContextMenuEvent_Reason_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGraphicsSceneContextMenuEvent_Reason_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGraphicsSceneContextMenuEvent_Reason_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -289,12 +289,12 @@ static QScriptValue qtscript_QGraphicsSceneContextMenuEvent_static_call(QScriptC
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneContextMenuEvent* _q_cpp_result = new QGraphicsSceneContextMenuEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QGraphicsSceneContextMenuEvent* _q_cpp_result = new QGraphicsSceneContextMenuEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -310,7 +310,7 @@ static QScriptValue qtscript_QGraphicsSceneContextMenuEvent_static_call(QScriptC
 QScriptValue qtscript_create_QGraphicsSceneContextMenuEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneContextMenuEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneContextMenuEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneContextMenuEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneContextMenuEvent_prototype_call, qtscript_QGraphicsSceneContextMenuEvent_function_lengths[i+1]);

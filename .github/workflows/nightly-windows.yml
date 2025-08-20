@@ -1,0 +1,101 @@
+name: Nightly / Windows (x64)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch to run on'
+        required: true
+        default: 'master'
+        type: string
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DEFAULT_BINARY_CACHE: ${{github.workspace}}/vcpkg_cache
+
+jobs:
+  check_date:
+    runs-on: ubuntu-latest
+    name: Check latest commit
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Output latest commit SHA
+        run: echo ${{ github.sha }}
+
+      - name: Check latest commit is less than a day
+        id: should_run
+        continue-on-error: true
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          if git rev-list --after="24 hours" ${{ github.sha }} | grep -q .; then
+            echo "should_run=true"  >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    runs-on: windows-latest
+    name: Build
+
+    needs: check_date
+    if: ${{ needs.check_date.outputs.should_run != 'false' }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download vcpkg cache
+      uses: actions/cache@v4
+      id: cache-vcpkg
+      with:
+        path: vcpkg_cache
+        key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+
+    - name: Ensure vcpkg cache dir
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+      run: mkdir vcpkg_cache
+
+    - name: Bootstrap vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git
+        ./vcpkg/bootstrap-vcpkg.bat
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Install
+      run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Create archive
+      run: |
+        Compress-Archive -Path ${{github.workspace}}/build/Candle -DestinationPath candle.zip
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Candle-${{ github.sha }}
+        path: ${{github.workspace}}/candle.zip
+
+    - name: Update tag
+      run: |
+        git tag -f nightly
+        git push origin tag nightly --force
+
+    - name: Deploy to release
+      uses: WebFreak001/deploy-nightly@v3.2.0
+      with:
+        upload_url: https://uploads.github.com/repos/Denvi/Candle/releases/240990238/assets{?name,label}
+        release_id: 240990238
+        asset_path: ${{github.workspace}}/candle.zip
+        asset_name: candle-$$.zip
+        asset_content_type: application/zip
+        max_releases: 5
+        ignore_hash: true

@@ -209,7 +209,7 @@ static QScriptValue qtscript_create_QTextBlockFormat_LineHeightTypes_class(QScri
         qtscript_QTextBlockFormat_LineHeightTypes_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextBlockFormat_LineHeightTypes_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextBlockFormat_LineHeightTypes_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextBlockFormat_LineHeightTypes_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -446,7 +446,7 @@ static QScriptValue qtscript_QTextBlockFormat_static_call(QScriptContext *contex
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextBlockFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextBlockFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextBlockFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -463,7 +463,7 @@ static QScriptValue qtscript_QTextBlockFormat_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QTextBlockFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextBlockFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextBlockFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextBlockFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFormat*>()));
     for (int i = 0; i < 24; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextBlockFormat_prototype_call, qtscript_QTextBlockFormat_function_lengths[i+1]);

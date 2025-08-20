@@ -169,7 +169,7 @@ static QScriptValue qtscript_create_QItemSelectionModel_SelectionFlag_class(QScr
         qtscript_QItemSelectionModel_SelectionFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 11; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QItemSelectionModel_SelectionFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QItemSelectionModel_SelectionFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QItemSelectionModel_SelectionFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -181,7 +181,7 @@ static QScriptValue qtscript_create_QItemSelectionModel_SelectionFlag_class(QScr
 
 static QScriptValue qtscript_QItemSelectionModel_SelectionFlags_toScriptValue(QScriptEngine *engine, const QItemSelectionModel::SelectionFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QItemSelectionModel_SelectionFlags_fromScriptValue(const QScriptValue &value, QItemSelectionModel::SelectionFlags &out)
@@ -210,7 +210,7 @@ static QScriptValue qtscript_construct_QItemSelectionModel_SelectionFlags(QScrip
             result |= qvariant_cast<QItemSelectionModel::SelectionFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QItemSelectionModel_SelectionFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -342,7 +342,7 @@ static void qtscript_QItemSelectionModel_fromScriptValue(const QScriptValue &val
 QScriptValue qtscript_create_QItemSelectionModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QItemSelectionModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QItemSelectionModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QItemSelectionModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
 
     qScriptRegisterMetaType<QItemSelectionModel*>(engine, qtscript_QItemSelectionModel_toScriptValue, 

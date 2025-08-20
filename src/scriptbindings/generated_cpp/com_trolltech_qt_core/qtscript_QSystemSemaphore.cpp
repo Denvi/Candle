@@ -149,7 +149,7 @@ static QScriptValue qtscript_create_QSystemSemaphore_SystemSemaphoreError_class(
         qtscript_QSystemSemaphore_SystemSemaphoreError_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSystemSemaphore_SystemSemaphoreError_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSystemSemaphore_SystemSemaphoreError_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSystemSemaphore_SystemSemaphoreError_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -216,7 +216,7 @@ static QScriptValue qtscript_create_QSystemSemaphore_AccessMode_class(QScriptEng
         qtscript_QSystemSemaphore_AccessMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSystemSemaphore_AccessMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSystemSemaphore_AccessMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSystemSemaphore_AccessMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -335,20 +335,20 @@ static QScriptValue qtscript_QSystemSemaphore_static_call(QScriptContext *contex
     if (context->argumentCount() == 1) {
         QString _q_arg0 = context->argument(0).toString();
         QSystemSemaphore* _q_cpp_result = new QSystemSemaphore(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QString _q_arg0 = context->argument(0).toString();
         int _q_arg1 = context->argument(1).toInt32();
         QSystemSemaphore* _q_cpp_result = new QSystemSemaphore(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 3) {
         QString _q_arg0 = context->argument(0).toString();
         int _q_arg1 = context->argument(1).toInt32();
         QSystemSemaphore::AccessMode _q_arg2 = qscriptvalue_cast<QSystemSemaphore::AccessMode>(context->argument(2));
         QSystemSemaphore* _q_cpp_result = new QSystemSemaphore(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -364,7 +364,7 @@ static QScriptValue qtscript_QSystemSemaphore_static_call(QScriptContext *contex
 QScriptValue qtscript_create_QSystemSemaphore_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSystemSemaphore*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSystemSemaphore*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSystemSemaphore*)0));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSystemSemaphore_prototype_call, qtscript_QSystemSemaphore_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

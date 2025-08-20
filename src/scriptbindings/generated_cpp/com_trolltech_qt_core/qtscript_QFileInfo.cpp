@@ -541,31 +541,31 @@ static QScriptValue qtscript_QFileInfo_static_call(QScriptContext *context, QScr
     }
     if (context->argumentCount() == 0) {
         QFileInfo _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QFile*>(context->argument(0))) {
 
         QFile & _q_arg0 = *qscriptvalue_cast<QFile*>(context->argument(0));
                     QFileInfo _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QFileInfo>() == context->argument(0).toVariant().userType())) {
             QFileInfo _q_arg0 = qscriptvalue_cast<QFileInfo>(context->argument(0));
             QFileInfo _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QFileInfo _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 2) {
         QDir _q_arg0 = qscriptvalue_cast<QDir>(context->argument(0));
         QString _q_arg1 = context->argument(1).toString();
         QFileInfo _q_cpp_result(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -589,7 +589,7 @@ static QScriptValue qtscript_QFileInfo_static_call(QScriptContext *context, QScr
 QScriptValue qtscript_create_QFileInfo_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFileInfo*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFileInfo*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFileInfo*)0));
     for (int i = 0; i < 43; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFileInfo_prototype_call, qtscript_QFileInfo_function_lengths[i+2]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

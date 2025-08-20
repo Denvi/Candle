@@ -223,7 +223,7 @@ static void qtscript_QUndoView_fromScriptValue(const QScriptValue &value, QUndoV
 QScriptValue qtscript_create_QUndoView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUndoView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUndoView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUndoView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QListView*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUndoView_prototype_call, qtscript_QUndoView_function_lengths[i+1]);

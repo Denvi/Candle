@@ -267,12 +267,12 @@ static QScriptValue qtscript_QPainterPathStroker_static_call(QScriptContext *con
     }
     if (context->argumentCount() == 0) {
         QPainterPathStroker* _q_cpp_result = new QPainterPathStroker();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QPen _q_arg0 = qscriptvalue_cast<QPen>(context->argument(0));
         QPainterPathStroker* _q_cpp_result = new QPainterPathStroker(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -288,7 +288,7 @@ static QScriptValue qtscript_QPainterPathStroker_static_call(QScriptContext *con
 QScriptValue qtscript_create_QPainterPathStroker_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPainterPathStroker*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPainterPathStroker*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPainterPathStroker*)0));
     for (int i = 0; i < 16; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPainterPathStroker_prototype_call, qtscript_QPainterPathStroker_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

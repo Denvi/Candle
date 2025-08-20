@@ -142,7 +142,7 @@ static QScriptValue qtscript_create_QStyleOptionMenuItem_MenuItemType_class(QScr
         qtscript_QStyleOptionMenuItem_MenuItemType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionMenuItem_MenuItemType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionMenuItem_MenuItemType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionMenuItem_MenuItemType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -207,7 +207,7 @@ static QScriptValue qtscript_create_QStyleOptionMenuItem_StyleOptionVersion_clas
         qtscript_QStyleOptionMenuItem_StyleOptionVersion_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionMenuItem_StyleOptionVersion_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionMenuItem_StyleOptionVersion_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionMenuItem_StyleOptionVersion_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -276,7 +276,7 @@ static QScriptValue qtscript_create_QStyleOptionMenuItem_CheckType_class(QScript
         qtscript_QStyleOptionMenuItem_CheckType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionMenuItem_CheckType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionMenuItem_CheckType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionMenuItem_CheckType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -341,7 +341,7 @@ static QScriptValue qtscript_create_QStyleOptionMenuItem_StyleOptionType_class(Q
         qtscript_QStyleOptionMenuItem_StyleOptionType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QStyleOptionMenuItem_StyleOptionType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QStyleOptionMenuItem_StyleOptionType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QStyleOptionMenuItem_StyleOptionType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -398,13 +398,13 @@ static QScriptValue qtscript_QStyleOptionMenuItem_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QStyleOptionMenuItem _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionMenuItem)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionMenuItem)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QStyleOptionMenuItem _q_arg0 = qscriptvalue_cast<QStyleOptionMenuItem>(context->argument(0));
         QtScriptShell_QStyleOptionMenuItem _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QStyleOptionMenuItem)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QStyleOptionMenuItem)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -421,7 +421,7 @@ static QScriptValue qtscript_QStyleOptionMenuItem_static_call(QScriptContext *co
 QScriptValue qtscript_create_QStyleOptionMenuItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionMenuItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QStyleOptionMenuItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QStyleOptionMenuItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QStyleOption*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QStyleOptionMenuItem>(), proto);

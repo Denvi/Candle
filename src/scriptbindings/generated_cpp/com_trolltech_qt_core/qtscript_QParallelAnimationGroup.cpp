@@ -138,7 +138,7 @@ static void qtscript_QParallelAnimationGroup_fromScriptValue(const QScriptValue 
 QScriptValue qtscript_create_QParallelAnimationGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QParallelAnimationGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QParallelAnimationGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QParallelAnimationGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAnimationGroup*>()));
 
     qScriptRegisterMetaType<QParallelAnimationGroup*>(engine, qtscript_QParallelAnimationGroup_toScriptValue, 

@@ -164,7 +164,7 @@ static QScriptValue qtscript_create_QRubberBand_Shape_class(QScriptEngine *engin
         qtscript_QRubberBand_Shape_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QRubberBand_Shape_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QRubberBand_Shape_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QRubberBand_Shape_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -307,7 +307,7 @@ static void qtscript_QRubberBand_fromScriptValue(const QScriptValue &value, QRub
 QScriptValue qtscript_create_QRubberBand_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QRubberBand*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QRubberBand*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QRubberBand*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QRubberBand_prototype_call, qtscript_QRubberBand_function_lengths[i+1]);

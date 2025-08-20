@@ -173,7 +173,7 @@ static QScriptValue qtscript_create_QFrame_Shape_class(QScriptEngine *engine, QS
         qtscript_QFrame_Shape_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QFrame_Shape_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QFrame_Shape_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QFrame_Shape_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -292,7 +292,7 @@ static void qtscript_QFrame_fromScriptValue(const QScriptValue &value, QFrame* &
 QScriptValue qtscript_create_QFrame_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFrame*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFrame*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFrame*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFrame_prototype_call, qtscript_QFrame_function_lengths[i+1]);

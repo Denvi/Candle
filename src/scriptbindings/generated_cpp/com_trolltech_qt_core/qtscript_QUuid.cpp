@@ -171,7 +171,7 @@ static QScriptValue qtscript_create_QUuid_Version_class(QScriptEngine *engine, Q
         qtscript_QUuid_Version_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QUuid_Version_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QUuid_Version_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QUuid_Version_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -248,7 +248,7 @@ static QScriptValue qtscript_create_QUuid_Variant_class(QScriptEngine *engine, Q
         qtscript_QUuid_Variant_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QUuid_Variant_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QUuid_Variant_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QUuid_Variant_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -358,20 +358,20 @@ static QScriptValue qtscript_QUuid_static_call(QScriptContext *context, QScriptE
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QUuid _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUuid)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUuid)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QByteArray>() == context->argument(0).toVariant().userType())) {
             QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
             QtScriptShell_QUuid _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUuid)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUuid)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QUuid _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUuid)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUuid)_q_cpp_result));
             _q_cpp_result.__qtscript_self = _q_result;
             return _q_result;
         }
@@ -388,7 +388,7 @@ static QScriptValue qtscript_QUuid_static_call(QScriptContext *context, QScriptE
         uchar _q_arg9 = qscriptvalue_cast<uchar>(context->argument(9));
         uchar _q_arg10 = qscriptvalue_cast<uchar>(context->argument(10));
         QtScriptShell_QUuid _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8, _q_arg9, _q_arg10);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QUuid)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QUuid)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -456,7 +456,7 @@ static QScriptValue qtscript_QUuid_static_call(QScriptContext *context, QScriptE
 QScriptValue qtscript_create_QUuid_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QUuid*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QUuid*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QUuid*)0));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QUuid_prototype_call, qtscript_QUuid_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

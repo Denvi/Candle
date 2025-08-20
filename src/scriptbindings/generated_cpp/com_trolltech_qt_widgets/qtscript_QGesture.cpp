@@ -129,7 +129,7 @@ static QScriptValue qtscript_create_QGesture_GestureCancelPolicy_class(QScriptEn
         qtscript_QGesture_GestureCancelPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QGesture_GestureCancelPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QGesture_GestureCancelPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QGesture_GestureCancelPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -228,7 +228,7 @@ static void qtscript_QGesture_fromScriptValue(const QScriptValue &value, QGestur
 QScriptValue qtscript_create_QGesture_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGesture*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGesture*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGesture*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGesture_prototype_call, qtscript_QGesture_function_lengths[i+1]);

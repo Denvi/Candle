@@ -145,7 +145,7 @@ static QScriptValue qtscript_QHoverEvent_static_call(QScriptContext *context, QS
         QPointF _q_arg1 = qscriptvalue_cast<QPointF>(context->argument(1));
         QPointF _q_arg2 = qscriptvalue_cast<QPointF>(context->argument(2));
         QtScriptShell_QHoverEvent* _q_cpp_result = new QtScriptShell_QHoverEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QHoverEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QHoverEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 4) {
@@ -154,7 +154,7 @@ static QScriptValue qtscript_QHoverEvent_static_call(QScriptContext *context, QS
         QPointF _q_arg2 = qscriptvalue_cast<QPointF>(context->argument(2));
         QFlags<Qt::KeyboardModifier> _q_arg3 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(3));
         QtScriptShell_QHoverEvent* _q_cpp_result = new QtScriptShell_QHoverEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QHoverEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QHoverEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -171,7 +171,7 @@ static QScriptValue qtscript_QHoverEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QHoverEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QHoverEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QHoverEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QHoverEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QInputEvent*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QHoverEvent_prototype_call, qtscript_QHoverEvent_function_lengths[i+1]);

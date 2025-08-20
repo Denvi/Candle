@@ -212,7 +212,7 @@ static QScriptValue qtscript_create_QColorDialog_ColorDialogOption_class(QScript
         qtscript_QColorDialog_ColorDialogOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QColorDialog_ColorDialogOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QColorDialog_ColorDialogOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QColorDialog_ColorDialogOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -224,7 +224,7 @@ static QScriptValue qtscript_create_QColorDialog_ColorDialogOption_class(QScript
 
 static QScriptValue qtscript_QColorDialog_ColorDialogOptions_toScriptValue(QScriptEngine *engine, const QColorDialog::ColorDialogOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QColorDialog_ColorDialogOptions_fromScriptValue(const QScriptValue &value, QColorDialog::ColorDialogOptions &out)
@@ -253,7 +253,7 @@ static QScriptValue qtscript_construct_QColorDialog_ColorDialogOptions(QScriptCo
             result |= qvariant_cast<QColorDialog::ColorDialogOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QColorDialog_ColorDialogOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -513,7 +513,7 @@ static void qtscript_QColorDialog_fromScriptValue(const QScriptValue &value, QCo
 QScriptValue qtscript_create_QColorDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QColorDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QColorDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QColorDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QColorDialog_prototype_call, qtscript_QColorDialog_function_lengths[i+7]);

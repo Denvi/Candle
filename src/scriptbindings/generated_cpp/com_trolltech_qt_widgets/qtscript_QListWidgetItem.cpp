@@ -233,7 +233,7 @@ static QScriptValue qtscript_create_QListWidgetItem_ItemType_class(QScriptEngine
         qtscript_QListWidgetItem_ItemType_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QListWidgetItem_ItemType_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QListWidgetItem_ItemType_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QListWidgetItem_ItemType_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -538,20 +538,20 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QListWidget*>(context->argument(0))) {
             QListWidget* _q_arg0 = qscriptvalue_cast<QListWidget*>(context->argument(0));
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -561,7 +561,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
             QListWidget* _q_arg0 = qscriptvalue_cast<QListWidget*>(context->argument(0));
             int _q_arg1 = context->argument(1).toInt32();
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QIcon>() == context->argument(0).toVariant().userType())
@@ -569,7 +569,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
             QIcon _q_arg0 = qscriptvalue_cast<QIcon>(context->argument(0));
             QString _q_arg1 = context->argument(1).toString();
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()
@@ -577,7 +577,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
             QString _q_arg0 = context->argument(0).toString();
             QListWidget* _q_arg1 = qscriptvalue_cast<QListWidget*>(context->argument(1));
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -589,7 +589,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
             QString _q_arg1 = context->argument(1).toString();
             QListWidget* _q_arg2 = qscriptvalue_cast<QListWidget*>(context->argument(2));
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if (context->argument(0).isString()
@@ -599,7 +599,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
             QListWidget* _q_arg1 = qscriptvalue_cast<QListWidget*>(context->argument(1));
             int _q_arg2 = context->argument(2).toInt32();
             QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1, _q_arg2);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -609,7 +609,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
         QListWidget* _q_arg2 = qscriptvalue_cast<QListWidget*>(context->argument(2));
         int _q_arg3 = context->argument(3).toInt32();
         QtScriptShell_QListWidgetItem* _q_cpp_result = new QtScriptShell_QListWidgetItem(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QListWidgetItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QListWidgetItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -626,7 +626,7 @@ static QScriptValue qtscript_QListWidgetItem_static_call(QScriptContext *context
 QScriptValue qtscript_create_QListWidgetItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QListWidgetItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QListWidgetItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QListWidgetItem*)0));
     for (int i = 0; i < 34; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QListWidgetItem_prototype_call, qtscript_QListWidgetItem_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

@@ -118,13 +118,13 @@ static QScriptValue qtscript_QWindowStateChangeEvent_static_call(QScriptContext 
     if (context->argumentCount() == 1) {
         QFlags<Qt::WindowState> _q_arg0 = qscriptvalue_cast<QFlags<Qt::WindowState> >(context->argument(0));
         QWindowStateChangeEvent* _q_cpp_result = new QWindowStateChangeEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QFlags<Qt::WindowState> _q_arg0 = qscriptvalue_cast<QFlags<Qt::WindowState> >(context->argument(0));
         bool _q_arg1 = context->argument(1).toBoolean();
         QWindowStateChangeEvent* _q_cpp_result = new QWindowStateChangeEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -140,7 +140,7 @@ static QScriptValue qtscript_QWindowStateChangeEvent_static_call(QScriptContext 
 QScriptValue qtscript_create_QWindowStateChangeEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QWindowStateChangeEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QWindowStateChangeEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QWindowStateChangeEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QWindowStateChangeEvent_prototype_call, qtscript_QWindowStateChangeEvent_function_lengths[i+1]);

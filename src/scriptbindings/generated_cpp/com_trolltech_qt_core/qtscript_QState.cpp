@@ -149,7 +149,7 @@ static QScriptValue qtscript_create_QState_ChildMode_class(QScriptEngine *engine
         qtscript_QState_ChildMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QState_ChildMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QState_ChildMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QState_ChildMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -304,7 +304,7 @@ static void qtscript_QState_fromScriptValue(const QScriptValue &value, QState* &
 QScriptValue qtscript_create_QState_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QState*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QState*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QState*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractState*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QState_prototype_call, qtscript_QState_function_lengths[i+1]);

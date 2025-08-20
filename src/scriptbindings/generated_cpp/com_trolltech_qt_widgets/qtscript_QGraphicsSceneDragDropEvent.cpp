@@ -304,12 +304,12 @@ static QScriptValue qtscript_QGraphicsSceneDragDropEvent_static_call(QScriptCont
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneDragDropEvent* _q_cpp_result = new QGraphicsSceneDragDropEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QGraphicsSceneDragDropEvent* _q_cpp_result = new QGraphicsSceneDragDropEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -325,7 +325,7 @@ static QScriptValue qtscript_QGraphicsSceneDragDropEvent_static_call(QScriptCont
 QScriptValue qtscript_create_QGraphicsSceneDragDropEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneDragDropEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneDragDropEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneDragDropEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 20; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneDragDropEvent_prototype_call, qtscript_QGraphicsSceneDragDropEvent_function_lengths[i+1]);

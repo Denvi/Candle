@@ -168,7 +168,7 @@ static QScriptValue qtscript_create_QTextListFormat_Style_class(QScriptEngine *e
         qtscript_QTextListFormat_Style_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 9; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextListFormat_Style_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextListFormat_Style_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextListFormat_Style_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -285,7 +285,7 @@ static QScriptValue qtscript_QTextListFormat_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextListFormat _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextListFormat)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextListFormat)_q_cpp_result));
         _q_cpp_result.__qtscript_self = _q_result;
         return _q_result;
     }
@@ -302,7 +302,7 @@ static QScriptValue qtscript_QTextListFormat_static_call(QScriptContext *context
 QScriptValue qtscript_create_QTextListFormat_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextListFormat*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextListFormat*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextListFormat*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextFormat*>()));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextListFormat_prototype_call, qtscript_QTextListFormat_function_lengths[i+1]);

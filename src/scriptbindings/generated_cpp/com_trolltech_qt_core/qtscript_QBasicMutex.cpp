@@ -137,7 +137,7 @@ static QScriptValue qtscript_QBasicMutex_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QBasicMutex* _q_cpp_result = new QtScriptShell_QBasicMutex();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QBasicMutex*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QBasicMutex*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -154,7 +154,7 @@ static QScriptValue qtscript_QBasicMutex_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QBasicMutex_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QBasicMutex*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QBasicMutex*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QBasicMutex*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QBasicMutex_prototype_call, qtscript_QBasicMutex_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

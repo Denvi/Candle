@@ -355,7 +355,7 @@ static void qtscript_QMimeData_fromScriptValue(const QScriptValue &value, QMimeD
 QScriptValue qtscript_create_QMimeData_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMimeData*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMimeData*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMimeData*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 22; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMimeData_prototype_call, qtscript_QMimeData_function_lengths[i+1]);

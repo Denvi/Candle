@@ -164,7 +164,7 @@ static void qtscript_QIntValidator_fromScriptValue(const QScriptValue &value, QI
 QScriptValue qtscript_create_QIntValidator_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QIntValidator*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QIntValidator*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QIntValidator*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QValidator*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QIntValidator_prototype_call, qtscript_QIntValidator_function_lengths[i+1]);

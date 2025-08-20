@@ -636,23 +636,23 @@ static QScriptValue qtscript_QMatrix4x4_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QMatrix4x4 _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QMatrix>() == context->argument(0).toVariant().userType())) {
             QMatrix _q_arg0 = qscriptvalue_cast<QMatrix>(context->argument(0));
             QMatrix4x4 _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QTransform>() == context->argument(0).toVariant().userType())) {
             QTransform _q_arg0 = qscriptvalue_cast<QTransform>(context->argument(0));
             QMatrix4x4 _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (qscriptvalue_cast<const float*>(context->argument(0))) {
             const float* _q_arg0 = qscriptvalue_cast<const float*>(context->argument(0));
             QMatrix4x4 _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     } else if (context->argumentCount() == 3) {
@@ -660,7 +660,7 @@ static QScriptValue qtscript_QMatrix4x4_static_call(QScriptContext *context, QSc
         int _q_arg1 = context->argument(1).toInt32();
         int _q_arg2 = context->argument(2).toInt32();
         QMatrix4x4 _q_cpp_result(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 16) {
         float _q_arg0 = qscriptvalue_cast<float>(context->argument(0));
@@ -680,7 +680,7 @@ static QScriptValue qtscript_QMatrix4x4_static_call(QScriptContext *context, QSc
         float _q_arg14 = qscriptvalue_cast<float>(context->argument(14));
         float _q_arg15 = qscriptvalue_cast<float>(context->argument(15));
         QMatrix4x4 _q_cpp_result(_q_arg0, _q_arg1, _q_arg2, _q_arg3, _q_arg4, _q_arg5, _q_arg6, _q_arg7, _q_arg8, _q_arg9, _q_arg10, _q_arg11, _q_arg12, _q_arg13, _q_arg14, _q_arg15);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -696,7 +696,7 @@ static QScriptValue qtscript_QMatrix4x4_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QMatrix4x4_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMatrix4x4*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMatrix4x4*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMatrix4x4*)0));
     for (int i = 0; i < 37; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMatrix4x4_prototype_call, qtscript_QMatrix4x4_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

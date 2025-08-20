@@ -170,7 +170,7 @@ static void qtscript_StyledToolButton_fromScriptValue(const QScriptValue &value,
 QScriptValue qtscript_create_StyledToolButton_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<StyledToolButton*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((StyledToolButton*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((StyledToolButton*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QToolButton*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_StyledToolButton_prototype_call, qtscript_StyledToolButton_function_lengths[i+1]);

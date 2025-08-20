@@ -268,7 +268,7 @@ static QScriptValue qtscript_create_QComboBox_SizeAdjustPolicy_class(QScriptEngi
         qtscript_QComboBox_SizeAdjustPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QComboBox_SizeAdjustPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QComboBox_SizeAdjustPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QComboBox_SizeAdjustPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -345,7 +345,7 @@ static QScriptValue qtscript_create_QComboBox_InsertPolicy_class(QScriptEngine *
         qtscript_QComboBox_InsertPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QComboBox_InsertPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QComboBox_InsertPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QComboBox_InsertPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -768,7 +768,7 @@ static void qtscript_QComboBox_fromScriptValue(const QScriptValue &value, QCombo
 QScriptValue qtscript_create_QComboBox_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QComboBox*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QComboBox*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QComboBox*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 33; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QComboBox_prototype_call, qtscript_QComboBox_function_lengths[i+1]);

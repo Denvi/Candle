@@ -175,7 +175,7 @@ static QScriptValue qtscript_create_QClipboard_Mode_class(QScriptEngine *engine,
         qtscript_QClipboard_Mode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QClipboard_Mode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QClipboard_Mode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QClipboard_Mode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -409,7 +409,7 @@ static void qtscript_QClipboard_fromScriptValue(const QScriptValue &value, QClip
 QScriptValue qtscript_create_QClipboard_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QClipboard*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QClipboard*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QClipboard*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QClipboard_prototype_call, qtscript_QClipboard_function_lengths[i+1]);

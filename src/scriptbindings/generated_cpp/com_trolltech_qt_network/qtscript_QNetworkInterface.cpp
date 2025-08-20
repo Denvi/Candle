@@ -192,7 +192,7 @@ static QScriptValue qtscript_create_QNetworkInterface_InterfaceFlag_class(QScrip
         qtscript_QNetworkInterface_InterfaceFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QNetworkInterface_InterfaceFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QNetworkInterface_InterfaceFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QNetworkInterface_InterfaceFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -204,7 +204,7 @@ static QScriptValue qtscript_create_QNetworkInterface_InterfaceFlag_class(QScrip
 
 static QScriptValue qtscript_QNetworkInterface_InterfaceFlags_toScriptValue(QScriptEngine *engine, const QNetworkInterface::InterfaceFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QNetworkInterface_InterfaceFlags_fromScriptValue(const QScriptValue &value, QNetworkInterface::InterfaceFlags &out)
@@ -233,7 +233,7 @@ static QScriptValue qtscript_construct_QNetworkInterface_InterfaceFlags(QScriptC
             result |= qvariant_cast<QNetworkInterface::InterfaceFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QNetworkInterface_InterfaceFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -384,12 +384,12 @@ static QScriptValue qtscript_QNetworkInterface_static_call(QScriptContext *conte
     }
     if (context->argumentCount() == 0) {
         QNetworkInterface _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QNetworkInterface _q_arg0 = qscriptvalue_cast<QNetworkInterface>(context->argument(0));
         QNetworkInterface _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -435,7 +435,7 @@ static QScriptValue qtscript_QNetworkInterface_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QNetworkInterface_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QNetworkInterface*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QNetworkInterface*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QNetworkInterface*)0));
     for (int i = 0; i < 9; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QNetworkInterface_prototype_call, qtscript_QNetworkInterface_function_lengths[i+5]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

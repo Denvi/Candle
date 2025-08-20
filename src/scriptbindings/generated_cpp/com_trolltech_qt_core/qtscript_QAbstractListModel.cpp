@@ -142,7 +142,7 @@ static void qtscript_QAbstractListModel_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QAbstractListModel_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractListModel*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractListModel*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractListModel*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractItemModel*>()));
 
     qScriptRegisterMetaType<QAbstractListModel*>(engine, qtscript_QAbstractListModel_toScriptValue, 

@@ -156,12 +156,12 @@ static QScriptValue qtscript_QSemaphore_static_call(QScriptContext *context, QSc
     }
     if (context->argumentCount() == 0) {
         QSemaphore* _q_cpp_result = new QSemaphore();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         int _q_arg0 = context->argument(0).toInt32();
         QSemaphore* _q_cpp_result = new QSemaphore(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -177,7 +177,7 @@ static QScriptValue qtscript_QSemaphore_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QSemaphore_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSemaphore*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSemaphore*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSemaphore*)0));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSemaphore_prototype_call, qtscript_QSemaphore_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

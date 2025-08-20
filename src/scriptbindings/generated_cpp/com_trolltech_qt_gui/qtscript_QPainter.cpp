@@ -552,7 +552,7 @@ static QScriptValue qtscript_create_QPainter_CompositionMode_class(QScriptEngine
         qtscript_QPainter_CompositionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 38; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPainter_CompositionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPainter_CompositionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPainter_CompositionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -617,7 +617,7 @@ static QScriptValue qtscript_create_QPainter_PixmapFragmentHint_class(QScriptEng
         qtscript_QPainter_PixmapFragmentHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPainter_PixmapFragmentHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPainter_PixmapFragmentHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPainter_PixmapFragmentHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -696,7 +696,7 @@ static QScriptValue qtscript_create_QPainter_RenderHint_class(QScriptEngine *eng
         qtscript_QPainter_RenderHint_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 6; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QPainter_RenderHint_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QPainter_RenderHint_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QPainter_RenderHint_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -708,7 +708,7 @@ static QScriptValue qtscript_create_QPainter_RenderHint_class(QScriptEngine *eng
 
 static QScriptValue qtscript_QPainter_RenderHints_toScriptValue(QScriptEngine *engine, const QPainter::RenderHints &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QPainter_RenderHints_fromScriptValue(const QScriptValue &value, QPainter::RenderHints &out)
@@ -737,7 +737,7 @@ static QScriptValue qtscript_construct_QPainter_RenderHints(QScriptContext *cont
             result |= qvariant_cast<QPainter::RenderHint>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QPainter_RenderHints_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -2594,7 +2594,7 @@ static QScriptValue qtscript_QPainter_static_call(QScriptContext *context, QScri
     }
     if (context->argumentCount() == 0) {
         QPainter* _q_cpp_result = new QPainter();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -2643,7 +2643,7 @@ static QScriptValue qtscript_QPainter_static_call(QScriptContext *context, QScri
 QScriptValue qtscript_create_QPainter_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPainter*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPainter*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPainter*)0));
     for (int i = 0; i < 96; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QPainter_prototype_call, qtscript_QPainter_function_lengths[i+4]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

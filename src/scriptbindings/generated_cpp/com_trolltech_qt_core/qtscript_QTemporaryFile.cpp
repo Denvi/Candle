@@ -250,7 +250,7 @@ static void qtscript_QTemporaryFile_fromScriptValue(const QScriptValue &value, Q
 QScriptValue qtscript_create_QTemporaryFile_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTemporaryFile*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTemporaryFile*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTemporaryFile*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QFile*>()));
     for (int i = 0; i < 7; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTemporaryFile_prototype_call, qtscript_QTemporaryFile_function_lengths[i+3]);

@@ -316,7 +316,7 @@ static QScriptValue qtscript_create_QTextStream_RealNumberNotation_class(QScript
         qtscript_QTextStream_RealNumberNotation_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextStream_RealNumberNotation_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextStream_RealNumberNotation_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextStream_RealNumberNotation_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -393,7 +393,7 @@ static QScriptValue qtscript_create_QTextStream_NumberFlag_class(QScriptEngine *
         qtscript_QTextStream_NumberFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextStream_NumberFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextStream_NumberFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextStream_NumberFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -405,7 +405,7 @@ static QScriptValue qtscript_create_QTextStream_NumberFlag_class(QScriptEngine *
 
 static QScriptValue qtscript_QTextStream_NumberFlags_toScriptValue(QScriptEngine *engine, const QTextStream::NumberFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QTextStream_NumberFlags_fromScriptValue(const QScriptValue &value, QTextStream::NumberFlags &out)
@@ -434,7 +434,7 @@ static QScriptValue qtscript_construct_QTextStream_NumberFlags(QScriptContext *c
             result |= qvariant_cast<QTextStream::NumberFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QTextStream_NumberFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -540,7 +540,7 @@ static QScriptValue qtscript_create_QTextStream_Status_class(QScriptEngine *engi
         qtscript_QTextStream_Status_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextStream_Status_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextStream_Status_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextStream_Status_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -611,7 +611,7 @@ static QScriptValue qtscript_create_QTextStream_FieldAlignment_class(QScriptEngi
         qtscript_QTextStream_FieldAlignment_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QTextStream_FieldAlignment_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QTextStream_FieldAlignment_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QTextStream_FieldAlignment_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -1124,20 +1124,20 @@ static QScriptValue qtscript_QTextStream_static_call(QScriptContext *context, QS
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QTextStream* _q_cpp_result = new QtScriptShell_QTextStream();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextStream*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextStream*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if (qscriptvalue_cast<QIODevice*>(context->argument(0))) {
             QIODevice* _q_arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
             QtScriptShell_QTextStream* _q_cpp_result = new QtScriptShell_QTextStream(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextStream*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextStream*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         } else if ((qMetaTypeId<QByteArray>() == context->argument(0).toVariant().userType())) {
             QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
             QtScriptShell_QTextStream* _q_cpp_result = new QtScriptShell_QTextStream(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextStream*)_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextStream*)_q_cpp_result));
             _q_cpp_result->__qtscript_self = _q_result;
             return _q_result;
         }
@@ -1145,7 +1145,7 @@ static QScriptValue qtscript_QTextStream_static_call(QScriptContext *context, QS
         QByteArray _q_arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
         QFlags<QIODevice::OpenModeFlag> _q_arg1 = qscriptvalue_cast<QFlags<QIODevice::OpenModeFlag> >(context->argument(1));
         QtScriptShell_QTextStream* _q_cpp_result = new QtScriptShell_QTextStream(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTextStream*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTextStream*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -1162,7 +1162,7 @@ static QScriptValue qtscript_QTextStream_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTextStream_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextStream*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextStream*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextStream*)0));
     for (int i = 0; i < 54; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextStream_prototype_call, qtscript_QTextStream_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

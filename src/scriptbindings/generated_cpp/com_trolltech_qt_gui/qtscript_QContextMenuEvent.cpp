@@ -149,7 +149,7 @@ static QScriptValue qtscript_create_QContextMenuEvent_Reason_class(QScriptEngine
         qtscript_QContextMenuEvent_Reason_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QContextMenuEvent_Reason_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QContextMenuEvent_Reason_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QContextMenuEvent_Reason_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -257,7 +257,7 @@ static QScriptValue qtscript_QContextMenuEvent_static_call(QScriptContext *conte
         QContextMenuEvent::Reason _q_arg0 = qscriptvalue_cast<QContextMenuEvent::Reason>(context->argument(0));
         QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
         QtScriptShell_QContextMenuEvent* _q_cpp_result = new QtScriptShell_QContextMenuEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QContextMenuEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QContextMenuEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 3) {
@@ -265,7 +265,7 @@ static QScriptValue qtscript_QContextMenuEvent_static_call(QScriptContext *conte
         QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
         QPoint _q_arg2 = qscriptvalue_cast<QPoint>(context->argument(2));
         QtScriptShell_QContextMenuEvent* _q_cpp_result = new QtScriptShell_QContextMenuEvent(_q_arg0, _q_arg1, _q_arg2);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QContextMenuEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QContextMenuEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 4) {
@@ -274,7 +274,7 @@ static QScriptValue qtscript_QContextMenuEvent_static_call(QScriptContext *conte
         QPoint _q_arg2 = qscriptvalue_cast<QPoint>(context->argument(2));
         QFlags<Qt::KeyboardModifier> _q_arg3 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(3));
         QtScriptShell_QContextMenuEvent* _q_cpp_result = new QtScriptShell_QContextMenuEvent(_q_arg0, _q_arg1, _q_arg2, _q_arg3);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QContextMenuEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QContextMenuEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -291,7 +291,7 @@ static QScriptValue qtscript_QContextMenuEvent_static_call(QScriptContext *conte
 QScriptValue qtscript_create_QContextMenuEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QContextMenuEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QContextMenuEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QContextMenuEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QInputEvent*>()));
     for (int i = 0; i < 8; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QContextMenuEvent_prototype_call, qtscript_QContextMenuEvent_function_lengths[i+1]);

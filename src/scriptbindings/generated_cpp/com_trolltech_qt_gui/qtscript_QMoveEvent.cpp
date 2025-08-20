@@ -122,7 +122,7 @@ static QScriptValue qtscript_QMoveEvent_static_call(QScriptContext *context, QSc
         QPoint _q_arg0 = qscriptvalue_cast<QPoint>(context->argument(0));
         QPoint _q_arg1 = qscriptvalue_cast<QPoint>(context->argument(1));
         QtScriptShell_QMoveEvent* _q_cpp_result = new QtScriptShell_QMoveEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QMoveEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QMoveEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -139,7 +139,7 @@ static QScriptValue qtscript_QMoveEvent_static_call(QScriptContext *context, QSc
 QScriptValue qtscript_create_QMoveEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QMoveEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QMoveEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QMoveEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 3; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QMoveEvent_prototype_call, qtscript_QMoveEvent_function_lengths[i+1]);

@@ -140,7 +140,7 @@ static QScriptValue qtscript_QGraphicsSceneMoveEvent_static_call(QScriptContext 
     }
     if (context->argumentCount() == 0) {
         QGraphicsSceneMoveEvent* _q_cpp_result = new QGraphicsSceneMoveEvent();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -156,7 +156,7 @@ static QScriptValue qtscript_QGraphicsSceneMoveEvent_static_call(QScriptContext 
 QScriptValue qtscript_create_QGraphicsSceneMoveEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsSceneMoveEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsSceneMoveEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsSceneMoveEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsSceneEvent*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QGraphicsSceneMoveEvent_prototype_call, qtscript_QGraphicsSceneMoveEvent_function_lengths[i+1]);

@@ -111,7 +111,7 @@ static QScriptValue qtscript_QFutureWatcher_static_call(QScriptContext *context,
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QFutureWatcher* _q_cpp_result = new QtScriptShell_QFutureWatcher();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QtScriptFutureWatcher*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QtScriptFutureWatcher*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -128,7 +128,7 @@ static QScriptValue qtscript_QFutureWatcher_static_call(QScriptContext *context,
 QScriptValue qtscript_create_QFutureWatcher_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QtScriptFutureWatcher*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QtScriptFutureWatcher*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QtScriptFutureWatcher*)0));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QFutureWatcher_prototype_call, qtscript_QFutureWatcher_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

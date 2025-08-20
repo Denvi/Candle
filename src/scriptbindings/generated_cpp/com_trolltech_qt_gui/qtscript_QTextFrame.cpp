@@ -242,7 +242,7 @@ static void qtscript_QTextFrame_fromScriptValue(const QScriptValue &value, QText
 QScriptValue qtscript_create_QTextFrame_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextFrame*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextFrame*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextFrame*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextObject*>()));
     for (int i = 0; i < 11; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTextFrame_prototype_call, qtscript_QTextFrame_function_lengths[i+1]);

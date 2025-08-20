@@ -139,7 +139,7 @@ static void qtscript_QFinalState_fromScriptValue(const QScriptValue &value, QFin
 QScriptValue qtscript_create_QFinalState_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QFinalState*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QFinalState*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QFinalState*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractState*>()));
 
     qScriptRegisterMetaType<QFinalState*>(engine, qtscript_QFinalState_toScriptValue, 

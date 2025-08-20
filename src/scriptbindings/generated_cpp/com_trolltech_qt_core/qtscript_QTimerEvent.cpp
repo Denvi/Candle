@@ -110,7 +110,7 @@ static QScriptValue qtscript_QTimerEvent_static_call(QScriptContext *context, QS
     if (context->argumentCount() == 1) {
         int _q_arg0 = context->argument(0).toInt32();
         QtScriptShell_QTimerEvent* _q_cpp_result = new QtScriptShell_QTimerEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QTimerEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QTimerEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -127,7 +127,7 @@ static QScriptValue qtscript_QTimerEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QTimerEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTimerEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTimerEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTimerEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 2; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QTimerEvent_prototype_call, qtscript_QTimerEvent_function_lengths[i+1]);

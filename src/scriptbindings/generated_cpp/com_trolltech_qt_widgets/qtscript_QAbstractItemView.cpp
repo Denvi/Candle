@@ -234,7 +234,7 @@ static QScriptValue qtscript_create_QAbstractItemView_ScrollMode_class(QScriptEn
         qtscript_QAbstractItemView_ScrollMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractItemView_ScrollMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractItemView_ScrollMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractItemView_ScrollMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -307,7 +307,7 @@ static QScriptValue qtscript_create_QAbstractItemView_DragDropMode_class(QScript
         qtscript_QAbstractItemView_DragDropMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractItemView_DragDropMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractItemView_DragDropMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractItemView_DragDropMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -380,7 +380,7 @@ static QScriptValue qtscript_create_QAbstractItemView_SelectionMode_class(QScrip
         qtscript_QAbstractItemView_SelectionMode_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractItemView_SelectionMode_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractItemView_SelectionMode_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractItemView_SelectionMode_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -663,7 +663,7 @@ static void qtscript_QAbstractItemView_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QAbstractItemView_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractItemView*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractItemView*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractItemView*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QAbstractScrollArea*>()));
     for (int i = 0; i < 24; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractItemView_prototype_call, qtscript_QAbstractItemView_function_lengths[i+1]);

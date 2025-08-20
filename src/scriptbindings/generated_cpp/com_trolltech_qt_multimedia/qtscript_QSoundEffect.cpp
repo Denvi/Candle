@@ -179,7 +179,7 @@ static QScriptValue qtscript_create_QSoundEffect_Status_class(QScriptEngine *eng
         qtscript_QSoundEffect_Status_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSoundEffect_Status_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSoundEffect_Status_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSoundEffect_Status_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -244,7 +244,7 @@ static QScriptValue qtscript_create_QSoundEffect_Loop_class(QScriptEngine *engin
         qtscript_QSoundEffect_Loop_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 1; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSoundEffect_Loop_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSoundEffect_Loop_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSoundEffect_Loop_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -444,7 +444,7 @@ static void qtscript_QSoundEffect_fromScriptValue(const QScriptValue &value, QSo
 QScriptValue qtscript_create_QSoundEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSoundEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSoundEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSoundEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSoundEffect_prototype_call, qtscript_QSoundEffect_function_lengths[i+2]);

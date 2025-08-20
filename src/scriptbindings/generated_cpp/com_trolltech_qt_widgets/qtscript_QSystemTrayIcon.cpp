@@ -151,7 +151,7 @@ static QScriptValue qtscript_create_QSystemTrayIcon_MessageIcon_class(QScriptEng
         qtscript_QSystemTrayIcon_MessageIcon_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSystemTrayIcon_MessageIcon_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSystemTrayIcon_MessageIcon_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSystemTrayIcon_MessageIcon_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -224,7 +224,7 @@ static QScriptValue qtscript_create_QSystemTrayIcon_ActivationReason_class(QScri
         qtscript_QSystemTrayIcon_ActivationReason_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 5; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QSystemTrayIcon_ActivationReason_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QSystemTrayIcon_ActivationReason_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QSystemTrayIcon_ActivationReason_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -365,7 +365,7 @@ static void qtscript_QSystemTrayIcon_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QSystemTrayIcon_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSystemTrayIcon*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSystemTrayIcon*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSystemTrayIcon*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 4; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSystemTrayIcon_prototype_call, qtscript_QSystemTrayIcon_function_lengths[i+3]);

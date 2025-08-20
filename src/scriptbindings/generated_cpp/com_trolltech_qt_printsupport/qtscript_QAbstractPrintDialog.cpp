@@ -233,7 +233,7 @@ static QScriptValue qtscript_create_QAbstractPrintDialog_PrintDialogOption_class
         qtscript_QAbstractPrintDialog_PrintDialogOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 8; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractPrintDialog_PrintDialogOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractPrintDialog_PrintDialogOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractPrintDialog_PrintDialogOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -245,7 +245,7 @@ static QScriptValue qtscript_create_QAbstractPrintDialog_PrintDialogOption_class
 
 static QScriptValue qtscript_QAbstractPrintDialog_PrintDialogOptions_toScriptValue(QScriptEngine *engine, const QAbstractPrintDialog::PrintDialogOptions &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QAbstractPrintDialog_PrintDialogOptions_fromScriptValue(const QScriptValue &value, QAbstractPrintDialog::PrintDialogOptions &out)
@@ -274,7 +274,7 @@ static QScriptValue qtscript_construct_QAbstractPrintDialog_PrintDialogOptions(Q
             result |= qvariant_cast<QAbstractPrintDialog::PrintDialogOption>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QAbstractPrintDialog_PrintDialogOptions_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -380,7 +380,7 @@ static QScriptValue qtscript_create_QAbstractPrintDialog_PrintRange_class(QScrip
         qtscript_QAbstractPrintDialog_PrintRange_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 4; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QAbstractPrintDialog_PrintRange_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QAbstractPrintDialog_PrintRange_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QAbstractPrintDialog_PrintRange_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -580,7 +580,7 @@ static void qtscript_QAbstractPrintDialog_fromScriptValue(const QScriptValue &va
 QScriptValue qtscript_create_QAbstractPrintDialog_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractPrintDialog*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractPrintDialog*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractPrintDialog*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDialog*>()));
     for (int i = 0; i < 15; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractPrintDialog_prototype_call, qtscript_QAbstractPrintDialog_function_lengths[i+1]);

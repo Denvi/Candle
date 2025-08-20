@@ -217,7 +217,7 @@ static QScriptValue qtscript_create_QImageIOHandler_ImageOption_class(QScriptEng
         qtscript_QImageIOHandler_ImageOption_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 20; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QImageIOHandler_ImageOption_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QImageIOHandler_ImageOption_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QImageIOHandler_ImageOption_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -402,7 +402,7 @@ static QScriptValue qtscript_QImageIOHandler_static_call(QScriptContext *context
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QImageIOHandler* _q_cpp_result = new QtScriptShell_QImageIOHandler();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QImageIOHandler*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QImageIOHandler*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -419,7 +419,7 @@ static QScriptValue qtscript_QImageIOHandler_static_call(QScriptContext *context
 QScriptValue qtscript_create_QImageIOHandler_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QImageIOHandler*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QImageIOHandler*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QImageIOHandler*)0));
     for (int i = 0; i < 18; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QImageIOHandler_prototype_call, qtscript_QImageIOHandler_function_lengths[i+1]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));

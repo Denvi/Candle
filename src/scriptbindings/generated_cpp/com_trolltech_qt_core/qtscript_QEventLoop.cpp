@@ -173,7 +173,7 @@ static QScriptValue qtscript_create_QEventLoop_ProcessEventsFlag_class(QScriptEn
         qtscript_QEventLoop_ProcessEventsFlag_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 7; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QEventLoop_ProcessEventsFlag_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QEventLoop_ProcessEventsFlag_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QEventLoop_ProcessEventsFlag_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -185,7 +185,7 @@ static QScriptValue qtscript_create_QEventLoop_ProcessEventsFlag_class(QScriptEn
 
 static QScriptValue qtscript_QEventLoop_ProcessEventsFlags_toScriptValue(QScriptEngine *engine, const QEventLoop::ProcessEventsFlags &value)
 {
-    return engine->newVariant(qVariantFromValue(value));
+    return engine->newVariant(QVariant::fromValue(value));
 }
 
 static void qtscript_QEventLoop_ProcessEventsFlags_fromScriptValue(const QScriptValue &value, QEventLoop::ProcessEventsFlags &out)
@@ -214,7 +214,7 @@ static QScriptValue qtscript_construct_QEventLoop_ProcessEventsFlags(QScriptCont
             result |= qvariant_cast<QEventLoop::ProcessEventsFlag>(v);
         }
    }
-    return engine->newVariant(qVariantFromValue(result));
+    return engine->newVariant(QVariant::fromValue(result));
 }
 
 static QScriptValue qtscript_QEventLoop_ProcessEventsFlags_valueOf(QScriptContext *context, QScriptEngine *engine)
@@ -395,7 +395,7 @@ static void qtscript_QEventLoop_fromScriptValue(const QScriptValue &value, QEven
 QScriptValue qtscript_create_QEventLoop_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QEventLoop*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QEventLoop*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QEventLoop*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QEventLoop_prototype_call, qtscript_QEventLoop_function_lengths[i+1]);

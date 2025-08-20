@@ -159,7 +159,7 @@ static void qtscript_QPropertyAnimation_fromScriptValue(const QScriptValue &valu
 QScriptValue qtscript_create_QPropertyAnimation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QPropertyAnimation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QPropertyAnimation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QPropertyAnimation*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QVariantAnimation*>()));
 
     qScriptRegisterMetaType<QPropertyAnimation*>(engine, qtscript_QPropertyAnimation_toScriptValue, 

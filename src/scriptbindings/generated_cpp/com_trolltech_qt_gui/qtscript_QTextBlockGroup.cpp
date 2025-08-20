@@ -125,7 +125,7 @@ static void qtscript_QTextBlockGroup_fromScriptValue(const QScriptValue &value, 
 QScriptValue qtscript_create_QTextBlockGroup_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QTextBlockGroup*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QTextBlockGroup*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QTextBlockGroup*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QTextObject*>()));
 
     qScriptRegisterMetaType<QTextBlockGroup*>(engine, qtscript_QTextBlockGroup_toScriptValue, 

@@ -430,7 +430,7 @@ static void qtscript_QListWidget_fromScriptValue(const QScriptValue &value, QLis
 QScriptValue qtscript_create_QListWidget_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QListWidget*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QListWidget*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QListWidget*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QListView*>()));
     for (int i = 0; i < 21; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QListWidget_prototype_call, qtscript_QListWidget_function_lengths[i+1]);

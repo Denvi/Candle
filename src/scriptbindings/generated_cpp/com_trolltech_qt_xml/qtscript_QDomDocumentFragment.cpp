@@ -98,12 +98,12 @@ static QScriptValue qtscript_QDomDocumentFragment_static_call(QScriptContext *co
     }
     if (context->argumentCount() == 0) {
         QDomDocumentFragment _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomDocumentFragment _q_arg0 = qscriptvalue_cast<QDomDocumentFragment>(context->argument(0));
         QDomDocumentFragment _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -119,7 +119,7 @@ static QScriptValue qtscript_QDomDocumentFragment_static_call(QScriptContext *co
 QScriptValue qtscript_create_QDomDocumentFragment_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomDocumentFragment*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomDocumentFragment*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomDocumentFragment*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDomNode*>()));
 
     engine->setDefaultPrototype(qMetaTypeId<QDomDocumentFragment>(), proto);

@@ -238,7 +238,7 @@ static void qtscript_QSplashScreen_fromScriptValue(const QScriptValue &value, QS
 QScriptValue qtscript_create_QSplashScreen_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QSplashScreen*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QSplashScreen*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QSplashScreen*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QWidget*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QSplashScreen_prototype_call, qtscript_QSplashScreen_function_lengths[i+1]);

@@ -613,23 +613,23 @@ static QScriptValue qtscript_QDomDocument_static_call(QScriptContext *context, Q
     }
     if (context->argumentCount() == 0) {
         QDomDocument _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         if ((qMetaTypeId<QDomDocument>() == context->argument(0).toVariant().userType())) {
             QDomDocument _q_arg0 = qscriptvalue_cast<QDomDocument>(context->argument(0));
             QDomDocument _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if ((qMetaTypeId<QDomDocumentType>() == context->argument(0).toVariant().userType())) {
             QDomDocumentType _q_arg0 = qscriptvalue_cast<QDomDocumentType>(context->argument(0));
             QDomDocument _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         } else if (context->argument(0).isString()) {
             QString _q_arg0 = context->argument(0).toString();
             QDomDocument _q_cpp_result(_q_arg0);
-            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+            QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
             return _q_result;
         }
     }
@@ -646,7 +646,7 @@ static QScriptValue qtscript_QDomDocument_static_call(QScriptContext *context, Q
 QScriptValue qtscript_create_QDomDocument_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomDocument*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomDocument*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomDocument*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QDomNode*>()));
     for (int i = 0; i < 20; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomDocument_prototype_call, qtscript_QDomDocument_function_lengths[i+1]);

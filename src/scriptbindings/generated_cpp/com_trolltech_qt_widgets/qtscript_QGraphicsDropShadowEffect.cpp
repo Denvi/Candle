@@ -141,7 +141,7 @@ static void qtscript_QGraphicsDropShadowEffect_fromScriptValue(const QScriptValu
 QScriptValue qtscript_create_QGraphicsDropShadowEffect_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QGraphicsDropShadowEffect*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QGraphicsDropShadowEffect*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QGraphicsDropShadowEffect*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsEffect*>()));
 
     qScriptRegisterMetaType<QGraphicsDropShadowEffect*>(engine, qtscript_QGraphicsDropShadowEffect_toScriptValue, 

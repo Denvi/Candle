@@ -169,7 +169,7 @@ static QScriptValue qtscript_create_QDataWidgetMapper_SubmitPolicy_class(QScript
         qtscript_QDataWidgetMapper_SubmitPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 2; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDataWidgetMapper_SubmitPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDataWidgetMapper_SubmitPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDataWidgetMapper_SubmitPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -359,7 +359,7 @@ static void qtscript_QDataWidgetMapper_fromScriptValue(const QScriptValue &value
 QScriptValue qtscript_create_QDataWidgetMapper_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDataWidgetMapper*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDataWidgetMapper*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDataWidgetMapper*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QObject*>()));
     for (int i = 0; i < 13; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDataWidgetMapper_prototype_call, qtscript_QDataWidgetMapper_function_lengths[i+1]);

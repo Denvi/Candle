@@ -161,13 +161,13 @@ static QScriptValue qtscript_QAbstractGraphicsShapeItem_static_call(QScriptConte
     }
     if (context->argumentCount() == 0) {
         QtScriptShell_QAbstractGraphicsShapeItem* _q_cpp_result = new QtScriptShell_QAbstractGraphicsShapeItem();
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QAbstractGraphicsShapeItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QAbstractGraphicsShapeItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QGraphicsItem* _q_arg0 = qscriptvalue_cast<QGraphicsItem*>(context->argument(0));
         QtScriptShell_QAbstractGraphicsShapeItem* _q_cpp_result = new QtScriptShell_QAbstractGraphicsShapeItem(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QAbstractGraphicsShapeItem*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QAbstractGraphicsShapeItem*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -184,7 +184,7 @@ static QScriptValue qtscript_QAbstractGraphicsShapeItem_static_call(QScriptConte
 QScriptValue qtscript_create_QAbstractGraphicsShapeItem_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QAbstractGraphicsShapeItem*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QAbstractGraphicsShapeItem*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QAbstractGraphicsShapeItem*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QGraphicsItem*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QAbstractGraphicsShapeItem_prototype_call, qtscript_QAbstractGraphicsShapeItem_function_lengths[i+1]);

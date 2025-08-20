@@ -144,14 +144,14 @@ static QScriptValue qtscript_QInputEvent_static_call(QScriptContext *context, QS
     if (context->argumentCount() == 1) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QtScriptShell_QInputEvent* _q_cpp_result = new QtScriptShell_QInputEvent(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QInputEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QInputEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     } else if (context->argumentCount() == 2) {
         QEvent::Type _q_arg0 = qscriptvalue_cast<QEvent::Type>(context->argument(0));
         QFlags<Qt::KeyboardModifier> _q_arg1 = qscriptvalue_cast<QFlags<Qt::KeyboardModifier> >(context->argument(1));
         QtScriptShell_QInputEvent* _q_cpp_result = new QtScriptShell_QInputEvent(_q_arg0, _q_arg1);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue((QInputEvent*)_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue((QInputEvent*)_q_cpp_result));
         _q_cpp_result->__qtscript_self = _q_result;
         return _q_result;
     }
@@ -168,7 +168,7 @@ static QScriptValue qtscript_QInputEvent_static_call(QScriptContext *context, QS
 QScriptValue qtscript_create_QInputEvent_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QInputEvent*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QInputEvent*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QInputEvent*)0));
     proto.setPrototype(engine->defaultPrototype(qMetaTypeId<QEvent*>()));
     for (int i = 0; i < 5; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QInputEvent_prototype_call, qtscript_QInputEvent_function_lengths[i+1]);

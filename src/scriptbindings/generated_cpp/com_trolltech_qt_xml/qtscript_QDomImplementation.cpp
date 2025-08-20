@@ -146,7 +146,7 @@ static QScriptValue qtscript_create_QDomImplementation_InvalidDataPolicy_class(Q
         qtscript_QDomImplementation_InvalidDataPolicy_fromScriptValue, ctor.property(QString::fromLatin1("prototype")));
     for (int i = 0; i < 3; ++i) {
         clazz.setProperty(QString::fromLatin1(qtscript_QDomImplementation_InvalidDataPolicy_keys[i]),
-            engine->newVariant(qVariantFromValue(qtscript_QDomImplementation_InvalidDataPolicy_values[i])),
+            engine->newVariant(QVariant::fromValue(qtscript_QDomImplementation_InvalidDataPolicy_values[i])),
             QScriptValue::ReadOnly | QScriptValue::Undeletable);
     }
     return ctor;
@@ -247,12 +247,12 @@ static QScriptValue qtscript_QDomImplementation_static_call(QScriptContext *cont
     }
     if (context->argumentCount() == 0) {
         QDomImplementation _q_cpp_result;
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     } else if (context->argumentCount() == 1) {
         QDomImplementation _q_arg0 = qscriptvalue_cast<QDomImplementation>(context->argument(0));
         QDomImplementation _q_cpp_result(_q_arg0);
-        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), qVariantFromValue(_q_cpp_result));
+        QScriptValue _q_result = context->engine()->newVariant(context->thisObject(), QVariant::fromValue(_q_cpp_result));
         return _q_result;
     }
     break;
@@ -283,7 +283,7 @@ static QScriptValue qtscript_QDomImplementation_static_call(QScriptContext *cont
 QScriptValue qtscript_create_QDomImplementation_class(QScriptEngine *engine)
 {
     engine->setDefaultPrototype(qMetaTypeId<QDomImplementation*>(), QScriptValue());
-    QScriptValue proto = engine->newVariant(qVariantFromValue((QDomImplementation*)0));
+    QScriptValue proto = engine->newVariant(QVariant::fromValue((QDomImplementation*)0));
     for (int i = 0; i < 6; ++i) {
         QScriptValue fun = engine->newFunction(qtscript_QDomImplementation_prototype_call, qtscript_QDomImplementation_function_lengths[i+3]);
         fun.setData(QScriptValue(engine, uint(0xBABE0000 + i)));
