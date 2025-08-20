@@ -1,8 +1,10 @@
+// This file is a part of "Candle" application.
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
+
 #include "selectiondrawer.h"
 
 SelectionDrawer::SelectionDrawer()
 {
-    m_endPosition = QVector3D(sNan, sNan, sNan);
     m_pointSize = 6.0;
 }
 
@@ -11,9 +13,10 @@ bool SelectionDrawer::updateData()
     m_points.clear();
 
     VertexData vertex;
+    vertex.type = VertexDataTypePoint;
     vertex.color = Util::colorToVector(m_color);
     vertex.position = m_endPosition;
-    vertex.start = QVector3D(sNan, sNan, m_pointSize);
+    vertex.data = QVector3D(m_pointSize, 0, 0);
     m_points.append(vertex);
 
     return true;

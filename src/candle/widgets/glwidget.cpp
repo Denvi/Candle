@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "glwidget.h"
 #include "../drawers/tooldrawer.h"
@@ -27,31 +27,11 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_animateView = false;
     m_updatesEnabled = false;
 
-    m_xRot = 90;
-    m_yRot = 0;
-
-    m_xRotTarget = 90;
-    m_yRotTarget = 0;
+    m_rot = QPointF(90.0, 0.0);
+    m_rotAnimationTarget = m_rot;
 
     m_zoom = 1;
-
-    m_xPan = 0;
-    m_yPan = 0;
     m_distance = 100;
-
-    m_xLookAt = 0;
-    m_yLookAt = 0;
-    m_zLookAt = 0;
-
-    m_xMin = 0;
-    m_xMax = 0;
-    m_yMin = 0;
-    m_yMax = 0;
-    m_zMin = 0;
-    m_zMax = 0;
-    m_xSize = 0;
-    m_ySize = 0;
-    m_zSize = 0;
 
     updateProjection();
     updateView();
@@ -86,58 +66,50 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
     stopViewAnimation();
 
     if (drawable != NULL) {
-        updateExtremes(drawable);
+        updateBounds(drawable);
 
-        double a = m_ySize / 2 / 0.25 * 1.3
-                + (m_zMax - m_zMin) / 2;
-        double b = m_xSize / 2 / 0.25 * 1.3
+        double a = m_viewRanges.y() / 2 / 0.25 * 1.3
+                + (m_viewUpperBounds - m_viewLowerBounds).z() / 2;
+        double b = m_viewRanges.x() / 2 / 0.25 * 1.3
                 / ((double)this->width() / this->height())
-                + (m_zMax - m_zMin) / 2;
+                + (m_viewUpperBounds - m_viewLowerBounds).z() / 2;
         m_distance = qMax(a, b);
 
         if (m_distance == 0) m_distance = 200;
 
-        m_xLookAt = (m_xMax - m_xMin) / 2 + m_xMin;
-        m_zLookAt = -((m_yMax - m_yMin) / 2 + m_yMin);
-        m_yLookAt = (m_zMax - m_zMin) / 2 + m_zMin;
+        m_lookAt = QVector3D(
+                (m_viewUpperBounds.x() - m_viewLowerBounds.x()) / 2 + m_viewLowerBounds.x(),
+                (m_viewUpperBounds.z() - m_viewLowerBounds.z()) / 2 + m_viewLowerBounds.z(),
+                -((m_viewUpperBounds.y() - m_viewLowerBounds.y()) / 2 + m_viewLowerBounds.y())
+        );
+
     } else {
         m_distance = 200;
-        m_xLookAt = 0;
-        m_yLookAt = 0;
-        m_zLookAt = 0;
-
-        m_xMin = 0;
-        m_xMax = 0;
-        m_yMin = 0;
-        m_yMax = 0;
-        m_zMin = 0;
-        m_zMax = 0;
-
-        m_xSize = 0;
-        m_ySize = 0;
-        m_zSize = 0;
+        m_lookAt = QVector3D();
+        m_viewLowerBounds = QVector3D();
+        m_viewUpperBounds = QVector3D();
+        m_viewRanges = QVector3D();
+        m_modelLowerBounds = QVector3D();
+        m_modelUpperBounds = QVector3D();
+        m_modelRanges = QVector3D();
     }
 
-    m_xPan = 0;
-    m_yPan = 0;
+    m_pan = QPointF();
     m_zoom = 1;
 
     updateProjection();
     updateView();
 }
 
-void GLWidget::updateExtremes(ShaderDrawable *drawable)
+void GLWidget::updateBounds(ShaderDrawable *drawable)
 {
-    if (!qIsNaN(drawable->getMinimumExtremes().x())) m_xMin = drawable->getMinimumExtremes().x(); else m_xMin = 0;
-    if (!qIsNaN(drawable->getMaximumExtremes().x())) m_xMax = drawable->getMaximumExtremes().x(); else m_xMax = 0;
-    if (!qIsNaN(drawable->getMinimumExtremes().y())) m_yMin = drawable->getMinimumExtremes().y(); else m_yMin = 0;
-    if (!qIsNaN(drawable->getMaximumExtremes().y())) m_yMax = drawable->getMaximumExtremes().y(); else m_yMax = 0;
-    if (!qIsNaN(drawable->getMinimumExtremes().z())) m_zMin = drawable->getMinimumExtremes().z(); else m_zMin = 0;
-    if (!qIsNaN(drawable->getMaximumExtremes().z())) m_zMax = drawable->getMaximumExtremes().z(); else m_zMax = 0;
+    m_viewLowerBounds = Util::nAssign(drawable->getViewLowerBounds());
+    m_viewUpperBounds = Util::nAssign(drawable->getViewUpperBounds());
+    m_viewRanges = drawable->getViewRanges();
 
-    m_xSize = m_xMax - m_xMin;
-    m_ySize = m_yMax - m_yMin;
-    m_zSize = m_zMax - m_zMin;
+    m_modelLowerBounds = Util::nAssign(drawable->getModelLowerBounds());
+    m_modelUpperBounds = Util::nAssign(drawable->getModelUpperBounds());
+    m_modelRanges = drawable->getModelRanges();
 }
 
 bool GLWidget::antialiasing() const
@@ -167,8 +139,7 @@ void GLWidget::viewAnimation()
     QEasingCurve ec(QEasingCurve::OutExpo);
     double val = ec.valueForProgress(t);
 
-    m_xRot = m_xRotStored + double(m_xRotTarget - m_xRotStored) * val;
-    m_yRot = m_yRotStored + double(m_yRotTarget - m_yRotStored) * val;
+    m_rot = m_rotAnimationStart + (m_rotAnimationTarget - m_rotAnimationStart) * val;
 
     updateView();
 }
@@ -272,22 +243,19 @@ void GLWidget::setLineWidth(double lineWidth)
 
 void GLWidget::setTopView()
 {
-    m_xRotTarget = 90;
-    m_yRotTarget = m_yRot > 180 ? 360 : 0;
+    m_rotAnimationTarget = QPointF(90, m_rot.y() > 180 ? 360 : 0);
     beginViewAnimation();
 }
 
 void GLWidget::setFrontView()
 {
-    m_xRotTarget = 0;
-    m_yRotTarget = m_yRot > 180 ? 360 : 0;
+    m_rotAnimationTarget = QPointF(0, m_rot.y() > 180 ? 360 : 0);
     beginViewAnimation();
 }
 
 void GLWidget::setLeftView()
 {
-    m_xRotTarget = 0;
-    m_yRotTarget = m_yRot > 270 ? 450 : 90;
+    m_rotAnimationTarget = QPointF(0, m_rot.y() > 270 ? 450 : 90);
     beginViewAnimation();
 }
 
@@ -298,14 +266,12 @@ int GLWidget::fps()
 
 void GLWidget::setIsometricView()
 {
-    m_xRotTarget = 45;
-    m_yRotTarget = m_yRot > 180 ? 405 : 45;
+    m_rotAnimationTarget = QPointF(45, m_rot.y() > 180 ? 405 : 45);
     beginViewAnimation();
 }
 
 void GLWidget::beginViewAnimation() {
-    m_xRotStored = m_xRot;
-    m_yRotStored = m_yRot;
+    m_rotAnimationStart = m_rot;
     m_animationFrame = 0;
     m_animateView = true;
 }
@@ -394,7 +360,8 @@ void GLWidget::updateProjection()
     m_projectionMatrix.setToIdentity();
 
     double asp = (double)width() / height();
-    m_projectionMatrix.frustum((-0.5 + m_xPan) * asp, (0.5 + m_xPan) * asp, -0.5 + m_yPan, 0.5 + m_yPan, 2, m_distance * 2);
+    m_projectionMatrix.frustum((-0.5 + m_pan.x()) * asp, (0.5 + m_pan.x()) * asp,
+                               -0.5 + m_pan.y(), 0.5 + m_pan.y(), 2, m_distance * 2);
 }
 
 void GLWidget::updateView()
@@ -402,19 +369,23 @@ void GLWidget::updateView()
     // Set view matrix
     m_viewMatrix.setToIdentity();
 
-    double r = m_distance;
-    double angY = M_PI / 180 * m_yRot;
-    double angX = M_PI / 180 * m_xRot;
+    QPointF ang = m_rot * M_PI / 180;
 
-    QVector3D eye(r * cos(angX) * sin(angY) + m_xLookAt, r * sin(angX) + m_yLookAt, r * cos(angX) * cos(angY) + m_zLookAt);
-    QVector3D center(m_xLookAt, m_yLookAt, m_zLookAt);
-    QVector3D up(fabs(m_xRot) == 90 ? -sin(angY + (m_xRot < 0 ? M_PI : 0)) : 0, cos(angX), fabs(m_xRot) == 90 ? -cos(angY + (m_xRot < 0 ? M_PI : 0)) : 0);
+    QVector3D eye = m_lookAt + QVector3D(
+            cos(ang.x()) * sin(ang.y()),
+            sin(ang.x()),
+            cos(ang.x()) * cos(ang.y())
+    ) * m_distance;
 
-    m_viewMatrix.lookAt(eye, center, up.normalized());
+    QVector3D up(fabs(m_rot.x()) == 90 ? -sin(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0,
+                 cos(ang.x()),
+                 fabs(m_rot.x()) == 90 ? -cos(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0);
 
-    m_viewMatrix.translate(m_xLookAt, m_yLookAt, m_zLookAt);
-    m_viewMatrix.scale(m_zoom, m_zoom, m_zoom);
-    m_viewMatrix.translate(-m_xLookAt, -m_yLookAt, -m_zLookAt);
+    m_viewMatrix.lookAt(eye, m_lookAt, up.normalized());
+
+    m_viewMatrix.translate(m_lookAt);
+    m_viewMatrix.scale(m_zoom);
+    m_viewMatrix.translate(-m_lookAt);
 
     m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
 }
@@ -458,17 +429,21 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         m_shaderProgram->bind();
 
         // Set modelview-projection matrix
-        m_shaderProgram->setUniformValue("mvp_matrix", m_projectionMatrix * m_viewMatrix);
-        m_shaderProgram->setUniformValue("mv_matrix", m_viewMatrix);
+        m_shaderProgram->setUniformValue("p_matrix", m_projectionMatrix);
+        m_shaderProgram->setUniformValue("v_matrix", m_viewMatrix);
 
         // Update geometries in current opengl context
-        foreach (ShaderDrawable *drawable, m_shaderDrawables)
+        foreach (ShaderDrawable *drawable, m_shaderDrawables) {
             if (drawable->needsUpdateGeometry()) drawable->updateGeometry(m_shaderProgram);
+        }
 
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {
-            drawable->draw(m_shaderProgram);
-            if (drawable->visible()) vertices += drawable->getVertexCount();
+            if (drawable->visible()) {
+                m_shaderProgram->setUniformValue("m_matrix", drawable->modelMatrix());
+                drawable->draw(m_shaderProgram);
+                vertices += drawable->getVertexCount();
+            }
         }
 
         m_shaderProgram->release();
@@ -488,10 +463,14 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
     double x = 10;
     double y = this->height() - 60;
 
-    painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_xMin, 0, 'f', 3).arg(m_xMax, 0, 'f', 3));
-    painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_yMin, 0, 'f', 3).arg(m_yMax, 0, 'f', 3));
-    painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_zMin, 0, 'f', 3).arg(m_zMax, 0, 'f', 3));
-    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_xSize, 0, 'f', 3).arg(m_ySize, 0, 'f', 3).arg(m_zSize, 0, 'f', 3));
+    painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_modelLowerBounds.x(), 0, 'f', 3)
+        .arg(m_modelUpperBounds.x(), 0, 'f', 3));
+    painter.drawText(QPoint(x, y + 15), QString("Y: %1 ... %2").arg(m_modelLowerBounds.y(), 0, 'f', 3)
+        .arg(m_modelUpperBounds.y(), 0, 'f', 3));
+    painter.drawText(QPoint(x, y + 30), QString("Z: %1 ... %2").arg(m_modelLowerBounds.z(), 0, 'f', 3)
+        .arg(m_modelUpperBounds.z(), 0, 'f', 3));
+    painter.drawText(QPoint(x, y + 45), QString("%1 / %2 / %3").arg(m_modelRanges.x(), 0, 'f', 3)
+        .arg(m_modelRanges.y(), 0, 'f', 3).arg(m_modelRanges.z(), 0, 'f', 3));
 
     QFontMetrics fm(painter.font());
 
@@ -520,10 +499,9 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     m_lastPos = event->pos();
-    m_xLastRot = m_xRot;
-    m_yLastRot = m_yRot;
-    m_xLastPan = m_xPan;
-    m_yLastPan = m_yPan;
+
+    m_storedRot = m_rot;
+    m_storedPan = m_pan;
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -533,11 +511,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
         stopViewAnimation();
 
-        m_yRot = normalizeAngle(m_yLastRot - (event->pos().x() - m_lastPos.x()) * 0.5);
-        m_xRot = m_xLastRot + (event->pos().y() - m_lastPos.y()) * 0.5;
+        m_rot.setY(normalizeAngle(m_storedRot.y() - (event->pos().x() - m_lastPos.x()) * 0.5));
+        m_rot.setX(m_storedRot.x() + (event->pos().y() - m_lastPos.y()) * 0.5);
 
-        if (m_xRot < -90) m_xRot = -90;
-        if (m_xRot > 90) m_xRot = 90;
+        m_rot.setX(qBound<double>(-90, m_rot.x(), 90));
 
         updateView();
         emit rotationChanged();
@@ -546,8 +523,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if ((event->buttons() & Qt::MiddleButton && event->modifiers() & Qt::ShiftModifier) 
         || event->buttons() & Qt::RightButton
         || (event->buttons() & Qt::LeftButton && (event->modifiers() & Qt::ShiftModifier))) {
-        m_xPan = m_xLastPan - (event->pos().x() - m_lastPos.x()) * 1 / (double)width();
-        m_yPan = m_yLastPan + (event->pos().y() - m_lastPos.y()) * 1 / (double)height();
+        m_pan.setX(m_storedPan.x() - (event->pos().x() - m_lastPos.x()) * 1 / (double)width());
+        m_pan.setY(m_storedPan.y() + (event->pos().y() - m_lastPos.y()) * 1 / (double)height());
 
         updateProjection();
     }
@@ -556,15 +533,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::wheelEvent(QWheelEvent *we)
 {
     if (m_zoom > 0.1 && we->delta() < 0) {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - 1 / ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - 1 / ZOOMSTEP);
+        m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - 1 / ZOOMSTEP));
+        m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - 1 / ZOOMSTEP));
 
         m_zoom /= ZOOMSTEP;
     }
     else if (m_zoom < 10 && we->delta() > 0)
     {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - ZOOMSTEP);
+        m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - ZOOMSTEP));
+        m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - ZOOMSTEP));
 
         m_zoom *= ZOOMSTEP;
     }

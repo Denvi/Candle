@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
@@ -25,7 +25,7 @@ public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
     void addDrawable(ShaderDrawable *drawable);
-    void updateExtremes(ShaderDrawable *drawable);
+    void updateBounds(ShaderDrawable *drawable);
     void fitDrawable(ShaderDrawable *drawable = NULL);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
@@ -91,13 +91,25 @@ private slots:
     void viewAnimation();
 
 private:
-    double m_xRot, m_yRot, m_xLastRot, m_yLastRot;
-    double m_xPan, m_yPan, m_xLastPan, m_yLastPan;
-    double m_xLookAt, m_yLookAt, m_zLookAt;
+    QPointF m_rot;
+    QPointF m_storedRot;
+    QPointF m_pan;
+    QPointF m_storedPan;
+
+    QVector3D m_lookAt;
+
     QPoint m_lastPos;
     double m_zoom;
     double m_distance;
-    double m_xMin, m_xMax, m_yMin, m_yMax, m_zMin, m_zMax, m_xSize, m_ySize, m_zSize;
+
+    QVector3D m_viewLowerBounds;
+    QVector3D m_viewUpperBounds;
+    QVector3D m_viewRanges;
+
+    QVector3D m_modelLowerBounds;
+    QVector3D m_modelUpperBounds;
+    QVector3D m_modelRanges;
+
     double m_lineWidth;
     double m_pointSize;
     bool m_antialiasing;
@@ -111,8 +123,10 @@ private:
     QTime m_spendTime;
     QTime m_estimatedTime;
     QBasicTimer m_timerPaint;
-    double m_xRotTarget, m_yRotTarget;
-    double m_xRotStored, m_yRotStored;
+
+    QPointF m_rotAnimationStart;
+    QPointF m_rotAnimationTarget;
+
     bool m_animateView;
     QString m_parserStatus;
     QString m_speedState;

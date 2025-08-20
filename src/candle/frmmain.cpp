@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -219,6 +219,7 @@ frmMain::frmMain(QWidget *parent) :
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
+    m_selectionDrawer.setVisible(false);
 
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
@@ -376,7 +377,7 @@ void frmMain::resizeEvent(QResizeEvent *re)
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
+        m_toolDrawer.spin((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
                             / (ui->slbSpindle->maximum()));
     } else {
         QMainWindow::timerEvent(te);
@@ -1344,6 +1345,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     }
 
     if (checked) {
+        ui->tblProgram->selectRow(0);
         ui->tblProgram->setModel(&m_probeModel);
         resizeTableHeightMapSections();
         m_currentModel = &m_probeModel;
@@ -1361,7 +1363,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             m_currentDrawer = m_codeDrawer;
 
             if (!ui->chkHeightMapUse->isChecked()) {
-                ui->glwVisualizer->updateExtremes(m_codeDrawer);
+                ui->glwVisualizer->updateBounds(m_codeDrawer);
                 updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
             }
         }
@@ -2346,10 +2348,11 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
         QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
         m_selectionDrawer.setEndPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+        m_selectionDrawer.setVisible(true);
+        m_selectionDrawer.update();
     } else {
-        m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
+        m_selectionDrawer.setVisible(false);
     }
-    m_selectionDrawer.update();
 }
 
 void frmMain::onOverridingToggled(bool checked)
@@ -3407,7 +3410,7 @@ void frmMain::updateParser()
 
     updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
     m_currentDrawer->update();
-    ui->glwVisualizer->updateExtremes(m_currentDrawer);
+    ui->glwVisualizer->updateBounds(m_currentDrawer);
     updateControlsState();
 
     if (m_currentModel == &m_programModel) m_fileChanged = true;
@@ -3795,8 +3798,7 @@ void frmMain::newFile()
     ui->tblProgram->selectRow(0);
 
     // Clear selection marker
-    m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
-    m_selectionDrawer.update();
+    m_selectionDrawer.setVisible(false);
 
     resetHeightmap();
 
@@ -3943,8 +3945,6 @@ void frmMain::updateControlsState() {
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
-
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::updateLayouts()
@@ -4026,10 +4026,10 @@ QRectF frmMain::borderRectFromExtremes()
 {
     QRectF rect;
 
-    rect.setX(m_codeDrawer->getMinimumExtremes().x());
-    rect.setY(m_codeDrawer->getMinimumExtremes().y());
-    rect.setWidth(m_codeDrawer->getSizes().x());
-    rect.setHeight(m_codeDrawer->getSizes().y());
+    rect.setX(m_codeDrawer->getViewLowerBounds().x());
+    rect.setY(m_codeDrawer->getViewLowerBounds().y());
+    rect.setWidth(m_codeDrawer->getViewRanges().x());
+    rect.setHeight(m_codeDrawer->getViewRanges().y());
 
     return rect;
 }

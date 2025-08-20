@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "heightmapinterpolationdrawer.h"
 
@@ -23,7 +23,7 @@ bool HeightMapInterpolationDrawer::updateData()
 
     // Prepare vertex
     VertexData vertex;
-    vertex.start = QVector3D(sNan, sNan, sNan);
+    vertex.type = VertexDataTypeLine;
 
     // Calculate grid parameters
     int interpolationPointsX = m_data->at(0).count();

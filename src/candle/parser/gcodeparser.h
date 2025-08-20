@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #ifndef GCODEPARSER_H
 #define GCODEPARSER_H
@@ -13,6 +13,7 @@
 #include <cmath>
 #include "pointsegment.h"
 #include "gcodepreprocessorutils.h"
+#include "../utils/util.h"
 
 class GcodeParser : public QObject
 {
@@ -33,7 +34,7 @@ public:
     void setSpeedOverride(double speedOverride);
     int getTruncateDecimalLength();
     void setTruncateDecimalLength(int truncateDecimalLength);
-    void reset(const QVector3D &initialPoint = QVector3D(qQNaN(), qQNaN(), qQNaN()));
+    void reset(const QVector3D &initialPoint = Util::nVector());
     PointSegment *addCommand(QString command);
     PointSegment *addCommand(const QStringList &args);
     QVector3D* getCurrentPoint();

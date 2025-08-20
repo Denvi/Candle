@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "linesegment.h"
 #include <QDebug>
@@ -19,6 +19,7 @@ LineSegment::LineSegment()
     m_isAbsolute = true;
     m_isHightlight = false;
     m_vertexIndex = -1;
+    m_index = -1;
 }
 
 LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
@@ -53,11 +54,15 @@ LineSegment::LineSegment(LineSegment* initial)
     m_isAbsolute = initial->isAbsolute();
     m_isHightlight = initial->isHightlight();
     m_vertexIndex = initial->vertexIndex();
+    m_modelStart = initial->modelStart();
+    m_modelEnd = initial->modelEnd();
+    m_index = initial->index();
+    m_dwell = initial->getDwell();
+    m_spindleSpeed = initial->getSpindleSpeed();
 }
 
 LineSegment::~LineSegment()
 {
-
 }
 
 int LineSegment::getLineNumber() {
@@ -102,6 +107,26 @@ void LineSegment::setEnd(QVector3D vector)
     m_second = vector;
 }
 
+const QVector3D &LineSegment::modelStart() const
+{
+    return m_modelStart;
+}
+
+void LineSegment::setModelStart(const QVector3D &modelStart)
+{
+    m_modelStart = modelStart;
+}
+
+const QVector3D &LineSegment::modelEnd() const
+{
+    return m_modelEnd;
+}
+
+void LineSegment::setModelEnd(const QVector3D &modelEnd)
+{
+    m_modelEnd = modelEnd;
+}
+
 void LineSegment::setToolHead(int head) {
     this->m_toolhead = head;
 }
@@ -115,7 +140,7 @@ void LineSegment::setSpeed(double s) {
     this->m_speed = s;
 }
 
-double LineSegment::getSpeed()
+double LineSegment::getSpeed() const
 {
     return m_speed;
 }
@@ -140,7 +165,7 @@ void LineSegment::setIsFastTraverse(bool isF) {
     this->m_isFastTraverse = isF;
 }
 
-bool LineSegment::isFastTraverse() {
+bool LineSegment::isFastTraverse() const {
     return this->m_isFastTraverse;
 }
 
@@ -240,6 +265,16 @@ PointSegment::planes LineSegment::plane() const
 void LineSegment::setPlane(const PointSegment::planes &plane)
 {
     m_plane = plane;
+}
+
+int LineSegment::index() const
+{
+    return m_index;
+}
+
+void LineSegment::setIndex(int index)
+{
+    m_index = index;
 }
 
 

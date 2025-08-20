@@ -1,4 +1,7 @@
-﻿#ifndef SHADERDRAWABLE_H
+﻿// This file is a part of "Candle" application.
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
+
+#ifndef SHADERDRAWABLE_H
 #define SHADERDRAWABLE_H
 
 #include <QObject>
@@ -9,18 +12,20 @@
 #include <QOpenGLTexture>
 #include "../utils/util.h"
 
+enum VertexDataType {
+    VertexDataTypeLine,
+    VertexDataTypeDash,
+    VertexDataTypeDashDot,
+    VertexDataTypePoint,
+    VertexDataTypeTriangle
+};
+
 struct VertexData
 {
-    VertexData() {}
-    VertexData(QVector3D pos, QVector3D col, QVector3D sta) {
-        position = pos;
-        color = col;
-        start = sta;
-    }
-
     QVector3D position;
     QVector3D color;
-    QVector3D start;
+    QVector3D data;
+    float type;
 };
 
 class ShaderDrawable : protected QOpenGLFunctions
@@ -34,9 +39,14 @@ public:
     bool needsUpdateGeometry() const;
     void updateGeometry(QOpenGLShaderProgram *shaderProgram = 0);
 
-    virtual QVector3D getSizes();
-    virtual QVector3D getMinimumExtremes();
-    virtual QVector3D getMaximumExtremes();
+    virtual QVector3D getViewRanges();
+    virtual QVector3D getViewLowerBounds();
+    virtual QVector3D getViewUpperBounds();
+
+    virtual QVector3D getModelRanges();
+    virtual QVector3D getModelLowerBounds();
+    virtual QVector3D getModelUpperBounds();
+
     virtual int getVertexCount();
 
     double lineWidth() const;
@@ -47,6 +57,17 @@ public:
 
     double pointSize() const;
     void setPointSize(double pointSize);
+
+    QMatrix4x4 &modelMatrix();
+    void setModelMatrix(const QMatrix4x4 &modelMatrix);
+
+    const QMatrix4x4 &rotation();
+    void setRotation(const QMatrix4x4 &rotation);
+    void setRotation(double angle, const QVector3D &axis);
+
+    const QMatrix4x4 &translation();
+    void setTranslation(const QMatrix4x4 &translation);
+    void setTranslation(const QVector3D &translation);
 
 signals:
 
@@ -60,6 +81,9 @@ protected:
     QVector<VertexData> m_points;
     QVector<VertexData> m_triangles;
     QOpenGLTexture *m_texture;
+    QMatrix4x4 m_modelMatrix;
+    QMatrix4x4 m_translation;
+    QMatrix4x4 m_rotation;
 
     QOpenGLBuffer m_vbo; // Protected for direct vbo access
 

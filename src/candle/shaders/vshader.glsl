@@ -1,47 +1,49 @@
-#ifdef GL_ES
-// Set default precision to medium
-precision mediump int;
-precision mediump float;
-#endif
+#version 110
+#define DATA_TYPE_LINE 0
+#define DATA_TYPE_DASH 1
+#define DATA_TYPE_DASH_DOT 2
+#define DATA_TYPE_POINT 3
+#define DATA_TYPE_TRIANGLE 4
 
-uniform mat4 mvp_matrix;
-uniform mat4 mv_matrix;
+uniform mat4 p_matrix;
+uniform mat4 v_matrix;
+uniform mat4 m_matrix;
 
 attribute vec4 a_position;
 attribute vec4 a_color;
-attribute vec4 a_start;
+attribute vec4 a_data;
+attribute float a_type;
 
-varying vec4 v_color;
 varying vec2 v_position;
-varying vec2 v_start;
+varying vec4 v_color;
 varying vec2 v_texture;
+varying float v_type;
+varying vec2 v_start;
 
-bool isNan(float val)
-{
-    return (val > 65535.0);
-}
+mat4 mvp_matrix;
+
+int type;
 
 void main()
 {
-    // Calculate interpolated vertex position & line start point
-    v_position = (mv_matrix * a_position).xy;
+    mvp_matrix = p_matrix * v_matrix * m_matrix;
 
-    if (!isNan(a_start.x) && !isNan(a_start.y)) {
-        v_start = (mv_matrix * a_start).xy;
-        v_texture = vec2(65536.0, 0);
-    } else {
-        // v_start.x should be Nan to draw solid lines
-        v_start = a_start.xy;
+    v_type = a_type;
+    type = int(v_type + 0.1);
 
-        // set texture coord
-        v_texture = a_start.yz;
-
-        // set point size
-        if (isNan(a_start.y) && !isNan(a_start.z)) gl_PointSize = a_start.z;
+    if (type == DATA_TYPE_LINE) {
+    } else if (type == DATA_TYPE_DASH) {
+        v_start = (mvp_matrix * a_data).xy;
+        v_position = (mvp_matrix * a_position).xy;
+    } else if (type == DATA_TYPE_DASH_DOT) {
+        v_start = (mvp_matrix * a_data).xy;
+        v_position = (mvp_matrix * a_position).xy;
+    } else if (type == DATA_TYPE_POINT) {
+        gl_PointSize = a_data.x;
+    } else if (type == DATA_TYPE_TRIANGLE) {
+        v_texture = a_data.yz;
     }
 
-    // Calculate vertex position in screen space
-    gl_Position = mvp_matrix * a_position;
-
     v_color = a_color;
+    gl_Position = mvp_matrix * a_position;
 }
