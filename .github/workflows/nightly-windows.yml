@@ -1,6 +1,9 @@
 name: Nightly / Windows (x64)
 
 on:
+  schedule:
+    - cron: '0 2 * * *'
+
   workflow_dispatch:
     inputs:
       branch_name:
@@ -14,8 +17,34 @@ env:
   VCPKG_DEFAULT_BINARY_CACHE: ${{github.workspace}}/vcpkg_cache
 
 jobs:
+  check_date:
+    runs-on: ubuntu-latest
+    name: Check latest commit
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Output latest commit SHA
+        run: echo ${{ github.sha }}
+
+      - name: Check latest commit is less than a day
+        id: should_run
+        continue-on-error: true
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          if git rev-list --after="24 hours" ${{ github.sha }} | grep -q .; then
+            echo "should_run=true"  >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     runs-on: windows-latest
+    name: Build
+
+    needs: check_date
+    if: ${{ needs.check_date.outputs.should_run != 'false' }}
 
     steps:
     - uses: actions/checkout@v4
