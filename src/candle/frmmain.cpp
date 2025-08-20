@@ -1639,9 +1639,9 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Abort
-                static double x = sNan;
-                static double y = sNan;
-                static double z = sNan;
+                static double x = qQNaN();
+                static double y = qQNaN();
+                static double z = qQNaN();
 
                 if (m_aborting) {
                     switch (state) {
@@ -1657,9 +1657,9 @@ void frmMain::onSerialPortReadyRead()
                         case DeviceHold1:
                         case DeviceQueue:
                             if (!m_reseting && compareCoordinates(x, y, z)) {
-                                x = sNan;
-                                y = sNan;
-                                z = sNan;
+                                x = qQNaN();
+                                y = qQNaN();
+                                z = qQNaN();
                                 grblReset();
                             }
                             else {
@@ -2334,11 +2334,6 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
                 indexes.append(l);
             }
         }
-
-        m_selectionDrawer.setEndPosition(indexes.isEmpty() ? QVector3D(sNan, sNan, sNan) :
-            (m_codeDrawer->getIgnoreZ() ? QVector3D(list.at(indexes.last())->getEnd().x(), list.at(indexes.last())->getEnd().y(), 0)
-                                        : list.at(indexes.last())->getEnd()));
-        m_selectionDrawer.update();
 
         if (!indexes.isEmpty()) m_currentDrawer->update(indexes);
     }

@@ -29,7 +29,6 @@ target_include_directories(candle PRIVATE . ../customwidgets)
 target_compile_definitions(candle PRIVATE
         _USE_MATH_DEFINES
         QT_NO_DEBUG
-        sNan=65536
 )
 
 target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script)
