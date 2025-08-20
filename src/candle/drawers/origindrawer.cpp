@@ -49,7 +49,29 @@ bool OriginDrawer::updateData()
         {QVector3D(-0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
         {QVector3D(0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
         {QVector3D(0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
-        {QVector3D(0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine}
+        {QVector3D(0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+
+        // X-label
+        {QVector3D(0.85f, 0.3f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.85f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0.3f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+
+        // Y-label
+        {QVector3D(0.1f, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+
+        // Z-label
+        {QVector3D(0.1f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine}
     };
 
     return true;
