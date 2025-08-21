@@ -80,6 +80,9 @@ public:
     QString pinState() const;
     void setPinState(const QString &pinState);
 
+    bool perspective() const;
+    void setPerspective(bool perspective);
+
 signals:
     void rotationChanged();
     void resized();
@@ -101,6 +104,8 @@ private:
     QPoint m_lastPos;
     double m_zoom;
     double m_distance;
+
+    bool m_perspective;
 
     QVector3D m_viewLowerBounds;
     QVector3D m_viewUpperBounds;

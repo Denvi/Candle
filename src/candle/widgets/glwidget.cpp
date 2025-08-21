@@ -32,6 +32,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
 
     m_zoom = 1;
     m_distance = 100;
+    m_perspective = false;
 
     updateProjection();
     updateView();
@@ -162,6 +163,19 @@ QString GLWidget::speedState() const
 void GLWidget::setSpeedState(const QString &additionalStatus)
 {
     m_speedState = additionalStatus;
+}
+
+bool GLWidget::perspective() const
+{
+    return m_perspective;
+}
+
+void GLWidget::setPerspective(bool perspective)
+{
+    m_perspective = perspective;
+
+    updateProjection();
+    updateView();
 }
 
 bool GLWidget::vsync() const
@@ -356,47 +370,97 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::updateProjection()
 {
-    const double zNear = 2.0;
-    const double zFar = m_distance * 2;
-
     // Reset projection
     m_projectionMatrix.setToIdentity();
 
-    double asp = (double)width() / height();
-    m_projectionMatrix.frustum((-0.5 + m_pan.x()) * asp, (0.5 + m_pan.x()) * asp,
-                               -0.5 + m_pan.y(), 0.5 + m_pan.y(), zNear, zFar);
+    if (m_perspective) {
+        const double zNear = 2.0;
+        const double zFar = m_distance * 10;
 
-    // Update xy-plane z-depth
-    double z = m_distance + (m_viewUpperBounds + m_viewLowerBounds).z() / 2 * m_zoom;
-    m_planeDepth = (1 / z - 1 / zNear) / (1 / zFar - 1 / zNear) * 2 - 1;
+        double asp = (double)width() / height();
+        m_projectionMatrix.frustum(
+            (-0.5 + m_pan.x()) * asp,
+            (0.5 + m_pan.x()) * asp,
+            -0.5 + m_pan.y(),
+            0.5 + m_pan.y(),
+            zNear,
+            zFar
+        );
+
+        double z = m_distance + (m_viewUpperBounds + m_viewLowerBounds).z() / 2 * m_zoom;
+        m_planeDepth = (1 / z - 1 / zNear) / (1 / zFar - 1 / zNear) * 2 - 1;
+    } else {
+        const float paddingScale = 1.3f;
+
+        // Rollback plane to view
+        if (qFuzzyIsNull(m_viewRanges.length())) {
+            m_viewRanges = QVector3D(100, 100, 0) / paddingScale;
+        }
+
+        double screenToWorld = qMax(
+            m_viewRanges.x() / width(),
+            m_viewRanges.y() / height()
+        ) * paddingScale;
+
+        // 1000.0 - maximum z-coordinate
+        double clip = qMax(1000.0, (double) m_viewRanges.length());
+
+        m_projectionMatrix.ortho(
+            (-width() / 2 + m_pan.x() * width()) * screenToWorld / m_zoom,
+            (width() / 2 + m_pan.x() * width()) * screenToWorld / m_zoom,
+            (-height() / 2 + m_pan.y() * height()) * screenToWorld / m_zoom,
+            (height() / 2 + m_pan.y() * height()) * screenToWorld / m_zoom,
+            -clip,
+            clip
+        );
+
+        m_planeDepth = 0;
+    }
 }
 
 void GLWidget::updateView()
 {
-    // Set view matrix
-    m_viewMatrix.setToIdentity();
+    if (m_perspective) {
+        m_viewMatrix.setToIdentity();
 
-    QPointF ang = m_rot * M_PI / 180;
+        QPointF ang = m_rot * M_PI / 180;
 
-    QVector3D eye = m_lookAt + QVector3D(
+        QVector3D eye = m_lookAt + QVector3D(
+                cos(ang.x()) * sin(ang.y()),
+                sin(ang.x()),
+                cos(ang.x()) * cos(ang.y())
+        ) * m_distance;
+
+        QVector3D up(fabs(m_rot.x()) == 90 ? -sin(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0,
+                     cos(ang.x()),
+                     fabs(m_rot.x()) == 90 ? -cos(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0);
+
+        m_viewMatrix.lookAt(eye, m_lookAt, up.normalized());
+
+        m_viewMatrix.translate(m_lookAt);
+        m_viewMatrix.scale(m_zoom);
+        m_viewMatrix.translate(-m_lookAt);
+
+        m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
+    } else {
+        m_viewMatrix.setToIdentity();
+
+        QPointF ang = m_rot * M_PI / 180;
+
+        QVector3D eye = m_lookAt + QVector3D(
             cos(ang.x()) * sin(ang.y()),
             sin(ang.x()),
             cos(ang.x()) * cos(ang.y())
-    ) * m_distance;
+        );
 
-    QVector3D up(fabs(m_rot.x()) == 90 ? -sin(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0,
-                 cos(ang.x()),
-                 fabs(m_rot.x()) == 90 ? -cos(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0);
+        QVector3D up(fabs(m_rot.x()) == 90 ? -sin(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0,
+            cos(ang.x()),
+            fabs(m_rot.x()) == 90 ? -cos(ang.y() + (m_rot.x() < 0 ? M_PI : 0)) : 0);
 
-    m_viewMatrix.lookAt(eye, m_lookAt, up.normalized());
+        m_viewMatrix.lookAt(eye, m_lookAt, up.normalized());
+        m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
+    }
 
-    m_viewMatrix.translate(m_lookAt);
-    m_viewMatrix.scale(m_zoom);
-    m_viewMatrix.translate(-m_lookAt);
-
-    m_viewMatrix.rotate(-90, 1.0, 0.0, 0.0);
-
-    // Update visualizer window size in world coordinates
     QMatrix4x4 ivp = (m_projectionMatrix * m_viewMatrix).inverted();
     m_windowSizeWorld = (ivp * QVector3D(0, 1, m_planeDepth) - ivp * QVector3D(0, 0, m_planeDepth)).length() * 2.0;
 }
