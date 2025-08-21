@@ -20,6 +20,8 @@ add_custom_target(
     lupdate ALL
     COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
         ${SRC_FILES} ${UI_FILES}
+        -locations none
+        -no-obsolete
         -ts ${TS_FILES}
     VERBATIM
 )
