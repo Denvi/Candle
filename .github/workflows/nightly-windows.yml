@@ -2,7 +2,7 @@ name: Nightly / Windows (x64)
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '45 19 * * *'
 
   workflow_dispatch:
     inputs:
