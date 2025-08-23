@@ -21,11 +21,15 @@
     <normaloff>:/images/candle_256.png</normaloff>:/images/candle_256.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">/*StyledToolButton[adjustSize=&quot;true&quot;] {
-	min-width: 60px;
-	min-height: 60px;
-	qproperty-iconSize: 48px;
-}*/
+   <string notr="true">#fraProgram QToolButton {
+	min-width: 1.75em;
+	min-height: 1.75em;
+}
+
+StyledToolButton[adjustSize=&quot;true&quot;] {
+	min-width: 2.5em;
+	min-height: 2.5em;
+}
 
 QMainWindow::separator {
 	width: 26;
@@ -40,23 +44,6 @@ QDockWidget::title {
 QDockWidget[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget {
 	margin-left: 11;
 	margin-right: 11;
-}
-
-QDockWidget::close-button {
-	subcontrol-origin: padding;
-	subcontrol-position: right center;
-	position: absolute;
-	top: 2;
-	width: 24;
-}
-
-QDockWidget::float-button {
-	subcontrol-origin: padding;
-	subcontrol-position: right center;
-	position: absolute;
-	top: 2;
-	right: 20;
-	width: 24;
 }
 
 QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
@@ -154,12 +141,7 @@ QMainWindow::separator:vertical {
 
 QMainWindow::separator:horizontal {
 	image: url(&quot;:/images/handle_horizontal.png&quot;);
-}
-
-/*QSlider::sub-page:horizontal {
-    background: red;
-	margin: 1px 0;
-}*/ </string>
+}</string>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
