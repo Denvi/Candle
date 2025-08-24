@@ -2719,6 +2719,12 @@ void frmMain::loadSettings()
 	    qproperty-iconSize: %1px;\n\
         }").arg(qRound(visualizerButtonSize * 0.7)));
 
+        // Console buttons style
+    int consoleButtonSize = ui->cmdCommandSend->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraConsole QPushButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(consoleButtonSize * 0.6)));
+
     // Ensure styles
     ensurePolished();        
 

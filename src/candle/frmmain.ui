@@ -2407,8 +2407,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFit">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2433,8 +2433,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdTop">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2459,8 +2459,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdIsometric">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2485,8 +2485,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFront">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2511,8 +2511,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdLeft">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2558,7 +2558,7 @@ QLabel[overrided=&quot;false&quot;] {
       <number>0</number>
      </property>
      <item>
-      <widget class="QFrame" name="frame">
+      <widget class="QFrame" name="fraConsole">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
