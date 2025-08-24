@@ -94,19 +94,6 @@ QFrame#frameManualControlXY,#frameManualControlZ {
 	border-radius: 4px;
 }
 
-QSplitter::handle {
-	background-repeat: no-repeat;
-	background-position: center center;
-}
-
-QSplitter::handle:vertical {
-	background-image: url(&quot;:/images/handle_horizontal.png&quot;);
-}
-
-QSplitter::handle:horizontal {
-	background-image: url(&quot;:/images/handle_vertical.png&quot;);
-}
-
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);
@@ -133,14 +120,6 @@ QSlider::handle:horizontal {
 
 QSlider::handle:horizontal:hover {
 	background-image: url(:/images/handle2sh.png);
-}
-
-QMainWindow::separator:vertical {
-	image: url(&quot;:/images/handle_vertical.png&quot;);
-}
-
-QMainWindow::separator:horizontal {
-	image: url(&quot;:/images/handle_horizontal.png&quot;);
 }</string>
   </property>
   <property name="dockNestingEnabled">
