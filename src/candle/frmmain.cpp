@@ -2698,7 +2698,7 @@ void frmMain::loadSettings()
     emit pluginsLoaded();
 
     // Adjust docks width
-    int panelButtonSize = ui->cmdReset->sizeHint().width();
+    int panelButtonSize = ui->cmdReset->minimumWidth();
     int panelWidth = qMax(ui->dockDevice->widget()->sizeHint().width(), ui->dockModification->widget()->sizeHint().width());
 
     ui->dockDevice->setMinimumWidth(panelWidth);
@@ -2718,6 +2718,12 @@ void frmMain::loadSettings()
     setStyleSheet(styleSheet() + QString("\n#fraProgram QToolButton {\n\
 	    qproperty-iconSize: %1px;\n\
         }").arg(qRound(visualizerButtonSize * 0.7)));
+
+        // Console buttons style
+    int consoleButtonSize = ui->cmdCommandSend->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraConsole QPushButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(consoleButtonSize * 0.6)));
 
     // Ensure styles
     ensurePolished();        
@@ -2984,7 +2990,7 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
 
-    ui->slbSpindle->setRatio((m_settings->spindleSpeedMax() - m_settings->spindleSpeedMin()) / 100);
+    ui->slbSpindle->setRatio(m_settings->spindleSpeedMax() / 100);
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
