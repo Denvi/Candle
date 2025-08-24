@@ -1932,12 +1932,6 @@ QLabel[overrided=&quot;false&quot;] {
                   <iconset resource="images.qrc">
                    <normaloff>:/images/cutter.png</normaloff>:/images/cutter.png</iconset>
                  </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>32</width>
-                   <height>32</height>
-                  </size>
-                 </property>
                  <property name="checkable">
                   <bool>true</bool>
                  </property>

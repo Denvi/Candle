@@ -2698,7 +2698,7 @@ void frmMain::loadSettings()
     emit pluginsLoaded();
 
     // Adjust docks width
-    int panelButtonSize = ui->cmdReset->sizeHint().width();
+    int panelButtonSize = ui->cmdReset->minimumWidth();
     int panelWidth = qMax(ui->dockDevice->widget()->sizeHint().width(), ui->dockModification->widget()->sizeHint().width());
 
     ui->dockDevice->setMinimumWidth(panelWidth);
