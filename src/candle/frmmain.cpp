@@ -2990,7 +2990,8 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
 
-    ui->slbSpindle->setRatio(m_settings->spindleSpeedMax() / 100);
+    ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
+
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
