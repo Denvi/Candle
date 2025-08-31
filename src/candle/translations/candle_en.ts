@@ -1144,5 +1144,9 @@ Time elapsed: %1</source>
         <source>Cancel</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

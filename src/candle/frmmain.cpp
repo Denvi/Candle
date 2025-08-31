@@ -2624,6 +2624,7 @@ void frmMain::loadSettings()
     m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
     m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
     m_settings->setLanguage(set.value("language", "en").toString());
+    m_settings->setInvertedSliderControls(set.value("invertedSliderControls", false).toBool());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -2806,6 +2807,13 @@ void frmMain::loadSettings()
     }
     set.endGroup();
 
+    // Update inverted slider controls
+    auto sliders = this->findChildren<QSlider*>();
+
+    foreach (auto slider, sliders) {
+        slider->setInvertedControls(m_settings->invertedSliderControls());
+    }
+
     m_settingsLoading = false;
 }
 
@@ -2874,6 +2882,7 @@ void frmMain::saveSettings()
     set.setValue("referenceYPlus", m_settings->referenceYPlus());
     set.setValue("referenceZPlus", m_settings->referenceZPlus());
     set.setValue("language", m_settings->language());
+    set.setValue("invertedSliderControls", m_settings->invertedSliderControls());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
     set.setValue("feedOverrideValue", ui->slbFeedOverride->value());

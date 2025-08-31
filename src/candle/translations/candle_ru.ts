@@ -1150,5 +1150,9 @@ Time elapsed: %1</source>
         <source>Reset settings to default values?</source>
         <translation>Восстановить значения по-умолчанию?</translation>
     </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation>Инвертировать управление ползунками</translation>
+    </message>
 </context>
 </TS>

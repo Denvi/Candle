@@ -705,6 +705,16 @@ void frmSettings::setReferenceZPlus(bool value)
     ui->radReferenceZPlus->setChecked(value);
 }
 
+bool frmSettings::invertedSliderControls()
+{
+    return ui->chkInvertedSliderControls->isChecked();
+}
+
+void frmSettings::setInvertedSliderControls(bool value)
+{
+    ui->chkInvertedSliderControls->setChecked(value);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)

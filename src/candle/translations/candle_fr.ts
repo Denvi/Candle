@@ -1146,5 +1146,9 @@ Temps écoulé: %1</translation>
         <source>Reset settings to default values?</source>
         <translation>Réinitialiser les réglages par défaut?</translation>
     </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -1146,5 +1146,9 @@ Tempo transcorrido: %1</translation>
         <source>Reset settings to default values?</source>
         <translation>Redefinir as configurações para os valores padrão?</translation>
     </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
