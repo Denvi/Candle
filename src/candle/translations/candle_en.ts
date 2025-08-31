@@ -769,6 +769,10 @@ Time elapsed: %1</source>
         <source>Modifying G-code program...</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

@@ -771,6 +771,10 @@ Tempo transcorrido: %1</translation>
         <source>Changing grid settings will reset probe data. Continue?</source>
         <translation>A alteração nas configurações de grade reiniciará os dados de medição. Deseja continuar?</translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

@@ -774,6 +774,10 @@ Time elapsed: %1</source>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation>Перспективный вид</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

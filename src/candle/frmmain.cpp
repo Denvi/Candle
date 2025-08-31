@@ -158,6 +158,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdTop->setParent(ui->glwVisualizer);
     ui->cmdFront->setParent(ui->glwVisualizer);
     ui->cmdLeft->setParent(ui->glwVisualizer);
+    ui->cmdPerspective->setParent(ui->glwVisualizer);
 
     ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
@@ -944,6 +945,11 @@ void frmMain::on_cmdIsometric_clicked()
 void frmMain::on_cmdFit_clicked()
 {
     ui->glwVisualizer->fitDrawable(m_currentDrawer);
+}
+
+void frmMain::on_cmdPerspective_toggled()
+{
+    ui->glwVisualizer->setPerspective(ui->cmdPerspective->isChecked());
 }
 
 void frmMain::on_grpOverriding_toggled(bool checked)
@@ -2549,6 +2555,7 @@ void frmMain::placeVisualizerButtons()
     ui->cmdLeft->move(ui->glwVisualizer->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
+    ui->cmdPerspective->move(ui->cmdFit->geometry().left() - ui->cmdPerspective->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
 }
 
 void frmMain::preloadSettings()
@@ -2676,6 +2683,8 @@ void frmMain::loadSettings()
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
+
+    ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
         pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
@@ -2896,6 +2905,8 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
 
+    set.setValue("viewPerspective", ui->cmdPerspective->isChecked());
+
     foreach (ColorPicker* pick, m_settings->colors()) {
         set.setValue(pick->objectName().mid(3), pick->color().name());
     }
@@ -3036,6 +3047,7 @@ void frmMain::applySettings() {
     ui->cmdFront->setIcon(QIcon(":/images/cubeFront.png"));
     ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
     ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
+    ui->cmdPerspective->setIcon(QIcon(":/images/perspective.png"));
 
     if (!light) {
         Util::invertButtonIconColors(ui->cmdFit);
@@ -3043,6 +3055,7 @@ void frmMain::applySettings() {
         Util::invertButtonIconColors(ui->cmdFront);
         Util::invertButtonIconColors(ui->cmdLeft);
         Util::invertButtonIconColors(ui->cmdTop);
+        Util::invertButtonIconColors(ui->cmdPerspective);
     }
 
     int h = ui->cmdFileOpen->sizeHint().height();

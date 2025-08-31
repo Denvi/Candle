@@ -2378,13 +2378,24 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="GLWidget" name="glwVisualizer" native="true"/>
         </item>
         <item>
-         <widget class="QToolButton" name="cmdFit">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
+         <widget class="QToolButton" name="cmdPerspective">
+          <property name="toolTip">
+           <string>Perspective view</string>
           </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/images/perspective.png</normaloff>:/images/perspective.png</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="cmdFit">
           <property name="toolTip">
            <string>Fit</string>
           </property>
@@ -2405,12 +2416,6 @@ QLabel[overrided=&quot;false&quot;] {
         </item>
         <item>
          <widget class="QToolButton" name="cmdTop">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Top view</string>
           </property>
@@ -2431,12 +2436,6 @@ QLabel[overrided=&quot;false&quot;] {
         </item>
         <item>
          <widget class="QToolButton" name="cmdIsometric">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Isometric view</string>
           </property>
@@ -2457,12 +2456,6 @@ QLabel[overrided=&quot;false&quot;] {
         </item>
         <item>
          <widget class="QToolButton" name="cmdFront">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Front view</string>
           </property>
@@ -2483,12 +2476,6 @@ QLabel[overrided=&quot;false&quot;] {
         </item>
         <item>
          <widget class="QToolButton" name="cmdLeft">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
           <property name="toolTip">
            <string>Left view</string>
           </property>
