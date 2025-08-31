@@ -624,22 +624,29 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void GLWidget::wheelEvent(QWheelEvent *we)
 {
-    if (m_zoom > 0.1 && we->delta() < 0) {
-        m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - 1 / ZOOMSTEP));
-        m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - 1 / ZOOMSTEP));
+    if (we->angleDelta().manhattanLength() >= 120) {
+        if (m_zoom > 0.1 && we->delta() < 0) {
+            m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - 1 / ZOOMSTEP));
+            m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - 1 / ZOOMSTEP));
 
-        m_zoom /= ZOOMSTEP;
+            m_zoom /= ZOOMSTEP;
+        }
+        else if (m_zoom < 10 && we->delta() > 0)
+        {
+            m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - ZOOMSTEP));
+            m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - ZOOMSTEP));
+
+            m_zoom *= ZOOMSTEP;
+        }
+
+        updateProjection();
+        updateView();
+    } else {
+        m_pan.setX(m_pan.x() - we->angleDelta().x() * 1 / (double)width());
+        m_pan.setY(m_pan.y() + we->angleDelta().y() * 1 / (double)height());
+
+        updateProjection();
     }
-    else if (m_zoom < 10 && we->delta() > 0)
-    {
-        m_pan.setX(m_pan.x() - ((double)we->pos().x() / width() - 0.5 + m_pan.x()) * (1 - ZOOMSTEP));
-        m_pan.setY(m_pan.y() + ((double)we->pos().y() / height() - 0.5 - m_pan.y()) * (1 - ZOOMSTEP));
-
-        m_zoom *= ZOOMSTEP;
-    }
-
-    updateProjection();
-    updateView();
 }
 
 void GLWidget::timerEvent(QTimerEvent *te)
