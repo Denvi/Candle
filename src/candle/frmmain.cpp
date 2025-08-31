@@ -165,8 +165,8 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
-    ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
-    ui->cboJogFeed->setValidator(new QIntValidator(0, 100000));
+    ui->cboJogStep->lineEdit()->setValidator(new QDoubleValidator(0, 10000, 2));
+    ui->cboJogFeed->lineEdit()->setValidator(new QIntValidator(0, 100000));
     connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
     connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
 
