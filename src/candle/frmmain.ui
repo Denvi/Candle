@@ -21,11 +21,15 @@
     <normaloff>:/images/candle_256.png</normaloff>:/images/candle_256.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">/*StyledToolButton[adjustSize=&quot;true&quot;] {
-	min-width: 60px;
-	min-height: 60px;
-	qproperty-iconSize: 48px;
-}*/
+   <string notr="true">#fraProgram QToolButton {
+	min-width: 1.75em;
+	min-height: 1.75em;
+}
+
+StyledToolButton[adjustSize=&quot;true&quot;] {
+	min-width: 2.5em;
+	min-height: 2.5em;
+}
 
 QMainWindow::separator {
 	width: 26;
@@ -40,23 +44,6 @@ QDockWidget::title {
 QDockWidget[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget {
 	margin-left: 11;
 	margin-right: 11;
-}
-
-QDockWidget::close-button {
-	subcontrol-origin: padding;
-	subcontrol-position: right center;
-	position: absolute;
-	top: 2;
-	width: 24;
-}
-
-QDockWidget::float-button {
-	subcontrol-origin: padding;
-	subcontrol-position: right center;
-	position: absolute;
-	top: 2;
-	right: 20;
-	width: 24;
 }
 
 QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
@@ -107,59 +94,28 @@ QFrame#frameManualControlXY,#frameManualControlZ {
 	border-radius: 4px;
 }
 
-QSplitter::handle {
-	background-repeat: no-repeat;
-	background-position: center center;
-}
-
-QSplitter::handle:vertical {
-	background-image: url(&quot;:/images/handle_horizontal.png&quot;);
-}
-
-QSplitter::handle:horizontal {
-	background-image: url(&quot;:/images/handle_vertical.png&quot;);
-}
-
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);
 }
 
-QSlider::horizontal {
-	padding-top: 1px;
-	padding-bottom: 1px;
-}
-
-QSlider::groove:horizontal {
-    border: 1px solid #999999;
-    height: 2px; 
-    background: #8f8f91;
-    margin: 2px 0;
+QSlider:horizontal {
+	height: 1.25em;
 }
 
 QSlider::handle:horizontal {	
-	background-image: url(:/images/handle2s.png);
-    border: 0px;
-    width: 16px;
-    margin: -7px 0; 
+	background-color: #A6A6A6;
+	border: 2px solid #606060;
+	border-radius: 4px;
+}
+
+QSlider::handle:horizontal:disabled {
+    background: lightgray;
 }
 
 QSlider::handle:horizontal:hover {
-	background-image: url(:/images/handle2sh.png);
-}
-
-QMainWindow::separator:vertical {
-	image: url(&quot;:/images/handle_vertical.png&quot;);
-}
-
-QMainWindow::separator:horizontal {
-	image: url(&quot;:/images/handle_horizontal.png&quot;);
-}
-
-/*QSlider::sub-page:horizontal {
-    background: red;
-	margin: 1px 0;
-}*/ </string>
+	background-color: #CACACA;
+}</string>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
@@ -1950,12 +1906,6 @@ QLabel[overrided=&quot;false&quot;] {
                   <iconset resource="images.qrc">
                    <normaloff>:/images/cutter.png</normaloff>:/images/cutter.png</iconset>
                  </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>32</width>
-                   <height>32</height>
-                  </size>
-                 </property>
                  <property name="checkable">
                   <bool>true</bool>
                  </property>
@@ -2431,8 +2381,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFit">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2457,8 +2407,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdTop">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2483,8 +2433,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdIsometric">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2509,8 +2459,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdFront">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2535,8 +2485,8 @@ QLabel[overrided=&quot;false&quot;] {
          <widget class="QToolButton" name="cmdLeft">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="toolTip">
@@ -2582,7 +2532,7 @@ QLabel[overrided=&quot;false&quot;] {
       <number>0</number>
      </property>
      <item>
-      <widget class="QFrame" name="frame">
+      <widget class="QFrame" name="fraConsole">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -2614,6 +2564,11 @@ QLabel[overrided=&quot;false&quot;] {
            <font>
             <pointsize>9</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#txtConsole {
+	border: 1px solid gray;
+}</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>

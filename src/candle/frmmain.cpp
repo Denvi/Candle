@@ -506,7 +506,7 @@ void frmMain::on_actFileSave_triggered()
 void frmMain::on_actFileSaveAs_triggered()
 {
     if (!m_heightMapMode) {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
 
         if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel)) {
             m_programFileName = fileName;
@@ -535,7 +535,7 @@ void frmMain::on_actFileSaveAs_triggered()
 
 void frmMain::on_actFileSaveTransformedAs_triggered()
 {
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt)")));
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
 
     if (!fileName.isEmpty()) {
         saveProgramToFile(fileName, &m_programHeightmapModel);
@@ -706,7 +706,7 @@ void frmMain::on_cmdFileOpen_clicked()
         if (!saveChanges(false)) return;
 
         QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), m_lastFolder,
-                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt);;All files (*.*)"));
+                                   tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode);;All files (*.*)"));
 
         if (!fileName.isEmpty()) m_lastFolder = fileName.left(fileName.lastIndexOf(QRegExp("[/\\\\]+")));
 
@@ -2477,8 +2477,14 @@ void frmMain::onCboCommandReturnPressed()
 
 void frmMain::onDockTopLevelChanged(bool topLevel)
 {
-    Q_UNUSED(topLevel)
-    static_cast<QWidget*>(sender())->setStyleSheet("");
+    QWidget* widget = static_cast<QWidget*>(sender());
+
+    // Doesn't updates itself on object property change
+    widget->setStyleSheet("");
+
+    // Take into account margin of 11 
+    widget->setMinimumWidth(widget->minimumWidth() + 22 * (topLevel ? 1 : -1));
+    widget->setMaximumWidth(widget->maximumWidth() + 22 * (topLevel ? 1 : -1));
 }
 
 void frmMain::onScroolBarAction(int action)
@@ -2690,25 +2696,36 @@ void frmMain::loadSettings()
     loadPlugins();
     emit pluginsLoaded();
 
-    // Adjust docks width 
-    int w = qMax(ui->dockDevice->widget()->sizeHint().width(),
-        ui->dockModification->widget()->sizeHint().width());
-    ui->dockDevice->setMinimumWidth(w);
-    ui->dockDevice->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
-    ui->dockModification->setMinimumWidth(w);
-    ui->dockModification->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
-    ui->dockUser->setMinimumWidth(w);
-    ui->dockUser->setMaximumWidth(w + ui->scrollArea->verticalScrollBar()->width());
+    // Adjust docks width
+    int panelButtonSize = ui->cmdReset->minimumWidth();
+    int panelWidth = qMax(ui->dockDevice->widget()->sizeHint().width(), ui->dockModification->widget()->sizeHint().width());
 
-        // Buttons
-    int b = (w - ui->grpControl->layout()->margin() * 2 - ui->grpControl->layout()->spacing() * 3) / 4 * 0.8;
-    int c = b * 0.8;
+    ui->dockDevice->setMinimumWidth(panelWidth);
+    ui->dockDevice->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockModification->setMinimumWidth(panelWidth);
+    ui->dockModification->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockUser->setMinimumWidth(panelWidth);
+    ui->dockUser->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+
+        // Panel buttons style
     setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
-	    min-width: %1px;\n\
-	    min-height: %1px;\n\
-	    qproperty-iconSize: %2px;\n\
-        }").arg(b).arg(c));
-    ensurePolished();
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(panelButtonSize * 0.8)));
+
+        // Visualizer buttons style
+    int visualizerButtonSize = ui->cmdIsometric->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraProgram QToolButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(visualizerButtonSize * 0.7)));
+
+        // Console buttons style
+    int consoleButtonSize = ui->cmdCommandSend->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraConsole QPushButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(consoleButtonSize * 0.6)));
+
+    // Ensure styles
+    ensurePolished();        
 
     foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
 
@@ -2972,7 +2989,8 @@ void frmMain::applySettings() {
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
 
-    ui->slbSpindle->setRatio((m_settings->spindleSpeedMax() - m_settings->spindleSpeedMin()) / 100);
+    ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
+
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
@@ -4437,7 +4455,8 @@ bool frmMain::isGCodeFile(QString fileName)
           || fileName.endsWith(".nc", Qt::CaseInsensitive)
           || fileName.endsWith(".ncc", Qt::CaseInsensitive)
           || fileName.endsWith(".ngc", Qt::CaseInsensitive)
-          || fileName.endsWith(".tap", Qt::CaseInsensitive);
+          || fileName.endsWith(".tap", Qt::CaseInsensitive)
+          || fileName.endsWith(".gcode", Qt::CaseInsensitive);
 }
 
 bool frmMain::isHeightmapFile(QString fileName)

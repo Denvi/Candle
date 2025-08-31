@@ -20,6 +20,8 @@ add_custom_target(
     lupdate ALL
     COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
         ${SRC_FILES} ${UI_FILES}
+        -locations none
+        -no-obsolete
         -ts ${TS_FILES}
     VERBATIM
 )
@@ -40,6 +42,26 @@ install(TARGETS candle RUNTIME DESTINATION .)
 
 # Translations
 install(FILES ${QM_FILES} DESTINATION translations)
+
+# Base translations
+get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+execute_process(
+    COMMAND "${QT5_QMAKE_EXECUTABLE}" -query QT_INSTALL_TRANSLATIONS
+    OUTPUT_VARIABLE QT_TRANSLATIONS_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+set(QT_LANGUAGES ru es fr pt)
+
+foreach(LANG ${QT_LANGUAGES})
+    set(QT_TRANSLATION_FILE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")
+    if(EXISTS "${QT_TRANSLATION_FILE}")
+        install(
+            FILES "${QT_TRANSLATION_FILE}"
+            DESTINATION "translations"
+        )
+    endif()
+endforeach()
 
 # Candle plugins
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
