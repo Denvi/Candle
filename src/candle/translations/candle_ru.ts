@@ -774,6 +774,10 @@ Time elapsed: %1</source>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation>Перспективный вид</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
@@ -1145,6 +1149,10 @@ Time elapsed: %1</source>
     <message>
         <source>Reset settings to default values?</source>
         <translation>Восстановить значения по-умолчанию?</translation>
+    </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation>Инвертировать управление ползунками</translation>
     </message>
 </context>
 </TS>

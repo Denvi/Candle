@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QDebug>
 #include "gcodeviewparse.h"
@@ -16,10 +16,13 @@ GcodeViewParse::GcodeViewParse(QObject *parent) :
     currentLine = 0;
     debug = true;
 
-    m_min = QVector3D(qQNaN(), qQNaN(), qQNaN());
-    m_max = QVector3D(qQNaN(), qQNaN(), qQNaN());
+    m_viewLowerBounds = Util::nVector();
+    m_viewUpperBounds = Util::nVector();
 
-    m_minLength = qQNaN();
+    m_modelLowerBounds = Util::nVector();
+    m_modelUpperBounds = Util::nVector();
+
+    m_modelMinLineLength = qQNaN();
 }
 
 GcodeViewParse::~GcodeViewParse()
@@ -27,36 +30,40 @@ GcodeViewParse::~GcodeViewParse()
     foreach (LineSegment *ls, m_lines) delete ls;
 }
 
-QVector3D &GcodeViewParse::getMinimumExtremes()
+QVector3D &GcodeViewParse::getViewLowerBounds()
 {
-    return m_min;
+    return m_viewLowerBounds;
 }
 
-QVector3D &GcodeViewParse::getMaximumExtremes()
+QVector3D &GcodeViewParse::getViewUpperBounds()
 {
-    return m_max;
+    return m_viewUpperBounds;
 }
 
-void GcodeViewParse::testExtremes(QVector3D p3d)
-{
-    this->testExtremes(p3d.x(), p3d.y(), p3d.z());
+QVector3D &GcodeViewParse::getModelLowerBounds() {
+    return m_modelLowerBounds;
 }
 
-void GcodeViewParse::testExtremes(double x, double y, double z)
-{
-    m_min.setX(Util::nMin(m_min.x(), x));
-    m_min.setY(Util::nMin(m_min.y(), y));
-    m_min.setZ(Util::nMin(m_min.z(), z));
-
-    m_max.setX(Util::nMax(m_max.x(), x));
-    m_max.setY(Util::nMax(m_max.y(), y));
-    m_max.setZ(Util::nMax(m_max.z(), z));
+QVector3D &GcodeViewParse::getModelUpperBounds() {
+    return m_modelUpperBounds;
 }
 
-void GcodeViewParse::testLength(const QVector3D &start, const QVector3D &end)
+void GcodeViewParse::updateViewBounds(const QVector3D &point)
+{
+    m_viewLowerBounds = Util::nMin(m_viewLowerBounds, point);
+    m_viewUpperBounds = Util::nMax(m_viewUpperBounds, point);
+}
+
+void GcodeViewParse::updateModelBounds(const QVector3D &point)
+{
+    m_modelLowerBounds = Util::nMin(m_modelLowerBounds, point);
+    m_modelUpperBounds = Util::nMax(m_modelUpperBounds, point);
+}
+
+void GcodeViewParse::updateModelMinLineLength(const QVector3D &start, const QVector3D &end)
 {
     double length = (start - end).length();
-    if (!qIsNaN(length) && length != 0) m_minLength = qIsNaN(m_minLength) ? length : qMin<double>(m_minLength, length);
+    if (!qIsNaN(length) && length != 0) m_modelMinLineLength = qIsNaN(m_modelMinLineLength) ? length : qMin<double>(m_modelMinLineLength, length);
 }
 
 QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode)
@@ -81,37 +88,43 @@ void GcodeViewParse::reset()
     m_lines.clear();
     m_lineIndexes.clear();
     currentLine = 0;
-    m_min = QVector3D(qQNaN(), qQNaN(), qQNaN());
-    m_max = QVector3D(qQNaN(), qQNaN(), qQNaN());
-    m_minLength = qQNaN();
+    m_viewLowerBounds = Util::nVector();
+    m_viewUpperBounds = Util::nVector();
+    
+    m_modelLowerBounds = Util::nVector();
+    m_modelUpperBounds = Util::nVector();
+    
+    m_modelMinLineLength = qQNaN();
 }
 
-double GcodeViewParse::getMinLength() const
+double GcodeViewParse::getModelMinLineLength() const
 {
-    return m_minLength;
+    return m_modelMinLineLength;
 }
 
-QSize GcodeViewParse::getResolution() const
+QSize GcodeViewParse::getModelResolution() const
 {
-    return QSize(((m_max.x() - m_min.x()) / m_minLength) + 1, ((m_max.y() - m_min.y()) / m_minLength) + 1);
+    return QSize(((m_modelUpperBounds.x() - m_modelLowerBounds.x()) / m_modelMinLineLength) + 1,
+                 ((m_modelUpperBounds.y() - m_modelLowerBounds.y()) / m_modelMinLineLength) + 1);
 }
 
 QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
-    double minArcLength = 0.1;
-    double length;
+    const double minArcLength = 0.1;
+    const double rotationDelta = 5.0;
 
     QVector3D *start, *end;
     start = NULL;
     end = NULL;
     LineSegment *ls;
+    int index = 0;
+    int lineIndex = 0;
 
     // Prepare segments indexes
     m_lineIndexes.resize(psl.count());
 
-    int lineIndex = 0;
     foreach (PointSegment *segment, psl) {
         PointSegment *ps = segment;
         bool isMetric = ps->isMetric();
@@ -124,10 +137,14 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
             // Expand arc for graphics.            
             if (ps->isArc()) {
                 QList<QVector3D> points =
-                    GcodePreprocessorUtils::generatePointsAlongArcBDring(ps->plane(),
-                    *start, *end, *ps->center(), ps->isClockwise(), ps->getRadius(), minArcLength, arcPrecision, arcDegreeMode);
+                    GcodePreprocessorUtils::generatePointsAlongArcBDring(
+                        ps->plane(), *start, *end, 
+                        *ps->center(), ps->isClockwise(), ps->getRadius(), 
+                        minArcLength, arcPrecision, arcDegreeMode);
+
                 // Create line segments from points.
-                if (points.length() > 0) {
+                int segments = points.length();
+                if (segments > 0) {
                     QVector3D startPoint = *start;
                     foreach (QVector3D nextPoint, points) {
                         if (nextPoint == startPoint) continue;
@@ -142,9 +159,17 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                         ls->setSpeed(ps->getSpeed());
                         ls->setSpindleSpeed(ps->getSpindleSpeed());
                         ls->setDwell(ps->getDwell());
-                        this->testExtremes(nextPoint);
+                        ls->setModelStart(startPoint);
+                        ls->setModelEnd(nextPoint);
+                        ls->setIndex(index++);
+
+                        this->updateViewBounds(ls->getEnd());
+                        this->updateModelBounds(nextPoint);
+
                         m_lines.append(ls);
-                        m_lineIndexes[ps->getLineNumber()].append(m_lines.count() - 1);
+                        m_lineIndexes[ps->getLineNumber()].append(
+                            m_lines.count() - 1);
+
                         startPoint = nextPoint;
                     }
                     lineIndex++;
@@ -160,8 +185,9 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                 ls->setSpeed(ps->getSpeed());
                 ls->setSpindleSpeed(ps->getSpindleSpeed());
                 ls->setDwell(ps->getDwell());
-                this->testExtremes(*end);
-                this->testLength(*start, *end);
+                this->updateViewBounds(*end);
+                this->updateModelBounds(*end);
+                this->updateModelMinLineLength(*start, *end);
                 m_lines.append(ls);
                 m_lineIndexes[ps->getLineNumber()].append(m_lines.count() - 1);
             }

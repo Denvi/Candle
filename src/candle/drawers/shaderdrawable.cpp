@@ -1,4 +1,5 @@
-﻿//#define sNan qQNaN();
+﻿// This file is a part of "Candle" application.
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "shaderdrawable.h"
 
@@ -13,6 +14,9 @@ ShaderDrawable::ShaderDrawable()
     m_lineWidth = 1.0;
     m_pointSize = 1.0;
     m_texture = NULL;
+    m_worldScale = 1.0;
+    m_windowScaling = false;
+    m_windowScale = 1.0;
 }
 
 ShaderDrawable::~ShaderDrawable()
@@ -84,9 +88,15 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
         offset += sizeof(QVector3D);
 
         // Tell OpenGL programmable pipeline how to locate vertex line start point
-        int start = shaderProgram->attributeLocation("a_start");
-        shaderProgram->enableAttributeArray(start);
-        shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
+        int data = shaderProgram->attributeLocation("a_data");
+        shaderProgram->enableAttributeArray(data);
+        shaderProgram->setAttributeBuffer(data, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+        offset += sizeof(QVector3D);
+
+        int type = shaderProgram->attributeLocation("a_type");
+        shaderProgram->enableAttributeArray(type);
+        shaderProgram->setAttributeBuffer(type, GL_FLOAT, offset, 1, sizeof(VertexData));
 
         m_vao.release();
     }
@@ -99,13 +109,14 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 bool ShaderDrawable::updateData()
 {
     // Test data
-    m_lines = QVector<VertexData>()
-        << VertexData(QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0))
-        << VertexData(QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(sNan, 0, 0))
-        << VertexData(QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0))
-        << VertexData(QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(sNan, 0, 0))
-        << VertexData(QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0))
-        << VertexData(QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(sNan, 0, 0));
+    m_lines = {
+        {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(), VertexDataTypeLine}
+    };
 
     return true;
 }
@@ -146,9 +157,15 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
         offset += sizeof(QVector3D);
 
         // Tell OpenGL programmable pipeline how to locate vertex line start point
-        int start = shaderProgram->attributeLocation("a_start");
-        shaderProgram->enableAttributeArray(start);
-        shaderProgram->setAttributeBuffer(start, GL_FLOAT, offset, 3, sizeof(VertexData));
+        int data = shaderProgram->attributeLocation("a_data");
+        shaderProgram->enableAttributeArray(data);
+        shaderProgram->setAttributeBuffer(data, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+        offset += sizeof(QVector3D);
+
+        int type = shaderProgram->attributeLocation("a_type");
+        shaderProgram->enableAttributeArray(type);
+        shaderProgram->setAttributeBuffer(type, GL_FLOAT, offset, 1, sizeof(VertexData));
     }
 
     if (!m_triangles.isEmpty()) {
@@ -171,19 +188,34 @@ void ShaderDrawable::draw(QOpenGLShaderProgram *shaderProgram)
     if (m_vao.isCreated()) m_vao.release(); else m_vbo.release();
 }
 
-QVector3D ShaderDrawable::getSizes()
-{
-    return QVector3D(0, 0, 0);
+void ShaderDrawable::drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio) {
 }
 
-QVector3D ShaderDrawable::getMinimumExtremes()
+QVector3D ShaderDrawable::getViewRanges()
 {
-    return QVector3D(0, 0, 0);
+    return Util::nAssign(getViewUpperBounds()) - Util::nAssign(getViewLowerBounds());
 }
 
-QVector3D ShaderDrawable::getMaximumExtremes()
+QVector3D ShaderDrawable::getViewLowerBounds()
 {
-    return QVector3D(0, 0, 0);
+    return QVector3D();
+}
+
+QVector3D ShaderDrawable::getViewUpperBounds()
+{
+    return QVector3D();
+}
+
+QVector3D ShaderDrawable::getModelRanges() {
+    return Util::nAssign(getModelUpperBounds()) - Util::nAssign(getModelLowerBounds());
+}
+
+QVector3D ShaderDrawable::getModelLowerBounds() {
+    return QVector3D();
+}
+
+QVector3D ShaderDrawable::getModelUpperBounds() {
+    return QVector3D();
 }
 
 int ShaderDrawable::getVertexCount()
@@ -221,4 +253,84 @@ void ShaderDrawable::setPointSize(double pointSize)
     m_pointSize = pointSize;
 }
 
+QMatrix4x4 &ShaderDrawable::modelMatrix()
+{
+    return m_modelMatrix;
+}
 
+void ShaderDrawable::setModelMatrix(const QMatrix4x4 &modelMatrix)
+{
+    m_modelMatrix = modelMatrix;
+}
+
+const QMatrix4x4 &ShaderDrawable::rotation() {
+    return m_rotationMatrix;
+}
+
+void ShaderDrawable::setRotation(const QMatrix4x4 &rotation) {
+    m_rotationMatrix = rotation;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+void ShaderDrawable::setRotation(double angle, const QVector3D &axis)
+{
+    m_rotationMatrix.setToIdentity();
+    m_rotationMatrix.rotate(angle, axis);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+const QMatrix4x4 &ShaderDrawable::translation()
+{
+    return m_translationMatrix;
+}
+
+void ShaderDrawable::setTranslation(const QMatrix4x4 &translation)
+{
+    m_translationMatrix = translation;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+void ShaderDrawable::setTranslation(const QVector3D &translation)
+{
+    m_translationMatrix.setToIdentity();
+    m_translationMatrix.translate(translation);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+const QMatrix4x4 &ShaderDrawable::scale()
+{
+    return m_translationMatrix;
+}
+
+void ShaderDrawable::setScale(const QMatrix4x4 &scale)
+{
+    m_scaleMatrix = scale;
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+double ShaderDrawable::worldScale() {
+    return m_worldScale;
+}
+
+void ShaderDrawable::setWorldScale(double scale) {
+    m_worldScale = scale;
+    m_scaleMatrix.setToIdentity();
+    m_scaleMatrix.scale(scale);
+    m_modelMatrix = m_translationMatrix * m_rotationMatrix * m_scaleMatrix;
+}
+
+bool ShaderDrawable::windowScaling() {
+    return m_windowScaling;
+}
+
+void ShaderDrawable::setWindowScaling(bool windowScaling) {
+    m_windowScaling = windowScaling;
+}
+
+double ShaderDrawable::windowScale() {
+    return m_windowScale;
+}
+
+void ShaderDrawable::setWindowScale(double windowScale) {
+    m_windowScale = windowScale;
+}

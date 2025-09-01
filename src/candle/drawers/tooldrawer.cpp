@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "tooldrawer.h"
 
@@ -8,7 +8,7 @@ ToolDrawer::ToolDrawer()
     m_toolDiameter = 3;
     m_toolLength = 15;
     m_toolPosition = QVector3D(0, 0, 0);
-    m_rotationAngle = 0;
+    m_spinAngle = 0;
 }
 
 bool ToolDrawer::updateData()
@@ -21,13 +21,28 @@ bool ToolDrawer::updateData()
 
     // Prepare vertex
     VertexData vertex;
+    vertex.type = VertexDataTypeLine;
     vertex.color = Util::colorToVector(m_color);//QVector3D(1.0, 0.6, 0.0);
-    vertex.start = QVector3D(sNan, sNan, sNan);
+
+    // Draw circles
+    // Bottom
+    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_endLength),
+                            m_toolDiameter / 2, 20, vertex.color);
+
+    // Top
+    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength),
+                            m_toolDiameter / 2, 20, vertex.color);
+
+    // Zero Z circle
+    if (m_endLength == 0) {
+        m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0),
+                                m_toolDiameter / 2, 20, vertex.color);
+    }
 
     // Draw lines
     for (int i = 0; i < arcs; i++) {
-        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
-        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_rotationAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
+         double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_spinAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
+         double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_spinAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
 
         // Side lines
         vertex.position = QVector3D(x, y, m_toolPosition.z() + m_endLength);
@@ -46,27 +61,17 @@ bool ToolDrawer::updateData()
         m_lines.append(vertex);
         vertex.position = QVector3D(x, y, m_toolPosition.z() + m_toolLength);
         m_lines.append(vertex);
+    }
 
+    for (int i = 0; i < arcs; i++) {
         // Zero Z lines
+        double x = m_toolPosition.x() + m_toolDiameter / 2 * cos(m_spinAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
+        double y = m_toolPosition.y() + m_toolDiameter / 2 * sin(m_spinAngle / 180 * M_PI + (2 * M_PI / arcs) * i);
+
         vertex.position = QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0);
         m_lines.append(vertex);
         vertex.position = QVector3D(x, y, 0);
         m_lines.append(vertex);
-    }
-
-    // Draw circles
-    // Bottom
-    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_endLength),
-                            m_toolDiameter / 2, 20, vertex.color);
-
-    // Top
-    m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), m_toolPosition.z() + m_toolLength),
-                            m_toolDiameter / 2, 20, vertex.color);
-
-    // Zero Z circle
-    if (m_endLength == 0) {
-        m_lines += createCircle(QVector3D(m_toolPosition.x(), m_toolPosition.y(), 0),
-                                m_toolDiameter / 2, 20, vertex.color);
     }
 
     return true;
@@ -89,8 +94,8 @@ QVector<VertexData> ToolDrawer::createCircle(QVector3D center, double radius, in
 
     // Prepare vertex
     VertexData vertex;
+    vertex.type = VertexDataTypeLine;
     vertex.color = color;
-    vertex.start = QVector3D(sNan, sNan, sNan);
 
     // Create line loop
     for (int i = 0; i <= arcs; i++) {
@@ -146,22 +151,23 @@ void ToolDrawer::setToolPosition(const QVector3D &toolPosition)
         update();
     }
 }
-double ToolDrawer::rotationAngle() const
+
+double ToolDrawer::spinAngle() const
 {
-    return m_rotationAngle;
+    return m_spinAngle;
 }
 
-void ToolDrawer::setRotationAngle(double rotationAngle)
+void ToolDrawer::setSpinAngle(double rotationAngle)
 {
-    if (m_rotationAngle != rotationAngle) {
-        m_rotationAngle = rotationAngle;
+    if (m_spinAngle != rotationAngle) {
+        m_spinAngle = rotationAngle;
         update();
     }
 }
 
-void ToolDrawer::rotate(double angle)
+void ToolDrawer::spin(double angle)
 {
-    setRotationAngle(normalizeAngle(m_rotationAngle + angle));
+    setSpinAngle(normalizeAngle(m_spinAngle + angle));
 }
 
 double ToolDrawer::toolAngle() const

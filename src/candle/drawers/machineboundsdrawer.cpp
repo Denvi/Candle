@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "machineboundsdrawer.h"
 
@@ -19,18 +19,19 @@ bool MachineBoundsDrawer::updateData()
     QRectF r = m_borderRect.translated(-m_offset);
 
     // Color
-    QVector3D c(0.8, 0.8, 0.8);
+    QVector3D c(0.8f, 0.8f, 0.8f);
 
     // Vertices
-    m_lines
-        << VertexData(QVector3D(r.x(), r.y(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(r.x(), r.y(), 0), c, QVector3D(sNan, sNan, sNan));
+    m_lines = {
+        {QVector3D(r.x(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
+        {QVector3D(r.x(), r.y(), 0), c, QVector3D(), VertexDataTypeLine}
+    };
 
     return true;
 }

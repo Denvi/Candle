@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/">
     <file>images/cutter.png</file>
+    <file>images/perspective.png</file>
     <file>images/flood.png</file>
     <file>images/door.png</file>
     <file>images/pause.png</file>

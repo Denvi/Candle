@@ -771,6 +771,10 @@ Temps écoulé: %1</translation>
         <source>Changing grid settings will reset probe data. Continue?</source>
         <translation>Changer les paramètres de la grille, réinitialise les données de palpage. Continuer?</translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
@@ -1141,6 +1145,10 @@ Temps écoulé: %1</translation>
     <message>
         <source>Reset settings to default values?</source>
         <translation>Réinitialiser les réglages par défaut?</translation>
+    </message>
+    <message>
+        <source>Invert slider controls</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

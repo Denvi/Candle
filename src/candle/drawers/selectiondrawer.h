@@ -1,3 +1,6 @@
+// This file is a part of "Candle" application.
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
+
 #ifndef SELECTIONDRAWER_H
 #define SELECTIONDRAWER_H
 
@@ -8,23 +11,18 @@ class SelectionDrawer : public ShaderDrawable
 public:
     SelectionDrawer();
 
-    QVector3D startPosition() const;
-    void setStartPosition(const QVector3D &startPosition);
-
     QColor color() const;
     void setColor(const QColor &color);
 
-    QVector3D endPosition() const;
-    void setEndPosition(const QVector3D &endPosition);
+    const QVector3D &position();
+    void setPosition(const QVector3D &position);
 
 protected:
     bool  updateData();
 
 private:
-    QVector3D m_startPosition;
-    QVector3D m_endPosition;
-
     QColor m_color;
+    QVector3D m_position;
 };
 
 #endif // SELECTIONDRAWER_H

@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QListIterator>
 #include <QDebug>
@@ -256,9 +256,9 @@ PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint, boo
     bool zOnly = false;
 
     // Check for z-only
-    if ((this->m_currentPoint.x() == nextPoint.x()) &&
-            (this->m_currentPoint.y() == nextPoint.y()) &&
-            (this->m_currentPoint.z() != nextPoint.z())) {
+    if ((this->m_currentPoint.x() == nextPoint.x()) && (this->m_currentPoint.y() == nextPoint.y())
+        && (this->m_currentPoint.z() != nextPoint.z()))
+    {
         zOnly = true;
     }
 
@@ -280,7 +280,8 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, bool c
 {
     PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
 
-    QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
+    QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, 
+        this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
 
     // Calculate radius if necessary.
@@ -299,8 +300,10 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, bool c
             break;
         }
 
-        radius = sqrt(pow((double)((m * this->m_currentPoint).x() - (m * center).x()), 2.0)
-                        + pow((double)((m * this->m_currentPoint).y() - (m * center).y()), 2.0));
+        radius = sqrt(pow((double)((m * this->m_currentPoint).x() 
+            - (m * center).x()), 2.0)
+            + pow((double)((m * this->m_currentPoint).y() 
+            - (m * center).y()), 2.0));
     }
 
     ps->setIsMetric(this->m_isMetric);

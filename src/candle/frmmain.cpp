@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -158,14 +158,15 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdTop->setParent(ui->glwVisualizer);
     ui->cmdFront->setParent(ui->glwVisualizer);
     ui->cmdLeft->setParent(ui->glwVisualizer);
+    ui->cmdPerspective->setParent(ui->glwVisualizer);
 
     ui->cmdHeightMapBorderAuto->setMinimumHeight(ui->chkHeightMapBorderShow->sizeHint().height());
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
 
-    ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
-    ui->cboJogFeed->setValidator(new QIntValidator(0, 100000));
+    ui->cboJogStep->lineEdit()->setValidator(new QDoubleValidator(0, 10000, 2));
+    ui->cboJogFeed->lineEdit()->setValidator(new QIntValidator(0, 100000));
     connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
     connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
 
@@ -219,6 +220,8 @@ frmMain::frmMain(QWidget *parent) :
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
+    m_selectionDrawer.setVisible(false);
+    m_machineBoundsDrawer.setVisible(false);
 
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
@@ -376,7 +379,7 @@ void frmMain::resizeEvent(QResizeEvent *re)
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.rotate((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
+        m_toolDrawer.spin((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
                             / (ui->slbSpindle->maximum()));
     } else {
         QMainWindow::timerEvent(te);
@@ -944,6 +947,11 @@ void frmMain::on_cmdFit_clicked()
     ui->glwVisualizer->fitDrawable(m_currentDrawer);
 }
 
+void frmMain::on_cmdPerspective_toggled()
+{
+    ui->glwVisualizer->setPerspective(ui->cmdPerspective->isChecked());
+}
+
 void frmMain::on_grpOverriding_toggled(bool checked)
 {
     if (checked) {
@@ -1344,6 +1352,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     }
 
     if (checked) {
+        ui->tblProgram->selectRow(0);
         ui->tblProgram->setModel(&m_probeModel);
         resizeTableHeightMapSections();
         m_currentModel = &m_probeModel;
@@ -1361,7 +1370,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             m_currentDrawer = m_codeDrawer;
 
             if (!ui->chkHeightMapUse->isChecked()) {
-                ui->glwVisualizer->updateExtremes(m_codeDrawer);
+                ui->glwVisualizer->updateBounds(m_codeDrawer);
                 updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
             }
         }
@@ -1637,9 +1646,9 @@ void frmMain::onSerialPortReadyRead()
                 }
 
                 // Abort
-                static double x = sNan;
-                static double y = sNan;
-                static double z = sNan;
+                static double x = qQNaN();
+                static double y = qQNaN();
+                static double z = qQNaN();
 
                 if (m_aborting) {
                     switch (state) {
@@ -1655,9 +1664,9 @@ void frmMain::onSerialPortReadyRead()
                         case DeviceHold1:
                         case DeviceQueue:
                             if (!m_reseting && compareCoordinates(x, y, z)) {
-                                x = sNan;
-                                y = sNan;
-                                z = sNan;
+                                x = qQNaN();
+                                y = qQNaN();
+                                z = qQNaN();
                                 grblReset();
                             }
                             else {
@@ -2333,11 +2342,6 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
             }
         }
 
-        m_selectionDrawer.setEndPosition(indexes.isEmpty() ? QVector3D(sNan, sNan, sNan) :
-            (m_codeDrawer->getIgnoreZ() ? QVector3D(list.at(indexes.last())->getEnd().x(), list.at(indexes.last())->getEnd().y(), 0)
-                                        : list.at(indexes.last())->getEnd()));
-        m_selectionDrawer.update();
-
         if (!indexes.isEmpty()) m_currentDrawer->update(indexes);
     }
 
@@ -2345,11 +2349,12 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
     if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
         QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
-        m_selectionDrawer.setEndPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+        m_selectionDrawer.setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+        m_selectionDrawer.setVisible(true);
+        m_selectionDrawer.update();
     } else {
-        m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
+        m_selectionDrawer.setVisible(false);
     }
-    m_selectionDrawer.update();
 }
 
 void frmMain::onOverridingToggled(bool checked)
@@ -2550,6 +2555,7 @@ void frmMain::placeVisualizerButtons()
     ui->cmdLeft->move(ui->glwVisualizer->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
+    ui->cmdPerspective->move(ui->cmdFit->geometry().left() - ui->cmdPerspective->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
 }
 
 void frmMain::preloadSettings()
@@ -2618,6 +2624,7 @@ void frmMain::loadSettings()
     m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
     m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
     m_settings->setLanguage(set.value("language", "en").toString());
+    m_settings->setInvertedSliderControls(set.value("invertedSliderControls", false).toBool());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -2677,6 +2684,8 @@ void frmMain::loadSettings()
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
+
+    ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
         pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
@@ -2798,6 +2807,13 @@ void frmMain::loadSettings()
     }
     set.endGroup();
 
+    // Update inverted slider controls
+    auto sliders = this->findChildren<QSlider*>();
+
+    foreach (auto slider, sliders) {
+        slider->setInvertedControls(m_settings->invertedSliderControls());
+    }
+
     m_settingsLoading = false;
 }
 
@@ -2866,6 +2882,7 @@ void frmMain::saveSettings()
     set.setValue("referenceYPlus", m_settings->referenceYPlus());
     set.setValue("referenceZPlus", m_settings->referenceZPlus());
     set.setValue("language", m_settings->language());
+    set.setValue("invertedSliderControls", m_settings->invertedSliderControls());
 
     set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
     set.setValue("feedOverrideValue", ui->slbFeedOverride->value());
@@ -2896,6 +2913,8 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
+
+    set.setValue("viewPerspective", ui->cmdPerspective->isChecked());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
         set.setValue(pick->objectName().mid(3), pick->color().name());
@@ -3037,6 +3056,7 @@ void frmMain::applySettings() {
     ui->cmdFront->setIcon(QIcon(":/images/cubeFront.png"));
     ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
     ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
+    ui->cmdPerspective->setIcon(QIcon(":/images/perspective.png"));
 
     if (!light) {
         Util::invertButtonIconColors(ui->cmdFit);
@@ -3044,6 +3064,7 @@ void frmMain::applySettings() {
         Util::invertButtonIconColors(ui->cmdFront);
         Util::invertButtonIconColors(ui->cmdLeft);
         Util::invertButtonIconColors(ui->cmdTop);
+        Util::invertButtonIconColors(ui->cmdPerspective);
     }
 
     int h = ui->cmdFileOpen->sizeHint().height();
@@ -3425,7 +3446,7 @@ void frmMain::updateParser()
 
     updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
     m_currentDrawer->update();
-    ui->glwVisualizer->updateExtremes(m_currentDrawer);
+    ui->glwVisualizer->updateBounds(m_currentDrawer);
     updateControlsState();
 
     if (m_currentModel == &m_programModel) m_fileChanged = true;
@@ -3813,8 +3834,7 @@ void frmMain::newFile()
     ui->tblProgram->selectRow(0);
 
     // Clear selection marker
-    m_selectionDrawer.setEndPosition(QVector3D(sNan, sNan, sNan));
-    m_selectionDrawer.update();
+    m_selectionDrawer.setVisible(false);
 
     resetHeightmap();
 
@@ -3961,8 +3981,6 @@ void frmMain::updateControlsState() {
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
-
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
 void frmMain::updateLayouts()
@@ -4044,10 +4062,10 @@ QRectF frmMain::borderRectFromExtremes()
 {
     QRectF rect;
 
-    rect.setX(m_codeDrawer->getMinimumExtremes().x());
-    rect.setY(m_codeDrawer->getMinimumExtremes().y());
-    rect.setWidth(m_codeDrawer->getSizes().x());
-    rect.setHeight(m_codeDrawer->getSizes().y());
+    rect.setX(m_codeDrawer->getViewLowerBounds().x());
+    rect.setY(m_codeDrawer->getViewLowerBounds().y());
+    rect.setWidth(m_codeDrawer->getViewRanges().x());
+    rect.setHeight(m_codeDrawer->getViewRanges().y());
 
     return rect;
 }

@@ -769,6 +769,10 @@ Time elapsed: %1</source>
         <source>Modifying G-code program...</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Perspective view</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
@@ -1138,6 +1142,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Cancel</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Invert slider controls</source>
         <translation></translation>
     </message>
 </context>
