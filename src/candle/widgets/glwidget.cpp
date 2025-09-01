@@ -34,6 +34,8 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     m_distance = 100;
     m_perspective = false;
 
+    m_gestureProcessing = false;
+
     updateProjection();
     updateView();
 
@@ -42,6 +44,10 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
 
     m_vsync = false;
     m_targetFps = 60;
+
+    setAttribute(Qt::WA_AcceptTouchEvents, true);
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::PinchGesture);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
@@ -598,6 +604,15 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    if (m_gestureProcessing)
+    {
+        m_lastPos = event->pos();
+        m_storedRot = m_rot;
+        m_storedPan = m_pan;
+
+        return;
+    }
+
     if ((event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) 
         || (event->buttons() & Qt::LeftButton && !(event->modifiers() & Qt::ShiftModifier))) {
 
@@ -647,6 +662,63 @@ void GLWidget::wheelEvent(QWheelEvent *we)
 
         updateProjection();
     }
+}
+
+bool GLWidget::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+    {
+        auto gestureEvent = static_cast<QGestureEvent*>(event);
+
+        if (QGesture *gesture = gestureEvent->gesture(Qt::PinchGesture))
+        {
+            auto pinchGesture = static_cast<QPinchGesture *>(gesture);
+
+            if (pinchGesture->state() == Qt::GestureStarted || pinchGesture->state() == Qt::GestureUpdated)
+            {
+                m_gestureProcessing = true;
+
+                if ((m_zoom * pinchGesture->scaleFactor()) > 0.1 && (m_zoom * pinchGesture->scaleFactor()) < 10.0)
+                {
+                    auto relativeCenterPoint = this->mapFromGlobal(pinchGesture->centerPoint().toPoint());
+
+                    m_pan.setX(m_pan.x() - ((double)relativeCenterPoint.x() / width() - 0.5 + m_pan.x())
+                        * (1 - pinchGesture->scaleFactor()));
+                    m_pan.setY(m_pan.y() + ((double)relativeCenterPoint.y() / height() - 0.5 - m_pan.y())
+                        * (1 - pinchGesture->scaleFactor()));
+
+                    m_zoom *= pinchGesture->scaleFactor();
+                }
+
+                updateProjection();
+                updateView();
+            }
+            else if (pinchGesture->state() == Qt::GestureFinished || pinchGesture->state() == Qt::GestureCanceled)
+            {
+                m_gestureProcessing = false;
+            }
+
+        } else if (QGesture *gesture = gestureEvent->gesture(Qt::PanGesture))
+        {
+            auto panGesture = static_cast<QPanGesture *>(gesture);
+
+            if (panGesture->state() == Qt::GestureStarted || panGesture->state() == Qt::GestureUpdated)
+            {
+                m_gestureProcessing = true;
+
+                m_pan.setX(m_pan.x() - (panGesture->delta().x()) * 1 / (double)width());
+                m_pan.setY(m_pan.y() + (panGesture->delta().y()) * 1 / (double)height());
+
+                updateProjection();
+            }
+            else if (panGesture->state() == Qt::GestureFinished || panGesture->state() == Qt::GestureCanceled)
+            {
+                m_gestureProcessing = false;
+            }
+        }
+    }
+
+    return QGLWidget::event(event);
 }
 
 void GLWidget::timerEvent(QTimerEvent *te)

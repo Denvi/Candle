@@ -105,6 +105,8 @@ private:
     double m_zoom;
     double m_distance;
 
+    bool m_gestureProcessing;
+
     bool m_perspective;
 
     QVector3D m_viewLowerBounds;
@@ -169,6 +171,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *we);
+    bool event(QEvent *event);
 
     void timerEvent(QTimerEvent *);
 };
