@@ -1,73 +1,78 @@
+// This file is a part of "Candle" application.
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
+
 #include "origindrawer.h"
 
 OriginDrawer::OriginDrawer()
 {
+    setWorldScale(10.0);
 }
 
 bool OriginDrawer::updateData()
 {
-    m_lines = QVector<VertexData>()
+    m_lines = {
         // X-axis
-        << VertexData(QVector3D(0, 0, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(9, 0, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(10, 0, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(8, 0.5, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(8, 0.5, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(8, -0.5, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(8, -0.5, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(10, 0, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0, 0, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.8f, 0.05f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.8f, -0.05f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.8f, 0.05f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.8f, -0.05f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
 
         // Y-axis
-        << VertexData(QVector3D(0, 0, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0.5, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0.5, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-0.5, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-0.5, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0, 0, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.05f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.05f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.05f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.05f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
 
         // Z-axis
-        << VertexData(QVector3D(0, 0, 0), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 0, 9), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-0.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-0.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(0, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0, 0, 0), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.05f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.05f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.05f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.05f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
 
         // 2x2 rect
-        << VertexData(QVector3D(1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(-1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, -1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(-0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, -0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
 
         // X-label
-        << VertexData(QVector3D(8.5, 3, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(10, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(8.5, 1, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(10, 3, 0), QVector3D(1.0, 0.0, 0.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0.85f, 0.3f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.85f, 0.1f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(1.0f, 0.3f, 0), QVector3D(1.0f, 0, 0), QVector3D(), VertexDataTypeLine},
 
         // Y-label
-        << VertexData(QVector3D(1, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(2.5, 10, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1.75, 9, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1.75, 8, 0), QVector3D(0.0, 1.0, 0.0), QVector3D(sNan, sNan, sNan))
+        {QVector3D(0.1f, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 1.0f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.9f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.175f, 0.8f, 0), QVector3D(0, 1.0f, 0), QVector3D(), VertexDataTypeLine},
 
         // Z-label
-        << VertexData(QVector3D(1, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(2.5, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, 0, 8), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(2.5, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(1, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan))
-        << VertexData(QVector3D(2.5, 0, 10), QVector3D(0.0, 0.0, 1.0), QVector3D(sNan, sNan, sNan));
+        {QVector3D(0.1f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, 0, 0.8f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.1f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine},
+        {QVector3D(0.25f, 0, 1.0f), QVector3D(0, 0, 1.0f), QVector3D(), VertexDataTypeLine}
+    };
 
     return true;
 }

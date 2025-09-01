@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #ifndef POINTSEGMENT_H
 #define POINTSEGMENT_H
@@ -23,10 +23,10 @@ public:
 
     PointSegment();
     PointSegment(PointSegment *ps);
-    PointSegment(const QVector3D *b, int num);
+    PointSegment(const QVector3D *point, int num);
     PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise);
     ~PointSegment();
-    void setPoint(QVector3D m_point);
+    void setPoint(QVector3D point);
     QVector3D* point();
 
     QVector<double> points();

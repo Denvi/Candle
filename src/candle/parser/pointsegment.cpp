@@ -3,7 +3,7 @@
 // of "Universal GcodeSender" application written by Will Winder
 // (https://github.com/winder/Universal-G-Code-Sender)
 
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QVector>
 
@@ -25,30 +25,16 @@ PointSegment::PointSegment()
     m_plane = XY;
 }
 
-PointSegment::PointSegment(PointSegment *ps)
+PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
 {
-    m_toolhead = 0;
-    m_isMetric = true;
-    m_isAbsolute = true;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
-    m_lineNumber = -1;
-    m_arcProperties = NULL;
-    m_speed = 0;
-    m_spindleSpeed = 0;
-    m_dwell = 0;
-    m_plane = XY;
-
-    this->m_point = new QVector3D(ps->point()->x(), ps->point()->y(), ps->point()->z());
-    this->m_lineNumber = ps->getLineNumber();
-
     this->m_toolhead = ps->getToolhead();
     this->m_speed = ps->getSpeed();
     this->m_isMetric = ps->isMetric();
     this->m_isZMovement = ps->isZMovement();
     this->m_isFastTraverse = ps->isFastTraverse();
     this->m_isAbsolute = ps->isAbsolute();
+    this->m_dwell = ps->getDwell();
+    this->m_spindleSpeed = ps->getSpindleSpeed();
 
     if (ps->isArc()) {
         this->setArcCenter(ps->center());
@@ -58,46 +44,19 @@ PointSegment::PointSegment(PointSegment *ps)
     }
 }
 
-PointSegment::PointSegment(const QVector3D *b, int num)
+PointSegment::PointSegment(const QVector3D *point, int num) : PointSegment()
 {
-    m_toolhead = 0;
-    m_isMetric = true;
-    m_isAbsolute = true;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
-    m_lineNumber = -1;
-    m_arcProperties = NULL;
-    m_speed = 0;
-    m_spindleSpeed = 0;
-    m_dwell = 0;
-    m_plane = XY;
-
-    this->m_point = new QVector3D(b->x(), b->y(), b->z());
+    this->m_point = new QVector3D(point->x(), point->y(), point->z());
     this->m_lineNumber = num;
 }
 
-PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise)
+PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius,
+    bool clockwise) : PointSegment(point, num)
 {
-    m_toolhead = 0;
-    m_isMetric = true;
-    m_isAbsolute = true;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isFastTraverse = false;
-    m_lineNumber = -1;
-    m_arcProperties = NULL;
-    m_speed = 0;
-    m_spindleSpeed = 0;
-    m_dwell = 0;
-    m_plane = XY;
-
-    this->m_point = new QVector3D(point->x(), point->y(), point->z());
-    this->m_lineNumber = num;
-
     this->m_isArc = true;
     this->m_arcProperties = new ArcProperties();
-    this->m_arcProperties->center = new QVector3D(center->x(), center->y(), center->z());
+    this->m_arcProperties->center = new QVector3D(center->x(), center->y(), 
+        center->z());
     this->m_arcProperties->radius = radius;
     this->m_arcProperties->isClockwise = clockwise;
 }
@@ -285,5 +244,3 @@ void PointSegment::setDwell(double dwell)
 {
     m_dwell = dwell;
 }
-
-

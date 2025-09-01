@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "heightmapgriddrawer.h"
 
@@ -17,7 +17,6 @@ bool HeightMapGridDrawer::updateData()
 
     // Prepare vertex
     VertexData vertex;
-    vertex.start = QVector3D(sNan, sNan, m_pointSize);
 
     // Calculate grid parameters
     int gridPointsX = m_model->columnCount();
@@ -27,6 +26,8 @@ bool HeightMapGridDrawer::updateData()
     double gridStepY = gridPointsY > 1 ? m_borderRect.height() / (gridPointsY - 1) : 0;
 
     // Probe path / dots
+    vertex.type = VertexDataTypePoint;
+    vertex.data = QVector3D(m_pointSize, 0, 0);
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 0; j < gridPointsX; j++) {
             if (m_model == NULL || qIsNaN(m_model->data(m_model->index(i, j), Qt::UserRole).toDouble())) {
@@ -44,6 +45,7 @@ bool HeightMapGridDrawer::updateData()
     }
 
     // Horizontal grid lines
+    vertex.type = VertexDataTypeLine;
     vertex.color = QVector3D(0.0, 0.0, 1.0);
     for (int i = 0; i < gridPointsY; i++) {
         for (int j = 1; j < gridPointsX; j++) {

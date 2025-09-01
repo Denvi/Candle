@@ -333,7 +333,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/x0_1.png</normaloff>images/x0_1.png</iconset>
+         <normaloff>images/x0.png</normaloff>images/x0.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -362,7 +362,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/y0_1.png</normaloff>images/y0_1.png</iconset>
+         <normaloff>images/y0.png</normaloff>images/y0.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -391,7 +391,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/z0_1.png</normaloff>images/z0_1.png</iconset>
+         <normaloff>images/z0.png</normaloff>images/z0.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -420,7 +420,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/all0_1.png</normaloff>images/all0_1.png</iconset>
+         <normaloff>images/all0.png</normaloff>images/all0.png</iconset>
        </property>
        <property name="iconSize">
         <size>
