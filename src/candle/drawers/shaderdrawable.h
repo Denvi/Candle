@@ -36,6 +36,10 @@ public:
     ~ShaderDrawable();
     void update();
     void draw(QOpenGLShaderProgram *shaderProgram);
+
+    /// @brief Draw 2D graphics for the object
+    /// @param projection - world to the visualizer window transform matrix
+    /// @param ratio - visualizer window pixels to the world units ratio
     virtual void drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio);
 
     bool needsUpdateGeometry() const;
@@ -75,12 +79,15 @@ public:
     void setScale(const QMatrix4x4 &scale);
 
     double worldScale();
+    /// @brief Set object world scale
     void setWorldScale(double scale);
 
     bool windowScaling();
+    /// @brief Set object scaling relative to the visualizer window size
     void setWindowScaling(bool windowScaling);
 
     double windowScale();
+    /// @brief Set object scale relative to the visualizer window size, 1.0 - minimum of the window height and width
     void setWindowScale(double windowScale);
 
 signals:
