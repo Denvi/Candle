@@ -10,6 +10,8 @@
 #include <QSettings>
 #include <QGroupBox>
 #include <QVector3D>
+#include <QComboBox>
+#include <QPlainTextEdit>
 #include "colorpicker.h"
 
 namespace Ui {
@@ -189,7 +191,6 @@ protected:
     void showEvent(QShowEvent *se);
 
 private slots:
-    void onScrollBarValueChanged(int value);
     void on_cmdRefresh_clicked();
     void on_cmdOK_clicked();
     void on_cmdCancel_clicked();
@@ -205,12 +206,12 @@ private slots:
 private:
     void searchPorts();
 
-    QList<double> m_storedValues;
-    QList<bool> m_storedChecks;
-    QList<QString> m_storedCombos;
-    QList<QColor> m_storedColors;
-    QList<QString> m_storedTextBoxes;
-    QList<QString> m_storedPlainTexts;
+    QMap<QAbstractSpinBox*, double> m_storedValues;
+    QMap<QAbstractButton*, bool> m_storedChecks;
+    QMap<QComboBox*, QString> m_storedCombos;
+    QMap<ColorPicker*, QColor> m_storedColors;
+    QMap<QLineEdit*, QString> m_storedTextBoxes;
+    QMap<QPlainTextEdit*, QString> m_storedPlainTexts;
 
     QIntValidator m_intValidator;
 

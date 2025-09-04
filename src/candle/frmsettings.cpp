@@ -12,9 +12,9 @@
 #include <QKeySequenceEdit>
 #include <QKeyEvent>
 #include <QLineEdit>
-#include <QPlainTextEdit>
 #include <QDir>
 #include <QLocale>
+#include <QSpacerItem>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -74,13 +74,11 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->cboFps->setValidator(&m_intValidator);
     ui->cboFontSize->setValidator(&m_intValidator);
 
-    foreach (QGroupBox *box, this->findChildren<QGroupBox*>()) {
-        ui->listCategories->addItem(box->title());
-        ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
+    for (int i = 0; i < ui->stackMain->count(); i++) {
+        ui->listCategories->addItem(ui->stackMain->widget(i)->findChild<QGroupBox*>()->title());
     }
 
     ui->listCategories->item(0)->setSelected(true);
-    connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onScrollBarValueChanged(int)));
     connect(this, SIGNAL(settingsSetByDefault()), parent, SIGNAL(settingsSetByDefault()));
 
     // Shortcuts table
@@ -119,81 +117,65 @@ int frmSettings::exec()
     m_storedPlainTexts.clear();
 
     foreach (QAbstractSpinBox* o, this->findChildren<QAbstractSpinBox*>())
-        m_storedValues.append(o->property("value").toDouble());
+        m_storedValues.insert(o, o->property("value").toDouble());
 
     foreach (QAbstractButton* o, this->findChildren<QAbstractButton*>())
-        m_storedChecks.append(o->isChecked());
+        m_storedChecks.insert(o, o->isChecked());
 
     foreach (QComboBox* o, this->findChildren<QComboBox*>())
-        m_storedCombos.append(o->currentText());
+        m_storedCombos.insert(o, o->currentText());
 
     foreach (ColorPicker* o, this->findChildren<ColorPicker*>())
-        m_storedColors.append(o->color());
+        m_storedColors.insert(o, o->color());
 
     foreach (QLineEdit* o, this->findChildren<QLineEdit*>())
-        m_storedTextBoxes.append(o->text());
+        m_storedTextBoxes.insert(o, o->text());
 
     foreach (QPlainTextEdit* o, this->findChildren<QPlainTextEdit*>())
-        m_storedPlainTexts.append(o->toPlainText());
+        m_storedPlainTexts.insert(o, o->toPlainText());
 
     return QDialog::exec();
 }
 
 void frmSettings::undo()
 {
-    foreach (QAbstractSpinBox* o, this->findChildren<QAbstractSpinBox*>())
-        o->setProperty("value", m_storedValues.takeFirst());
+    for (auto it = m_storedValues.constBegin(); it != m_storedValues.constEnd(); it++)
+        it.key()->setProperty("value", it.value());
 
-    foreach (QAbstractButton* o, this->findChildren<QAbstractButton*>())
-        o->setChecked(m_storedChecks.takeFirst());
+    for (auto it = m_storedChecks.constBegin(); it != m_storedChecks.constEnd(); it++)
+        it.key()->setChecked(it.value());
 
-    foreach (QComboBox* o, this->findChildren<QComboBox*>())
-        o->setCurrentText(m_storedCombos.takeFirst());
+    for (auto it = m_storedCombos.constBegin(); it != m_storedCombos.constEnd(); it++)
+        it.key()->setCurrentText(it.value());
 
-    foreach (ColorPicker* o, this->findChildren<ColorPicker*>())
-        o->setColor(m_storedColors.takeFirst());
+    for (auto it = m_storedColors.constBegin(); it != m_storedColors.constEnd(); it++)
+        it.key()->setColor(it.value());
 
-    foreach (QLineEdit* o, this->findChildren<QLineEdit*>())
-        o->setText(m_storedTextBoxes.takeFirst());
+    for (auto it = m_storedTextBoxes.constBegin(); it != m_storedTextBoxes.constEnd(); it++)
+        it.key()->setText(it.value());
 
-    foreach (QPlainTextEdit* o, this->findChildren<QPlainTextEdit*>())
-        o->setPlainText(m_storedPlainTexts.takeFirst());
+    for (auto it = m_storedPlainTexts.constBegin(); it != m_storedPlainTexts.constEnd(); it++)
+        it.key()->setPlainText(it.value());
 }
 
 void frmSettings::addCustomSettings(QGroupBox *box)
 {
-    static_cast<QVBoxLayout*>(ui->scrollAreaWidgetContents->layout())->addWidget(box);
-    
+    auto page = new QWidget();
+    auto pageLayout = new QVBoxLayout();
+
+    page->setLayout(pageLayout);
+    pageLayout->addWidget(box);
+    pageLayout->setMargin(0);
+
+    ui->stackMain->addWidget(page);
     ui->listCategories->addItem(box->title());
-    ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
 
     m_customSettings.append(box);
 }
 
 void frmSettings::on_listCategories_currentRowChanged(int currentRow)
 {
-    // Scroll to selected groupbox
-    QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(currentRow)->data(Qt::UserRole).toString());
-    if (box) {
-        ui->scrollSettings->ensureWidgetVisible(box);
-    }
-}
-
-void frmSettings::onScrollBarValueChanged(int value)
-{
-    Q_UNUSED(value)
-
-    // Search for first full visible groupbox
-    for (int i = 0; i < ui->listCategories->count(); i++) {
-        QGroupBox *box = this->findChild<QGroupBox*>(ui->listCategories->item(i)->data(Qt::UserRole).toString());
-        if (box) {
-            if (!box->visibleRegion().isEmpty() && box->visibleRegion().boundingRect().y() == 0) {
-                // Select corresponding item in categories list
-                ui->listCategories->setCurrentRow(i);
-                return;
-            }
-        }
-    }
+    ui->stackMain->setCurrentIndex(currentRow);
 }
 
 QString frmSettings::port()
