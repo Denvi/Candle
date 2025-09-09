@@ -45,12 +45,8 @@ bool GcodeDrawer::updateData()
 
 bool GcodeDrawer::prepareVectors()
 {
-    qDebug() << "preparing vectors" << this;
-
     QList<LineSegment*> *list = m_viewParser->getLines();
     VertexData vertex;
-
-    qDebug() << "lines count" << list->count();
 
     // Clear all vertex data
     m_lines.clear();
@@ -183,11 +179,8 @@ bool GcodeDrawer::prepareRaster()
 {
     const int maxImageSize = 8192;
 
-    qDebug() << "preparing raster" << this;
-
     // Generate image
     QImage image;
-    qDebug() << "image info" << m_viewParser->getModelResolution() << m_viewParser->getModelMinLineLength();
 
     if (m_viewParser->getModelResolution().width() <= maxImageSize &&
             m_viewParser->getModelResolution().height() <= maxImageSize)
@@ -196,7 +189,6 @@ bool GcodeDrawer::prepareRaster()
         image.fill(Qt::white);
 
         QList<LineSegment*> *list = m_viewParser->getLines();
-        qDebug() << "lines count" << list->count();
 
         double pixelSize = m_viewParser->getModelMinLineLength();
         QVector3D origin = m_viewParser->getViewLowerBounds();
@@ -292,7 +284,6 @@ bool GcodeDrawer::updateRaster()
 void GcodeDrawer::setImagePixelColor(QImage &image, double x, double y, QRgb color) const
 {
     if (qIsNaN(x) || qIsNaN(y)) {
-        qDebug() << "Error updating pixel" << x << y;
         return;
     };
 

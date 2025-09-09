@@ -131,7 +131,6 @@ void CameraWidget::updateSize()
 
 void CameraWidget::setResolution(QVariantList resolution)
 {
-    qDebug() << "setResolution" << resolution;
     if (resolution.size() != 2) return;
     m_resolution = QSize(resolution.at(0).toInt(), resolution.at(1).toInt());
 }
@@ -143,7 +142,6 @@ QVariantList CameraWidget::resolution() const
 
 void CameraWidget::setZoom(double zoom)
 {
-    qDebug() << "setZoom" << zoom;
     if (zoom >= 1) {
         m_zoom = zoom;
         updateSize();

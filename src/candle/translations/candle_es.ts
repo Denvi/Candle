@@ -75,6 +75,17 @@
     </message>
 </context>
 <context>
+    <name>frmLog</name>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">ОК</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>G-code program</source>
@@ -773,6 +784,10 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>Perspective view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Logs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

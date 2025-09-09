@@ -22,6 +22,7 @@
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
+#include "loggingcategories.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -115,6 +116,8 @@ frmMain::frmMain(QWidget *parent) :
 
     m_settings = new frmSettings(this);
     m_about = new frmAbout(this);
+    m_log = new frmLog(this);
+
     ui->setupUi(this);
 
     // Drag&drop placeholders
@@ -322,6 +325,7 @@ frmMain::frmMain(QWidget *parent) :
     QScriptValue sv = m_scriptEngine.newObject();
     sv.setProperty("importExtension", m_scriptEngine.newFunction(frmMain::importExtension));
     m_scriptEngine.globalObject().setProperty("script", sv);
+    m_scriptEngine.setObjectName("global");
 
     // Signals/slots
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(onSerialPortReadyRead()), Qt::QueuedConnection);
@@ -552,6 +556,11 @@ void frmMain::on_actRecentClear_triggered()
 void frmMain::on_actFileExit_triggered()
 {
     close();
+}
+
+void frmMain::on_actServiceLogs_triggered()
+{
+    m_log->show();
 }
 
 void frmMain::on_actServiceSettings_triggered()
@@ -2503,7 +2512,8 @@ void frmMain::onScroolBarAction(int action)
 
 void frmMain::onScriptException(const QScriptValue &exception)
 {
-    qDebug() << "Script exception:" << exception.toString();
+    qCritical(scriptLogCategory) << "Script exception occured in plugin path:" << exception.engine()->objectName()
+        << exception.toString();
 }
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
@@ -3083,14 +3093,12 @@ void frmMain::loadPlugins()
     // Get plugins list
     QStringList pl = QDir(pluginsDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-    qDebug() << "Loading plugins:" << pl;
-
     foreach (QString p, pl) {
         // Config
         QSettings set(pluginsDir + p + "/config.ini", QSettings::IniFormat);
         QString title = set.value("title").toString();
         QString name = set.value("name").toString();
-        qDebug() << "Loading plugin:" << p << title << name;
+        qInfo(generalLogCategory) << "Loading plugin path:" << p << "title:" << title << "name:" << name;
 
         // Translation
         QString loc = m_settings->language();
@@ -3111,6 +3119,7 @@ void frmMain::loadPlugins()
             sv.setProperty("importExtension", se->newFunction(frmMain::importExtension));
             sv.setProperty("path", pluginsDir + p);
             se->globalObject().setProperty("script", sv);
+            se->setObjectName(p);
             connect(se, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
 
             // Delegate objects
@@ -3133,25 +3142,26 @@ void frmMain::loadPlugins()
             // Run script
             QString script = f.readAll();
 
-            qDebug() << "Starting plugin:" << p;
+            qInfo(generalLogCategory) << "Starting plugin path:" << p << "title:" << title << "name:" << name;
+
             sv = se->evaluate(script);
             if (sv.isError()) {
-                qDebug() << sv.toString();
-                qDebug() << se->uncaughtExceptionBacktrace();
+                qCritical(scriptLogCategory) << "Error evaluating plugin script" << sv.toString()
+                    << se->uncaughtExceptionBacktrace();
             }
 
             // Init
             sv = se->evaluate("init()");
             if (sv.isError()) {
-                qDebug() << sv.toString();
-                qDebug() << se->uncaughtExceptionBacktrace();
+                qInfo(scriptLogCategory) << "Error evaluating init function" << sv.toString()
+                    << se->uncaughtExceptionBacktrace();
             }
 
             // Panel widget
             sv = se->evaluate("createPanelWidget()");
             if (sv.isError()) {
-                qDebug() << sv.toString();
-                qDebug() << se->uncaughtExceptionBacktrace();
+                qInfo(scriptLogCategory) << "Error evaluating panel widget function" << sv.toString()
+                    << se->uncaughtExceptionBacktrace();
             } else {
                 QWidget *w = qobject_cast<QWidget*>(sv.toQObject());
                 if (w) {
@@ -3179,8 +3189,8 @@ void frmMain::loadPlugins()
             // Window widget
             sv = se->evaluate("createWindowWidget()");
             if (sv.isError()) {
-                qDebug() << sv.toString();
-                qDebug() << se->uncaughtExceptionBacktrace();
+                qInfo(scriptLogCategory) << "Error evaluating window widget function" << sv.toString()
+                    << se->uncaughtExceptionBacktrace();
             } else {
                 QWidget *w = qobject_cast<QWidget*>(sv.toQObject());
                 if (w) {
@@ -3211,8 +3221,8 @@ void frmMain::loadPlugins()
             // Settings widget
             sv = se->evaluate("createSettingsWidget()");
             if (sv.isError()) {
-                qDebug() << sv.toString();
-                qDebug() << se->uncaughtExceptionBacktrace();
+                qInfo(scriptLogCategory) << "Error evaluating settings widget function" << sv.toString()
+                    << se->uncaughtExceptionBacktrace();
             } else {
                 QWidget *w = qobject_cast<QWidget*>(sv.toQObject());
                 if (w) {

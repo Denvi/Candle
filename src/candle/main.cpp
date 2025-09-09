@@ -14,6 +14,7 @@
 #include "parser/gcodepreprocessorutils.h"
 #include "parser/gcodeparser.h"
 #include "parser/gcodeviewparse.h"
+#include "fileloghandler.h"
 
 #include "frmmain.h"
 
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationDisplayName("Candle");
     a.setApplicationVersion("1.2.15b");
+
+    installFileLogHandler();
 
 #ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");

@@ -75,6 +75,17 @@
     </message>
 </context>
 <context>
+    <name>frmLog</name>
+    <message>
+        <source>OK</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>Check</source>
@@ -772,6 +783,10 @@ Time elapsed: %1</source>
     <message>
         <source>Perspective view</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Logs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
