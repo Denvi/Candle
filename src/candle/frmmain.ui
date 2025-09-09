@@ -350,6 +350,8 @@ QLabel[overrided=&quot;false&quot;] {
      <string>&amp;Service</string>
     </property>
     <addaction name="actServiceSettings"/>
+    <addaction name="separator"/>
+    <addaction name="actServiceLogs"/>
    </widget>
    <widget class="QMenu" name="mnuHelp">
     <property name="title">
@@ -1245,7 +1247,7 @@ QLabel[overrided=&quot;false&quot;] {
           <x>0</x>
           <y>0</y>
           <width>240</width>
-          <height>726</height>
+          <height>789</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2192,6 +2194,22 @@ QLabel[overrided=&quot;false&quot;] {
                 </layout>
                </item>
                <item>
+                <spacer name="spaJog">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
                  <item>
                   <widget class="QLabel" name="label_20">
@@ -2752,7 +2770,7 @@ padding-right: 8;</string>
           <x>0</x>
           <y>0</y>
           <width>240</width>
-          <height>121</height>
+          <height>85</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -3146,6 +3164,11 @@ padding-right: 8;</string>
   <action name="actHelpDocumentation">
    <property name="text">
     <string>&amp;Documentation</string>
+   </property>
+  </action>
+  <action name="actServiceLogs">
+   <property name="text">
+    <string>&amp;Logs</string>
    </property>
   </action>
  </widget>

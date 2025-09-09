@@ -11,6 +11,7 @@
 #include "gcodepreprocessorutils.h"
 #include "limits"
 #include "../tables/gcodetablemodel.h"
+#include "loggingcategories.h"
 
 /**
 * Searches the command string for an 'f' and replaces the speed value
@@ -323,7 +324,7 @@ QVector3D GcodePreprocessorUtils::convertRToCenter(QVector3D start, QVector3D en
     double y = end.y() - start.y();
 
     double h_x2_div_d = 4 * R * R - x * x - y * y;
-    if (h_x2_div_d < 0) { qDebug() << "Error computing arc radius."; }
+    if (h_x2_div_d < 0) { qWarning(parserLogCategory) << "Error computing arc radius."; }
     h_x2_div_d = (-sqrt(h_x2_div_d)) / hypot(x, y);
 
     if (!clockwise) h_x2_div_d = -h_x2_div_d;

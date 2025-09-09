@@ -75,6 +75,17 @@
     </message>
 </context>
 <context>
+    <name>frmLog</name>
+    <message>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation>Журнал приложения</translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>G-code program</source>
@@ -777,6 +788,10 @@ Time elapsed: %1</source>
     <message>
         <source>Perspective view</source>
         <translation>Перспективный вид</translation>
+    </message>
+    <message>
+        <source>&amp;Logs</source>
+        <translation>&amp;Журнал приложения</translation>
     </message>
 </context>
 <context>
