@@ -2192,6 +2192,16 @@ QLabel[overrided=&quot;false&quot;] {
                 </layout>
                </item>
                <item>
+                <spacer name="spaJog">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                </spacer>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
                  <item>
                   <widget class="QLabel" name="label_20">

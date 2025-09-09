@@ -3072,6 +3072,8 @@ void frmMain::applySettings() {
     ui->cboCommand->setMinimumHeight(h);
     ui->cmdClearConsole->setFixedSize(s);
     ui->cmdCommandSend->setFixedSize(s);
+
+    ui->spaJog->changeSize(0, ui->cboJogStep->height() / 2);
 }
 
 void frmMain::loadPlugins()
