@@ -1165,5 +1165,9 @@ Tempo transcorrido: %1</translation>
         <source>Invert slider controls</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>250000</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

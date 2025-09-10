@@ -1163,5 +1163,9 @@ Time elapsed: %1</source>
         <source>Invert slider controls</source>
         <translation></translation>
     </message>
+    <message>
+        <source>250000</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

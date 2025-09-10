@@ -80,7 +80,7 @@ QGroupBox {
         <item>
          <widget class="QStackedWidget" name="stackMain">
           <property name="currentIndex">
-           <number>7</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="pageConnection">
            <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,1">
@@ -154,6 +154,11 @@ QGroupBox {
                    <item>
                     <property name="text">
                      <string>115200</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>250000</string>
                     </property>
                    </item>
                   </widget>

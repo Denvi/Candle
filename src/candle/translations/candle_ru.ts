@@ -1169,5 +1169,9 @@ Time elapsed: %1</source>
         <source>Invert slider controls</source>
         <translation>Инвертировать управление ползунками</translation>
     </message>
+    <message>
+        <source>250000</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

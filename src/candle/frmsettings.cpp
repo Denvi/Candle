@@ -29,7 +29,7 @@ protected:
 
         QString shiftedKeys = "~!@#$%^&*()_+{}|:?><\"";
         QString key = s.right(1);
-        
+
         if (pEvent->modifiers() & Qt::KeypadModifier) s = "Num+" + s;
         else if (!key.isEmpty() && shiftedKeys.contains(key)) {
             s.remove("Shift+");
@@ -704,9 +704,25 @@ void frmSettings::showEvent(QShowEvent *se)
 
 void frmSettings::searchPorts()
 {
-    ui->cboPort->clear();
+    auto getPortNumber = [](const QString &portName)
+    {
+        QRegularExpression re("(\\d+)");
+        auto match = re.match(portName);
+        return match.hasMatch() ? match.captured(1).toInt() : -1;
+    };
 
-    foreach (QSerialPortInfo info ,QSerialPortInfo::availablePorts()) {
+    auto ports = QSerialPortInfo::availablePorts();
+    std::sort(
+        ports.begin(),
+        ports.end(),
+        [getPortNumber](const QSerialPortInfo &a, const QSerialPortInfo &b)
+        {
+            return getPortNumber(a.portName()) > getPortNumber(b.portName());
+        });
+
+    ui->cboPort->clear();
+    foreach (QSerialPortInfo info, ports)
+    {
         ui->cboPort->insertItem(0, info.portName());
     }
 }
@@ -809,7 +825,7 @@ void frmSettings::on_cmdDefaults_clicked()
     d["actSpindleOnOff"] = "Num+0";
     d["actSpindleSpeedPlus"] = "Num+*";
     d["actSpindleSpeedMinus"] = "Num+/";
-    
+
     QTableWidget *table = ui->tblShortcuts;
 
     for (int i = 0; i < table->rowCount(); i++) {
