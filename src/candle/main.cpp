@@ -15,6 +15,7 @@
 #include "parser/gcodeparser.h"
 #include "parser/gcodeviewparse.h"
 #include "fileloghandler.h"
+#include "versionconfig.h"
 
 #include "frmmain.h"
 
@@ -29,8 +30,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
-    a.setApplicationDisplayName("Candle");
-    a.setApplicationVersion("1.2.15b");
+    a.setApplicationDisplayName(APP_NAME);
+    a.setApplicationVersion(APP_VERSION);
 
     installFileLogHandler();
 
