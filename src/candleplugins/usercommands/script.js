@@ -10,9 +10,9 @@ script.importExtension("qt.uitools");
 // Vars
 var appPath = app.path;
 var pluginPath = script.path;
+var pluginName = script.name;
 var designerPluginsPath = app.path + "/designerplugins";
 var loader = new QUiLoader();
-var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var buttonSize = 48;
 var deviceState = -1;
 var storedButtons = new Array();
@@ -138,8 +138,16 @@ function onAppSettingsLoaded()
 {
     buttonSize = app.buttonSize();
 
+    var settings = new QSettings();
+    settings.beginGroup(pluginName);
+
+    // Migrating old settings
+    if (!settings.contains("buttons")) {
+        settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
+    }
+
     var b = settings.value("buttons");
-    
+
     restoreButtonsTable(b);
     updateButtons();
     updateActions();
@@ -147,6 +155,8 @@ function onAppSettingsLoaded()
 
 function onAppSettingsSaved()
 {
+    var settings = new QSettings();
+    settings.beginGroup(pluginName);
     settings.setValue("buttons", storeButtonsTable());
 }
 

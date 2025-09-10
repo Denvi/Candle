@@ -662,20 +662,8 @@
         <translation>Пропустить</translation>
     </message>
     <message>
-        <source>Command</source>
-        <translation>Команда</translation>
-    </message>
-    <message>
         <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</source>
         <translation>Файлы G-Code (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation>Текст</translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation>Быстрые клавиши</translation>
     </message>
     <message>
         <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode);;All files (*.*)</source>
@@ -1171,6 +1159,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>250000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>0</source>
         <translation></translation>
     </message>
 </context>

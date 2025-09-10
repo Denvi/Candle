@@ -79,9 +79,6 @@ endforeach()
 # Candle plugins
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
 
-# Default settings
-install(FILES ${CMAKE_SOURCE_DIR}/src/candle/settings.ini DESTINATION .)
-
 # License
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
 

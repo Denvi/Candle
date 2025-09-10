@@ -725,18 +725,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Command</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Updating...</source>
         <translation></translation>
     </message>
@@ -1165,6 +1153,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>250000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>0</source>
         <translation></translation>
     </message>
 </context>

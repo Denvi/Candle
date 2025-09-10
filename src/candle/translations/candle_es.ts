@@ -667,18 +667,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Command</source>
-        <translation type="unfinished">Comando</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> (%1/%2/%3)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1167,6 +1155,10 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>250000</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

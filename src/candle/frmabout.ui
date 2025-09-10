@@ -14,9 +14,7 @@
    <string>About</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
-	font-size: 9pt;
-}</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">

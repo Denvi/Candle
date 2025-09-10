@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
+    a.setOrganizationName(APP_NAME);
+    a.setApplicationName(APP_NAME);
     a.setApplicationDisplayName(APP_NAME);
     a.setApplicationVersion(APP_VERSION);
 
@@ -44,9 +46,8 @@ int main(int argc, char *argv[])
     glf.setSamples(8);
     QGLFormat::setDefaultFormat(glf);
 
-    QSettings set(a.applicationDirPath() + "/settings.ini", QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
-    QString loc = set.value("language", "en").toString();
+    QSettings set;
+    QString loc = set.value("General/language", "en").toString();
 
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
     QString translationFileName = translationsFolder + "candle_" + loc + ".qm";

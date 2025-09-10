@@ -15,6 +15,7 @@
 #include <QDir>
 #include <QLocale>
 #include <QSpacerItem>
+#include <QAction>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -78,6 +79,7 @@ frmSettings::frmSettings(QWidget *parent) :
         ui->listCategories->addItem(ui->stackMain->widget(i)->findChild<QGroupBox*>()->title());
     }
 
+    ui->listCategories->setMinimumWidth(ui->listCategories->sizeHintForColumn(0) * 1.1);
     ui->listCategories->item(0)->setSelected(true);
     connect(this, SIGNAL(settingsSetByDefault()), parent, SIGNAL(settingsSetByDefault()));
 
@@ -697,6 +699,41 @@ void frmSettings::setInvertedSliderControls(bool value)
     ui->chkInvertedSliderControls->setChecked(value);
 }
 
+QTableWidget* frmSettings::shortcuts()
+{
+    return ui->tblShortcuts;
+}
+
+void frmSettings::setShortcuts(QList<QAction*> acts)
+{
+    QTableWidget *table = ui->tblShortcuts;
+
+    table->clear();
+    table->setColumnCount(3);
+    table->setRowCount(acts.count());
+    table->setHorizontalHeaderLabels(QStringList() << tr("Command") << tr("Text") << tr("Shortcuts"));
+
+    table->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
+
+    qSort(acts.begin(), acts.end(), [] (QAction *a1, QAction *a2) { return a1->objectName() < a2->objectName(); });
+    for (int i = 0; i < acts.count(); i++) {
+        table->setItem(i, 0, new QTableWidgetItem(acts.at(i)->objectName()));
+        table->setItem(i, 1, new QTableWidgetItem(acts.at(i)->text().remove("&")));
+        table->setItem(i, 2, new QTableWidgetItem(acts.at(i)->shortcut().toString()));
+
+        table->item(i, 0)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 1)->setFlags(Qt::ItemIsEnabled);
+        table->item(i, 2)->setFlags(Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+
+    table->resizeColumnsToContents();
+    table->setMinimumHeight(table->rowHeight(0) * 10
+        + table->horizontalHeader()->height() + table->frameWidth() * 2);
+    table->horizontalHeader()->setMinimumSectionSize(table->horizontalHeader()->sectionSize(2));
+    table->horizontalHeader()->setStretchLastSection(true);
+}
+
 void frmSettings::showEvent(QShowEvent *se)
 {
     Q_UNUSED(se)
@@ -753,6 +790,12 @@ void frmSettings::on_cmdDefaults_clicked()
     if (QMessageBox::warning(this, qApp->applicationDisplayName(), tr("Reset settings to default values?"),
                              QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel) != QMessageBox::Yes) return;
 
+    setDefaultSettings();
+    emit settingsSetByDefault();
+}
+
+void frmSettings::setDefaultSettings()
+{
     setPort("");
     setBaud(115200);
 
@@ -789,6 +832,8 @@ void frmSettings::on_cmdDefaults_clicked()
 
     setShowProgramCommands(false);
     setAutoCompletion(true);
+
+    setInvertedSliderControls(false);
 
     ui->clpTool->setColor(QColor(255, 153, 0));
 
@@ -840,8 +885,6 @@ void frmSettings::on_cmdDefaults_clicked()
     ui->chkToolChangeUseCommands->setChecked(false);
     ui->chkToolChangeUseCommandsConfirm->setChecked(false);
     setLanguage("en");
-
-    emit settingsSetByDefault();
 }
 
 void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)

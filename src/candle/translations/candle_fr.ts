@@ -667,18 +667,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Command</source>
-        <translation type="unfinished">Comande</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Applying heightmap...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1167,6 +1155,10 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>250000</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
