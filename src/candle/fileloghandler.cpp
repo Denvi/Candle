@@ -24,7 +24,7 @@ void logToFile(QtMsgType type, const QMessageLogContext &context, const QString 
     QString message = QString("[%1] [%2] [%3] %6")
         .arg(timestamp)
         .arg(messageTypeMap[type])
-        .arg(context.category)
+        .arg(context.category ? context.category : "unknown")
         .arg(msg);
 
     QFile file(logFileName);
