@@ -12,7 +12,6 @@ var appPath = app.path;
 var pluginPath = script.path;
 var designerPluginsPath = app.path + "/designerplugins";
 var loader = new QUiLoader();
-var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var deviceState = -1;
 var senderState = -1;
 var holdSent = false;

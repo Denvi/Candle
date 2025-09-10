@@ -10,9 +10,9 @@ script.importExtension("qt.uitools");
 // Vars
 var appPath = app.path;
 var pluginPath = script.path;
+var pluginName = script.name;
 var designerPluginsPath = app.path + "/designerplugins";
 var loader = new QUiLoader();
-var settings = new QSettings(pluginPath + "/settings.ini", QSettings.IniFormat);
 var storedName;
 var storedResolution;
 var storedZoom;
@@ -62,6 +62,9 @@ function createSettingsWidget()
 
 function onAppSettingsSaved()
 {
+    var settings = new QSettings();
+    settings.beginGroup(pluginName);
+
     settings.setValue("name", uiSettings.cboCameraName.currentText);
     settings.setValue("resolution", uiSettings.cboCameraResolution.currentText);
     settings.setValue("zoom", uiSettings.txtCameraZoom.text);
@@ -74,6 +77,9 @@ function onAppSettingsSaved()
 
 function onAppSettingsLoaded()
 {
+    var settings = new QSettings();
+    settings.beginGroup(pluginName);
+
     // Load settings
     uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
     uiSettings.cboCameraName.currentText = settings.value("name");

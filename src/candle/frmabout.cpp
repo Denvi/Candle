@@ -4,6 +4,7 @@
 #include <QDesktopServices>
 #include "frmabout.h"
 #include "ui_frmabout.h"
+#include "versionconfig.h"
 
 frmAbout::frmAbout(QWidget *parent) :
     QDialog(parent),
@@ -11,7 +12,11 @@ frmAbout::frmAbout(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->lblAbout->setText(ui->lblAbout->text().arg(qApp->applicationVersion()));
+    ui->lblAbout->setText(ui->lblAbout->text()
+        .arg(APP_NAME)
+        .arg(APP_VERSION)
+        .arg(BUILD_NUMBER)
+    );
 
     QFile file(qApp->applicationDirPath() + "/LICENSE");
 

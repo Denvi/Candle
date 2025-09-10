@@ -111,7 +111,6 @@ frmMain::frmMain(QWidget *parent) :
     m_spindleCW = true;
 
     // Loading settings
-    m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
     preloadSettings();
 
     m_settings = new frmSettings(this);
@@ -565,33 +564,7 @@ void frmMain::on_actServiceLogs_triggered()
 
 void frmMain::on_actServiceSettings_triggered()
 {
-    QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
-    QTableWidget *table = m_settings->ui->tblShortcuts;
-
-    table->clear();
-    table->setColumnCount(3);
-    table->setRowCount(acts.count());
-    table->setHorizontalHeaderLabels(QStringList() << tr("Command") << tr("Text") << tr("Shortcuts"));
-
-    table->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
-    table->verticalHeader()->setFixedWidth(table->verticalHeader()->sizeHint().width() + 11);
-
-    qSort(acts.begin(), acts.end(), frmMain::actionLessThan);
-    for (int i = 0; i < acts.count(); i++) {
-        table->setItem(i, 0, new QTableWidgetItem(acts.at(i)->objectName()));
-        table->setItem(i, 1, new QTableWidgetItem(acts.at(i)->text().remove("&")));
-        table->setItem(i, 2, new QTableWidgetItem(acts.at(i)->shortcut().toString()));
-
-        table->item(i, 0)->setFlags(Qt::ItemIsEnabled);
-        table->item(i, 1)->setFlags(Qt::ItemIsEnabled);
-        table->item(i, 2)->setFlags(Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    }
-
-    table->resizeColumnsToContents();
-    table->setMinimumHeight(table->rowHeight(0) * 10
-        + table->horizontalHeader()->height() + table->frameWidth() * 2);
-    table->horizontalHeader()->setMinimumSectionSize(table->horizontalHeader()->sectionSize(2));
-    table->horizontalHeader()->setStretchLastSection(true);
+    m_settings->setShortcuts(findChildren<QAction*>(QRegExp("act.*")));
 
     emit settingsAboutToShow();
 
@@ -606,11 +579,6 @@ void frmMain::on_actServiceSettings_triggered()
 
         updateControlsState();
         applySettings();
-
-        // Update shortcuts
-        for (int i = 0; i < acts.count(); i++) {
-            acts[i]->setShortcut(QKeySequence(table->item(i, 2)->data(Qt::DisplayRole).toString()));
-        }
 
         emit settingsAccepted();
 
@@ -2570,10 +2538,11 @@ void frmMain::placeVisualizerButtons()
 
 void frmMain::preloadSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
+    QSettings set;
+    set.beginGroup("General");
 
-    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + set.value("fontSize", "8").toString()));
+    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: "
+        + set.value("fontSize", "9").toString()));
 
     // Update v-sync in glformat
     QGLFormat fmt = QGLFormat::defaultFormat();
@@ -2583,58 +2552,70 @@ void frmMain::preloadSettings()
 
 void frmMain::loadSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
+    QSettings set;
 
     m_settingsLoading = true;
-
     emit settingsAboutToLoad();
 
-    m_settings->setFontSize(set.value("fontSize", 8).toInt());
-    m_settings->setPort(set.value("port").toString());
-    m_settings->setBaud(set.value("baud").toInt());
-    m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
-    m_settings->setAutoLine(set.value("autoLine", true).toBool());
-    m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
-    m_settings->setToolLength(set.value("toolLength", 15).toDouble());
-    m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
-    m_settings->setMsaa(set.value("msaa", true).toBool());
-    m_settings->setVsync(set.value("vsync", false).toBool());
-    m_settings->setZBuffer(set.value("zBuffer", false).toBool());
-    m_settings->setSimplify(set.value("simplify", false).toBool());
-    m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
-    m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
-    m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
-    m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
-    m_settings->setLineWidth(set.value("lineWidth", 1).toDouble());
-    m_settings->setArcLength(set.value("arcLength", 0).toDouble());
-    m_settings->setArcDegree(set.value("arcDegree", 0).toDouble());
-    m_settings->setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
-    m_settings->setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
-    m_settings->setShowUICommands(set.value("showUICommands", 0).toBool());
-    m_settings->setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
-    m_settings->setSpindleSpeedMax(set.value("spindleSpeedMax", 100).toInt());
-    m_settings->setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
-    m_settings->setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
-    m_settings->setRapidSpeed(set.value("rapidSpeed", 0).toInt());
-    m_settings->setAcceleration(set.value("acceleration", 10).toInt());
-    m_settings->setToolAngle(set.value("toolAngle", 0).toDouble());
-    m_settings->setToolType(set.value("toolType", 0).toInt());
-    m_settings->setFps(set.value("fps", 60).toInt());
-    m_settings->setQueryStateTime(set.value("queryStateTime", 250).toInt());
-    m_settings->setUseStartCommands(set.value("useStartCommands").toBool());
-    m_settings->setStartCommands(set.value("startCommands").toString());
-    m_settings->setUseEndCommands(set.value("useEndCommands").toBool());
-    m_settings->setEndCommands(set.value("endCommands").toString());
-    m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
-    m_settings->setToolChangePause(set.value("toolChangePause").toBool());
-    m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
-    m_settings->setToolChangeUseCommandsConfirm(set.value("toolChangeUseCommandsConfirm").toBool());
-    m_settings->setReferenceXPlus(set.value("referenceXPlus", false).toBool());
-    m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
-    m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
-    m_settings->setLanguage(set.value("language", "en").toString());
-    m_settings->setInvertedSliderControls(set.value("invertedSliderControls", false).toBool());
+    if (set.childGroups().contains("General")) {
+        set.beginGroup("General");
+        m_settings->setFontSize(set.value("fontSize", 9).toInt());
+        m_settings->setPort(set.value("port").toString());
+        m_settings->setBaud(set.value("baud", 115200).toInt());
+        m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
+        m_settings->setAutoLine(set.value("autoLine", true).toBool());
+        m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
+        m_settings->setToolLength(set.value("toolLength", 30).toDouble());
+        m_settings->setToolAngle(set.value("toolAngle", 15).toDouble());
+        m_settings->setToolType(set.value("toolType", 1).toInt());
+        m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
+        m_settings->setMsaa(set.value("msaa", true).toBool());
+        m_settings->setVsync(set.value("vsync", false).toBool());
+        m_settings->setZBuffer(set.value("zBuffer", false).toBool());
+        m_settings->setSimplify(set.value("simplify", true).toBool());
+        m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
+        m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
+        m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
+        m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
+        m_settings->setLineWidth(set.value("lineWidth", 1.5).toDouble());
+        m_settings->setArcLength(set.value("arcLength", 0).toDouble());
+        m_settings->setArcDegree(set.value("arcDegree", 5).toDouble());
+        m_settings->setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
+        m_settings->setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
+        m_settings->setShowUICommands(set.value("showUICommands", 0).toBool());
+        m_settings->setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
+        m_settings->setSpindleSpeedMax(set.value("spindleSpeedMax", 10000).toInt());
+        m_settings->setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
+        m_settings->setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
+        m_settings->setRapidSpeed(set.value("rapidSpeed", 0).toInt());
+        m_settings->setAcceleration(set.value("acceleration", 10).toInt());
+        m_settings->setFps(set.value("fps", 60).toInt());
+        m_settings->setQueryStateTime(set.value("queryStateTime", 40).toInt());
+        m_settings->setUseStartCommands(set.value("useStartCommands").toBool());
+        m_settings->setStartCommands(set.value("startCommands").toString());
+        m_settings->setUseEndCommands(set.value("useEndCommands").toBool());
+        m_settings->setEndCommands(set.value("endCommands").toString());
+        m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
+        m_settings->setToolChangePause(set.value("toolChangePause").toBool());
+        m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
+        m_settings->setToolChangeUseCommandsConfirm(set.value("toolChangeUseCommandsConfirm").toBool());
+        m_settings->setReferenceXPlus(set.value("referenceXPlus", false).toBool());
+        m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
+        m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
+        m_settings->setLanguage(set.value("language", "en").toString());
+        m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
+        m_settings->setUnits(set.value("units", 0).toInt());
+        m_settings->setInvertedSliderControls(set.value("invertedSliderControls", false).toBool());
+
+        foreach (ColorPicker* pick, m_settings->colors()) {
+            pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
+        }
+    } else {
+        m_settings->setShortcuts(findChildren<QAction*>(QRegExp("act.*")));
+        m_settings->setDefaultSettings();
+    }
+
+    m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
 
     ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
 
@@ -2652,13 +2633,12 @@ void frmMain::loadSettings()
     ui->slbSpindleOverride->setChecked(set.value("spindleOverride", false).toBool());
     ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
 
-    m_settings->setUnits(set.value("units", 0).toInt());
-
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
     m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
 
-    this->restoreGeometry(set.value("formGeometry", QByteArray()).toByteArray());
+    this->restoreGeometry(set.value("formGeometry", QByteArray::fromBase64(
+        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray());
 
     ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
@@ -2666,16 +2646,14 @@ void frmMain::loadSettings()
 
     m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
 
-    m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
-
     QStringList steps = set.value("jogSteps").toStringList();
     if (steps.count() > 0) {
         steps.insert(0, ui->cboJogStep->items().first());
         ui->cboJogStep->setItems(steps);
     }
-    ui->cboJogStep->setCurrentIndex(ui->cboJogStep->findText(set.value("jogStep").toString()));
+    ui->cboJogStep->setCurrentIndex(set.value("jogStep", "3").toInt());
     ui->cboJogFeed->setItems(set.value("jogFeeds").toStringList());
-    ui->cboJogFeed->setCurrentIndex(ui->cboJogFeed->findText(set.value("jogFeed").toString()));
+    ui->cboJogFeed->setCurrentIndex(set.value("jogFeed", "2").toInt());
 
     ui->txtHeightMapBorderX->setValue(set.value("heightmapBorderX", 0).toDouble());
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
@@ -2696,10 +2674,6 @@ void frmMain::loadSettings()
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
 
     ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
-
-    foreach (ColorPicker* pick, m_settings->colors()) {
-        pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
-    }
 
     updateRecentFilesMenu();
 
@@ -2772,19 +2746,24 @@ void frmMain::loadSettings()
     }
 
         // Normal window state
-    restoreState(set.value("formMainState").toByteArray());
+    auto formState = set.value("formMainState", QByteArray::fromBase64(
+        "AAAA/wAAAAD9AAAAAwAAAAAAAADiAAADvPwCAAAAAfsAAAAgAGQAbwBjAGsATQBvAGQAaQBmAGkAYwBhAHQAaQBvAG4BAAAAHQAAA7wAAABuAP\
+        ///wAAAAEAAAPJAAADvPwCAAAAAvwAAAAdAAADvAAAAG4A/////AEAAAAD+wAAABYAZABvAGMAawBDAG8AbgBzAG8AbABlAQAAA6gAAAHRAAAAb\
+        gD////7AAAAEABkAG8AYwBrAFUAcwBlAHIBAAAFkwAAAOIAAADiAAAA+PsAAAAUAGQAbwBjAGsARABlAHYAaQBjAGUBAAAGjwAAAOIAAADiAAAA\
+        8/sAAAAgAGQAbwBjAGsAQwBhAG0AZQByAGEAUABsAHUAZwBpAG4AAAAEsgAAADoAAAApAP///wAAAAIAAAKIAAAB2fwBAAAAAfsAAAAcAGQAbwB\
+        jAGsAVgBpAHMAdQBhAGwAaQB6AGUAcgEAAAEGAAACiAAAAFQA////AAACiAAAAckAAAABAAAAAgAAAAEAAAAC/AAAAAMAAAAAAAAAAQAAABYAXw\
+        BzAHAAYQBjAGUAcgBMAGUAZgB0AwAAAAD/////AAAAAAAAAAAAAAABAAAAAQAAABgAXwBzAHAAYQBjAGUAcgBSAGkAZwBoAHQDAAAAAP////8AA\
+        AAAAAAAAAAAAAIAAAABAAAAFABfAHMAcABhAGMAZQByAFQAbwBwAQAAAAD/////AAAAAAAAAAA=")).toByteArray();
+
+    restoreState(formState);
 
         // Maximized window state
     show();
     qApp->processEvents();
-    restoreState(set.value("formMainState").toByteArray());
+    restoreState(formState);
 
     // Setup coords textboxes
     setupCoordsTextboxes();
-
-    // Settings form geometry
-    // m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
-    m_settings->ui->splitMain->restoreState(set.value("settingsSplitMain").toByteArray());
 
     emit settingsLoaded();
 
@@ -2794,7 +2773,6 @@ void frmMain::loadSettings()
     ShortcutsMap m;
     QByteArray ba = set.value("shortcuts").toByteArray();
     QDataStream s(&ba, QIODevice::ReadOnly);
-
     s >> m;
     for (int i = 0; i < m.count(); i++) {
         QAction *a = findChild<QAction*>(m.keys().at(i));
@@ -2802,18 +2780,15 @@ void frmMain::loadSettings()
     }
 
     // Menu
-    ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
-    ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
-
-    m_settings->restoreGeometry(set.value("formSettingsGeometry", m_settings->saveGeometry()).toByteArray());
-
+    ui->actViewLockWindows->setChecked(set.value("lockWindows", false).toBool());
+    ui->actViewLockPanels->setChecked(set.value("lockPanels", true).toBool());
 
     // Loading stored script variables
     QScriptValue g = m_scriptEngine.globalObject();
-    set.beginGroup("script");
+    set.beginGroup("Script");
     QStringList l = set.childKeys();
     foreach (const QString &k, l) {
-        g.setProperty(k, m_scriptEngine.newVariant(set.value(k)));
+        g.setProperty(k, m_scriptEngine.newVariant(set.value("" + k)));
     }
     set.endGroup();
 
@@ -2829,8 +2804,8 @@ void frmMain::loadSettings()
 
 void frmMain::saveSettings()
 {
-    QSettings set(m_settingsFileName, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
+    QSettings set;
+    set.beginGroup("General");
 
     emit settingsAboutToSave();
 
@@ -2869,7 +2844,6 @@ void frmMain::saveSettings()
     set.setValue("queryStateTime", m_settings->queryStateTime());
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
-    set.setValue("settingsSplitMain", m_settings->ui->splitMain->saveState());
     set.setValue("formGeometry", this->saveGeometry());
     set.setValue("formSettingsGeometry", m_settings->saveGeometry());
 
@@ -2902,9 +2876,9 @@ void frmMain::saveSettings()
     set.setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
     set.setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
-    set.setValue("jogStep", ui->cboJogStep->currentText());
+    set.setValue("jogStep", ui->cboJogStep->currentIndex());
     set.setValue("jogFeeds", ui->cboJogFeed->items());
-    set.setValue("jogFeed", ui->cboJogFeed->currentText());
+    set.setValue("jogFeed", ui->cboJogFeed->currentIndex());
 
     set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -2927,7 +2901,7 @@ void frmMain::saveSettings()
     set.setValue("viewPerspective", ui->cmdPerspective->isChecked());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
-        set.setValue(pick->objectName().mid(3), pick->color().name());
+        set.setValue("" + pick->objectName().mid(3), pick->color().name());
     }
 
     QStringList list;
@@ -2987,7 +2961,7 @@ void frmMain::saveSettings()
         it.next();
         if (!l.contains(it.name())) {
             if (it.value().isNumber() || it.value().isString()) {
-                set.setValue("script/" + it.name(), it.value().toVariant());
+                set.setValue("Script/" + it.name(), it.value().toVariant());
             }
         }
     }
@@ -2995,7 +2969,27 @@ void frmMain::saveSettings()
     emit settingsSaved();
 }
 
-void frmMain::applySettings() {
+void frmMain::applySettings()
+{
+    // Update shortcuts
+    QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
+    QTableWidget *shortcuts = m_settings->shortcuts();
+
+    for (int i = 0; i < shortcuts->rowCount(); i++) {
+        auto shortcut = shortcuts->item(i, 0);
+        auto act = std::find_if(
+            acts.begin(),
+            acts.end(),
+            [shortcut](const QAction *act) {
+                return act->objectName() == shortcut->data(Qt::DisplayRole).toString();
+            }
+        );
+
+        if (act != acts.end()) {
+            (*act)->setShortcut(QKeySequence(shortcuts->item(i, 2)->data(Qt::DisplayRole).toString()));
+        }
+    }
+
     m_originDrawer->setLineWidth(m_settings->lineWidth());
     m_toolDrawer.setToolDiameter(m_settings->toolDiameter());
     m_toolDrawer.setToolLength(m_settings->toolLength());
@@ -3118,6 +3112,7 @@ void frmMain::loadPlugins()
             QScriptValue sv = se->newObject();
             sv.setProperty("importExtension", se->newFunction(frmMain::importExtension));
             sv.setProperty("path", pluginsDir + p);
+            sv.setProperty("name", name);
             se->globalObject().setProperty("script", sv);
             se->setObjectName(p);
             connect(se, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);

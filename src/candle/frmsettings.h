@@ -12,6 +12,7 @@
 #include <QVector3D>
 #include <QComboBox>
 #include <QPlainTextEdit>
+#include <QTableWidget>
 #include "colorpicker.h"
 
 namespace Ui {
@@ -72,8 +73,6 @@ class frmSettings : public QDialog
 public:
     explicit frmSettings(QWidget *parent = 0);
     ~frmSettings();
-
-    Ui::frmSettings *ui;
 
     int exec();
     void undo();
@@ -183,6 +182,10 @@ public:
     void setReferenceZPlus(bool value);
     bool invertedSliderControls();
     void setInvertedSliderControls(bool value);
+    QTableWidget* shortcuts();
+    void setShortcuts(QList<QAction*> acts);
+
+    void setDefaultSettings();
 
 signals:
     void settingsSetByDefault();
@@ -204,6 +207,8 @@ private slots:
     void on_radGrayscaleZ_toggled(bool checked);
 
 private:
+    Ui::frmSettings *ui;
+
     void searchPorts();
 
     QMap<QAbstractSpinBox*, double> m_storedValues;

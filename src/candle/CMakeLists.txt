@@ -1,4 +1,17 @@
-set(TEMPLATE app)
+project(Candle VERSION 1.2.16)
+
+set(APP_NAME ${PROJECT_NAME})
+set(APP_VERSION ${PROJECT_VERSION})
+
+execute_process(
+  COMMAND git log -1 --format=%h
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE BUILD_NUMBER
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+configure_file(versionconfig.h.in versionconfig.h)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script LinguistTools REQUIRED)
 
@@ -65,9 +78,6 @@ endforeach()
 
 # Candle plugins
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
-
-# Default settings
-install(FILES ${CMAKE_SOURCE_DIR}/src/candle/settings.ini DESTINATION .)
 
 # License
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
