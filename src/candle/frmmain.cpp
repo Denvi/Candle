@@ -1006,7 +1006,7 @@ void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 
 void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
-//    static bool fileChanged;
+    ui->glwVisualizer->setUpdatesEnabled(false);
 
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -1246,6 +1246,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
     // Update menu
     ui->actFileSaveTransformedAs->setVisible(checked);
+
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -2543,11 +2545,6 @@ void frmMain::preloadSettings()
 
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: "
         + set.value("fontSize", "9").toString()));
-
-    // Update v-sync in glformat
-    QGLFormat fmt = QGLFormat::defaultFormat();
-    fmt.setSwapInterval(set.value("vsync", false).toBool() ? 1 : 0);
-    QGLFormat::setDefaultFormat(fmt);
 }
 
 void frmMain::loadSettings()
@@ -3407,6 +3404,8 @@ QString frmMain::evaluateCommand(QString command)
 
 void frmMain::updateParser()
 {
+    ui->glwVisualizer->setUpdatesEnabled(false);
+
     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
     GcodeParser gp;
@@ -3464,6 +3463,8 @@ void frmMain::updateParser()
     updateControlsState();
 
     if (m_currentModel == &m_programModel) m_fileChanged = true;
+
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 }
 
 void frmMain::storeParserState()
@@ -3557,6 +3558,7 @@ void frmMain::loadFile(QList<QString> data)
     m_currentDrawer = m_codeDrawer;
     m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
+    ui->glwVisualizer->setUpdatesEnabled(false);
     updateProgramEstimatedTime(QList<LineSegment*>());
 
     // Update interface
@@ -3642,6 +3644,7 @@ void frmMain::loadFile(QList<QString> data)
     //  Update code drawer
     m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 
     resetHeightmap();
     updateControlsState();

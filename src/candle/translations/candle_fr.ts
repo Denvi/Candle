@@ -49,10 +49,10 @@
     </message>
 </context>
 <context>
-    <name>GLWidget</name>
+    <name>Overlay</name>
     <message>
         <source>Vertices: %1</source>
-        <translation>Vertices: %1</translation>
+        <translation type="unfinished">Vertices: %1</translation>
     </message>
 </context>
 <context>

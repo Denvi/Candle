@@ -49,7 +49,7 @@
     </message>
 </context>
 <context>
-    <name>GLWidget</name>
+    <name>Overlay</name>
     <message>
         <source>Vertices: %1</source>
         <translation>Вершины: %1</translation>

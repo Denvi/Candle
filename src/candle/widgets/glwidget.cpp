@@ -2,24 +2,12 @@
 // Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include "glwidget.h"
-#include "../drawers/tooldrawer.h"
-#include <QDebug>
 #include <QtWidgets>
-#include <QPainter>
 #include <QEasingCurve>
-
-#ifdef GLES
-#include <GLES/gl.h>
-#endif
 
 #define ZOOMSTEP 1.1
 
-#ifdef GLES
 GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
-#else
-GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
-#endif
-
 {
     m_frames = 0;
     m_fps = 0;
@@ -48,6 +36,13 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent), m_shaderProgram(0)
     setAttribute(Qt::WA_AcceptTouchEvents, true);
     grabGesture(Qt::PanGesture);
     grabGesture(Qt::PinchGesture);
+
+    QSurfaceFormat fmt = format();
+    fmt.setSamples(8);
+    fmt.setSwapInterval(0);
+    setFormat(fmt);
+
+    m_overlay = new Overlay(this);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
 }
@@ -191,7 +186,13 @@ bool GLWidget::vsync() const
 
 void GLWidget::setVsync(bool vsync)
 {
-    m_vsync = vsync;
+    if (vsync != m_vsync)
+    {
+        m_vsync = vsync;
+        QSurfaceFormat fmt = format();
+        fmt.setSwapInterval(vsync ? 1 : 0);
+        setFormat(fmt);
+    }
 }
 
 bool GLWidget::msaa() const
@@ -348,10 +349,8 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 
 void GLWidget::initializeGL()
 {
-#ifndef GLES
     // Initialize functions
     initializeOpenGLFunctions();
-#endif
 
     // Create shader program
     m_shaderProgram = new QOpenGLShaderProgram();
@@ -370,6 +369,9 @@ void GLWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, width, height);
     updateProjection();
+
+    m_overlay->resize(width, height);
+
     emit resized();
 }
 
@@ -470,18 +472,12 @@ void GLWidget::updateView()
     m_windowSizeWorld = (ivp * QVector3D(0, 1, m_planeDepth) - ivp * QVector3D(0, 0, m_planeDepth)).length() * 2.0;
 }
 
-#ifdef GLES
-void GLWidget::paintGL() {
-#else
-void GLWidget::paintEvent(QPaintEvent *pe) {
-    Q_UNUSED(pe)
-#endif
-    QPainter painter(this);
+void GLWidget::paintGL()
+{
+    if (m_animateView) viewAnimation();
 
     // Segment counter
     int vertices = 0;
-
-    painter.beginNativePainting();
 
     // Clear viewport
     glClearColor(m_colorBackground.redF(), m_colorBackground.greenF(), m_colorBackground.blueF(), 1.0);
@@ -532,65 +528,17 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         m_shaderProgram->release();
     }
 
-    // Draw 2D
-    glDisable(GL_DEPTH_TEST);
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_LINE_SMOOTH);
+    glDisable(GL_POINT_SMOOTH);
     glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
 
-    painter.endNativePainting();
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    QMatrix4x4 w;
-    w.scale(width() / 2, -height() / 2);
-    w.translate(1, -1);
-    w *= m_projectionMatrix * m_viewMatrix;
-
-    foreach (ShaderDrawable *drawable, m_shaderDrawables) {
-        if (drawable->visible()) {
-            painter.save();
-            drawable->drawPainter(painter, w * drawable->modelMatrix(), height() / m_windowSizeWorld);
-            painter.restore();
-        }
-    }
-
-    QPen pen(m_colorText);
-    painter.setPen(pen);
-
-    QFontMetrics fm(painter.font());
-    double x = 10;
-    double y = this->height() - fm.height() * 3 - 10;
-
-    painter.drawText(QPoint(x, y), QString("X: %1 ... %2").arg(m_modelLowerBounds.x(), 0, 'f', 3)
-        .arg(m_modelUpperBounds.x(), 0, 'f', 3));
-    painter.drawText(QPoint(x, y + fm.height()), QString("Y: %1 ... %2").arg(m_modelLowerBounds.y(), 0, 'f', 3)
-        .arg(m_modelUpperBounds.y(), 0, 'f', 3));
-    painter.drawText(QPoint(x, y + fm.height() * 2), QString("Z: %1 ... %2").arg(m_modelLowerBounds.z(), 0, 'f', 3)
-        .arg(m_modelUpperBounds.z(), 0, 'f', 3));
-    painter.drawText(QPoint(x, y + fm.height() * 3), QString("%1 / %2 / %3").arg(m_modelRanges.x(), 0, 'f', 3)
-        .arg(m_modelRanges.y(), 0, 'f', 3).arg(m_modelRanges.z(), 0, 'f', 3));
-
-
-    painter.drawText(QPoint(x, fm.height() + 10), m_parserStatus);
-    painter.drawText(QPoint(x, fm.height() * 2 + 10), m_speedState);
-    painter.drawText(QPoint(x, fm.height() * 3 + 10), m_pinState);
-
-    QString str = QString(tr("Vertices: %1")).arg(vertices);
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + fm.height() * 2), str);
-    str = QString("FPS: %1").arg(m_fps);
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + fm.height() * 3), str);
-
-    str = m_spendTime.toString("hh:mm:ss") + " / " + m_estimatedTime.toString("hh:mm:ss");
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y), str);
-
-    str = m_bufferState;
-    painter.drawText(QPoint(this->width() - fm.width(str) - 10, y + fm.height()), str);
+    // Draw 2D
+    m_vertices = vertices;
+    m_overlay->update();
 
     m_frames++;
-
-#ifdef GLES
-    update();
-#endif
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -717,22 +665,15 @@ bool GLWidget::event(QEvent *event)
         }
     }
 
-    return QGLWidget::event(event);
+    return QOpenGLWidget::event(event);
 }
 
 void GLWidget::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerPaint.timerId()) {
-        if (m_animateView) viewAnimation();
-#ifndef GLES
         update();
-#endif
     } else {
-#ifdef GLES
         QOpenGLWidget::timerEvent(te);
-#else
-        QGLWidget::timerEvent(te);
-#endif
     }
 }
 
