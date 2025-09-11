@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         break;
     }
 #endif
-
+    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication a(argc, argv);
     a.setOrganizationName(APP_NAME);
     a.setApplicationName(APP_NAME);
@@ -40,11 +40,6 @@ int main(int argc, char *argv[])
 #ifdef GLES
     QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
 #endif
-
-    QGLFormat glf = QGLFormat::defaultFormat();
-    glf.setSampleBuffers(true);
-    glf.setSamples(8);
-    QGLFormat::setDefaultFormat(glf);
 
     QSettings set;
     QString loc = set.value("General/language", "en").toString();

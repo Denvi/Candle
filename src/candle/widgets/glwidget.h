@@ -4,21 +4,14 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#ifndef GLES
-#include <QGLWidget>
-#else
 #include <QOpenGLWidget>
-#endif
-
+#include <QOpenGLFunctions>
 #include <QTimer>
 #include <QTime>
 #include "../drawers/shaderdrawable.h"
+#include "overlay.h"
 
-#ifdef GLES
-class GLWidget : public QOpenGLWidget
-#else
-class GLWidget : public QGLWidget, protected QOpenGLFunctions
-#endif
+class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:
@@ -83,6 +76,8 @@ public:
     bool perspective() const;
     void setPerspective(bool perspective);
 
+    friend class Overlay;
+
 signals:
     void rotationChanged();
     void resized();
@@ -127,6 +122,7 @@ private:
     int m_fps;
     int m_targetFps;
     int m_animationFrame;
+    int m_vertices;
     QTime m_spendTime;
     QTime m_estimatedTime;
     QBasicTimer m_timerPaint;
@@ -157,23 +153,20 @@ private:
     QColor m_colorBackground;
     QColor m_colorText;
 
+    Overlay *m_overlay;
+
 protected:
-    void initializeGL();
-    void resizeGL(int width, int height);
+    void initializeGL() override;
+    void resizeGL(int width, int height) override;
+    void paintGL() override;
+    bool event(QEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *we) override;
+    void timerEvent(QTimerEvent *) override;
+
     void updateProjection();
     void updateView();
-#ifdef GLES
-    void paintGL();
-#else
-    void paintEvent(QPaintEvent *pe);
-#endif
-
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *we);
-    bool event(QEvent *event);
-
-    void timerEvent(QTimerEvent *);
 };
 
 #endif // GLWIDGET_H

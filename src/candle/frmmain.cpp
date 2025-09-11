@@ -1006,7 +1006,7 @@ void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 
 void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
-//    static bool fileChanged;
+    ui->glwVisualizer->setUpdatesEnabled(false);
 
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -1246,6 +1246,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
     // Update menu
     ui->actFileSaveTransformedAs->setVisible(checked);
+
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -2543,11 +2545,6 @@ void frmMain::preloadSettings()
 
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: "
         + set.value("fontSize", "9").toString()));
-
-    // Update v-sync in glformat
-    QGLFormat fmt = QGLFormat::defaultFormat();
-    fmt.setSwapInterval(set.value("vsync", false).toBool() ? 1 : 0);
-    QGLFormat::setDefaultFormat(fmt);
 }
 
 void frmMain::loadSettings()
@@ -2636,9 +2633,6 @@ void frmMain::loadSettings()
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
     m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
-
-    this->restoreGeometry(set.value("formGeometry", QByteArray::fromBase64(
-        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray());
 
     ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
@@ -2745,7 +2739,10 @@ void frmMain::loadSettings()
         if (b) b->setChecked(false);
     }
 
-        // Normal window state
+    // Restore main window state
+    auto formGeometry = set.value("formGeometry", QByteArray::fromBase64(
+        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray();
+
     auto formState = set.value("formMainState", QByteArray::fromBase64(
         "AAAA/wAAAAD9AAAAAwAAAAAAAADiAAADvPwCAAAAAfsAAAAgAGQAbwBjAGsATQBvAGQAaQBmAGkAYwBhAHQAaQBvAG4BAAAAHQAAA7wAAABuAP\
         ///wAAAAEAAAPJAAADvPwCAAAAAvwAAAAdAAADvAAAAG4A/////AEAAAAD+wAAABYAZABvAGMAawBDAG8AbgBzAG8AbABlAQAAA6gAAAHRAAAAb\
@@ -2755,12 +2752,17 @@ void frmMain::loadSettings()
         BzAHAAYQBjAGUAcgBMAGUAZgB0AwAAAAD/////AAAAAAAAAAAAAAABAAAAAQAAABgAXwBzAHAAYQBjAGUAcgBSAGkAZwBoAHQDAAAAAP////8AA\
         AAAAAAAAAAAAAIAAAABAAAAFABfAHMAcABhAGMAZQByAFQAbwBwAQAAAAD/////AAAAAAAAAAA=")).toByteArray();
 
-    restoreState(formState);
-
-        // Maximized window state
-    show();
-    qApp->processEvents();
-    restoreState(formState);
+    if (set.value("formMaximized", false).toBool())
+    {
+        // Force maximized window size for proper dockWidgets restoring as restoreGeometry will set non maximized
+        //   window size
+        resize(set.value("formSize").toSize());
+        restoreState(formState);
+        showMaximized();
+    } else {        
+        restoreGeometry(formGeometry);
+        restoreState(formState);
+    }
 
     // Setup coords textboxes
     setupCoordsTextboxes();
@@ -2845,6 +2847,8 @@ void frmMain::saveSettings()
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("formGeometry", this->saveGeometry());
+    set.setValue("formSize", this->size());
+    set.setValue("formMaximized", this->isMaximized());
     set.setValue("formSettingsGeometry", m_settings->saveGeometry());
 
     set.setValue("autoCompletion", m_settings->autoCompletion());
@@ -3400,6 +3404,8 @@ QString frmMain::evaluateCommand(QString command)
 
 void frmMain::updateParser()
 {
+    ui->glwVisualizer->setUpdatesEnabled(false);
+
     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
     GcodeParser gp;
@@ -3457,6 +3463,8 @@ void frmMain::updateParser()
     updateControlsState();
 
     if (m_currentModel == &m_programModel) m_fileChanged = true;
+
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 }
 
 void frmMain::storeParserState()
@@ -3550,6 +3558,7 @@ void frmMain::loadFile(QList<QString> data)
     m_currentDrawer = m_codeDrawer;
     m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
+    ui->glwVisualizer->setUpdatesEnabled(false);
     updateProgramEstimatedTime(QList<LineSegment*>());
 
     // Update interface
@@ -3635,6 +3644,7 @@ void frmMain::loadFile(QList<QString> data)
     //  Update code drawer
     m_codeDrawer->update();
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
+    ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 
     resetHeightmap();
     updateControlsState();
