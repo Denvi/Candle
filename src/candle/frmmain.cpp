@@ -2637,9 +2637,6 @@ void frmMain::loadSettings()
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
     m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
 
-    this->restoreGeometry(set.value("formGeometry", QByteArray::fromBase64(
-        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray());
-
     ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
@@ -2745,7 +2742,10 @@ void frmMain::loadSettings()
         if (b) b->setChecked(false);
     }
 
-        // Normal window state
+    // Restore main window state
+    auto formGeometry = set.value("formGeometry", QByteArray::fromBase64(
+        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray();
+
     auto formState = set.value("formMainState", QByteArray::fromBase64(
         "AAAA/wAAAAD9AAAAAwAAAAAAAADiAAADvPwCAAAAAfsAAAAgAGQAbwBjAGsATQBvAGQAaQBmAGkAYwBhAHQAaQBvAG4BAAAAHQAAA7wAAABuAP\
         ///wAAAAEAAAPJAAADvPwCAAAAAvwAAAAdAAADvAAAAG4A/////AEAAAAD+wAAABYAZABvAGMAawBDAG8AbgBzAG8AbABlAQAAA6gAAAHRAAAAb\
@@ -2755,12 +2755,17 @@ void frmMain::loadSettings()
         BzAHAAYQBjAGUAcgBMAGUAZgB0AwAAAAD/////AAAAAAAAAAAAAAABAAAAAQAAABgAXwBzAHAAYQBjAGUAcgBSAGkAZwBoAHQDAAAAAP////8AA\
         AAAAAAAAAAAAAIAAAABAAAAFABfAHMAcABhAGMAZQByAFQAbwBwAQAAAAD/////AAAAAAAAAAA=")).toByteArray();
 
-    restoreState(formState);
-
-        // Maximized window state
-    show();
-    qApp->processEvents();
-    restoreState(formState);
+    if (set.value("formMaximized", false).toBool())
+    {
+        // Force maximized window size for proper dockWidgets restoring as restoreGeometry will set non maximized
+        //   window size
+        resize(set.value("formSize").toSize());
+        restoreState(formState);
+        showMaximized();
+    } else {        
+        restoreGeometry(formGeometry);
+        restoreState(formState);
+    }
 
     // Setup coords textboxes
     setupCoordsTextboxes();
@@ -2845,6 +2850,8 @@ void frmMain::saveSettings()
     set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
     set.setValue("formGeometry", this->saveGeometry());
+    set.setValue("formSize", this->size());
+    set.setValue("formMaximized", this->isMaximized());
     set.setValue("formSettingsGeometry", m_settings->saveGeometry());
 
     set.setValue("autoCompletion", m_settings->autoCompletion());
