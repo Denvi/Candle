@@ -28,14 +28,7 @@ protected:
         QKeySequenceEdit::keyPressEvent(pEvent);
         QString s = keySequence().toString().split(", ").first();
 
-        QString shiftedKeys = "~!@#$%^&*()_+{}|:?><\"";
-        QString key = s.right(1);
-
         if (pEvent->modifiers() & Qt::KeypadModifier) s = "Num+" + s;
-        else if (!key.isEmpty() && shiftedKeys.contains(key)) {
-            s.remove("Shift+");
-            s = s.left(s.size() - 1) + QString("Shift+%1").arg(key);
-        }
 
         QKeySequence seq(QKeySequence::fromString(s));
         setKeySequence(seq);
