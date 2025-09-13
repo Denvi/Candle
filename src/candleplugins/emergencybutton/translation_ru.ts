@@ -8,4 +8,11 @@
         <translation>Аварийная кнопка</translation>
     </message>   
     </context>
+    <context>
+    <name>EmergencyButton</name>
+    <message>
+        <source>Emergency button</source>
+        <translation>Аварийная кнопка</translation>
+    </message>   
+    </context>    
 </TS>

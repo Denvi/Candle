@@ -436,6 +436,64 @@
     </layout>
    </item>
   </layout>
+  <action name="actCoordinateSystemG54">
+   <property name="text">
+    <string>G54 coordinate system</string>
+   </property>
+   <property name="toolTip">
+    <string>G54 coordinate system</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemG55">
+   <property name="text">
+    <string>G55 coordinate system</string>
+   </property>
+   <property name="toolTip">
+    <string>G55 coordinate system</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemG56">
+   <property name="text">
+    <string>G56 coordinate system</string>
+   </property>
+   <property name="toolTip">
+    <string>G56 coordinate system</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemG57">
+   <property name="text">
+    <string>G57 coordinate system</string>
+   </property>
+   <property name="toolTip">
+    <string>G57 coordinate system</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemZeroX">
+   <property name="text">
+    <string>Zero X</string>
+   </property>
+   <property name="toolTip">
+    <string>Zero X</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemZeroY">
+   <property name="text">
+    <string>Zero Y</string>
+   </property>
+   <property name="toolTip">
+    <string>Zero Y</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemZeroZ">
+   <property name="text">
+    <string>Zero Z</string>
+   </property>
+  </action>
+  <action name="actCoordinateSystemZeroAll">
+   <property name="text">
+    <string>Zero All</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -445,5 +503,134 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actCoordinateSystemG54</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdG54</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>41</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemG55</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdG55</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>130</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemG56</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdG56</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemG57</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdG57</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>308</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemZeroX</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdX0</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>41</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemZeroY</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdY0</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>130</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemZeroZ</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdZ0</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actCoordinateSystemZeroAll</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdAll0</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>308</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
