@@ -6,29 +6,45 @@
     <message>
         <source>Coordinate system</source>
         <translation>Система координат</translation>
-    </message>   
+    </message>
     </context>
     <context>
     <name>CoordinateSystem</name>
     <message>
         <source>Offsets:</source>
         <translation>Смещения:</translation>
-    </message>          
+    </message>
     <message>
         <source>Zero X</source>
         <translation>Обнулить X</translation>
-    </message>          
+    </message>
     <message>
         <source>Zero Y</source>
         <translation>Обнулить Y</translation>
-    </message>          
+    </message>
     <message>
         <source>Zero Z</source>
         <translation>Обнулить Z</translation>
-    </message>          
+    </message>
     <message>
         <source>Zero All</source>
         <translation>Обнулить все</translation>
-    </message>          
+    </message>
+    <message>
+        <source>G54 coordinate system</source>
+        <translation>Система координат G54</translation>
+    </message>
+    <message>
+        <source>G55 coordinate system</source>
+        <translation>Система координат G55</translation>
+    </message>
+    <message>
+        <source>G56 coordinate system</source>
+        <translation>Система координат G56</translation>
+    </message>
+    <message>
+        <source>G57 coordinate system</source>
+        <translation>Система координат G57</translation>
+    </message>
 </context>
 </TS>
