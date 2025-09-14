@@ -184,11 +184,11 @@ function onAppDeviceStateChanged(status)
     var lay = uiPanel.verticalLayout.layButtons;
 
     for (var i = 0; i < t.rowCount; i++) {
-        lay.itemAt(i).widget().setEnabled(status != -1);
+        lay.itemAt(i).widget().setEnabled(status == 1);
     }
 
     for (var i = 0; i < storedActions.length; i++) {
-        storedActions[i].setEnabled(status != -1);
+        storedActions[i].setEnabled(status == 1);
     }
 
     deviceState = status;
