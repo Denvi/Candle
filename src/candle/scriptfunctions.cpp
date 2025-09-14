@@ -26,9 +26,13 @@ void ScriptFunctions::sendCommands(QStringList commands, int index)
     m_frmMain->sendCommands(commands.join("\n"), index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
+void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole, bool direct)
 {
-    m_frmMain->sendCommand(command, index, showInConsole);
+    if (direct) {
+        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
+    } else {
+        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
+    }
 }
 
 void ScriptFunctions::waitResponses()

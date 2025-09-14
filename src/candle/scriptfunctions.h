@@ -20,9 +20,9 @@ public:
 public slots:
     void sendCommands(QString commands, int index = -100);
     void sendCommands(QStringList commands, int index = -100);
-    void sendCommand(QString command, int index = -100, bool showInConsole = true);
+    void sendCommand(QString command, int index = -100, bool showInConsole = true, bool direct = false);
     void waitResponses();
-    
+
     void newFile();
     void loadFile(QString fileName);
     void loadFile(QVariantList data);
