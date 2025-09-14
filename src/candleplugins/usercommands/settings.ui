@@ -40,20 +40,12 @@
      <property name="gridStyle">
       <enum>Qt::DashLine</enum>
      </property>
-     <property name="rowCount">
-      <number>1</number>
-     </property>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
      <attribute name="verticalHeaderDefaultSectionSize">
       <number>100</number>
      </attribute>
-     <row>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </row>
      <column>
       <property name="text">
        <string>Hint</string>
@@ -66,7 +58,12 @@
      </column>
      <column>
       <property name="text">
-       <string>G-code</string>
+       <string>Type</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Code</string>
       </property>
      </column>
     </widget>

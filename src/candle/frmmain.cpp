@@ -1557,6 +1557,41 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
     ui->glwVisualizer->setUpdatesEnabled(visible);
 }
 
+void frmMain::on_cmdScriptStart_clicked()
+{
+    QScriptEngine se;
+
+    // Delegate import extension function
+    QScriptValue sv = se.newObject();
+    sv.setProperty("importExtension", se.newFunction(frmMain::importExtension));
+    se.globalObject().setProperty("script", sv);
+    se.setObjectName("script");
+
+    // Delegate objects
+    // Main form
+    QScriptValue app = se.newQObject(&m_scriptFunctions);
+    app.setProperty("path", qApp->applicationDirPath());
+    se.globalObject().setProperty("app", app);
+
+    // Settings
+    QScriptValue settings = se.newQObject(m_settings);
+    app.setProperty("settings", settings);
+
+    // Stored vars
+    QScriptValue vars = se.newQObject(&m_storedVars);
+    se.globalObject().setProperty("vars", vars);
+
+    // Translator
+    se.installTranslatorFunctions();
+
+    // Evaluate script
+    sv = se.evaluate(ui->txtScript->toPlainText());
+
+    if (sv.isError()) {
+        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    }
+}
+
 void frmMain::onSerialPortReadyRead()
 {
     while (m_serialPort.canReadLine()) {
@@ -3127,7 +3162,7 @@ void frmMain::loadPlugins()
             app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
 
-            // // Settings
+            // Settings
             QScriptValue settings = se->newQObject(m_settings);
             app.setProperty("settings", settings);
 
@@ -3360,7 +3395,7 @@ void frmMain::sendCommands(QString commands, int tableIndex)
 {
     QStringList list = commands.split("\n");
 
-    bool q = false;
+    bool q = m_queue.size();
     foreach (QString cmd, list) {
         SendCommandResult r = sendCommand(cmd.trimmed(), tableIndex, m_settings->showUICommands(), q);
         if (r == SendDone || r == SendQueue) q = true;

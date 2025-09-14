@@ -20,6 +20,11 @@ void ScriptFunctions::sendCommands(QString commands, int index)
     m_frmMain->sendCommands(commands, index);
 }
 
+void ScriptFunctions::sendCommands(QStringList commands, int index)
+{
+    m_frmMain->sendCommands(commands.join("\n"), index);
+}
+
 void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
 {
     m_frmMain->sendCommand(command, index, showInConsole);

@@ -2776,7 +2776,7 @@ padding-right: 8;</string>
           <x>0</x>
           <y>0</y>
           <width>240</width>
-          <height>85</height>
+          <height>170</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2835,6 +2835,51 @@ padding-right: 8;</string>
         </layout>
        </widget>
       </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="windowTitle">
+    <string>Script</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_6">
+    <layout class="QVBoxLayout" name="verticalLayout_25">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="ScriptEdit" name="txtScript"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cmdScriptStart">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -3214,6 +3259,11 @@ padding-right: 8;</string>
    <extends>QWidget</extends>
    <header>widgets/dropwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ScriptEdit</class>
+   <extends>QTextEdit</extends>
+   <header>scriptedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
