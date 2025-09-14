@@ -42,6 +42,16 @@ void ScriptFunctions::waitResponses()
     }
 }
 
+void ScriptFunctions::storeParserState()
+{
+    m_frmMain->storeParserState();
+}
+
+void ScriptFunctions::restoreParserState()
+{
+    m_frmMain->restoreParserState();
+}
+
 void ScriptFunctions::newFile()
 {
     m_frmMain->newFile();

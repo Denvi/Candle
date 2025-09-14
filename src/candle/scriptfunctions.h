@@ -23,6 +23,9 @@ public slots:
     void sendCommand(QString command, int index = -100, bool showInConsole = true, bool direct = false);
     void waitResponses();
 
+    void storeParserState();
+    void restoreParserState();
+
     void newFile();
     void loadFile(QString fileName);
     void loadFile(QVariantList data);
