@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1469</width>
-    <height>1260</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -320,7 +320,7 @@ QLabel[overrided=&quot;false&quot;] {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1469</width>
+     <width>1920</width>
      <height>26</height>
     </rect>
    </property>
@@ -397,7 +397,7 @@ QLabel[overrided=&quot;false&quot;] {
     <string>Modification</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -420,7 +420,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>214</width>
+          <width>238</width>
           <height>703</height>
          </rect>
         </property>
@@ -1223,7 +1223,7 @@ QLabel[overrided=&quot;false&quot;] {
     <string>Device</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1246,7 +1246,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>240</width>
+          <width>271</width>
           <height>789</height>
          </rect>
         </property>
@@ -2574,7 +2574,7 @@ QLabel[overrided=&quot;false&quot;] {
     <string>Console</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>8</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_4">
     <layout class="QVBoxLayout" name="verticalLayout_24">
@@ -2752,7 +2752,7 @@ padding-right: 8;</string>
     <string>User</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_5">
     <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -2775,8 +2775,8 @@ padding-right: 8;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>240</width>
-          <height>170</height>
+          <width>292</width>
+          <height>85</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2839,12 +2839,12 @@ padding-right: 8;</string>
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="dockWidget">
+  <widget class="QDockWidget" name="dockScript">
    <property name="windowTitle">
     <string>Script</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>8</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_6">
     <layout class="QVBoxLayout" name="verticalLayout_25">

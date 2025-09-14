@@ -18,6 +18,7 @@
 #include <QMimeData>
 #include <QTranslator>
 #include <QScriptValueIterator>
+#include <QSplitter>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
@@ -2775,17 +2776,19 @@ void frmMain::loadSettings()
     }
 
     // Restore main window state
-    auto formGeometry = set.value("formGeometry", QByteArray::fromBase64(
-        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray();
+    auto formGeometry = set.value("formGeometry").toByteArray();
+    auto formState = set.value("formMainState").toByteArray();
 
-    auto formState = set.value("formMainState", QByteArray::fromBase64(
-        "AAAA/wAAAAD9AAAAAwAAAAAAAADiAAADvPwCAAAAAfsAAAAgAGQAbwBjAGsATQBvAGQAaQBmAGkAYwBhAHQAaQBvAG4BAAAAHQAAA7wAAABuAP\
-        ///wAAAAEAAAPJAAADvPwCAAAAAvwAAAAdAAADvAAAAG4A/////AEAAAAD+wAAABYAZABvAGMAawBDAG8AbgBzAG8AbABlAQAAA6gAAAHRAAAAb\
-        gD////7AAAAEABkAG8AYwBrAFUAcwBlAHIBAAAFkwAAAOIAAADiAAAA+PsAAAAUAGQAbwBjAGsARABlAHYAaQBjAGUBAAAGjwAAAOIAAADiAAAA\
-        8/sAAAAgAGQAbwBjAGsAQwBhAG0AZQByAGEAUABsAHUAZwBpAG4AAAAEsgAAADoAAAApAP///wAAAAIAAAKIAAAB2fwBAAAAAfsAAAAcAGQAbwB\
-        jAGsAVgBpAHMAdQBhAGwAaQB6AGUAcgEAAAEGAAACiAAAAFQA////AAACiAAAAckAAAABAAAAAgAAAAEAAAAC/AAAAAMAAAAAAAAAAQAAABYAXw\
-        BzAHAAYQBjAGUAcgBMAGUAZgB0AwAAAAD/////AAAAAAAAAAAAAAABAAAAAQAAABgAXwBzAHAAYQBjAGUAcgBSAGkAZwBoAHQDAAAAAP////8AA\
-        AAAAAAAAAAAAAIAAAABAAAAFABfAHMAcABhAGMAZQByAFQAbwBwAQAAAAD/////AAAAAAAAAAA=")).toByteArray();
+    if (!formState.size()) {
+        ui->dockScript->setVisible(false);
+
+        auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
+        if (cameraDock) cameraDock->setVisible(false);
+
+        resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
+        splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
+        splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
+    }
 
     if (set.value("formMaximized", false).toBool())
     {
