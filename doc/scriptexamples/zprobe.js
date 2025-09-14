@@ -1,0 +1,11 @@
+app.storeParserState();
+app.sendCommands([
+    "G21G91",
+    "G38.2Z-30F100",
+    "G0Z1",
+    "G38.2Z-2F10",
+    "G92Z0",
+    "G91G0Z5"
+]);
+app.waitResponses();
+app.restoreParserState();

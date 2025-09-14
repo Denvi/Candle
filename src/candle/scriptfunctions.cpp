@@ -1,5 +1,6 @@
 #include "scriptfunctions.h"
 #include "frmmain.h"
+#include <QApplication>
 
 ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
 {
@@ -20,9 +21,35 @@ void ScriptFunctions::sendCommands(QString commands, int index)
     m_frmMain->sendCommands(commands, index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
+void ScriptFunctions::sendCommands(QStringList commands, int index)
 {
-    m_frmMain->sendCommand(command, index, showInConsole);
+    m_frmMain->sendCommands(commands.join("\n"), index);
+}
+
+void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole, bool direct)
+{
+    if (direct) {
+        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
+    } else {
+        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
+    }
+}
+
+void ScriptFunctions::waitResponses()
+{
+    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
+        QApplication::processEvents();
+    }
+}
+
+void ScriptFunctions::storeParserState()
+{
+    m_frmMain->storeParserState();
+}
+
+void ScriptFunctions::restoreParserState()
+{
+    m_frmMain->restoreParserState();
 }
 
 void ScriptFunctions::newFile()

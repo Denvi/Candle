@@ -18,6 +18,7 @@
 #include <QMimeData>
 #include <QTranslator>
 #include <QScriptValueIterator>
+#include <QSplitter>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
@@ -1557,6 +1558,58 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
     ui->glwVisualizer->setUpdatesEnabled(visible);
 }
 
+void frmMain::on_cmdScriptStart_clicked()
+{
+    QScriptEngine se;
+
+    // Delegate import extension function
+    QScriptValue sv = se.newObject();
+    sv.setProperty("importExtension", se.newFunction(frmMain::importExtension));
+    se.globalObject().setProperty("script", sv);
+    se.setObjectName("script");
+
+    // Delegate objects
+    // Main form
+    QScriptValue app = se.newQObject(&m_scriptFunctions);
+    app.setProperty("path", qApp->applicationDirPath());
+    se.globalObject().setProperty("app", app);
+
+    // Settings
+    QScriptValue settings = se.newQObject(m_settings);
+    app.setProperty("settings", settings);
+
+    // Stored vars
+    QScriptValue vars = se.newQObject(&m_storedVars);
+    se.globalObject().setProperty("vars", vars);
+
+    // Translator
+    se.installTranslatorFunctions();
+
+    // Evaluate script
+    sv = se.evaluate(ui->txtScript->toPlainText());
+
+    if (sv.isError()) {
+        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    }
+}
+
+void frmMain::on_cmdScriptOpen_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QString(), tr("Script files (*.js)"));
+
+    if (fileName != "") {
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+            return;
+        }
+
+        QTextStream textStream(&file);
+        ui->txtScript->setPlainText(textStream.readAll());
+    }    
+}
+
 void frmMain::onSerialPortReadyRead()
 {
     while (m_serialPort.canReadLine()) {
@@ -2740,17 +2793,19 @@ void frmMain::loadSettings()
     }
 
     // Restore main window state
-    auto formGeometry = set.value("formGeometry", QByteArray::fromBase64(
-        "AdnQywADAAAAAAAC/////gAAB34AAAP2AAAAAwAAAB0AAAd9AAAD9QAAAAAAAAAAB4AAAAADAAAAHQAAB30AAAP1")).toByteArray();
+    auto formGeometry = set.value("formGeometry").toByteArray();
+    auto formState = set.value("formMainState").toByteArray();
 
-    auto formState = set.value("formMainState", QByteArray::fromBase64(
-        "AAAA/wAAAAD9AAAAAwAAAAAAAADiAAADvPwCAAAAAfsAAAAgAGQAbwBjAGsATQBvAGQAaQBmAGkAYwBhAHQAaQBvAG4BAAAAHQAAA7wAAABuAP\
-        ///wAAAAEAAAPJAAADvPwCAAAAAvwAAAAdAAADvAAAAG4A/////AEAAAAD+wAAABYAZABvAGMAawBDAG8AbgBzAG8AbABlAQAAA6gAAAHRAAAAb\
-        gD////7AAAAEABkAG8AYwBrAFUAcwBlAHIBAAAFkwAAAOIAAADiAAAA+PsAAAAUAGQAbwBjAGsARABlAHYAaQBjAGUBAAAGjwAAAOIAAADiAAAA\
-        8/sAAAAgAGQAbwBjAGsAQwBhAG0AZQByAGEAUABsAHUAZwBpAG4AAAAEsgAAADoAAAApAP///wAAAAIAAAKIAAAB2fwBAAAAAfsAAAAcAGQAbwB\
-        jAGsAVgBpAHMAdQBhAGwAaQB6AGUAcgEAAAEGAAACiAAAAFQA////AAACiAAAAckAAAABAAAAAgAAAAEAAAAC/AAAAAMAAAAAAAAAAQAAABYAXw\
-        BzAHAAYQBjAGUAcgBMAGUAZgB0AwAAAAD/////AAAAAAAAAAAAAAABAAAAAQAAABgAXwBzAHAAYQBjAGUAcgBSAGkAZwBoAHQDAAAAAP////8AA\
-        AAAAAAAAAAAAAIAAAABAAAAFABfAHMAcABhAGMAZQByAFQAbwBwAQAAAAD/////AAAAAAAAAAA=")).toByteArray();
+    if (!formState.size()) {
+        ui->dockScript->setVisible(false);
+
+        auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
+        if (cameraDock) cameraDock->setVisible(false);
+
+        resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
+        splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
+        splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
+    }
 
     if (set.value("formMaximized", false).toBool())
     {
@@ -3127,7 +3182,7 @@ void frmMain::loadPlugins()
             app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
 
-            // // Settings
+            // Settings
             QScriptValue settings = se->newQObject(m_settings);
             app.setProperty("settings", settings);
 
@@ -3360,7 +3415,7 @@ void frmMain::sendCommands(QString commands, int tableIndex)
 {
     QStringList list = commands.split("\n");
 
-    bool q = false;
+    bool q = m_queue.size();
     foreach (QString cmd, list) {
         SendCommandResult r = sendCommand(cmd.trimmed(), tableIndex, m_settings->showUICommands(), q);
         if (r == SendDone || r == SendQueue) q = true;

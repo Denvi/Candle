@@ -781,6 +781,18 @@ Time elapsed: %1</source>
         <source>&amp;Logs</source>
         <translation>&amp;Журнал приложения</translation>
     </message>
+    <message>
+        <source>Script</source>
+        <translation>Скрипт</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Запустить</translation>
+    </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation>Файлы скриптов (*.js)</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

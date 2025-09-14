@@ -56,10 +56,11 @@ function createSettingsWidget()
         t.verticalHeader().defaultAlignment = Qt.AlignCenter;
         t.setItemDelegateForColumn(0, new CodeDelegate(t));
         t.setItemDelegateForColumn(1, new IconDelegate(t));
+        t.setItemDelegateForColumn(2, new TypeDelegate(t));
         var d = new CodeDelegate(t);
         d.alignment = Qt.AlignLeft | Qt.AlignTop;
         d.adjustHeight = true;
-        t.setItemDelegateForColumn(2, d);
+        t.setItemDelegateForColumn(3, d);
         t.minimumHeight = t.verticalHeader().defaultSectionSize * 4 + t.horizontalHeader().height + t.frameWidth * 2;
 
         uiSettings.cmdUp.clicked.connect(onCmdUpClicked);
@@ -82,7 +83,8 @@ function onCmdAddClicked()
 
     t.setItem(r, 0, h);
     t.setItem(r, 1, new QTableWidgetItem());
-    t.setItem(r, 2, new QTableWidgetItem("(Description: ...)\n(Params: ...)\n"));
+    t.setItem(r, 2, new QTableWidgetItem("0"));
+    t.setItem(r, 3, new QTableWidgetItem());
 
     t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);
 }
@@ -182,11 +184,11 @@ function onAppDeviceStateChanged(status)
     var lay = uiPanel.verticalLayout.layButtons;
 
     for (var i = 0; i < t.rowCount; i++) {
-        lay.itemAt(i).widget().setEnabled(status != -1);
+        lay.itemAt(i).widget().setEnabled(status == 1);
     }
 
     for (var i = 0; i < storedActions.length; i++) {
-        storedActions[i].setEnabled(status != -1);
+        storedActions[i].setEnabled(status == 1);
     }
 
     deviceState = status;
@@ -194,7 +196,14 @@ function onAppDeviceStateChanged(status)
 
 function onButtonClicked(button)
 {
-    app.sendCommands(uiSettings.tblButtons.item(button, 2).data(Qt.DisplayRole));
+    const type = uiSettings.tblButtons.item(button, 2).data(Qt.DisplayRole);
+    const code = uiSettings.tblButtons.item(button, 3).data(Qt.DisplayRole);
+
+    if (type == "0") {
+        app.sendCommands(code);
+    } else {
+        eval(code);
+    }
 }
 
 function storeButtonsTable()
@@ -204,9 +213,11 @@ function storeButtonsTable()
 
     for (var i = 0; i < t.rowCount; i++) {
         var q = new Array();
-        for (var j = 0; j < 3; j++) {
-            q.push(t.item(i, j).data(Qt.DisplayRole));
-        }
+        q.push(t.item(i, 0).data(Qt.DisplayRole));
+        q.push(t.item(i, 1).data(Qt.DisplayRole));
+        // Place code at index of 2
+        q.push(t.item(i, 3).data(Qt.DisplayRole));
+        q.push(t.item(i, 2).data(Qt.DisplayRole));
         b.push(q);
     }
 
@@ -228,7 +239,13 @@ function restoreButtonsTable(b)
                     c = new QIcon(pluginPath + "/images/" + b[i][j]);
                     q.setData(Qt.DecorationRole, c);
                 }
-                t.setItem(t.rowCount - 1, j, q);
+                // Swap type/code indexes
+                t.setItem(t.rowCount - 1, j == 3 ? 2 : (j == 2 ? 3 : j), q);
+            }
+            if (b[i].length < 4) {
+                var q = new QTableWidgetItem();
+                q.setText("0");
+                t.setItem(t.rowCount - 1, 2, q);
             }
         }
         t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);
@@ -388,9 +405,13 @@ CodeDelegate.prototype = new QStyledItemDelegate();
 
 CodeDelegate.prototype.createEditor = function(parent, option, index)
 {
-    var b = new QTextEdit(parent);
+    var t = uiSettings.tblButtons;
 
-    return b;
+    if (t.item(index.row(), 2).data(Qt.DisplayRole) == "0") {
+        return new QTextEdit(parent);
+    } else {
+        return new ScriptEdit(parent);
+    }
 }
 
 CodeDelegate.prototype.setEditorData = function(editor, index)
@@ -442,6 +463,62 @@ CodeDelegate.prototype.paint = function(painter, option, index)
         }
     
         painter.drawText(r, this.alignment | 0, s, r);
+    }
+    
+    if (option.state() & QStyle.State_HasFocus) {
+        var p = new QPen();
+        p.setStyle(Qt.DotLine);
+        painter.setPen(p);
+        painter.drawRect(option.rect().adjusted(1, 0, -2, -1));
+    }
+}
+
+// Type cell delegate
+function TypeDelegate(parent)
+{
+    QStyledItemDelegate.call(this, parent);
+
+    this.alignment = Qt.AlignCenter;
+}
+
+TypeDelegate.prototype = new QStyledItemDelegate();
+
+TypeDelegate.prototype.createEditor = function(parent, option, index)
+{
+    var b = new QComboBox(parent);
+
+    b.addItem(qsTr("G-code"));
+    b.addItem(qsTr("Script"));
+
+    return b;
+}
+
+TypeDelegate.prototype.setEditorData = function(editor, index)
+{
+    editor.currentIndex = index.data();
+}
+
+TypeDelegate.prototype.setModelData = function(editor, model, index)
+{
+    model.setData(index, editor.currentIndex);
+}
+
+TypeDelegate.prototype.updateEditorGeometry = function(editor, option, index)
+{
+    editor.geometry = option.rect();
+}
+
+TypeDelegate.prototype.paint = function(painter, option, index)
+{
+    var q = index.data() == "0" ? qsTr("G-code") : qsTr("Script");
+    
+    if (option.state() & QStyle.State_Selected) {
+        painter.fillRect(option.rect(), new QColor(0xcdcdff));
+    }
+
+    if (q) {
+        var r = option.rect().adjusted(4, 4, -4, -4);
+        painter.drawText(r, this.alignment | 0, q, r);
     }
     
     if (option.state() & QStyle.State_HasFocus) {
