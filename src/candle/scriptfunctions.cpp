@@ -1,5 +1,6 @@
 #include "scriptfunctions.h"
 #include "frmmain.h"
+#include <QApplication>
 
 ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
 {
@@ -28,6 +29,13 @@ void ScriptFunctions::sendCommands(QStringList commands, int index)
 void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole)
 {
     m_frmMain->sendCommand(command, index, showInConsole);
+}
+
+void ScriptFunctions::waitResponses()
+{
+    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
+        QApplication::processEvents();
+    }
 }
 
 void ScriptFunctions::newFile()
