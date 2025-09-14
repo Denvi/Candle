@@ -786,6 +786,10 @@ Tempo transcorrido: %1</translation>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

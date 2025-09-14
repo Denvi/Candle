@@ -216,6 +216,7 @@ private slots:
     void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
     void on_cmdScriptStart_clicked();
+    void on_cmdScriptOpen_clicked();
 
     void onSerialPortReadyRead();
     void onSerialPortError(QSerialPort::SerialPortError);

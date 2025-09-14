@@ -1593,6 +1593,23 @@ void frmMain::on_cmdScriptStart_clicked()
     }
 }
 
+void frmMain::on_cmdScriptOpen_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QString(), tr("Script files (*.js)"));
+
+    if (fileName != "") {
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+            return;
+        }
+
+        QTextStream textStream(&file);
+        ui->txtScript->setPlainText(textStream.readAll());
+    }    
+}
+
 void frmMain::onSerialPortReadyRead()
 {
     while (m_serialPort.canReadLine()) {

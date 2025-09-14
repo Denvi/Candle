@@ -784,6 +784,10 @@ Time elapsed: %1</source>
         <source>Start</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

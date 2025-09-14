@@ -789,6 +789,10 @@ Time elapsed: %1</source>
         <source>Start</source>
         <translation>Запустить</translation>
     </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation>Файлы скриптов (*.js)</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
