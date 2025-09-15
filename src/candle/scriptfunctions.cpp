@@ -121,3 +121,13 @@ QWidget* ScriptFunctions::window()
 {
     return m_frmMain;
 }
+
+bool ScriptFunctions::saveChanges()
+{
+    return m_frmMain->saveChanges(false);
+}
+
+void ScriptFunctions::loadProgram(QStringList program)
+{
+    m_frmMain->loadFile(program);
+}

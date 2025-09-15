@@ -19,7 +19,7 @@ class ScriptFunctions: public QObject
 
 public:
     ScriptFunctions(QObject *parent = 0);
-    
+
     void setFrmMain(frmMain *f);
     frmMain *getFrmMain();
 
@@ -37,9 +37,12 @@ public slots:
     void loadFile(QVariantList data);
     bool saveFile();
     void saveFile(QString fileName);
-    
+
     void addAction(QAction *action);
-    void removeAction(QAction *action);   
+    void removeAction(QAction *action);
+
+    bool saveChanges();
+    void loadProgram(QStringList program);
 
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
