@@ -1350,18 +1350,16 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     } else {
         m_probeParser.reset();
         if (!ui->chkHeightMapUse->isChecked()) {
-            ui->tblProgram->setModel(&m_programModel);
-            connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
-            ui->tblProgram->selectRow(0);
-
-            resizeTableHeightMapSections();
             m_currentModel = &m_programModel;
             m_currentDrawer = m_codeDrawer;
 
-            if (!ui->chkHeightMapUse->isChecked()) {
-                ui->glwVisualizer->updateBounds(m_codeDrawer);
-                updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
-            }
+            ui->tblProgram->setModel(&m_programModel);
+            connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this,
+                SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+            ui->tblProgram->selectRow(0);
+
+            ui->glwVisualizer->updateBounds(m_codeDrawer);
+            updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
         }
     }
 
@@ -4203,9 +4201,11 @@ bool frmMain::updateHeightMapGrid()
     m_probeModel.clear();
     m_probeModel.insertRow(0);
 
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1G0Z%2").
-                         arg(ui->txtHeightMapProbeFeed->value()).arg(ui->txtHeightMapGridZTop->value()));
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1")
+                         .arg(ui->txtHeightMapProbeFeed->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0"));
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
+                         .arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
                          .arg(ui->txtHeightMapGridZBottom->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
