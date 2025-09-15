@@ -1,6 +1,7 @@
 #include "scriptfunctions.h"
 #include "frmmain.h"
 #include <QApplication>
+#include "loggingcategories.h"
 
 ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
 {
@@ -134,6 +135,10 @@ void ScriptFunctions::removeAction(QAction *action)
 
 void ScriptFunctions::loadProgram(QStringList program)
 {
+    if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
+        qInfo(scriptLogCategory) << "Can't load program while sender is streaming";
+        return;
+    }
     if (!m_frmMain->saveChanges(false)) return;
 
     m_frmMain->newFile();
