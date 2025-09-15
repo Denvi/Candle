@@ -75,17 +75,6 @@
     </message>
 </context>
 <context>
-    <name>frmLog</name>
-    <message>
-        <source>OK</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>frmMain</name>
     <message>
         <source>Check</source>
@@ -786,6 +775,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Script files (*.js)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Log</source>
         <translation></translation>
     </message>
 </context>

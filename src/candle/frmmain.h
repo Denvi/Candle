@@ -42,7 +42,6 @@
 
 #include "frmsettings.h"
 #include "frmabout.h"
-#include "frmlog.h"
 
 #include "scriptvars.h"
 #include "scriptfunctions.h"
@@ -135,7 +134,6 @@ private slots:
     void on_actFileSaveTransformedAs_triggered();
     void on_actRecentClear_triggered();
     void on_actFileExit_triggered();
-    void on_actServiceLogs_triggered();
     void on_actServiceSettings_triggered();
     void on_actHelpAbout_triggered();
     void on_actHelpDocumentation_triggered();
@@ -342,7 +340,6 @@ private:
     // Forms
     frmSettings *m_settings;
     frmAbout *m_about;
-    frmLog *m_log;
 
     // Filenames
     QString m_settingsFileName;

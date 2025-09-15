@@ -75,17 +75,6 @@
     </message>
 </context>
 <context>
-    <name>frmLog</name>
-    <message>
-        <source>OK</source>
-        <translation>ОК</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Журнал приложения</translation>
-    </message>
-</context>
-<context>
     <name>frmMain</name>
     <message>
         <source>G-code program</source>
@@ -792,6 +781,10 @@ Time elapsed: %1</source>
     <message>
         <source>Script files (*.js)</source>
         <translation>Файлы скриптов (*.js)</translation>
+    </message>
+    <message>
+        <source>Log</source>
+        <translation>Журнал приложения</translation>
     </message>
 </context>
 <context>

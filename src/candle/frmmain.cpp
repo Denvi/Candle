@@ -116,7 +116,6 @@ frmMain::frmMain(QWidget *parent) :
 
     m_settings = new frmSettings(this);
     m_about = new frmAbout(this);
-    m_log = new frmLog(this);
 
     ui->setupUi(this);
 
@@ -556,11 +555,6 @@ void frmMain::on_actRecentClear_triggered()
 void frmMain::on_actFileExit_triggered()
 {
     close();
-}
-
-void frmMain::on_actServiceLogs_triggered()
-{
-    m_log->show();
 }
 
 void frmMain::on_actServiceSettings_triggered()
@@ -2798,6 +2792,7 @@ void frmMain::loadSettings()
 
     if (!formState.size()) {
         ui->dockScript->setVisible(false);
+        ui->dockLog->setVisible(false);
 
         auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
         if (cameraDock) cameraDock->setVisible(false);
