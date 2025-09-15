@@ -1130,6 +1130,14 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     args = m_programModel.data().at(i).args;
                     newCommand.clear();
 
+                    // Prevent G53 commands from modification
+                    if (args.contains("G53") || args.contains("g53")) {
+                        newCommand = args.join("");
+                        item.command = command;
+                        m_programHeightmapModel.data().append(item);
+                        continue;
+                    }
+
                     // Parse command args
                     foreach (QString arg, args) {                   // arg examples: G1, G2, M3, X100...
                         codeChar = arg.at(0).toLatin1();            // codeChar: G, M, X...
