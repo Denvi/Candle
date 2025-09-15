@@ -1,4 +1,4 @@
-﻿if (app.senderState == 4 && app.saveChanges()) {
+﻿if (app.senderState == 4) {
     app.loadProgram([
         "G21G90",
         "G0X0Y0Z0",
