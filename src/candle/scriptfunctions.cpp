@@ -132,12 +132,12 @@ void ScriptFunctions::removeAction(QAction *action)
     m_frmMain->removeAction(action);
 }
 
-bool ScriptFunctions::saveChanges()
-{
-    return m_frmMain->saveChanges(false);
-}
-
 void ScriptFunctions::loadProgram(QStringList program)
 {
+    if (!m_frmMain->saveChanges(false)) return;
+
+    m_frmMain->newFile();
     m_frmMain->loadFile(program);
+
+    m_frmMain->m_fileChanged = true;
 }

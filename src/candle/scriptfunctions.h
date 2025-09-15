@@ -43,7 +43,6 @@ public slots:
     void addAction(QAction *action);
     void removeAction(QAction *action);
 
-    bool saveChanges();
     void loadProgram(QStringList program);
 
 signals:
