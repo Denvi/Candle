@@ -116,3 +116,8 @@ void ScriptFunctions::removeAction(QAction *action)
 {
     m_frmMain->removeAction(action);
 }
+
+QWidget* ScriptFunctions::window()
+{
+    return m_frmMain;
+}
