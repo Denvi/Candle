@@ -68,7 +68,13 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
     stopViewAnimation();
 
     if (drawable != NULL) {
-        updateBounds(drawable);
+        m_viewLowerBounds = Util::nAssign(drawable->getViewLowerBounds());
+        m_viewUpperBounds = Util::nAssign(drawable->getViewUpperBounds());
+        m_viewRanges = drawable->getViewRanges();
+
+        m_modelLowerBounds = Util::nAssign(drawable->getModelLowerBounds());
+        m_modelUpperBounds = Util::nAssign(drawable->getModelUpperBounds());
+        m_modelRanges = drawable->getModelRanges();
 
         double a = m_viewRanges.y() / 2 / 0.25 * 1.3
                 + (m_viewUpperBounds - m_viewLowerBounds).z() / 2;
@@ -103,12 +109,8 @@ void GLWidget::fitDrawable(ShaderDrawable *drawable)
     updateView();
 }
 
-void GLWidget::updateBounds(ShaderDrawable *drawable)
+void GLWidget::updateModelBounds(ShaderDrawable *drawable)
 {
-    m_viewLowerBounds = Util::nAssign(drawable->getViewLowerBounds());
-    m_viewUpperBounds = Util::nAssign(drawable->getViewUpperBounds());
-    m_viewRanges = drawable->getViewRanges();
-
     m_modelLowerBounds = Util::nAssign(drawable->getModelLowerBounds());
     m_modelUpperBounds = Util::nAssign(drawable->getModelUpperBounds());
     m_modelRanges = drawable->getModelRanges();
