@@ -116,7 +116,6 @@ frmMain::frmMain(QWidget *parent) :
 
     m_settings = new frmSettings(this);
     m_about = new frmAbout(this);
-    m_log = new frmLog(this);
 
     ui->setupUi(this);
 
@@ -494,6 +493,21 @@ void frmMain::on_actFileOpen_triggered()
     on_cmdFileOpen_clicked();
 }
 
+void frmMain::on_actFileReload_triggered()
+{
+    if (!m_heightMapMode) {
+        if (!saveChanges(false)) return;
+        if (m_programFileName != "") {
+            loadFile(m_programFileName);
+        }
+    } else {
+        if (!saveChanges(true)) return;
+        if (m_heightMapFileName != "") {
+            loadHeightMap(m_heightMapFileName);
+        }
+    }
+}
+
 void frmMain::on_actFileSave_triggered()
 {
     if (!m_heightMapMode) {
@@ -556,11 +570,6 @@ void frmMain::on_actRecentClear_triggered()
 void frmMain::on_actFileExit_triggered()
 {
     close();
-}
-
-void frmMain::on_actServiceLogs_triggered()
-{
-    m_log->show();
 }
 
 void frmMain::on_actServiceSettings_triggered()
@@ -2706,19 +2715,19 @@ void frmMain::loadSettings()
     ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
     ui->txtHeightMapBorderWidth->setValue(set.value("heightmapBorderWidth", 1).toDouble());
     ui->txtHeightMapBorderHeight->setValue(set.value("heightmapBorderHeight", 1).toDouble());
-    ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", false).toBool());
+    ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", true).toBool());
 
     ui->txtHeightMapGridX->setValue(set.value("heightmapGridX", 1).toDouble());
     ui->txtHeightMapGridY->setValue(set.value("heightmapGridY", 1).toDouble());
     ui->txtHeightMapGridZTop->setValue(set.value("heightmapGridZTop", 1).toDouble());
     ui->txtHeightMapGridZBottom->setValue(set.value("heightmapGridZBottom", -1).toDouble());
     ui->txtHeightMapProbeFeed->setValue(set.value("heightmapProbeFeed", 10).toDouble());
-    ui->chkHeightMapGridShow->setChecked(set.value("heightmapGridShow", false).toBool());
+    ui->chkHeightMapGridShow->setChecked(set.value("heightmapGridShow", true).toBool());
 
     ui->txtHeightMapInterpolationStepX->setValue(set.value("heightmapInterpolationStepX", 1).toDouble());
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
-    ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", false).toBool());
+    ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", true).toBool());
 
     ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
 
@@ -2798,6 +2807,7 @@ void frmMain::loadSettings()
 
     if (!formState.size()) {
         ui->dockScript->setVisible(false);
+        ui->dockLog->setVisible(false);
 
         auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
         if (cameraDock) cameraDock->setVisible(false);
@@ -3976,6 +3986,8 @@ void frmMain::updateControlsState() {
 
     ui->actFileNew->setEnabled(m_senderState == SenderStopped);
     ui->actFileOpen->setEnabled(m_senderState == SenderStopped);
+    ui->actFileReload->setEnabled(m_senderState == SenderStopped
+        && (m_heightMapMode ? !m_heightMapFileName.isEmpty(): !m_programFileName.isEmpty()));
     ui->cmdFileOpen->setEnabled(m_senderState == SenderStopped);
     ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1);

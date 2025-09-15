@@ -107,6 +107,21 @@ int ScriptFunctions::buttonSize()
     return m_frmMain->buttonSize();
 }
 
+QWidget* ScriptFunctions::window()
+{
+    return m_frmMain;
+}
+
+int ScriptFunctions::senderState()
+{
+    return m_frmMain->m_senderState;
+}
+
+int ScriptFunctions::deviceState()
+{
+    return m_frmMain->m_deviceState;
+}
+
 void ScriptFunctions::addAction(QAction *action)
 {
     m_frmMain->addAction(action);
@@ -115,4 +130,14 @@ void ScriptFunctions::addAction(QAction *action)
 void ScriptFunctions::removeAction(QAction *action)
 {
     m_frmMain->removeAction(action);
+}
+
+bool ScriptFunctions::saveChanges()
+{
+    return m_frmMain->saveChanges(false);
+}
+
+void ScriptFunctions::loadProgram(QStringList program)
+{
+    m_frmMain->loadFile(program);
 }

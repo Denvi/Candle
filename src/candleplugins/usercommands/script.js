@@ -138,7 +138,7 @@ function onCmdDownClicked()
 
 function onAppSettingsLoaded()
 {
-    buttonSize = app.buttonSize();
+    buttonSize = app.buttonSize;
 
     var settings = new QSettings();
     settings.beginGroup(pluginName);

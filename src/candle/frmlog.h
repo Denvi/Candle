@@ -2,13 +2,13 @@
 // Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #pragma once
-#include <QDialog>
+#include <QWidget>
 
 namespace Ui {
 class frmLog;
 }
 
-class frmLog : public QDialog
+class frmLog : public QWidget
 {
     Q_OBJECT
 
@@ -20,7 +20,6 @@ private:
     void loadLogFile();
 
 private slots:
-    void on_cmdOk_clicked();
     void onLogFileChanged(const QString &path);
 
 private:

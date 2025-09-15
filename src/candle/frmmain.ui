@@ -46,6 +46,11 @@ QDockWidget[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget {
 	margin-right: 11;
 }
 
+#dockLog[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget&gt;QWidget {
+	margin-left: 11;
+	margin-right: 11;
+}
+
 QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
 	border: none;
 	background-color: transparent;
@@ -337,6 +342,7 @@ QLabel[overrided=&quot;false&quot;] {
     </widget>
     <addaction name="actFileNew"/>
     <addaction name="actFileOpen"/>
+    <addaction name="actFileReload"/>
     <addaction name="mnuRecent"/>
     <addaction name="separator"/>
     <addaction name="actFileSave"/>
@@ -350,8 +356,6 @@ QLabel[overrided=&quot;false&quot;] {
      <string>&amp;Service</string>
     </property>
     <addaction name="actServiceSettings"/>
-    <addaction name="separator"/>
-    <addaction name="actServiceLogs"/>
    </widget>
    <widget class="QMenu" name="mnuHelp">
     <property name="title">
@@ -420,7 +424,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
+          <width>214</width>
           <height>703</height>
          </rect>
         </property>
@@ -1246,7 +1250,7 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>271</width>
+          <width>240</width>
           <height>789</height>
          </rect>
         </property>
@@ -2775,7 +2779,7 @@ padding-right: 8;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>292</width>
+          <width>258</width>
           <height>85</height>
          </rect>
         </property>
@@ -2887,6 +2891,30 @@ padding-right: 8;</string>
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockLog">
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="windowTitle">
+    <string>Log</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_7">
+    <layout class="QVBoxLayout" name="verticalLayout_26">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="frmLog" name="wdgLog" native="true"/>
      </item>
     </layout>
    </widget>
@@ -3229,6 +3257,11 @@ padding-right: 8;</string>
     <string>&amp;Logs</string>
    </property>
   </action>
+  <action name="actFileReload">
+   <property name="text">
+    <string>&amp;Reload</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -3271,6 +3304,12 @@ padding-right: 8;</string>
    <class>ScriptEdit</class>
    <extends>QTextEdit</extends>
    <header>scriptedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>frmLog</class>
+   <extends>QWidget</extends>
+   <header>frmlog.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

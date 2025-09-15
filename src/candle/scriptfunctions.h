@@ -11,9 +11,17 @@ class frmMain;
 class ScriptFunctions: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int bufferLength READ bufferLength)
+    Q_PROPERTY(int commandsLength READ commandsLength)
+    Q_PROPERTY(int queueLength READ queueLength)
+    Q_PROPERTY(int buttonSize READ buttonSize)
+    Q_PROPERTY(QWidget* window READ window)
+    Q_PROPERTY(int senderState READ senderState)
+    Q_PROPERTY(int deviceState READ deviceState)
+
 public:
     ScriptFunctions(QObject *parent = 0);
-    
+
     void setFrmMain(frmMain *f);
     frmMain *getFrmMain();
 
@@ -31,14 +39,12 @@ public slots:
     void loadFile(QVariantList data);
     bool saveFile();
     void saveFile(QString fileName);
-    
-    int bufferLength();
-    int commandsLength();
-    int queueLength();
 
-    int buttonSize();
     void addAction(QAction *action);
-    void removeAction(QAction *action);    
+    void removeAction(QAction *action);
+
+    bool saveChanges();
+    void loadProgram(QStringList program);
 
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
@@ -57,6 +63,14 @@ signals:
 
 private:
     frmMain *m_frmMain;
+
+    int bufferLength();
+    int commandsLength();
+    int queueLength();
+    int buttonSize();
+    QWidget* window();
+    int senderState();
+    int deviceState();
 };
 
 #endif

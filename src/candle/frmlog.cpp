@@ -6,7 +6,7 @@
 #include "frmLog.h"
 #include "ui_frmLog.h"
 
-frmLog::frmLog(QWidget *parent) : QDialog(parent), ui(new Ui::frmLog)
+frmLog::frmLog(QWidget *parent) : QWidget(parent), ui(new Ui::frmLog)
 {
     ui->setupUi(this);
 
@@ -21,11 +21,6 @@ frmLog::frmLog(QWidget *parent) : QDialog(parent), ui(new Ui::frmLog)
 frmLog::~frmLog()
 {
     delete ui;
-}
-
-void frmLog::on_cmdOk_clicked()
-{
-    this->hide();
 }
 
 void frmLog::onLogFileChanged(const QString &path)
