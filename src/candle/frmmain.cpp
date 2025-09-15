@@ -1358,7 +1358,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
                 SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
             ui->tblProgram->selectRow(0);
 
-            ui->glwVisualizer->updateBounds(m_codeDrawer);
+            ui->glwVisualizer->updateModelBounds(m_codeDrawer);
             updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
         }
     }
@@ -3522,7 +3522,7 @@ void frmMain::updateParser()
 
     updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
     m_currentDrawer->update();
-    ui->glwVisualizer->updateBounds(m_currentDrawer);
+    ui->glwVisualizer->updateModelBounds(m_currentDrawer);
     updateControlsState();
 
     if (m_currentModel == &m_programModel) m_fileChanged = true;

@@ -18,7 +18,7 @@ public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
     void addDrawable(ShaderDrawable *drawable);
-    void updateBounds(ShaderDrawable *drawable);
+    void updateModelBounds(ShaderDrawable *drawable);
     void fitDrawable(ShaderDrawable *drawable = NULL);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
