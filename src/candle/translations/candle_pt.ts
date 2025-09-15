@@ -783,6 +783,10 @@ Tempo transcorrido: %1</translation>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

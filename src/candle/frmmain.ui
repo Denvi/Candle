@@ -342,6 +342,7 @@ QLabel[overrided=&quot;false&quot;] {
     </widget>
     <addaction name="actFileNew"/>
     <addaction name="actFileOpen"/>
+    <addaction name="actFileReload"/>
     <addaction name="mnuRecent"/>
     <addaction name="separator"/>
     <addaction name="actFileSave"/>
@@ -3254,6 +3255,11 @@ padding-right: 8;</string>
   <action name="actServiceLogs">
    <property name="text">
     <string>&amp;Logs</string>
+   </property>
+  </action>
+  <action name="actFileReload">
+   <property name="text">
+    <string>&amp;Reload</string>
    </property>
   </action>
  </widget>

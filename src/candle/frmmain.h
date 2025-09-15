@@ -129,6 +129,7 @@ signals:
 private slots:
     void on_actFileNew_triggered();
     void on_actFileOpen_triggered();
+    void on_actFileReload_triggered();
     void on_actFileSave_triggered();
     void on_actFileSaveAs_triggered();
     void on_actFileSaveTransformedAs_triggered();

@@ -786,6 +786,10 @@ Time elapsed: %1</source>
         <source>Log</source>
         <translation>Журнал приложения</translation>
     </message>
+    <message>
+        <source>&amp;Reload</source>
+        <translation>&amp;Перезагрузить</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

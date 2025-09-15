@@ -781,6 +781,10 @@ Time elapsed: %1</source>
         <source>Log</source>
         <translation></translation>
     </message>
+    <message>
+        <source>&amp;Reload</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
