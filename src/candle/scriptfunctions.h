@@ -16,6 +16,8 @@ class ScriptFunctions: public QObject
     Q_PROPERTY(int queueLength READ queueLength)
     Q_PROPERTY(int buttonSize READ buttonSize)
     Q_PROPERTY(QWidget* window READ window)
+    Q_PROPERTY(int senderState READ senderState)
+    Q_PROPERTY(int deviceState READ deviceState)
 
 public:
     ScriptFunctions(QObject *parent = 0);
@@ -67,6 +69,8 @@ private:
     int queueLength();
     int buttonSize();
     QWidget* window();
+    int senderState();
+    int deviceState();
 };
 
 #endif

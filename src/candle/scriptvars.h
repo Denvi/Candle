@@ -11,51 +11,51 @@ class ScriptVars: public QObject
     Q_PROPERTY(double Mx READ Mx)
     Q_PROPERTY(double My READ My)
     Q_PROPERTY(double Mz READ Mz)
-    
+
     Q_PROPERTY(double Wx READ Wx)
     Q_PROPERTY(double Wy READ Wy)
     Q_PROPERTY(double Wz READ Wz)
-    
+
     Q_PROPERTY(double G54x READ G54x)
     Q_PROPERTY(double G54y READ G54y)
     Q_PROPERTY(double G54z READ G54z)
-    
+
     Q_PROPERTY(double G55x READ G55x)
     Q_PROPERTY(double G55y READ G55y)
     Q_PROPERTY(double G55z READ G55z)
-    
+
     Q_PROPERTY(double G56x READ G56x)
     Q_PROPERTY(double G56y READ G56y)
     Q_PROPERTY(double G56z READ G56z)
-    
+
     Q_PROPERTY(double G57x READ G57x)
     Q_PROPERTY(double G57y READ G57y)
     Q_PROPERTY(double G57z READ G57z)
-    
+
     Q_PROPERTY(double G58x READ G58x)
     Q_PROPERTY(double G58y READ G58y)
     Q_PROPERTY(double G58z READ G58z)
-    
+
     Q_PROPERTY(double G59x READ G59x)
     Q_PROPERTY(double G59y READ G59y)
     Q_PROPERTY(double G59z READ G59z)
-    
+
     Q_PROPERTY(double G28x READ G28x)
     Q_PROPERTY(double G28y READ G28y)
     Q_PROPERTY(double G28z READ G28z)
-    
+
     Q_PROPERTY(double G30x READ G30x)
     Q_PROPERTY(double G30y READ G30y)
     Q_PROPERTY(double G30z READ G30z)
-    
+
     Q_PROPERTY(double G92x READ G92x)
     Q_PROPERTY(double G92y READ G92y)
     Q_PROPERTY(double G92z READ G92z)
-    
+
     Q_PROPERTY(double TLOx READ TLOx)
     Q_PROPERTY(double TLOy READ TLOy)
     Q_PROPERTY(double TLOz READ TLOz)
-    
+
     Q_PROPERTY(double PRBx READ PRBx)
     Q_PROPERTY(double PRBy READ PRBy)
     Q_PROPERTY(double PRBz READ PRBz)
@@ -148,4 +148,4 @@ private:
     int m_tool;
 };
 
-#endif  
+#endif
