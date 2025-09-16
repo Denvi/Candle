@@ -166,6 +166,8 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapOrigin->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapOriginTool->setMinimumHeight(ui->chkHeightMapOriginShow->sizeHint().height());
 
     ui->cboJogStep->lineEdit()->setValidator(new QDoubleValidator(0, 10000, 2));
     ui->cboJogFeed->lineEdit()->setValidator(new QIntValidator(0, 100000));
@@ -220,6 +222,7 @@ frmMain::frmMain(QWidget *parent) :
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
+    m_heightMapOriginDrawer.setWorldScale(3);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
     m_selectionDrawer.setVisible(false);
@@ -234,6 +237,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(m_probeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
+    ui->glwVisualizer->addDrawable(&m_heightMapOriginDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapInterpolationDrawer);
     ui->glwVisualizer->addDrawable(&m_selectionDrawer);
@@ -1007,6 +1011,13 @@ void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
     updateControlsState();
 }
 
+void frmMain::on_chkHeightMapOriginShow_toggled(bool checked)
+{
+    Q_UNUSED(checked)
+
+    updateControlsState();
+}
+
 void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
     Q_UNUSED(checked)
@@ -1299,6 +1310,16 @@ void frmMain::on_txtHeightMapBorderHeight_valueChanged(double arg1)
     updateHeightMapGrid(arg1);
 }
 
+void frmMain::on_txtHeightMapOriginX_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
+void frmMain::on_txtHeightMapOriginY_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
 void frmMain::on_txtHeightMapGridX_valueChanged(double arg1)
 {
     updateHeightMapGrid(arg1);
@@ -1418,6 +1439,11 @@ void frmMain::on_cmdHeightMapLoad_clicked()
     }
 }
 
+void frmMain::on_cmdHeightMapOrigin_clicked()
+{
+    sendCommand(QString("G21G90G0X%1Y%2").arg(ui->txtHeightMapOriginX->value()).arg(ui->txtHeightMapOriginY->value()));
+}
+
 void frmMain::on_cmdHeightMapBorderAuto_clicked()
 {
     QRectF rect = borderRectFromExtremes();
@@ -1428,6 +1454,12 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
         ui->txtHeightMapBorderWidth->setValue(rect.width());
         ui->txtHeightMapBorderHeight->setValue(rect.height());
     }
+}
+
+void frmMain::on_cmdHeightMapOriginTool_clicked()
+{
+    ui->txtHeightMapOriginX->setValue(ui->txtWPosX->value());
+    ui->txtHeightMapOriginY->setValue(ui->txtWPosY->value());
 }
 
 void frmMain::on_cmdYPlus_pressed()
@@ -2722,6 +2754,10 @@ void frmMain::loadSettings()
     ui->txtHeightMapBorderWidth->setValue(set.value("heightmapBorderWidth", 1).toDouble());
     ui->txtHeightMapBorderHeight->setValue(set.value("heightmapBorderHeight", 1).toDouble());
     ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", true).toBool());
+    ui->chkHeightMapOriginShow->setChecked(set.value("heightmapOriginShow", true).toBool());
+
+    ui->txtHeightMapOriginX->setValue(set.value("heightmapOriginX", 0).toDouble());
+    ui->txtHeightMapOriginY->setValue(set.value("heightmapOriginY", 0).toDouble());
 
     ui->txtHeightMapGridX->setValue(set.value("heightmapGridX", 1).toDouble());
     ui->txtHeightMapGridY->setValue(set.value("heightmapGridY", 1).toDouble());
@@ -2734,6 +2770,9 @@ void frmMain::loadSettings()
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", true).toBool());
+
+    ui->lblHeightMapInterpolationType->setVisible(false);
+    ui->cboHeightMapInterpolationType->setVisible(false);
 
     ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
 
@@ -2960,6 +2999,10 @@ void frmMain::saveSettings()
     set.setValue("heightmapBorderWidth", ui->txtHeightMapBorderWidth->value());
     set.setValue("heightmapBorderHeight", ui->txtHeightMapBorderHeight->value());
     set.setValue("heightmapBorderShow", ui->chkHeightMapBorderShow->isChecked());
+
+    set.setValue("heightmapOriginX", ui->txtHeightMapOriginX->value());
+    set.setValue("heightmapOriginY", ui->txtHeightMapOriginY->value());
+    set.setValue("heightmapOriginShow", ui->chkHeightMapOriginShow->isChecked());
 
     set.setValue("heightmapGridX", ui->txtHeightMapGridX->value());
     set.setValue("heightmapGridY", ui->txtHeightMapGridY->value());
@@ -3775,7 +3818,14 @@ void frmMain::loadHeightMap(QString fileName)
         QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
         return;
     }
+
     QTextStream textStream(&file);
+    auto signature = textStream.readLine();
+    if (signature != "candle map v2") {
+        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+        file.close();
+        return;
+    }
 
     m_settingsLoading = true;
 
@@ -3784,6 +3834,9 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapBorderY->setValue(qQNaN());
     ui->txtHeightMapBorderWidth->setValue(qQNaN());
     ui->txtHeightMapBorderHeight->setValue(qQNaN());
+
+    ui->txtHeightMapOriginX->setValue(qQNaN());
+    ui->txtHeightMapOriginY->setValue(qQNaN());
 
     ui->txtHeightMapGridX->setValue(qQNaN());
     ui->txtHeightMapGridY->setValue(qQNaN());
@@ -3795,6 +3848,10 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapBorderY->setValue(list[1].toDouble());
     ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
     ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
+
+    list = textStream.readLine().split(";");
+    ui->txtHeightMapOriginX->setValue(list[0].toDouble());
+    ui->txtHeightMapOriginY->setValue(list[1].toDouble());
 
     list = textStream.readLine().split(";");
     ui->txtHeightMapGridX->setValue(list[0].toDouble());
@@ -3840,10 +3897,13 @@ bool frmMain::saveHeightMap(QString fileName)
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
+    textStream << "candle map v2\r\n";
     textStream << ui->txtHeightMapBorderX->text() << ";"
                << ui->txtHeightMapBorderY->text() << ";"
                << ui->txtHeightMapBorderWidth->text() << ";"
                << ui->txtHeightMapBorderHeight->text() << "\r\n";
+    textStream << ui->txtHeightMapOriginX->text() << ";"
+               << ui->txtHeightMapOriginY->text() << "\r\n";
     textStream << ui->txtHeightMapGridX->text() << ";"
                << ui->txtHeightMapGridY->text() << ";"
                << ui->txtHeightMapGridZBottom->text() << ";"
@@ -4043,6 +4103,7 @@ void frmMain::updateControlsState() {
 
     // Heightmap
     m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
+    m_heightMapOriginDrawer.setVisible(ui->chkHeightMapOriginShow->isChecked() && m_heightMapMode);
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
@@ -4063,6 +4124,7 @@ void frmMain::updateControlsState() {
 
     ui->widgetHeightMap->setEnabled(!process && m_programModel.rowCount() > 1);
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
+    ui->cmdHeightMapOrigin->setEnabled(!ui->txtHeightMap->text().isEmpty() && portOpened && !process);
 
     ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
@@ -4189,6 +4251,9 @@ bool frmMain::updateHeightMapGrid()
     m_heightMapGridDrawer.setZBottom(ui->txtHeightMapGridZBottom->value());
     m_heightMapGridDrawer.setZTop(ui->txtHeightMapGridZTop->value());
 
+    // Update origin drawer
+    m_heightMapOriginDrawer.setTranslation(QVector3D(ui->txtHeightMapOriginX->value(), ui->txtHeightMapOriginY->value(), 0.0));
+
     // Reset model
     int gridPointsX = ui->txtHeightMapGridX->value();
     int gridPointsY = ui->txtHeightMapGridY->value();
@@ -4210,14 +4275,16 @@ bool frmMain::updateHeightMapGrid()
     m_probeModel.insertRow(0);
 
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1")
-                         .arg(ui->txtHeightMapProbeFeed->value()));
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0"));
+                        .arg(ui->txtHeightMapProbeFeed->value()));
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X%1Y%2")
+                        .arg(ui->txtHeightMapOriginX->value())
+                        .arg(ui->txtHeightMapOriginY->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
-                         .arg(ui->txtHeightMapGridZTop->value()));
+                        .arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
-                         .arg(ui->txtHeightMapGridZBottom->value()));
+                        .arg(ui->txtHeightMapGridZBottom->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
-                         .arg(ui->txtHeightMapGridZTop->value()));
+                        .arg(ui->txtHeightMapGridZTop->value()));
 
     double x, y;
 

@@ -576,21 +576,8 @@ QLabel[overrided=&quot;false&quot;] {
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_21">
-                 <item>
-                  <widget class="StyledToolButton" name="cmdHeightMapCreate">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>Create</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="0" column="2">
                   <widget class="StyledToolButton" name="cmdHeightMapLoad">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -603,23 +590,52 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
+                 <item row="0" column="0">
+                  <widget class="StyledToolButton" name="cmdHeightMapCreate">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Create</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="StyledToolButton" name="cmdHeightMapMode">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Edit</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="StyledToolButton" name="cmdHeightMapOrigin">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Move toolhead to heightmap origin</string>
+                   </property>
+                   <property name="text">
+                    <string>Origin</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="StyledToolButton" name="cmdHeightMapMode">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
                </item>
                <item>
                 <widget class="QWidget" name="widgetHeightmapSettings" native="true">
@@ -809,6 +825,115 @@ QLabel[overrided=&quot;false&quot;] {
                        </widget>
                       </item>
                      </layout>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_30">
+                    <item>
+                     <widget class="QLabel" name="label_27">
+                      <property name="text">
+                       <string>Origin:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QGridLayout" name="gridLayout_7">
+                      <item row="0" column="2">
+                       <widget class="QLabel" name="label_31">
+                        <property name="text">
+                         <string>Y:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QDoubleSpinBox" name="txtHeightMapOriginX">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="locale">
+                         <locale language="C" country="AnyCountry"/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="buttonSymbols">
+                         <enum>QAbstractSpinBox::NoButtons</enum>
+                        </property>
+                        <property name="minimum">
+                         <double>-9999.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>9999.000000000000000</double>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QLabel" name="label_28">
+                        <property name="text">
+                         <string>X:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="3">
+                       <widget class="QDoubleSpinBox" name="txtHeightMapOriginY">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="locale">
+                         <locale language="C" country="AnyCountry"/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="buttonSymbols">
+                         <enum>QAbstractSpinBox::NoButtons</enum>
+                        </property>
+                        <property name="minimum">
+                         <double>-9999.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>9999.000000000000000</double>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_20">
+                    <item>
+                     <widget class="QCheckBox" name="chkHeightMapOriginShow">
+                      <property name="text">
+                       <string>Show origin</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="StyledToolButton" name="cmdHeightMapOriginTool">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>Use current toolhead position</string>
+                      </property>
+                      <property name="text">
+                       <string>Tool</string>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -1130,7 +1255,7 @@ QLabel[overrided=&quot;false&quot;] {
                     <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="0,0">
                       <item>
-                       <widget class="QLabel" name="label_17">
+                       <widget class="QLabel" name="lblHeightMapInterpolationType">
                         <property name="text">
                          <string>Type:</string>
                         </property>
@@ -3326,14 +3451,12 @@ padding-right: 8;</string>
   <tabstop>chkHeightMapGridShow</tabstop>
   <tabstop>txtHeightMapInterpolationStepX</tabstop>
   <tabstop>txtHeightMapInterpolationStepY</tabstop>
-  <tabstop>cboHeightMapInterpolationType</tabstop>
   <tabstop>chkHeightMapInterpolationShow</tabstop>
   <tabstop>txtStatus</tabstop>
   <tabstop>cmdHome</tabstop>
   <tabstop>chkHeightMapUse</tabstop>
   <tabstop>cmdHeightMapCreate</tabstop>
   <tabstop>cmdHeightMapLoad</tabstop>
-  <tabstop>cmdHeightMapMode</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>chkKeyboardControl</tabstop>

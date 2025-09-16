@@ -181,6 +181,7 @@ private slots:
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_chkHeightMapBorderShow_toggled(bool checked);
+    void on_chkHeightMapOriginShow_toggled(bool checked);
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
     void on_chkHeightMapUse_clicked(bool checked);
     void on_chkHeightMapGridShow_toggled(bool checked);
@@ -188,6 +189,8 @@ private slots:
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);
     void on_txtHeightMapBorderY_valueChanged(double arg1);
     void on_txtHeightMapBorderHeight_valueChanged(double arg1);
+    void on_txtHeightMapOriginX_valueChanged(double arg1);
+    void on_txtHeightMapOriginY_valueChanged(double arg1);
     void on_txtHeightMapGridX_valueChanged(double arg1);
     void on_txtHeightMapGridY_valueChanged(double arg1);
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
@@ -197,7 +200,9 @@ private slots:
     void on_cmdHeightMapMode_toggled(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapLoad_clicked();
+    void on_cmdHeightMapOrigin_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
+    void on_cmdHeightMapOriginTool_clicked();
     void on_cmdYPlus_pressed();
     void on_cmdYPlus_released();
     void on_cmdYMinus_pressed();
@@ -320,6 +325,7 @@ private:
     GcodeDrawer *m_currentDrawer;
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
+    OriginDrawer m_heightMapOriginDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
     HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
     SelectionDrawer m_selectionDrawer;

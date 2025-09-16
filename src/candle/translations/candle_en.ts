@@ -225,14 +225,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Type:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Bicubic</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Show interpolation grid</source>
         <translation></translation>
     </message>
@@ -783,6 +775,38 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>&amp;Reload</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Move toolhead to heightmap origin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bicubic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show origin</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use current toolhead position</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Tool</source>
         <translation></translation>
     </message>
 </context>
