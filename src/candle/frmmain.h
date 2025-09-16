@@ -152,6 +152,9 @@ private slots:
     void on_actOverrideSpindlePlus_triggered();
     void on_actOverrideSpindleMinus_triggered();
     void on_actViewLockWindows_toggled(bool checked);
+    void on_actViewLayoutsSave_triggered();
+    void on_actViewLayoutsDelete_triggered();
+
     void on_cmdFileOpen_clicked();
     void on_cmdFileSend_clicked();
     void on_cmdFilePause_clicked(bool checked);
@@ -241,6 +244,7 @@ private slots:
     void onDockTopLevelChanged(bool topLevel);
     void onScroolBarAction(int action);
     void onScriptException(const QScriptValue &exception);
+    void onActViewLayoutsSelected(bool checked);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
@@ -301,6 +305,9 @@ private:
     QMap<DeviceState, QString> m_statusCaptions;
     QMap<DeviceState, QString> m_statusBackColors;
     QMap<DeviceState, QString> m_statusForeColors;
+
+    QActionGroup *m_layoutsActionGroup;
+    QString m_currentLayoutName;
 
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;

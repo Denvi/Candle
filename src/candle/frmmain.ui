@@ -379,11 +379,23 @@ QLabel[overrided=&quot;false&quot;] {
       <string>&amp;Panels</string>
      </property>
     </widget>
+    <widget class="QMenu" name="mnuViewLayouts">
+     <property name="title">
+      <string>L&amp;ayouts</string>
+     </property>
+     <addaction name="actViewLayoutsDefault"/>
+     <addaction name="separator"/>
+     <addaction name="actViewLayoutsSave"/>
+     <addaction name="actViewLayoutsDelete"/>
+    </widget>
     <addaction name="mnuViewWindows"/>
     <addaction name="mnuViewPanels"/>
     <addaction name="separator"/>
+    <addaction name="mnuViewLayouts"/>
+    <addaction name="separator"/>
     <addaction name="actViewLockWindows"/>
     <addaction name="actViewLockPanels"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="mnuFile"/>
    <addaction name="menu_View"/>
@@ -3385,6 +3397,29 @@ padding-right: 8;</string>
   <action name="actFileReload">
    <property name="text">
     <string>&amp;Reload</string>
+   </property>
+  </action>
+  <action name="actViewLayoutsSave">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+  </action>
+  <action name="actViewLayoutsDelete">
+   <property name="text">
+    <string>&amp;Delete</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
+  <action name="actViewLayoutsDefault">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Default</string>
    </property>
   </action>
  </widget>

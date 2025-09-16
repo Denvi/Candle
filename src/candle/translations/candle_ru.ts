@@ -814,6 +814,22 @@ Time elapsed: %1</source>
         <source>Tool</source>
         <translation>ТПИ</translation>
     </message>
+    <message>
+        <source>Enter layout name</source>
+        <translation>Введите имя раскладки</translation>
+    </message>
+    <message>
+        <source>L&amp;ayouts</source>
+        <translation>&amp;Раскладки</translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation>&amp;Удалить</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>По умолчанию</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

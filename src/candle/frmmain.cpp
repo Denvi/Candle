@@ -19,11 +19,13 @@
 #include <QTranslator>
 #include <QScriptValueIterator>
 #include <QSplitter>
+#include <QInputDialog>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
+#include "layoutentry.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -690,6 +692,90 @@ void frmMain::on_actViewLockWindows_toggled(bool checked)
     foreach (QDockWidget *d, dl) {
         d->setFeatures(checked ? QDockWidget::NoDockWidgetFeatures : QDockWidget::AllDockWidgetFeatures);
     }
+}
+
+void frmMain::on_actViewLayoutsSave_triggered()
+{
+    auto layoutName = QInputDialog::getText(this, "", tr("Enter layout name"), QLineEdit::Normal, m_currentLayoutName);
+
+    if (layoutName.isEmpty())
+        return;
+
+    // Prepare layout entry
+    LayoutEntry layout;
+
+    layout.name = layoutName;
+    layout.devicePanels = ui->scrollContentsDevice->saveState();
+    layout.modificationPanels = ui->scrollContentsModification->saveState();
+    layout.userPanels = ui->scrollContentsUser->saveState();
+
+    QStringList panels;
+    QStringList hiddenPanels;
+    QStringList collapsedPanels;
+
+    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
+    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
+    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
+
+    foreach (QString s, panels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b && b->isHidden()) hiddenPanels << s;
+        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
+    }
+
+    layout.hiddenPanels = hiddenPanels;
+    layout.collapsedPanels = collapsedPanels;
+    layout.windowState = saveState();
+
+    // Save layout
+    auto actions = m_layoutsActionGroup->actions();
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == layoutName;
+    });
+
+    if (it != actions.constEnd()) {
+        auto action = *it;
+        action->setData(layout);
+        action->setChecked(true);
+    } else {
+        auto action = new QAction(layoutName, m_layoutsActionGroup);
+        action->setData(layout);
+        action->setCheckable(true);
+        action->setChecked(true);
+
+        auto menuActions = ui->mnuViewLayouts->actions();
+        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
+            return action->isSeparator();
+        });
+
+        m_layoutsActionGroup->addAction(action);
+        ui->mnuViewLayouts->insertAction(separator, action);
+
+        connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+    }
+
+    m_currentLayoutName = layoutName;
+    ui->actViewLayoutsDelete->setEnabled(true);
+}
+
+void frmMain::on_actViewLayoutsDelete_triggered()
+{
+    auto actions = m_layoutsActionGroup->actions();
+
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == m_currentLayoutName;
+    });
+
+    if (it != actions.constEnd()) {
+        auto action = (*it);
+        if (action == actions.first())
+            return;
+
+        m_layoutsActionGroup->removeAction(action);
+        ui->mnuViewLayouts->removeAction(action);
+    }
+
+    m_layoutsActionGroup->actions().first()->setChecked(true);
 }
 
 void frmMain::on_cmdFileOpen_clicked()
@@ -2586,6 +2672,38 @@ void frmMain::onScriptException(const QScriptValue &exception)
         << exception.toString();
 }
 
+void frmMain::onActViewLayoutsSelected(bool checked)
+{
+    if (!checked)
+        return;
+
+    auto action = static_cast<QAction*>(sender());
+    auto layout = action->data().value<LayoutEntry>();
+
+    // Apply panels state
+    ui->scrollContentsDevice->restoreState(this, layout.devicePanels);
+    ui->scrollContentsModification->restoreState(this, layout.modificationPanels);
+    ui->scrollContentsUser->restoreState(this, layout.userPanels);
+
+    QStringList hiddenPanels = layout.hiddenPanels;
+    foreach (QString s, hiddenPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setHidden(true);
+    }
+
+    QStringList collapsedPanels = layout.collapsedPanels;
+    foreach (QString s, collapsedPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setChecked(false);
+    }
+
+    // Window state
+    restoreState(layout.windowState);
+
+    m_currentLayoutName = action->text();
+    ui->actViewLayoutsDelete->setEnabled(action != ui->actViewLayoutsDefault);
+}
+
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
     if (m_settingsLoading) return;
@@ -2829,49 +2947,96 @@ void frmMain::loadSettings()
     foreach (QDockWidget *w, findChildren<QDockWidget*>())
         connect(w, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
 
-        // Panels
-    ui->scrollContentsDevice->restoreState(this, set.value("panelsDevice").toStringList());
-    ui->scrollContentsModification->restoreState(this, set.value("panelsModification").toStringList());
-    ui->scrollContentsUser->restoreState(this, set.value("panelsUser").toStringList());
+    // Layouts
+    qRegisterMetaType<LayoutEntry>();
+    qRegisterMetaTypeStreamOperators<LayoutEntry>("LayoutEntry");
+    QMetaType::registerDebugStreamOperator<LayoutEntry>();
 
-    QStringList hiddenPanels = set.value("hiddenPanels").toStringList();
-    foreach (QString s, hiddenPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setHidden(true);
+    // Group for exclusive menu item check
+    m_layoutsActionGroup = new QActionGroup(this);
+    m_layoutsActionGroup->setExclusive(true);
+
+    // Find separator to insert items before
+    auto menuActions = ui->mnuViewLayouts->actions();
+    auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
+        return action->isSeparator();
+    });
+
+    // Load layouts
+    auto layouts = set.value("layouts").toList();
+    m_currentLayoutName = set.value("currentLayoutName").toString();
+
+    if (layouts.count() > 0) {
+        // Default layout always first
+        ui->actViewLayoutsDefault->setData(layouts.first().value<LayoutEntry>());
+    } else {
+        // No layouts saved, migrate from previous settings version
+        auto formState = set.value("formMainState").toByteArray();
+
+        if (!formState.size()) {
+            ui->dockScript->setVisible(false);
+            ui->dockLog->setVisible(false);
+
+            auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
+            if (cameraDock) cameraDock->setVisible(false);
+
+            resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
+            splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
+            splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
+
+            formState = saveState();
+        }
+
+        ui->actViewLayoutsDefault->setData(LayoutEntry {
+            ui->actViewLayoutsDefault->text(),
+            set.value("panelsDevice").toStringList(),
+            set.value("panelsModification").toStringList(),
+            set.value("panelsUser").toStringList(),
+            set.value("hiddenPanels").toStringList(),
+            set.value("collapsedPanels").toStringList(),
+            formState
+        });
     }
 
-    QStringList collapsedPanels = set.value("collapsedPanels").toStringList();
-    foreach (QString s, collapsedPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setChecked(false);
+    m_layoutsActionGroup->addAction(ui->actViewLayoutsDefault);
+    connect(ui->actViewLayoutsDefault, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+
+    // Rest of layouts
+    if (layouts.count() > 1) {
+        for (auto it = layouts.cbegin() + 1; it != layouts.cend(); it++) {
+            auto layoutEntry = (*it).value<LayoutEntry>();
+            auto action = new QAction(layoutEntry.name, m_layoutsActionGroup);
+            action->setData(layoutEntry);
+            action->setCheckable(true);
+
+            m_layoutsActionGroup->addAction(action);
+            ui->mnuViewLayouts->insertAction(separator, action);
+
+            connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+        }
     }
+
+    // Select current layout
+    auto actions = m_layoutsActionGroup->actions();
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == m_currentLayoutName;
+    });
+
+    auto currentLayoutAction = it != actions.constEnd() ? *it : ui->actViewLayoutsDefault;
 
     // Restore main window state
     auto formGeometry = set.value("formGeometry").toByteArray();
-    auto formState = set.value("formMainState").toByteArray();
-
-    if (!formState.size()) {
-        ui->dockScript->setVisible(false);
-        ui->dockLog->setVisible(false);
-
-        auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
-        if (cameraDock) cameraDock->setVisible(false);
-
-        resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
-        splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
-        splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
-    }
 
     if (set.value("formMaximized", false).toBool())
     {
         // Force maximized window size for proper dockWidgets restoring as restoreGeometry will set non maximized
         //   window size
         resize(set.value("formSize").toSize());
-        restoreState(formState);
+        currentLayoutAction->setChecked(true);
         showMaximized();
     } else {        
         restoreGeometry(formGeometry);
-        restoreState(formState);
+        currentLayoutAction->setChecked(true);
     }
 
     // Setup coords textboxes
@@ -3040,28 +3205,19 @@ void frmMain::saveSettings()
     s << m;
     set.setValue("shortcuts", ba);
 
-    // Panels
-    set.setValue("panelsDevice", QVariant::fromValue(ui->scrollContentsDevice->saveState()));
-    set.setValue("panelsModification", QVariant::fromValue(ui->scrollContentsModification->saveState()));
-    set.setValue("panelsUser", QVariant::fromValue(ui->scrollContentsUser->saveState()));
-
-    QStringList panels;
-    QStringList hiddenPanels;
-    QStringList collapsedPanels;
-    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
-    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
-    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
-    foreach (QString s, panels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b && b->isHidden()) hiddenPanels << s;
-        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
-    }
-    set.setValue("hiddenPanels", hiddenPanels);
-    set.setValue("collapsedPanels", collapsedPanels);
-
     // Menu
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
     set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
+
+    // Layouts
+    QVariantList layouts;
+    auto actions = m_layoutsActionGroup->actions();
+
+    for (auto it = actions.constBegin(); it != actions.constEnd(); it++) {
+        layouts.append((*it)->data());
+    }
+    set.setValue("layouts", layouts);
+    set.setValue("currentLayoutName", m_currentLayoutName);
 
     // Save script variables
     QScriptEngine e;

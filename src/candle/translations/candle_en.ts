@@ -809,6 +809,22 @@ Time elapsed: %1</source>
         <source>Tool</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Enter layout name</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>L&amp;ayouts</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

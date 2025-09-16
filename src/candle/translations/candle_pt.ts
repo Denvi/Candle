@@ -811,6 +811,22 @@ Tempo transcorrido: %1</translation>
         <source>Tool</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enter layout name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>L&amp;ayouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>
