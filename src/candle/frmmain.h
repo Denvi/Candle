@@ -43,8 +43,8 @@
 #include "frmsettings.h"
 #include "frmabout.h"
 
-#include "scriptvars.h"
-#include "scriptfunctions.h"
+#include "script/scriptvars.h"
+#include "script/scriptapp.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
@@ -105,7 +105,8 @@ class frmMain : public QMainWindow
 {
     Q_OBJECT
 
-    friend class ScriptFunctions;
+    friend class ScriptApp;
+    friend class ScriptProgram;
 
 public:
     explicit frmMain(QWidget *parent = 0);
@@ -151,6 +152,9 @@ private slots:
     void on_actOverrideSpindlePlus_triggered();
     void on_actOverrideSpindleMinus_triggered();
     void on_actViewLockWindows_toggled(bool checked);
+    void on_actViewLayoutsSave_triggered();
+    void on_actViewLayoutsDelete_triggered();
+
     void on_cmdFileOpen_clicked();
     void on_cmdFileSend_clicked();
     void on_cmdFilePause_clicked(bool checked);
@@ -180,6 +184,7 @@ private slots:
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkKeyboardControl_toggled(bool checked);
     void on_chkHeightMapBorderShow_toggled(bool checked);
+    void on_chkHeightMapOriginShow_toggled(bool checked);
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
     void on_chkHeightMapUse_clicked(bool checked);
     void on_chkHeightMapGridShow_toggled(bool checked);
@@ -187,6 +192,8 @@ private slots:
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);
     void on_txtHeightMapBorderY_valueChanged(double arg1);
     void on_txtHeightMapBorderHeight_valueChanged(double arg1);
+    void on_txtHeightMapOriginX_valueChanged(double arg1);
+    void on_txtHeightMapOriginY_valueChanged(double arg1);
     void on_txtHeightMapGridX_valueChanged(double arg1);
     void on_txtHeightMapGridY_valueChanged(double arg1);
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
@@ -196,7 +203,9 @@ private slots:
     void on_cmdHeightMapMode_toggled(bool checked);
     void on_cmdHeightMapCreate_clicked();
     void on_cmdHeightMapLoad_clicked();
+    void on_cmdHeightMapOrigin_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
+    void on_cmdHeightMapOriginTool_clicked();
     void on_cmdYPlus_pressed();
     void on_cmdYPlus_released();
     void on_cmdYMinus_pressed();
@@ -235,6 +244,7 @@ private slots:
     void onDockTopLevelChanged(bool topLevel);
     void onScroolBarAction(int action);
     void onScriptException(const QScriptValue &exception);
+    void onActViewLayoutsSelected(bool checked);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
@@ -296,6 +306,9 @@ private:
     QMap<DeviceState, QString> m_statusBackColors;
     QMap<DeviceState, QString> m_statusForeColors;
 
+    QActionGroup *m_layoutsActionGroup;
+    QString m_currentLayoutName;
+
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;
 #ifdef WINDOWS
@@ -319,6 +332,7 @@ private:
     GcodeDrawer *m_currentDrawer;
     ToolDrawer m_toolDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
+    OriginDrawer m_heightMapOriginDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;
     HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
     SelectionDrawer m_selectionDrawer;
@@ -397,7 +411,7 @@ private:
     // Script
     QScriptEngine m_scriptEngine;
     ScriptVars m_storedVars;
-    ScriptFunctions m_scriptFunctions;
+    ScriptApp* m_scriptApp;
 
     // Drag & drop
     QPoint m_mousePressPos;

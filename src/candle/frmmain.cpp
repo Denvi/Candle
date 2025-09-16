@@ -19,11 +19,13 @@
 #include <QTranslator>
 #include <QScriptValueIterator>
 #include <QSplitter>
+#include <QInputDialog>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
+#include "layoutentry.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -166,6 +168,8 @@ frmMain::frmMain(QWidget *parent) :
     ui->cmdHeightMapCreate->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapLoad->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
     ui->cmdHeightMapMode->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapOrigin->setMinimumHeight(ui->cmdFileOpen->sizeHint().height());
+    ui->cmdHeightMapOriginTool->setMinimumHeight(ui->chkHeightMapOriginShow->sizeHint().height());
 
     ui->cboJogStep->lineEdit()->setValidator(new QDoubleValidator(0, 10000, 2));
     ui->cboJogFeed->lineEdit()->setValidator(new QIntValidator(0, 100000));
@@ -220,6 +224,7 @@ frmMain::frmMain(QWidget *parent) :
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
     m_heightMapGridDrawer.setModel(&m_heightMapModel);
+    m_heightMapOriginDrawer.setWorldScale(3);
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
     m_selectionDrawer.setVisible(false);
@@ -234,6 +239,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(m_probeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
+    ui->glwVisualizer->addDrawable(&m_heightMapOriginDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapInterpolationDrawer);
     ui->glwVisualizer->addDrawable(&m_selectionDrawer);
@@ -257,20 +263,20 @@ frmMain::frmMain(QWidget *parent) :
     m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
 
     // Prepare script functions
-    m_scriptFunctions.setFrmMain(this);
-    connect(this, &frmMain::responseReceived, &m_scriptFunctions, &ScriptFunctions::responseReceived);
-    connect(this, &frmMain::statusReceived, &m_scriptFunctions, &ScriptFunctions::statusReceived);
-    connect(this, &frmMain::senderStateChanged, &m_scriptFunctions, &ScriptFunctions::senderStateChanged);
-    connect(this, &frmMain::deviceStateChanged, &m_scriptFunctions, &ScriptFunctions::deviceStateChanged);
-    connect(this, &frmMain::settingsAboutToLoad, &m_scriptFunctions, &ScriptFunctions::settingsAboutToLoad);
-    connect(this, &frmMain::settingsLoaded, &m_scriptFunctions, &ScriptFunctions::settingsLoaded);
-    connect(this, &frmMain::settingsAboutToSave, &m_scriptFunctions, &ScriptFunctions::settingsAboutToSave);
-    connect(this, &frmMain::settingsSaved, &m_scriptFunctions, &ScriptFunctions::settingsSaved);
-    connect(this, &frmMain::settingsAboutToShow, &m_scriptFunctions, &ScriptFunctions::settingsAboutToShow);
-    connect(this, &frmMain::settingsAccepted, &m_scriptFunctions, &ScriptFunctions::settingsAccepted);
-    connect(this, &frmMain::settingsRejected, &m_scriptFunctions, &ScriptFunctions::settingsRejected);
-    connect(this, &frmMain::settingsSetByDefault, &m_scriptFunctions, &ScriptFunctions::settingsSetByDefault);
-    connect(this, &frmMain::pluginsLoaded, &m_scriptFunctions, &ScriptFunctions::pluginsLoaded);
+    m_scriptApp = new ScriptApp(this);
+    connect(this, &frmMain::responseReceived, m_scriptApp, &ScriptApp::responseReceived);
+    connect(this, &frmMain::statusReceived, m_scriptApp, &ScriptApp::statusReceived);
+    connect(this, &frmMain::senderStateChanged, m_scriptApp, &ScriptApp::senderStateChanged);
+    connect(this, &frmMain::deviceStateChanged, m_scriptApp, &ScriptApp::deviceStateChanged);
+    connect(this, &frmMain::settingsAboutToLoad, m_scriptApp, &ScriptApp::settingsAboutToLoad);
+    connect(this, &frmMain::settingsLoaded, m_scriptApp, &ScriptApp::settingsLoaded);
+    connect(this, &frmMain::settingsAboutToSave, m_scriptApp, &ScriptApp::settingsAboutToSave);
+    connect(this, &frmMain::settingsSaved, m_scriptApp, &ScriptApp::settingsSaved);
+    connect(this, &frmMain::settingsAboutToShow, m_scriptApp, &ScriptApp::settingsAboutToShow);
+    connect(this, &frmMain::settingsAccepted, m_scriptApp, &ScriptApp::settingsAccepted);
+    connect(this, &frmMain::settingsRejected, m_scriptApp, &ScriptApp::settingsRejected);
+    connect(this, &frmMain::settingsSetByDefault, m_scriptApp, &ScriptApp::settingsSetByDefault);
+    connect(this, &frmMain::pluginsLoaded, m_scriptApp, &ScriptApp::pluginsLoaded);
 
     // Loading settings
     loadSettings();
@@ -688,6 +694,90 @@ void frmMain::on_actViewLockWindows_toggled(bool checked)
     }
 }
 
+void frmMain::on_actViewLayoutsSave_triggered()
+{
+    auto layoutName = QInputDialog::getText(this, "", tr("Enter layout name"), QLineEdit::Normal, m_currentLayoutName);
+
+    if (layoutName.isEmpty())
+        return;
+
+    // Prepare layout entry
+    LayoutEntry layout;
+
+    layout.name = layoutName;
+    layout.devicePanels = ui->scrollContentsDevice->saveState();
+    layout.modificationPanels = ui->scrollContentsModification->saveState();
+    layout.userPanels = ui->scrollContentsUser->saveState();
+
+    QStringList panels;
+    QStringList hiddenPanels;
+    QStringList collapsedPanels;
+
+    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
+    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
+    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
+
+    foreach (QString s, panels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b && b->isHidden()) hiddenPanels << s;
+        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
+    }
+
+    layout.hiddenPanels = hiddenPanels;
+    layout.collapsedPanels = collapsedPanels;
+    layout.windowState = saveState();
+
+    // Save layout
+    auto actions = m_layoutsActionGroup->actions();
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == layoutName;
+    });
+
+    if (it != actions.constEnd()) {
+        auto action = *it;
+        action->setData(layout);
+        action->setChecked(true);
+    } else {
+        auto action = new QAction(layoutName, m_layoutsActionGroup);
+        action->setData(layout);
+        action->setCheckable(true);
+        action->setChecked(true);
+
+        auto menuActions = ui->mnuViewLayouts->actions();
+        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
+            return action->isSeparator();
+        });
+
+        m_layoutsActionGroup->addAction(action);
+        ui->mnuViewLayouts->insertAction(separator, action);
+
+        connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+    }
+
+    m_currentLayoutName = layoutName;
+    ui->actViewLayoutsDelete->setEnabled(true);
+}
+
+void frmMain::on_actViewLayoutsDelete_triggered()
+{
+    auto actions = m_layoutsActionGroup->actions();
+
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == m_currentLayoutName;
+    });
+
+    if (it != actions.constEnd()) {
+        auto action = (*it);
+        if (action == actions.first())
+            return;
+
+        m_layoutsActionGroup->removeAction(action);
+        ui->mnuViewLayouts->removeAction(action);
+    }
+
+    m_layoutsActionGroup->actions().first()->setChecked(true);
+}
+
 void frmMain::on_cmdFileOpen_clicked()
 {
     if (!m_heightMapMode) {
@@ -1007,6 +1097,13 @@ void frmMain::on_chkHeightMapBorderShow_toggled(bool checked)
     updateControlsState();
 }
 
+void frmMain::on_chkHeightMapOriginShow_toggled(bool checked)
+{
+    Q_UNUSED(checked)
+
+    updateControlsState();
+}
+
 void frmMain::on_chkHeightMapInterpolationShow_toggled(bool checked)
 {
     Q_UNUSED(checked)
@@ -1299,6 +1396,16 @@ void frmMain::on_txtHeightMapBorderHeight_valueChanged(double arg1)
     updateHeightMapGrid(arg1);
 }
 
+void frmMain::on_txtHeightMapOriginX_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
+void frmMain::on_txtHeightMapOriginY_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
 void frmMain::on_txtHeightMapGridX_valueChanged(double arg1)
 {
     updateHeightMapGrid(arg1);
@@ -1418,6 +1525,11 @@ void frmMain::on_cmdHeightMapLoad_clicked()
     }
 }
 
+void frmMain::on_cmdHeightMapOrigin_clicked()
+{
+    sendCommand(QString("G21G90G0X%1Y%2").arg(ui->txtHeightMapOriginX->value()).arg(ui->txtHeightMapOriginY->value()));
+}
+
 void frmMain::on_cmdHeightMapBorderAuto_clicked()
 {
     QRectF rect = borderRectFromExtremes();
@@ -1428,6 +1540,12 @@ void frmMain::on_cmdHeightMapBorderAuto_clicked()
         ui->txtHeightMapBorderWidth->setValue(rect.width());
         ui->txtHeightMapBorderHeight->setValue(rect.height());
     }
+}
+
+void frmMain::on_cmdHeightMapOriginTool_clicked()
+{
+    ui->txtHeightMapOriginX->setValue(ui->txtWPosX->value());
+    ui->txtHeightMapOriginY->setValue(ui->txtWPosY->value());
 }
 
 void frmMain::on_cmdYPlus_pressed()
@@ -1585,7 +1703,7 @@ void frmMain::on_cmdScriptStart_clicked()
 
     // Delegate objects
     // Main form
-    QScriptValue app = se.newQObject(&m_scriptFunctions);
+    QScriptValue app = se.newQObject(m_scriptApp);
     app.setProperty("path", qApp->applicationDirPath());
     se.globalObject().setProperty("app", app);
 
@@ -2554,6 +2672,38 @@ void frmMain::onScriptException(const QScriptValue &exception)
         << exception.toString();
 }
 
+void frmMain::onActViewLayoutsSelected(bool checked)
+{
+    if (!checked)
+        return;
+
+    auto action = static_cast<QAction*>(sender());
+    auto layout = action->data().value<LayoutEntry>();
+
+    // Apply panels state
+    ui->scrollContentsDevice->restoreState(this, layout.devicePanels);
+    ui->scrollContentsModification->restoreState(this, layout.modificationPanels);
+    ui->scrollContentsUser->restoreState(this, layout.userPanels);
+
+    QStringList hiddenPanels = layout.hiddenPanels;
+    foreach (QString s, hiddenPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setHidden(true);
+    }
+
+    QStringList collapsedPanels = layout.collapsedPanels;
+    foreach (QString s, collapsedPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setChecked(false);
+    }
+
+    // Window state
+    restoreState(layout.windowState);
+
+    m_currentLayoutName = action->text();
+    ui->actViewLayoutsDelete->setEnabled(action != ui->actViewLayoutsDefault);
+}
+
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 {
     if (m_settingsLoading) return;
@@ -2722,6 +2872,10 @@ void frmMain::loadSettings()
     ui->txtHeightMapBorderWidth->setValue(set.value("heightmapBorderWidth", 1).toDouble());
     ui->txtHeightMapBorderHeight->setValue(set.value("heightmapBorderHeight", 1).toDouble());
     ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", true).toBool());
+    ui->chkHeightMapOriginShow->setChecked(set.value("heightmapOriginShow", true).toBool());
+
+    ui->txtHeightMapOriginX->setValue(set.value("heightmapOriginX", 0).toDouble());
+    ui->txtHeightMapOriginY->setValue(set.value("heightmapOriginY", 0).toDouble());
 
     ui->txtHeightMapGridX->setValue(set.value("heightmapGridX", 1).toDouble());
     ui->txtHeightMapGridY->setValue(set.value("heightmapGridY", 1).toDouble());
@@ -2734,6 +2888,9 @@ void frmMain::loadSettings()
     ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
     ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
     ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", true).toBool());
+
+    ui->lblHeightMapInterpolationType->setVisible(false);
+    ui->cboHeightMapInterpolationType->setVisible(false);
 
     ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
 
@@ -2790,49 +2947,96 @@ void frmMain::loadSettings()
     foreach (QDockWidget *w, findChildren<QDockWidget*>())
         connect(w, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
 
-        // Panels
-    ui->scrollContentsDevice->restoreState(this, set.value("panelsDevice").toStringList());
-    ui->scrollContentsModification->restoreState(this, set.value("panelsModification").toStringList());
-    ui->scrollContentsUser->restoreState(this, set.value("panelsUser").toStringList());
+    // Layouts
+    qRegisterMetaType<LayoutEntry>();
+    qRegisterMetaTypeStreamOperators<LayoutEntry>("LayoutEntry");
+    QMetaType::registerDebugStreamOperator<LayoutEntry>();
 
-    QStringList hiddenPanels = set.value("hiddenPanels").toStringList();
-    foreach (QString s, hiddenPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setHidden(true);
+    // Group for exclusive menu item check
+    m_layoutsActionGroup = new QActionGroup(this);
+    m_layoutsActionGroup->setExclusive(true);
+
+    // Find separator to insert items before
+    auto menuActions = ui->mnuViewLayouts->actions();
+    auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
+        return action->isSeparator();
+    });
+
+    // Load layouts
+    auto layouts = set.value("layouts").toList();
+    m_currentLayoutName = set.value("currentLayoutName").toString();
+
+    if (layouts.count() > 0) {
+        // Default layout always first
+        ui->actViewLayoutsDefault->setData(layouts.first().value<LayoutEntry>());
+    } else {
+        // No layouts saved, migrate from previous settings version
+        auto formState = set.value("formMainState").toByteArray();
+
+        if (!formState.size()) {
+            ui->dockScript->setVisible(false);
+            ui->dockLog->setVisible(false);
+
+            auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
+            if (cameraDock) cameraDock->setVisible(false);
+
+            resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
+            splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
+            splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
+
+            formState = saveState();
+        }
+
+        ui->actViewLayoutsDefault->setData(LayoutEntry {
+            ui->actViewLayoutsDefault->text(),
+            set.value("panelsDevice").toStringList(),
+            set.value("panelsModification").toStringList(),
+            set.value("panelsUser").toStringList(),
+            set.value("hiddenPanels").toStringList(),
+            set.value("collapsedPanels").toStringList(),
+            formState
+        });
     }
 
-    QStringList collapsedPanels = set.value("collapsedPanels").toStringList();
-    foreach (QString s, collapsedPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setChecked(false);
+    m_layoutsActionGroup->addAction(ui->actViewLayoutsDefault);
+    connect(ui->actViewLayoutsDefault, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+
+    // Rest of layouts
+    if (layouts.count() > 1) {
+        for (auto it = layouts.cbegin() + 1; it != layouts.cend(); it++) {
+            auto layoutEntry = (*it).value<LayoutEntry>();
+            auto action = new QAction(layoutEntry.name, m_layoutsActionGroup);
+            action->setData(layoutEntry);
+            action->setCheckable(true);
+
+            m_layoutsActionGroup->addAction(action);
+            ui->mnuViewLayouts->insertAction(separator, action);
+
+            connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+        }
     }
+
+    // Select current layout
+    auto actions = m_layoutsActionGroup->actions();
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == m_currentLayoutName;
+    });
+
+    auto currentLayoutAction = it != actions.constEnd() ? *it : ui->actViewLayoutsDefault;
 
     // Restore main window state
     auto formGeometry = set.value("formGeometry").toByteArray();
-    auto formState = set.value("formMainState").toByteArray();
-
-    if (!formState.size()) {
-        ui->dockScript->setVisible(false);
-        ui->dockLog->setVisible(false);
-
-        auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
-        if (cameraDock) cameraDock->setVisible(false);
-
-        resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
-        splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
-        splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
-    }
 
     if (set.value("formMaximized", false).toBool())
     {
         // Force maximized window size for proper dockWidgets restoring as restoreGeometry will set non maximized
         //   window size
         resize(set.value("formSize").toSize());
-        restoreState(formState);
+        currentLayoutAction->setChecked(true);
         showMaximized();
     } else {        
         restoreGeometry(formGeometry);
-        restoreState(formState);
+        currentLayoutAction->setChecked(true);
     }
 
     // Setup coords textboxes
@@ -2961,6 +3165,10 @@ void frmMain::saveSettings()
     set.setValue("heightmapBorderHeight", ui->txtHeightMapBorderHeight->value());
     set.setValue("heightmapBorderShow", ui->chkHeightMapBorderShow->isChecked());
 
+    set.setValue("heightmapOriginX", ui->txtHeightMapOriginX->value());
+    set.setValue("heightmapOriginY", ui->txtHeightMapOriginY->value());
+    set.setValue("heightmapOriginShow", ui->chkHeightMapOriginShow->isChecked());
+
     set.setValue("heightmapGridX", ui->txtHeightMapGridX->value());
     set.setValue("heightmapGridY", ui->txtHeightMapGridY->value());
     set.setValue("heightmapGridZTop", ui->txtHeightMapGridZTop->value());
@@ -2997,28 +3205,19 @@ void frmMain::saveSettings()
     s << m;
     set.setValue("shortcuts", ba);
 
-    // Panels
-    set.setValue("panelsDevice", QVariant::fromValue(ui->scrollContentsDevice->saveState()));
-    set.setValue("panelsModification", QVariant::fromValue(ui->scrollContentsModification->saveState()));
-    set.setValue("panelsUser", QVariant::fromValue(ui->scrollContentsUser->saveState()));
-
-    QStringList panels;
-    QStringList hiddenPanels;
-    QStringList collapsedPanels;
-    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
-    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
-    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
-    foreach (QString s, panels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b && b->isHidden()) hiddenPanels << s;
-        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
-    }
-    set.setValue("hiddenPanels", hiddenPanels);
-    set.setValue("collapsedPanels", collapsedPanels);
-
     // Menu
     set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
     set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
+
+    // Layouts
+    QVariantList layouts;
+    auto actions = m_layoutsActionGroup->actions();
+
+    for (auto it = actions.constBegin(); it != actions.constEnd(); it++) {
+        layouts.append((*it)->data());
+    }
+    set.setValue("layouts", layouts);
+    set.setValue("currentLayoutName", m_currentLayoutName);
 
     // Save script variables
     QScriptEngine e;
@@ -3194,7 +3393,7 @@ void frmMain::loadPlugins()
 
             // Delegate objects
             // Main form
-            QScriptValue app = se->newQObject(&m_scriptFunctions);
+            QScriptValue app = se->newQObject(m_scriptApp);
             app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
 
@@ -3775,7 +3974,14 @@ void frmMain::loadHeightMap(QString fileName)
         QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
         return;
     }
+
     QTextStream textStream(&file);
+    auto signature = textStream.readLine();
+    if (signature != "candle map v2") {
+        QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+        file.close();
+        return;
+    }
 
     m_settingsLoading = true;
 
@@ -3784,6 +3990,9 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapBorderY->setValue(qQNaN());
     ui->txtHeightMapBorderWidth->setValue(qQNaN());
     ui->txtHeightMapBorderHeight->setValue(qQNaN());
+
+    ui->txtHeightMapOriginX->setValue(qQNaN());
+    ui->txtHeightMapOriginY->setValue(qQNaN());
 
     ui->txtHeightMapGridX->setValue(qQNaN());
     ui->txtHeightMapGridY->setValue(qQNaN());
@@ -3795,6 +4004,10 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapBorderY->setValue(list[1].toDouble());
     ui->txtHeightMapBorderWidth->setValue(list[2].toDouble());
     ui->txtHeightMapBorderHeight->setValue(list[3].toDouble());
+
+    list = textStream.readLine().split(";");
+    ui->txtHeightMapOriginX->setValue(list[0].toDouble());
+    ui->txtHeightMapOriginY->setValue(list[1].toDouble());
 
     list = textStream.readLine().split(";");
     ui->txtHeightMapGridX->setValue(list[0].toDouble());
@@ -3840,10 +4053,13 @@ bool frmMain::saveHeightMap(QString fileName)
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
+    textStream << "candle map v2\r\n";
     textStream << ui->txtHeightMapBorderX->text() << ";"
                << ui->txtHeightMapBorderY->text() << ";"
                << ui->txtHeightMapBorderWidth->text() << ";"
                << ui->txtHeightMapBorderHeight->text() << "\r\n";
+    textStream << ui->txtHeightMapOriginX->text() << ";"
+               << ui->txtHeightMapOriginY->text() << "\r\n";
     textStream << ui->txtHeightMapGridX->text() << ";"
                << ui->txtHeightMapGridY->text() << ";"
                << ui->txtHeightMapGridZBottom->text() << ";"
@@ -4043,6 +4259,7 @@ void frmMain::updateControlsState() {
 
     // Heightmap
     m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
+    m_heightMapOriginDrawer.setVisible(ui->chkHeightMapOriginShow->isChecked() && m_heightMapMode);
     m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
@@ -4063,6 +4280,7 @@ void frmMain::updateControlsState() {
 
     ui->widgetHeightMap->setEnabled(!process && m_programModel.rowCount() > 1);
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
+    ui->cmdHeightMapOrigin->setEnabled(!ui->txtHeightMap->text().isEmpty() && portOpened && !process);
 
     ui->cmdFileSend->setText(m_heightMapMode ? tr("Probe") : tr("Send"));
 
@@ -4189,6 +4407,9 @@ bool frmMain::updateHeightMapGrid()
     m_heightMapGridDrawer.setZBottom(ui->txtHeightMapGridZBottom->value());
     m_heightMapGridDrawer.setZTop(ui->txtHeightMapGridZTop->value());
 
+    // Update origin drawer
+    m_heightMapOriginDrawer.setTranslation(QVector3D(ui->txtHeightMapOriginX->value(), ui->txtHeightMapOriginY->value(), 0.0));
+
     // Reset model
     int gridPointsX = ui->txtHeightMapGridX->value();
     int gridPointsY = ui->txtHeightMapGridY->value();
@@ -4210,14 +4431,16 @@ bool frmMain::updateHeightMapGrid()
     m_probeModel.insertRow(0);
 
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1")
-                         .arg(ui->txtHeightMapProbeFeed->value()));
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X0Y0"));
+                        .arg(ui->txtHeightMapProbeFeed->value()));
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X%1Y%2")
+                        .arg(ui->txtHeightMapOriginX->value())
+                        .arg(ui->txtHeightMapOriginY->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
-                         .arg(ui->txtHeightMapGridZTop->value()));
+                        .arg(ui->txtHeightMapGridZTop->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G38.2Z%1")
-                         .arg(ui->txtHeightMapGridZBottom->value()));
+                        .arg(ui->txtHeightMapGridZBottom->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0Z%1")
-                         .arg(ui->txtHeightMapGridZTop->value()));
+                        .arg(ui->txtHeightMapGridZTop->value()));
 
     double x, y;
 

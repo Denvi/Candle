@@ -1,14 +1,14 @@
-#ifndef SCRIPTFUNCTIONS_H
-#define SCRIPTFUNCTIONS_H
+#pragma once
 
 #include <QObject>
 #include <QString>
 #include <QDebug>
 #include <QAction>
+#include "scriptprogram.h"
 
 class frmMain;
 
-class ScriptFunctions: public QObject
+class ScriptApp: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int bufferLength READ bufferLength)
@@ -18,12 +18,11 @@ class ScriptFunctions: public QObject
     Q_PROPERTY(QWidget* window READ window)
     Q_PROPERTY(int senderState READ senderState)
     Q_PROPERTY(int deviceState READ deviceState)
+    Q_PROPERTY(int deviceState READ deviceState)
+    Q_PROPERTY(ScriptProgram *program READ scriptProgram)
 
 public:
-    ScriptFunctions(QObject *parent = 0);
-
-    void setFrmMain(frmMain *f);
-    frmMain *getFrmMain();
+    ScriptApp(frmMain *f);
 
 public slots:
     void sendCommands(QString commands, int index = -100);
@@ -34,16 +33,14 @@ public slots:
     void storeParserState();
     void restoreParserState();
 
-    void newFile();
-    void loadFile(QString fileName);
-    void loadFile(QVariantList data);
+    bool newFile();
+    bool loadFile(QString fileName);
+    bool loadFile(QStringList data);
     bool saveFile();
-    void saveFile(QString fileName);
+    bool saveFile(QString fileName);
 
     void addAction(QAction *action);
     void removeAction(QAction *action);
-
-    void loadProgram(QStringList program);
 
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
@@ -62,6 +59,7 @@ signals:
 
 private:
     frmMain *m_frmMain;
+    ScriptProgram *m_scriptProgram;
 
     int bufferLength();
     int commandsLength();
@@ -70,6 +68,5 @@ private:
     QWidget* window();
     int senderState();
     int deviceState();
+    ScriptProgram *scriptProgram();
 };
-
-#endif

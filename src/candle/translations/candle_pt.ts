@@ -141,14 +141,6 @@
         <translation>Grade de interpolação:</translation>
     </message>
     <message>
-        <source>Type:</source>
-        <translation>Tipo:</translation>
-    </message>
-    <message>
-        <source>Bicubic</source>
-        <translation>Bicúbico</translation>
-    </message>
-    <message>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -785,6 +777,54 @@ Tempo transcorrido: %1</translation>
     </message>
     <message>
         <source>&amp;Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move toolhead to heightmap origin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished">Tipo:</translation>
+    </message>
+    <message>
+        <source>Bicubic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show origin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use current toolhead position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter layout name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>L&amp;ayouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

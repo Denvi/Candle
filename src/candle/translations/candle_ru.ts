@@ -137,14 +137,6 @@
         <translation>Сетка интерполяции:</translation>
     </message>
     <message>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <source>Bicubic</source>
-        <translation>Бикубический</translation>
-    </message>
-    <message>
         <source>State</source>
         <translation>Состояние</translation>
     </message>
@@ -306,7 +298,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>Редактирование</translation>
+        <translation>Правка</translation>
     </message>
     <message>
         <source>X:</source>
@@ -789,6 +781,54 @@ Time elapsed: %1</source>
     <message>
         <source>&amp;Reload</source>
         <translation>&amp;Перезагрузить</translation>
+    </message>
+    <message>
+        <source>Move toolhead to heightmap origin</source>
+        <translation>Переместить инструмент к точке отсчета карты высот</translation>
+    </message>
+    <message>
+        <source>Origin</source>
+        <translation>В ноль</translation>
+    </message>
+    <message>
+        <source>Origin:</source>
+        <translation>Точка отсчета</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <source>Bicubic</source>
+        <translation>Бикубический</translation>
+    </message>
+    <message>
+        <source>Show origin</source>
+        <translation>Показать точку отсчета</translation>
+    </message>
+    <message>
+        <source>Use current toolhead position</source>
+        <translation>Использовать текущее положение инструмента</translation>
+    </message>
+    <message>
+        <source>Tool</source>
+        <translation>ТПИ</translation>
+    </message>
+    <message>
+        <source>Enter layout name</source>
+        <translation>Введите имя раскладки</translation>
+    </message>
+    <message>
+        <source>L&amp;ayouts</source>
+        <translation>&amp;Раскладки</translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation>&amp;Удалить</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>По умолчанию</translation>
     </message>
 </context>
 <context>

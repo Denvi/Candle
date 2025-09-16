@@ -1,4 +1,4 @@
-﻿app.loadProgram([
+﻿app.loadFile([
     "G21G90",
     "G0X0Y0Z0",
     "G1X10F100",
