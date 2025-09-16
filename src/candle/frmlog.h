@@ -2,13 +2,13 @@
 // Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #pragma once
-#include <QWidget>
+#include <QFrame>
 
 namespace Ui {
 class frmLog;
 }
 
-class frmLog : public QWidget
+class frmLog : public QFrame
 {
     Q_OBJECT
 
