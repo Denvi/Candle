@@ -6,7 +6,7 @@
 #include "frmLog.h"
 #include "ui_frmLog.h"
 
-frmLog::frmLog(QWidget *parent) : QWidget(parent), ui(new Ui::frmLog)
+frmLog::frmLog(QWidget *parent) : QFrame(parent), ui(new Ui::frmLog)
 {
     ui->setupUi(this);
 
