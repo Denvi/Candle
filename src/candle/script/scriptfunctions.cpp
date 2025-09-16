@@ -53,21 +53,49 @@ void ScriptFunctions::restoreParserState()
     m_frmMain->restoreParserState();
 }
 
-void ScriptFunctions::newFile()
+bool ScriptFunctions::newFile()
 {
+    if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
+        qInfo(scriptLogCategory) << "Can't create new file while sender is streaming";
+        return false;
+    }
+
+    if (!m_frmMain->saveChanges(false)) return false;
+
     m_frmMain->newFile();
+
+    return true;
 }
 
-void ScriptFunctions::loadFile(QString fileName)
+bool ScriptFunctions::loadFile(QString fileName)
 {
+    if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
+        qInfo(scriptLogCategory) << "Can't load file while sender is streaming";
+        return false;
+    }
+
+    if (!m_frmMain->saveChanges(false)) return false;
+
     m_frmMain->loadFile(fileName);
+
+    return true;
 }
 
-void ScriptFunctions::loadFile(QVariantList data)
+bool ScriptFunctions::loadFile(QStringList data)
 {
-    QList<QString> l;
-    foreach (QVariant v, data) l << v.toString();
-    m_frmMain->loadFile(l);
+    if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
+        qInfo(scriptLogCategory) << "Can't load file while sender is streaming";
+        return false;
+    }
+
+    if (!m_frmMain->saveChanges(false)) return false;
+
+    m_frmMain->newFile();
+    m_frmMain->loadFile(data);
+
+    m_frmMain->m_fileChanged = true;
+
+    return true;
 }
 
 bool ScriptFunctions::saveFile()
@@ -75,7 +103,7 @@ bool ScriptFunctions::saveFile()
     return m_frmMain->saveChanges(false);
 }
 
-void ScriptFunctions::saveFile(QString fileName)
+bool ScriptFunctions::saveFile(QString fileName)
 {
     if (m_frmMain->saveProgramToFile(fileName, &m_frmMain->m_programModel)) {
         m_frmMain->m_programFileName = fileName;
@@ -85,7 +113,11 @@ void ScriptFunctions::saveFile(QString fileName)
         m_frmMain->updateRecentFilesMenu();
 
         m_frmMain->updateControlsState();
+
+        return true;
     }
+
+    return false;
 }
 
 int ScriptFunctions::bufferLength()
@@ -131,18 +163,4 @@ void ScriptFunctions::addAction(QAction *action)
 void ScriptFunctions::removeAction(QAction *action)
 {
     m_frmMain->removeAction(action);
-}
-
-void ScriptFunctions::loadProgram(QStringList program)
-{
-    if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
-        qInfo(scriptLogCategory) << "Can't load program while sender is streaming";
-        return;
-    }
-    if (!m_frmMain->saveChanges(false)) return;
-
-    m_frmMain->newFile();
-    m_frmMain->loadFile(program);
-
-    m_frmMain->m_fileChanged = true;
 }

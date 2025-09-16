@@ -34,16 +34,14 @@ public slots:
     void storeParserState();
     void restoreParserState();
 
-    void newFile();
-    void loadFile(QString fileName);
-    void loadFile(QVariantList data);
+    bool newFile();
+    bool loadFile(QString fileName);
+    bool loadFile(QStringList data);
     bool saveFile();
-    void saveFile(QString fileName);
+    bool saveFile(QString fileName);
 
     void addAction(QAction *action);
     void removeAction(QAction *action);
-
-    void loadProgram(QStringList program);
 
 signals:
     void responseReceived(QString command, int tableIndex, QString response);
