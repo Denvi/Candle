@@ -1,33 +1,24 @@
-#include "scriptfunctions.h"
+#include "scriptapp.h"
 #include "frmmain.h"
 #include <QApplication>
 #include "loggingcategories.h"
 
-ScriptFunctions::ScriptFunctions(QObject *parent): QObject(parent), m_frmMain(0)
+ScriptApp::ScriptApp(frmMain *f): QObject(0), m_frmMain(f)
 {
+    m_scriptProgram = new ScriptProgram(f);
 }
 
-void ScriptFunctions::setFrmMain(frmMain *f)
-{
-    m_frmMain = f;
-}
-
-frmMain* ScriptFunctions::getFrmMain()
-{
-    return m_frmMain;
-}
-
-void ScriptFunctions::sendCommands(QString commands, int index)
+void ScriptApp::sendCommands(QString commands, int index)
 {
     m_frmMain->sendCommands(commands, index);
 }
 
-void ScriptFunctions::sendCommands(QStringList commands, int index)
+void ScriptApp::sendCommands(QStringList commands, int index)
 {
     m_frmMain->sendCommands(commands.join("\n"), index);
 }
 
-void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole, bool direct)
+void ScriptApp::sendCommand(QString command, int index, bool showInConsole, bool direct)
 {
     if (direct) {
         m_frmMain->m_serialPort.write((command + "\r").toLatin1());
@@ -36,24 +27,24 @@ void ScriptFunctions::sendCommand(QString command, int index, bool showInConsole
     }
 }
 
-void ScriptFunctions::waitResponses()
+void ScriptApp::waitResponses()
 {
     while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
         QApplication::processEvents();
     }
 }
 
-void ScriptFunctions::storeParserState()
+void ScriptApp::storeParserState()
 {
     m_frmMain->storeParserState();
 }
 
-void ScriptFunctions::restoreParserState()
+void ScriptApp::restoreParserState()
 {
     m_frmMain->restoreParserState();
 }
 
-bool ScriptFunctions::newFile()
+bool ScriptApp::newFile()
 {
     if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
         qInfo(scriptLogCategory) << "Can't create new file while sender is streaming";
@@ -67,7 +58,7 @@ bool ScriptFunctions::newFile()
     return true;
 }
 
-bool ScriptFunctions::loadFile(QString fileName)
+bool ScriptApp::loadFile(QString fileName)
 {
     if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
         qInfo(scriptLogCategory) << "Can't load file while sender is streaming";
@@ -81,7 +72,7 @@ bool ScriptFunctions::loadFile(QString fileName)
     return true;
 }
 
-bool ScriptFunctions::loadFile(QStringList data)
+bool ScriptApp::loadFile(QStringList data)
 {
     if (m_frmMain->m_senderState != frmMain::SenderState::SenderStopped) {
         qInfo(scriptLogCategory) << "Can't load file while sender is streaming";
@@ -98,12 +89,12 @@ bool ScriptFunctions::loadFile(QStringList data)
     return true;
 }
 
-bool ScriptFunctions::saveFile()
+bool ScriptApp::saveFile()
 {
     return m_frmMain->saveChanges(false);
 }
 
-bool ScriptFunctions::saveFile(QString fileName)
+bool ScriptApp::saveFile(QString fileName)
 {
     if (m_frmMain->saveProgramToFile(fileName, &m_frmMain->m_programModel)) {
         m_frmMain->m_programFileName = fileName;
@@ -120,47 +111,52 @@ bool ScriptFunctions::saveFile(QString fileName)
     return false;
 }
 
-int ScriptFunctions::bufferLength()
+int ScriptApp::bufferLength()
 {
     return m_frmMain->bufferLength();
 }
 
-int ScriptFunctions::commandsLength()
+int ScriptApp::commandsLength()
 {
     return m_frmMain->m_commands.length();
 }
 
-int ScriptFunctions::queueLength()
+int ScriptApp::queueLength()
 {
     return m_frmMain->m_queue.length();
 }
 
-int ScriptFunctions::buttonSize()
+int ScriptApp::buttonSize()
 {
     return m_frmMain->buttonSize();
 }
 
-QWidget* ScriptFunctions::window()
+QWidget* ScriptApp::window()
 {
     return m_frmMain;
 }
 
-int ScriptFunctions::senderState()
+int ScriptApp::senderState()
 {
     return m_frmMain->m_senderState;
 }
 
-int ScriptFunctions::deviceState()
+int ScriptApp::deviceState()
 {
     return m_frmMain->m_deviceState;
 }
 
-void ScriptFunctions::addAction(QAction *action)
+ScriptProgram* ScriptApp::scriptProgram()
+{
+    return m_scriptProgram;
+}
+
+void ScriptApp::addAction(QAction *action)
 {
     m_frmMain->addAction(action);
 }
 
-void ScriptFunctions::removeAction(QAction *action)
+void ScriptApp::removeAction(QAction *action)
 {
     m_frmMain->removeAction(action);
 }

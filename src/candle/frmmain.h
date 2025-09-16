@@ -44,7 +44,7 @@
 #include "frmabout.h"
 
 #include "script/scriptvars.h"
-#include "script/scriptfunctions.h"
+#include "script/scriptapp.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
@@ -105,7 +105,8 @@ class frmMain : public QMainWindow
 {
     Q_OBJECT
 
-    friend class ScriptFunctions;
+    friend class ScriptApp;
+    friend class ScriptProgram;
 
 public:
     explicit frmMain(QWidget *parent = 0);
@@ -397,7 +398,7 @@ private:
     // Script
     QScriptEngine m_scriptEngine;
     ScriptVars m_storedVars;
-    ScriptFunctions m_scriptFunctions;
+    ScriptApp* m_scriptApp;
 
     // Drag & drop
     QPoint m_mousePressPos;

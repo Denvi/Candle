@@ -257,20 +257,20 @@ frmMain::frmMain(QWidget *parent) :
     m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
 
     // Prepare script functions
-    m_scriptFunctions.setFrmMain(this);
-    connect(this, &frmMain::responseReceived, &m_scriptFunctions, &ScriptFunctions::responseReceived);
-    connect(this, &frmMain::statusReceived, &m_scriptFunctions, &ScriptFunctions::statusReceived);
-    connect(this, &frmMain::senderStateChanged, &m_scriptFunctions, &ScriptFunctions::senderStateChanged);
-    connect(this, &frmMain::deviceStateChanged, &m_scriptFunctions, &ScriptFunctions::deviceStateChanged);
-    connect(this, &frmMain::settingsAboutToLoad, &m_scriptFunctions, &ScriptFunctions::settingsAboutToLoad);
-    connect(this, &frmMain::settingsLoaded, &m_scriptFunctions, &ScriptFunctions::settingsLoaded);
-    connect(this, &frmMain::settingsAboutToSave, &m_scriptFunctions, &ScriptFunctions::settingsAboutToSave);
-    connect(this, &frmMain::settingsSaved, &m_scriptFunctions, &ScriptFunctions::settingsSaved);
-    connect(this, &frmMain::settingsAboutToShow, &m_scriptFunctions, &ScriptFunctions::settingsAboutToShow);
-    connect(this, &frmMain::settingsAccepted, &m_scriptFunctions, &ScriptFunctions::settingsAccepted);
-    connect(this, &frmMain::settingsRejected, &m_scriptFunctions, &ScriptFunctions::settingsRejected);
-    connect(this, &frmMain::settingsSetByDefault, &m_scriptFunctions, &ScriptFunctions::settingsSetByDefault);
-    connect(this, &frmMain::pluginsLoaded, &m_scriptFunctions, &ScriptFunctions::pluginsLoaded);
+    m_scriptApp = new ScriptApp(this);
+    connect(this, &frmMain::responseReceived, m_scriptApp, &ScriptApp::responseReceived);
+    connect(this, &frmMain::statusReceived, m_scriptApp, &ScriptApp::statusReceived);
+    connect(this, &frmMain::senderStateChanged, m_scriptApp, &ScriptApp::senderStateChanged);
+    connect(this, &frmMain::deviceStateChanged, m_scriptApp, &ScriptApp::deviceStateChanged);
+    connect(this, &frmMain::settingsAboutToLoad, m_scriptApp, &ScriptApp::settingsAboutToLoad);
+    connect(this, &frmMain::settingsLoaded, m_scriptApp, &ScriptApp::settingsLoaded);
+    connect(this, &frmMain::settingsAboutToSave, m_scriptApp, &ScriptApp::settingsAboutToSave);
+    connect(this, &frmMain::settingsSaved, m_scriptApp, &ScriptApp::settingsSaved);
+    connect(this, &frmMain::settingsAboutToShow, m_scriptApp, &ScriptApp::settingsAboutToShow);
+    connect(this, &frmMain::settingsAccepted, m_scriptApp, &ScriptApp::settingsAccepted);
+    connect(this, &frmMain::settingsRejected, m_scriptApp, &ScriptApp::settingsRejected);
+    connect(this, &frmMain::settingsSetByDefault, m_scriptApp, &ScriptApp::settingsSetByDefault);
+    connect(this, &frmMain::pluginsLoaded, m_scriptApp, &ScriptApp::pluginsLoaded);
 
     // Loading settings
     loadSettings();
@@ -1585,7 +1585,7 @@ void frmMain::on_cmdScriptStart_clicked()
 
     // Delegate objects
     // Main form
-    QScriptValue app = se.newQObject(&m_scriptFunctions);
+    QScriptValue app = se.newQObject(m_scriptApp);
     app.setProperty("path", qApp->applicationDirPath());
     se.globalObject().setProperty("app", app);
 
@@ -3194,7 +3194,7 @@ void frmMain::loadPlugins()
 
             // Delegate objects
             // Main form
-            QScriptValue app = se->newQObject(&m_scriptFunctions);
+            QScriptValue app = se->newQObject(m_scriptApp);
             app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
 
