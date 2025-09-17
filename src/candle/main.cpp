@@ -59,7 +59,6 @@ int main(int argc, char *argv[])
         if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
     }
 
-
 #ifdef UNIX
     if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {
         qDebug() << "style" << str;

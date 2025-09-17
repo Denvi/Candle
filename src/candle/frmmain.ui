@@ -350,7 +350,18 @@ QLabel[overrided=&quot;false&quot;] {
     <property name="title">
      <string>&amp;Service</string>
     </property>
+    <widget class="QMenu" name="mnuServiceProfiles">
+     <property name="title">
+      <string>&amp;Profiles</string>
+     </property>
+     <addaction name="actServiceProfilesDefault"/>
+     <addaction name="separator"/>
+     <addaction name="actServiceProfilesCreate"/>
+     <addaction name="actServiceProfilesDelete"/>
+    </widget>
     <addaction name="actServiceSettings"/>
+    <addaction name="separator"/>
+    <addaction name="mnuServiceProfiles"/>
    </widget>
    <widget class="QMenu" name="mnuHelp">
     <property name="title">
@@ -374,19 +385,8 @@ QLabel[overrided=&quot;false&quot;] {
       <string>&amp;Panels</string>
      </property>
     </widget>
-    <widget class="QMenu" name="mnuViewLayouts">
-     <property name="title">
-      <string>L&amp;ayouts</string>
-     </property>
-     <addaction name="actViewLayoutsDefault"/>
-     <addaction name="separator"/>
-     <addaction name="actViewLayoutsSave"/>
-     <addaction name="actViewLayoutsDelete"/>
-    </widget>
     <addaction name="mnuViewWindows"/>
     <addaction name="mnuViewPanels"/>
-    <addaction name="separator"/>
-    <addaction name="mnuViewLayouts"/>
     <addaction name="separator"/>
     <addaction name="actViewLockWindows"/>
     <addaction name="actViewLockPanels"/>
@@ -432,7 +432,7 @@ QLabel[overrided=&quot;false&quot;] {
           <x>0</x>
           <y>0</y>
           <width>214</width>
-          <height>703</height>
+          <height>792</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -3428,6 +3428,24 @@ padding-right: 8;</string>
    </property>
   </action>
   <action name="actViewLayoutsDefault">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesCreate">
+   <property name="text">
+    <string>&amp;Create</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesDelete">
+   <property name="text">
+    <string>&amp;Delete</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesDefault">
    <property name="checkable">
     <bool>true</bool>
    </property>

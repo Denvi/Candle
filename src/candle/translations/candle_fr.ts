@@ -812,19 +812,27 @@ Temps écoulé: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter layout name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>L&amp;ayouts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter profile name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Create</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profile &apos;%1&apos; already exists</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1204,10 +1212,6 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>250000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

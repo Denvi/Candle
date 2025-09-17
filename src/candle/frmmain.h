@@ -46,6 +46,9 @@
 #include "script/scriptvars.h"
 #include "script/scriptapp.h"
 
+#include "storage.h"
+#include "storagegroup.h"
+
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
     #include "shobjidl.h"
@@ -152,8 +155,8 @@ private slots:
     void on_actOverrideSpindlePlus_triggered();
     void on_actOverrideSpindleMinus_triggered();
     void on_actViewLockWindows_toggled(bool checked);
-    void on_actViewLayoutsSave_triggered();
-    void on_actViewLayoutsDelete_triggered();
+    void on_actServiceProfilesCreate_triggered();
+    void on_actServiceProfilesDelete_triggered();
 
     void on_cmdFileOpen_clicked();
     void on_cmdFileSend_clicked();
@@ -244,7 +247,7 @@ private slots:
     void onDockTopLevelChanged(bool topLevel);
     void onScroolBarAction(int action);
     void onScriptException(const QScriptValue &exception);
-    void onActViewLayoutsSelected(bool checked);
+    void onActServiceProfilesSelected(bool checked);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
@@ -301,13 +304,16 @@ private:
     // Ui
     Ui::frmMain *ui;
 
+    QTranslator* m_appTranslator;
+    QTranslator* m_qtTranslator;
+
     QMap<DeviceState, QString> m_deviceStatuses;
     QMap<DeviceState, QString> m_statusCaptions;
     QMap<DeviceState, QString> m_statusBackColors;
     QMap<DeviceState, QString> m_statusForeColors;
 
-    QActionGroup *m_layoutsActionGroup;
-    QString m_currentLayoutName;
+    QActionGroup *m_profilesActionGroup;
+    QString m_currentProfileName;
 
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;
@@ -416,11 +422,19 @@ private:
     // Drag & drop
     QPoint m_mousePressPos;
     
+    // In memory settings for plugins
+    Storage m_storage;
+
     // Settings
     void preloadSettings();
     void loadSettings();
     void saveSettings();
     void applySettings();
+    void storeSettings();
+    void restoreSettings();
+
+    void saveProfiles(QSettings &settings);
+    void loadProfiles(QSettings &settings);
 
     // Plugins
     void loadPlugins();

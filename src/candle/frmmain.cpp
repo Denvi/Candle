@@ -26,6 +26,7 @@
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
 #include "layoutentry.h"
+#include "settingsprofileentry.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -114,7 +115,6 @@ frmMain::frmMain(QWidget *parent) :
     m_spindleCW = true;
 
     // Loading settings
-    preloadSettings();
 
     m_settings = new frmSettings(this);
     m_about = new frmAbout(this);
@@ -585,22 +585,10 @@ void frmMain::on_actServiceSettings_triggered()
     emit settingsAboutToShow();
 
     if (m_settings->exec()) {
-        if (m_settings->port() != "" && (m_settings->port() != m_serialPort.portName() ||
-                                           m_settings->baud() != m_serialPort.baudRate())) {
-            if (m_serialPort.isOpen()) m_serialPort.close();
-            m_serialPort.setPortName(m_settings->port());
-            m_serialPort.setBaudRate(m_settings->baud());
-            openPort();
-        }
-
-        updateControlsState();
         applySettings();
-
         emit settingsAccepted();
-
     } else {
         m_settings->undo();
-
         emit settingsRejected();
     }
 }
@@ -694,88 +682,59 @@ void frmMain::on_actViewLockWindows_toggled(bool checked)
     }
 }
 
-void frmMain::on_actViewLayoutsSave_triggered()
+void frmMain::on_actServiceProfilesCreate_triggered()
 {
-    auto layoutName = QInputDialog::getText(this, "", tr("Enter layout name"), QLineEdit::Normal, m_currentLayoutName);
+    auto profileName = QInputDialog::getText(this, "", tr("Enter profile name"), QLineEdit::Normal, m_currentProfileName);
 
-    if (layoutName.isEmpty())
+    if (profileName.isEmpty())
         return;
 
-    // Prepare layout entry
-    LayoutEntry layout;
-
-    layout.name = layoutName;
-    layout.devicePanels = ui->scrollContentsDevice->saveState();
-    layout.modificationPanels = ui->scrollContentsModification->saveState();
-    layout.userPanels = ui->scrollContentsUser->saveState();
-
-    QStringList panels;
-    QStringList hiddenPanels;
-    QStringList collapsedPanels;
-
-    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
-    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
-    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
-
-    foreach (QString s, panels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b && b->isHidden()) hiddenPanels << s;
-        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
-    }
-
-    layout.hiddenPanels = hiddenPanels;
-    layout.collapsedPanels = collapsedPanels;
-    layout.windowState = saveState();
-
-    // Save layout
-    auto actions = m_layoutsActionGroup->actions();
+    // Save profile
+    auto actions = m_profilesActionGroup->actions();
     auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
-        return action->text() == layoutName;
+        return action->text() == profileName;
     });
 
     if (it != actions.constEnd()) {
-        auto action = *it;
-        action->setData(layout);
-        action->setChecked(true);
+        QMessageBox::critical(this, "", QString(tr("Profile '%1' already exists")).arg(profileName));
+        return;
     } else {
-        auto action = new QAction(layoutName, m_layoutsActionGroup);
-        action->setData(layout);
+        storeSettings();
+
+        auto action = new QAction(profileName, m_profilesActionGroup);
+        action->setData(SettingsProfileEntry { profileName, m_storage.save() });
         action->setCheckable(true);
         action->setChecked(true);
 
-        auto menuActions = ui->mnuViewLayouts->actions();
+        auto menuActions = ui->mnuServiceProfiles->actions();
         auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
             return action->isSeparator();
         });
 
-        m_layoutsActionGroup->addAction(action);
-        ui->mnuViewLayouts->insertAction(separator, action);
+        m_profilesActionGroup->addAction(action);
+        ui->mnuServiceProfiles->insertAction(separator, action);
 
-        connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
+        connect(action, &QAction::toggled, this, &frmMain::onActServiceProfilesSelected);
     }
 
-    m_currentLayoutName = layoutName;
-    ui->actViewLayoutsDelete->setEnabled(true);
+    m_currentProfileName = profileName;
+    ui->actServiceProfilesDelete->setEnabled(true);
 }
 
-void frmMain::on_actViewLayoutsDelete_triggered()
+void frmMain::on_actServiceProfilesDelete_triggered()
 {
-    auto actions = m_layoutsActionGroup->actions();
+    auto actions = m_profilesActionGroup->actions();
+    auto action = m_profilesActionGroup->checkedAction();
 
-    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
-        return action->text() == m_currentLayoutName;
-    });
-
-    if (it != actions.constEnd()) {
-        auto action = (*it);
+    if (action) {
         if (action == actions.first())
             return;
 
-        m_layoutsActionGroup->removeAction(action);
-        ui->mnuViewLayouts->removeAction(action);
+        m_profilesActionGroup->removeAction(action);
+        ui->mnuServiceProfiles->removeAction(action);
     }
 
-    m_layoutsActionGroup->actions().first()->setChecked(true);
+    actions.first()->setChecked(true);
 }
 
 void frmMain::on_cmdFileOpen_clicked()
@@ -1711,6 +1670,18 @@ void frmMain::on_cmdScriptStart_clicked()
     QScriptValue settings = se.newQObject(m_settings);
     app.setProperty("settings", settings);
 
+    // Storage
+    auto storage = se.newQObject(&m_storage);
+    app.setProperty("storage", storage);
+
+    qScriptRegisterMetaType<StorageGroup*>(&se,
+        [](QScriptEngine *e, StorageGroup* const &g) {
+            return e->newQObject(g, QScriptEngine::ScriptOwnership);
+        },
+        [](const QScriptValue &v, StorageGroup *&g) {
+            g = qobject_cast<StorageGroup*>(v.toQObject());
+        });
+        
     // Stored vars
     QScriptValue vars = se.newQObject(&m_storedVars);
     se.globalObject().setProperty("vars", vars);
@@ -2672,36 +2643,33 @@ void frmMain::onScriptException(const QScriptValue &exception)
         << exception.toString();
 }
 
-void frmMain::onActViewLayoutsSelected(bool checked)
+void frmMain::onActServiceProfilesSelected(bool checked)
 {
     if (!checked)
         return;
 
     auto action = static_cast<QAction*>(sender());
-    auto layout = action->data().value<LayoutEntry>();
+    auto profile = action->data().value<SettingsProfileEntry>();
 
-    // Apply panels state
-    ui->scrollContentsDevice->restoreState(this, layout.devicePanels);
-    ui->scrollContentsModification->restoreState(this, layout.modificationPanels);
-    ui->scrollContentsUser->restoreState(this, layout.userPanels);
-
-    QStringList hiddenPanels = layout.hiddenPanels;
-    foreach (QString s, hiddenPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setHidden(true);
+    // Save previous profile changes
+    if (m_currentProfileName != action->text()) {
+        auto actions = m_profilesActionGroup->actions();
+        auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+            return action->text() == m_currentProfileName;
+        });
+        if (it != actions.constEnd())
+        {
+            storeSettings();
+            (*it)->setData(SettingsProfileEntry { m_currentProfileName, m_storage.save() });
+        }
     }
 
-    QStringList collapsedPanels = layout.collapsedPanels;
-    foreach (QString s, collapsedPanels) {
-        QGroupBox *b = findChild<QGroupBox*>(s);
-        if (b) b->setChecked(false);
-    }
+    m_currentProfileName = action->text();
 
-    // Window state
-    restoreState(layout.windowState);
+    m_storage.restore(profile.settings);
+    restoreSettings();
 
-    m_currentLayoutName = action->text();
-    ui->actViewLayoutsDelete->setEnabled(action != ui->actViewLayoutsDefault);
+    ui->actServiceProfilesDelete->setEnabled(action != ui->actServiceProfilesDefault);
 }
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)
@@ -2763,268 +2731,32 @@ void frmMain::preloadSettings()
 
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: "
         + set.value("fontSize", "9").toString()));
+
+    set.endGroup();
 }
 
 void frmMain::loadSettings()
 {
-    QSettings set;
-
     m_settingsLoading = true;
-    emit settingsAboutToLoad();
+    
+    QSettings set;
+    set.beginGroup("General");
 
-    if (set.childGroups().contains("General")) {
-        set.beginGroup("General");
-        m_settings->setFontSize(set.value("fontSize", 9).toInt());
-        m_settings->setPort(set.value("port").toString());
-        m_settings->setBaud(set.value("baud", 115200).toInt());
-        m_settings->setIgnoreErrors(set.value("ignoreErrors", false).toBool());
-        m_settings->setAutoLine(set.value("autoLine", true).toBool());
-        m_settings->setToolDiameter(set.value("toolDiameter", 3).toDouble());
-        m_settings->setToolLength(set.value("toolLength", 30).toDouble());
-        m_settings->setToolAngle(set.value("toolAngle", 15).toDouble());
-        m_settings->setToolType(set.value("toolType", 1).toInt());
-        m_settings->setAntialiasing(set.value("antialiasing", true).toBool());
-        m_settings->setMsaa(set.value("msaa", true).toBool());
-        m_settings->setVsync(set.value("vsync", false).toBool());
-        m_settings->setZBuffer(set.value("zBuffer", false).toBool());
-        m_settings->setSimplify(set.value("simplify", true).toBool());
-        m_settings->setSimplifyPrecision(set.value("simplifyPrecision", 0).toDouble());
-        m_settings->setGrayscaleSegments(set.value("grayscaleSegments", false).toBool());
-        m_settings->setGrayscaleSCode(set.value("grayscaleSCode", true).toBool());
-        m_settings->setDrawModeVectors(set.value("drawModeVectors", true).toBool());
-        m_settings->setLineWidth(set.value("lineWidth", 1.5).toDouble());
-        m_settings->setArcLength(set.value("arcLength", 0).toDouble());
-        m_settings->setArcDegree(set.value("arcDegree", 5).toDouble());
-        m_settings->setArcDegreeMode(set.value("arcDegreeMode", true).toBool());
-        m_settings->setShowProgramCommands(set.value("showProgramCommands", 0).toBool());
-        m_settings->setShowUICommands(set.value("showUICommands", 0).toBool());
-        m_settings->setSpindleSpeedMin(set.value("spindleSpeedMin", 0).toInt());
-        m_settings->setSpindleSpeedMax(set.value("spindleSpeedMax", 10000).toInt());
-        m_settings->setLaserPowerMin(set.value("laserPowerMin", 0).toInt());
-        m_settings->setLaserPowerMax(set.value("laserPowerMax", 100).toInt());
-        m_settings->setRapidSpeed(set.value("rapidSpeed", 0).toInt());
-        m_settings->setAcceleration(set.value("acceleration", 10).toInt());
-        m_settings->setFps(set.value("fps", 60).toInt());
-        m_settings->setQueryStateTime(set.value("queryStateTime", 40).toInt());
-        m_settings->setUseStartCommands(set.value("useStartCommands").toBool());
-        m_settings->setStartCommands(set.value("startCommands").toString());
-        m_settings->setUseEndCommands(set.value("useEndCommands").toBool());
-        m_settings->setEndCommands(set.value("endCommands").toString());
-        m_settings->setToolChangeCommands(set.value("toolChangeCommands").toString());
-        m_settings->setToolChangePause(set.value("toolChangePause").toBool());
-        m_settings->setToolChangeUseCommands(set.value("toolChangeUseCommands").toBool());
-        m_settings->setToolChangeUseCommandsConfirm(set.value("toolChangeUseCommandsConfirm").toBool());
-        m_settings->setReferenceXPlus(set.value("referenceXPlus", false).toBool());
-        m_settings->setReferenceYPlus(set.value("referenceYPlus", false).toBool());
-        m_settings->setReferenceZPlus(set.value("referenceZPlus", false).toBool());
-        m_settings->setLanguage(set.value("language", "en").toString());
-        m_settings->setAutoCompletion(set.value("autoCompletion", true).toBool());
-        m_settings->setUnits(set.value("units", 0).toInt());
-        m_settings->setInvertedSliderControls(set.value("invertedSliderControls", false).toBool());
-
-        foreach (ColorPicker* pick, m_settings->colors()) {
-            pick->setColor(QColor(set.value(pick->objectName().mid(3), "black").toString()));
-        }
-    } else {
-        m_settings->setShortcuts(findChildren<QAction*>(QRegExp("act.*")));
-        m_settings->setDefaultSettings();
-    }
-
-    m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
-
-    ui->chkAutoScroll->setChecked(set.value("autoScroll", false).toBool());
-
-    ui->slbSpindle->setRatio(100);
-    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
-    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
-    ui->slbSpindle->setValue(set.value("spindleSpeed", 100).toInt());
-
-    ui->slbFeedOverride->setChecked(set.value("feedOverride", false).toBool());
-    ui->slbFeedOverride->setValue(set.value("feedOverrideValue", 100).toInt());
-
-    ui->slbRapidOverride->setChecked(set.value("rapidOverride", false).toBool());
-    ui->slbRapidOverride->setValue(set.value("rapidOverrideValue", 100).toInt());
-
-    ui->slbSpindleOverride->setChecked(set.value("spindleOverride", false).toBool());
-    ui->slbSpindleOverride->setValue(set.value("spindleOverrideValue", 100).toInt());
-
-    m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
-    m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
-    m_lastFolder = set.value("lastFolder", QDir::homePath()).toString();
-
-    ui->cboCommand->setMinimumHeight(ui->cboCommand->height());
-    ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
-    ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
-
-    m_storedKeyboardControl = set.value("keyboardControl", false).toBool();
-
-    QStringList steps = set.value("jogSteps").toStringList();
-    if (steps.count() > 0) {
-        steps.insert(0, ui->cboJogStep->items().first());
-        ui->cboJogStep->setItems(steps);
-    }
-    ui->cboJogStep->setCurrentIndex(set.value("jogStep", "3").toInt());
-    ui->cboJogFeed->setItems(set.value("jogFeeds").toStringList());
-    ui->cboJogFeed->setCurrentIndex(set.value("jogFeed", "2").toInt());
-
-    ui->txtHeightMapBorderX->setValue(set.value("heightmapBorderX", 0).toDouble());
-    ui->txtHeightMapBorderY->setValue(set.value("heightmapBorderY", 0).toDouble());
-    ui->txtHeightMapBorderWidth->setValue(set.value("heightmapBorderWidth", 1).toDouble());
-    ui->txtHeightMapBorderHeight->setValue(set.value("heightmapBorderHeight", 1).toDouble());
-    ui->chkHeightMapBorderShow->setChecked(set.value("heightmapBorderShow", true).toBool());
-    ui->chkHeightMapOriginShow->setChecked(set.value("heightmapOriginShow", true).toBool());
-
-    ui->txtHeightMapOriginX->setValue(set.value("heightmapOriginX", 0).toDouble());
-    ui->txtHeightMapOriginY->setValue(set.value("heightmapOriginY", 0).toDouble());
-
-    ui->txtHeightMapGridX->setValue(set.value("heightmapGridX", 1).toDouble());
-    ui->txtHeightMapGridY->setValue(set.value("heightmapGridY", 1).toDouble());
-    ui->txtHeightMapGridZTop->setValue(set.value("heightmapGridZTop", 1).toDouble());
-    ui->txtHeightMapGridZBottom->setValue(set.value("heightmapGridZBottom", -1).toDouble());
-    ui->txtHeightMapProbeFeed->setValue(set.value("heightmapProbeFeed", 10).toDouble());
-    ui->chkHeightMapGridShow->setChecked(set.value("heightmapGridShow", true).toBool());
-
-    ui->txtHeightMapInterpolationStepX->setValue(set.value("heightmapInterpolationStepX", 1).toDouble());
-    ui->txtHeightMapInterpolationStepY->setValue(set.value("heightmapInterpolationStepY", 1).toDouble());
-    ui->cboHeightMapInterpolationType->setCurrentIndex(set.value("heightmapInterpolationType", 0).toInt());
-    ui->chkHeightMapInterpolationShow->setChecked(set.value("heightmapInterpolationShow", true).toBool());
-
-    ui->lblHeightMapInterpolationType->setVisible(false);
-    ui->cboHeightMapInterpolationType->setVisible(false);
-
-    ui->cmdPerspective->setChecked(set.value("viewPerspective", true).toBool());
-
-    updateRecentFilesMenu();
-
-    ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
-
-    // Apply settings
-    applySettings();
-
-    // Restore last commands list
-    ui->cboCommand->addItems(set.value("recentCommands", QStringList()).toStringList());
-    ui->cboCommand->setCurrentIndex(-1);
+    // Language
+    m_settings->setLanguage(set.value("language", "en").toString());
 
     // Load plugins
     loadPlugins();
     emit pluginsLoaded();
 
-    // Adjust docks width
-    int panelButtonSize = ui->cmdReset->minimumWidth();
-    int panelWidth = qMax(ui->dockDevice->widget()->sizeHint().width(), ui->dockModification->widget()->sizeHint().width());
+    // Load profiles
+    loadProfiles(set);
 
-    ui->dockDevice->setMinimumWidth(panelWidth);
-    ui->dockDevice->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
-    ui->dockModification->setMinimumWidth(panelWidth);
-    ui->dockModification->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
-    ui->dockUser->setMinimumWidth(panelWidth);
-    ui->dockUser->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
-
-        // Panel buttons style
-    setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
-	    qproperty-iconSize: %1px;\n\
-        }").arg(qRound(panelButtonSize * 0.8)));
-
-        // Visualizer buttons style
-    int visualizerButtonSize = ui->cmdIsometric->minimumWidth();
-    setStyleSheet(styleSheet() + QString("\n#fraProgram QToolButton {\n\
-	    qproperty-iconSize: %1px;\n\
-        }").arg(qRound(visualizerButtonSize * 0.7)));
-
-        // Console buttons style
-    int consoleButtonSize = ui->cmdCommandSend->minimumWidth();
-    setStyleSheet(styleSheet() + QString("\n#fraConsole QPushButton {\n\
-	    qproperty-iconSize: %1px;\n\
-        }").arg(qRound(consoleButtonSize * 0.6)));
-
-    // Ensure styles
-    ensurePolished();        
-
-    foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
-
-    // Restore docks
-        // Signals/slots
+    // Docks signals/slots
     foreach (QDockWidget *w, findChildren<QDockWidget*>())
         connect(w, &QDockWidget::topLevelChanged, this, &frmMain::onDockTopLevelChanged);
 
-    // Layouts
-    qRegisterMetaType<LayoutEntry>();
-    qRegisterMetaTypeStreamOperators<LayoutEntry>("LayoutEntry");
-    QMetaType::registerDebugStreamOperator<LayoutEntry>();
-
-    // Group for exclusive menu item check
-    m_layoutsActionGroup = new QActionGroup(this);
-    m_layoutsActionGroup->setExclusive(true);
-
-    // Find separator to insert items before
-    auto menuActions = ui->mnuViewLayouts->actions();
-    auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
-        return action->isSeparator();
-    });
-
-    // Load layouts
-    auto layouts = set.value("layouts").toList();
-    m_currentLayoutName = set.value("currentLayoutName").toString();
-
-    if (layouts.count() > 0) {
-        // Default layout always first
-        ui->actViewLayoutsDefault->setData(layouts.first().value<LayoutEntry>());
-    } else {
-        // No layouts saved, migrate from previous settings version
-        auto formState = set.value("formMainState").toByteArray();
-
-        if (!formState.size()) {
-            ui->dockScript->setVisible(false);
-            ui->dockLog->setVisible(false);
-
-            auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
-            if (cameraDock) cameraDock->setVisible(false);
-
-            resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
-            splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
-            splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
-
-            formState = saveState();
-        }
-
-        ui->actViewLayoutsDefault->setData(LayoutEntry {
-            ui->actViewLayoutsDefault->text(),
-            set.value("panelsDevice").toStringList(),
-            set.value("panelsModification").toStringList(),
-            set.value("panelsUser").toStringList(),
-            set.value("hiddenPanels").toStringList(),
-            set.value("collapsedPanels").toStringList(),
-            formState
-        });
-    }
-
-    m_layoutsActionGroup->addAction(ui->actViewLayoutsDefault);
-    connect(ui->actViewLayoutsDefault, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
-
-    // Rest of layouts
-    if (layouts.count() > 1) {
-        for (auto it = layouts.cbegin() + 1; it != layouts.cend(); it++) {
-            auto layoutEntry = (*it).value<LayoutEntry>();
-            auto action = new QAction(layoutEntry.name, m_layoutsActionGroup);
-            action->setData(layoutEntry);
-            action->setCheckable(true);
-
-            m_layoutsActionGroup->addAction(action);
-            ui->mnuViewLayouts->insertAction(separator, action);
-
-            connect(action, &QAction::toggled, this, &frmMain::onActViewLayoutsSelected);
-        }
-    }
-
-    // Select current layout
-    auto actions = m_layoutsActionGroup->actions();
-    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
-        return action->text() == m_currentLayoutName;
-    });
-
-    auto currentLayoutAction = it != actions.constEnd() ? *it : ui->actViewLayoutsDefault;
-
-    // Restore main window state
+    // Restore main form geometry
     auto formGeometry = set.value("formGeometry").toByteArray();
 
     if (set.value("formMaximized", false).toBool())
@@ -3032,49 +2764,19 @@ void frmMain::loadSettings()
         // Force maximized window size for proper dockWidgets restoring as restoreGeometry will set non maximized
         //   window size
         resize(set.value("formSize").toSize());
-        currentLayoutAction->setChecked(true);
         showMaximized();
     } else {        
         restoreGeometry(formGeometry);
-        currentLayoutAction->setChecked(true);
     }
 
-    // Setup coords textboxes
-    setupCoordsTextboxes();
-
-    emit settingsLoaded();
-
-    // Shortcuts
-    qRegisterMetaTypeStreamOperators<ShortcutsMap>("ShortcutsMap");
-
-    ShortcutsMap m;
-    QByteArray ba = set.value("shortcuts").toByteArray();
-    QDataStream s(&ba, QIODevice::ReadOnly);
-    s >> m;
-    for (int i = 0; i < m.count(); i++) {
-        QAction *a = findChild<QAction*>(m.keys().at(i));
-        if (a) a->setShortcuts(m.values().at(i));
-    }
+    // Settings form geometry
+    m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
 
     // Menu
-    ui->actViewLockWindows->setChecked(set.value("lockWindows", false).toBool());
-    ui->actViewLockPanels->setChecked(set.value("lockPanels", true).toBool());
+    ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
+    ui->actViewLockPanels->setChecked(set.value("lockPanels").toBool());
 
-    // Loading stored script variables
-    QScriptValue g = m_scriptEngine.globalObject();
-    set.beginGroup("Script");
-    QStringList l = set.childKeys();
-    foreach (const QString &k, l) {
-        g.setProperty(k, m_scriptEngine.newVariant(set.value("" + k)));
-    }
     set.endGroup();
-
-    // Update inverted slider controls
-    auto sliders = this->findChildren<QSlider*>();
-
-    foreach (auto slider, sliders) {
-        slider->setInvertedControls(m_settings->invertedSliderControls());
-    }
 
     m_settingsLoading = false;
 }
@@ -3084,116 +2786,142 @@ void frmMain::saveSettings()
     QSettings set;
     set.beginGroup("General");
 
-    emit settingsAboutToSave();
+    // Save current profile changes
+    auto action = m_profilesActionGroup->checkedAction();
+    if (action)
+    {
+        storeSettings();
+        action->setData(SettingsProfileEntry { m_currentProfileName, m_storage.save() });
+    }
 
-    set.setValue("port", m_settings->port());
-    set.setValue("baud", m_settings->baud());
-    set.setValue("ignoreErrors", m_settings->ignoreErrors());
-    set.setValue("autoLine", m_settings->autoLine());
-    set.setValue("toolDiameter", m_settings->toolDiameter());
-    set.setValue("toolLength", m_settings->toolLength());
-    set.setValue("antialiasing", m_settings->antialiasing());
-    set.setValue("msaa", m_settings->msaa());
-    set.setValue("vsync", m_settings->vsync());
-    set.setValue("zBuffer", m_settings->zBuffer());
-    set.setValue("simplify", m_settings->simplify());
-    set.setValue("simplifyPrecision", m_settings->simplifyPrecision());
-    set.setValue("grayscaleSegments", m_settings->grayscaleSegments());
-    set.setValue("grayscaleSCode", m_settings->grayscaleSCode());
-    set.setValue("drawModeVectors", m_settings->drawModeVectors());
+    // Save profiles
+    saveProfiles(set);
 
-    set.setValue("spindleSpeed", ui->slbSpindle->value());
-    set.setValue("lineWidth", m_settings->lineWidth());
-    set.setValue("arcLength", m_settings->arcLength());
-    set.setValue("arcDegree", m_settings->arcDegree());
-    set.setValue("arcDegreeMode", m_settings->arcDegreeMode());
-    set.setValue("showProgramCommands", m_settings->showProgramCommands());
-    set.setValue("showUICommands", m_settings->showUICommands());
-    set.setValue("spindleSpeedMin", m_settings->spindleSpeedMin());
-    set.setValue("spindleSpeedMax", m_settings->spindleSpeedMax());
-    set.setValue("laserPowerMin", m_settings->laserPowerMin());
-    set.setValue("laserPowerMax", m_settings->laserPowerMax());
-    set.setValue("rapidSpeed", m_settings->rapidSpeed());
-    set.setValue("acceleration", m_settings->acceleration());
-    set.setValue("toolAngle", m_settings->toolAngle());
-    set.setValue("toolType", m_settings->toolType());
-    set.setValue("fps", m_settings->fps());
-    set.setValue("queryStateTime", m_settings->queryStateTime());
-    set.setValue("autoScroll", ui->chkAutoScroll->isChecked());
-    set.setValue("header", ui->tblProgram->horizontalHeader()->saveState());
-    set.setValue("formGeometry", this->saveGeometry());
-    set.setValue("formSize", this->size());
-    set.setValue("formMaximized", this->isMaximized());
+    // Menu
+    set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
+    set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
+
+    // Main form
+    set.setValue("formGeometry", saveGeometry());
+    set.setValue("formMaximized", isMaximized());
+    set.setValue("formSize", size());
+
+    // Settings form
     set.setValue("formSettingsGeometry", m_settings->saveGeometry());
 
-    set.setValue("autoCompletion", m_settings->autoCompletion());
-    set.setValue("units", m_settings->units());
-    set.setValue("recentFiles", m_recentFiles);
-    set.setValue("recentHeightmaps", m_recentHeightmaps);
-    set.setValue("lastFolder", m_lastFolder);
-    set.setValue("fontSize", m_settings->fontSize());
-
-    set.setValue("useStartCommands", m_settings->useStartCommands());
-    set.setValue("startCommands", m_settings->startCommands());
-    set.setValue("useEndCommands", m_settings->useEndCommands());
-    set.setValue("endCommands", m_settings->endCommands());
-    set.setValue("toolChangeCommands", m_settings->toolChangeCommands());
-    set.setValue("toolChangePause", m_settings->toolChangePause());
-    set.setValue("toolChangeUseCommands", m_settings->toolChangeUseCommands());
-    set.setValue("toolChangeUseCommandsConfirm", m_settings->toolChangeUseCommandsConfirm());
-    set.setValue("referenceXPlus", m_settings->referenceXPlus());
-    set.setValue("referenceYPlus", m_settings->referenceYPlus());
-    set.setValue("referenceZPlus", m_settings->referenceZPlus());
+    // Language
     set.setValue("language", m_settings->language());
-    set.setValue("invertedSliderControls", m_settings->invertedSliderControls());
 
-    set.setValue("feedOverride", ui->slbFeedOverride->isChecked());
-    set.setValue("feedOverrideValue", ui->slbFeedOverride->value());
-    set.setValue("rapidOverride", ui->slbRapidOverride->isChecked());
-    set.setValue("rapidOverrideValue", ui->slbRapidOverride->value());
-    set.setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
-    set.setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
+    set.endGroup();
+}
 
-    set.setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
-    set.setValue("jogStep", ui->cboJogStep->currentIndex());
-    set.setValue("jogFeeds", ui->cboJogFeed->items());
-    set.setValue("jogFeed", ui->cboJogFeed->currentIndex());
+void frmMain::storeSettings()
+{
+    auto set = m_storage.group("General");
 
-    set.setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
-    set.setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
-    set.setValue("heightmapBorderWidth", ui->txtHeightMapBorderWidth->value());
-    set.setValue("heightmapBorderHeight", ui->txtHeightMapBorderHeight->value());
-    set.setValue("heightmapBorderShow", ui->chkHeightMapBorderShow->isChecked());
+    emit settingsAboutToSave();
 
-    set.setValue("heightmapOriginX", ui->txtHeightMapOriginX->value());
-    set.setValue("heightmapOriginY", ui->txtHeightMapOriginY->value());
-    set.setValue("heightmapOriginShow", ui->chkHeightMapOriginShow->isChecked());
+    set->setValue("port", m_settings->port());
+    set->setValue("baud", m_settings->baud());
+    set->setValue("ignoreErrors", m_settings->ignoreErrors());
+    set->setValue("autoLine", m_settings->autoLine());
+    set->setValue("toolDiameter", m_settings->toolDiameter());
+    set->setValue("toolLength", m_settings->toolLength());
+    set->setValue("antialiasing", m_settings->antialiasing());
+    set->setValue("msaa", m_settings->msaa());
+    set->setValue("vsync", m_settings->vsync());
+    set->setValue("zBuffer", m_settings->zBuffer());
+    set->setValue("simplify", m_settings->simplify());
+    set->setValue("simplifyPrecision", m_settings->simplifyPrecision());
+    set->setValue("grayscaleSegments", m_settings->grayscaleSegments());
+    set->setValue("grayscaleSCode", m_settings->grayscaleSCode());
+    set->setValue("drawModeVectors", m_settings->drawModeVectors());
 
-    set.setValue("heightmapGridX", ui->txtHeightMapGridX->value());
-    set.setValue("heightmapGridY", ui->txtHeightMapGridY->value());
-    set.setValue("heightmapGridZTop", ui->txtHeightMapGridZTop->value());
-    set.setValue("heightmapGridZBottom", ui->txtHeightMapGridZBottom->value());
-    set.setValue("heightmapProbeFeed", ui->txtHeightMapProbeFeed->value());
-    set.setValue("heightmapGridShow", ui->chkHeightMapGridShow->isChecked());
+    set->setValue("spindleSpeed", ui->slbSpindle->value());
+    set->setValue("lineWidth", m_settings->lineWidth());
+    set->setValue("arcLength", m_settings->arcLength());
+    set->setValue("arcDegree", m_settings->arcDegree());
+    set->setValue("arcDegreeMode", m_settings->arcDegreeMode());
+    set->setValue("showProgramCommands", m_settings->showProgramCommands());
+    set->setValue("showUICommands", m_settings->showUICommands());
+    set->setValue("spindleSpeedMin", m_settings->spindleSpeedMin());
+    set->setValue("spindleSpeedMax", m_settings->spindleSpeedMax());
+    set->setValue("laserPowerMin", m_settings->laserPowerMin());
+    set->setValue("laserPowerMax", m_settings->laserPowerMax());
+    set->setValue("rapidSpeed", m_settings->rapidSpeed());
+    set->setValue("acceleration", m_settings->acceleration());
+    set->setValue("toolAngle", m_settings->toolAngle());
+    set->setValue("toolType", m_settings->toolType());
+    set->setValue("fps", m_settings->fps());
+    set->setValue("queryStateTime", m_settings->queryStateTime());
+    set->setValue("autoScroll", ui->chkAutoScroll->isChecked());
+    set->setValue("header", ui->tblProgram->horizontalHeader()->saveState());
 
-    set.setValue("heightmapInterpolationStepX", ui->txtHeightMapInterpolationStepX->value());
-    set.setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
-    set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
-    set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
+    set->setValue("autoCompletion", m_settings->autoCompletion());
+    set->setValue("units", m_settings->units());
+    set->setValue("recentFiles", m_recentFiles);
+    set->setValue("recentHeightmaps", m_recentHeightmaps);
+    set->setValue("lastFolder", m_lastFolder);
+    set->setValue("fontSize", m_settings->fontSize());
+    set->setValue("keyboardControl", m_storedKeyboardControl);
 
-    set.setValue("viewPerspective", ui->cmdPerspective->isChecked());
+    set->setValue("useStartCommands", m_settings->useStartCommands());
+    set->setValue("startCommands", m_settings->startCommands());
+    set->setValue("useEndCommands", m_settings->useEndCommands());
+    set->setValue("endCommands", m_settings->endCommands());
+    set->setValue("toolChangeCommands", m_settings->toolChangeCommands());
+    set->setValue("toolChangePause", m_settings->toolChangePause());
+    set->setValue("toolChangeUseCommands", m_settings->toolChangeUseCommands());
+    set->setValue("toolChangeUseCommandsConfirm", m_settings->toolChangeUseCommandsConfirm());
+    set->setValue("referenceXPlus", m_settings->referenceXPlus());
+    set->setValue("referenceYPlus", m_settings->referenceYPlus());
+    set->setValue("referenceZPlus", m_settings->referenceZPlus());
+    set->setValue("invertedSliderControls", m_settings->invertedSliderControls());
+
+    set->setValue("feedOverride", ui->slbFeedOverride->isChecked());
+    set->setValue("feedOverrideValue", ui->slbFeedOverride->value());
+    set->setValue("rapidOverride", ui->slbRapidOverride->isChecked());
+    set->setValue("rapidOverrideValue", ui->slbRapidOverride->value());
+    set->setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
+    set->setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
+
+    set->setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
+    set->setValue("jogStep", ui->cboJogStep->currentIndex());
+    set->setValue("jogFeeds", ui->cboJogFeed->items());
+    set->setValue("jogFeed", ui->cboJogFeed->currentIndex());
+
+    set->setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
+    set->setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
+    set->setValue("heightmapBorderWidth", ui->txtHeightMapBorderWidth->value());
+    set->setValue("heightmapBorderHeight", ui->txtHeightMapBorderHeight->value());
+    set->setValue("heightmapBorderShow", ui->chkHeightMapBorderShow->isChecked());
+
+    set->setValue("heightmapOriginX", ui->txtHeightMapOriginX->value());
+    set->setValue("heightmapOriginY", ui->txtHeightMapOriginY->value());
+    set->setValue("heightmapOriginShow", ui->chkHeightMapOriginShow->isChecked());
+
+    set->setValue("heightmapGridX", ui->txtHeightMapGridX->value());
+    set->setValue("heightmapGridY", ui->txtHeightMapGridY->value());
+    set->setValue("heightmapGridZTop", ui->txtHeightMapGridZTop->value());
+    set->setValue("heightmapGridZBottom", ui->txtHeightMapGridZBottom->value());
+    set->setValue("heightmapProbeFeed", ui->txtHeightMapProbeFeed->value());
+    set->setValue("heightmapGridShow", ui->chkHeightMapGridShow->isChecked());
+
+    set->setValue("heightmapInterpolationStepX", ui->txtHeightMapInterpolationStepX->value());
+    set->setValue("heightmapInterpolationStepY", ui->txtHeightMapInterpolationStepY->value());
+    set->setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
+    set->setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
+
+    set->setValue("viewPerspective", ui->cmdPerspective->isChecked());
 
     foreach (ColorPicker* pick, m_settings->colors()) {
-        set.setValue("" + pick->objectName().mid(3), pick->color().name());
+        set->setValue("" + pick->objectName().mid(3), pick->color().name());
     }
 
     QStringList list;
 
     for (int i = 0; i < ui->cboCommand->count(); i++) list.append(ui->cboCommand->itemText(i));
-    set.setValue("recentCommands", list);
-
-    // Docks
-    set.setValue("formMainState", saveState());
+    set->setValue("recentCommands", list);
 
     // Shortcuts
     ShortcutsMap m;
@@ -3203,21 +2931,34 @@ void frmMain::saveSettings()
 
     foreach (QAction *a, acts) m[a->objectName()] = a->shortcuts();
     s << m;
-    set.setValue("shortcuts", ba);
+    set->setValue("shortcuts", ba);
 
     // Menu
-    set.setValue("lockWindows", ui->actViewLockWindows->isChecked());
-    set.setValue("lockPanels", ui->actViewLockPanels->isChecked());
+    set->setValue("lockWindows", ui->actViewLockWindows->isChecked());
+    set->setValue("lockPanels", ui->actViewLockPanels->isChecked());
 
-    // Layouts
-    QVariantList layouts;
-    auto actions = m_layoutsActionGroup->actions();
+    // Panels
+    set->setValue("devicePanels", ui->scrollContentsDevice->saveState());
+    set->setValue("modificationPanels", ui->scrollContentsModification->saveState());
+    set->setValue("userPanels", ui->scrollContentsUser->saveState());
 
-    for (auto it = actions.constBegin(); it != actions.constEnd(); it++) {
-        layouts.append((*it)->data());
+    QStringList panels;
+    QStringList hiddenPanels;
+    QStringList collapsedPanels;
+
+    if (ui->scrollContentsDevice->isVisible()) panels << ui->scrollContentsDevice->saveState();
+    if (ui->scrollContentsModification->isVisible()) panels << ui->scrollContentsModification->saveState();
+    if (ui->scrollContentsUser->isVisible()) panels << ui->scrollContentsUser->saveState();
+
+    foreach (QString s, panels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b && b->isHidden()) hiddenPanels << s;
+        if (b && b->isCheckable() && !b->isChecked()) collapsedPanels << s;
     }
-    set.setValue("layouts", layouts);
-    set.setValue("currentLayoutName", m_currentLayoutName);
+
+    set->setValue("hiddenPanels", hiddenPanels);
+    set->setValue("collapsedPanels", collapsedPanels);
+    set->setValue("formState", saveState());
 
     // Save script variables
     QScriptEngine e;
@@ -3229,22 +2970,348 @@ void frmMain::saveSettings()
         l << i.name();
     }
 
+    auto scriptSet = set->group("Script");
     QScriptValue v = m_scriptEngine.globalObject();
     QScriptValueIterator it(v);
     while (it.hasNext()) {
         it.next();
         if (!l.contains(it.name())) {
             if (it.value().isNumber() || it.value().isString()) {
-                set.setValue("Script/" + it.name(), it.value().toVariant());
+                scriptSet->setValue(it.name(), it.value().toVariant());
             }
         }
     }
 
     emit settingsSaved();
+
+    delete scriptSet;
+    delete set;    
+}
+
+void frmMain::restoreSettings()
+{
+    auto set = m_storage.group("General");
+
+    m_settingsLoading = true;
+
+    emit settingsAboutToLoad();
+
+    if (set->childKeys().size()) {
+        m_settings->setFontSize(set->value("fontSize", 9).toInt());
+        m_settings->setPort(set->value("port").toString());
+        m_settings->setBaud(set->value("baud", 115200).toInt());
+        m_settings->setIgnoreErrors(set->value("ignoreErrors", false).toBool());
+        m_settings->setAutoLine(set->value("autoLine", true).toBool());
+        m_settings->setToolDiameter(set->value("toolDiameter", 3).toDouble());
+        m_settings->setToolLength(set->value("toolLength", 30).toDouble());
+        m_settings->setToolAngle(set->value("toolAngle", 15).toDouble());
+        m_settings->setToolType(set->value("toolType", 1).toInt());
+        m_settings->setAntialiasing(set->value("antialiasing", true).toBool());
+        m_settings->setMsaa(set->value("msaa", true).toBool());
+        m_settings->setVsync(set->value("vsync", false).toBool());
+        m_settings->setZBuffer(set->value("zBuffer", false).toBool());
+        m_settings->setSimplify(set->value("simplify", true).toBool());
+        m_settings->setSimplifyPrecision(set->value("simplifyPrecision", 0).toDouble());
+        m_settings->setGrayscaleSegments(set->value("grayscaleSegments", false).toBool());
+        m_settings->setGrayscaleSCode(set->value("grayscaleSCode", true).toBool());
+        m_settings->setDrawModeVectors(set->value("drawModeVectors", true).toBool());
+        m_settings->setLineWidth(set->value("lineWidth", 1.5).toDouble());
+        m_settings->setArcLength(set->value("arcLength", 0).toDouble());
+        m_settings->setArcDegree(set->value("arcDegree", 5).toDouble());
+        m_settings->setArcDegreeMode(set->value("arcDegreeMode", true).toBool());
+        m_settings->setShowProgramCommands(set->value("showProgramCommands", 0).toBool());
+        m_settings->setShowUICommands(set->value("showUICommands", 0).toBool());
+        m_settings->setSpindleSpeedMin(set->value("spindleSpeedMin", 0).toInt());
+        m_settings->setSpindleSpeedMax(set->value("spindleSpeedMax", 10000).toInt());
+        m_settings->setLaserPowerMin(set->value("laserPowerMin", 0).toInt());
+        m_settings->setLaserPowerMax(set->value("laserPowerMax", 100).toInt());
+        m_settings->setRapidSpeed(set->value("rapidSpeed", 0).toInt());
+        m_settings->setAcceleration(set->value("acceleration", 10).toInt());
+        m_settings->setFps(set->value("fps", 60).toInt());
+        m_settings->setQueryStateTime(set->value("queryStateTime", 40).toInt());
+        m_settings->setUseStartCommands(set->value("useStartCommands").toBool());
+        m_settings->setStartCommands(set->value("startCommands").toString());
+        m_settings->setUseEndCommands(set->value("useEndCommands").toBool());
+        m_settings->setEndCommands(set->value("endCommands").toString());
+        m_settings->setToolChangeCommands(set->value("toolChangeCommands").toString());
+        m_settings->setToolChangePause(set->value("toolChangePause").toBool());
+        m_settings->setToolChangeUseCommands(set->value("toolChangeUseCommands").toBool());
+        m_settings->setToolChangeUseCommandsConfirm(set->value("toolChangeUseCommandsConfirm").toBool());
+        m_settings->setReferenceXPlus(set->value("referenceXPlus", false).toBool());
+        m_settings->setReferenceYPlus(set->value("referenceYPlus", false).toBool());
+        m_settings->setReferenceZPlus(set->value("referenceZPlus", false).toBool());
+        m_settings->setAutoCompletion(set->value("autoCompletion", true).toBool());
+        m_settings->setUnits(set->value("units", 0).toInt());
+        m_settings->setInvertedSliderControls(set->value("invertedSliderControls", false).toBool());
+
+        foreach (ColorPicker* pick, m_settings->colors()) {
+            pick->setColor(QColor(set->value(pick->objectName().mid(3), "black").toString()));
+        }
+    } else {
+        m_settings->setShortcuts(findChildren<QAction*>(QRegExp("act.*")));
+        m_settings->setDefaultSettings();
+    }
+
+    ui->chkAutoScroll->setChecked(set->value("autoScroll", false).toBool());
+
+    ui->slbSpindle->setRatio(100);
+    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
+    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
+    ui->slbSpindle->setValue(set->value("spindleSpeed", 100).toInt());
+
+    ui->slbFeedOverride->setChecked(set->value("feedOverride", false).toBool());
+    ui->slbFeedOverride->setValue(set->value("feedOverrideValue", 100).toInt());
+
+    ui->slbRapidOverride->setChecked(set->value("rapidOverride", false).toBool());
+    ui->slbRapidOverride->setValue(set->value("rapidOverrideValue", 100).toInt());
+
+    ui->slbSpindleOverride->setChecked(set->value("spindleOverride", false).toBool());
+    ui->slbSpindleOverride->setValue(set->value("spindleOverrideValue", 100).toInt());
+
+    m_recentFiles = set->value("recentFiles", QStringList()).toStringList();
+    m_recentHeightmaps = set->value("recentHeightmaps", QStringList()).toStringList();
+    m_lastFolder = set->value("lastFolder", QDir::homePath()).toString();
+
+    m_storedKeyboardControl = set->value("keyboardControl", false).toBool();
+
+    QStringList steps = set->value("jogSteps").toStringList();
+    if (steps.count() > 0) {
+        steps.insert(0, ui->cboJogStep->items().first());
+        ui->cboJogStep->setItems(steps);
+    }
+    ui->cboJogStep->setCurrentIndex(set->value("jogStep", "3").toInt());
+    ui->cboJogFeed->setItems(set->value("jogFeeds").toStringList());
+    ui->cboJogFeed->setCurrentIndex(set->value("jogFeed", "2").toInt());
+
+    ui->txtHeightMapBorderX->setValue(set->value("heightmapBorderX", 0).toDouble());
+    ui->txtHeightMapBorderY->setValue(set->value("heightmapBorderY", 0).toDouble());
+    ui->txtHeightMapBorderWidth->setValue(set->value("heightmapBorderWidth", 1).toDouble());
+    ui->txtHeightMapBorderHeight->setValue(set->value("heightmapBorderHeight", 1).toDouble());
+    ui->chkHeightMapBorderShow->setChecked(set->value("heightmapBorderShow", true).toBool());
+    ui->chkHeightMapOriginShow->setChecked(set->value("heightmapOriginShow", true).toBool());
+
+    ui->txtHeightMapOriginX->setValue(set->value("heightmapOriginX", 0).toDouble());
+    ui->txtHeightMapOriginY->setValue(set->value("heightmapOriginY", 0).toDouble());
+
+    ui->txtHeightMapGridX->setValue(set->value("heightmapGridX", 1).toDouble());
+    ui->txtHeightMapGridY->setValue(set->value("heightmapGridY", 1).toDouble());
+    ui->txtHeightMapGridZTop->setValue(set->value("heightmapGridZTop", 1).toDouble());
+    ui->txtHeightMapGridZBottom->setValue(set->value("heightmapGridZBottom", -1).toDouble());
+    ui->txtHeightMapProbeFeed->setValue(set->value("heightmapProbeFeed", 10).toDouble());
+    ui->chkHeightMapGridShow->setChecked(set->value("heightmapGridShow", true).toBool());
+
+    ui->txtHeightMapInterpolationStepX->setValue(set->value("heightmapInterpolationStepX", 1).toDouble());
+    ui->txtHeightMapInterpolationStepY->setValue(set->value("heightmapInterpolationStepY", 1).toDouble());
+    ui->cboHeightMapInterpolationType->setCurrentIndex(set->value("heightmapInterpolationType", 0).toInt());
+    ui->chkHeightMapInterpolationShow->setChecked(set->value("heightmapInterpolationShow", true).toBool());
+
+    ui->cmdPerspective->setChecked(set->value("viewPerspective", true).toBool());
+
+    updateRecentFilesMenu();
+
+    ui->tblProgram->horizontalHeader()->restoreState(set->value("header", QByteArray()).toByteArray());
+
+    // Apply settings
+    applySettings();
+
+    // Restore last commands list
+    ui->cboCommand->clear();
+    ui->cboCommand->addItems(set->value("recentCommands", QStringList()).toStringList());
+    ui->cboCommand->setCurrentIndex(-1);
+
+    // Setup coords textboxes
+    setupCoordsTextboxes();
+
+    // Load plugin settings
+    emit settingsLoaded();
+
+    // Panels
+    ui->scrollContentsDevice->restoreState(this, set->value("devicePanels").toStringList());
+    ui->scrollContentsModification->restoreState(this, set->value("modificationPanels").toStringList());
+    ui->scrollContentsUser->restoreState(this, set->value("userPanels").toStringList());
+
+    QStringList hiddenPanels = set->value("hiddenPanels").toStringList();
+    foreach (QString s, hiddenPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setHidden(true);
+    }
+
+    QStringList collapsedPanels = set->value("collapsedPanels").toStringList();
+    foreach (QString s, collapsedPanels) {
+        QGroupBox *b = findChild<QGroupBox*>(s);
+        if (b) b->setChecked(false);
+    }
+
+    // Main window state
+    auto formState = set->value("formState").toByteArray();
+
+    if (!formState.size()) {
+        ui->dockScript->setVisible(false);
+        ui->dockLog->setVisible(false);
+
+        auto cameraDock = findChild<QDockWidget*>("dockCameraPlugin");
+        if (cameraDock) cameraDock->setVisible(false);
+
+        resizeDocks({ui->dockModification, ui->dockUser}, {1, 1}, Qt::Vertical);
+        splitDockWidget(ui->dockVisualizer, ui->dockConsole, Qt::Horizontal);
+        splitDockWidget(ui->dockUser, ui->dockDevice, Qt::Horizontal);
+    } else {
+        restoreState(formState);
+    }
+
+    // Shortcuts
+    qRegisterMetaTypeStreamOperators<ShortcutsMap>("ShortcutsMap");
+
+    ShortcutsMap m;
+    QByteArray ba = set->value("shortcuts").toByteArray();
+    QDataStream s(&ba, QIODevice::ReadOnly);
+    s >> m;
+    for (int i = 0; i < m.count(); i++) {
+        QAction *a = findChild<QAction*>(m.keys().at(i));
+        if (a) a->setShortcuts(m.values().at(i));
+    }
+
+    // Loading stored script variables
+    QScriptValue g = m_scriptEngine.globalObject();
+
+    // Clear script global object
+    QStringList defaultObjects = {"print", "version", "gc", "vars", "script"};
+    QScriptValueIterator it(g);
+    while (it.hasNext()) {
+        it.next();
+        if ((it.flags() & QScriptValue::SkipInEnumeration) || defaultObjects.contains(it.name()))
+            continue;
+        g.setProperty(it.name(), QScriptValue());
+    }
+
+    auto scriptSet = set->group("Script");
+    QStringList l = scriptSet->childKeys();
+    foreach (const QString &k, l) {
+        g.setProperty(k, m_scriptEngine.newVariant(scriptSet->value(k)));
+    }
+
+    // Update inverted slider controls
+    auto sliders = this->findChildren<QSlider*>();
+    foreach (auto slider, sliders) {
+        slider->setInvertedControls(m_settings->invertedSliderControls());
+    }
+
+    delete scriptSet;
+    delete set;
+
+    m_settingsLoading = false;
+}
+
+void frmMain::saveProfiles(QSettings &set)
+{
+    // Profiles
+    QVariantList profiles;
+    auto actions = m_profilesActionGroup->actions();
+
+    for (auto it = actions.constBegin(); it != actions.constEnd(); it++) {
+        profiles.append((*it)->data());
+    }
+    set.setValue("profiles", profiles);
+    set.setValue("currentProfileName", m_currentProfileName);    
+}
+
+void frmMain::loadProfiles(QSettings &set)
+{
+    // Register types
+    qRegisterMetaType<SettingsProfileEntry>();
+    qRegisterMetaTypeStreamOperators<SettingsProfileEntry>("SettingsProfileEntry");
+    QMetaType::registerDebugStreamOperator<SettingsProfileEntry>();
+
+    // Group for exclusive menu item check
+    m_profilesActionGroup = new QActionGroup(this);
+    m_profilesActionGroup->setExclusive(true);
+
+    // Find separator to insert items before it
+    auto menuActions = ui->mnuServiceProfiles->actions();
+    auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
+        return action->isSeparator();
+    });
+
+    // Load profiles
+    auto profiles = set.value("profiles").toList();
+    m_currentProfileName = set.value("currentProfileName").toString();
+
+    if (profiles.count() > 0) {
+        // Default profile always first
+        ui->actServiceProfilesDefault->setData(profiles.first().value<SettingsProfileEntry>());
+    } else {
+        // No profiles saved
+        ui->actServiceProfilesDefault->setData(SettingsProfileEntry {
+            ui->actServiceProfilesDefault->text(),
+            QByteArray()
+        });
+    }
+
+    m_profilesActionGroup->addAction(ui->actServiceProfilesDefault);
+    connect(ui->actServiceProfilesDefault, &QAction::toggled, this, &frmMain::onActServiceProfilesSelected);
+
+    // Rest of profiles
+    if (profiles.count() > 1) {
+        for (auto it = profiles.cbegin() + 1; it != profiles.cend(); it++) {
+            auto settingsProfileEntry = (*it).value<SettingsProfileEntry>();
+            auto action = new QAction(settingsProfileEntry.name, m_profilesActionGroup);
+            action->setData(settingsProfileEntry);
+            action->setCheckable(true);
+
+            m_profilesActionGroup->addAction(action);
+            ui->mnuServiceProfiles->insertAction(separator, action);
+
+            connect(action, &QAction::toggled, this, &frmMain::onActServiceProfilesSelected);
+        }
+    }
+
+    // Select current profile
+    auto actions = m_profilesActionGroup->actions();
+    auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+        return action->text() == m_currentProfileName;
+    });
+
+    (it != actions.constEnd() ? *it : ui->actServiceProfilesDefault)->setChecked(true);
 }
 
 void frmMain::applySettings()
 {
+    // Apply font size QWidget {font-size: 8pt}
+    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp(
+        "QWidget \\{font-size: \\d+pt\\}"),
+        QString("QWidget {font-size: %1pt}").arg(m_settings->fontSize()))
+    );
+
+    // Panel buttons style
+    int panelButtonSize = ui->cmdReset->minimumWidth();
+
+    setStyleSheet(styleSheet() + QString("\nStyledToolButton[adjustSize='true'] {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(panelButtonSize * 0.8)));
+
+    // Ensure styles
+    ensurePolished();
+
+    // Docks
+    foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
+
+    // Adjust docks width
+    ui->scrollContentsDevice->adjustSize();
+    ui->scrollContentsModification->adjustSize();
+    ui->scrollContentsUser->adjustSize();
+
+    int panelWidth = qMax(
+        ui->scrollContentsDevice->minimumSizeHint().width(),
+        qMax(ui->scrollContentsModification->minimumSizeHint().width(), ui->scrollContentsUser->minimumSizeHint().width())
+    ) + 2;
+
+    ui->dockDevice->setMinimumWidth(panelWidth);
+    ui->dockDevice->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockModification->setMinimumWidth(panelWidth);
+    ui->dockModification->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+    ui->dockUser->setMinimumWidth(panelWidth);
+    ui->dockUser->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
+
     // Update shortcuts
     QList<QAction*> acts = findChildren<QAction*>(QRegExp("act.*"));
     QTableWidget *shortcuts = m_settings->shortcuts();
@@ -3352,6 +3419,29 @@ void frmMain::applySettings()
     ui->cmdCommandSend->setFixedSize(s);
 
     ui->spaJog->changeSize(0, ui->cboJogStep->height() / 2);
+
+    // Visualizer buttons style
+    int visualizerButtonSize = ui->cmdIsometric->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraProgram QToolButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(visualizerButtonSize * 0.7)));
+
+    // Console buttons style
+    int consoleButtonSize = ui->cmdCommandSend->minimumWidth();
+    setStyleSheet(styleSheet() + QString("\n#fraConsole QPushButton {\n\
+	    qproperty-iconSize: %1px;\n\
+        }").arg(qRound(consoleButtonSize * 0.6)));
+
+    // Apply port settings
+    if ((m_settings->port() != m_serialPort.portName() || m_settings->baud() != m_serialPort.baudRate()))
+    {
+        if (m_serialPort.isOpen()) m_serialPort.close();
+        m_serialPort.setPortName(m_settings->port());
+        m_serialPort.setBaudRate(m_settings->baud());
+        openPort();
+    }
+
+    updateControlsState();
 }
 
 void frmMain::loadPlugins()
@@ -3400,6 +3490,18 @@ void frmMain::loadPlugins()
             // Settings
             QScriptValue settings = se->newQObject(m_settings);
             app.setProperty("settings", settings);
+
+            // Storage
+            qScriptRegisterMetaType<StorageGroup*>(se,
+            [](QScriptEngine *e, StorageGroup* const &g) {
+                return e->newQObject(g, QScriptEngine::ScriptOwnership);
+            },
+            [](const QScriptValue &v, StorageGroup *&g) {
+                g = qobject_cast<StorageGroup*>(v.toQObject());
+            });
+
+            QScriptValue storage = se->newQObject(&m_storage);
+            app.setProperty("storage", storage);
 
             // Stored vars
             QScriptValue vars = se->newQObject(&m_storedVars);
@@ -3483,7 +3585,7 @@ void frmMain::loadPlugins()
                     layout2->setMargin(0);
 
                     // Add to main form
-                    this->addDockWidget(Qt::RightDockWidgetArea, dock);
+                    this->addDockWidget(Qt::LeftDockWidgetArea, dock);
                 }
             }
 
@@ -4231,8 +4333,10 @@ void frmMain::updateControlsState() {
         emit deviceStateChanged(-1);
     }
 
-    this->setWindowTitle(m_programFileName.isEmpty() ? qApp->applicationDisplayName()
-                                                     : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - " + qApp->applicationDisplayName());
+    this->setWindowTitle(m_programFileName.isEmpty()
+        ? m_currentProfileName + " - " + qApp->applicationDisplayName()
+        : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - " + m_currentProfileName
+            + " - " + qApp->applicationDisplayName());
 
     if (!process) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 

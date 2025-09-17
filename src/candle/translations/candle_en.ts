@@ -779,23 +779,23 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Move toolhead to heightmap origin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Origin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Origin:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Bicubic</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Show origin</source>
@@ -810,19 +810,27 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Enter layout name</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>L&amp;ayouts</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&amp;Delete</source>
         <translation></translation>
     </message>
     <message>
         <source>Default</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Profiles</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enter profile name</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Create</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Profile &apos;%1&apos; already exists</source>
         <translation></translation>
     </message>
 </context>
@@ -1202,10 +1210,6 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>250000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>0</source>
         <translation></translation>
     </message>
 </context>
