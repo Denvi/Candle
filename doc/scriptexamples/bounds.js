@@ -8,7 +8,7 @@ app.sendCommands([
     "G1X" + app.program.upperBounds.x(),
     "G1Y" + app.program.lowerBounds.y(),
     "G1X" + app.program.lowerBounds.x(),
-    "G4P0" // will respond when the toolpath is actually executed
+    "M2" // will respond when the toolpath is actually executed
 ]);
 app.waitResponses();
 
