@@ -705,6 +705,26 @@ void frmSettings::setInvertedSliderControls(bool value)
     ui->chkInvertedSliderControls->setChecked(value);
 }
 
+bool frmSettings::axisAEnabled()
+{
+    return ui->chkAxisA->isChecked();
+}
+
+void frmSettings::setAxisAEnabled(bool value)
+{
+    ui->chkAxisA->setChecked(value);
+}
+
+bool frmSettings::axisAX()
+{
+    return ui->radAxisAX->isChecked();
+}
+
+void frmSettings::setAxisAX(bool value)
+{
+    ui->radAxisAX->setChecked(value);
+}
+
 QTableWidget* frmSettings::shortcuts()
 {
     return ui->tblShortcuts;
@@ -835,6 +855,9 @@ void frmSettings::setDefaultSettings()
     setToolAngle(15.0);
     setToolDiameter(3.0);
     setToolLength(30.0);
+
+    setAxisAEnabled(false);
+    setAxisAX(true);
 
     setShowProgramCommands(false);
     setAutoCompletion(true);

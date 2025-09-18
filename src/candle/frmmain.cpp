@@ -1503,73 +1503,127 @@ void frmMain::on_cmdHeightMapOriginTool_clicked()
 
 void frmMain::on_cmdYPlus_pressed()
 {
-    m_jogVector += QVector3D(0, 1, 0);
+    m_jogVector += QVector4D(0, 1, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdYPlus_released()
 {
-    m_jogVector -= QVector3D(0, 1, 0);
+    m_jogVector -= QVector4D(0, 1, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdYMinus_pressed()
 {
-    m_jogVector += QVector3D(0, -1, 0);
+    m_jogVector += QVector4D(0, -1, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdYMinus_released()
 {
-    m_jogVector -= QVector3D(0, -1, 0);
+    m_jogVector -= QVector4D(0, -1, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdXPlus_pressed()
 {
-    m_jogVector += QVector3D(1, 0, 0);
+    m_jogVector += QVector4D(1, 0, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdXPlus_released()
 {
-    m_jogVector -= QVector3D(1, 0, 0);
+    m_jogVector -= QVector4D(1, 0, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdXMinus_pressed()
 {
-    m_jogVector += QVector3D(-1, 0, 0);
+    m_jogVector += QVector4D(-1, 0, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdXMinus_released()
 {
-    m_jogVector -= QVector3D(-1, 0, 0);
+    m_jogVector -= QVector4D(-1, 0, 0, 0);
     jogStep();
 }
 
 void frmMain::on_cmdZPlus_pressed()
 {
-    m_jogVector += QVector3D(0, 0, 1);
+    m_jogVector += QVector4D(0, 0, 1, 0);
     jogStep();
 }
 
 void frmMain::on_cmdZPlus_released()
 {
-    m_jogVector -= QVector3D(0, 0, 1);
+    m_jogVector -= QVector4D(0, 0, 1, 0);
     jogStep();
 }
 
 void frmMain::on_cmdZMinus_pressed()
 {
-    m_jogVector += QVector3D(0, 0, -1);
+    m_jogVector += QVector4D(0, 0, -1, 0);
     jogStep();
 }
 
 void frmMain::on_cmdZMinus_released()
 {
-    m_jogVector -= QVector3D(0, 0, -1);
+    m_jogVector -= QVector4D(0, 0, -1, 0);
+    jogStep();
+}
+
+void frmMain::on_cmdAMinus_pressed()
+{
+    if (!ui->cmdAMinus->isVisible())
+        return;
+
+    m_jogVector += QVector4D(0, 0, 0, -1);
+    jogStep();
+}
+
+void frmMain::on_cmdAMinus_released()
+{
+    if (!ui->cmdAMinus->isVisible())
+        return;
+
+    m_jogVector -= QVector4D(0, 0, 0, -1);
+    jogStep();
+}
+
+void frmMain::on_cmdAPlusX_pressed()
+{
+    if (!ui->cmdAPlusX->isVisible())
+        return;
+
+    m_jogVector += QVector4D(0, 0, 0, 1);
+    jogStep();
+}
+
+void frmMain::on_cmdAPlusX_released()
+{
+    if (!ui->cmdAPlusX->isVisible())
+        return;
+
+    m_jogVector -= QVector4D(0, 0, 0, 1);
+    jogStep();
+}
+
+void frmMain::on_cmdAPlusY_pressed()
+{
+    if (!ui->cmdAPlusY->isVisible())
+        return;
+
+    m_jogVector += QVector4D(0, 0, 0, 1);
+    jogStep();
+}
+
+void frmMain::on_cmdAPlusY_released()
+{
+    if (!ui->cmdAPlusY->isVisible())
+        return;
+
+    m_jogVector -= QVector4D(0, 0, 0, 1);
     jogStep();
 }
 
@@ -1665,11 +1719,17 @@ void frmMain::onSerialPortReadyRead()
             m_statusReceived = true;
 
             // Update machine coordinates
-            static QRegExp mpx("MPos:([^,]*),([^,]*),([^,^>^|]*)");
+            static QRegExp mpx("MPos:([^,]*),([^,]*),([^,>|]*)(?:,([^,|]*))*");
             if (mpx.indexIn(data) != -1) {
                 ui->txtMPosX->setValue(mpx.cap(1).toDouble());
                 ui->txtMPosY->setValue(mpx.cap(2).toDouble());
-                ui->txtMPosZ->setValue(mpx.cap(3).toDouble());
+                ui->txtMPosZ->setValue(mpx.cap(3).toDouble());                
+                auto a = mpx.cap(4).toDouble();
+                if (ui->txtMPosA->minimum() > a || ui->txtMPosA->maximum() < a) {
+                    ui->txtMPosA->setMaximum(ui->txtMPosA->maximum() * 10);
+                    ui->txtMPosA->setMinimum(-ui->txtMPosA->maximum());
+                }
+                ui->txtMPosA->setValue(a);
 
                 // Update stored vars
                 m_storedVars.setCoords("M", QVector3D(
@@ -1748,18 +1808,26 @@ void frmMain::onSerialPortReadyRead()
             }
 
             // Store work offset
-            static QVector3D workOffset;
-            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,^>^|]*)");
+            static QVector4D workOffset;
+            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,>|]*)(?:,([^,|]*))*");
 
             if (wpx.indexIn(data) != -1)
             {
-                workOffset = QVector3D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble());
+                workOffset = QVector4D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble(),
+                                       wpx.cap(4).toDouble());
             }
 
             // Update work coordinates
             ui->txtWPosX->setValue(ui->txtMPosX->value() - workOffset.x());
             ui->txtWPosY->setValue(ui->txtMPosY->value() - workOffset.y());
             ui->txtWPosZ->setValue(ui->txtMPosZ->value() - workOffset.z());
+
+            double a = Util::angleNormalize(ui->txtMPosA->value() + 360.0 - workOffset.w());
+            if (ui->txtWPosA->minimum() > a || ui->txtWPosA->maximum() < a) {
+                ui->txtWPosA->setMaximum(ui->txtWPosA->maximum() * 10);
+                ui->txtWPosA->setMinimum(-ui->txtWPosA->maximum());
+            }
+            ui->txtWPosA->setValue(a);
 
             // Update stored vars
             m_storedVars.setCoords("W", QVector3D(
@@ -1769,13 +1837,28 @@ void frmMain::onSerialPortReadyRead()
 
             // Update tool position
             QVector3D toolPosition;
-            if (!(state == DeviceCheck && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)) {
+            if (!(state == DeviceCheck && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1))
+            {
                 toolPosition = QVector3D(toMetric(ui->txtWPosX->value()),
                                          toMetric(ui->txtWPosY->value()),
                                          toMetric(ui->txtWPosZ->value()));
-                m_toolDrawer.setToolPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
-            }
 
+                m_toolDrawer.setToolPosition(
+                    m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
+
+                if (m_settings->axisAEnabled() && m_currentDrawer->viewParser()->axisRotationUsed(GcodeViewParse::RotationAxisA)) {
+                    m_codeDrawer->setRotation(
+                        ui->txtWPosA->value(),
+                        Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
+                    );
+                } else {
+                    m_codeDrawer->setRotation(
+                        0,
+                        Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
+                    );
+                }
+                m_selectionDrawer.setRotation(m_codeDrawer->rotation());
+            }
 
             // Toolpath shadowing
             if (((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)
@@ -1790,7 +1873,7 @@ void frmMain::onSerialPortReadyRead()
                 for (int i = m_lastDrawnLineIndex; i < list.count()
                      && list.at(i)->getLineNumber()
                      <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                    if (list.at(i)->contains(toolPosition)) {
+                    if (list.at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition)) {
                         toolOntoolpath = true;
                         m_lastDrawnLineIndex = i;
                         break;
@@ -1803,6 +1886,14 @@ void frmMain::onSerialPortReadyRead()
                         list.at(i)->setDrawn(true);
                     }
                     if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
+                }
+                else if (m_lastDrawnLineIndex < list.count() && m_lastDrawnLineIndex > 0)
+                {
+                    qWarning(generalLogCategory)
+                    << QString("Tool not on toolpath. Last drawn line index: %1, model line: %2, processed index: %3")
+                        .arg(list.at(m_lastDrawnLineIndex)->getLineNumber())
+                        .arg(m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt())
+                        .arg(m_fileProcessedCommandIndex);
                 }
             }
 
@@ -2830,6 +2921,9 @@ void frmMain::storeSettings()
     set->setValue("toolType", m_settings->toolType());
     set->setValue("fps", m_settings->fps());
     set->setValue("queryStateTime", m_settings->queryStateTime());
+    set->setValue("axisAEnabled", m_settings->axisAEnabled());
+    set->setValue("axisAX", m_settings->axisAX());
+
     set->setValue("autoScroll", ui->chkAutoScroll->isChecked());
     set->setValue("header", ui->tblProgram->horizontalHeader()->saveState());
 
@@ -3021,6 +3115,8 @@ void frmMain::restoreSettings()
         m_settings->setAutoCompletion(set->value("autoCompletion", true).toBool());
         m_settings->setUnits(set->value("units", 0).toInt());
         m_settings->setInvertedSliderControls(set->value("invertedSliderControls", false).toBool());
+        m_settings->setAxisAEnabled(set->value("axisAEnabled", false).toBool());
+        m_settings->setAxisAX(set->value("axisAX", true).toBool());
 
         foreach (ColorPicker* pick, m_settings->colors()) {
             pick->setColor(QColor(set->value(pick->objectName().mid(3), "black").toString()));
@@ -3326,7 +3422,6 @@ void frmMain::applySettings()
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
 
     ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
-
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
@@ -3349,6 +3444,27 @@ void frmMain::applySettings()
     m_codeDrawer->update();
 
     m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
+
+    // Axis A
+    m_viewParser.setAxisRotationVector(
+        GcodeViewParse::RotationAxisA,
+        Util::rotationVector(m_settings->axisAEnabled()
+            ? (m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
+            : Util::RotationVectorNone)
+    );
+
+    ui->lblPosA->setVisible(m_settings->axisAEnabled());
+    ui->txtWPosA->setVisible(m_settings->axisAEnabled());
+    ui->txtMPosA->setVisible(m_settings->axisAEnabled());
+
+    ui->cmdAMinus->setVisible(m_settings->axisAEnabled());
+    ui->cmdAPlusX->setVisible(m_settings->axisAEnabled() && m_settings->axisAX());
+    ui->cmdAPlusY->setVisible(m_settings->axisAEnabled() && !m_settings->axisAX());
+
+    ui->cmdAMinus->setIcon(m_settings->axisAX()
+        ? QIcon(":/images/circle_down.png")
+        : QIcon(":/images/circle_left.png")
+    );
 
     // Adapt visualizer buttons colors
     const int LIGHTBOUND = 127;
@@ -4582,12 +4698,14 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             static QList<QAction*> acts;
             if (acts.isEmpty()) acts << ui->actJogXMinus << ui->actJogXPlus
                                      << ui->actJogYMinus << ui->actJogYPlus
-                                     << ui->actJogZMinus << ui->actJogZPlus;
+                                     << ui->actJogZMinus << ui->actJogZPlus
+                                     << ui->actJogAMinus << ui->actJogAPlus << ui->actJogAPlus;
 
             static QList<QAbstractButton*> buttons;
             if (buttons.isEmpty()) buttons << ui->cmdXMinus << ui->cmdXPlus
                                            << ui->cmdYMinus << ui->cmdYPlus
-                                           << ui->cmdZMinus << ui->cmdZPlus;
+                                           << ui->cmdZMinus << ui->cmdZPlus
+                                           << ui->cmdAMinus << ui->cmdAPlusX << ui->cmdAPlusY;
 
             for (int i = 0; i < acts.count(); i++) {
                 if ((!buttons.at(i)->isDown()) && (event->type() == QEvent::ShortcutOverride)) {
@@ -4778,16 +4896,25 @@ QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
 void frmMain::jogStep()
 {
     if (ui->cboJogStep->currentText().toDouble() != 0) {
-        QVector3D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
+        QVector4D vec = m_jogVector * ui->cboJogStep->currentText().toDouble();
 
         if (vec.length()) {
-            sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                        .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
-                        .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
-                        .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
-                        .arg(ui->cboJogFeed->currentText().toDouble())
-                        .arg(m_settings->units() ? "G20" : "G21")
-                        , -3, m_settings->showUICommands());
+            if (m_settings->axisAEnabled()) {
+                sendCommand(QString("$J=%5G91X%1Y%2Z%3A%4F%5")
+                    .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(vec.w(), 0, 'f', 3)
+                    .arg(ui->cboJogFeed->currentText().toDouble())
+                    .arg(m_settings->units() ? "G20" : "G21"), -3, m_settings->showUICommands());
+            } else {
+                sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                    .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                    .arg(ui->cboJogFeed->currentText().toDouble())
+                    .arg(m_settings->units() ? "G20" : "G21"), -3, m_settings->showUICommands());
+            }
         }
     }
 }
@@ -4795,13 +4922,13 @@ void frmMain::jogStep()
 void frmMain::jogContinuous()
 {
     static bool block = false;
-    static QVector3D v;
+    static QVector4D v;
 
     if ((ui->cboJogStep->currentText().toDouble() == 0) && !block) {
 
         if (m_jogVector != v) {
             // Store jog vector before block
-            QVector3D j = m_jogVector;
+            QVector4D j = m_jogVector;
 
             if (v.length()) {
                 block = true;
@@ -4830,16 +4957,26 @@ void frmMain::jogContinuous()
             }
 
             // Jog vector
-            QVector3D vec = j * toInches(d);
+            QVector4D vec = j * toInches(d);
+            vec.setW(j.w() * 360.0);
 
             if (vec.length()) {
-                sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
-                            .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
-                            .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
-                            .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
-                            .arg(ui->cboJogFeed->currentText().toDouble())
-                            .arg(m_settings->units() ? "G20" : "G21")
-                            , -2, m_settings->showUICommands());
+                if (m_settings->axisAEnabled()) {
+                    sendCommand(QString("$J=%5G91X%1Y%2Z%3A%4F%5")
+                        .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.w(), 0, 'f', 3)
+                        .arg(ui->cboJogFeed->currentText().toDouble())
+                        .arg(m_settings->units() ? "G20" : "G21"), -2, m_settings->showUICommands());
+                } else {
+                    sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                        .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
+                        .arg(ui->cboJogFeed->currentText().toDouble())
+                        .arg(m_settings->units() ? "G20" : "G21"), -2, m_settings->showUICommands());
+                }
             }
             v = j;
         }

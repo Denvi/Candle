@@ -827,6 +827,18 @@ Temps écoulé: %1</translation>
         <source>Work</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A-</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1249,6 +1261,22 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>(average char width)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable axis &apos;A&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>direction:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

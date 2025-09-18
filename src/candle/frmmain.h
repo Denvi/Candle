@@ -221,6 +221,12 @@ private slots:
     void on_cmdZPlus_released();
     void on_cmdZMinus_pressed();
     void on_cmdZMinus_released();
+    void on_cmdAMinus_pressed();
+    void on_cmdAMinus_released();
+    void on_cmdAPlusX_pressed();
+    void on_cmdAPlusX_released();
+    void on_cmdAPlusY_pressed();
+    void on_cmdAPlusY_released();
     void on_cmdStop_clicked();
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
     void on_mnuViewWindows_aboutToShow();
@@ -411,7 +417,7 @@ private:
     bool m_spindleCW;
 
     // Jog
-    QVector3D m_jogVector;
+    QVector4D m_jogVector;
 
     // Script
     QScriptEngine m_scriptEngine;

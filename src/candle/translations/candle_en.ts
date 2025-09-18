@@ -825,6 +825,18 @@ Time elapsed: %1</source>
         <source>Work</source>
         <translation></translation>
     </message>
+    <message>
+        <source>A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A-</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1246,6 +1258,22 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>(average char width)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enable axis &apos;A&apos;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>direction:</source>
         <translation></translation>
     </message>
 </context>

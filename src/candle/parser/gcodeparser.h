@@ -34,7 +34,8 @@ public:
     void setSpeedOverride(double speedOverride);
     int getTruncateDecimalLength();
     void setTruncateDecimalLength(int truncateDecimalLength);
-    void reset(const QVector3D &initialPoint = Util::nVector());
+    void reset(const QVector3D &initialPoint = Util::nVector(),
+        const QVector3D &initialAxes = Util::nVector());
     PointSegment *addCommand(QString command);
     PointSegment *addCommand(const QStringList &args);
     QVector3D* getCurrentPoint();
@@ -59,6 +60,7 @@ private:
     bool m_inAbsoluteIJKMode;
     float m_lastGcodeCommand;
     QVector3D m_currentPoint;
+    QVector3D m_currentAxes;
     int m_commandNumber;
     PointSegment::planes m_currentPlane;
 
@@ -81,8 +83,10 @@ private:
     PointSegment *processCommand(const QStringList &args);
     void handleMCode(float code, const QStringList &args);
     PointSegment *handleGCode(float code, const QStringList &args);
-    PointSegment *addLinearPointSegment(const QVector3D &nextPoint, bool fastTraverse);
-    PointSegment *addArcPointSegment(const QVector3D &nextPoint, bool clockwise, const QStringList &args);
+    PointSegment *addLinearPointSegment(const QVector3D &nextPoint, 
+        const QVector3D &nextAxes, bool fastTraverse);
+    PointSegment *addArcPointSegment(const QVector3D &nextPoint, 
+        const QVector3D &nextAxes, bool clockwise, const QStringList &args);
     void setLastGcodeCommand(float num);
 };
 

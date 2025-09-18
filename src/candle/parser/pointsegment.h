@@ -23,11 +23,13 @@ public:
 
     PointSegment();
     PointSegment(PointSegment *ps);
-    PointSegment(const QVector3D *point, int num);
-    PointSegment(QVector3D *point, int num, QVector3D *center, double radius, bool clockwise);
+    PointSegment(const QVector3D *point, const QVector3D *axes, int num);
+    PointSegment(QVector3D *point, QVector3D *axes, int num, QVector3D *center, double radius, bool clockwise);
     ~PointSegment();
     void setPoint(QVector3D point);
     QVector3D* point();
+    void setAxes(QVector3D axes);
+    QVector3D* axes();
 
     QVector<double> points();
     void setToolHead(int head);
@@ -72,6 +74,7 @@ private:
     double m_spindleSpeed;
     double m_dwell;
     QVector3D *m_point;
+    QVector3D *m_axes;
     bool m_isMetric;
     bool m_isZMovement;
     bool m_isArc;

@@ -187,6 +187,10 @@ public:
     void setInvertedSliderControls(bool value);
     QTableWidget* shortcuts();
     void setShortcuts(QList<QAction*> acts);
+    bool axisAEnabled();
+    void setAxisAEnabled(bool value);
+    bool axisAX();
+    void setAxisAX(bool value);
 
     void setDefaultSettings();
 

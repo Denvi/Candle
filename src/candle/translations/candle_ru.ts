@@ -830,6 +830,18 @@ Time elapsed: %1</source>
         <source>Work</source>
         <translation>Рабочий</translation>
     </message>
+    <message>
+        <source>A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A-</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1254,6 +1266,22 @@ Time elapsed: %1</source>
     <message>
         <source>(average char width)</source>
         <translation>(средняя ширина символа)</translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enable axis &apos;A&apos;</source>
+        <translation>Задействовать ось &apos;A&apos;</translation>
+    </message>
+    <message>
+        <source>direction:</source>
+        <translation>Направление:</translation>
     </message>
 </context>
 </TS>
