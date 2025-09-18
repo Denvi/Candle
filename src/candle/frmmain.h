@@ -226,8 +226,6 @@ private slots:
     void on_mnuViewWindows_aboutToShow();
     void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
-    void on_cmdScriptStart_clicked();
-    void on_cmdScriptOpen_clicked();
 
     void onSerialPortReadyRead();
     void onSerialPortError(QSerialPort::SerialPortError);
@@ -248,6 +246,7 @@ private slots:
     void onScroolBarAction(int action);
     void onScriptException(const QScriptValue &exception);
     void onActServiceProfilesSelected(bool checked);
+    void onScriptStartClicked(const QString &script);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();

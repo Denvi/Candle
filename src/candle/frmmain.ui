@@ -2988,55 +2988,13 @@ QLabel[overrided=&quot;false&quot;] {
       <number>0</number>
      </property>
      <item>
-      <widget class="QFrame" name="fraScript">
-       <layout class="QVBoxLayout" name="verticalLayout_25">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="ScriptEdit" name="txtScript"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_13">
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cmdScriptOpen">
-            <property name="text">
-             <string>Open</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cmdScriptStart">
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+      <widget class="frmScript" name="fraScript">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
       </widget>
      </item>
     </layout>
@@ -3061,7 +3019,7 @@ QLabel[overrided=&quot;false&quot;] {
       <number>0</number>
      </property>
      <item>
-      <widget class="frmLog" name="wdgLog" native="true"/>
+      <widget class="frmLog" name="fraLog" native="true"/>
      </item>
     </layout>
    </widget>
@@ -3489,14 +3447,15 @@ QLabel[overrided=&quot;false&quot;] {
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ScriptEdit</class>
-   <extends>QTextEdit</extends>
-   <header>scriptedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>frmLog</class>
    <extends>QWidget</extends>
    <header>frmlog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>frmScript</class>
+   <extends>QFrame</extends>
+   <header>frmscript.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

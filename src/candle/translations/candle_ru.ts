@@ -759,14 +759,6 @@ Time elapsed: %1</source>
         <translation>Скрипт</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation>Запустить</translation>
-    </message>
-    <message>
-        <source>Script files (*.js)</source>
-        <translation>Файлы скриптов (*.js)</translation>
-    </message>
-    <message>
         <source>Log</source>
         <translation>Журнал приложения</translation>
     </message>
@@ -837,6 +829,43 @@ Time elapsed: %1</source>
     <message>
         <source>Work</source>
         <translation>Рабочий</translation>
+    </message>
+</context>
+<context>
+    <name>frmScript</name>
+    <message>
+        <source>Open</source>
+        <translation>Открыть</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Запустить</translation>
+    </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation>Файлы скриптов (*.js)</translation>
+    </message>
+    <message>
+        <source>Can&apos;t open file:
+</source>
+        <translation>Ошибка при открытии файла:
+</translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation>Новый</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Script was changed. Save?</source>
+        <translation>Скрипт был измнене. Сохранить?</translation>
+    </message>
+    <message>
+        <source>Save file as</source>
+        <translation>Сохранить файл как</translation>
     </message>
 </context>
 <context>

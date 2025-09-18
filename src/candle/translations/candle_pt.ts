@@ -756,14 +756,6 @@ Tempo transcorrido: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Script files (*.js)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
@@ -834,6 +826,43 @@ Tempo transcorrido: %1</translation>
     <message>
         <source>Work</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>frmScript</name>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">Abrir</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Can&apos;t open file:
+</source>
+        <translation type="unfinished">Não foi possível abrir o arquivo:
+</translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script was changed. Save?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save file as</source>
+        <translation type="unfinished">Salvar arquivo como</translation>
     </message>
 </context>
 <context>

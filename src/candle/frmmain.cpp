@@ -333,6 +333,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     connect(&m_scriptEngine, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
+    connect(ui->fraScript, &frmScript::ScriptStartClicked, this, &frmMain::onScriptStartClicked);
 
     // Event filter
     qApp->installEventFilter(this);
@@ -1643,70 +1644,6 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
     ui->glwVisualizer->setUpdatesEnabled(visible);
 }
 
-void frmMain::on_cmdScriptStart_clicked()
-{
-    QScriptEngine se;
-
-    // Delegate import extension function
-    QScriptValue sv = se.newObject();
-    sv.setProperty("importExtension", se.newFunction(frmMain::importExtension));
-    se.globalObject().setProperty("script", sv);
-    se.setObjectName("script");
-
-    // Delegate objects
-    // Main form
-    QScriptValue app = se.newQObject(m_scriptApp);
-    app.setProperty("path", qApp->applicationDirPath());
-    se.globalObject().setProperty("app", app);
-
-    // Settings
-    QScriptValue settings = se.newQObject(m_settings);
-    app.setProperty("settings", settings);
-
-    // Storage
-    auto storage = se.newQObject(&m_storage);
-    app.setProperty("storage", storage);
-
-    qScriptRegisterMetaType<StorageGroup*>(&se,
-        [](QScriptEngine *e, StorageGroup* const &g) {
-            return e->newQObject(g, QScriptEngine::ScriptOwnership);
-        },
-        [](const QScriptValue &v, StorageGroup *&g) {
-            g = qobject_cast<StorageGroup*>(v.toQObject());
-        });
-        
-    // Stored vars
-    QScriptValue vars = se.newQObject(&m_storedVars);
-    se.globalObject().setProperty("vars", vars);
-
-    // Translator
-    se.installTranslatorFunctions();
-
-    // Evaluate script
-    sv = se.evaluate(ui->txtScript->toPlainText());
-
-    if (sv.isError()) {
-        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
-    }
-}
-
-void frmMain::on_cmdScriptOpen_clicked()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QString(), tr("Script files (*.js)"));
-
-    if (fileName != "") {
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
-            return;
-        }
-
-        QTextStream textStream(&file);
-        ui->txtScript->setPlainText(textStream.readAll());
-    }    
-}
-
 void frmMain::onSerialPortReadyRead()
 {
     while (m_serialPort.canReadLine()) {
@@ -2662,6 +2599,53 @@ void frmMain::onActServiceProfilesSelected(bool checked)
     restoreSettings();
 
     ui->actServiceProfilesDelete->setEnabled(action != ui->actServiceProfilesDefault);
+}
+
+void frmMain::onScriptStartClicked(const QString &script)
+{
+    QScriptEngine se;
+
+    // Delegate import extension function
+    QScriptValue sv = se.newObject();
+    sv.setProperty("importExtension", se.newFunction(frmMain::importExtension));
+    se.globalObject().setProperty("script", sv);
+    se.setObjectName("script");
+
+    // Delegate objects
+    // Main form
+    QScriptValue app = se.newQObject(m_scriptApp);
+    app.setProperty("path", qApp->applicationDirPath());
+    se.globalObject().setProperty("app", app);
+
+    // Settings
+    QScriptValue settings = se.newQObject(m_settings);
+    app.setProperty("settings", settings);
+
+    // Storage
+    auto storage = se.newQObject(&m_storage);
+    app.setProperty("storage", storage);
+
+    qScriptRegisterMetaType<StorageGroup*>(&se,
+        [](QScriptEngine *e, StorageGroup* const &g) {
+            return e->newQObject(g, QScriptEngine::ScriptOwnership);
+        },
+        [](const QScriptValue &v, StorageGroup *&g) {
+            g = qobject_cast<StorageGroup*>(v.toQObject());
+        });
+        
+    // Stored vars
+    QScriptValue vars = se.newQObject(&m_storedVars);
+    se.globalObject().setProperty("vars", vars);
+
+    // Translator
+    se.installTranslatorFunctions();
+
+    // Evaluate script
+    sv = se.evaluate(script);
+
+    if (sv.isError()) {
+        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    }
 }
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)

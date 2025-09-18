@@ -754,14 +754,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Script files (*.js)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Log</source>
         <translation></translation>
     </message>
@@ -831,6 +823,42 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Work</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>frmScript</name>
+    <message>
+        <source>Open</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Can&apos;t open file:
+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Script was changed. Save?</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save file as</source>
         <translation></translation>
     </message>
 </context>
