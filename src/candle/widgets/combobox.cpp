@@ -9,26 +9,21 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
 {
 }
 
-ComboBox::~ComboBox()
-{
-}
-
-void ComboBox::storeText()
-{
-    if (this->count() == this->maxCount()) this->removeItem(this->maxCount() - 1);
-    this->insertItem(0, this->currentText());
-    this->setCurrentIndex(-1);
-}
-
 void ComboBox::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Return) {
-        if (this->count() == this->maxCount()) this->removeItem(this->maxCount() - 1);  // TODO: Make removing selected item
-    }
-    QComboBox::keyPressEvent(e);
+    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter && !currentText().isEmpty()) {
+        // Remove last item if new one entered
+        if (count() == maxCount() && !items().contains(currentText()))
+            removeItem(maxCount() - 1);
 
-    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
+        // Force item add
+        QComboBox::keyPressEvent(e);
+
         emit returnPressed();
-        this->setCurrentIndex(-1);
+
+        setCurrentIndex(-1);
+        setCurrentText("");
+    } else {
+        QComboBox::keyPressEvent(e);
     }
 }

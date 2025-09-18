@@ -2773,19 +2773,11 @@ QLabel[overrided=&quot;false&quot;] {
          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
           <item>
            <widget class="ComboBox" name="cboCommand">
-            <property name="styleSheet">
-             <string notr="true">padding-top: 3;
-padding-bottom: 3;
-padding-right: 8;</string>
-            </property>
             <property name="editable">
              <bool>true</bool>
             </property>
-            <property name="maxVisibleItems">
-             <number>5</number>
-            </property>
             <property name="maxCount">
-             <number>10</number>
+             <number>20</number>
             </property>
             <property name="insertPolicy">
              <enum>QComboBox::InsertAtTop</enum>

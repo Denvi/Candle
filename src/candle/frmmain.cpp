@@ -133,11 +133,6 @@ frmMain::frmMain(QWidget *parent) :
     }
 #endif
 
-#ifndef UNIX
-    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
-#endif
-//    ui->scrollArea->updateMinimumWidth();
-
     m_heightMapMode = false;
     m_lastDrawnLineIndex = 0;
     m_fileProcessedCommandIndex = 0;
@@ -877,9 +872,7 @@ void frmMain::on_cmdCommandSend_clicked()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    ui->cboCommand->storeText();
-    ui->cboCommand->setCurrentText("");
-    sendCommand(command, -1);
+    QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
 }
 
 void frmMain::on_cmdClearConsole_clicked()
@@ -2613,7 +2606,6 @@ void frmMain::onCboCommandReturnPressed()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    ui->cboCommand->setCurrentText("");
     sendCommand(command, -1);
 }
 
