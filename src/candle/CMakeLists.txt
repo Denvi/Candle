@@ -1,4 +1,4 @@
-project(Candle VERSION 1.2.16)
+project(Candle VERSION 1.2.17)
 
 set(APP_NAME ${PROJECT_NAME})
 set(APP_VERSION ${PROJECT_VERSION})

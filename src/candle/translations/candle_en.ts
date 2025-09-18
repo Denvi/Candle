@@ -237,10 +237,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Work coordinates:</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>X</source>
         <translation></translation>
     </message>
@@ -250,10 +246,6 @@
     </message>
     <message>
         <source>Z</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Machine coordinates:</source>
         <translation></translation>
     </message>
     <message>
@@ -762,14 +754,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Script files (*.js)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Log</source>
         <translation></translation>
     </message>
@@ -779,23 +763,23 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Move toolhead to heightmap origin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Origin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Origin:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Bicubic</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Show origin</source>
@@ -810,19 +794,71 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Enter layout name</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>L&amp;ayouts</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&amp;Delete</source>
         <translation></translation>
     </message>
     <message>
         <source>Default</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Profiles</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enter profile name</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Create</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Profile &apos;%1&apos; already exists</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Machine</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>frmScript</name>
+    <message>
+        <source>Open</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Script files (*.js)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Can&apos;t open file:
+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Script was changed. Save?</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save file as</source>
         <translation></translation>
     </message>
 </context>
@@ -1202,10 +1238,6 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>250000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>0</source>
         <translation></translation>
     </message>
 </context>

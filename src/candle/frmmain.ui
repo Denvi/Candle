@@ -350,7 +350,18 @@ QLabel[overrided=&quot;false&quot;] {
     <property name="title">
      <string>&amp;Service</string>
     </property>
+    <widget class="QMenu" name="mnuServiceProfiles">
+     <property name="title">
+      <string>&amp;Profiles</string>
+     </property>
+     <addaction name="actServiceProfilesDefault"/>
+     <addaction name="separator"/>
+     <addaction name="actServiceProfilesCreate"/>
+     <addaction name="actServiceProfilesDelete"/>
+    </widget>
     <addaction name="actServiceSettings"/>
+    <addaction name="separator"/>
+    <addaction name="mnuServiceProfiles"/>
    </widget>
    <widget class="QMenu" name="mnuHelp">
     <property name="title">
@@ -374,19 +385,8 @@ QLabel[overrided=&quot;false&quot;] {
       <string>&amp;Panels</string>
      </property>
     </widget>
-    <widget class="QMenu" name="mnuViewLayouts">
-     <property name="title">
-      <string>L&amp;ayouts</string>
-     </property>
-     <addaction name="actViewLayoutsDefault"/>
-     <addaction name="separator"/>
-     <addaction name="actViewLayoutsSave"/>
-     <addaction name="actViewLayoutsDelete"/>
-    </widget>
     <addaction name="mnuViewWindows"/>
     <addaction name="mnuViewPanels"/>
-    <addaction name="separator"/>
-    <addaction name="mnuViewLayouts"/>
     <addaction name="separator"/>
     <addaction name="actViewLockWindows"/>
     <addaction name="actViewLockPanels"/>
@@ -432,7 +432,7 @@ QLabel[overrided=&quot;false&quot;] {
           <x>0</x>
           <y>0</y>
           <width>214</width>
-          <height>703</height>
+          <height>792</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -1414,19 +1414,43 @@ QLabel[overrided=&quot;false&quot;] {
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <item>
-                 <widget class="QLabel" name="label">
+               <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1">
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_24">
                   <property name="text">
-                   <string>Work coordinates:</string>
+                   <string>Y</string>
                   </property>
                  </widget>
                 </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_17">
+                  <property name="text">
+                   <string>Machine</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_23">
+                  <property name="text">
+                   <string>X</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_4">
+                  <property name="text">
+                   <string>Work</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_25">
+                  <property name="text">
+                   <string>Z</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
                  <widget class="QDoubleSpinBox" name="txtWPosX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1463,7 +1487,7 @@ QLabel[overrided=&quot;false&quot;] {
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="2" column="1">
                  <widget class="QDoubleSpinBox" name="txtWPosY">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1500,7 +1524,7 @@ QLabel[overrided=&quot;false&quot;] {
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="3" column="1">
                  <widget class="QDoubleSpinBox" name="txtWPosZ">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1537,26 +1561,7 @@ QLabel[overrided=&quot;false&quot;] {
                   </property>
                  </widget>
                 </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_10">
-                <item>
-                 <widget class="QLabel" name="label_2">
-                  <property name="text">
-                   <string>Machine coordinates:</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
-                <item>
+                <item row="1" column="2">
                  <widget class="QDoubleSpinBox" name="txtMPosX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1593,7 +1598,7 @@ QLabel[overrided=&quot;false&quot;] {
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="2" column="2">
                  <widget class="QDoubleSpinBox" name="txtMPosY">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1630,7 +1635,7 @@ QLabel[overrided=&quot;false&quot;] {
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="3" column="2">
                  <widget class="QDoubleSpinBox" name="txtMPosZ">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -2768,19 +2773,11 @@ QLabel[overrided=&quot;false&quot;] {
          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,0">
           <item>
            <widget class="ComboBox" name="cboCommand">
-            <property name="styleSheet">
-             <string notr="true">padding-top: 3;
-padding-bottom: 3;
-padding-right: 8;</string>
-            </property>
             <property name="editable">
              <bool>true</bool>
             </property>
-            <property name="maxVisibleItems">
-             <number>5</number>
-            </property>
             <property name="maxCount">
-             <number>10</number>
+             <number>20</number>
             </property>
             <property name="insertPolicy">
              <enum>QComboBox::InsertAtTop</enum>
@@ -2991,55 +2988,13 @@ padding-right: 8;</string>
       <number>0</number>
      </property>
      <item>
-      <widget class="QFrame" name="fraScript">
-       <layout class="QVBoxLayout" name="verticalLayout_25">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="ScriptEdit" name="txtScript"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_13">
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cmdScriptOpen">
-            <property name="text">
-             <string>Open</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cmdScriptStart">
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+      <widget class="frmScript" name="fraScript">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
       </widget>
      </item>
     </layout>
@@ -3064,7 +3019,7 @@ padding-right: 8;</string>
       <number>0</number>
      </property>
      <item>
-      <widget class="frmLog" name="wdgLog" native="true"/>
+      <widget class="frmLog" name="fraLog" native="true"/>
      </item>
     </layout>
    </widget>
@@ -3435,6 +3390,24 @@ padding-right: 8;</string>
     <string>Default</string>
    </property>
   </action>
+  <action name="actServiceProfilesCreate">
+   <property name="text">
+    <string>&amp;Create</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesDelete">
+   <property name="text">
+    <string>&amp;Delete</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesDefault">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -3474,14 +3447,15 @@ padding-right: 8;</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ScriptEdit</class>
-   <extends>QTextEdit</extends>
-   <header>scriptedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>frmLog</class>
    <extends>QWidget</extends>
    <header>frmlog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>frmScript</class>
+   <extends>QFrame</extends>
+   <header>frmscript.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

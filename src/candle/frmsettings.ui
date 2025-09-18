@@ -1526,7 +1526,7 @@ QGroupBox {
                      <bool>true</bool>
                     </property>
                     <property name="currentText">
-                     <string>0</string>
+                     <string>8</string>
                     </property>
                     <property name="maxCount">
                      <number>10</number>
@@ -1581,18 +1581,7 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
-                  <item>
-                   <widget class="QCheckBox" name="chkInvertedSliderControls">
-                    <property name="text">
-                     <string>Invert slider controls</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
+                  <item row="1" column="3">
                    <widget class="QLabel" name="label_31">
                     <property name="styleSheet">
                      <string notr="true">color: blue;</string>
@@ -1600,8 +1589,16 @@ QGroupBox {
                     <property name="text">
                      <string>(restart needed)</string>
                     </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0">
+                  <item>
+                   <widget class="QCheckBox" name="chkInvertedSliderControls">
+                    <property name="text">
+                     <string>Invert slider controls</string>
                     </property>
                    </widget>
                   </item>

@@ -3,8 +3,7 @@ script.importExtension("qt.widgets");
 
 (function () {
     // Restore previously entered radius
-    const settings = new QSettings();
-    settings.beginGroup("HoleCenterFinder");
+    const settings = app.storage.group("HoleCenterFinder");    
     const storedRadius = settings.value("radius", 10);
 
     const radius = QInputDialog.getDouble(app.window, "Hole center finder", "Find radius", storedRadius, 0.0, 100.0, 0, Qt.Dialog);

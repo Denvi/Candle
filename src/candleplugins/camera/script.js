@@ -62,8 +62,7 @@ function createSettingsWidget()
 
 function onAppSettingsSaved()
 {
-    var settings = new QSettings();
-    settings.beginGroup(pluginName);
+    var settings = app.storage.group(pluginName);
 
     settings.setValue("name", uiSettings.cboCameraName.currentText);
     settings.setValue("resolution", uiSettings.cboCameraResolution.currentText);
@@ -77,8 +76,7 @@ function onAppSettingsSaved()
 
 function onAppSettingsLoaded()
 {
-    var settings = new QSettings();
-    settings.beginGroup(pluginName);
+    var settings = app.storage.group(pluginName);
 
     // Load settings
     uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);

@@ -140,8 +140,7 @@ function onAppSettingsLoaded()
 {
     buttonSize = app.buttonSize;
 
-    var settings = new QSettings();
-    settings.beginGroup(pluginName);
+    var settings = app.storage.group(pluginName);
 
     // Migrating old settings
     if (!settings.contains("buttons")) {
@@ -157,8 +156,8 @@ function onAppSettingsLoaded()
 
 function onAppSettingsSaved()
 {
-    var settings = new QSettings();
-    settings.beginGroup(pluginName);
+    var settings = app.storage.group(pluginName);
+
     settings.setValue("buttons", storeButtonsTable());
 }
 

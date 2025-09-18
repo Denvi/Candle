@@ -72,8 +72,8 @@ frmSettings::frmSettings(QWidget *parent) :
         ui->listCategories->addItem(ui->stackMain->widget(i)->findChild<QGroupBox*>()->title());
     }
 
-    ui->listCategories->setMinimumWidth(ui->listCategories->sizeHintForColumn(0) * 1.1);
     ui->listCategories->item(0)->setSelected(true);
+
     connect(this, SIGNAL(settingsSetByDefault()), parent, SIGNAL(settingsSetByDefault()));
 
     // Shortcuts table
@@ -103,6 +103,9 @@ frmSettings::~frmSettings()
 
 int frmSettings::exec()
 {
+    // Adjust categories list size
+    ui->listCategories->setMinimumWidth(ui->listCategories->sizeHintForColumn(0) * 1.1);
+
     // Store settings to undo
     m_storedValues.clear();
     m_storedChecks.clear();
@@ -878,11 +881,6 @@ void frmSettings::setDefaultSettings()
     ui->chkToolChangeUseCommands->setChecked(false);
     ui->chkToolChangeUseCommandsConfirm->setChecked(false);
     setLanguage("en");
-}
-
-void frmSettings::on_cboFontSize_currentTextChanged(const QString &arg1)
-{
-    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + arg1));
 }
 
 void frmSettings::on_radDrawModeVectors_toggled(bool checked)

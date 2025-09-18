@@ -13,6 +13,7 @@
 #include <QComboBox>
 #include <QPlainTextEdit>
 #include <QTableWidget>
+#include <QTranslator>
 #include "colorpicker.h"
 
 namespace Ui {
@@ -200,7 +201,6 @@ private slots:
     void on_cboToolType_currentIndexChanged(int index);
     void on_listCategories_currentRowChanged(int currentRow);
     void on_cmdDefaults_clicked();
-    void on_cboFontSize_currentTextChanged(const QString &arg1);
     void on_radDrawModeVectors_toggled(bool checked);
     void on_radDrawModeRaster_toggled(bool checked);
     void on_radGrayscaleS_toggled(bool checked);
