@@ -157,14 +157,6 @@
         <translation>Etât</translation>
     </message>
     <message>
-        <source>Work coordinates:</source>
-        <translation>Coordonnées de travail:</translation>
-    </message>
-    <message>
-        <source>Machine coordinates:</source>
-        <translation>Coordonnées machine:</translation>
-    </message>
-    <message>
         <source>Status:</source>
         <translation>Etât:</translation>
     </message>
@@ -833,6 +825,14 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Profile &apos;%1&apos; already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

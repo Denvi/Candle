@@ -237,10 +237,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Work coordinates:</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>X</source>
         <translation></translation>
     </message>
@@ -250,10 +246,6 @@
     </message>
     <message>
         <source>Z</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Machine coordinates:</source>
         <translation></translation>
     </message>
     <message>
@@ -831,6 +823,14 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Profile &apos;%1&apos; already exists</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Machine</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Work</source>
         <translation></translation>
     </message>
 </context>

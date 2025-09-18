@@ -165,14 +165,6 @@
         <translation>Пауза</translation>
     </message>
     <message>
-        <source>Work coordinates:</source>
-        <translation>Рабочие координаты:</translation>
-    </message>
-    <message>
-        <source>Machine coordinates:</source>
-        <translation>Машинные координаты:</translation>
-    </message>
-    <message>
         <source>Status:</source>
         <translation>Статус:</translation>
     </message>
@@ -837,6 +829,14 @@ Time elapsed: %1</source>
     <message>
         <source>Profile &apos;%1&apos; already exists</source>
         <translation>Профиль &apos;%1&apos; уже существует</translation>
+    </message>
+    <message>
+        <source>Machine</source>
+        <translation>Машинный</translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation>Рабочий</translation>
     </message>
 </context>
 <context>
