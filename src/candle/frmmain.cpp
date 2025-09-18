@@ -2839,6 +2839,7 @@ void frmMain::storeSettings()
     set->setValue("recentHeightmaps", m_recentHeightmaps);
     set->setValue("lastFolder", m_lastFolder);
     set->setValue("fontSize", m_settings->fontSize());
+    set->setValue("panelWidth", m_settings->panelWidth());
     set->setValue("keyboardControl", m_storedKeyboardControl);
 
     set->setValue("useStartCommands", m_settings->useStartCommands());
@@ -2974,6 +2975,7 @@ void frmMain::restoreSettings()
 
     if (set->childKeys().size()) {
         m_settings->setFontSize(set->value("fontSize", 9).toInt());
+        m_settings->setPanelWidth(set->value("panelWidth", 48).toInt());
         m_settings->setPort(set->value("port").toString());
         m_settings->setBaud(set->value("baud", 115200).toInt());
         m_settings->setIgnoreErrors(set->value("ignoreErrors", false).toBool());
@@ -3272,7 +3274,7 @@ void frmMain::applySettings()
     foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
 
     // Adjust docks width
-    auto panelWidth = QFontMetrics(font()).averageCharWidth() * 40;
+    auto panelWidth = QFontMetrics(font()).averageCharWidth() * m_settings->panelWidth();
 
     ui->dockDevice->setMinimumWidth(panelWidth);
     ui->dockDevice->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());

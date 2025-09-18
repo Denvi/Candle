@@ -141,6 +141,8 @@ public:
     QColor colors(QString name);
     int fontSize();
     void setFontSize(int fontSize);
+    int panelWidth();
+    void setPanelWidth(int panelWidth);
     bool grayscaleSegments();
     void setGrayscaleSegments(bool value);
     bool grayscaleSCode();

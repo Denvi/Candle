@@ -1484,36 +1484,6 @@ QGroupBox {
                <layout class="QVBoxLayout" name="verticalLayout_9">
                 <item>
                  <layout class="QGridLayout" name="gridLayout_3">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="lblFontSize">
-                    <property name="text">
-                     <string>Font size:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2">
-                   <widget class="QLabel" name="label_30">
-                    <property name="text">
-                     <string>pt</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QComboBox" name="cboLanguage">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="editable">
-                     <bool>false</bool>
-                    </property>
-                    <property name="maxCount">
-                     <number>10</number>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="1">
                    <widget class="QComboBox" name="cboFontSize">
                     <property name="sizePolicy">
@@ -1561,6 +1531,23 @@ QGroupBox {
                     </item>
                    </widget>
                   </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="lblLanguage">
+                    <property name="text">
+                     <string>Language:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QLabel" name="label_31">
+                    <property name="styleSheet">
+                     <string notr="true">color: blue;</string>
+                    </property>
+                    <property name="text">
+                     <string>(restart needed)</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="0" column="3">
                    <spacer name="horizontalSpacer_2">
                     <property name="orientation">
@@ -1575,19 +1562,59 @@ QGroupBox {
                    </spacer>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLabel" name="lblLanguage">
+                   <widget class="QLabel" name="lblFontSize_2">
                     <property name="text">
-                     <string>Language:</string>
+                     <string>Panel width:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="lblFontSize">
+                    <property name="text">
+                     <string>Font size:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QLabel" name="label_30">
+                    <property name="text">
+                     <string>pt</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QComboBox" name="cboLanguage">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="editable">
+                     <bool>false</bool>
+                    </property>
+                    <property name="maxCount">
+                     <number>10</number>
                     </property>
                    </widget>
                   </item>
                   <item row="1" column="3">
-                   <widget class="QLabel" name="label_31">
+                   <widget class="QLabel" name="label_33">
                     <property name="styleSheet">
                      <string notr="true">color: blue;</string>
                     </property>
                     <property name="text">
-                     <string>(restart needed)</string>
+                     <string>(average char width)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QSpinBox" name="txtPanelWidth">
+                    <property name="minimum">
+                     <number>30</number>
+                    </property>
+                    <property name="maximum">
+                     <number>60</number>
                     </property>
                    </widget>
                   </item>

@@ -1243,5 +1243,13 @@ Tiempo transcurrido: %1</translation>
         <source>250000</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Panel width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(average char width)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
