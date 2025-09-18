@@ -25,6 +25,9 @@ private slots:
 
 private:
     Ui::frmAbout *ui;
+
+protected:
+    void showEvent(QShowEvent *e) override;
 };
 
 #endif // FRMABOUT_H

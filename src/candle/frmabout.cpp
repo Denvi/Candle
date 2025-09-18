@@ -39,3 +39,13 @@ void frmAbout::on_lblAbout_linkActivated(const QString &link)
 {
     QDesktopServices::openUrl(link);
 }
+
+void frmAbout::showEvent(QShowEvent *e)
+{
+    auto fm = QFontMetrics(font());
+    resize(QSize(fm.height() * 32, fm.height() * 32));
+
+    if (parentWidget()) {
+        move(parentWidget()->geometry().center() - rect().center());
+    }
+}
