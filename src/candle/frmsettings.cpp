@@ -482,6 +482,16 @@ void frmSettings::setFontSize(int fontSize)
     ui->cboFontSize->setCurrentText(QString::number(fontSize));
 }
 
+int frmSettings::panelWidth()
+{
+    return ui->txtPanelWidth->value();
+}
+
+void frmSettings::setPanelWidth(int panelWidth)
+{
+    ui->txtPanelWidth->setValue(panelWidth);
+}
+
 bool frmSettings::grayscaleSegments()
 {
     return ui->chkGrayscale->isChecked();
@@ -844,6 +854,7 @@ void frmSettings::setDefaultSettings()
     ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
 
     setFontSize(9);
+    setPanelWidth(48);
 
     // Shortcuts
     QMap<QString, QString> d;

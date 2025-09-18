@@ -1240,5 +1240,13 @@ Time elapsed: %1</source>
         <source>250000</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Panel width:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>(average char width)</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

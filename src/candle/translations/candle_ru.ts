@@ -1247,5 +1247,13 @@ Time elapsed: %1</source>
         <source>250000</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Panel width:</source>
+        <translation>Ширина панелей:</translation>
+    </message>
+    <message>
+        <source>(average char width)</source>
+        <translation>(средняя ширина символа)</translation>
+    </message>
 </context>
 </TS>
