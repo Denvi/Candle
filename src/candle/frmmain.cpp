@@ -3272,14 +3272,7 @@ void frmMain::applySettings()
     foreach (QDockWidget *w, findChildren<QDockWidget*>()) w->setStyleSheet("");
 
     // Adjust docks width
-    ui->scrollContentsDevice->adjustSize();
-    ui->scrollContentsModification->adjustSize();
-    ui->scrollContentsUser->adjustSize();
-
-    int panelWidth = qMax(
-        ui->scrollContentsDevice->minimumSizeHint().width(),
-        qMax(ui->scrollContentsModification->minimumSizeHint().width(), ui->scrollContentsUser->minimumSizeHint().width())
-    ) + 2;
+    auto panelWidth = QFontMetrics(font()).averageCharWidth() * 40;
 
     ui->dockDevice->setMinimumWidth(panelWidth);
     ui->dockDevice->setMaximumWidth(panelWidth + ui->scrollArea->verticalScrollBar()->width());
