@@ -1824,7 +1824,7 @@ void frmMain::onSerialPortReadyRead()
             ui->txtWPosY->setValue(ui->txtMPosY->value() - workOffset.y());
             ui->txtWPosZ->setValue(ui->txtMPosZ->value() - workOffset.z());
 
-            double a = Util::angleNormalize(ui->txtMPosA->value() + 360.0 - workOffset.w());
+            double a = ui->txtMPosA->value() - workOffset.w();
             if (ui->txtWPosA->minimum() > a || ui->txtWPosA->maximum() < a) {
                 ui->txtWPosA->setMaximum(ui->txtWPosA->maximum() * 10);
                 ui->txtWPosA->setMinimum(-ui->txtWPosA->maximum());
@@ -1845,12 +1845,14 @@ void frmMain::onSerialPortReadyRead()
                                          toMetric(ui->txtWPosY->value()),
                                          toMetric(ui->txtWPosZ->value()));
 
+                auto normalizedRotation = Util::normalizeRotation(ui->txtWPosA->value());
+
                 m_toolDrawer.setToolPosition(
                     m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
 
                 if (m_settings->axisAEnabled() && m_currentDrawer->viewParser()->axisRotationUsed(GcodeViewParse::RotationAxisA)) {
                     m_codeDrawer->setRotation(
-                        ui->txtWPosA->value(),
+                        normalizedRotation,
                         Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
                     );
                 } else {

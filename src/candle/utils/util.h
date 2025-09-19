@@ -115,7 +115,7 @@ public:
         button->setIcon(invertIconColors(button->icon()));
     }
 
-    static double angleNormalize(double value)
+    static double normalizeRotation(double value)
     {
         return value - trunc(value / 360.0) * 360.0;
     }
