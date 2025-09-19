@@ -2218,8 +2218,7 @@ void frmMain::onSerialPortReadyRead()
                                 if (result == QMessageBox::Ignore) {
                                     m_serialPort.write("~");
                                 } else {
-                                    m_serialPort.write("~");
-                                    ui->cmdFileAbort->click();
+                                    grblReset();
                                 }
                             }
                         }
