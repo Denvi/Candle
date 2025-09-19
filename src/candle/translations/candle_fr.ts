@@ -636,10 +636,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Applying heightmap...</source>
         <translation type="unfinished"></translation>
     </message>

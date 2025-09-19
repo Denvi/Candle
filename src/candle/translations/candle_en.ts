@@ -686,10 +686,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation></translation>
-    </message>
-    <message>
         <source> (%1)</source>
         <translation></translation>
     </message>

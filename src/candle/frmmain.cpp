@@ -27,6 +27,7 @@
 #include "loggingcategories.h"
 #include "layoutentry.h"
 #include "settingsprofileentry.h"
+#include "utils/optarg.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -2551,19 +2552,11 @@ void frmMain::onActSendFromLineTriggered()
     if (m_settings->autoLine()) {
         QString commands = getLineInitCommands(commandIndex);
 
-        QMessageBox box(this);
-        box.setIcon(QMessageBox::Information);
-        box.setText(tr("Following commands will be sent before selected line:\n") + commands);
-        box.setWindowTitle(qApp->applicationDisplayName());
-        box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-        box.addButton(tr("Skip"), QMessageBox::DestructiveRole);
-
-        int res = box.exec();
-        if (res == QMessageBox::Cancel) return;
-        else if (res == QMessageBox::Ok) {
-            // foreach (QString command, commands) {
-            //     sendCommand(command, -1, m_settings->showUICommands());
-            // }
+        if (commands.length()) {
+            bool res = false;
+            commands = QInputDialog::getMultiLineText(this, "",
+                tr("Following commands will be sent before selected line:\n"), commands, &res);
+            if (!res) return;
             sendCommands(commands, -1);
         }
     }
@@ -5072,44 +5065,73 @@ void frmMain::completeTransfer()
 QString frmMain::getLineInitCommands(int row)
 {
     int commandIndex = row;
+    QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
-    QString commands;
+
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
+    if (lineNumber < 0) {
+        return "";
+    }
 
-    if (lineNumber != -1) {
-        LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
-        LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
-        LineSegment* feedSegment = lastSegment;
-        LineSegment* plungeSegment = lastSegment;
-        int segmentIndex = list.indexOf(feedSegment);
-        while (feedSegment->isFastTraverse() && (segmentIndex > 0))
-            feedSegment = list.at(--segmentIndex);
-        while (!(plungeSegment->isZMovement() && !plungeSegment->isFastTraverse()) && (segmentIndex > 0))
-            plungeSegment = list.at(--segmentIndex);
+    LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
+    LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
+    LineSegment* feedSegment = lastSegment;
+    LineSegment* preFirstSegment = firstSegment;
 
+    int segmentIndex = list.indexOf(feedSegment);
+    while (feedSegment->isFastTraverse() && segmentIndex > 0) feedSegment = list.at(--segmentIndex);
+    segmentIndex = list.indexOf(firstSegment);
+    if (segmentIndex > 0) preFirstSegment = list.at(--segmentIndex);
 
-        commands.append(QString("M3 S%1\n").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
+    commands.append(QString("M3 S%1\n").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
 
-        commands.append(QString("G21 G90 G0 X%1 Y%2\n")
-                        .arg(firstSegment->getStart().x())
-                        .arg(firstSegment->getStart().y()));
-        commands.append(QString("G1 Z%1 F%2\n")
-                        .arg(firstSegment->getStart().z())
-                        .arg(plungeSegment->getSpeed()));
+    if (m_settings->axisAEnabled() && parser->axisRotationUsed(GcodeViewParse::RotationAxisA)) {
+        QMatrix4x4 rotation;
 
-        commands.append(QString("%1 %2 %3 F%4\n")
-                        .arg(lastSegment->isMetric() ? "G21" : "G20")
-                        .arg(lastSegment->isAbsolute() ? "G90" : "G91")
-                        .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
-                        .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+        if (!qIsNaN(preFirstSegment->axesEnd().x())) 
+            rotation.rotate(preFirstSegment->axesEnd().x(),
+                Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY));
 
-        if (lastSegment->isArc()) {
-            commands.append(lastSegment->plane() == PointSegment::XY ? "G17"
-            : lastSegment->plane() == PointSegment::ZX ? "G18" : "G19");
+        QVector3D rotated = rotation * firstSegment->getStart();
+
+        if (!qIsNaN(rotated.x()) || !qIsNaN(rotated.y()) || !qIsNaN(firstSegment->axesEnd().x())) {
+            commands.append(QString("G21 G90 G0%1%2%3\n")
+                .arg(optArg("X", rotated.x(), 0, 'f', 4))
+                .arg(optArg("Y", rotated.y(), 0, 'f', 4))
+                .arg(optArg("A", firstSegment->axesEnd().x(), 0, 'f', 4)));
         }
+
+        if (!qIsNaN(firstSegment->getStart().z())) {
+            commands.append(QString("G1 Z%1 F%2\n")
+                .arg(rotated.z(), 0, 'f', 4)
+                .arg(feedSegment->getSpeed()));
+        }
+    } else {
+        if (!qIsNaN(firstSegment->getStart().x()) || !qIsNaN(firstSegment->getStart().y())) {
+            commands.append(QString("G21 G90 G0%1%2\n")
+                .arg(optArg("X", firstSegment->getStart().x()))
+                .arg(optArg("Y", firstSegment->getStart().y())));
+        }
+
+        if (!qIsNaN(firstSegment->getStart().z())) {
+            commands.append(QString("G1 Z%1 F%2\n")
+                .arg(optArg("Z", firstSegment->getStart().z()))
+                .arg(feedSegment->getSpeed()));
+        }
+    }
+
+    commands.append(QString("%1 %2 %3 F%4")
+        .arg(lastSegment->isMetric() ? "G21" : "G20")
+        .arg(lastSegment->isAbsolute() ? "G90" : "G91")
+        .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
+        .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+
+    if (lastSegment->isArc()) {
+        commands.append(lastSegment->plane() == PointSegment::XY ? "G17" :
+                lastSegment->plane() == PointSegment::ZX ? "G18" : "G19");
     }
 
     return commands;

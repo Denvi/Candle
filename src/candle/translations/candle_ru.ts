@@ -631,10 +631,6 @@
 </translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation>Пропустить</translation>
-    </message>
-    <message>
         <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</source>
         <translation>Файлы G-Code (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</translation>
     </message>

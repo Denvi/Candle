@@ -636,10 +636,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> (%1/%2/%3)</source>
         <translation type="unfinished"></translation>
     </message>
