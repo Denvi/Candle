@@ -4848,7 +4848,9 @@ QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
     for (int i = 0; i < lines.count(); i++) {
         LineSegment *ls = lines[i];
-        double length = (ls->getEnd() - ls->getStart()).length();
+        double length = !m_viewParser.axisRotationUsed(GcodeViewParse::RotationAxisA)
+            ? (ls->getEnd() - ls->getStart()).length()
+            : (QVector4D(ls->getEnd(), ls->axesEnd().x()) - QVector4D(ls->getStart(), ls->axesStart().x())).length();
 
         if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
                 length / ((ui->slbFeedOverride->isChecked() && !ls->isFastTraverse())
