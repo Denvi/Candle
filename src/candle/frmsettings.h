@@ -70,6 +70,8 @@ class frmSettings : public QDialog
     Q_PROPERTY(QVector3D machineBounds READ machineBounds WRITE setMachineBounds)
     Q_PROPERTY(bool homingEnabled READ homingEnabled WRITE setHomingEnabled)
     Q_PROPERTY(bool softLimitsEnabled READ softLimitsEnabled WRITE setSoftLimitsEnabled)
+    Q_PROPERTY(bool axisAEnabled READ axisAEnabled)
+    Q_PROPERTY(bool axisAX READ axisAX)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
