@@ -4900,20 +4900,20 @@ void frmMain::jogStep()
 
         if (vec.length()) {
             if (m_settings->axisAEnabled()) {
-                sendCommand(QString("$J=%5G91X%1Y%2Z%3A%4F%5")
+                sendCommand(QString("$J=%1G91X%2Y%3Z%4A%5F%6")
+                    .arg(m_settings->units() ? "G20" : "G21")
                     .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
                     .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
                     .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
                     .arg(vec.w(), 0, 'f', 3)
-                    .arg(ui->cboJogFeed->currentText().toDouble())
-                    .arg(m_settings->units() ? "G20" : "G21"), -3, m_settings->showUICommands());
+                    .arg(ui->cboJogFeed->currentText().toDouble()), -3, m_settings->showUICommands());
             } else {
-                sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                sendCommand(QString("$J=%1G91X%2Y%3Z%4F%5")
+                    .arg(m_settings->units() ? "G20" : "G21")
                     .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
                     .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
                     .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
-                    .arg(ui->cboJogFeed->currentText().toDouble())
-                    .arg(m_settings->units() ? "G20" : "G21"), -3, m_settings->showUICommands());
+                    .arg(ui->cboJogFeed->currentText().toDouble()), -3, m_settings->showUICommands());
             }
         }
     }
@@ -4962,20 +4962,20 @@ void frmMain::jogContinuous()
 
             if (vec.length()) {
                 if (m_settings->axisAEnabled()) {
-                    sendCommand(QString("$J=%5G91X%1Y%2Z%3A%4F%5")
+                    sendCommand(QString("$J=%1G91X%2Y%3Z%4A%5F%6")
+                        .arg(m_settings->units() ? "G20" : "G21")
                         .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
                         .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
                         .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
                         .arg(vec.w(), 0, 'f', 3)
-                        .arg(ui->cboJogFeed->currentText().toDouble())
-                        .arg(m_settings->units() ? "G20" : "G21"), -2, m_settings->showUICommands());
+                        .arg(ui->cboJogFeed->currentText().toDouble()), -2, m_settings->showUICommands());
                 } else {
-                    sendCommand(QString("$J=%5G91X%1Y%2Z%3F%4")
+                    sendCommand(QString("$J=%1G91X%2Y%3Z%4F%5")
+                        .arg(m_settings->units() ? "G20" : "G21")
                         .arg(vec.x(), 0, 'f', m_settings->units() ? 4 : 3)
                         .arg(vec.y(), 0, 'f', m_settings->units() ? 4 : 3)
                         .arg(vec.z(), 0, 'f', m_settings->units() ? 4 : 3)
-                        .arg(ui->cboJogFeed->currentText().toDouble())
-                        .arg(m_settings->units() ? "G20" : "G21"), -2, m_settings->showUICommands());
+                        .arg(ui->cboJogFeed->currentText().toDouble()), -2, m_settings->showUICommands());
                 }
             }
             v = j;
