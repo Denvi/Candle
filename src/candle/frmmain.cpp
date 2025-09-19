@@ -4469,7 +4469,8 @@ void frmMain::updateControlsState() {
     ui->tblHeightMap->setVisible(m_heightMapMode);
     ui->tblProgram->setVisible(!m_heightMapMode);
 
-    ui->widgetHeightMap->setEnabled(!process && m_programModel.rowCount() > 1);
+    ui->widgetHeightMap->setEnabled(!process && m_programModel.rowCount() > 1
+        && !m_currentDrawer->viewParser()->axisRotationUsed(GcodeViewParse::RotationAxisA));
     ui->cmdHeightMapMode->setEnabled(!ui->txtHeightMap->text().isEmpty());
     ui->cmdHeightMapOrigin->setEnabled(!ui->txtHeightMap->text().isEmpty() && portOpened && !process);
 
