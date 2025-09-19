@@ -20,6 +20,7 @@
 #include <QScriptValueIterator>
 #include <QSplitter>
 #include <QInputDialog>
+#include <QElapsedTimer>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
@@ -2182,8 +2183,7 @@ void frmMain::onSerialPortReadyRead()
                             m_fileProcessedCommandIndex = ca.tableIndex;
 
                             if (ui->chkAutoScroll->isChecked() && ca.tableIndex != -1) {
-                                ui->tblProgram->scrollTo(m_currentModel->index(ca.tableIndex + 1, 0));      // TODO: Update by timer
-                                ui->tblProgram->setCurrentIndex(m_currentModel->index(ca.tableIndex, 1));
+                                scrollToTableIndex(m_currentModel->index(ca.tableIndex + 1, 0));
                             }
                         }
 
@@ -4662,6 +4662,35 @@ void frmMain::resizeTableHeightMapSections()
             * ui->tblHeightMap->horizontalHeader()->count() < ui->glwVisualizer->width())
         ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); else {
         ui->tblHeightMap->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    }
+}
+
+void frmMain::scrollToTableIndex(QModelIndex index)
+{
+    static const int INTERVAL = 40;
+    static QElapsedTimer intervalTimer;
+    static QTimer *pendingTimer = nullptr;
+    static QModelIndex pendingIndex;
+
+    if (!pendingTimer) {
+        pendingTimer = new QTimer(this);
+        pendingTimer->setSingleShot(true);
+        pendingTimer->setInterval(INTERVAL * 2);
+        connect(pendingTimer, &QTimer::timeout, [=] {
+            ui->tblProgram->scrollTo(pendingIndex);
+            ui->tblProgram->setCurrentIndex(pendingIndex);
+            intervalTimer.start();
+        });
+    }
+
+    if (!intervalTimer.isValid() || intervalTimer.hasExpired(INTERVAL)) {
+        pendingTimer->stop();
+        intervalTimer.start();
+        ui->tblProgram->scrollTo(index);
+        ui->tblProgram->setCurrentIndex(index);
+    } else {
+        pendingIndex = index;
+        pendingTimer->start();
     }
 }
 

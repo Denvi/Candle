@@ -486,6 +486,7 @@ private:
     bool updateHeightMapGrid();
     void updateHeightMapGrid(double arg1);
     void resizeTableHeightMapSections();
+    void scrollToTableIndex(QModelIndex index);
     bool eventFilter(QObject *obj, QEvent *event);
 
     // Utility
