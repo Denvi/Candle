@@ -24,6 +24,10 @@ QGroupBox {
 	padding-top: 1em;
 	margin-top: 0.5em;
 	font-weight: bold;
+}
+
+#listCategories {
+	margin-right: 1em;
 }</string>
   </property>
   <property name="sizeGripEnabled">
@@ -33,7 +37,7 @@ QGroupBox {
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
      <property name="spacing">
-      <number>26</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QListWidget" name="listCategories">
@@ -63,7 +67,7 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>671</width>
+          <width>697</width>
           <height>618</height>
          </rect>
         </property>

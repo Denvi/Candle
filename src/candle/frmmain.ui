@@ -32,7 +32,7 @@ StyledToolButton[adjustSize=&quot;true&quot;] {
 }
 
 QMainWindow::separator {
-	width: 26;
+	width: 1em;
 }
 
 QDockWidget::title {
@@ -1381,7 +1381,7 @@ QLabel[overrided=&quot;false&quot;] {
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-455</y>
+          <y>0</y>
           <width>237</width>
           <height>820</height>
          </rect>
