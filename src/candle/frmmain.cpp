@@ -261,10 +261,10 @@ frmMain::frmMain(QWidget *parent) :
 
     // Prepare script functions
     m_scriptApp = new ScriptApp(this);
-    connect(this, &frmMain::responseReceived, m_scriptApp, &ScriptApp::responseReceived);
-    connect(this, &frmMain::statusReceived, m_scriptApp, &ScriptApp::statusReceived);
-    connect(this, &frmMain::senderStateChanged, m_scriptApp, &ScriptApp::senderStateChanged);
-    connect(this, &frmMain::deviceStateChanged, m_scriptApp, &ScriptApp::deviceStateChanged);
+    connect(this, &frmMain::responseReceived, m_scriptApp->device(), &ScriptDevice::responseReceived);
+    connect(this, &frmMain::statusReceived, m_scriptApp->device(), &ScriptDevice::statusReceived);
+    connect(this, &frmMain::deviceStateChanged, m_scriptApp->device(), &ScriptDevice::stateChanged);
+    connect(this, &frmMain::senderStateChanged, m_scriptApp->sender(), &ScriptSender::stateChanged);
     connect(this, &frmMain::settingsAboutToLoad, m_scriptApp, &ScriptApp::settingsAboutToLoad);
     connect(this, &frmMain::settingsLoaded, m_scriptApp, &ScriptApp::settingsLoaded);
     connect(this, &frmMain::settingsAboutToSave, m_scriptApp, &ScriptApp::settingsAboutToSave);
@@ -319,6 +319,7 @@ frmMain::frmMain(QWidget *parent) :
         loadFile(qApp->arguments().last());
     }
 
+    // TODO: remove global script engine and related features
     // Delegate vars to script engine
     QScriptValue vars = m_scriptEngine.newQObject(&m_storedVars);
     m_scriptEngine.globalObject().setProperty("vars", vars);
@@ -1733,6 +1734,10 @@ void frmMain::onSerialPortReadyRead()
                 }
                 ui->txtMPosA->setValue(a);
 
+                m_scriptApp->device()->setMachineCoordinates(ui->txtMPosX->value(), ui->txtMPosY->value(),
+                    ui->txtMPosZ->value(), ui->txtMPosA->value());
+
+                // TODO: remove
                 // Update stored vars
                 m_storedVars.setCoords("M", QVector3D(
                     ui->txtMPosX->value(),
@@ -1831,6 +1836,10 @@ void frmMain::onSerialPortReadyRead()
             }
             ui->txtWPosA->setValue(a);
 
+            m_scriptApp->device()->setWorkCoordinates(ui->txtWPosX->value(), ui->txtWPosY->value(),
+                ui->txtWPosZ->value(), ui->txtWPosA->value());
+
+            // TODO: remove
             // Update stored vars
             m_storedVars.setCoords("W", QVector3D(
                     ui->txtWPosX->value(),
@@ -1990,11 +1999,13 @@ void frmMain::onSerialPortReadyRead()
 
                     QString uncomment = GcodePreprocessorUtils::removeComment(ca.command).toUpper();
 
+                    // TODO: remove/rework
                     // Store current coordinate system
                     if (uncomment == "$G") {
                         static QRegExp g("G5[4-9]");
                         if (g.indexIn(response) != -1) {
                             m_storedVars.setCS(g.cap(0));
+                            // TODO: replace setOffset with setTranslation
                             m_machineBoundsDrawer.setOffset(QPointF(toMetric(m_storedVars.x()), toMetric(m_storedVars.y())) +
                                 QPointF(toMetric(m_storedVars.G92x()), toMetric(m_storedVars.G92y())));
                         }
@@ -2087,8 +2098,12 @@ void frmMain::onSerialPortReadyRead()
 
                     // Update probe coords on user commands
                     if (uncomment.contains("G38.2") && ca.tableIndex < 0) {
-                        static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^,:]*)");
+                        static QRegExp PRB(".*PRB:([^,]*),([^,]*),([^,:]*)(?:,([^,:]*))*");
                         if (PRB.indexIn(response) != -1) {
+                            m_scriptApp->device()->setProbeCoordinates(PRB.cap(1).toDouble(), PRB.cap(2).toDouble(),
+                                PRB.cap(3).toDouble(), PRB.cap(4).toDouble());
+
+                            // TODO: remove
                             m_storedVars.setCoords("PRB", QVector3D(
                                 PRB.cap(1).toDouble(),
                                 PRB.cap(2).toDouble(),
@@ -2697,7 +2712,7 @@ void frmMain::onScriptStartClicked(const QString &script)
     se.setObjectName("script");
 
     // Delegate objects
-    // Main form
+    // App
     QScriptValue app = se.newQObject(m_scriptApp);
     app.setProperty("path", qApp->applicationDirPath());
     se.globalObject().setProperty("app", app);
@@ -2717,7 +2732,8 @@ void frmMain::onScriptStartClicked(const QString &script)
         [](const QScriptValue &v, StorageGroup *&g) {
             g = qobject_cast<StorageGroup*>(v.toQObject());
         });
-        
+
+    // TODO: remove
     // Stored vars
     QScriptValue vars = se.newQObject(&m_storedVars);
     se.globalObject().setProperty("vars", vars);
@@ -3563,7 +3579,7 @@ void frmMain::loadPlugins()
             connect(se, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
 
             // Delegate objects
-            // Main form
+            // App
             QScriptValue app = se->newQObject(m_scriptApp);
             app.setProperty("path", qApp->applicationDirPath());
             se->globalObject().setProperty("app", app);
@@ -3584,6 +3600,7 @@ void frmMain::loadPlugins()
             QScriptValue storage = se->newQObject(&m_storage);
             app.setProperty("storage", storage);
 
+            // TODO: remove
             // Stored vars
             QScriptValue vars = se->newQObject(&m_storedVars);
             se->globalObject().setProperty("vars", vars);
@@ -3952,6 +3969,7 @@ void frmMain::storeOffsetsVars(QString response)
     static QRegExp gx("\\[(G5[4-9]|G28|G30|G92|PRB):([\\d\\.\\-]+),([\\d\\.\\-]+),([\\d\\.\\-]+)");
     static QRegExp tx("\\[(TLO):([\\d\\.\\-]+)");
 
+    // TODO: remove
     int p = 0;
     while ((p = gx.indexIn(response, p)) != -1) {
         m_storedVars.setCoords(gx.cap(1), QVector3D(
@@ -4966,6 +4984,7 @@ void frmMain::jogContinuous()
             // Bounds
             QVector3D b = m_settings->machineBounds();
             // Current machine coords
+            // TODO: get from boxes
             QVector3D m(toMetric(m_storedVars.Mx()), toMetric(m_storedVars.My()), toMetric(m_storedVars.Mz()));
             // Distance to bounds
             QVector3D t;

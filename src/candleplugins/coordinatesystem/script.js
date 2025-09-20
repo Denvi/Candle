@@ -25,9 +25,9 @@ function init()
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(designerPluginsPath);
 
-    app.deviceStateChanged.connect(onAppDeviceStateChanged);
-    app.senderStateChanged.connect(onAppSenderStateChanged);
-    app.responseReceived.connect(onAppResponseReceived);
+    app.device.stateChanged.connect(onAppDeviceStateChanged);
+    app.sender.stateChanged.connect(onAppSenderStateChanged);
+    app.device.responseReceived.connect(onAppResponseReceived);
     app.settingsLoaded.connect(onAppSettingsLoaded);
 }
 
@@ -37,12 +37,12 @@ function createPanelWidget()
 
     function onCsClicked(cs)
     {
-        return function() {app.sendCommands(cs);};
+        return function() {app.device.sendCommands(cs);};
     }
 
     function onZeroClicked(a, b)
     {
-        return function() {app.sendCommand("".concat("G10 L20 P", currentCS.slice(-1) - 3, " ",
+        return function() {app.device.sendCommand("".concat("G10 L20 P", currentCS.slice(-1) - 3, " ",
             a + (app.settings.axisAEnabled && b ? " " + b : "")));}
     }
 

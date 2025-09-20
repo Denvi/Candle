@@ -6,42 +6,8 @@
 ScriptApp::ScriptApp(frmMain *f): QObject(0), m_frmMain(f)
 {
     m_scriptProgram = new ScriptProgram(f);
-}
-
-void ScriptApp::sendCommands(QString commands, int index)
-{
-    m_frmMain->sendCommands(commands, index);
-}
-
-void ScriptApp::sendCommands(QStringList commands, int index)
-{
-    m_frmMain->sendCommands(commands.join("\n"), index);
-}
-
-void ScriptApp::sendCommand(QString command, int index, bool showInConsole, bool direct)
-{
-    if (direct) {
-        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
-    } else {
-        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
-    }
-}
-
-void ScriptApp::waitResponses()
-{
-    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
-        QApplication::processEvents();
-    }
-}
-
-void ScriptApp::storeParserState()
-{
-    m_frmMain->storeParserState();
-}
-
-void ScriptApp::restoreParserState()
-{
-    m_frmMain->restoreParserState();
+    m_scriptDevice = new ScriptDevice(f);
+    m_scriptSender = new ScriptSender(f);
 }
 
 bool ScriptApp::newFile()
@@ -111,21 +77,6 @@ bool ScriptApp::saveFile(QString fileName)
     return false;
 }
 
-int ScriptApp::bufferLength()
-{
-    return m_frmMain->bufferLength();
-}
-
-int ScriptApp::commandsLength()
-{
-    return m_frmMain->m_commands.length();
-}
-
-int ScriptApp::queueLength()
-{
-    return m_frmMain->m_queue.length();
-}
-
 int ScriptApp::buttonSize()
 {
     return m_frmMain->buttonSize();
@@ -136,19 +87,19 @@ QWidget* ScriptApp::window()
     return m_frmMain;
 }
 
-int ScriptApp::senderState()
-{
-    return m_frmMain->m_senderState;
-}
-
-int ScriptApp::deviceState()
-{
-    return m_frmMain->m_deviceState;
-}
-
-ScriptProgram* ScriptApp::scriptProgram()
+ScriptProgram* ScriptApp::program()
 {
     return m_scriptProgram;
+}
+
+ScriptDevice* ScriptApp::device()
+{
+    return m_scriptDevice;
+}
+
+ScriptSender* ScriptApp::sender()
+{
+    return m_scriptSender;
 }
 
 void ScriptApp::addAction(QAction *action)

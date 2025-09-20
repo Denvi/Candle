@@ -17,26 +17,26 @@ script.importExtension("qt.widgets");
     const startY = vars.Wy;
 
     // Find center on Y-axis
-    app.sendCommand("G91G38.2F100Y" + radius);
-    app.waitResponses();
+    app.device.sendCommand("G91G38.2F100Y" + radius);
+    app.device.waitResponses();
     const probeY = vars.PRBy;
 
-    app.sendCommands([
+    app.device.sendCommands([
         "G90G0Y" + startY,
         "G91G38.2Y-" + radius
     ]);
-    app.waitResponses();
-    app.sendCommand("G90G53G0Y" + (vars.PRBy + probeY) / 2);
+    app.device.waitResponses();
+    app.device.sendCommand("G90G53G0Y" + (vars.PRBy + probeY) / 2);
 
     // Find center on X-axis
-    app.sendCommand("G91G38.2X" + radius);
-    app.waitResponses();
+    app.device.sendCommand("G91G38.2X" + radius);
+    app.device.waitResponses();
     const probeX = vars.PRBx;
 
-    app.sendCommands([
+    app.device.sendCommands([
         "G90G0X" + startX,
         "G91G38.2X-" + radius
     ]);
-    app.waitResponses();
-    app.sendCommand("G90G53G0X" + (vars.PRBx + probeX) / 2);
+    app.device.waitResponses();
+    app.device.sendCommand("G90G53G0X" + (vars.PRBx + probeX) / 2);
 })();

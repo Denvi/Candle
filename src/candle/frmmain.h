@@ -110,6 +110,8 @@ class frmMain : public QMainWindow
 
     friend class ScriptApp;
     friend class ScriptProgram;
+    friend class ScriptDevice;
+    friend class ScriptSender;
 
 public:
     explicit frmMain(QWidget *parent = 0);
@@ -421,8 +423,10 @@ private:
 
     // Script
     QScriptEngine m_scriptEngine;
-    ScriptVars m_storedVars;
     ScriptApp* m_scriptApp;
+
+    // TODO: remove
+    ScriptVars m_storedVars;
 
     // Drag & drop
     QPoint m_mousePressPos;

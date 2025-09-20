@@ -5,34 +5,22 @@
 #include <QDebug>
 #include <QAction>
 #include "scriptprogram.h"
+#include "scriptdevice.h"
+#include "scriptsender.h"
 
 class frmMain;
 
 class ScriptApp: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int bufferLength READ bufferLength)
-    Q_PROPERTY(int commandsLength READ commandsLength)
-    Q_PROPERTY(int queueLength READ queueLength)
     Q_PROPERTY(int buttonSize READ buttonSize)
     Q_PROPERTY(QWidget* window READ window)
-    Q_PROPERTY(int senderState READ senderState)
-    Q_PROPERTY(int deviceState READ deviceState)
-    Q_PROPERTY(int deviceState READ deviceState)
-    Q_PROPERTY(ScriptProgram *program READ scriptProgram)
 
-public:
-    ScriptApp(frmMain *f);
+    Q_PROPERTY(ScriptProgram *program READ program)
+    Q_PROPERTY(ScriptDevice *device READ device)
+    Q_PROPERTY(ScriptSender *sender READ sender)
 
 public slots:
-    void sendCommands(QString commands, int index = -100);
-    void sendCommands(QStringList commands, int index = -100);
-    void sendCommand(QString command, int index = -100, bool showInConsole = true, bool direct = false);
-    void waitResponses();
-
-    void storeParserState();
-    void restoreParserState();
-
     bool newFile();
     bool loadFile(QString fileName);
     bool loadFile(QStringList data);
@@ -43,10 +31,6 @@ public slots:
     void removeAction(QAction *action);
 
 signals:
-    void responseReceived(QString command, int tableIndex, QString response);
-    void statusReceived(QString status);
-    void senderStateChanged(int state);
-    void deviceStateChanged(int state);
     void settingsAboutToLoad();
     void settingsLoaded();
     void settingsAboutToSave();
@@ -57,16 +41,19 @@ signals:
     void settingsSetByDefault();
     void pluginsLoaded();
 
+public:
+    ScriptApp(frmMain *f);
+
+    ScriptProgram* program();
+    ScriptDevice* device();
+    ScriptSender* sender();
+
 private:
     frmMain *m_frmMain;
     ScriptProgram *m_scriptProgram;
+    ScriptDevice *m_scriptDevice;
+    ScriptSender *m_scriptSender;
 
-    int bufferLength();
-    int commandsLength();
-    int queueLength();
     int buttonSize();
     QWidget* window();
-    int senderState();
-    int deviceState();
-    ScriptProgram *scriptProgram();
 };

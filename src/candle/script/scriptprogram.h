@@ -11,12 +11,12 @@ class ScriptProgram: public QObject
     Q_PROPERTY(QVector3D lowerBounds READ lowerBounds)
     Q_PROPERTY(QVector3D upperBounds READ upperBounds)
 
-public:
-    ScriptProgram(frmMain *f);
-
 public slots:
 
 signals:
+
+public:
+    ScriptProgram(frmMain *f);
 
 private:
     frmMain *m_frmMain;

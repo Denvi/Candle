@@ -32,7 +32,7 @@ function init()
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
     app.settingsAccepted.connect(onAppSettingsAccepted);
     app.settingsRejected.connect(onAppSettingsRejected);
-    app.deviceStateChanged.connect(onAppDeviceStateChanged);
+    app.device.stateChanged.connect(onAppDeviceStateChanged);
 }
 
 function createPanelWidget()
@@ -199,7 +199,7 @@ function onButtonClicked(button)
     const code = uiSettings.tblButtons.item(button, 3).data(Qt.DisplayRole);
 
     if (type == "0") {
-        app.sendCommands(code);
+        app.device.sendCommands(code);
     } else {
         eval(code);
     }
