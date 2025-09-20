@@ -26,7 +26,6 @@ public slots:
     bool loadFile(QStringList data);
     bool saveFile();
     bool saveFile(QString fileName);
-
     void addAction(QAction *action);
     void removeAction(QAction *action);
 

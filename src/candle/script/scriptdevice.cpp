@@ -7,6 +7,42 @@ ScriptDevice::ScriptDevice(frmMain *f) : QObject(f)
     m_frmMain = f;
 }
 
+void ScriptDevice::sendCommands(QString commands, int index)
+{
+    m_frmMain->sendCommands(commands, index);
+}
+
+void ScriptDevice::sendCommands(QStringList commands, int index)
+{
+    m_frmMain->sendCommands(commands.join("\n"), index);
+}
+
+void ScriptDevice::sendCommand(QString command, int index, bool showInConsole, bool direct)
+{
+    if (direct) {
+        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
+    } else {
+        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
+    }
+}
+
+void ScriptDevice::waitResponses()
+{
+    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
+        QApplication::processEvents();
+    }
+}
+
+void ScriptDevice::storeParserState()
+{
+    m_frmMain->storeParserState();
+}
+
+void ScriptDevice::restoreParserState()
+{
+    m_frmMain->restoreParserState();
+}
+
 void ScriptDevice::setWorkCoordinates(double x, double y, double z, double a)
 {
     m_workCoordinates.setX(x);
@@ -44,42 +80,6 @@ void ScriptDevice::setProbeCoordinates(double x, double y, double z, double a)
 Coordinates* ScriptDevice::probeCoordinates()
 {
     return &m_probeCoordinates;
-}
-
-void ScriptDevice::sendCommands(QString commands, int index)
-{
-    m_frmMain->sendCommands(commands, index);
-}
-
-void ScriptDevice::sendCommands(QStringList commands, int index)
-{
-    m_frmMain->sendCommands(commands.join("\n"), index);
-}
-
-void ScriptDevice::sendCommand(QString command, int index, bool showInConsole, bool direct)
-{
-    if (direct) {
-        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
-    } else {
-        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
-    }
-}
-
-void ScriptDevice::waitResponses()
-{
-    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
-        QApplication::processEvents();
-    }
-}
-
-void ScriptDevice::storeParserState()
-{
-    m_frmMain->storeParserState();
-}
-
-void ScriptDevice::restoreParserState()
-{
-    m_frmMain->restoreParserState();
 }
 
 int ScriptDevice::bufferLength()

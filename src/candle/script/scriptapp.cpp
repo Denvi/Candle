@@ -77,14 +77,14 @@ bool ScriptApp::saveFile(QString fileName)
     return false;
 }
 
-int ScriptApp::buttonSize()
+void ScriptApp::addAction(QAction *action)
 {
-    return m_frmMain->buttonSize();
+    m_frmMain->addAction(action);
 }
 
-QWidget* ScriptApp::window()
+void ScriptApp::removeAction(QAction *action)
 {
-    return m_frmMain;
+    m_frmMain->removeAction(action);
 }
 
 ScriptProgram* ScriptApp::program()
@@ -102,12 +102,12 @@ ScriptSender* ScriptApp::sender()
     return m_scriptSender;
 }
 
-void ScriptApp::addAction(QAction *action)
+int ScriptApp::buttonSize()
 {
-    m_frmMain->addAction(action);
+    return m_frmMain->buttonSize();
 }
 
-void ScriptApp::removeAction(QAction *action)
+QWidget* ScriptApp::window()
 {
-    m_frmMain->removeAction(action);
+    return m_frmMain;
 }
