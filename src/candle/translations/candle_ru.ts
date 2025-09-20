@@ -869,7 +869,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Script was changed. Save?</source>
-        <translation>Скрипт был измнене. Сохранить?</translation>
+        <translation>Скрипт был изменен. Сохранить?</translation>
     </message>
     <message>
         <source>Save file as</source>
