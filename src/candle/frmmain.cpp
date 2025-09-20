@@ -1822,6 +1822,9 @@ void frmMain::onSerialPortReadyRead()
             {
                 workOffset = QVector4D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble(),
                                        wpx.cap(4).toDouble());
+
+                m_machineBoundsDrawer.setTranslation(
+                    -QVector3D(toMetric(workOffset.x()), toMetric(workOffset.y()), toMetric(workOffset.z())));
             }
 
             // Update work coordinates
@@ -2005,12 +2008,6 @@ void frmMain::onSerialPortReadyRead()
                         static QRegExp g("G5[4-9]");
                         if (g.indexIn(response) != -1) {
                             m_storedVars.setCS(g.cap(0));
-                            m_machineBoundsDrawer.setTranslation(
-                                QVector3D(
-                                    -toMetric(m_storedVars.x() + m_storedVars.G92x()),
-                                    -toMetric(m_storedVars.y() + m_storedVars.G92y()),
-                                    -toMetric(m_storedVars.z() + m_storedVars.G92z())
-                                ));
                         }
                         static QRegExp t("T(\\d+)(?!\\d)");
                         if (t.indexIn(response) != -1) {
