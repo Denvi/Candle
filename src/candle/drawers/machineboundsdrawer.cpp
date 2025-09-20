@@ -15,23 +15,59 @@ bool MachineBoundsDrawer::updateData()
     // Clear data
     m_lines.clear();
 
-    // Border
-    QRectF r = m_borderRect.translated(-m_offset);
-
     // Color
-    QVector3D c(0.8f, 0.8f, 0.8f);
+    QVector3D shadowColor(0.9f, 0.9f, 0.9f);
+    QVector3D mainColor(0.5f, 0.5f, 0.5f);
 
-    // Vertices
+    // Border
     m_lines = {
-        {QVector3D(r.x(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x() + r.width(), r.y() + r.height(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x() + r.width(), r.y(), 0), c, QVector3D(), VertexDataTypeLine},
-        {QVector3D(r.x(), r.y(), 0), c, QVector3D(), VertexDataTypeLine}
+        // Inner
+        {QVector3D(0, 0, 0), mainColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0 + m_borderRect.height(), 0), mainColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(0, 0 + m_borderRect.height(), 0), mainColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(0 + m_borderRect.width(), 0 + m_borderRect.height(), 0), mainColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(0 + m_borderRect.width(), 0 + m_borderRect.height(), 0), mainColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(0 + m_borderRect.width(), 0, 0), mainColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(0 + m_borderRect.width(), 0, 0), mainColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(0, 0, 0), mainColor, QVector3D(), VertexDataTypeLine},
+
+        // Outer
+        {QVector3D(-5, -5, 0), shadowColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(-5, 5 + m_borderRect.height(), 0), shadowColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(-5, 5 + m_borderRect.height(), 0), shadowColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(5 + m_borderRect.width(), 5 + m_borderRect.height(), 0), shadowColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(5 + m_borderRect.width(), 5 + m_borderRect.height(), 0), shadowColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(5 + m_borderRect.width(), -5, 0), shadowColor, QVector3D(), VertexDataTypeLine},
+
+        {QVector3D(5 + m_borderRect.width(), -5, 0), shadowColor, QVector3D(), VertexDataTypeLine},
+        {QVector3D(-5, -5, 0), shadowColor, QVector3D(), VertexDataTypeLine},
     };
+
+    // Grid
+    for (int i = 1; i < m_borderRect.width() / 10; i++)
+    {
+        m_lines.append(
+            VertexData{QVector3D(i * 10, 0, 0), shadowColor, QVector3D(), VertexDataTypeLine}
+        );
+        m_lines.append(
+            VertexData{QVector3D(i * 10, m_borderRect.height(), 0), shadowColor, QVector3D(), VertexDataTypeLine}
+        );
+    }
+
+    for (int i = 1; i < m_borderRect.height() / 10; i++)
+    {
+        m_lines.append(
+            VertexData{QVector3D(0, i * 10, 0), shadowColor, QVector3D(), VertexDataTypeLine}
+        );
+        m_lines.append(
+            VertexData{QVector3D(m_borderRect.width(), i * 10, 0), shadowColor, QVector3D(), VertexDataTypeLine}
+        );
+    }
 
     return true;
 }
@@ -54,17 +90,6 @@ QRectF MachineBoundsDrawer::borderRect() const
 void MachineBoundsDrawer::setBorderRect(const QRectF &borderRect)
 {
     m_borderRect = borderRect;
-    update();
-}
-
-QPointF MachineBoundsDrawer::offset() const
-{
-    return m_offset;
-}
-
-void MachineBoundsDrawer::setOffset(const QPointF &offset)
-{
-    m_offset = offset;
     update();
 }
 

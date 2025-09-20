@@ -19,9 +19,6 @@ public:
     QRectF borderRect() const;
     void setBorderRect(const QRectF &borderRect);
 
-    QPointF offset() const;
-    void setOffset(const QPointF &offset);
-
     QVector3D getMinimumExtremes();
     QVector3D getMaximumExtremes();
 
@@ -31,7 +28,6 @@ protected:
 private:
     QSizeF m_gridSize;
     QRectF m_borderRect;
-    QPointF m_offset;
 };
 
 #endif // MACHINEBOUNDSDRAWER_H
