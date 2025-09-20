@@ -28,7 +28,8 @@ function init()
     app.device.stateChanged.connect(onAppDeviceStateChanged);
     app.sender.stateChanged.connect(onAppSenderStateChanged);
     app.device.responseReceived.connect(onAppResponseReceived);
-    app.settingsLoaded.connect(onAppSettingsLoaded);
+    app.settingsLoaded.connect(onAppSettingsChanged);
+    app.settingsAccepted.connect(onAppSettingsChanged);
 }
 
 function createPanelWidget()
@@ -90,7 +91,7 @@ function onAppResponseReceived(command, index, response)
     }
 }
 
-function onAppSettingsLoaded()
+function onAppSettingsChanged()
 {
     uiPanel.cmdA0.visible = app.settings.axisAEnabled;
 }
