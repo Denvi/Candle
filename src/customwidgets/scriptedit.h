@@ -28,6 +28,8 @@ private:
     QStringList m_apiEntries = {
         // Global
         "print",
+
+        // Script
         "script",
         "importExtension",
 
@@ -40,8 +42,10 @@ private:
         "addAction",
         "removeAction",
         "window",
-        // Settings
+        "dataLocation",
+        "profileName",
 
+        // Settings
         "settings",
         "port",
         "baud",

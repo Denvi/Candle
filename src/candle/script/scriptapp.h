@@ -19,6 +19,8 @@ class ScriptApp: public QObject
     Q_PROPERTY(ScriptProgram *program READ program)
     Q_PROPERTY(ScriptDevice *device READ device)
     Q_PROPERTY(ScriptSender *sender READ sender)
+    Q_PROPERTY(QString profileName READ profileName)
+    Q_PROPERTY(QString dataLocation READ dataLocation)
 
 public slots:
     bool newFile();
@@ -55,4 +57,6 @@ private:
 
     int buttonSize();
     QWidget* window();
+    QString profileName();
+    QString dataLocation();
 };

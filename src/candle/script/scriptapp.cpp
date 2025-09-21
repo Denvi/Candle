@@ -1,6 +1,7 @@
 #include "scriptapp.h"
 #include "frmmain.h"
 #include <QApplication>
+#include <qstandardpaths.h>
 #include "loggingcategories.h"
 
 ScriptApp::ScriptApp(frmMain *f): QObject(0), m_frmMain(f)
@@ -110,4 +111,14 @@ int ScriptApp::buttonSize()
 QWidget* ScriptApp::window()
 {
     return m_frmMain;
+}
+
+QString ScriptApp::profileName()
+{
+    return m_frmMain->m_currentProfileName;
+}
+
+QString ScriptApp::dataLocation()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 }

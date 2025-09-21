@@ -17,6 +17,8 @@ var buttonSize = 48;
 var deviceState = -1;
 var storedButtons = new Array();
 var storedActions = new Array();
+var embedIconPath = pluginPath + "/images";
+var userIconPath = app.dataLocation + "/" + pluginName + "/images";
 
 // Ui
 var uiPanel;
@@ -26,7 +28,7 @@ function init()
 {
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(designerPluginsPath);
-    
+
     app.settingsLoaded.connect(onAppSettingsLoaded);
     app.settingsSaved.connect(onAppSettingsSaved);
     app.settingsAboutToShow.connect(onAppSettingsAboutToShow);
@@ -39,7 +41,7 @@ function createPanelWidget()
 {
     var f = new QFile(pluginPath + "/widget.ui");
 
-    if (f.open(QIODevice.ReadOnly)) {        
+    if (f.open(QIODevice.ReadOnly)) {
         uiPanel = loader.load(f);
     }
     return uiPanel;
@@ -49,9 +51,9 @@ function createSettingsWidget()
 {
     var f = new QFile(pluginPath + "/settings.ui");
 
-    if (f.open(QIODevice.ReadOnly)) {        
+    if (f.open(QIODevice.ReadOnly)) {
         uiSettings = loader.load(f);
-        
+
         var t = uiSettings.tblButtons;
         t.verticalHeader().defaultAlignment = Qt.AlignCenter;
         t.setItemDelegateForColumn(0, new CodeDelegate(t));
@@ -235,7 +237,7 @@ function restoreButtonsTable(b)
                 var q = new QTableWidgetItem();
                 q.setText(b[i][j]);
                 if (j == 1) {
-                    c = new QIcon(pluginPath + "/images/" + b[i][j]);
+                    c = getIcon(b[i][j]);
                     q.setData(Qt.DecorationRole, c);
                 }
                 // Swap type/code indexes
@@ -295,7 +297,7 @@ function updateButtons()
             w.minimumHeight = buttonSize;
             w.sizePolicy = new QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed);
             w.enabled = false;
-            lay.addWidget(w, i / 4, i % 4);    
+            lay.addWidget(w, i / 4, i % 4);
         }
     }
 
@@ -325,11 +327,51 @@ function updateActions()
         a.objectName = "actUserCommandsButton" + (i + 1);
         a.triggered.connect(onTriggered(i));
         storedActions.push(a);
-        app.addAction(a);    
+        app.addAction(a);
     }
 
     for (var i = 0; i < storedActions.length; i++) {
         storedActions[i].setEnabled(deviceState != -1);
+    }
+}
+
+function setTimeout(func, interval)
+{
+    const timer = new QTimer();
+
+    timer.interval = interval;
+    timer.singleShot = true;
+    timer.timeout.connect(func);
+    timer.start();
+}
+
+function getIconList()
+{
+    const embedImages = (new QDir(embedIconPath)).entryList(QDir.Filters(QDir.Files));
+    const userEntryList = (new QDir(userIconPath)).entryList(QDir.Filters(QDir.Files));
+    const userImages = new Array();
+
+    for (var i = 0; i < userEntryList.length; i++)
+        userImages.push("*" + userEntryList[i]);
+
+    return embedImages.concat(userImages);
+}
+
+function getIcon(name)
+{
+    return new QIcon(name[0] !== "*" ? embedIconPath + "/" + name : userIconPath + "/" + name.substring(1));
+}
+
+function addUserIcon(row, col) {
+    var path = QFileDialog.getOpenFileName(app.window, qsTr("Open"), "", qsTr("Images (*.png *.ico *.jpg)"));
+    if (path) {
+        const fileName = new QFileInfo(path).fileName();
+        const iconPath = userIconPath + "/" + fileName;
+        (new QDir()).mkpath(userIconPath);
+        QFile.copy(path, iconPath);
+        uiSettings.tblButtons.model().setData(uiSettings.tblButtons.model().index(row, col), "*" + fileName);
+        uiSettings.tblButtons.model().setData(uiSettings.tblButtons.model().index(row, col), new QIcon(iconPath),
+            Qt.DecorationRole);
     }
 }
 
@@ -343,14 +385,20 @@ IconDelegate.prototype = new QStyledItemDelegate();
 
 IconDelegate.prototype.createEditor = function(parent, option, index)
 {
-    var d = new QDir(pluginPath + "/images");
-    var l = d.entryList(QDir.Filters(QDir.Files));
-    var b = new QComboBox(parent);
+    const b = new QComboBox(parent);
+    const l = getIconList();
+    const row = index.row();
+    const col = index.column();
 
     for (var i = 0; i < l.length; i++) {
-        q = new QIcon(pluginPath + "/images/" + l[i]);
-        b.addItem(q, l[i]);
+        b.addItem(getIcon(l[i]), l[i]);
     }
+    b.addItem("...");
+
+    b.currentTextChanged.connect(function(value) {
+        if (value === "...")
+            setTimeout(function() { addUserIcon(row, col) }, 0);
+    });
 
     return b;
 }
@@ -362,8 +410,13 @@ IconDelegate.prototype.setEditorData = function(editor, index)
 
 IconDelegate.prototype.setModelData = function(editor, model, index)
 {
-    model.setData(index, editor.currentText);
-    model.setData(index, editor.itemIcon(editor.currentIndex), Qt.DecorationRole);
+    if (editor.currentText && editor.currentText != "...") {
+        model.setData(index, editor.currentText);
+        model.setData(index, editor.itemIcon(editor.currentIndex), Qt.DecorationRole);
+    } else {
+        model.setData(index, "");
+        model.setData(index, 0, Qt.DecorationRole);
+    }
 }
 
 IconDelegate.prototype.updateEditorGeometry = function(editor, option, index)
@@ -419,7 +472,7 @@ CodeDelegate.prototype.setEditorData = function(editor, index)
 
     var c = editor.textCursor();
     c.movePosition(QTextCursor.End);
-    editor.setTextCursor(c);    
+    editor.setTextCursor(c);
 }
 
 CodeDelegate.prototype.setModelData = function(editor, model, index)
@@ -443,7 +496,7 @@ CodeDelegate.prototype.updateEditorGeometry = function(editor, option, index)
 CodeDelegate.prototype.paint = function(painter, option, index)
 {
     var q = index.data();
-    
+
     if (option.state() & QStyle.State_Selected) {
         painter.fillRect(option.rect(), new QColor(0xcdcdff));
     }
@@ -460,10 +513,10 @@ CodeDelegate.prototype.paint = function(painter, option, index)
             if ((i == (k - 1)) && (k < n)) s += "..."; else s += l[i];
             if (i < (k - 1)) s += "\n";
         }
-    
+
         painter.drawText(r, this.alignment | 0, s, r);
     }
-    
+
     if (option.state() & QStyle.State_HasFocus) {
         var p = new QPen();
         p.setStyle(Qt.DotLine);
@@ -510,7 +563,7 @@ TypeDelegate.prototype.updateEditorGeometry = function(editor, option, index)
 TypeDelegate.prototype.paint = function(painter, option, index)
 {
     var q = index.data() == "0" ? qsTr("G-code") : qsTr("Script");
-    
+
     if (option.state() & QStyle.State_Selected) {
         painter.fillRect(option.rect(), new QColor(0xcdcdff));
     }
@@ -519,7 +572,7 @@ TypeDelegate.prototype.paint = function(painter, option, index)
         var r = option.rect().adjusted(4, 4, -4, -4);
         painter.drawText(r, this.alignment | 0, q, r);
     }
-    
+
     if (option.state() & QStyle.State_HasFocus) {
         var p = new QPen();
         p.setStyle(Qt.DotLine);
