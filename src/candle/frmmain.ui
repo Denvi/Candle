@@ -3535,29 +3535,6 @@ QLabel[overrided=&quot;false&quot;] {
     <string>&amp;Reload</string>
    </property>
   </action>
-  <action name="actViewLayoutsSave">
-   <property name="text">
-    <string>&amp;Save</string>
-   </property>
-  </action>
-  <action name="actViewLayoutsDelete">
-   <property name="text">
-    <string>&amp;Delete</string>
-   </property>
-  </action>
-  <action name="actionDefault">
-   <property name="text">
-    <string>Default</string>
-   </property>
-  </action>
-  <action name="actViewLayoutsDefault">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Default</string>
-   </property>
-  </action>
   <action name="actServiceProfilesCreate">
    <property name="text">
     <string>&amp;Create</string>
