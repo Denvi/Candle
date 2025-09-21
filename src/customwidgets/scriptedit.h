@@ -28,6 +28,8 @@ private:
     QStringList m_apiEntries = {
         // Global
         "print",
+        "script",
+        "importExtension",
 
         // App
         "app",
