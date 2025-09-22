@@ -378,44 +378,47 @@ table {
     width: 100%;
 }
 </style>
+<div id="toc">
 <h1 id="program-%22candle%22">Program &quot;Candle&quot;</h1>
-<h2 id="table-of-contents">Table of contents</h2>
 <p><a href="#1-purpose-of-the-program">1 Purpose of the program</a><br>
 <a href="#2-program-requirements">2 Program requirements</a><br>
-    <a href="#21-hardware-requirements">2.1 Hardware requirements</a><br>
-    <a href="#22-software-requirements">2.2 Software requirements</a><br>
+<a href="#21-hardware-requirements">2.1 Hardware requirements</a><br>
+<a href="#22-software-requirements">2.2 Software requirements</a><br>
 <a href="#3-program-execution">3 Program execution</a><br>
-    <a href="#31-installation">3.1 Installation</a><br>
-    <a href="#32-running">3.2 Running</a><br>
-    <a href="#33-main-window">3.3 Main window</a><br>
-        <a href="#331-main-menu">3.3.1 Main menu</a><br>
-        <a href="#332-windows">3.3.2 Windows</a><br>
-            <a href="#3321-window-g-code-program">3.3.2.1 Window &quot;G-code program&quot;</a><br>
-            <a href="#3322-window-visualizer">3.3.2.2 Window &quot;Visualizer&quot;</a><br>
-            <a href="#3323-window-camera">3.3.2.3 Window &quot;Camera&quot;</a><br>
-            <a href="#3324-window-console">3.3.2.4 Window &quot;Console&quot;</a><br>
-            <a href="#3325-windows-device-modification-user">3.3.2.5 Windows &quot;Device&quot;, &quot;Modification&quot;, &quot;User&quot;</a><br>
-        <a href="#333-instrument-panels">3.3.3 Instrument panels</a><br>
-            <a href="#3331-panel-state">3.3.3.1 Panel &quot;State&quot;</a><br>
-            <a href="#3332-panel-control">3.3.3.2 Panel &quot;Control&quot;</a><br>
-            <a href="#3333-panel-coordinate-system">3.3.3.3 Panel &quot;Coordinate system&quot;</a><br>
-            <a href="#3334-panel-spindle">3.3.3.4 Panel &quot;Spindle&quot;</a><br>
-            <a href="#3335-panel-jog">3.3.3.5 Panel &quot;Jog&quot;</a><br>
-            <a href="#3336-panel-overriding">3.3.3.6 Panel &quot;Overriding&quot;</a><br>
-            <a href="#3337-panel-heightmap">3.3.3.7 Panel &quot;Heightmap&quot;</a><br>
-            <a href="#3338-panel-user-commands">3.3.3.8 Panel &quot;User commands&quot;</a><br>
-    <a href="#34-settings-window">3.4 Settings window</a><br>
-    <a href="#35-preparing-the-program-for-operation">3.5 Preparing the program for operation</a><br>
-    <a href="#36-loading-the-control-program">3.6 Loading the control program</a><br>
-    <a href="#37-creating-a-height-map">3.7 Creating a height map</a><br>
-    <a href="#38-executing-the-control-program">3.8 Executing the control program</a><br>
+<a href="#31-installation">3.1 Installation</a><br>
+<a href="#32-running">3.2 Running</a><br>
+<a href="#33-main-window">3.3 Main window</a><br>
+<a href="#331-main-menu">3.3.1 Main menu</a><br>
+<a href="#332-windows">3.3.2 Windows</a><br>
+<a href="#3321-window-g-code-program">3.3.2.1 Window &quot;G-code program&quot;</a><br>
+<a href="#3322-window-visualizer">3.3.2.2 Window &quot;Visualizer&quot;</a><br>
+<a href="#3323-window-camera">3.3.2.3 Window &quot;Camera&quot;</a><br>
+<a href="#3324-window-console">3.3.2.4 Window &quot;Console&quot;</a><br>
+<a href="#3325-windows-device-modification-user">3.3.2.5 Windows &quot;Device&quot;, &quot;Modification&quot;, &quot;User&quot;</a><br>
+<a href="#333-instrument-panels">3.3.3 Instrument panels</a><br>
+<a href="#3331-panel-state">3.3.3.1 Panel &quot;State&quot;</a><br>
+<a href="#3332-panel-control">3.3.3.2 Panel &quot;Control&quot;</a><br>
+<a href="#3333-panel-coordinate-system">3.3.3.3 Panel &quot;Coordinate system&quot;</a><br>
+<a href="#3334-panel-spindle">3.3.3.4 Panel &quot;Spindle&quot;</a><br>
+<a href="#3335-panel-jog">3.3.3.5 Panel &quot;Jog&quot;</a><br>
+<a href="#3336-panel-overriding">3.3.3.6 Panel &quot;Overriding&quot;</a><br>
+<a href="#3337-panel-heightmap">3.3.3.7 Panel &quot;Heightmap&quot;</a><br>
+<a href="#3338-panel-user-commands">3.3.3.8 Panel &quot;User commands&quot;</a><br>
+<a href="#34-settings-window">3.4 Settings window</a><br>
+<a href="#35-preparing-the-program-for-operation">3.5 Preparing the program for operation</a><br>
+<a href="#36-loading-the-control-program">3.6 Loading the control program</a><br>
+<a href="#37-creating-a-height-map">3.7 Creating a height map</a><br>
+<a href="#38-executing-the-control-program">3.8 Executing the control program</a><br>
+<a href="#39-shutting-down-the-program">3.9 Shutting down the program</a><br>
 <a href="#4-operator-messages">4 Operator messages</a><br>
 <a href="#5-extension-development">5 Extension development</a><br>
-    <a href="#51-extension-configuration-file">5.1 Extension configuration file</a><br>
-    <a href="#52-script-file">5.2 Script file</a><br>
-    <a href="#53-translation-file">5.3 Translation file</a><br>
+<a href="#51-extension-configuration-file">5.1 Extension configuration file</a><br>
+<a href="#52-script-file">5.2 Script file</a><br>
+<a href="#53-translation-file">5.3 Translation file</a><br>
 <a href="#appendix-a-controller-settings">Appendix A: Controller settings</a><br>
-<a href="#appendix-b-g-code-command-table">Appendix B: G-code command table</a></p>
+<a href="#appendix-b-controller-errors">Appendix B: Controller errors</a><br>
+<a href="#appendix-c-g-code-command-table">Appendix C: G-code command table</a></p>
+</div>
 <h1 id="1-purpose-of-the-program">1 Purpose of the program</h1>
 <p>The “Candle” program (hereinafter referred to as the <em>program</em>) is intended for controlling CNC machines equipped with a GRBL controller using a PC.</p>
 <p>It allows operation of 3‑axis milling machines and laser plotters.</p>
@@ -1360,15 +1363,91 @@ Within G‑code commands you can embed JavaScript snippets enclosed in braces <c
 </tbody>
 </table>
 <h2 id="35-preparing-the-program-for-operation">3.5 Preparing the program for operation</h2>
-<p>Under development.</p>
+<p>Before working with the program, perform the following steps:</p>
+<ul>
+<li>Launch the program.</li>
+<li>Connect and start the CNC machine.</li>
+<li>Configure the port and baud rate for connection to the CNC controller.</li>
+<li>Verify the connection to the controller. If the connection is correct, the <strong>“Status”</strong> field in the <strong>“State”</strong> panel should display <strong>“Idle”</strong>.</li>
+<li>Check the controller settings.</li>
+</ul>
+<p>To verify the settings, enter the command <code>$$</code> in the input field of the <strong>“Console”</strong> window and send it to the controller.<br>
+The correct operation of the program depends on the following settings (see <a href="#appendix-a-controller-settings">Appendix A: Controller settings</a>):</p>
+<ul>
+<li><code>$5</code>, <code>$6</code> affect the homing and probe functions.</li>
+<li><code>$10</code> must include the machine coordinate output in its mask; a working value example is <code>1</code>.</li>
+<li><code>$22</code> determines whether limit switches are used during homing; a working value example is <code>1</code>.</li>
+<li><code>$23</code> sets the direction of axis movement during homing.</li>
+<li><code>$30</code>, <code>$31</code> set the spindle speed range and may correspond to the <strong>“Spindle speed min”</strong>, <strong>“Spindle speed max”</strong> settings in the program.</li>
+<li><code>$100</code>…<code>$102</code> define the actual axis travel per commanded unit.</li>
+<li><code>$110</code>…<code>$112</code> – maximum axis travel speeds.</li>
+<li><code>$120</code>…<code>$122</code> – axis acceleration values.</li>
+<li><code>$130</code>…<code>$132</code> define the work area size; used in jogging commands.</li>
+</ul>
+<p>To set new values, send commands of the form <code>$CODE=VALUE</code> to the controller, e.g. <code>$10=1</code>.<br>
+After changing controller settings, it is recommended to reset the controller by pressing the <strong>“Reset”</strong> button on the <strong>“Control”</strong> panel.</p>
 <h2 id="36-loading-the-control-program">3.6 Loading the control program</h2>
-<p>Under development.</p>
+<p>As an example we will use the PCB track-milling G-code (see file <strong>“level_shifter.gcode”</strong> in folder <strong>“doc/programexamples”</strong>), because it touches most of the program’s features.</p>
+<p>Load the G-code via the <strong>“Open”</strong> command in the <strong>“File”</strong> menu or by clicking the <strong>“Open”</strong> button in the <strong>“G-code program”</strong> window. After selecting the file and confirming, the <strong>“Visualizer”</strong> window will show the toolpath, machining boundaries, and estimated runtime.</p>
+<p>Preparation for running the G-code includes:</p>
+<ul>
+<li>Clamping the workpiece on the table (for milling it is usually placed on a <strong>“sacrificial”</strong> table).</li>
+<li>Homing the machine (<strong>“Home”</strong> button on the <strong>“Control”</strong> panel).</li>
+<li>Installing the tool.</li>
+<li>Setting the work coordinate system zero.</li>
+</ul>
+<p>Use the <strong>“Jog”</strong> panel buttons to position the tool at the desired X and Y zero point on the workpiece, then zero the work coordinates for X and Y.</p>
+<p>Note: you can zero the work zero either with the axis-zero buttons on the <strong>“User Commands”</strong> panel or on the <strong>“Coordinate System”</strong> panel.</p>
+<ul>
+<li>With <strong>“User Commands”</strong>, work coordinates are <strong>NOT</strong> restored after a controller reset or emergency stop.</li>
+<li>With <strong>“Coordinate System”</strong>, values are stored in non-volatile memory and survive power cycles.</li>
+</ul>
+<p>The user decides, but it is recommended to use the <strong>“Coordinate System”</strong> panel for X and Y; for Z you may use <strong>“User Commands”</strong>, because Z depends on the current tool length and is usually set immediately before running the G-code.</p>
+<p>Set the Z work zero manually (as with X and Y) or by using the probe command on the <strong>“User Commands”</strong> panel. Connect and configure the probe according to the CNC machine manual.</p>
 <h2 id="37-creating-a-height-map">3.7 Creating a height map</h2>
-<p>Under development.</p>
+<p>Because PCB milling is performed at depths of a few hundredths of a millimetre, it is recommended to first scan the surface irregularities and modify the original G-code accordingly.</p>
+<p>Required steps:</p>
+<ul>
+<li>Make sure the Z work zero is on the surface of the workpiece.</li>
+<li>Click the <strong>“Create”</strong> button on the <strong>“Heightmap”</strong> panel.</li>
+<li>Click <strong>“Auto”</strong> to set the map boundaries; ensure the G-code stays within them.</li>
+<li>Define the height-map reference point. You will have to re-zero Z at this exact point before running the G-code. If several G-codes are used for one workpiece, make sure this point remains probe-accessible after intermediate operations.</li>
+<li>Configure the probing grid: set the number of probe points (e.g. 3 × 4), safe Z height (Zt = 5), probe depth (Zb = –1), and feed rate (F = 50).</li>
+<li>Configure the interpolation grid; values should be at least 10× the number of probe points. This affects machining accuracy on the workpiece surface.</li>
+<li>Press the <strong>“Probe”</strong> button in the <strong>“Heightmap”</strong> window and wait for the probing to finish.</li>
+<li>If several G-codes are used for the same workpiece, save the map via <strong>“File ▸ Save”</strong> while the height-map editor is open. For subsequent G-codes load the saved map with the <strong>“Open”</strong> button on the <strong>“Heightmap”</strong> panel.</li>
+<li>Press <strong>“Edit”</strong> on the <strong>“Heightmap”</strong> panel to exit the editor.</li>
+<li>Enable the <strong>“Use heightmap”</strong> flag to modify the G-code.</li>
+<li>Set the Z work zero for the obtained height map: raise the tool to a safe height, press <strong>“Origin”</strong> on the <strong>“Heightmap”</strong> panel to move to the reference XY point, then set Z manually or with the probe command from <strong>“User Commands”</strong>.</li>
+</ul>
 <h2 id="38-executing-the-control-program">3.8 Executing the control program</h2>
-<p>Under development.</p>
-<h1 id="4-operator-messages">4 Operator messages</h1>
-<p>Under development.</p>
+<p>Start execution by pressing the <strong>“Send”</strong> button in the <strong>“G-code program”</strong> window.</p>
+<p>After clicking <strong>“Send”</strong>, the <strong>“State”</strong> panel should show <strong>“Run”</strong>.</p>
+<p>When finished, a message window will appear.</p>
+<p>During execution the following commands are available:</p>
+<ul>
+<li><strong>“Pause”</strong> in the <strong>“G-code program”</strong> window – pauses sending G-code to the controller.</li>
+<li><strong>“Abort”</strong> in the same window – stops sending G-code to the controller.</li>
+<li><strong>“Hold”</strong> on the <strong>“Control”</strong> panel – instantly pauses command execution by the controller (unlike <strong>“Pause”</strong>). While on hold, the <strong>“Spindle on/off”</strong> button on the <strong>“Spindle”</strong> panel is also available. Resume by pressing <strong>“Hold”</strong> again.</li>
+<li><strong>“Reset”</strong> on the <strong>“Control”</strong> panel – instantly stops command execution and halts G-code transmission.</li>
+<li>Feed-rate, rapid-traverse, and spindle-speed override via the <strong>“Overriding”</strong> panel.</li>
+</ul>
+<h2 id="39-shutting-down-the-program">3.9 Shutting down the program</h2>
+<p>To exit the program:</p>
+<ul>
+<li>Ensure no G-code is being sent to the controller.</li>
+<li>Power off the machine.</li>
+<li>Close the program via <strong>“File ▸ Exit”</strong> or any other window-manager means.</li>
+</ul>
+<h1 id="4-operator-messages">4 Operator Messages</h1>
+<p>During operation the program may show pop-up messages to the operator:</p>
+<ul>
+<li>End-of-program window with runtime info and an OK button.</li>
+<li>G-code transmission-error window with <strong>“Skip”</strong> (continue) and <strong>“Abort”</strong> buttons.</li>
+<li>Warning on attempting to close the program while G-code is still being transmitted.</li>
+<li>Confirmation window when sending parser-setup commands after a long-press of the <strong>“Send”</strong> button in the <strong>“G-code program”</strong> window, if the option <strong>“Automatically set parser state before sending from selected line”</strong> is enabled in program settings.</li>
+<li>Other auxiliary dialogs.</li>
+</ul>
 <h1 id="5-extension-development">5 Extension development</h1>
 <p>The program supports extensions that add new features and UI elements.<br>
 Each extension is a folder placed in the <strong>candleplugins</strong> directory of the installation folder and contains several files:</p>
@@ -1483,22 +1562,6 @@ All names and signatures are kept identical; only the descriptions are translate
 <tbody>
 <tr>
 <td><code>app</code></td>
-<td><code>sendCommand(command, index)</code></td>
-<td>Function</td>
-<td>command string, optional index</td>
-<td>–</td>
-<td>Sends a single G‑code command to the CNC controller; negative index values are ignored if <code>&lt;‑99</code>.</td>
-</tr>
-<tr>
-<td></td>
-<td><code>sendCommands(commands, index)</code></td>
-<td>Function</td>
-<td>array of commands, optional index</td>
-<td>–</td>
-<td>Sends an array of commands as a single string separated by “\n”.</td>
-</tr>
-<tr>
-<td></td>
 <td><code>addAction(action)</code></td>
 <td>Function</td>
 <td><code>QAction</code> object</td>
@@ -1515,43 +1578,115 @@ All names and signatures are kept identical; only the descriptions are translate
 </tr>
 <tr>
 <td></td>
-<td><code>buttonSize()</code></td>
+<td><code>newFile()</code></td>
 <td>Function</td>
 <td>–</td>
-<td>size</td>
-<td>Returns standard button size for program panels.</td>
+<td>–</td>
+<td>Creates a new G-code program.</td>
 </tr>
 <tr>
 <td></td>
-<td><code>responseReceived(command, index, response)</code></td>
-<td>Signal</td>
-<td>command string, index, response string</td>
+<td><code>loadFile(fileName)</code></td>
+<td>Function</td>
+<td>file name string</td>
 <td>–</td>
-<td>Emitted when the controller replies to a sent command.</td>
+<td>Loads a G-code program from a file.</td>
 </tr>
 <tr>
 <td></td>
-<td><code>statusReceived(status)</code></td>
-<td>Signal</td>
-<td>status string</td>
+<td><code>loadFile(commands)</code></td>
+<td>Function</td>
+<td>array of commands</td>
 <td>–</td>
-<td>Emitted when a “?” status is received from the controller.</td>
+<td>Loads a G-code program from a list of commands.</td>
 </tr>
 <tr>
 <td></td>
-<td><code>senderStateChanged(state)</code></td>
-<td>Signal</td>
-<td>state integer</td>
+<td><code>saveFile()</code></td>
+<td>Function</td>
 <td>–</td>
-<td>Sent when the program’s sending state changes (see Table 7).</td>
+<td>–</td>
+<td>Saves the current G-code program.</td>
 </tr>
 <tr>
 <td></td>
-<td><code>deviceStateChanged(state)</code></td>
-<td>Signal</td>
-<td>state integer</td>
+<td><code>saveFile(fileName)</code></td>
+<td>Function</td>
+<td>file name string</td>
 <td>–</td>
-<td>Sent when the CNC controller state changes (see Table 8).</td>
+<td>Saves the G-code program to the specified file.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>buttonSize</code></td>
+<td>Value</td>
+<td>–</td>
+<td>-</td>
+<td>Standard button size for program panels.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>dataLocation</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Application data directory path.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>profileName</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Name of the active settings profile.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>path</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Absolute installation path of the program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>device</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for interacting with the CNC controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>program</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for working with the loaded G-code program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>sender</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object controlling the sending of the G-code program to the CNC controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>storage</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for working with persistent data storage.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>window</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Main application window object.</td>
 </tr>
 <tr>
 <td></td>
@@ -1634,12 +1769,124 @@ All names and signatures are kept identical; only the descriptions are translate
 <td>The global settings object (see below).</td>
 </tr>
 <tr>
+<td><code>app.device</code></td>
+<td><code>storeParserState()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Saves the current parser state.</td>
+</tr>
+<tr>
 <td></td>
-<td><code>path</code></td>
+<td><code>restoreParserState()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Restores the previously saved parser state.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>waitResponses()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Waits for all previously sent commands to be acknowledged by the controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>bufferLength</code></td>
 <td>Value</td>
 <td>–</td>
 <td>–</td>
-<td>Absolute installation path of the program.</td>
+<td>Total size of commands currently in the controller buffer.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>commandLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Number of commands currently in the controller buffer.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>queueLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Number of commands queued for sending to the controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>machine</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current machine coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>probe</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Last received probe contact coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>state</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current CNC controller state.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>work</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current work coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>stateChanged</code></td>
+<td>Signal</td>
+<td>State</td>
+<td>–</td>
+<td>Current CNC controller state changed.</td>
+</tr>
+<tr>
+<td><code>app.program</code></td>
+<td><code>lowerBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Lower bounds of the loaded program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>upperBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Upper bounds of the loaded program.</td>
+</tr>
+<tr>
+<td><code>app.sender</code></td>
+<td><code>state</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current state of the program sender.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>stateChanged</code></td>
+<td>Signal</td>
+<td>State</td>
+<td>–</td>
+<td>Sender state changed.</td>
 </tr>
 <tr>
 <td><code>app.settings</code></td>
@@ -1696,6 +1943,22 @@ All names and signatures are kept identical; only the descriptions are translate
 <td>–</td>
 <td>–</td>
 <td>“Machine information – Laser power max”.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>axisAEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine information – Enable A-axis” setting.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>axisAX</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>“Machine information – A-axis direction – X” setting.</td>
 </tr>
 <tr>
 <td></td>
@@ -1976,6 +2239,102 @@ All names and signatures are kept identical; only the descriptions are translate
 <td>–</td>
 <td>–</td>
 <td>Soft limits enabled flag.</td>
+</tr>
+<tr>
+<td><code>app.storage</code></td>
+<td><code>group(key)</code></td>
+<td>Function</td>
+<td>group key string</td>
+<td>group object</td>
+<td>Returns a data group object from storage by key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>setValue(key, value)</code></td>
+<td>Function</td>
+<td>key string, value</td>
+<td>–</td>
+<td>Stores a value under the given full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>value(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>value</td>
+<td>Retrieves a value by full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>contains(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>boolean</td>
+<td>Checks whether a value exists for the given full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>remove(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>–</td>
+<td>Removes the value associated with the full key.</td>
+</tr>
+<tr>
+<td><code>app.storage.group</code></td>
+<td><code>group(key)</code></td>
+<td>Function</td>
+<td>sub-group key string</td>
+<td>group object</td>
+<td>Returns a sub-group object.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>setValue(key, value)</code></td>
+<td>Function</td>
+<td>key string, value</td>
+<td>–</td>
+<td>Stores a value under the given key within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>value(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>value</td>
+<td>Retrieves a value by key within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>contains(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>boolean</td>
+<td>Checks whether a key exists within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>remove(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>–</td>
+<td>Removes the key-value pair within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>childKeys()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>array of strings</td>
+<td>Returns all keys directly under this group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>childGroups()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>array of strings</td>
+<td>Returns all sub-group names under this group.</td>
 </tr>
 <tr>
 <td><strong>vars</strong></td>
@@ -2679,7 +3038,189 @@ The filename format is:</p>
 </tr>
 </tbody>
 </table>
-<h1 id="appendix-b-g-code-command-table">Appendix B: G-code command table</h1>
+<h1 id="appendex-b-controller-errors">Appendex B: Controller errors</h1>
+<table>
+<thead>
+<tr>
+<th>Error Code</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Expected G-code word</td>
+<td>Grbl expected a valid command (like G1, M3, etc.) but didn't find one. This is often due to a blank or malformed line</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bad number format</td>
+<td>A number in the command was invalid or improperly formatted</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Invalid statement</td>
+<td>The line contains an unknown or unsupported command</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Negative value</td>
+<td>A negative value was used where it isn't allowed, such as a feed rate or spindle speed</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Homing not enabled</td>
+<td>A homing cycle ($H) was requested but homing is not enabled in the settings</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Minimum step pulse time violated</td>
+<td>A step pulse was issued faster than the configured minimum time ($0)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>EEPROM read fail</td>
+<td>Grbl could not read its settings from EEPROM. May indicate hardware issues</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Not idle</td>
+<td>A command was issued that requires the machine to be idle, but motion or another operation is in progress</td>
+</tr>
+<tr>
+<td>9</td>
+<td>G-code lockout</td>
+<td>A G-code command was blocked due to machine state. Common after a reset or alarm</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Homing not set</td>
+<td>The machine requires homing to establish its position before executing the command</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Line overflow</td>
+<td>A G-code line was too long for Grbl’s internal buffer. Shorten your lines</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Step rate too high</td>
+<td>Grbl could not generate step pulses fast enough for the commanded movement</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Safety door open</td>
+<td>A command was blocked because the safety door is open</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Build info overflow</td>
+<td>The build info string exceeded the allowed character limit</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Setting disabled</td>
+<td>A command depends on a setting (like homing or soft limits) that is disabled</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Negative value in settings</td>
+<td>A setting value was set to a negative number, which is invalid</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Invalid jog command</td>
+<td>A jog command is improperly formatted or unsupported</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Unsupported command</td>
+<td>The command is not supported by Grbl’s G-code parser</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Modal group violation</td>
+<td>Two conflicting commands from the same modal group (e.g. two motion modes) were used together</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Undefined feed rate</td>
+<td>A motion command was issued without a feed rate being set</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Axis command conflict</td>
+<td>Two axis words used inappropriately together, such as in arcs or jogs</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Invalid target</td>
+<td>The target position is invalid — for example, in an arc that can’t be generated</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Invalid arc radius</td>
+<td>Arc command contains a radius value that doesn't make geometric sense</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Invalid G-code word</td>
+<td>A word was used in the wrong context or is not allowed for the active command</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Invalid line number</td>
+<td>A line number was used incorrectly or exceeds limits</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Value word repeated</td>
+<td>A G-code word was used more than once on the same line</td>
+</tr>
+<tr>
+<td>29</td>
+<td>G59.x WCS error</td>
+<td>A G59.1, G59.2, or G59.3 work coordinate system was used but isn’t supported</td>
+</tr>
+<tr>
+<td>30</td>
+<td>G53 with offset</td>
+<td>G53 motion cannot be used with G54–G59 offsets</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Invalid real value</td>
+<td>A floating-point value is invalid (e.g. NaN, too many decimal places, etc.)</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Arc axis missing</td>
+<td>An arc command is missing a required axis word</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Arc format error</td>
+<td>Arc command has incorrect or conflicting data (e.g., missing radius and offset)</td>
+</tr>
+<tr>
+<td>34</td>
+<td>No axis word in motion</td>
+<td>A motion command was issued without specifying any axis to move</td>
+</tr>
+<tr>
+<td>35</td>
+<td>G2/G3 not allowed</td>
+<td>Arc motions (G2/G3) are not allowed in certain states, like jogging</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Unused words</td>
+<td>Extra G-code words were found that don’t apply to the current command</td>
+</tr>
+</tbody>
+</table>
+<h1 id="appendix-c-g-code-command-table">Appendix C: G-code command table</h1>
 <table>
 <thead>
 <tr>

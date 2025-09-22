@@ -37,7 +37,6 @@ private:
         "app",
         "newFile",
         "loadFile",
-        "loadFile",
         "saveFile",
         "addAction",
         "removeAction",
