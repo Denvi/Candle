@@ -3,6 +3,7 @@
 
 #include <QFileSystemWatcher>
 #include <QTextStream>
+#include <QStandardPaths>
 #include "frmLog.h"
 #include "ui_frmLog.h"
 
@@ -10,7 +11,7 @@ frmLog::frmLog(QWidget *parent) : QFrame(parent), ui(new Ui::frmLog)
 {
     ui->setupUi(this);
 
-    m_logFileName = qApp->applicationDirPath() + "/candle.log";
+    m_logFileName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/candle.log";
     loadLogFile();
 
     QFileSystemWatcher *watcher = new QFileSystemWatcher(this);

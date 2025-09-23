@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QMutex>
+#include <QStandardPaths>
 
 static constexpr int INTERVAL = 500;
 
@@ -74,7 +75,7 @@ static void logToFile(QtMsgType type, const QMessageLogContext &context, const Q
 
 void installFileLogHandler()
 {
-    logFileName = qApp->applicationDirPath() + "/candle.log";
+    logFileName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/candle.log";
 
     QFile file(logFileName);
 
