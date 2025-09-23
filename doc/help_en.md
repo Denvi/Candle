@@ -945,7 +945,7 @@ For details on creating translation files, see the Qt documentation:
 | 131  | Max Y travel from home                                               |              | `200`         |
 | 132  | Max Z travel from home                                               |              | `200`         |
 
-# Appendex B: Controller errors
+# Appendix B: Controller errors
 
 | Error Code | Name                          | Description                                                                                   |
 |------------|-------------------------------|-----------------------------------------------------------------------------------------------|
