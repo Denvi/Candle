@@ -1948,21 +1948,10 @@ void frmMain::onSerialPortReadyRead()
                 static QRegExp as("A:([^,^>^|]+)");
                 if (as.indexIn(data) != -1) {
                     QString q = as.cap(1);
-                    m_spindleCW = q.contains("S");
-                    if (q.contains("S") || q.contains("C")) {
-                        m_timerToolAnimation.start(25, this);
-                        ui->cmdSpindle->setChecked(true);
-                    } else {
-                        m_timerToolAnimation.stop();
-                        ui->cmdSpindle->setChecked(false);
-                    }
                     ui->cmdFlood->setChecked(q.contains("F"));
 
                     if (!pinState.isEmpty()) pinState.append(" / ");
                     pinState.append(QString(tr("AS: %1")).arg(as.cap(1)));
-                } else {
-                    m_timerToolAnimation.stop();
-                    ui->cmdSpindle->setChecked(false);
                 }
                 ui->glwVisualizer->setPinState(pinState);
             }
@@ -1970,7 +1959,17 @@ void frmMain::onSerialPortReadyRead()
             // Get feed/spindle values
             static QRegExp fs("FS:([^,]*),([^,^|^>]*)");
             if (fs.indexIn(data) != -1) {
-                ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(fs.cap(2))));
+                auto spindleSpeed = fs.cap(2);
+                if (spindleSpeed != "0") {
+                    if ((!m_timerToolAnimation.isActive())) {
+                        m_timerToolAnimation.start(25, this);
+                        ui->cmdSpindle->setChecked(true);
+                    }
+                } else if (m_timerToolAnimation.isActive()) {
+                    m_timerToolAnimation.stop();
+                    ui->cmdSpindle->setChecked(false);
+                }
+                ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(spindleSpeed)));
             }
 
             // Store device state
@@ -2039,6 +2038,7 @@ void frmMain::onSerialPortReadyRead()
                             double speed = rx.cap(1).toDouble();
                             ui->slbSpindle->setCurrentValue(speed);
                         }
+                        m_spindleCW = !response.contains("M4");
 
                         m_updateParserStatus = true;
                     }
