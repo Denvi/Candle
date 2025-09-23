@@ -86,14 +86,15 @@ void GcodeParser::setTruncateDecimalLength(int truncateDecimalLength) {
 }
 
 // Resets the current state.
-void GcodeParser::reset(const QVector3D &initialPoint)
+void GcodeParser::reset(const QVector3D &initialPoint, const QVector3D &initialAxes)
 {
     foreach (PointSegment *ps, this->m_points) delete ps;
     this->m_points.clear();
     // The unspoken home location.
     m_currentPoint = initialPoint;
+    m_currentAxes = initialAxes;
     m_currentPlane = PointSegment::XY;
-    this->m_points.append(new PointSegment(&this->m_currentPoint, -1));
+    this->m_points.append(new PointSegment(&this->m_currentPoint, &this->m_currentAxes, -1));
 }
 
 /**
@@ -182,7 +183,7 @@ QList<PointSegment*> GcodeParser::expandArc()
     if (psi.hasNext()) psi.next();
 
     while (psi.hasNext()) {
-        temp = new PointSegment(&psi.next(), m_commandNumber++);
+        temp = new PointSegment(&psi.next(), new QVector3D(), m_commandNumber++);
         temp->setIsMetric(lastSegment->isMetric());
         this->m_points.append(temp);
         psl.append(temp);
@@ -247,16 +248,18 @@ PointSegment *GcodeParser::processCommand(const QStringList &args)
     return ps;
 }
 
-PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint, bool fastTraverse)
+PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint, 
+    const QVector3D &nextAxes, bool fastTraverse)
 {
-    PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
+    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, m_commandNumber++);
 
     bool zOnly = false;
 
     // Check for z-only
-    if ((this->m_currentPoint.x() == nextPoint.x()) && (this->m_currentPoint.y() == nextPoint.y())
-        && (this->m_currentPoint.z() != nextPoint.z()))
-    {
+    if (Util::nIsEqual(this->m_currentAxes, nextAxes) &&
+            (this->m_currentPoint.x() == nextPoint.x()) &&
+            (this->m_currentPoint.y() == nextPoint.y()) &&
+            (this->m_currentPoint.z() != nextPoint.z())) {
         zOnly = true;
     }
 
@@ -270,13 +273,16 @@ PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint, boo
 
     // Save off the endpoint.
     this->m_currentPoint = nextPoint;
+    this->m_currentAxes = nextAxes;
 
     return ps;
 }
 
-PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, bool clockwise, const QStringList &args)
+PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, 
+    const QVector3D &nextAxes, bool clockwise, const QStringList &args)
 {
-    PointSegment *ps = new PointSegment(&nextPoint, m_commandNumber++);
+    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, 
+        m_commandNumber++);
 
     QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, 
         this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
@@ -331,12 +337,17 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     PointSegment *ps = NULL;
 
     QVector3D nextPoint = GcodePreprocessorUtils::updatePointWithCommand(args, this->m_currentPoint, this->m_inAbsoluteMode);
+    QVector3D nextAxes = GcodePreprocessorUtils::updateAxesWithCommand(args, this->m_currentAxes, this->m_inAbsoluteMode);
 
-    if (code == 0.0f) ps = addLinearPointSegment(nextPoint, true);
-    else if (code == 1.0f) ps = addLinearPointSegment(nextPoint, false);
-    else if (code == 38.2f) ps = addLinearPointSegment(nextPoint, false);
-    else if (code == 2.0f) ps = addArcPointSegment(nextPoint, true, args);
-    else if (code == 3.0f) ps = addArcPointSegment(nextPoint, false, args);
+    if (code == 0.0f) ps = addLinearPointSegment(nextPoint, nextAxes, true);
+    else if (code == 1.0f) ps = addLinearPointSegment(nextPoint, nextAxes, 
+        false);
+    else if (code == 38.2f) ps = addLinearPointSegment(nextPoint, nextAxes, 
+        false);
+    else if (code == 2.0f) ps = addArcPointSegment(nextPoint, nextAxes, true, 
+        args);
+    else if (code == 3.0f) ps = addArcPointSegment(nextPoint, nextAxes, false, 
+        args);
     else if (code == 17.0f) this->m_currentPlane = PointSegment::XY;
     else if (code == 18.0f) this->m_currentPlane = PointSegment::ZX;
     else if (code == 19.0f) this->m_currentPlane = PointSegment::YZ;

@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QVector3D>
 
+// TODO: remove
 class ScriptVars: public QObject
 {
     Q_OBJECT

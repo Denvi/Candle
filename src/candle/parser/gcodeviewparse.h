@@ -19,6 +19,12 @@ class GcodeViewParse : public QObject
 {
     Q_OBJECT
 public:
+    enum RotationAxis {
+        RotationAxisA,
+        RotationAxisB,
+        RotationAxisC
+    };
+
     explicit GcodeViewParse(QObject *parent = 0);
     ~GcodeViewParse();
 
@@ -30,6 +36,11 @@ public:
 
     double getModelMinLineLength() const;
     QSize getModelResolution() const;
+
+    void setAxisRotationVector(RotationAxis axis, const QVector3D &vector);
+    const QVector3D &getAxisRotationVector(RotationAxis axis);
+
+    bool axisRotationUsed(RotationAxis axis);
 
     QList<LineSegment*> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
     QList<LineSegment*> getLineSegmentList();
@@ -62,6 +73,8 @@ private:
     // Parsing state.
     QVector3D lastPoint;
     int currentLine; // for assigning line numbers to segments.
+
+    QMap<RotationAxis, QVector3D> m_axesRotationVectors;
 
     // Debug
     bool debug;

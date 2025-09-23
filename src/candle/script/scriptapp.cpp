@@ -1,47 +1,14 @@
 #include "scriptapp.h"
 #include "frmmain.h"
 #include <QApplication>
+#include <qstandardpaths.h>
 #include "loggingcategories.h"
 
 ScriptApp::ScriptApp(frmMain *f): QObject(0), m_frmMain(f)
 {
     m_scriptProgram = new ScriptProgram(f);
-}
-
-void ScriptApp::sendCommands(QString commands, int index)
-{
-    m_frmMain->sendCommands(commands, index);
-}
-
-void ScriptApp::sendCommands(QStringList commands, int index)
-{
-    m_frmMain->sendCommands(commands.join("\n"), index);
-}
-
-void ScriptApp::sendCommand(QString command, int index, bool showInConsole, bool direct)
-{
-    if (direct) {
-        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
-    } else {
-        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
-    }
-}
-
-void ScriptApp::waitResponses()
-{
-    while (m_frmMain->m_queue.size() || m_frmMain->m_commands.size()) {
-        QApplication::processEvents();
-    }
-}
-
-void ScriptApp::storeParserState()
-{
-    m_frmMain->storeParserState();
-}
-
-void ScriptApp::restoreParserState()
-{
-    m_frmMain->restoreParserState();
+    m_scriptDevice = new ScriptDevice(f);
+    m_scriptSender = new ScriptSender(f);
 }
 
 bool ScriptApp::newFile()
@@ -111,19 +78,29 @@ bool ScriptApp::saveFile(QString fileName)
     return false;
 }
 
-int ScriptApp::bufferLength()
+void ScriptApp::addAction(QAction *action)
 {
-    return m_frmMain->bufferLength();
+    m_frmMain->addAction(action);
 }
 
-int ScriptApp::commandsLength()
+void ScriptApp::removeAction(QAction *action)
 {
-    return m_frmMain->m_commands.length();
+    m_frmMain->removeAction(action);
 }
 
-int ScriptApp::queueLength()
+ScriptProgram* ScriptApp::program()
 {
-    return m_frmMain->m_queue.length();
+    return m_scriptProgram;
+}
+
+ScriptDevice* ScriptApp::device()
+{
+    return m_scriptDevice;
+}
+
+ScriptSender* ScriptApp::sender()
+{
+    return m_scriptSender;
 }
 
 int ScriptApp::buttonSize()
@@ -136,27 +113,12 @@ QWidget* ScriptApp::window()
     return m_frmMain;
 }
 
-int ScriptApp::senderState()
+QString ScriptApp::profileName()
 {
-    return m_frmMain->m_senderState;
+    return m_frmMain->m_currentProfileName;
 }
 
-int ScriptApp::deviceState()
+QString ScriptApp::dataLocation()
 {
-    return m_frmMain->m_deviceState;
-}
-
-ScriptProgram* ScriptApp::scriptProgram()
-{
-    return m_scriptProgram;
-}
-
-void ScriptApp::addAction(QAction *action)
-{
-    m_frmMain->addAction(action);
-}
-
-void ScriptApp::removeAction(QAction *action)
-{
-    m_frmMain->removeAction(action);
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 }

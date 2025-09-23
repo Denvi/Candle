@@ -25,9 +25,11 @@ function init()
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(designerPluginsPath);
 
-    app.deviceStateChanged.connect(onAppDeviceStateChanged);
-    app.senderStateChanged.connect(onAppSenderStateChanged);
-    app.responseReceived.connect(onAppResponseReceived);
+    app.device.stateChanged.connect(onAppDeviceStateChanged);
+    app.sender.stateChanged.connect(onAppSenderStateChanged);
+    app.device.responseReceived.connect(onAppResponseReceived);
+    app.settingsLoaded.connect(onAppSettingsChanged);
+    app.settingsAccepted.connect(onAppSettingsChanged);
 }
 
 function createPanelWidget()
@@ -36,12 +38,13 @@ function createPanelWidget()
 
     function onCsClicked(cs)
     {
-        return function() {app.sendCommands(cs);};
+        return function() {app.device.sendCommands(cs);};
     }
 
-    function onZeroClicked(a)
+    function onZeroClicked(a, b)
     {
-        return function() {app.sendCommand("".concat("G10 L20 P", currentCS.slice(-1) - 3, " ", a));}
+        return function() {app.device.sendCommand("".concat("G10 L20 P", currentCS.slice(-1) - 3, " ",
+            a + (app.settings.axisAEnabled && b ? " " + b : "")));}
     }
 
     if (f.open(QIODevice.ReadOnly)) {
@@ -54,7 +57,8 @@ function createPanelWidget()
         uiPanel.cmdX0.clicked.connect(onZeroClicked("X0"));
         uiPanel.cmdY0.clicked.connect(onZeroClicked("Y0"));
         uiPanel.cmdZ0.clicked.connect(onZeroClicked("Z0"));
-        uiPanel.cmdAll0.clicked.connect(onZeroClicked("X0 Y0 Z0"));
+        uiPanel.cmdA0.clicked.connect(onZeroClicked("A0"));
+        uiPanel.cmdAll0.clicked.connect(onZeroClicked("X0 Y0 Z0", "A0"));
     }
     return uiPanel;
 }
@@ -85,4 +89,9 @@ function onAppResponseReceived(command, index, response)
             }
         }
     }
+}
+
+function onAppSettingsChanged()
+{
+    uiPanel.cmdA0.visible = app.settings.axisAEnabled;
 }

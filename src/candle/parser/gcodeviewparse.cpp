@@ -16,6 +16,10 @@ GcodeViewParse::GcodeViewParse(QObject *parent) :
     currentLine = 0;
     debug = true;
 
+    setAxisRotationVector(RotationAxisA, Util::rotationVector(Util::RotationVectorX));
+    setAxisRotationVector(RotationAxisB, Util::rotationVector(Util::RotationVectorX));
+    setAxisRotationVector(RotationAxisC, Util::rotationVector(Util::RotationVectorX));
+
     m_viewLowerBounds = Util::nVector();
     m_viewUpperBounds = Util::nVector();
 
@@ -108,6 +112,39 @@ QSize GcodeViewParse::getModelResolution() const
                  ((m_modelUpperBounds.y() - m_modelLowerBounds.y()) / m_modelMinLineLength) + 1);
 }
 
+void GcodeViewParse::setAxisRotationVector(RotationAxis axis, const QVector3D &vector)
+{
+    m_axesRotationVectors[axis] = vector;
+}
+
+const QVector3D &GcodeViewParse::getAxisRotationVector(RotationAxis axis) {
+    return m_axesRotationVectors[axis];
+}
+
+bool GcodeViewParse::axisRotationUsed(GcodeViewParse::RotationAxis axis)
+{
+    if (m_lines.count() > 0) {
+        switch (axis) {
+            case RotationAxisA:
+                if (!qIsNaN(m_lines.last()->axesEnd().x())){
+                    return true;
+                }
+                break;
+            case RotationAxisB:
+                if (!qIsNaN(m_lines.last()->axesEnd().y())){
+                    return true;
+                }
+                break;
+            case RotationAxisC:
+                if (!qIsNaN(m_lines.last()->axesEnd().z())){
+                    return true;
+                }
+                break;
+        }
+    }
+    return false;
+}
+
 QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
@@ -119,6 +156,10 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
     start = NULL;
     end = NULL;
     LineSegment *ls;
+    QVector3D *startAxes = NULL;
+    QVector3D *endAxes = NULL;
+    QMatrix4x4 startRotation;
+    QMatrix4x4 endRotation;
     int index = 0;
     int lineIndex = 0;
 
@@ -131,6 +172,7 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
         ps->convertToMetric();
 
         end = ps->point();
+        endAxes = ps->axes();
 
         // start is null for the first iteration.
         if (start != NULL) {           
@@ -145,10 +187,17 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                 // Create line segments from points.
                 int segments = points.length();
                 if (segments > 0) {
+                    double rotation = (Util::nAssign(startAxes->x()) - Util::nAssign(endAxes->x()));
+                    double segmentRotation = rotation / segments;
+
                     QVector3D startPoint = *start;
                     foreach (QVector3D nextPoint, points) {
                         if (nextPoint == startPoint) continue;
-                        ls = new LineSegment(startPoint, nextPoint, lineIndex);
+                        if (!Util::nIsNaN(m_axesRotationVectors[RotationAxisA]))
+                            endRotation.rotate(segmentRotation, m_axesRotationVectors[RotationAxisA]);
+
+                        ls = new LineSegment(startRotation * startPoint, 
+                            endRotation * nextPoint, lineIndex);
                         ls->setIsArc(ps->isArc());
                         ls->setIsClockwise(ps->isClockwise());
                         ls->setPlane(ps->plane());
@@ -161,6 +210,8 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                         ls->setDwell(ps->getDwell());
                         ls->setModelStart(startPoint);
                         ls->setModelEnd(nextPoint);
+                        ls->setAxesStart(*startAxes);
+                        ls->setAxesEnd(*endAxes);
                         ls->setIndex(index++);
 
                         this->updateViewBounds(ls->getEnd());
@@ -171,28 +222,58 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                             m_lines.count() - 1);
 
                         startPoint = nextPoint;
+                        startRotation = endRotation;
                     }
                     lineIndex++;
                 }
             // Line
             } else {
-                ls = new LineSegment(*start, *end, lineIndex++);
-                ls->setIsArc(ps->isArc());
-                ls->setIsFastTraverse(ps->isFastTraverse());
-                ls->setIsZMovement(ps->isZMovement());
-                ls->setIsMetric(isMetric);
-                ls->setIsAbsolute(ps->isAbsolute());
-                ls->setSpeed(ps->getSpeed());
-                ls->setSpindleSpeed(ps->getSpindleSpeed());
-                ls->setDwell(ps->getDwell());
-                this->updateViewBounds(*end);
-                this->updateModelBounds(*end);
-                this->updateModelMinLineLength(*start, *end);
-                m_lines.append(ls);
-                m_lineIndexes[ps->getLineNumber()].append(m_lines.count() - 1);
+                QVector3D startPoint = *start;
+                QVector3D nextPoint;
+                double rotation = (Util::nAssign(startAxes->x()) - Util::nAssign(endAxes->x()));
+                int segments = qMax<int>(qAbs(rotation) / rotationDelta, 1);
+                QVector3D segmentVector = (*end - startPoint) / segments;
+                double segmentRotation = rotation / segments;
+
+                // Create line segments on axis rotation
+                for (int i = 0; i < segments; i++) {
+                    nextPoint = startPoint + segmentVector;
+                    if (!Util::nIsNaN(m_axesRotationVectors[RotationAxisA]))
+                        endRotation.rotate(segmentRotation, m_axesRotationVectors[RotationAxisA]);
+
+                    ls = new LineSegment(startRotation * startPoint, 
+                        endRotation * nextPoint, lineIndex);
+                    ls->setIsArc(ps->isArc());
+                    ls->setIsFastTraverse(ps->isFastTraverse());
+                    ls->setIsZMovement(ps->isZMovement());
+                    ls->setIsMetric(isMetric);
+                    ls->setIsAbsolute(ps->isAbsolute());
+                    ls->setSpeed(ps->getSpeed());
+                    ls->setSpindleSpeed(ps->getSpindleSpeed());
+                    ls->setDwell(ps->getDwell());
+                    ls->setModelStart(startPoint);
+                    ls->setModelEnd(nextPoint);
+                    ls->setAxesStart(*startAxes);
+                    ls->setAxesEnd(*endAxes);
+                    ls->setIndex(index);
+
+                    this->updateViewBounds(ls->getEnd());
+                    this->updateModelBounds(nextPoint);
+                    this->updateModelMinLineLength(startPoint, nextPoint);
+
+                    m_lines.append(ls);
+                    m_lineIndexes[ps->getLineNumber()].append(
+                        m_lines.count() - 1);
+
+                    startPoint = nextPoint;
+                    startRotation = endRotation;
+                }
+                lineIndex++;
+                index++;
             }
         }
         start = end;
+        startAxes = endAxes;
     }
 
     return m_lines;

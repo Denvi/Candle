@@ -631,10 +631,6 @@
 </translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation>Пропустить</translation>
-    </message>
-    <message>
         <source>G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</source>
         <translation>Файлы G-Code (*.nc *.ncc *.ngc *.tap *.txt *.gcode)</translation>
     </message>
@@ -829,6 +825,18 @@ Time elapsed: %1</source>
     <message>
         <source>Work</source>
         <translation>Рабочий</translation>
+    </message>
+    <message>
+        <source>A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A-</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1254,6 +1262,22 @@ Time elapsed: %1</source>
     <message>
         <source>(average char width)</source>
         <translation>(средняя ширина символа)</translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enable axis &apos;A&apos;</source>
+        <translation>Задействовать ось &apos;A&apos;</translation>
+    </message>
+    <message>
+        <source>direction:</source>
+        <translation>Направление:</translation>
     </message>
 </context>
 </TS>

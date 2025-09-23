@@ -13,43 +13,44 @@ table {
 
 # Program "Candle"
 
-## Table of contents
 [1 Purpose of the program](#1-purpose-of-the-program)  
 [2 Program requirements](#2-program-requirements)  
-&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Hardware requirements](#21-hardware-requirements)  
-&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Software requirements](#22-software-requirements)  
+[2.1 Hardware requirements](#21-hardware-requirements)  
+[2.2 Software requirements](#22-software-requirements)  
 [3 Program execution](#3-program-execution)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.1 Installation](#31-installation)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.2 Running](#32-running)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.3 Main window](#33-main-window)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.1 Main menu](#331-main-menu)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2 Windows](#332-windows)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.1 Window "G-code program"](#3321-window-g-code-program)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.2 Window "Visualizer"](#3322-window-visualizer)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.3 Window "Camera"](#3323-window-camera)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.4 Window "Console"](#3324-window-console)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.2.5 Windows "Device", "Modification", "User"](#3325-windows-device-modification-user)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3 Instrument panels](#333-instrument-panels)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.1 Panel "State"](#3331-panel-state)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.2 Panel "Control"](#3332-panel-control)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.3 Panel "Coordinate system"](#3333-panel-coordinate-system)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.4 Panel "Spindle"](#3334-panel-spindle)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.5 Panel "Jog"](#3335-panel-jog)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.6 Panel "Overriding"](#3336-panel-overriding)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.7 Panel "Heightmap"](#3337-panel-heightmap)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3.3.8 Panel "User commands"](#3338-panel-user-commands)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.4 Settings window](#34-settings-window)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.5 Preparing the program for operation](#35-preparing-the-program-for-operation)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.6 Loading the control program](#36-loading-the-control-program)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.7 Creating a height map](#37-creating-a-height-map)  
-&nbsp;&nbsp;&nbsp;&nbsp;[3.8 Executing the control program](#38-executing-the-control-program)  
+[3.1 Installation](#31-installation)  
+[3.2 Running](#32-running)  
+[3.3 Main window](#33-main-window)  
+[3.3.1 Main menu](#331-main-menu)  
+[3.3.2 Windows](#332-windows)  
+[3.3.2.1 Window "G-code program"](#3321-window-g-code-program)  
+[3.3.2.2 Window "Visualizer"](#3322-window-visualizer)  
+[3.3.2.3 Window "Camera"](#3323-window-camera)  
+[3.3.2.4 Window "Console"](#3324-window-console)  
+[3.3.2.5 Windows "Device", "Modification", "User"](#3325-windows-device-modification-user)  
+[3.3.3 Instrument panels](#333-instrument-panels)  
+[3.3.3.1 Panel "State"](#3331-panel-state)  
+[3.3.3.2 Panel "Control"](#3332-panel-control)  
+[3.3.3.3 Panel "Coordinate system"](#3333-panel-coordinate-system)  
+[3.3.3.4 Panel "Spindle"](#3334-panel-spindle)  
+[3.3.3.5 Panel "Jog"](#3335-panel-jog)  
+[3.3.3.6 Panel "Overriding"](#3336-panel-overriding)  
+[3.3.3.7 Panel "Heightmap"](#3337-panel-heightmap)  
+[3.3.3.8 Panel "User commands"](#3338-panel-user-commands)  
+[3.4 Settings window](#34-settings-window)  
+[3.5 Preparing the program for operation](#35-preparing-the-program-for-operation)  
+[3.6 Loading the control program](#36-loading-the-control-program)  
+[3.7 Creating a height map](#37-creating-a-height-map)  
+[3.8 Executing the control program](#38-executing-the-control-program)  
+[3.9 Shutting down the program](#39-shutting-down-the-program)  
 [4 Operator messages](#4-operator-messages)  
 [5 Extension development](#5-extension-development)  
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1 Extension configuration file](#51-extension-configuration-file)  
-&nbsp;&nbsp;&nbsp;&nbsp;[5.2 Script file](#52-script-file)  
-&nbsp;&nbsp;&nbsp;&nbsp;[5.3 Translation file](#53-translation-file)  
+[5.1 Extension configuration file](#51-extension-configuration-file)  
+[5.2 Script file](#52-script-file)  
+[5.3 Translation file](#53-translation-file)  
 [Appendix A: Controller settings](#appendix-a-controller-settings)  
-[Appendix B: G-code command table](#appendix-b-g-code-command-table)  
+[Appendix B: Controller errors](#appendix-b-controller-errors)  
+[Appendix C: G-code command table](#appendix-c-g-code-command-table)  
 
 
 # 1 Purpose of the program
@@ -551,23 +552,104 @@ Below is information about all available program settings: group, parameter, des
 
 ## 3.5 Preparing the program for operation
 
-Under development.
+Before working with the program, perform the following steps:
+
+- Launch the program.  
+- Connect and start the CNC machine.  
+- Configure the port and baud rate for connection to the CNC controller.  
+- Verify the connection to the controller. If the connection is correct, the **“Status”** field in the **“State”** panel should display **“Idle”**.  
+- Check the controller settings.
+
+To verify the settings, enter the command `$$` in the input field of the **“Console”** window and send it to the controller.  
+The correct operation of the program depends on the following settings (see [Appendix A: Controller settings](#appendix-a-controller-settings)):
+
+- `$5`, `$6` affect the homing and probe functions.  
+- `$10` must include the machine coordinate output in its mask; a working value example is `1`.  
+- `$22` determines whether limit switches are used during homing; a working value example is `1`.  
+- `$23` sets the direction of axis movement during homing.  
+- `$30`, `$31` set the spindle speed range and may correspond to the **“Spindle speed min”**, **“Spindle speed max”** settings in the program.  
+- `$100`…`$102` define the actual axis travel per commanded unit.  
+- `$110`…`$112` – maximum axis travel speeds.  
+- `$120`…`$122` – axis acceleration values.  
+- `$130`…`$132` define the work area size; used in jogging commands.
+
+To set new values, send commands of the form `$CODE=VALUE` to the controller, e.g. `$10=1`.  
+After changing controller settings, it is recommended to reset the controller by pressing the **“Reset”** button on the **“Control”** panel.
 
 ## 3.6 Loading the control program
 
-Under development.
+As an example we will use the PCB track-milling G-code (see file **“level_shifter.gcode”** in folder **“doc/programexamples”**), because it touches most of the program’s features.
+
+Load the G-code via the **“Open”** command in the **“File”** menu or by clicking the **“Open”** button in the **“G-code program”** window. After selecting the file and confirming, the **“Visualizer”** window will show the toolpath, machining boundaries, and estimated runtime.
+
+Preparation for running the G-code includes:
+
+- Clamping the workpiece on the table (for milling it is usually placed on a **“sacrificial”** table).  
+- Homing the machine (**“Home”** button on the **“Control”** panel).  
+- Installing the tool.  
+- Setting the work coordinate system zero.
+
+Use the **“Jog”** panel buttons to position the tool at the desired X and Y zero point on the workpiece, then zero the work coordinates for X and Y.
+
+Note: you can zero the work zero either with the axis-zero buttons on the **“User Commands”** panel or on the **“Coordinate System”** panel.  
+- With **“User Commands”**, work coordinates are **NOT** restored after a controller reset or emergency stop.  
+- With **“Coordinate System”**, values are stored in non-volatile memory and survive power cycles.  
+
+The user decides, but it is recommended to use the **“Coordinate System”** panel for X and Y; for Z you may use **“User Commands”**, because Z depends on the current tool length and is usually set immediately before running the G-code.
+
+Set the Z work zero manually (as with X and Y) or by using the probe command on the **“User Commands”** panel. Connect and configure the probe according to the CNC machine manual.
 
 ## 3.7 Creating a height map
 
-Under development.
+Because PCB milling is performed at depths of a few hundredths of a millimetre, it is recommended to first scan the surface irregularities and modify the original G-code accordingly.
+
+Required steps:
+
+- Make sure the Z work zero is on the surface of the workpiece.  
+- Click the **“Create”** button on the **“Heightmap”** panel.  
+- Click **“Auto”** to set the map boundaries; ensure the G-code stays within them.  
+- Define the height-map reference point. You will have to re-zero Z at this exact point before running the G-code. If several G-codes are used for one workpiece, make sure this point remains probe-accessible after intermediate operations.  
+- Configure the probing grid: set the number of probe points (e.g. 3 × 4), safe Z height (Zt = 5), probe depth (Zb = –1), and feed rate (F = 50).  
+- Configure the interpolation grid; values should be at least 10× the number of probe points. This affects machining accuracy on the workpiece surface.  
+- Press the **“Probe”** button in the **“Heightmap”** window and wait for the probing to finish.  
+- If several G-codes are used for the same workpiece, save the map via **“File ▸ Save”** while the height-map editor is open. For subsequent G-codes load the saved map with the **“Open”** button on the **“Heightmap”** panel.  
+- Press **“Edit”** on the **“Heightmap”** panel to exit the editor.  
+- Enable the **“Use heightmap”** flag to modify the G-code.  
+- Set the Z work zero for the obtained height map: raise the tool to a safe height, press **“Origin”** on the **“Heightmap”** panel to move to the reference XY point, then set Z manually or with the probe command from **“User Commands”**.
 
 ## 3.8 Executing the control program
 
-Under development.
+Start execution by pressing the **“Send”** button in the **“G-code program”** window.
 
-# 4 Operator messages
+After clicking **“Send”**, the **“State”** panel should show **“Run”**.
 
-Under development.
+When finished, a message window will appear.
+
+During execution the following commands are available:
+
+- **“Pause”** in the **“G-code program”** window – pauses sending G-code to the controller.  
+- **“Abort”** in the same window – stops sending G-code to the controller.  
+- **“Hold”** on the **“Control”** panel – instantly pauses command execution by the controller (unlike **“Pause”**). While on hold, the **“Spindle on/off”** button on the **“Spindle”** panel is also available. Resume by pressing **“Hold”** again.  
+- **“Reset”** on the **“Control”** panel – instantly stops command execution and halts G-code transmission.  
+- Feed-rate, rapid-traverse, and spindle-speed override via the **“Overriding”** panel.
+
+## 3.9 Shutting down the program
+
+To exit the program:
+
+- Ensure no G-code is being sent to the controller.  
+- Power off the machine.  
+- Close the program via **“File ▸ Exit”** or any other window-manager means.
+
+# 4 Operator Messages
+
+During operation the program may show pop-up messages to the operator:
+
+- End-of-program window with runtime info and an OK button.  
+- G-code transmission-error window with **“Skip”** (continue) and **“Abort”** buttons.  
+- Warning on attempting to close the program while G-code is still being transmitted.  
+- Confirmation window when sending parser-setup commands after a long-press of the **“Send”** button in the **“G-code program”** window, if the option **“Automatically set parser state before sending from selected line”** is enabled in program settings.  
+- Other auxiliary dialogs.
 
 # 5 Extension development
 
@@ -624,82 +706,117 @@ All names and signatures are kept identical; only the descriptions are translate
 
 ### 5.2.1 Global objects
 
-| Object | Property/Method          | Type         | Arguments                          | Return Value | Description |
-|--------|--------------------------|--------------|------------------------------------|--------------|-------------|
-| `app`  | `sendCommand(command, index)` | Function | command string, optional index     | –            | Sends a single G‑code command to the CNC controller; negative index values are ignored if `<‑99`. |
-|        | `sendCommands(commands, index)` | Function | array of commands, optional index | –            | Sends an array of commands as a single string separated by “\n”. |
-|        | `addAction(action)`      | Function | `QAction` object                 | –            | Adds an action to the application; shortcuts can be attached. |
-|        | `removeAction(action)`   | Function | `QAction` object                 | –            | Removes a previously added action. |
-|        | `buttonSize()`           | Function | –                                  | size          | Returns standard button size for program panels. |
-|        | `responseReceived(command, index, response)` | Signal  | command string, index, response string | – | Emitted when the controller replies to a sent command. |
-|        | `statusReceived(status)` | Signal   | status string                      | –            | Emitted when a “?” status is received from the controller. |
-|        | `senderStateChanged(state)` | Signal  | state integer                     | –            | Sent when the program’s sending state changes (see Table 7). |
-|        | `deviceStateChanged(state)` | Signal  | state integer                     | –            | Sent when the CNC controller state changes (see Table 8). |
-|        | `settingsAboutToLoad()`  | Signal   | –                                  | –            | Before settings are loaded. |
-|        | `settingsLoaded()`       | Signal   | –                                  | –            | After settings have been loaded. |
-|        | `settingsAboutToSave()`  | Signal   | –                                  | –            | Before settings are saved. |
-|        | `settingsSaved()`        | Signal   | –                                  | –            | After settings have been written to disk. |
-|        | `settingsAboutToShow()`  | Signal   | –                                  | –            | Right before the Settings dialog is shown. |
-|        | `settingsAccepted()`     | Signal   | –                                  | –            | When user accepts changes in the Settings dialog. |
-|        | `settingsRejected()`     | Signal   | –                                  | –            | When user cancels changes in the Settings dialog. |
-|        | `settingsSetByDefault()` | Signal   | –                                  | –            | When settings are reset to default values. |
-|        | `pluginsLoaded()`        | Signal   | –                                  | –            | After all extensions have been loaded. |
-|        | `settings`               | Object     | –                                  | –            | The global settings object (see below). |
-|        | `path`                   | Value      | –                                  | –            | Absolute installation path of the program. |
-| `app.settings` | `port`                 | Value       | –                                 | –            | “Connection – Port” setting. |
-|                | `baud`                  | Value       | –                                 | –            | “Connection – Baud”. |
-|                | `queryStateTime`         | Value       | –                                 | –            | “Connection – Status query period”. |
-|                | `spindleSpeedMin`        | Value       | –                                 | –            | “Machine information – Spindle speed min”. |
-|                | `spindleSpeedMax`        | Value       | –                                 | –            | “Machine information – Spindle speed max”. |
-|                | `laserPowerMin`          | Value       | –                                 | –            | “Machine information – Laser power min”. |
-|                | `laserPowerMax`          | Value       | –                                 | –            | “Machine information – Laser power max”. |
-|                | `arcLength`              | Value       | –                                 | –            | “Arc approximation segments size – by length”. |
-|                | `arcDegree`              | Value       | –                                 | –            | “Arc approximation segments – by angle”. |
-|                | `arcDegreeMode`          | Value       | –                                 | –            | Arc approximation segments ‑ by angle mode toggle. |
-|                | `startCommands`          | Value       | –                                 | –            | “Sender – Use program start commands”. |
-|                | `endCommands`            | Value       | –                                 | –            | “Sender – Use program end commands”. |
-|                | `toolChangeCommands`     | Value       | –                                 | –            | “Sender – Use tool change commands”. |
-|                | `ignoreErrors`           | Value       | –                                 | –            | “Sender – Ignore error responses”. |
-|                | `autoLine`               | Value       | –                                 | –            | “Sender – Automatically set parser state before sending from selected line”. |
-|                | `pauseToolChange`        | Value       | –                                 | –            | “Sender – Pause sender on M6 command. |
-|                | `lineWidth`              | Value       | –                                 | –            | “Visualizer – Line width”. |
-|                | `antialiasing`           | Value       | –                                 | –            | “Visualizer – Smoothing”. |
-|                | `msaa`                   | Value       | –                                 | –            | “Visualizer – MSAA”. |
-|                | `fps`                    | Value       | –                                 | –            | “Visualizer – FPS lock”. |
-|                | `vsync`                  | Value       | –                                 | –            | “Visualizer – V‑Sync”. |
-|                | `zBuffer`                | Value       | –                                 | –            | “Visualizer – Z‑buffer”. |
-|                | `drawModeVectors`        | Value       | –                                 | –            | “Visualizer – Program draw mode” (0 raster, 1 vectors). |
-|                | `simplify`               | Value       | –                                 | –            | “Visualizer – Simplify geometry”. |
-|                | `simplifyPrecision`      | Value       | –                                 | –            | “Visualizer – Simplify geometry - Precision”. |
-|                | `grayscaleSegments`      | Value       | –                                 | –            | “Visualizer – Grayscale segments”. |
-|                | `grayscaleSCode`         | Value       | –                                 | –            | “Visualizer – Grayscale segments - By 'S'‑code”. |
-|                | `toolType`               | Value       | –                                 | –            | “Tool model – Type” (0 flat, 1 conic). |
-|                | `toolAngle`              | Value       | –                                 | –            | “Tool model – Angle”. |
-|                | `toolDiameter`           | Value       | –                                 | –            | “Tool model – Diameter”. |
-|                | `toolLength`             | Value       | –                                 | –            | “Tool model – Length”. |
-|                | `showProgramCommands`    | Value       | –                                 | –            | “Console – Show G‑code program commands”. |
-|                | `showUICommands`         | Value       | –                                 | –            | “Console – Show UI commands”. |
-|                | `autoCompletion`         | Value       | –                                 | –            | “Console – Command auto‑completion”. |
-|                | `fontSize`               | Value       | –                                 | –            | “User interface – Font size”. |
-|                | `language`               | Value       | –                                 | –            | “User interface – Language” (ISO 639‑1). |
-|                | `units`                  | Value       | –                                 | –            | CNC units (0 metric, 1 imperial). |
-|                | `rapidSpeed`             | Value       | –                                 | –            | Rapid movement speed. |
-|                | `acceleration`           | Value       | –                                 | –            | Acceleration. |
-|                | `machineBounds`          | Value       | –                                 | –            | CNC movement bounds. |
-|                | `homingEnabled`          | Value       | –                                 | –            | Homing enabled flag. |
-|                | `softLimitsEnabled`      | Value       | –                                 | –            | Soft limits enabled flag. |
-| **vars** | `Mx`, `My`, `Mz`           | Value        | –                                  | –            | Current machine coordinates X/Y/Z. |
-|          | `Wx`, `Wy`, `Wz`           | Value        | –                                  | –            | Current workpiece coordinates X/Y/Z. |
-|          | `G54x`, …, `G59z`          | Value        | –                                  | –            | Coordinate‑system offsets for G54–G59. |
-|          | `CS`                       | Value        | –                                  | –            | Current coordinate system string (“G54”…“G59”). |
-|          | `x`, `y`, `z`              | Value        | –                                  | –            | Offset of current system’s X/Y/Z. |
-|          | `G92x`, …, `G92z`           | Value        | –                                  | –            | Workpiece offsets. |
-|          | `G28x`, …, `G30z`           | Value        | –                                  | –            | Saved positions for G28/G30 commands. |
-|          | `TLOx`, …, `TLOz`           | Value        | –                                  | –            | Tool‑offsets X/Y/Z. |
-|          | `PRBx`, `PRBy`, `PRBz`      | Value        | –                                  | –            | Probe contact coordinates. |
-|          | `tool`                     | Value        | –                                  | –            | Current tool number. |
-| `script`  | `importExtension(name)`   | Function    | extension name string              | –            | Loads another JavaScript extension; the list of available extensions is in Table 9. |
-|          | `path`                    | Value        | –                                 | –            | Absolute path to this extension folder. |
+| Object              | Property/Method          | Type     | Arguments             | Return Value     | Description                                                                         |
+|---------------------|--------------------------|----------|-----------------------|------------------|-------------------------------------------------------------------------------------|
+| `app`               | `addAction(action)`      | Function | `QAction` object      | –                | Adds an action to the application; shortcuts can be attached.                       |
+|                     | `removeAction(action)`   | Function | `QAction` object      | –                | Removes a previously added action.                                                  |
+|                     | `newFile()`              | Function | –                     | –                | Creates a new G-code program.                                                       |
+|                     | `loadFile(fileName)`     | Function | file name string      | –                | Loads a G-code program from a file.                                                 |
+|                     | `loadFile(commands)`     | Function | array of commands     | –                | Loads a G-code program from a list of commands.                                     |
+|                     | `saveFile()`             | Function | –                     | –                | Saves the current G-code program.                                                   |
+|                     | `saveFile(fileName)`     | Function | file name string      | –                | Saves the G-code program to the specified file.                                     |
+|                     | `buttonSize`             | Value    | –                     | -                | Standard button size for program panels.                                            |
+|                     | `dataLocation`           | Value    | –                     | –                | Application data directory path.                                                    |
+|                     | `profileName`            | Value    | –                     | –                | Name of the active settings profile.                                                |
+|                     | `path`                   | Value    | –                     | –                | Absolute installation path of the program.                                          |
+|                     | `device`                 | Object   | –                     | –                | Object for interacting with the CNC controller.                                     |
+|                     | `program`                | Object   | –                     | –                | Object for working with the loaded G-code program.                                  |
+|                     | `sender`                 | Object   | –                     | –                | Object controlling the sending of the G-code program to the CNC controller.         |
+|                     | `storage`                | Object   | –                     | –                | Object for working with persistent data storage.                                    |
+|                     | `window`                 | Object   | –                     | –                | Main application window object.                                                     |
+|                     | `settingsAboutToLoad()`  | Signal   | –                     | –                | Before settings are loaded.                                                         |
+|                     | `settingsLoaded()`       | Signal   | –                     | –                | After settings have been loaded.                                                    |
+|                     | `settingsAboutToSave()`  | Signal   | –                     | –                | Before settings are saved.                                                          |
+|                     | `settingsSaved()`        | Signal   | –                     | –                | After settings have been written to disk.                                           |
+|                     | `settingsAboutToShow()`  | Signal   | –                     | –                | Right before the Settings dialog is shown.                                          |
+|                     | `settingsAccepted()`     | Signal   | –                     | –                | When user accepts changes in the Settings dialog.                                   |
+|                     | `settingsRejected()`     | Signal   | –                     | –                | When user cancels changes in the Settings dialog.                                   |
+|                     | `settingsSetByDefault()` | Signal   | –                     | –                | When settings are reset to default values.                                          |
+|                     | `pluginsLoaded()`        | Signal   | –                     | –                | After all extensions have been loaded.                                              |
+|                     | `settings`               | Object   | –                     | –                | The global settings object (see below).                                             |
+| `app.device`        | `storeParserState()`     | Function | –                     | –                | Saves the current parser state.                                                     |
+|                     | `restoreParserState()`   | Function | –                     | –                | Restores the previously saved parser state.                                         |
+|                     | `waitResponses()`        | Function | –                     | –                | Waits for all previously sent commands to be acknowledged by the controller.        |
+|                     | `bufferLength`           | Value    | –                     | –                | Total size of commands currently in the controller buffer.                          |
+|                     | `commandLength`          | Value    | –                     | –                | Number of commands currently in the controller buffer.                              |
+|                     | `queueLength`            | Value    | –                     | –                | Number of commands queued for sending to the controller.                            |
+|                     | `machine`                | Value    | –                     | –                | Current machine coordinates.                                                        |
+|                     | `probe`                  | Value    | –                     | –                | Last received probe contact coordinates.                                            |
+|                     | `state`                  | Value    | –                     | –                | Current CNC controller state.                                                       |
+|                     | `work`                   | Value    | –                     | –                | Current work coordinates.                                                           |
+|                     | `stateChanged`           | Signal   | State                 | –                | Current CNC controller state changed.                                               |
+| `app.program`       | `lowerBounds`            | Value    | –                     | –                | Lower bounds of the loaded program.                                                 |
+|                     | `upperBounds`            | Value    | –                     | –                | Upper bounds of the loaded program.                                                 |
+| `app.sender`        | `state`                  | Value    | –                     | –                | Current state of the program sender.                                                |
+|                     | `stateChanged`           | Signal   | State                 | –                | Sender state changed.                                                               |
+| `app.settings`      | `port`                   | Value    | –                     | –                | “Connection – Port” setting.                                                        |
+|                     | `baud`                   | Value    | –                     | –                | “Connection – Baud”.                                                                |
+|                     | `queryStateTime`         | Value    | –                     | –                | “Connection – Status query period”.                                                 |
+|                     | `spindleSpeedMin`        | Value    | –                     | –                | “Machine information – Spindle speed min”.                                          |
+|                     | `spindleSpeedMax`        | Value    | –                     | –                | “Machine information – Spindle speed max”.                                          |
+|                     | `laserPowerMin`          | Value    | –                     | –                | “Machine information – Laser power min”.                                            |
+|                     | `laserPowerMax`          | Value    | –                     | –                | “Machine information – Laser power max”.                                            |
+|                     | `axisAEnabled`           | Value    | –                     | –                | “Machine information – Enable A-axis” setting.                                      |
+|                     | `axisAX`                 | Value    | –                     | –                | “Machine information – A-axis direction – X” setting.                               |
+|                     | `arcLength`              | Value    | –                     | –                | “Arc approximation segments size – by length”.                                      |
+|                     | `arcDegree`              | Value    | –                     | –                | “Arc approximation segments – by angle”.                                            |
+|                     | `arcDegreeMode`          | Value    | –                     | –                | Arc approximation segments ‑ by angle mode toggle.                                  |
+|                     | `startCommands`          | Value    | –                     | –                | “Sender – Use program start commands”.                                              |
+|                     | `endCommands`            | Value    | –                     | –                | “Sender – Use program end commands”.                                                |
+|                     | `toolChangeCommands`     | Value    | –                     | –                | “Sender – Use tool change commands”.                                                |
+|                     | `ignoreErrors`           | Value    | –                     | –                | “Sender – Ignore error responses”.                                                  |
+|                     | `autoLine`               | Value    | –                     | –                | “Sender – Automatically set parser state before sending from selected line”.        |
+|                     | `pauseToolChange`        | Value    | –                     | –                | “Sender – Pause sender on M6 command.                                               |
+|                     | `lineWidth`              | Value    | –                     | –                | “Visualizer – Line width”.                                                          |
+|                     | `antialiasing`           | Value    | –                     | –                | “Visualizer – Smoothing”.                                                           |
+|                     | `msaa`                   | Value    | –                     | –                | “Visualizer – MSAA”.                                                                |
+|                     | `fps`                    | Value    | –                     | –                | “Visualizer – FPS lock”.                                                            |
+|                     | `vsync`                  | Value    | –                     | –                | “Visualizer – V‑Sync”.                                                              |
+|                     | `zBuffer`                | Value    | –                     | –                | “Visualizer – Z‑buffer”.                                                            |
+|                     | `drawModeVectors`        | Value    | –                     | –                | “Visualizer – Program draw mode” (0 raster, 1 vectors).                             |
+|                     | `simplify`               | Value    | –                     | –                | “Visualizer – Simplify geometry”.                                                   |
+|                     | `simplifyPrecision`      | Value    | –                     | –                | “Visualizer – Simplify geometry - Precision”.                                       |
+|                     | `grayscaleSegments`      | Value    | –                     | –                | “Visualizer – Grayscale segments”.                                                  |
+|                     | `grayscaleSCode`         | Value    | –                     | –                | “Visualizer – Grayscale segments - By 'S'‑code”.                                    |
+|                     | `toolType`               | Value    | –                     | –                | “Tool model – Type” (0 flat, 1 conic).                                              |
+|                     | `toolAngle`              | Value    | –                     | –                | “Tool model – Angle”.                                                               |
+|                     | `toolDiameter`           | Value    | –                     | –                | “Tool model – Diameter”.                                                            |
+|                     | `toolLength`             | Value    | –                     | –                | “Tool model – Length”.                                                              |
+|                     | `showProgramCommands`    | Value    | –                     | –                | “Console – Show G‑code program commands”.                                           |
+|                     | `showUICommands`         | Value    | –                     | –                | “Console – Show UI commands”.                                                       |
+|                     | `autoCompletion`         | Value    | –                     | –                | “Console – Command auto‑completion”.                                                |
+|                     | `fontSize`               | Value    | –                     | –                | “User interface – Font size”.                                                       |
+|                     | `language`               | Value    | –                     | –                | “User interface – Language” (ISO 639‑1).                                            |
+|                     | `units`                  | Value    | –                     | –                | CNC units (0 metric, 1 imperial).                                                   |
+|                     | `rapidSpeed`             | Value    | –                     | –                | Rapid movement speed.                                                               |
+|                     | `acceleration`           | Value    | –                     | –                | Acceleration.                                                                       |
+|                     | `machineBounds`          | Value    | –                     | –                | CNC movement bounds.                                                                |
+|                     | `homingEnabled`          | Value    | –                     | –                | Homing enabled flag.                                                                |
+|                     | `softLimitsEnabled`      | Value    | –                     | –                | Soft limits enabled flag.                                                           |
+| `app.storage`       | `group(key)`             | Function | group key string      | group object     | Returns a data group object from storage by key.                                    |
+|                     | `setValue(key, value)`   | Function | key string, value     | –                | Stores a value under the given full key.                                            |
+|                     | `value(key)`             | Function | key string            | value            | Retrieves a value by full key.                                                      |
+|                     | `contains(key)`          | Function | key string            | boolean          | Checks whether a value exists for the given full key.                               |
+|                     | `remove(key)`            | Function | key string            | –                | Removes the value associated with the full key.                                     |
+| `app.storage.group` | `group(key)`             | Function | sub-group key string  | group object     | Returns a sub-group object.                                                         |
+|                     | `setValue(key, value)`   | Function | key string, value     | –                | Stores a value under the given key within the group.                                |
+|                     | `value(key)`             | Function | key string            | value            | Retrieves a value by key within the group.                                          |
+|                     | `contains(key)`          | Function | key string            | boolean          | Checks whether a key exists within the group.                                       |
+|                     | `remove(key)`            | Function | key string            | –                | Removes the key-value pair within the group.                                        |
+|                     | `childKeys()`            | Function | –                     | array of strings | Returns all keys directly under this group.                                         |
+|                     | `childGroups()`          | Function | –                     | array of strings | Returns all sub-group names under this group.                                       |
+| **vars**            | `Mx`, `My`, `Mz`         | Value    | –                     | –                | Current machine coordinates X/Y/Z.                                                  |
+|                     | `Wx`, `Wy`, `Wz`         | Value    | –                     | –                | Current workpiece coordinates X/Y/Z.                                                |
+|                     | `G54x`, …, `G59z`        | Value    | –                     | –                | Coordinate‑system offsets for G54–G59.                                              |
+|                     | `CS`                     | Value    | –                     | –                | Current coordinate system string (“G54”…“G59”).                                     |
+|                     | `x`, `y`, `z`            | Value    | –                     | –                | Offset of current system’s X/Y/Z.                                                   |
+|                     | `G92x`, …, `G92z`        | Value    | –                     | –                | Workpiece offsets.                                                                  |
+|                     | `G28x`, …, `G30z`        | Value    | –                     | –                | Saved positions for G28/G30 commands.                                               |
+|                     | `TLOx`, …, `TLOz`        | Value    | –                     | –                | Tool‑offsets X/Y/Z.                                                                 |
+|                     | `PRBx`, `PRBy`, `PRBz`   | Value    | –                     | –                | Probe contact coordinates.                                                          |
+|                     | `tool`                   | Value    | –                     | –                | Current tool number.                                                                |
+| `script`            | `importExtension(name)`  | Function | extension name string | –                | Loads another JavaScript extension; the list of available extensions is in Table 9. |
+|                     | `path`                   | Value    | –                     | –                | Absolute path to this extension folder.                                             |
 
 ### 5.2.2 Sending‑state enumerations (Table 7)
 
@@ -828,7 +945,46 @@ For details on creating translation files, see the Qt documentation:
 | 131  | Max Y travel from home                                               |              | `200`         |
 | 132  | Max Z travel from home                                               |              | `200`         |
 
-# Appendix B: G-code command table
+# Appendix B: Controller errors
+
+| Error Code | Name                          | Description                                                                                   |
+|------------|-------------------------------|-----------------------------------------------------------------------------------------------|
+| 1          | Expected G-code word          | Grbl expected a valid command (like G1, M3, etc.) but didn't find one. This is often due to a blank or malformed line |
+| 2          | Bad number format             | A number in the command was invalid or improperly formatted                                 |
+| 3          | Invalid statement             | The line contains an unknown or unsupported command                                         |
+| 4          | Negative value                | A negative value was used where it isn't allowed, such as a feed rate or spindle speed       |
+| 5          | Homing not enabled            | A homing cycle ($H) was requested but homing is not enabled in the settings                 |
+| 6          | Minimum step pulse time violated | A step pulse was issued faster than the configured minimum time ($0)                        |
+| 7          | EEPROM read fail              | Grbl could not read its settings from EEPROM. May indicate hardware issues                  |
+| 8          | Not idle                      | A command was issued that requires the machine to be idle, but motion or another operation is in progress |
+| 9          | G-code lockout                | A G-code command was blocked due to machine state. Common after a reset or alarm            |
+| 10         | Homing not set                | The machine requires homing to establish its position before executing the command          |
+| 11         | Line overflow                 | A G-code line was too long for Grbl’s internal buffer. Shorten your lines                   |
+| 12         | Step rate too high            | Grbl could not generate step pulses fast enough for the commanded movement                  |
+| 13         | Safety door open              | A command was blocked because the safety door is open                                       |
+| 14         | Build info overflow           | The build info string exceeded the allowed character limit                                  |
+| 15         | Setting disabled              | A command depends on a setting (like homing or soft limits) that is disabled                |
+| 16         | Negative value in settings    | A setting value was set to a negative number, which is invalid                              |
+| 17         | Invalid jog command           | A jog command is improperly formatted or unsupported                                        |
+| 20         | Unsupported command           | The command is not supported by Grbl’s G-code parser                                        |
+| 21         | Modal group violation         | Two conflicting commands from the same modal group (e.g. two motion modes) were used together |
+| 22         | Undefined feed rate           | A motion command was issued without a feed rate being set                                   |
+| 23         | Axis command conflict         | Two axis words used inappropriately together, such as in arcs or jogs                       |
+| 24         | Invalid target                | The target position is invalid — for example, in an arc that can’t be generated             |
+| 25         | Invalid arc radius            | Arc command contains a radius value that doesn't make geometric sense                       |
+| 26         | Invalid G-code word           | A word was used in the wrong context or is not allowed for the active command               |
+| 27         | Invalid line number           | A line number was used incorrectly or exceeds limits                                        |
+| 28         | Value word repeated           | A G-code word was used more than once on the same line                                      |
+| 29         | G59.x WCS error               | A G59.1, G59.2, or G59.3 work coordinate system was used but isn’t supported                |
+| 30         | G53 with offset               | G53 motion cannot be used with G54–G59 offsets                                              |
+| 31         | Invalid real value            | A floating-point value is invalid (e.g. NaN, too many decimal places, etc.)                 |
+| 32         | Arc axis missing              | An arc command is missing a required axis word                                              |
+| 33         | Arc format error              | Arc command has incorrect or conflicting data (e.g., missing radius and offset)             |
+| 34         | No axis word in motion        | A motion command was issued without specifying any axis to move                             |
+| 35         | G2/G3 not allowed             | Arc motions (G2/G3) are not allowed in certain states, like jogging                         |
+| 36         | Unused words                  | Extra G-code words were found that don’t apply to the current command                       |
+
+# Appendix C: G-code command table
 
 | Command | Description                                                   | Example                                   |
 |---------|---------------------------------------------------------------|-------------------------------------------|

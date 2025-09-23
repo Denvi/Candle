@@ -27,6 +27,10 @@
         <translation>Обнулить Z</translation>
     </message>
     <message>
+        <source>Zero A</source>
+        <translation>Обнулить A</translation>
+    </message>
+    <message>
         <source>Zero All</source>
         <translation>Обнулить все</translation>
     </message>

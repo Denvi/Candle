@@ -3,6 +3,9 @@
 #include <QMimeData>
 #include <QFontDatabase>
 #include <QTextBlock>
+#include <QAbstractItemView>
+#include <QStringListModel>
+#include <QScrollBar>
 
 ScriptEdit::ScriptEdit(QWidget *parent)
     : QTextEdit(parent)
@@ -11,6 +14,15 @@ ScriptEdit::ScriptEdit(QWidget *parent)
     setTabStopDistance(fontMetrics.horizontalAdvance(' ') * 4);
 
     m_highlighter = new JSHighlighter(document());
+
+    m_completer = new QCompleter(this);
+    m_completer->setWidget(this);
+    m_completer->setCompletionMode(QCompleter::PopupCompletion);
+    m_completer->setCaseSensitivity(Qt::CaseSensitive);
+    m_completer->setWrapAround(false);
+    m_completer->setModel(new QStringListModel(m_apiEntries));
+
+    connect(m_completer, QOverload<const QString&>::of(&QCompleter::activated), this, &ScriptEdit::insertCompletion);
 }
 
 ScriptEdit::ScriptEdit(const QString& text, QWidget *parent)
@@ -19,20 +31,87 @@ ScriptEdit::ScriptEdit(const QString& text, QWidget *parent)
     setText(text);
 }
 
-void ScriptEdit::keyPressEvent(QKeyEvent *event)
+void ScriptEdit::keyPressEvent(QKeyEvent *e)
 {
-    if (event->key() == Qt::Key_Tab) {
+    if (m_completer && m_completer->popup()->isVisible()) {
+        // The following keys are forwarded by the completer to the widget
+       switch (e->key()) {
+       case Qt::Key_Enter:
+       case Qt::Key_Return:
+       case Qt::Key_Escape:
+       case Qt::Key_Tab:
+       case Qt::Key_Backtab:
+            e->ignore();
+            return; // let the completer do default behavior
+       default:
+           break;
+       }
+    }
+
+    if (e->key() == Qt::Key_Tab) {
         handleTabKey();
     }
-    else if (event->key() == Qt::Key_Backtab) {
+    else if (e->key() == Qt::Key_Backtab) {
         handleBackTabKey();
     }
-    else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+    else if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         handleEnterKey();
     }
     else {
-        QTextEdit::keyPressEvent(event);
+        QTextEdit::keyPressEvent(e);
     }
+
+    const bool ctrlOrShift = e->modifiers().testFlag(Qt::ControlModifier) || e->modifiers().testFlag(Qt::ShiftModifier);
+    if ((ctrlOrShift && e->text().isEmpty()))
+        return;
+
+    auto forbiddenKeys = QList<int> { Qt::Key_Tab, Qt::Key_Backtab, Qt::Key_Return, Qt::Key_Enter, Qt::Key_Delete,
+        Qt::Key_Backspace, Qt::Key_Space };
+    if (forbiddenKeys.contains(e->key()))
+        return;
+
+    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
+    const bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+    QString completionPrefix = textUnderCursor();
+    if ((hasModifier || e->text().isEmpty()|| completionPrefix.length() < 1 || eow.contains(e->text().right(1)))) {
+        m_completer->popup()->hide();
+        return;
+    }
+
+    if (completionPrefix != m_completer->completionPrefix()) {
+        m_completer->setCompletionPrefix(completionPrefix);
+        m_completer->popup()->setCurrentIndex(m_completer->completionModel()->index(0, 0));
+    }
+
+    QRect cr = cursorRect();
+    cr.setWidth(m_completer->popup()->sizeHintForColumn(0) + m_completer->popup()->verticalScrollBar()->sizeHint().width());
+    m_completer->complete(cr);
+}
+
+void ScriptEdit::focusInEvent(QFocusEvent *e)
+{
+    if (m_completer)
+        m_completer->setWidget(this);
+    QTextEdit::focusInEvent(e);
+}
+
+void ScriptEdit::insertFromMimeData(const QMimeData *source)
+{
+    if (source->hasText()) {
+        insertPlainText(source->text());
+    }
+}
+
+void ScriptEdit::insertCompletion(const QString &completion)
+{
+    if (m_completer->widget() != this)
+        return;
+    QTextCursor tc = textCursor();
+    int extra = completion.length() - m_completer->completionPrefix().length();
+    tc.movePosition(QTextCursor::Left);
+    tc.movePosition(QTextCursor::EndOfWord);
+    tc.insertText(completion.right(extra));
+    setTextCursor(tc);
 }
 
 void ScriptEdit::handleTabKey()
@@ -199,9 +278,9 @@ void ScriptEdit::handleEnterKey()
     }
 }
 
-void ScriptEdit::insertFromMimeData(const QMimeData *source)
+QString ScriptEdit::textUnderCursor() const
 {
-    if (source->hasText()) {
-        insertPlainText(source->text());
-    }
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+    return tc.selectedText();
 }

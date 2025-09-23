@@ -25,7 +25,7 @@ PointSegment::PointSegment()
     m_plane = XY;
 }
 
-PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->getLineNumber())
+PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->axes(), ps->getLineNumber())
 {
     this->m_toolhead = ps->getToolhead();
     this->m_speed = ps->getSpeed();
@@ -44,14 +44,15 @@ PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->get
     }
 }
 
-PointSegment::PointSegment(const QVector3D *point, int num) : PointSegment()
+PointSegment::PointSegment(const QVector3D *point, const QVector3D *axes, int num) : PointSegment()
 {
     this->m_point = new QVector3D(point->x(), point->y(), point->z());
+    this->m_axes = new QVector3D(*axes);
     this->m_lineNumber = num;
 }
 
-PointSegment::PointSegment(QVector3D *point, int num, QVector3D *center, double radius,
-    bool clockwise) : PointSegment(point, num)
+PointSegment::PointSegment(QVector3D *point, QVector3D *axes, int num, QVector3D *center, double radius,
+    bool clockwise) : PointSegment(point, axes, num)
 {
     this->m_isArc = true;
     this->m_arcProperties = new ArcProperties();
@@ -66,6 +67,7 @@ PointSegment::~PointSegment()
     if (this->m_arcProperties != NULL && this->m_arcProperties->center != NULL) delete this->m_arcProperties->center;
     if (this->m_arcProperties != NULL) delete this->m_arcProperties;
     if (this->m_point != NULL) delete this->m_point;
+    if (this->m_axes != NULL) delete this->m_axes;
 }
 
 void PointSegment::setPoint(QVector3D point) {
@@ -75,6 +77,16 @@ void PointSegment::setPoint(QVector3D point) {
 QVector3D *PointSegment::point()
 {
     return m_point;
+}
+
+void PointSegment::setAxes(QVector3D axes)
+{
+    this->m_axes = new QVector3D(axes);
+}
+
+QVector3D *PointSegment::axes()
+{
+    return m_axes;
 }
 
 QVector<double> PointSegment::points()

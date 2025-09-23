@@ -54,6 +54,8 @@ LineSegment::LineSegment(LineSegment* initial)
     m_isAbsolute = initial->isAbsolute();
     m_isHightlight = initial->isHightlight();
     m_vertexIndex = initial->vertexIndex();
+    m_axesStart = initial->axesStart();
+    m_axesEnd = initial->axesEnd();
     m_modelStart = initial->modelStart();
     m_modelEnd = initial->modelEnd();
     m_index = initial->index();
@@ -125,6 +127,26 @@ const QVector3D &LineSegment::modelEnd() const
 void LineSegment::setModelEnd(const QVector3D &modelEnd)
 {
     m_modelEnd = modelEnd;
+}
+
+const QVector3D &LineSegment::axesStart() const
+{
+    return m_axesStart;
+}
+
+void LineSegment::setAxesStart(const QVector3D &axesStart)
+{
+    m_axesStart = axesStart;
+}
+
+const QVector3D &LineSegment::axesEnd() const
+{
+    return m_axesEnd;
+}
+
+void LineSegment::setAxesEnd(const QVector3D &axesEnd)
+{
+    m_axesEnd = axesEnd;
 }
 
 void LineSegment::setToolHead(int head) {

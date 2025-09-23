@@ -189,6 +189,45 @@ QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QVector3D &initia
     return newPoint;
 }
 
+QVector3D GcodePreprocessorUtils::updateAxesWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode)
+{
+    double a = qQNaN();
+    double b = qQNaN();
+    double c = qQNaN();
+    char code;
+
+    for (int i = 0; i < commandArgs.length(); i++) {
+        if (commandArgs.at(i).length() > 0) {
+            code = commandArgs.at(i).at(0).toUpper().toLatin1();
+            switch (code) {
+            case 'A':
+                a = commandArgs.at(i).mid(1).toDouble();;
+                break;
+            case 'B':
+                b = commandArgs.at(i).mid(1).toDouble();;
+                break;
+            case 'C':
+                c = commandArgs.at(i).mid(1).toDouble();;
+                break;
+            }
+        }
+    }
+
+    QVector3D newAxes(initial.x(), initial.y(), initial.z());
+
+    if (absoluteMode) {
+        if (!qIsNaN(a)) newAxes.setX(a);
+        if (!qIsNaN(b)) newAxes.setY(b);
+        if (!qIsNaN(c)) newAxes.setZ(c);
+    } else {
+        if (!qIsNaN(a)) newAxes.setX(newAxes.x() + a);
+        if (!qIsNaN(b)) newAxes.setY(newAxes.y() + b);
+        if (!qIsNaN(c)) newAxes.setZ(newAxes.z() + c);
+    }
+
+    return newAxes;    
+}
+
 QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
 {
     double i = qQNaN();

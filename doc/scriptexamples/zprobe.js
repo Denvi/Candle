@@ -1,5 +1,5 @@
-app.storeParserState();
-app.sendCommands([
+app.device.storeParserState();
+app.device.sendCommands([
     "G21G91",
     "G38.2Z-30F100",
     "G0Z1",
@@ -7,5 +7,5 @@ app.sendCommands([
     "G92Z0",
     "G91G0Z5"
 ]);
-app.waitResponses();
-app.restoreParserState();
+app.device.waitResponses();
+app.device.restoreParserState();

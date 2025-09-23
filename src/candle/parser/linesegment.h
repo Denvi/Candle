@@ -37,6 +37,14 @@ public:
 
     void setModelEnd(const QVector3D &modelEnd);
 
+    const QVector3D &axesStart() const;
+
+    void setAxesStart(const QVector3D &axesStart);
+
+    const QVector3D &axesEnd() const;
+
+    void setAxesEnd(const QVector3D &axesEnd);
+
     void setToolHead(int head);
     int getToolhead();
     void setSpeed(double s);
@@ -87,6 +95,7 @@ private:
     double m_dwell;
     QVector3D m_first, m_second;
     QVector3D m_modelStart, m_modelEnd;
+    QVector3D m_axesStart, m_axesEnd;
 
     // Line properties
     bool m_isZMovement;

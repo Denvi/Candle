@@ -1,7 +1,7 @@
 ﻿#include "scriptprogram.h"
 #include "frmmain.h"
 
-ScriptProgram::ScriptProgram(frmMain *f) : QObject(0)
+ScriptProgram::ScriptProgram(frmMain *f) : QObject(f)
 {
     m_frmMain = f;
 }

@@ -30,6 +30,7 @@ public:
     static QVector3D updatePointWithCommand(const QVector3D &initial, double x, double y, double z, bool absoluteMode);
     static QVector3D updatePointWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode);
     static QVector3D updatePointWithCommand(const QString &command, const QVector3D &initial, bool absoluteMode);
+    static QVector3D updateAxesWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode);
     static QVector3D convertRToCenter(QVector3D start, QVector3D end, double radius, bool absoluteIJK, bool clockwise);
     static QVector3D updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise);
     static QString generateG1FromPoints(QVector3D start, QVector3D end, bool absoluteMode, int precision);

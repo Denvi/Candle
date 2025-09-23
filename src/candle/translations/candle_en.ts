@@ -686,10 +686,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation></translation>
-    </message>
-    <message>
         <source> (%1)</source>
         <translation></translation>
     </message>
@@ -823,6 +819,18 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Work</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A-</source>
         <translation></translation>
     </message>
 </context>
@@ -1246,6 +1254,22 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>(average char width)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enable axis &apos;A&apos;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>direction:</source>
         <translation></translation>
     </message>
 </context>

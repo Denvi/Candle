@@ -15,6 +15,25 @@
 class Util
 {
 public:
+    enum RotationVector {
+        RotationVectorX,
+        RotationVectorY,
+        RotationVectorZ,
+        RotationVectorNone
+    };
+
+    static const QVector3D &rotationVector(RotationVector vector)
+    {
+        static QMap<RotationVector, QVector3D> vectors;
+        if (vectors.isEmpty()) {
+            vectors[RotationVectorX] = QVector3D(1.0, 0.0, 0.0);
+            vectors[RotationVectorY] = QVector3D(0.0, 1.0, 0.0);
+            vectors[RotationVectorZ] = QVector3D(0.0, 0.0, 1.0);
+            vectors[RotationVectorNone] = nVector();
+        }
+        return vectors[vector];
+    };
+
     static double nMin(double v1, double v2)
     {
         if (!qIsNaN(v1) && !qIsNaN(v2)) return qMin<double>(v1, v2);
@@ -39,6 +58,16 @@ public:
     static QVector3D nMax(const QVector3D &v1, const QVector3D &v2)
     {
         return QVector3D(nMax(v1.x(), v2.x()), nMax(v1.y(), v2.y()), nMax(v1.z(), v2.z()));
+    }
+
+    static bool nIsNaN(const QVector3D &vector)
+    {
+        return qIsNaN(vector.x()) && qIsNaN(vector.y()) && qIsNaN(vector.z());
+    }
+
+    static bool nIsEqual(const QVector3D &v1, const QVector3D &v2)
+    {
+        return (v1 == v2) || nIsNaN(v1) && nIsNaN(v2);
     }
 
     static double nAssign(double newValue, double defaultValue = 0.0)
@@ -84,6 +113,11 @@ public:
     static void invertButtonIconColors(QAbstractButton *button)
     {
         button->setIcon(invertIconColors(button->icon()));
+    }
+
+    static double normalizeRotation(double value)
+    {
+        return value - trunc(value / 360.0) * 360.0;
     }
 };
 

@@ -24,6 +24,10 @@ QGroupBox {
 	padding-top: 1em;
 	margin-top: 0.5em;
 	font-weight: bold;
+}
+
+#listCategories {
+	margin-right: 1em;
 }</string>
   </property>
   <property name="sizeGripEnabled">
@@ -33,7 +37,7 @@ QGroupBox {
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
      <property name="spacing">
-      <number>26</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QListWidget" name="listCategories">
@@ -63,7 +67,7 @@ QGroupBox {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>671</width>
+          <width>697</width>
           <height>618</height>
          </rect>
         </property>
@@ -286,27 +290,6 @@ QGroupBox {
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
                  <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0,0">
-                  <item row="1" column="3">
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>max.:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="3">
-                   <widget class="QLabel" name="label_35">
-                    <property name="text">
-                     <string>max.:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_18">
-                    <property name="text">
-                     <string>Laser power min.:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="4">
                    <widget class="QSpinBox" name="txtSpindleSpeedMax">
                     <property name="font">
@@ -322,6 +305,63 @@ QGroupBox {
                     </property>
                     <property name="maximum">
                      <number>99999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_29">
+                    <property name="text">
+                     <string>Reference position:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Spindle speed min.:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="3">
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>max.:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="3">
+                   <widget class="QWidget" name="widget_2" native="true">
+                    <layout class="QHBoxLayout" name="horizontalLayout_8">
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="radReferenceYMinus">
+                       <property name="text">
+                        <string>Y-</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="radReferenceYPlus">
+                       <property name="text">
+                        <string>Y+</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QLabel" name="label_35">
+                    <property name="text">
+                     <string>max.:</string>
                     </property>
                    </widget>
                   </item>
@@ -343,21 +383,12 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="2">
-                   <spacer name="horizontalSpacer_6">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_18">
+                    <property name="text">
+                     <string>Laser power min.:</string>
                     </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Fixed</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>6</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
+                   </widget>
                   </item>
                   <item row="1" column="1">
                    <widget class="QSpinBox" name="txtSpindleSpeedMin">
@@ -374,38 +405,6 @@ QGroupBox {
                     </property>
                     <property name="maximum">
                      <number>99999</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_12">
-                    <property name="text">
-                     <string>Spindle speed min.:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="4">
-                   <widget class="QSpinBox" name="txtLaserPowerMax">
-                    <property name="font">
-                     <font>
-                      <pointsize>9</pointsize>
-                     </font>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
-                    </property>
-                    <property name="maximum">
-                     <number>99999</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_29">
-                    <property name="text">
-                     <string>Reference position:</string>
                     </property>
                    </widget>
                   </item>
@@ -438,34 +437,21 @@ QGroupBox {
                     </layout>
                    </widget>
                   </item>
-                  <item row="3" column="3">
-                   <widget class="QWidget" name="widget_2" native="true">
-                    <layout class="QHBoxLayout" name="horizontalLayout_8">
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QRadioButton" name="radReferenceYMinus">
-                       <property name="text">
-                        <string>Y-</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QRadioButton" name="radReferenceYPlus">
-                       <property name="text">
-                        <string>Y+</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
+                  <item row="1" column="2">
+                   <spacer name="horizontalSpacer_6">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>6</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                   <item row="3" column="4">
                    <widget class="QWidget" name="widget" native="true">
@@ -494,6 +480,70 @@ QGroupBox {
                       </widget>
                      </item>
                     </layout>
+                   </widget>
+                  </item>
+                  <item row="2" column="4">
+                   <widget class="QSpinBox" name="txtLaserPowerMax">
+                    <property name="font">
+                     <font>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="maximum">
+                     <number>99999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QCheckBox" name="chkAxisA">
+                    <property name="text">
+                     <string>Enable axis 'A'</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="3">
+                   <widget class="QWidget" name="widget_4" native="true">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_13">
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="radAxisAX">
+                       <property name="text">
+                        <string>X</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="radAxisAY">
+                       <property name="text">
+                        <string>Y</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>direction:</string>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -1740,12 +1790,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>575</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>943</x>
-     <y>575</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1756,12 +1806,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>691</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>765</x>
-     <y>691</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1772,12 +1822,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>691</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>943</x>
-     <y>691</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1788,12 +1838,12 @@ QGroupBox {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>606</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>485</x>
-     <y>605</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1804,12 +1854,12 @@ QGroupBox {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>606</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>573</x>
-     <y>605</y>
+     <x>367</x>
+     <y>34</y>
     </hint>
    </hints>
   </connection>
@@ -1820,12 +1870,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>810</x>
-     <y>-373</y>
+     <x>394</x>
+     <y>13</y>
     </hint>
     <hint type="destinationlabel">
-     <x>943</x>
-     <y>-374</y>
+     <x>394</x>
+     <y>13</y>
     </hint>
    </hints>
   </connection>
@@ -1836,12 +1886,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>663</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>765</x>
-     <y>662</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1852,12 +1902,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>663</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>943</x>
-     <y>662</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1868,12 +1918,28 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>509</x>
-     <y>152</y>
+     <x>394</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>580</x>
-     <y>376</y>
+     <x>394</x>
+     <y>42</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAxisA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>widget_4</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>553</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>

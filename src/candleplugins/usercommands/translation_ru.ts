@@ -7,52 +7,52 @@
         <translation>Пользовательская кнопка</translation>
     </message>
     <message>
-        <source>Script</source>
-        <translation>Скрипт</translation>
-    </message>
+        <source>Open</source>
+        <translation>Открыть</translation>
+    </message>   
+    <message>
+        <source>Images (*.png *.ico *.jpg)</source>
+        <translation>Файлы изображений (*.png *.jpg *.ico)</translation>
+    </message>   
     <name>frmMain</name>
     <message>
         <source>User commands</source>
         <translation>Пользовательские команды</translation>
-    </message>
+    </message>   
     </context>
     <context>
     <name>UserCommandsSettings</name>
     <message>
         <source>Hint</source>
         <translation>Описание</translation>
-    </message>
+    </message>   
     <message>
         <source>Icon</source>
         <translation>Значок</translation>
-    </message>
+    </message> 
     <message>
-        <source>Type</source>
-        <translation>Тип</translation>
-    </message>
-    <message>
-        <source>Code</source>
-        <translation>Код</translation>
-    </message>
+        <source>G-code</source>
+        <translation>G-код</translation>
+    </message> 
     <message>
         <source>Up</source>
         <translation>Вверх</translation>
-    </message>
+    </message> 
     <message>
         <source>Down</source>
         <translation>Вниз</translation>
-    </message>
+    </message> 
     <message>
         <source>Add</source>
         <translation>Добавить</translation>
-    </message>
+    </message> 
     <message>
         <source>Remove</source>
         <translation>Удалить</translation>
-    </message>
+    </message> 
     <message>
         <source>Remove all</source>
         <translation>Удалить все</translation>
-    </message>
+    </message> 
 </context>
 </TS>

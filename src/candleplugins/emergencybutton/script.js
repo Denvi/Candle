@@ -37,5 +37,5 @@ function createPanelWidget()
 function onButtonClicked()
 {
     // Direct CTRL+X command send
-    app.sendCommand(String.fromCharCode(24), -100, false, true);
+    app.device.sendCommand(String.fromCharCode(24), -100, false, true);
 }
