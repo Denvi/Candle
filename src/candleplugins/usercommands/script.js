@@ -114,7 +114,7 @@ function onCmdUpClicked()
 
     if (r > 0) {
         t.insertRow(r - 1);
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
             t.setItem(r - 1, i, t.takeItem(r + 1, i));
         }
         t.removeRow(r + 1);
@@ -130,7 +130,7 @@ function onCmdDownClicked()
 
     if (r < t.rowCount - 1) {
         t.insertRow(r + 2);
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
             t.setItem(r + 2, i, t.takeItem(r, i));
         }
         t.removeRow(r);
