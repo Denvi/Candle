@@ -1816,7 +1816,7 @@ void frmMain::onSerialPortReadyRead()
 
             // Store work offset
             static QVector4D workOffset;
-            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,>|]*)(?:,([^,|]*))*");
+            static QRegExp wpx("WCO:([^,]*),([^,]*),([^,>|]*)(?:,([^,>|]*))*");
 
             if (wpx.indexIn(data) != -1)
             {
