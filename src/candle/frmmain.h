@@ -498,7 +498,7 @@ private:
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
-    QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
+    void updateProgramEstimatedTime(QList<LineSegment *> lines);
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     void jogContinuous();
@@ -512,6 +512,7 @@ private:
     void setDeviceState(DeviceState state);
     void completeTransfer();
     QString getLineInitCommands(int row);
+    void processSettingsResponse(QString response);
 
     static bool actionLessThan(const QAction *a1, const QAction *a2);
     static bool actionTextLessThan(const QAction *a1, const QAction *a2);

@@ -725,6 +725,26 @@ void frmSettings::setAxisAX(bool value)
     ui->radAxisAX->setChecked(value);
 }
 
+QMap<int, float> &frmSettings::deviceSettings()
+{
+    return m_deviceSettings;
+}
+
+void frmSettings::setDeviceSettings(QMap<int, float> &settings)
+{
+    m_deviceSettings = settings;
+}
+
+QVariantMap frmSettings::deviceSettingsVariantMap()
+{
+    QVariantMap map;
+
+    for (auto it = m_deviceSettings.constBegin(); it != m_deviceSettings.constEnd(); it++)
+        map.insert(QString::number(it.key()), it.value());
+
+    return map;
+}
+
 QTableWidget* frmSettings::shortcuts()
 {
     return ui->tblShortcuts;

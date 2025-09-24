@@ -21,6 +21,7 @@
 #include <QSplitter>
 #include <QInputDialog>
 #include <QElapsedTimer>
+#include <QtConcurrent/QtConcurrent>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
@@ -29,6 +30,7 @@
 #include "layoutentry.h"
 #include "settingsprofileentry.h"
 #include "utils/optarg.h"
+#include "utils/timeestimator.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -2043,31 +2045,7 @@ void frmMain::onSerialPortReadyRead()
 
                     // Settings response
                     if (uncomment == "$$" && ca.tableIndex == -2) {
-                        static QRegExp gs("\\$(\\d+)\\=([^;]+)\\; ");
-                        QMap<int, double> set;
-                        int p = 0;
-                        while ((p = gs.indexIn(response, p)) != -1) {
-                            set[gs.cap(1).toInt()] = gs.cap(2).toDouble();
-                            p += gs.matchedLength();
-                        }
-                        if (set.keys().contains(13)) m_settings->setUnits(set[13]);
-                        if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
-                        if (set.keys().contains(22)) {
-                            m_settings->setHomingEnabled(set[22]);
-                            m_machineBoundsDrawer.setVisible(set[22]);
-                        }
-                        if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
-                        if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
-                        if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
-                            m_settings->setMachineBounds(QVector3D(
-                                m_settings->referenceXPlus() ? -set[130] : set[130],
-                                m_settings->referenceYPlus() ? -set[131] : set[131],
-                                m_settings->referenceZPlus() ? -set[132] : set[132]));
-                            m_machineBoundsDrawer.setBorderRect(QRectF(0, 0,
-                                m_settings->referenceXPlus() ? -set[130] : set[130],
-                                m_settings->referenceYPlus() ? -set[131] : set[131]));
-                        }
-
+                        processSettingsResponse(response);
                         setupCoordsTextboxes();
                     }
 
@@ -4859,34 +4837,54 @@ bool frmMain::dataIsReset(QString data) {
     return QRegExp("^GRBL|GCARVIN\\s\\d\\.\\d.").indexIn(data.toUpper()) != -1;
 }
 
-QTime frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
+void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
-    double time = 0;
-
-    for (int i = 0; i < lines.count(); i++) {
-        LineSegment *ls = lines[i];
-        double length = !m_viewParser.axisRotationUsed(GcodeViewParse::RotationAxisA)
-            ? (ls->getEnd() - ls->getStart()).length()
-            : (QVector4D(ls->getEnd(), ls->axesEnd().x()) - QVector4D(ls->getStart(), ls->axesStart().x())).length();
-
-        if (!qIsNaN(length) && !qIsNaN(ls->getSpeed()) && ls->getSpeed() != 0) time +=
-                length / ((ui->slbFeedOverride->isChecked() && !ls->isFastTraverse())
-                          ? (ls->getSpeed() * ui->slbFeedOverride->value() / 100) :
-                            (ui->slbRapidOverride->isChecked() && ls->isFastTraverse())
-                             ? (ls->getSpeed() * ui->slbRapidOverride->value() / 100) : ls->getSpeed());
+    if (!lines.size()) {
+        ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+        ui->glwVisualizer->setEstimatedTime(QTime(0, 0, 0));
+        return;
     }
 
-    time *= 60;
+    QtConcurrent::run([=]() {
+        auto set = m_settings->deviceSettings();
+        auto estimator = new TimeEstimator(
+            lines,
+            {
+                set.value(100, 0),
+                set.value(101, 0),
+                set.value(102, 0),
+                set.value(103, 0)
+            },
+            {
+                (int)set.value(110, 0),
+                (int)set.value(111, 0),
+                (int)set.value(112, 0),
+                (int)set.value(113, 0)
+            },
+            {
+                (int)set.value(121, 0) * 3600,
+                (int)set.value(122, 0) * 3600,
+                (int)set.value(120, 0) * 3600,
+                (int)set.value(123, 0) * 3600
+            },
+            ui->slbFeedOverride->isChecked(),
+            ui->slbRapidOverride->isChecked(),
+            ui->slbFeedOverride->value(),
+            ui->slbRapidOverride->value(),
+            false,
+            0.0f,
+            set.value(11, 0.01f)
+        );
 
-    QTime t;
+        auto t = estimator->calculateTime();
+        auto r = QTime(0, 0, 0);
+        r = r.addSecs(t * 60);
 
-    t.setHMS(0, 0, 0);
-    t = t.addSecs(time);
-
-    ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
-    ui->glwVisualizer->setEstimatedTime(t);
-
-    return t;
+        QMetaObject::invokeMethod(ui->glwVisualizer, [=]() {
+            ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
+            ui->glwVisualizer->setEstimatedTime(r);
+        });
+    });
 }
 
 QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)
@@ -5185,6 +5183,37 @@ QString frmMain::getLineInitCommands(int row)
     }
 
     return commands;
+}
+
+void frmMain::processSettingsResponse(QString response)
+{
+    static QRegExp gs("\\$(\\d+)\\=([^;]+)\\; ");
+    QMap<int, float> set;
+    int p = 0;
+
+    while ((p = gs.indexIn(response, p)) != -1) {
+        set[gs.cap(1).toInt()] = gs.cap(2).toFloat();
+        p += gs.matchedLength();
+    }
+    if (set.keys().contains(13)) m_settings->setUnits(set[13]);
+    if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
+    if (set.keys().contains(22)) {
+        m_settings->setHomingEnabled(set[22]);
+        m_machineBoundsDrawer.setVisible(set[22]);
+    }
+    if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
+    if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
+    if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
+        m_settings->setMachineBounds(QVector3D(
+            m_settings->referenceXPlus() ? -set[130] : set[130],
+            m_settings->referenceYPlus() ? -set[131] : set[131],
+            m_settings->referenceZPlus() ? -set[132] : set[132]));
+        m_machineBoundsDrawer.setBorderRect(QRectF(0, 0,
+            m_settings->referenceXPlus() ? -set[130] : set[130],
+            m_settings->referenceYPlus() ? -set[131] : set[131]));
+    }
+
+    m_settings->setDeviceSettings(set);
 }
 
 bool frmMain::actionLessThan(const QAction *a1, const QAction *a2)
