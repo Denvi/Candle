@@ -275,6 +275,12 @@ frmMain::frmMain(QWidget *parent) :
     connect(this, &frmMain::settingsSetByDefault, m_scriptApp, &ScriptApp::settingsSetByDefault);
     connect(this, &frmMain::pluginsLoaded, m_scriptApp, &ScriptApp::pluginsLoaded);
 
+    // Setup serial port
+    m_serialPort.setDataBits(QSerialPort::Data8);
+    m_serialPort.setParity(QSerialPort::NoParity);
+    m_serialPort.setStopBits(QSerialPort::OneStop);
+    m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
+
     // Loading settings
     loadSettings();
     ui->tblProgram->hideColumn(4);
@@ -295,17 +301,6 @@ frmMain::frmMain(QWidget *parent) :
     ui->slbSpindle->setChecked(true);
     connect(ui->slbSpindle, &SliderBox::valueUserChanged, this, &frmMain::onSlbSpindleValueUserChanged);
     connect(ui->slbSpindle, &SliderBox::valueChanged, this, &frmMain::onSlbSpindleValueChanged);
-
-    // Setup serial port
-    m_serialPort.setParity(QSerialPort::NoParity);
-    m_serialPort.setDataBits(QSerialPort::Data8);
-    m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
-    m_serialPort.setStopBits(QSerialPort::OneStop);
-
-    if (m_settings->port() != "") {
-        m_serialPort.setPortName(m_settings->port());
-        m_serialPort.setBaudRate(m_settings->baud());
-    }
 
     // Enable form actions
     QList<QAction*> noActions;
@@ -3718,7 +3713,11 @@ void frmMain::openPort()
     if (m_serialPort.open(QIODevice::ReadWrite)) {
         ui->txtStatus->setText(tr("Port opened"));
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
-        grblReset();
+
+        // STM32 CDC init
+        m_serialPort.setDataTerminalReady(true);
+
+        QTimer::singleShot(1000, [this]() { grblReset(); });
     }
 }
 
