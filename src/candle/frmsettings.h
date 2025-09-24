@@ -72,6 +72,7 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool softLimitsEnabled READ softLimitsEnabled WRITE setSoftLimitsEnabled)
     Q_PROPERTY(bool axisAEnabled READ axisAEnabled)
     Q_PROPERTY(bool axisAX READ axisAX)
+    Q_PROPERTY(QVariantMap device READ deviceSettingsVariantMap)
 
 public:
     explicit frmSettings(QWidget *parent = 0);
@@ -193,6 +194,9 @@ public:
     void setAxisAEnabled(bool value);
     bool axisAX();
     void setAxisAX(bool value);
+    QMap<int, float> &deviceSettings();
+    void setDeviceSettings(QMap<int, float> &settings);
+    QVariantMap deviceSettingsVariantMap();
 
     void setDefaultSettings();
 
@@ -236,6 +240,7 @@ private:
     QVector3D m_machineBounds;
     bool m_homingEnabled;
     bool m_softLimitsEnabled;
+    QMap<int, float> m_deviceSettings;
 };
 
 #endif // FRMSETTINGS_H
