@@ -1272,5 +1272,25 @@ Time elapsed: %1</source>
         <source>direction:</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Import</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Shortcut files (*.sc)</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

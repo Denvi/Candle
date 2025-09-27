@@ -14,6 +14,8 @@
 #include <QPlainTextEdit>
 #include <QTableWidget>
 #include <QTranslator>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include "colorpicker.h"
 
 namespace Ui {
@@ -217,8 +219,30 @@ private slots:
     void on_radDrawModeRaster_toggled(bool checked);
     void on_radGrayscaleS_toggled(bool checked);
     void on_radGrayscaleZ_toggled(bool checked);
+    void on_cmdShortcutsImport_clicked();
+    void on_cmdShortcutsExport_clicked();
 
 private:
+    struct Shortcut {
+        QString actionName;
+        QString keys;
+
+        QJsonObject toJson() {
+            QJsonObject obj;
+            obj["actionName"] = actionName;
+            obj["keys"] = keys;
+            return obj;
+        }
+
+        static Shortcut fromJson(const QJsonObject &obj)
+        {
+            Shortcut s;
+            s.actionName = obj["actionName"].toString();
+            s.keys = obj["keys"].toString();
+            return s;
+        }
+    };
+
     Ui::frmSettings *ui;
 
     void searchPorts();

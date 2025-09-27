@@ -1279,5 +1279,25 @@ Time elapsed: %1</source>
         <source>direction:</source>
         <translation>Направление:</translation>
     </message>
+    <message>
+        <source>Import</source>
+        <translation>Импорт</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Экспорт</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Открыть</translation>
+    </message>
+    <message>
+        <source>Shortcut files (*.sc)</source>
+        <translation>Файлы быстрых клавиш  (*.sc)</translation>
+    </message>
 </context>
 </TS>
