@@ -86,9 +86,9 @@ function onCmdAddClicked()
     h.setText("...");
 
     t.setItem(r, 0, h);
-    t.setItem(r, 1, new QTableWidgetItem());
+    t.setItem(r, 1, new QTableWidgetItem(""));
     t.setItem(r, 2, new QTableWidgetItem("0"));
-    t.setItem(r, 3, new QTableWidgetItem());
+    t.setItem(r, 3, new QTableWidgetItem(""));
 
     t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);
 }
@@ -244,18 +244,20 @@ function onAppSettingsRejected()
 
 function onAppDeviceStateChanged(status)
 {
-    var t = uiSettings.tblButtons;
-    var lay = uiPanel.verticalLayout.layButtons;
+    if (status != deviceState)
+    {
+        var lay = uiPanel.verticalLayout.layButtons;
 
-    for (var i = 0; i < t.rowCount; i++) {
-        lay.itemAt(i).widget().setEnabled(status == 1);
+        for (var i = 0; i < lay.count(); i++) {
+            lay.itemAt(i).widget().setEnabled(status == 1);
+        }
+
+        for (var i = 0; i < storedActions.length; i++) {
+            storedActions[i].setEnabled(status == 1);
+        }
+
+        deviceState = status;
     }
-
-    for (var i = 0; i < storedActions.length; i++) {
-        storedActions[i].setEnabled(status == 1);
-    }
-
-    deviceState = status;
 }
 
 function onButtonClicked(button)
@@ -331,10 +333,13 @@ function importButtons(buttons, indexes)
         var image = new QTableWidgetItem(imageName);
         if (imageName[0] === "*") {
             (new QDir()).mkpath(userIconPath);
-            var imageFile = new QFile(userIconPath + "/" + imageName.substring(1));
-            if (imageFile.open(QIODevice.WriteOnly)) {
-                imageFile.write(QByteArray.fromBase64(QTextCodec.codecForLocale().fromUnicode(buttons[indexes[i]].imageBase64)));
-                imageFile.close();
+            var imageFilePath = userIconPath + "/" + imageName.substring(1);
+            if (!QFile.exists(imageFilePath)) {
+                var imageFile = new QFile(imageFilePath);
+                if (imageFile.open(QIODevice.WriteOnly)) {
+                    imageFile.write(QByteArray.fromBase64(QTextCodec.codecForLocale().fromUnicode(buttons[indexes[i]].imageBase64)));
+                    imageFile.close();
+                }
             }
         }
         image.setData(Qt.DecorationRole, getIcon(imageName));
