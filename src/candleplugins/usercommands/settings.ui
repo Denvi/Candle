@@ -118,6 +118,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="cmdImport">
+       <property name="text">
+        <string>Import</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cmdExport">
+       <property name="text">
+        <string>Export</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
