@@ -1275,5 +1275,25 @@ Tiempo transcurrido: %1</translation>
         <source>direction:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">Abrir</translation>
+    </message>
+    <message>
+        <source>Shortcut files (*.sc)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

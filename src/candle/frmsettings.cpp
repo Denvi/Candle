@@ -16,6 +16,8 @@
 #include <QLocale>
 #include <QSpacerItem>
 #include <QAction>
+#include <QFileDialog>
+#include <QJsonArray>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -959,4 +961,52 @@ void frmSettings::on_radGrayscaleS_toggled(bool checked)
 void frmSettings::on_radGrayscaleZ_toggled(bool checked)
 {
     ui->radGrayscaleS->setChecked(!checked);
+}
+
+void frmSettings::on_cmdShortcutsImport_clicked()
+{
+    auto fileName = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Shortcut files (*.sc)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    auto shortcutsDocument = QJsonDocument::fromJson(file.readAll());
+    auto shortcutsArray = shortcutsDocument.array();
+
+    for (const QJsonValue &v : shortcutsArray) {
+        auto shortcut = Shortcut::fromJson(v.toObject());
+        for (int i = 0; i < ui->tblShortcuts->rowCount(); i++) {
+            if (ui->tblShortcuts->item(i, 0)->text() == shortcut.actionName) {
+                ui->tblShortcuts->item(i, 2)->setText(shortcut.keys);
+            }
+        }
+    }
+}
+
+void frmSettings::on_cmdShortcutsExport_clicked()
+{
+    auto fileName = QFileDialog::getSaveFileName(this, tr("Save"), "", tr("Shortcut files (*.sc)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QJsonArray shortcutsArray;
+
+    for (int i = 0; i < ui->tblShortcuts->rowCount(); i++) {
+        auto actionName = ui->tblShortcuts->item(i, 0)->data(Qt::DisplayRole).toString();
+        auto keys = ui->tblShortcuts->item(i, 2)->data(Qt::DisplayRole).toString();
+        shortcutsArray.append(Shortcut{ actionName, keys }.toJson());
+    }
+
+    QJsonDocument shortcutsDocument(shortcutsArray);
+
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(shortcutsDocument.toJson(QJsonDocument::Compact));
+        file.close();
+    }
 }

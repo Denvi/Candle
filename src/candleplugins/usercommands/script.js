@@ -70,6 +70,8 @@ function createSettingsWidget()
         uiSettings.cmdAdd.clicked.connect(onCmdAddClicked);
         uiSettings.cmdRemove.clicked.connect(onCmdRemoveClicked);
         uiSettings.cmdRemoveAll.clicked.connect(onCmdRemoveAllClicked);
+        uiSettings.cmdImport.clicked.connect(onCmdImportClicked);
+        uiSettings.cmdExport.clicked.connect(onCmdExportClicked);
     }
     return uiSettings;
 }
@@ -104,6 +106,67 @@ function onCmdRemoveClicked()
 function onCmdRemoveAllClicked()
 {
     uiSettings.tblButtons.rowCount = 0;
+}
+
+function onCmdImportClicked()
+{
+    var path = QFileDialog.getOpenFileName(app.window, qsTr("Open"), "", qsTr("User commands (*.uc)"));
+
+    if (!path)
+        return;
+
+    var file = new QFile(path);
+
+    if (!file.open(QIODevice.ReadOnly))
+        return;
+
+    const stream = new QTextStream(file);
+    stream.setCodec("UTF8");
+    var buttons = JSON.parse(stream.readAll());
+    file.close();
+
+    var dialog = new CheckListDialog(app.window);
+
+    var hints = [];
+    for (var i = 0; i < buttons.length; i++) {
+        hints.push(buttons[i].hint);
+    }
+    dialog.setItems(hints);
+    
+    if (!dialog.exec() || !dialog.checkedItemIndexes().length)
+        return;
+
+    importButtons(buttons, dialog.checkedItemIndexes());
+}
+
+function onCmdExportClicked()
+{
+    var dialog = new CheckListDialog(app.window);
+
+    var t = uiSettings.tblButtons;
+    var hints = [];
+    for (var i = 0; i < t.rowCount; i++) {
+        hints.push(t.item(i, 0).data(Qt.DisplayRole));
+    }
+    dialog.setItems(hints);
+
+    if (!dialog.exec() || !dialog.checkedItemIndexes().length)
+        return;
+
+    var path = QFileDialog.getSaveFileName(app.window, qsTr("Save"), "", qsTr("User commands (*.uc)"));
+    
+    if (!path)
+        return;
+
+    var buttons = exportButtons(dialog.checkedItemIndexes());
+    var file = new QFile(path);
+
+    if (file.open(QIODevice.WriteOnly)) {
+        const stream = new QTextStream(file);
+        stream.setCodec("UTF8");
+        stream.writeString(JSON.stringify(buttons));
+        file.close();
+    }
 }
 
 function onCmdUpClicked()
@@ -251,6 +314,68 @@ function restoreButtonsTable(b)
         }
         t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);
     }
+}
+
+function importButtons(buttons, indexes)
+{
+    var t = uiSettings.tblButtons;
+
+    for (var i = 0; i < indexes.length; i++)
+    {        
+        var r = t.rowCount++;
+
+        var h = new QTableWidgetItem(buttons[indexes[i]].hint);
+        h.setTextAlignment(Qt.AlignCenter);
+
+        var imageName = buttons[indexes[i]].imageName;
+        var image = new QTableWidgetItem(imageName);
+        if (imageName[0] === "*") {
+            (new QDir()).mkpath(userIconPath);
+            var imageFile = new QFile(userIconPath + "/" + imageName.substring(1));
+            if (imageFile.open(QIODevice.WriteOnly)) {
+                imageFile.write(QByteArray.fromBase64(QTextCodec.codecForLocale().fromUnicode(buttons[indexes[i]].imageBase64)));
+                imageFile.close();
+            }
+        }
+        image.setData(Qt.DecorationRole, getIcon(imageName));
+
+        t.setItem(r, 0, h);
+        t.setItem(r, 1, image);
+        t.setItem(r, 2, new QTableWidgetItem(buttons[indexes[i]].type));
+        t.setItem(r, 3, new QTableWidgetItem(buttons[indexes[i]].code));
+    }
+
+    t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);    
+}
+
+function exportButtons(indexes)
+{
+    var t = uiSettings.tblButtons;
+    var b = [];
+
+    for (var i = 0; i < indexes.length; i++) {
+        var imageName = (t.item(indexes[i], 1).data(Qt.DisplayRole));
+        var imageBase64 = "";
+
+        if (imageName[0] === "*") {
+            var imageFile = new QFile(userIconPath + "/" + imageName.substring(1));
+            if (imageFile.open(QIODevice.ReadOnly))
+            {
+                imageBase64 = QTextCodec.codecForLocale().toUnicode(imageFile.readAll().toBase64());
+                imageFile.close();
+            }
+        }
+
+        b.push({
+            "hint": (t.item(indexes[i], 0).data(Qt.DisplayRole)),
+            "imageName": imageName,
+            "imageBase64": imageBase64,
+            "type": (t.item(indexes[i], 2).data(Qt.DisplayRole)),
+            "code": (t.item(indexes[i], 3).data(Qt.DisplayRole))
+        });
+    }
+
+    return b;
 }
 
 function updateButtons()
@@ -579,4 +704,48 @@ TypeDelegate.prototype.paint = function(painter, option, index)
         painter.setPen(p);
         painter.drawRect(option.rect().adjusted(1, 0, -2, -1));
     }
+}
+
+// Check list dialog
+function CheckListDialog(parent)
+{
+    QDialog.call(this, parent);
+
+    this.setWindowTitle(qsTr("Select commands"));
+
+    this.list = new QListWidget(this);
+    box = new QDialogButtonBox(QDialogButtonBox.StandardButtons(QDialogButtonBox.Ok, QDialogButtonBox.Cancel), this);
+
+    var layout = new QVBoxLayout(this);
+    layout.addWidget(this.list, 1, Qt.Vertical);
+    layout.addWidget(box, 0, Qt.Vertical);
+
+    var self = this;
+    box.accepted.connect(function() { self.accept(); });
+    box.rejected.connect(function() { self.reject(); });
+}
+
+CheckListDialog.prototype = new QDialog();
+
+CheckListDialog.prototype.setItems = function(values)
+{
+    this.list.clear();
+
+    for (var i = 0; i < values.length; i++) {
+        var li = new QListWidgetItem(values[i]);
+        li.setCheckState(Qt.Checked);
+        this.list.addItem(li);
+    }
+}
+
+CheckListDialog.prototype.checkedItemIndexes = function()
+{
+    var r = [];
+
+    for (var i = 0; i < this.list.count; i++) {
+        if (this.list.item(i).checkState() == Qt.Checked)
+            r.push(i);
+    }
+
+    return r;
 }

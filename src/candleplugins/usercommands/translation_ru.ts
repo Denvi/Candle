@@ -11,9 +11,21 @@
         <translation>Открыть</translation>
     </message>   
     <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>   
+    <message>
         <source>Images (*.png *.ico *.jpg)</source>
         <translation>Файлы изображений (*.png *.jpg *.ico)</translation>
     </message>   
+    <message>
+        <source>User commands (*.uc)</source>
+        <translation>Файлы пользовательских команд (*.uc)</translation>
+    </message>
+    <message>
+        <source>Select commands</source>
+        <translation>Выберите команды</translation>
+    </message>     
     <name>frmMain</name>
     <message>
         <source>User commands</source>
@@ -53,6 +65,14 @@
     <message>
         <source>Remove all</source>
         <translation>Удалить все</translation>
+    </message> 
+    <message>
+        <source>Import</source>
+        <translation>Импорт</translation>
+    </message> 
+    <message>
+        <source>Export</source>
+        <translation>Экспорт</translation>
     </message> 
 </context>
 </TS>
