@@ -4,6 +4,8 @@
 #ifndef UTIL
 #define UTIL
 
+#include <cmath>
+
 #include <QColor>
 #include <QIcon>
 #include <QImage>
