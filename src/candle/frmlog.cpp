@@ -4,8 +4,8 @@
 #include <QFileSystemWatcher>
 #include <QTextStream>
 #include <QStandardPaths>
-#include "frmLog.h"
-#include "ui_frmLog.h"
+#include "frmlog.h"
+#include "ui_frmlog.h"
 
 frmLog::frmLog(QWidget *parent) : QFrame(parent), ui(new Ui::frmLog)
 {

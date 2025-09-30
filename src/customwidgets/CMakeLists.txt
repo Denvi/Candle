@@ -1,6 +1,7 @@
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 
 file(GLOB SRC_FILES *.cpp)
+include_directories(. )
 
 add_library(customwidgets SHARED ${SRC_FILES})
 

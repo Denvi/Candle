@@ -4,6 +4,8 @@
 #ifndef UTIL
 #define UTIL
 
+#include <cmath>
+
 #include <QColor>
 #include <QIcon>
 #include <QImage>
@@ -54,7 +56,7 @@ public:
     {
         return QVector3D(nMin(v1.x(), v2.x()), nMin(v1.y(), v2.y()), nMin(v1.z(), v2.z()));
     }
-    
+
     static QVector3D nMax(const QVector3D &v1, const QVector3D &v2)
     {
         return QVector3D(nMax(v1.x(), v2.x()), nMax(v1.y(), v2.y()), nMax(v1.z(), v2.z()));
@@ -122,4 +124,3 @@ public:
 };
 
 #endif // UTIL
-

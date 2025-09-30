@@ -6,8 +6,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
-#include "frmScript.h"
-#include "ui_frmScript.h"
+#include "frmscript.h"
+#include "ui_frmscript.h"
 
 frmScript::frmScript(QWidget *parent) : QFrame(parent), ui(new Ui::frmScript)
 {

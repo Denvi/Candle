@@ -703,7 +703,7 @@ void frmMain::on_actServiceProfilesCreate_triggered()
         action->setChecked(true);
 
         auto menuActions = ui->mnuServiceProfiles->actions();
-        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
+        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
             return action->isSeparator();
         });
 
@@ -873,7 +873,11 @@ void frmMain::on_cmdCommandSend_clicked()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    // QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+    QCoreApplication::sendEvent(ui->cboCommand, &event);
+
+
 }
 
 void frmMain::on_cmdClearConsole_clicked()
@@ -1723,7 +1727,7 @@ void frmMain::onSerialPortReadyRead()
             if (mpx.indexIn(data) != -1) {
                 ui->txtMPosX->setValue(mpx.cap(1).toDouble());
                 ui->txtMPosY->setValue(mpx.cap(2).toDouble());
-                ui->txtMPosZ->setValue(mpx.cap(3).toDouble());                
+                ui->txtMPosZ->setValue(mpx.cap(3).toDouble());
                 auto a = mpx.cap(4).toDouble();
                 if (ui->txtMPosA->minimum() > a || ui->txtMPosA->maximum() < a) {
                     ui->txtMPosA->setMaximum(ui->txtMPosA->maximum() * 10);
@@ -2626,7 +2630,7 @@ void frmMain::onDockTopLevelChanged(bool topLevel)
     // Doesn't updates itself on object property change
     widget->setStyleSheet("");
 
-    // Take into account margin of 11 
+    // Take into account margin of 11
     widget->setMinimumWidth(widget->minimumWidth() + 22 * (topLevel ? 1 : -1));
     widget->setMaximumWidth(widget->maximumWidth() + 22 * (topLevel ? 1 : -1));
 }
@@ -2788,7 +2792,7 @@ void frmMain::preloadSettings()
 void frmMain::loadSettings()
 {
     m_settingsLoading = true;
-    
+
     QSettings set;
     set.beginGroup("General");
 
@@ -2815,7 +2819,7 @@ void frmMain::loadSettings()
         //   window size
         resize(set.value("formSize").toSize());
         showMaximized();
-    } else {        
+    } else {
         restoreGeometry(formGeometry);
     }
 
@@ -3039,7 +3043,7 @@ void frmMain::storeSettings()
     emit settingsSaved();
 
     delete scriptSet;
-    delete set;    
+    delete set;
 }
 
 void frmMain::restoreSettings()
@@ -3269,7 +3273,7 @@ void frmMain::saveProfiles(QSettings &set)
         profiles.append((*it)->data());
     }
     set.setValue("profiles", profiles);
-    set.setValue("currentProfileName", m_currentProfileName);    
+    set.setValue("currentProfileName", m_currentProfileName);
 }
 
 void frmMain::loadProfiles(QSettings &set)
@@ -3834,7 +3838,7 @@ void frmMain::sendNextFileCommands() {
 
 QString frmMain::evaluateCommand(QString command)
 {
-    // Evaluate script  
+    // Evaluate script
     static QRegularExpression rx("\\{(?:(?>[^\\{\\}])|(?0))*\\}");
     QRegularExpressionMatch m;
     QScriptValue v;
@@ -5139,7 +5143,7 @@ QString frmMain::getLineInitCommands(int row)
     if (m_settings->axisAEnabled() && parser->axisRotationUsed(GcodeViewParse::RotationAxisA)) {
         QMatrix4x4 rotation;
 
-        if (!qIsNaN(preFirstSegment->axesEnd().x())) 
+        if (!qIsNaN(preFirstSegment->axesEnd().x()))
             rotation.rotate(preFirstSegment->axesEnd().x(),
                 Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY));
 
