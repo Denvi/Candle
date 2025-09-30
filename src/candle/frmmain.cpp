@@ -703,7 +703,7 @@ void frmMain::on_actServiceProfilesCreate_triggered()
         action->setChecked(true);
 
         auto menuActions = ui->mnuServiceProfiles->actions();
-        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
+        auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) {
             return action->isSeparator();
         });
 
@@ -873,7 +873,11 @@ void frmMain::on_cmdCommandSend_clicked()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    // QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+    QCoreApplication::sendEvent(ui->cboCommand, &event);
+
+
 }
 
 void frmMain::on_cmdClearConsole_clicked()
