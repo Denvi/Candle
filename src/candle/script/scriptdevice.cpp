@@ -20,7 +20,7 @@ void ScriptDevice::sendCommands(QStringList commands, int index)
 void ScriptDevice::sendCommand(QString command, int index, bool showInConsole, bool direct)
 {
     if (direct) {
-        m_frmMain->m_serialPort.write((command + "\r").toLatin1());
+        m_frmMain->m_currentConnection->send(command);
     } else {
         m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
     }

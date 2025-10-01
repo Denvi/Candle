@@ -731,10 +731,6 @@ Time elapsed: %1</source>
         <translation>Порт открыт</translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation>Ошибка последовательного порта </translation>
-    </message>
-    <message>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -838,6 +834,10 @@ Time elapsed: %1</source>
         <source>A-</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Connection error </source>
+        <translation>Ошибка связи </translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -901,10 +901,6 @@ Time elapsed: %1</source>
     <message>
         <source>Status query period:</source>
         <translation>Период опроса:</translation>
-    </message>
-    <message>
-        <source>Parser</source>
-        <translation>Парсер</translation>
     </message>
     <message>
         <source>Visualizer</source>
@@ -1014,14 +1010,6 @@ Time elapsed: %1</source>
     <message>
         <source>Background:</source>
         <translation>Фон:</translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation>Размер сегментов, аппроксимирующих дуги:</translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation>по углу (градус)</translation>
     </message>
     <message>
         <source>Text:</source>
@@ -1228,10 +1216,6 @@ Time elapsed: %1</source>
         <translation>Отображать команды G-code программы</translation>
     </message>
     <message>
-        <source>by length</source>
-        <translation>по длине</translation>
-    </message>
-    <message>
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
@@ -1298,6 +1282,32 @@ Time elapsed: %1</source>
     <message>
         <source>Shortcut files (*.sc)</source>
         <translation>Файлы быстрых клавиш  (*.sc)</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation>Последовательный порт</translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation>Telnet</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Адрес:</translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation>Размер сегментов,
+аппроксимирующих дуги:</translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation>По длине</translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
+        <translation>По углу (градус)</translation>
     </message>
 </context>
 </TS>

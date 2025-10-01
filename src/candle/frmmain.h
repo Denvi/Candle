@@ -5,7 +5,6 @@
 #define FRMMAIN_H
 
 #include <QMainWindow>
-#include <QtSerialPort/QSerialPort>
 #include <QSettings>
 #include <QTimer>
 #include <QBasicTimer>
@@ -48,6 +47,8 @@
 
 #include "storage.h"
 #include "storagegroup.h"
+
+#include "connections/connection.h"
 
 #ifdef WINDOWS
     #include <QtWinExtras/QtWinExtras>
@@ -235,8 +236,10 @@ private slots:
     void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
 
-    void onSerialPortReadyRead();
-    void onSerialPortError(QSerialPort::SerialPortError);
+    void onConnectionDataReceived(QString data);
+    void onConnectionErrorOccurred(QString error);
+    void onConnectionConnected();
+    void onConnectionDisconnected();
     void onTimerConnection();
     void onTimerStateQuery();
     void onTableInsertLine();
@@ -358,8 +361,8 @@ private:
     GCodeTableModel *m_currentModel;
     HeightMapTableModel m_heightMapModel;
 
-    // Serial port
-    QSerialPort m_serialPort;
+    // Connections
+    Connection *m_currentConnection;
 
     // Queues
     QList<CommandAttributes> m_commands;
@@ -449,7 +452,6 @@ private:
     void loadPlugins();
 
     // Communication
-    void openPort();
     void grblReset();
     SendCommandResult sendCommand(QString command, int tableIndex = -1, bool showInConsole = true, bool wait = false);
     void sendCommands(QString commands, int tableIndex = -1);

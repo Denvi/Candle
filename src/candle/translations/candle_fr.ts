@@ -674,10 +674,6 @@ Time elapsed: %1</source>
 Temps écoulé: %1</translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation>Erreur port serie </translation>
-    </message>
-    <message>
         <source>Scroll</source>
         <translation>Déplacement</translation>
     </message>
@@ -835,6 +831,10 @@ Temps écoulé: %1</translation>
         <source>A-</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Connection error </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -898,10 +898,6 @@ Temps écoulé: %1</translation>
     <message>
         <source>max.:</source>
         <translation>max.:</translation>
-    </message>
-    <message>
-        <source>Parser</source>
-        <translation>Analyseur</translation>
     </message>
     <message>
         <source>Visualizer</source>
@@ -980,10 +976,6 @@ Temps écoulé: %1</translation>
         <translation>Parcours d&apos;outil</translation>
     </message>
     <message>
-        <source>by length</source>
-        <translation>Par longueur</translation>
-    </message>
-    <message>
         <source>Drawn:</source>
         <translation>Dessin:</translation>
     </message>
@@ -998,14 +990,6 @@ Temps écoulé: %1</translation>
     <message>
         <source>Status query period:</source>
         <translation>Période de question de statut:</translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation>Largeur de segment des arcs:</translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation>Par Angle</translation>
     </message>
     <message>
         <source>Precision:</source>
@@ -1293,6 +1277,31 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Shortcut files (*.sc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

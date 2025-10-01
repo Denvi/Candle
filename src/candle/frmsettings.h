@@ -17,6 +17,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "colorpicker.h"
+#include "connections/connectiontype.h"
 
 namespace Ui {
 class frmSettings;
@@ -85,10 +86,6 @@ public:
 
     void addCustomSettings(QGroupBox *box);
 
-    QString port();
-    void setPort(QString port);
-    int baud();
-    void setBaud(int baud);
     double toolDiameter();
     void setToolDiameter(double diameter);
     double toolLength();
@@ -200,6 +197,19 @@ public:
     void setDeviceSettings(QMap<int, float> &settings);
     QVariantMap deviceSettingsVariantMap();
 
+    void setConnectionType(ConnectionType connectionType);
+    ConnectionType connectionType() const;
+
+    QString port();
+    void setPort(QString port);
+    int baud();
+    void setBaud(int baud);
+
+    void setTelnetAddress(const QString &address);
+    QString telnetAddress() const;
+    void setTelnetPort(int port);
+    int telnetPort();
+
     void setDefaultSettings();
 
 signals:
@@ -217,6 +227,8 @@ private slots:
     void on_cmdDefaults_clicked();
     void on_radDrawModeVectors_toggled(bool checked);
     void on_radDrawModeRaster_toggled(bool checked);
+    void on_radArcLengthMode_toggled(bool checked);
+    void on_radArcDegreeMode_toggled(bool checked);
     void on_radGrayscaleS_toggled(bool checked);
     void on_radGrayscaleZ_toggled(bool checked);
     void on_cmdShortcutsImport_clicked();

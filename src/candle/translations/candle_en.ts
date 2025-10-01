@@ -656,10 +656,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Buffer: %1 / %2 / %3</source>
         <translation></translation>
     </message>
@@ -833,6 +829,10 @@ Time elapsed: %1</source>
         <source>A-</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Connection error </source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -966,22 +966,6 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Z+</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Parser</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>by length</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
         <translation></translation>
     </message>
     <message>
@@ -1290,6 +1274,31 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Shortcut files (*.sc)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
         <translation></translation>
     </message>
 </context>

@@ -694,10 +694,6 @@ Time elapsed: %1</source>
 Tiempo transcurrido: %1</translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation>Error en puerto serie </translation>
-    </message>
-    <message>
         <source>Scroll</source>
         <translation>Desplazamiento</translation>
     </message>
@@ -835,6 +831,10 @@ Tiempo transcurrido: %1</translation>
         <source>A-</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Connection error </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -898,10 +898,6 @@ Tiempo transcurrido: %1</translation>
     <message>
         <source>max.:</source>
         <translation>max.:</translation>
-    </message>
-    <message>
-        <source>Parser</source>
-        <translation>Analizador</translation>
     </message>
     <message>
         <source>Visualizer</source>
@@ -988,10 +984,6 @@ Tiempo transcurrido: %1</translation>
         <translation>Recorrido de herramienta</translation>
     </message>
     <message>
-        <source>by length</source>
-        <translation>Por longitud</translation>
-    </message>
-    <message>
         <source>Drawn:</source>
         <translation>Dibujo:</translation>
     </message>
@@ -1006,14 +998,6 @@ Tiempo transcurrido: %1</translation>
     <message>
         <source>Status query period:</source>
         <translation>Período de la pregunta de estado:</translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation>Talla de segmento de aproximación del arco:</translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation>Por ángulo</translation>
     </message>
     <message>
         <source>Precision:</source>
@@ -1293,6 +1277,31 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>Shortcut files (*.sc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

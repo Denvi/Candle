@@ -280,7 +280,7 @@ bool frmSettings::arcDegreeMode()
 
 void frmSettings::setArcDegreeMode(bool arcDegreeMode)
 {
-    ui->radArcDegreeMode->setChecked(arcDegreeMode);
+    (arcDegreeMode ? ui->radArcDegreeMode : ui->radArcLengthMode)->setChecked(true);
 }
 
 bool frmSettings::showProgramCommands()
@@ -847,6 +847,9 @@ void frmSettings::setDefaultSettings()
     setPort("");
     setBaud(115200);
 
+    setTelnetAddress("192.168.0.1");
+    setTelnetPort(23);
+
     setIgnoreErrors(false);
 
     setQueryStateTime(40);
@@ -958,6 +961,18 @@ void frmSettings::on_radGrayscaleS_toggled(bool checked)
     ui->radGrayscaleZ->setChecked(!checked);
 }
 
+void frmSettings::on_radArcLengthMode_toggled(bool checked)
+{
+    ui->txtArcLength->setEnabled(checked);
+    ui->radArcDegreeMode->setChecked(!checked);
+}
+
+void frmSettings::on_radArcDegreeMode_toggled(bool checked)
+{
+    ui->txtArcDegree->setEnabled(checked);
+    ui->radArcLengthMode->setChecked(!checked);
+}
+
 void frmSettings::on_radGrayscaleZ_toggled(bool checked)
 {
     ui->radGrayscaleS->setChecked(!checked);
@@ -1009,4 +1024,35 @@ void frmSettings::on_cmdShortcutsExport_clicked()
         file.write(shortcutsDocument.toJson(QJsonDocument::Compact));
         file.close();
     }
+}
+
+void frmSettings::setConnectionType(ConnectionType connectionType)
+{
+    (connectionType == ConnectionType::SerialPort ? ui->radConnectionSerial : ui->radConnectionTelnet)
+        ->setChecked(true);
+}
+
+ConnectionType frmSettings::connectionType() const
+{
+    return ui->radConnectionSerial->isChecked() ? ConnectionType::SerialPort : ConnectionType::Telnet;
+}
+
+void frmSettings::setTelnetAddress(const QString &address)
+{
+    ui->txtTelnetAddress->setText(address);
+}
+
+QString frmSettings::telnetAddress() const
+{
+    return ui->txtTelnetAddress->text();
+}
+
+void frmSettings::setTelnetPort(int port)
+{
+    ui->spbTelnetPort->setValue(port);
+}
+
+int frmSettings::telnetPort()
+{
+    return ui->spbTelnetPort->value();
 }
