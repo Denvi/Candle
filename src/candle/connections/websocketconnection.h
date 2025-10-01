@@ -10,7 +10,7 @@ class WebSocketConnection : public Connection
 
 public:
     explicit WebSocketConnection(QObject *parent = nullptr);
-    WebSocketConnection(const QString &url, QObject *parent = nullptr);
+    WebSocketConnection(const QString &url, bool binary, QObject *parent = nullptr);
 
     void connect() override;
     void disconnect() override;
@@ -23,11 +23,18 @@ public:
     void setUrl(const QString &url);
     QString url() const;
 
+    void setBinaryMode(bool binaryMode);
+    bool binaryMode() const;
+
 private slots:
     void onBinaryMessage(const QByteArray &message);
+    void onTextMessage(const QString &message);
     void onError(QAbstractSocket::SocketError error);
 
 private:
     QWebSocket m_ws;
     QString m_url;
+    bool m_binaryMode;
+
+    void processMessage(const QString &message, const QString &delimeter = "\n");
 };

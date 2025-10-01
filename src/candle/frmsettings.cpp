@@ -850,6 +850,9 @@ void frmSettings::setDefaultSettings()
     setTelnetAddress("192.168.0.1");
     setTelnetPort(23);
 
+    setWebSocketUrl("ws://192.168.0.1:81");
+    setWebSocketBinaryMode(false);
+
     setIgnoreErrors(false);
 
     setQueryStateTime(40);
@@ -1072,4 +1075,14 @@ void frmSettings::setWebSocketUrl(const QString &url)
 QString frmSettings::webSocketUrl() const
 {
     return ui->txtWebSocketUrl->text();
+}
+
+void frmSettings::setWebSocketBinaryMode(bool binary)
+{
+    (binary ? ui->radWebSocketModeBinary : ui->radWebSocketModeText)->setChecked(true);
+}
+
+bool frmSettings::webSocketBinaryMode() const
+{
+    return ui->radWebSocketModeBinary->isChecked();
 }

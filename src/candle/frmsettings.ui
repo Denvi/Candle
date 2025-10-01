@@ -68,7 +68,7 @@ QGroupBox {
           <x>0</x>
           <y>0</y>
           <width>697</width>
-          <height>618</height>
+          <height>597</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -329,6 +329,57 @@ QGroupBox {
                      </size>
                     </property>
                    </spacer>
+                  </item>
+                  <item row="7" column="3">
+                   <widget class="QLabel" name="label_37">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Mode:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="4">
+                   <widget class="QWidget" name="widget_5" native="true">
+                    <layout class="QHBoxLayout" name="horizontalLayout_11">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="radWebSocketModeText">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="text">
+                        <string>Text</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="radWebSocketModeBinary">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="text">
+                        <string>Binary</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -2145,6 +2196,54 @@ segment size:</string>
     <hint type="destinationlabel">
      <x>522</x>
      <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionWebSocket</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_37</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>659</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>656</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionWebSocket</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>radWebSocketModeText</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>725</x>
+     <y>205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>725</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionWebSocket</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>radWebSocketModeBinary</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>754</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>863</x>
+     <y>235</y>
     </hint>
    </hints>
   </connection>

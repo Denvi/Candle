@@ -212,6 +212,8 @@ public:
 
     void setWebSocketUrl(const QString &url);
     QString webSocketUrl() const;
+    void setWebSocketBinaryMode(bool binary);
+    bool webSocketBinaryMode() const;
 
     void setDefaultSettings();
 
