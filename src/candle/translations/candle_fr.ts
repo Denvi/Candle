@@ -900,10 +900,6 @@ Temps écoulé: %1</translation>
         <translation>max.:</translation>
     </message>
     <message>
-        <source>Parser</source>
-        <translation>Analyseur</translation>
-    </message>
-    <message>
         <source>Visualizer</source>
         <translation>Apparence</translation>
     </message>
@@ -980,10 +976,6 @@ Temps écoulé: %1</translation>
         <translation>Parcours d&apos;outil</translation>
     </message>
     <message>
-        <source>by length</source>
-        <translation>Par longueur</translation>
-    </message>
-    <message>
         <source>Drawn:</source>
         <translation>Dessin:</translation>
     </message>
@@ -998,14 +990,6 @@ Temps écoulé: %1</translation>
     <message>
         <source>Status query period:</source>
         <translation>Période de question de statut:</translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation>Largeur de segment des arcs:</translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation>Par Angle</translation>
     </message>
     <message>
         <source>Precision:</source>
@@ -1305,6 +1289,19 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

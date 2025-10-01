@@ -280,7 +280,7 @@ bool frmSettings::arcDegreeMode()
 
 void frmSettings::setArcDegreeMode(bool arcDegreeMode)
 {
-    ui->radArcDegreeMode->setChecked(arcDegreeMode);
+    (arcDegreeMode ? ui->radArcDegreeMode : ui->radArcLengthMode)->setChecked(true);
 }
 
 bool frmSettings::showProgramCommands()
@@ -961,6 +961,18 @@ void frmSettings::on_radGrayscaleS_toggled(bool checked)
     ui->radGrayscaleZ->setChecked(!checked);
 }
 
+void frmSettings::on_radArcLengthMode_toggled(bool checked)
+{
+    ui->txtArcLength->setEnabled(checked);
+    ui->radArcDegreeMode->setChecked(!checked);
+}
+
+void frmSettings::on_radArcDegreeMode_toggled(bool checked)
+{
+    ui->txtArcDegree->setEnabled(checked);
+    ui->radArcLengthMode->setChecked(!checked);
+}
+
 void frmSettings::on_radGrayscaleZ_toggled(bool checked)
 {
     ui->radGrayscaleS->setChecked(!checked);
@@ -1016,14 +1028,8 @@ void frmSettings::on_cmdShortcutsExport_clicked()
 
 void frmSettings::setConnectionType(ConnectionType connectionType)
 {
-    if (connectionType == ConnectionType::SerialPort)
-    {
-        ui->radConnectionSerial->setChecked(true);
-    }
-    else
-    {
-        ui->radConnectionTelnet->setChecked(true);
-    }
+    (connectionType == ConnectionType::SerialPort ? ui->radConnectionSerial : ui->radConnectionTelnet)
+        ->setChecked(true);
 }
 
 ConnectionType frmSettings::connectionType() const

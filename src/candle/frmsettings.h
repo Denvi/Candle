@@ -227,6 +227,8 @@ private slots:
     void on_cmdDefaults_clicked();
     void on_radDrawModeVectors_toggled(bool checked);
     void on_radDrawModeRaster_toggled(bool checked);
+    void on_radArcLengthMode_toggled(bool checked);
+    void on_radArcDegreeMode_toggled(bool checked);
     void on_radGrayscaleS_toggled(bool checked);
     void on_radGrayscaleZ_toggled(bool checked);
     void on_cmdShortcutsImport_clicked();

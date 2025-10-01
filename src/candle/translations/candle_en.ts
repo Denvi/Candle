@@ -969,22 +969,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Parser</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>by length</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Sender</source>
         <translation></translation>
     </message>
@@ -1302,6 +1286,19 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Address:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
         <translation></translation>
     </message>
 </context>

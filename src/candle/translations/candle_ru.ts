@@ -903,10 +903,6 @@ Time elapsed: %1</source>
         <translation>Период опроса:</translation>
     </message>
     <message>
-        <source>Parser</source>
-        <translation>Парсер</translation>
-    </message>
-    <message>
         <source>Visualizer</source>
         <translation>Визуализатор</translation>
     </message>
@@ -1014,14 +1010,6 @@ Time elapsed: %1</source>
     <message>
         <source>Background:</source>
         <translation>Фон:</translation>
-    </message>
-    <message>
-        <source>Arc approximation segment size:</source>
-        <translation>Размер сегментов, аппроксимирующих дуги:</translation>
-    </message>
-    <message>
-        <source>by angle (deg.)</source>
-        <translation>по углу (градус)</translation>
     </message>
     <message>
         <source>Text:</source>
@@ -1228,10 +1216,6 @@ Time elapsed: %1</source>
         <translation>Отображать команды G-code программы</translation>
     </message>
     <message>
-        <source>by length</source>
-        <translation>по длине</translation>
-    </message>
-    <message>
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
@@ -1310,6 +1294,20 @@ Time elapsed: %1</source>
     <message>
         <source>Address:</source>
         <translation>Адрес:</translation>
+    </message>
+    <message>
+        <source>Arc approximation
+segment size:</source>
+        <translation>Размер сегментов,
+аппроксимирующих дуги:</translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation>По длине</translation>
+    </message>
+    <message>
+        <source>By angle (deg.)</source>
+        <translation>По углу (градус)</translation>
     </message>
 </context>
 </TS>
