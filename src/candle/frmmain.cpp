@@ -33,6 +33,7 @@
 #include "utils/timeestimator.h"
 #include "connections/serialportconnection.h"
 #include "connections/telnetconnection.h"
+#include "connections/websocketconnection.h"
 
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
@@ -2887,6 +2888,7 @@ void frmMain::storeSettings()
     set->setValue("baud", m_settings->baud());
     set->setValue("telnetAddress", m_settings->telnetAddress());
     set->setValue("telnetPort", m_settings->telnetPort());
+    set->setValue("webSocketUrl", m_settings->webSocketUrl());
     set->setValue("ignoreErrors", m_settings->ignoreErrors());
     set->setValue("autoLine", m_settings->autoLine());
     set->setValue("toolDiameter", m_settings->toolDiameter());
@@ -3072,6 +3074,7 @@ void frmMain::restoreSettings()
         m_settings->setBaud(set->value("baud", 115200).toInt());
         m_settings->setTelnetAddress(set->value("telnetAddress", "192.168.0.1").toString());
         m_settings->setTelnetPort(set->value("telnetPort", 23).toInt());
+        m_settings->setWebSocketUrl(set->value("webSocketUrl", "ws://192.168.0.1:81").toString());
         m_settings->setIgnoreErrors(set->value("ignoreErrors", false).toBool());
         m_settings->setAutoLine(set->value("autoLine", true).toBool());
         m_settings->setToolDiameter(set->value("toolDiameter", 3).toDouble());
@@ -3573,6 +3576,30 @@ void frmMain::applySettings()
                     delete m_currentConnection;
                 }
                 m_currentConnection = new TelnetConnection(m_settings->telnetAddress(), m_settings->telnetPort());
+                newConnectionCreated = true;
+            }
+        }
+        break;
+        case ConnectionType::WebSocket:
+        {
+            auto webSocketConnection = qobject_cast<WebSocketConnection*>(m_currentConnection);
+            if (m_currentConnection && webSocketConnection) {
+                // Check if websocket settings changed
+                connectionSettingsChanged = (m_settings->webSocketUrl() != webSocketConnection->url());
+
+                if (connectionSettingsChanged) {
+                    if (webSocketConnection->isConnected())
+                        webSocketConnection->disconnect();
+
+                    webSocketConnection->setUrl(m_settings->webSocketUrl());
+                }
+            } else {
+                // Need to create a new websocket connection
+                if (m_currentConnection) {
+                    m_currentConnection->disconnect();
+                    delete m_currentConnection;
+                }
+                m_currentConnection = new WebSocketConnection(m_settings->webSocketUrl());
                 newConnectionCreated = true;
             }
         }

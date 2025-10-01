@@ -1304,5 +1304,13 @@ segment size:</source>
         <source>By angle (deg.)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>WebSocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
