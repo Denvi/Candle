@@ -1309,5 +1309,13 @@ segment size:</source>
         <source>URL:</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Mode:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Binary</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>
