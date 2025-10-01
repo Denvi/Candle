@@ -3,5 +3,6 @@
 enum ConnectionType
 {
     SerialPort,
-    Telnet
+    Telnet,
+    WebSocket
 };

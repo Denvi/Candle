@@ -106,7 +106,7 @@ frmSettings::~frmSettings()
 int frmSettings::exec()
 {
     // Adjust categories list size
-    ui->listCategories->setMinimumWidth(ui->listCategories->sizeHintForColumn(0) * 1.1);
+    ui->listCategories->setMinimumWidth(ui->listCategories->sizeHintForColumn(0) * 1.2);
 
     // Store settings to undo
     m_storedValues.clear();
@@ -1028,13 +1028,20 @@ void frmSettings::on_cmdShortcutsExport_clicked()
 
 void frmSettings::setConnectionType(ConnectionType connectionType)
 {
-    (connectionType == ConnectionType::SerialPort ? ui->radConnectionSerial : ui->radConnectionTelnet)
-        ->setChecked(true);
+    (connectionType == ConnectionType::SerialPort
+        ? ui->radConnectionSerial
+        : connectionType == ConnectionType::Telnet
+            ? ui->radConnectionTelnet
+            : ui->radConnectionWebSocket)->setChecked(true);
 }
 
 ConnectionType frmSettings::connectionType() const
 {
-    return ui->radConnectionSerial->isChecked() ? ConnectionType::SerialPort : ConnectionType::Telnet;
+    return ui->radConnectionSerial->isChecked()
+        ? ConnectionType::SerialPort
+        : ui->radConnectionTelnet->isChecked()
+            ? ConnectionType::Telnet
+            : ConnectionType::WebSocket;
 }
 
 void frmSettings::setTelnetAddress(const QString &address)
@@ -1055,4 +1062,14 @@ void frmSettings::setTelnetPort(int port)
 int frmSettings::telnetPort()
 {
     return ui->spbTelnetPort->value();
+}
+
+void frmSettings::setWebSocketUrl(const QString &url)
+{
+    ui->txtWebSocketUrl->setText(url);
+}
+
+QString frmSettings::webSocketUrl() const
+{
+    return ui->txtWebSocketUrl->text();
 }

@@ -210,6 +210,9 @@ public:
     void setTelnetPort(int port);
     int telnetPort();
 
+    void setWebSocketUrl(const QString &url);
+    QString webSocketUrl() const;
+
     void setDefaultSettings();
 
 signals:
