@@ -111,21 +111,38 @@ QGroupBox {
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
                  <layout class="QGridLayout" name="gridLayout_8" columnstretch="0,1,0,0,1">
-                  <item row="0" column="3">
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>Baud:</string>
-                    </property>
-                   </widget>
+                  <item row="1" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+                    <item>
+                     <widget class="QComboBox" name="cboPort">
+                      <property name="minimumSize">
+                       <size>
+                        <width>150</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="editable">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="cmdRefresh">
+                      <property name="styleSheet">
+                       <string notr="true">padding: 0 1 0 2;</string>
+                      </property>
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="images.qrc">
+                        <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label">
-                    <property name="text">
-                     <string>Port:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="4">
+                  <item row="1" column="4">
                    <widget class="QComboBox" name="cboBaud">
                     <property name="editable">
                      <bool>true</bool>
@@ -170,38 +187,47 @@ QGroupBox {
                     </item>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
-                    <item>
-                     <widget class="QComboBox" name="cboPort">
-                      <property name="editable">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="cmdRefresh">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">padding: 0 1 0 2;</string>
-                      </property>
-                      <property name="text">
-                       <string>...</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="images.qrc">
-                        <normaloff>:/images/restart.png</normaloff>:/images/restart.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_17">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Address:</string>
+                    </property>
+                   </widget>
                   </item>
-                  <item row="0" column="2">
+                  <item row="4" column="1">
+                   <widget class="QLineEdit" name="txtTelnetAddress">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0" colspan="5">
+                   <widget class="QRadioButton" name="radConnectionSerial">
+                    <property name="text">
+                     <string>Serial</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="4">
+                   <widget class="QSpinBox" name="spbTelnetPort">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="maximum">
+                     <number>65535</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
                    <spacer name="horizontalSpacer_7">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -217,7 +243,74 @@ QGroupBox {
                     </property>
                    </spacer>
                   </item>
+                  <item row="4" column="3">
+                   <widget class="QLabel" name="label_34">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Port:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label">
+                    <property name="text">
+                     <string>Port:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0" colspan="5">
+                   <widget class="QRadioButton" name="radConnectionTelnet">
+                    <property name="text">
+                     <string>Telnet</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="1" column="3">
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Baud:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <spacer name="verticalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>0</width>
+                      <height>6</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>0</width>
+                    <height>6</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_14">
+                  <item>
                    <widget class="QLabel" name="label_11">
                     <property name="text">
                      <string>Status query period:</string>
@@ -227,7 +320,7 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="4">
+                  <item>
                    <widget class="QSpinBox" name="txtQueryStateTime">
                     <property name="font">
                      <font>
@@ -244,9 +337,22 @@ QGroupBox {
                      <number>10</number>
                     </property>
                     <property name="maximum">
-                     <number>9999</number>
+                     <number>99999</number>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </item>
@@ -261,7 +367,7 @@ QGroupBox {
                <property name="sizeHint" stdset="0">
                 <size>
                  <width>20</width>
-                 <height>505</height>
+                 <height>20</height>
                 </size>
                </property>
               </spacer>
@@ -575,8 +681,8 @@ QGroupBox {
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>20</width>
-                 <height>428</height>
+                 <width>0</width>
+                 <height>0</height>
                 </size>
                </property>
               </spacer>
@@ -1797,8 +1903,6 @@ QGroupBox {
  </customwidgets>
  <tabstops>
   <tabstop>listCategories</tabstop>
-  <tabstop>cboPort</tabstop>
-  <tabstop>cmdRefresh</tabstop>
   <tabstop>cboToolType</tabstop>
   <tabstop>txtToolAngle</tabstop>
   <tabstop>txtToolDiameter</tabstop>
@@ -1821,12 +1925,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>334</x>
+     <y>48</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>357</x>
+     <y>48</y>
     </hint>
    </hints>
   </connection>
@@ -1837,12 +1941,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>297</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>334</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
@@ -1853,12 +1957,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>297</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>357</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
@@ -1869,12 +1973,12 @@ QGroupBox {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>334</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>285</x>
+     <y>51</y>
     </hint>
    </hints>
   </connection>
@@ -1885,12 +1989,12 @@ QGroupBox {
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>334</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
-     <x>367</x>
-     <y>34</y>
+     <x>296</x>
+     <y>51</y>
     </hint>
    </hints>
   </connection>
@@ -1901,12 +2005,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>13</y>
+     <x>338</x>
+     <y>45</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>13</y>
+     <x>356</x>
+     <y>45</y>
     </hint>
    </hints>
   </connection>
@@ -1917,12 +2021,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>297</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>334</x>
+     <y>54</y>
     </hint>
    </hints>
   </connection>
@@ -1933,12 +2037,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>297</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>357</x>
+     <y>54</y>
     </hint>
    </hints>
   </connection>
@@ -1949,12 +2053,12 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>394</x>
-     <y>42</y>
+     <x>357</x>
+     <y>44</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>42</y>
+     <x>357</x>
+     <y>43</y>
     </hint>
    </hints>
   </connection>
@@ -1965,12 +2069,156 @@ QGroupBox {
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>381</x>
-     <y>144</y>
+     <x>291</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>553</x>
-     <y>149</y>
+     <x>338</x>
+     <y>54</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionSerial</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>320</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>307</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionSerial</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cboPort</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>397</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>419</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionSerial</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cmdRefresh</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>370</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>606</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionSerial</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>60</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionSerial</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cboBaud</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>828</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionTelnet</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_17</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionTelnet</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtTelnetAddress</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>384</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionTelnet</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_34</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>515</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>656</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radConnectionTelnet</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spbTelnetPort</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>789</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>156</y>
     </hint>
    </hints>
   </connection>

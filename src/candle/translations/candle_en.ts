@@ -656,10 +656,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Buffer: %1 / %2 / %3</source>
         <translation></translation>
     </message>
@@ -831,6 +827,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>A-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Connection error </source>
         <translation></translation>
     </message>
 </context>
@@ -1290,6 +1290,18 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Shortcut files (*.sc)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Address:</source>
         <translation></translation>
     </message>
 </context>

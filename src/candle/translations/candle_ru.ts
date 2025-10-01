@@ -731,10 +731,6 @@ Time elapsed: %1</source>
         <translation>Порт открыт</translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation>Ошибка последовательного порта </translation>
-    </message>
-    <message>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -837,6 +833,10 @@ Time elapsed: %1</source>
     <message>
         <source>A-</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Connection error </source>
+        <translation>Ошибка связи </translation>
     </message>
 </context>
 <context>
@@ -1298,6 +1298,18 @@ Time elapsed: %1</source>
     <message>
         <source>Shortcut files (*.sc)</source>
         <translation>Файлы быстрых клавиш  (*.sc)</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation>Последовательный порт</translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation>Telnet</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Адрес:</translation>
     </message>
 </context>
 </TS>

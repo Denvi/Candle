@@ -694,10 +694,6 @@ Time elapsed: %1</source>
 Tiempo transcurrido: %1</translation>
     </message>
     <message>
-        <source>Serial port error </source>
-        <translation>Error en puerto serie </translation>
-    </message>
-    <message>
         <source>Scroll</source>
         <translation>Desplazamiento</translation>
     </message>
@@ -833,6 +829,10 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>A-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection error </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1293,6 +1293,18 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>Shortcut files (*.sc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
