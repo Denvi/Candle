@@ -46,7 +46,7 @@ void TelnetConnection::send(const QByteArray &data)
 
 void TelnetConnection::send(const QString &data)
 {
-    m_socket.write((data + "\r").toLatin1());
+    m_socket.write((data + "\n").toLatin1());
 }
 
 void TelnetConnection::send(const char *data)
