@@ -17,13 +17,14 @@ void ScriptDevice::sendCommands(QStringList commands, int index)
     m_frmMain->sendCommands(commands.join("\n"), index);
 }
 
-void ScriptDevice::sendCommand(QString command, int index, bool showInConsole, bool direct)
+void ScriptDevice::sendCommand(QString command, int index, bool showInConsole)
 {
-    if (direct) {
-        m_frmMain->m_currentConnection->send(command);
-    } else {
-        m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
-    }
+    m_frmMain->sendCommand(command, index, showInConsole, m_frmMain->m_queue.size());
+}
+
+void ScriptDevice::sendRuntimeCommand(QString command)
+{
+    m_frmMain->m_currentConnection->send(command.toLatin1());
 }
 
 void ScriptDevice::waitResponses()

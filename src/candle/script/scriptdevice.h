@@ -19,7 +19,8 @@ class ScriptDevice : public QObject
 public slots:
     void sendCommands(QString commands, int index = -100);
     void sendCommands(QStringList commands, int index = -100);
-    void sendCommand(QString command, int index = -100, bool showInConsole = true, bool direct = false);
+    void sendCommand(QString command, int index = -100, bool showInConsole = true);
+    void sendRuntimeCommand(QString command);
     void waitResponses();
     void storeParserState();
     void restoreParserState();

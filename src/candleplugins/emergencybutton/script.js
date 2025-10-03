@@ -34,8 +34,16 @@ function createPanelWidget()
     return uiPanel;
 }
 
+function createWindowWidget()
+{
+}
+
+function createSettingsWidget()
+{
+}
+
 function onButtonClicked()
 {
     // Direct CTRL+X command send
-    app.device.sendCommand(String.fromCharCode(24), -100, false, true);
+    app.device.sendRuntimeCommand(String.fromCharCode(24));
 }

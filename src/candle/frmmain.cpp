@@ -5071,10 +5071,17 @@ void frmMain::jogContinuous()
             // Store jog vector before block
             QVector4D j = m_jogVector;
 
-            if (v.length()) {
+            if (v.length())
+            {
                 block = true;
+
+                QElapsedTimer t;
+                t.start();
+
                 m_currentConnection->send("\x85");
-                while (m_deviceState == DeviceJog) qApp->processEvents();
+                while (m_deviceState == DeviceJog && t.elapsed() < 5000)
+                    qApp->processEvents();
+
                 block = false;
             }
 

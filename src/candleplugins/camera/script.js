@@ -39,6 +39,10 @@ function init()
     app.settingsSetByDefault.connect(onAppSettingsDefault);
 }
 
+function createPanelWidget()
+{
+}
+
 function createWindowWidget()
 {
     var f = new QFile(pluginPath + "/widget.ui");

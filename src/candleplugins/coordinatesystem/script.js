@@ -63,6 +63,14 @@ function createPanelWidget()
     return uiPanel;
 }
 
+function createWindowWidget()
+{
+}
+
+function createSettingsWidget()
+{
+}
+
 function onAppDeviceStateChanged(status)
 {
     uiPanel.setEnabled((status == 1) && (senderState == 4));
