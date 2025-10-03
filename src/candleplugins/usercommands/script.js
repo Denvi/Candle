@@ -47,6 +47,10 @@ function createPanelWidget()
     return uiPanel;
 }
 
+function createWindowWidget()
+{
+}
+
 function createSettingsWidget()
 {
     var f = new QFile(pluginPath + "/settings.ui");

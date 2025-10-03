@@ -34,6 +34,14 @@ function createPanelWidget()
     return uiPanel;
 }
 
+function createWindowWidget()
+{
+}
+
+function createSettingsWidget()
+{
+}
+
 function onButtonClicked()
 {
     // Direct CTRL+X command send
