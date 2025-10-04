@@ -4898,7 +4898,7 @@ void frmMain::scrollToTableIndex(QModelIndex index)
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj->inherits("QWidgetWindow")) {
+    if (obj->inherits("QWidgetWindow") && !m_settings->isVisible()) {
 
         // Jog on keyboard control
         QKeySequence ks;
