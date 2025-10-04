@@ -2956,6 +2956,9 @@ QLabel[overrided=&quot;false&quot;] {
             <property name="insertPolicy">
              <enum>QComboBox::InsertAtTop</enum>
             </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+            </property>
            </widget>
           </item>
           <item>
