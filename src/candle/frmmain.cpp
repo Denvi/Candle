@@ -25,6 +25,7 @@
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
+#include "frmchecklist.h"
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
 #include "layoutentry.h"
@@ -730,6 +731,102 @@ void frmMain::on_actServiceProfilesDelete_triggered()
     }
 
     actions.first()->setChecked(true);
+}
+
+void frmMain::on_actServiceProfilesImport_triggered()
+{
+    QString fileName  = QFileDialog::getOpenFileName(this, tr("Open"), "", tr("Profiles (*.cpr)"));
+    if (fileName.isEmpty())
+        return;
+
+    QSettings set(fileName, QSettings::IniFormat);
+    set.setIniCodec("UTF8");
+    auto profiles = set.value("profiles").toList();
+
+    QStringList profileNames;
+    for (auto profile : profiles)
+        profileNames.append(profile.value<SettingsProfileEntry>().name);
+
+    frmCheckList checkListDialog(this);
+    checkListDialog.setWindowTitle(tr("Select profiles"));
+    checkListDialog.setItems(profileNames);
+
+    if (!checkListDialog.exec() || !checkListDialog.checkedItemIndexes().length())
+        return;
+
+    auto actions = m_profilesActionGroup->actions();
+    for (auto i : checkListDialog.checkedItemIndexes())
+    {
+        auto profile = profiles.at(i).value<SettingsProfileEntry>();
+
+        // Check if profile exists
+        auto it = std::find_if(actions.constBegin(), actions.constEnd(), [=](QAction *action) {
+            return action->text() == profile.name;
+        });
+
+        // Update existing profile
+        if (it != actions.constEnd()) {
+            auto r = QMessageBox::warning(this, "", QString(tr("Profile '%1' already exists. Overwrite?"))
+                .arg(profile.name), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+            if (r == QMessageBox::Cancel)
+                return;
+            else if (r == QMessageBox::No)
+                continue;
+
+            (*it)->setData(SettingsProfileEntry { profile.name, profile.settings });
+
+            if ((*it)->isChecked())
+            {
+                m_storage.restore(profile.settings);
+                restoreSettings();
+                ui->actServiceProfilesDelete->setEnabled((*it) != ui->actServiceProfilesDefault);
+            }
+        // Append new profile
+        } else {
+            auto action = new QAction(profile.name, m_profilesActionGroup);
+            action->setData(SettingsProfileEntry { profile.name, profile.settings });
+            action->setCheckable(true);
+
+            auto menuActions = ui->mnuServiceProfiles->actions();
+            auto separator = *std::find_if(menuActions.constBegin(), menuActions.constEnd(), [](QAction *action) { 
+                return action->isSeparator();
+            });
+
+            m_profilesActionGroup->addAction(action);
+            ui->mnuServiceProfiles->insertAction(separator, action);
+
+            connect(action, &QAction::toggled, this, &frmMain::onActServiceProfilesSelected);
+        }        
+    }
+}
+
+void frmMain::on_actServiceProfilesExport_triggered()
+{
+    auto actions = m_profilesActionGroup->actions();
+
+    QStringList profileNames;
+    for (auto it = actions.constBegin(); it != actions.constEnd(); it++)
+        profileNames.append((*it)->data().value<SettingsProfileEntry>().name);
+
+    frmCheckList checkListDialog(this);
+    checkListDialog.setWindowTitle(tr("Select profiles"));
+    checkListDialog.setItems(profileNames);
+
+    if (!checkListDialog.exec() || !checkListDialog.checkedItemIndexes().length())
+        return;
+
+    QString fileName  = QFileDialog::getSaveFileName(this, tr("Save"), "", tr("Profiles (*.cpr)"));
+    if (fileName.isEmpty())
+        return;
+
+    QVariantList profiles;
+    for (auto i : checkListDialog.checkedItemIndexes())
+        profiles.append(actions.at(i)->data());
+
+    QSettings set(fileName, QSettings::IniFormat);
+    set.setIniCodec("UTF8");
+    set.setValue("profiles", profiles);
 }
 
 void frmMain::on_cmdFileOpen_clicked()

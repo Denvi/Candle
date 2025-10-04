@@ -838,6 +838,30 @@ Time elapsed: %1</source>
         <source>Connection error </source>
         <translation>Ошибка связи </translation>
     </message>
+    <message>
+        <source>&amp;Import</source>
+        <translation>&amp;Импорт</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Экспорт</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Select profiles</source>
+        <translation>Выберите профили</translation>
+    </message>
+    <message>
+        <source>Profile &apos;%1&apos; already exists. Overwrite?</source>
+        <translation>Профиль &apos;%1&apos; уже существует. Перезаписать?</translation>
+    </message>
+    <message>
+        <source>Profiles (*.cpr)</source>
+        <translation>Профили (*.cpr)</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
