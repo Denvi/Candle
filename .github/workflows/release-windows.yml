@@ -56,13 +56,15 @@ jobs:
         $version = $tag -replace '^v', ''
         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Create archive
+    - name: Prepare folder for upload
+      shell: pwsh
       run: |
-        $name = "Candle_${{ steps.tag.outputs.version }}_x64"
-        Compress-Archive -Path ${{github.workspace}}/build/Candle -DestinationPath "$name.zip"
+        New-Item -ItemType Directory -Path ${{github.workspace}}/artifact
+        Copy-Item -Recurse -Path ${{github.workspace}}/build/Candle `
+                  -Destination ${{github.workspace}}/artifact/Candle
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Candle_${{ steps.tag.outputs.version }}_x64
-        path: Candle_${{ steps.tag.outputs.version }}_x64.zip
+        path: ${{github.workspace}}/artifact/*
