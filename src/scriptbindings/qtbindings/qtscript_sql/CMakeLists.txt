@@ -8,4 +8,6 @@ target_include_directories(qtscript_sql PRIVATE include)
 
 target_link_libraries(qtscript_sql PRIVATE Qt5::Core Qt5::Script Qt5::Sql)
 
-install(TARGETS qtscript_sql RUNTIME DESTINATION script)
+install(TARGETS qtscript_sql
+    RUNTIME DESTINATION script
+    LIBRARY DESTINATION script)
