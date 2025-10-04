@@ -160,6 +160,8 @@ private slots:
     void on_actViewLockWindows_toggled(bool checked);
     void on_actServiceProfilesCreate_triggered();
     void on_actServiceProfilesDelete_triggered();
+    void on_actServiceProfilesImport_triggered();
+    void on_actServiceProfilesExport_triggered();
 
     void on_cmdFileOpen_clicked();
     void on_cmdFileSend_clicked();

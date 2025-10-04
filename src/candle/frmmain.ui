@@ -358,6 +358,9 @@ QLabel[overrided=&quot;false&quot;] {
      <addaction name="separator"/>
      <addaction name="actServiceProfilesCreate"/>
      <addaction name="actServiceProfilesDelete"/>
+     <addaction name="separator"/>
+     <addaction name="actServiceProfilesImport"/>
+     <addaction name="actServiceProfilesExport"/>
     </widget>
     <addaction name="actServiceSettings"/>
     <addaction name="separator"/>
@@ -3561,6 +3564,16 @@ QLabel[overrided=&quot;false&quot;] {
   <action name="actJogAMinus">
    <property name="text">
     <string>A-</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesImport">
+   <property name="text">
+    <string>&amp;Import</string>
+   </property>
+  </action>
+  <action name="actServiceProfilesExport">
+   <property name="text">
+    <string>&amp;Export</string>
    </property>
   </action>
  </widget>

@@ -835,6 +835,30 @@ Tempo transcorrido: %1</translation>
         <source>Connection error </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profile &apos;%1&apos; already exists. Overwrite?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profiles (*.cpr)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
