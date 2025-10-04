@@ -2,6 +2,7 @@
 // Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QApplication>
+#include <QDir>
 #include <QFile>
 #include <QTextStream>
 #include <QDateTime>
@@ -75,8 +76,10 @@ static void logToFile(QtMsgType type, const QMessageLogContext &context, const Q
 
 void installFileLogHandler()
 {
-    logFileName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/candle.log";
+    auto logDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    logFileName = logDir + "/candle.log";
 
+    QDir().mkpath(logDir);
     QFile file(logFileName);
 
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
