@@ -11,7 +11,11 @@ execute_process(
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script LinguistTools WinExtras Network WebSockets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script LinguistTools Network WebSockets REQUIRED)
+
+if(WIN32)
+    find_package(WinExtras)
+endif()
 
 file(GLOB_RECURSE SRC_FILES *.cpp)
 file(GLOB TS_FILES translations/*.ts)
@@ -42,10 +46,14 @@ target_include_directories(candle PRIVATE . ../customwidgets)
 target_compile_definitions(candle PRIVATE
         _USE_MATH_DEFINES
         QT_NO_DEBUG
-        WINDOWS
 )
 
-target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::WinExtras Qt5::Network Qt5::WebSockets)
+target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::Network Qt5::WebSockets)
+
+if(WIN32)
+    target_link_libraries(candle PRIVATE Qt5::WinExtras)
+    target_compile_definition(candle PRIVATE WINDOWS)
+endif()
 
 set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
 

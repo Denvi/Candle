@@ -977,7 +977,9 @@ void frmMain::on_cmdCommandSend_clicked()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    auto event = QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+
+    QCoreApplication::sendEvent(ui->cboCommand, &event);
 }
 
 void frmMain::on_cmdClearConsole_clicked()
