@@ -2913,7 +2913,7 @@ void frmMain::preloadSettings()
 void frmMain::loadSettings()
 {
     m_settingsLoading = true;
-    
+
     QSettings set;
     set.beginGroup("General");
 
@@ -3409,11 +3409,6 @@ void frmMain::saveProfiles(QSettings &set)
 
 void frmMain::loadProfiles(QSettings &set)
 {
-    // Register types
-    qRegisterMetaType<SettingsProfileEntry>();
-    qRegisterMetaTypeStreamOperators<SettingsProfileEntry>("SettingsProfileEntry");
-    QMetaType::registerDebugStreamOperator<SettingsProfileEntry>();
-
     // Group for exclusive menu item check
     m_profilesActionGroup = new QActionGroup(this);
     m_profilesActionGroup->setExclusive(true);
