@@ -1922,7 +1922,13 @@ void frmMain::onConnectionDataReceived(QString data)
                                     wpx.cap(4).toDouble());
 
             m_machineBoundsDrawer.setTranslation(
-                -QVector3D(toMetric(workOffset.x()), toMetric(workOffset.y()), toMetric(workOffset.z())));
+                -QVector3D(
+                    toMetric(workOffset.x()),
+                    toMetric(workOffset.y()),
+                    m_settings->referenceZPlus()
+                        ? toMetric(workOffset.z()) - m_settings->machineBounds().z()
+                        : toMetric(workOffset.z())
+                ));
         }
 
         // Update work coordinates
@@ -4898,7 +4904,7 @@ void frmMain::scrollToTableIndex(QModelIndex index)
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj->inherits("QWidgetWindow")) {
+    if (obj->inherits("QWidgetWindow") && !m_settings->isVisible()) {
 
         // Jog on keyboard control
         QKeySequence ks;
@@ -5205,7 +5211,8 @@ void frmMain::jogContinuous()
                               j.z() * b.z() < 0 ? 0 - m.z() : b.z() - m.z());
                 for (int i = 0; i < 3; i++) if ((j[i] && (qAbs(t[i]) < d)) || (j[i] && !d)) d = qAbs(t[i]);
                 // Coords not aligned, add some bounds offset
-                d -= m_settings->units() ? toMetric(0.0005) : 0.005;
+                double homingOffset = m_settings->deviceSettings().value(27, 1.0);
+                d -= (m_settings->units() ? toMetric(0.0005) : 0.005) + homingOffset;
             } else {
                 for (int i = 0; i < 3; i++) if (j[i] && (qAbs(b[i]) > d)) d = qAbs(b[i]);
             }
