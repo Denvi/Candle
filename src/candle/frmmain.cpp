@@ -822,7 +822,15 @@ void frmMain::on_actServiceProfilesExport_triggered()
 
     QVariantList profiles;
     for (auto i : checkListDialog.checkedItemIndexes())
+    {
+        if (actions.at(i)->data().value<SettingsProfileEntry>().name == m_currentProfileName)
+        {
+            storeSettings();
+            actions.at(i)->setData(SettingsProfileEntry { m_currentProfileName, m_storage.save() });
+        }
+
         profiles.append(actions.at(i)->data());
+    }
 
     QSettings set(fileName, QSettings::IniFormat);
     set.setIniCodec("UTF8");
