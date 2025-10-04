@@ -5378,7 +5378,7 @@ QString frmMain::getLineInitCommands(int row)
 
         if (!qIsNaN(firstSegment->getStart().z())) {
             commands.append(QString("G1 Z%1 F%2\n")
-                .arg(optArg("Z", firstSegment->getStart().z()))
+                .arg(firstSegment->getStart().z())
                 .arg(feedSegment->getSpeed()));
         }
     }
