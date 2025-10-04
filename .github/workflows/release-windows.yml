@@ -19,6 +19,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.inputs.branch_name }}
+        fetch-depth: 0
+        fetch-tags: true
 
     - name: Download vcpkg cache
       uses: actions/cache@v4
@@ -37,7 +41,7 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.bat
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
@@ -45,8 +49,20 @@ jobs:
     - name: Install
       run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
+    - name: Get latest tag
+      id: tag
+      run: |
+        $tag = git describe --tags --abbrev=0
+        $version = $tag -replace '^v', ''
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Create archive
+      run: |
+        $name = "Candle_${{ steps.tag.outputs.version }}_x64"
+        Compress-Archive -Path ${{github.workspace}}/build/Candle -DestinationPath "$name.zip"
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Candle-${{ github.sha }}
-        path: ${{github.workspace}}/build/dist/
+        name: Candle_${{ steps.tag.outputs.version }}_x64
+        path: Candle_${{ steps.tag.outputs.version }}_x64.zip
