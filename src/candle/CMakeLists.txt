@@ -53,6 +53,9 @@ target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core
 if(WIN32)
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
     target_compile_definitions(candle PRIVATE WINDOWS)
+elseif(APPLE)
+elseif(UNIX)
+    set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
 endif()
 
 set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
