@@ -1922,7 +1922,13 @@ void frmMain::onConnectionDataReceived(QString data)
                                     wpx.cap(4).toDouble());
 
             m_machineBoundsDrawer.setTranslation(
-                -QVector3D(toMetric(workOffset.x()), toMetric(workOffset.y()), toMetric(workOffset.z())));
+                -QVector3D(
+                    toMetric(workOffset.x()),
+                    toMetric(workOffset.y()),
+                    m_settings->referenceZPlus()
+                        ? toMetric(workOffset.z()) - m_settings->machineBounds().z()
+                        : toMetric(workOffset.z())
+                ));
         }
 
         // Update work coordinates
