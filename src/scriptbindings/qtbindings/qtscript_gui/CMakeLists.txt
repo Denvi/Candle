@@ -8,4 +8,6 @@ target_include_directories(qtscript_gui PRIVATE include)
 
 target_link_libraries(qtscript_gui PRIVATE Qt5::Core Qt5::Widgets Qt5::Script)
 
-install(TARGETS qtscript_gui RUNTIME DESTINATION script)
+install(TARGETS qtscript_gui
+    RUNTIME DESTINATION script
+    LIBRARY DESTINATION script)

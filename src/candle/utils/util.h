@@ -11,6 +11,7 @@
 #include <QVector3D>
 #include <QEventLoop>
 #include <QTimer>
+#include <cmath>
 
 class Util
 {
@@ -117,7 +118,7 @@ public:
 
     static double normalizeRotation(double value)
     {
-        return value - trunc(value / 360.0) * 360.0;
+        return value - std::trunc(value / 360.0) * 360.0;
     }
 };
 

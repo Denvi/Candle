@@ -8,4 +8,6 @@ target_include_directories(qtscript_multimedia PRIVATE include)
 
 target_link_libraries(qtscript_multimedia PRIVATE Qt5::Core Qt5::Widgets Qt5::Script Qt5::Multimedia)
 
-install(TARGETS qtscript_multimedia RUNTIME DESTINATION script)
+install(TARGETS qtscript_multimedia
+    RUNTIME DESTINATION script
+    LIBRARY DESTINATION script)

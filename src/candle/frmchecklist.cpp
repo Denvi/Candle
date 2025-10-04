@@ -4,8 +4,8 @@
 #include <QFileSystemWatcher>
 #include <QTextStream>
 #include <QStandardPaths>
-#include "frmCheckList.h"
-#include "ui_frmCheckList.h"
+#include "frmchecklist.h"
+#include "ui_frmchecklist.h"
 
 frmCheckList::frmCheckList(QWidget *parent) : QDialog(parent), ui(new Ui::frmCheckList)
 {
