@@ -977,7 +977,9 @@ void frmMain::on_cmdCommandSend_clicked()
     QString command = ui->cboCommand->currentText();
     if (command.isEmpty()) return;
 
-    QCoreApplication::sendEvent(ui->cboCommand, &QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
+    auto event = QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
+
+    QCoreApplication::sendEvent(ui->cboCommand, &event);
 }
 
 void frmMain::on_cmdClearConsole_clicked()
@@ -2911,7 +2913,7 @@ void frmMain::preloadSettings()
 void frmMain::loadSettings()
 {
     m_settingsLoading = true;
-    
+
     QSettings set;
     set.beginGroup("General");
 
@@ -3407,11 +3409,6 @@ void frmMain::saveProfiles(QSettings &set)
 
 void frmMain::loadProfiles(QSettings &set)
 {
-    // Register types
-    qRegisterMetaType<SettingsProfileEntry>();
-    qRegisterMetaTypeStreamOperators<SettingsProfileEntry>("SettingsProfileEntry");
-    QMetaType::registerDebugStreamOperator<SettingsProfileEntry>();
-
     // Group for exclusive menu item check
     m_profilesActionGroup = new QActionGroup(this);
     m_profilesActionGroup->setExclusive(true);

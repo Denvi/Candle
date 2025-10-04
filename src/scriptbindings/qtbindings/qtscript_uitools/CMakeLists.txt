@@ -8,4 +8,6 @@ target_include_directories(qtscript_uitools PRIVATE include)
 
 target_link_libraries(qtscript_uitools PRIVATE Qt5::Core Qt5::Widgets Qt5::Script Qt::UiTools)
 
-install(TARGETS qtscript_uitools RUNTIME DESTINATION script)
+install(TARGETS qtscript_uitools
+    RUNTIME DESTINATION script
+    LIBRARY DESTINATION script)
