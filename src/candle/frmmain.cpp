@@ -596,7 +596,7 @@ void frmMain::on_actHelpAbout_triggered()
 
 void frmMain::on_actHelpDocumentation_triggered()
 {
-    const QString docsFolder = "doc";
+    auto docsFolder = qApp->applicationDirPath() + "/doc";
     const QString fallbackHelpFileName = docsFolder + "/help_en.html";
 
     QString helpFileName = docsFolder + "/help_" + (!m_settings->language().isEmpty() ? m_settings->language() : "en")
