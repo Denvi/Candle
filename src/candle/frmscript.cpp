@@ -6,8 +6,12 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
+#include <QScriptEngineDebugger>
+#include <QMainWindow>
+#include <QAction>
 #include "frmscript.h"
 #include "ui_frmscript.h"
+#include "loggingcategories.h"
 
 frmScript::frmScript(QWidget *parent) : QFrame(parent), ui(new Ui::frmScript)
 {
@@ -66,7 +70,33 @@ void frmScript::on_cmdSave_clicked()
 
 void frmScript::on_cmdStart_clicked()
 {
-    emit ScriptStartClicked(ui->txtScript->toPlainText());
+    QScriptEngine se;
+
+    emit beforeScriptStart(se);
+
+    auto sv = se.evaluate(ui->txtScript->toPlainText());
+
+    if (sv.isError()) {
+        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    }
+}
+
+void frmScript::on_cmdDebug_clicked()
+{
+    QScriptEngine se;
+    QScriptEngineDebugger sd(this);
+
+    sd.attachTo(&se);
+    sd.standardWindow()->setWindowIcon(this->windowIcon());
+    sd.action(QScriptEngineDebugger::InterruptAction)->trigger();
+
+    emit beforeScriptStart(se);
+
+    auto sv = se.evaluate(ui->txtScript->toPlainText());
+
+    if (sv.isError()) {
+        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    }
 }
 
 bool frmScript::saveChanges()

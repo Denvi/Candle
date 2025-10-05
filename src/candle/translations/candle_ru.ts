@@ -899,6 +899,10 @@ Time elapsed: %1</source>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
+    <message>
+        <source>Debug</source>
+        <translation>Отладка</translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

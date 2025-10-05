@@ -259,7 +259,7 @@ private slots:
     void onScroolBarAction(int action);
     void onScriptException(const QScriptValue &exception);
     void onActServiceProfilesSelected(bool checked);
-    void onScriptStartClicked(const QString &script);
+    void onBeforeScriptStart(QScriptEngine &engine);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();

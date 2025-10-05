@@ -3,6 +3,7 @@
 
 #pragma once
 #include <QFrame>
+#include <QScriptEngine>
 
 namespace Ui {
 class frmScript;
@@ -17,13 +18,14 @@ public:
     ~frmScript();
 
 signals:
-    void ScriptStartClicked(const QString& script);
+    void beforeScriptStart(QScriptEngine &engine);
 
 private slots:
     void on_cmdNew_clicked();
     void on_cmdOpen_clicked();
     void on_cmdSave_clicked();
     void on_cmdStart_clicked();
+    void on_cmdDebug_clicked();
     void on_txtScript_textChanged();
 
 private:

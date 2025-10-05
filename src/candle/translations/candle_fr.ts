@@ -896,6 +896,10 @@ Temps écoulé: %1</translation>
         <source>Save file as</source>
         <translation type="unfinished">Enregistrer le fichier sous</translation>
     </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

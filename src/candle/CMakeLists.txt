@@ -11,7 +11,7 @@ execute_process(
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script LinguistTools Network WebSockets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras)
@@ -48,7 +48,7 @@ target_compile_definitions(candle PRIVATE
         QT_NO_DEBUG
 )
 
-target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::Network Qt5::WebSockets)
+target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets)
 
 if(WIN32)
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
@@ -77,13 +77,20 @@ execute_process(
 set(QT_LANGUAGES ru es fr pt)
 
 foreach(LANG ${QT_LANGUAGES})
-    set(QT_TRANSLATION_FILE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")
-    if(EXISTS "${QT_TRANSLATION_FILE}")
+    set(QT_TRANSLATION_FILE_BASE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")
+    if(EXISTS "${QT_TRANSLATION_FILE_BASE}")
         install(
-            FILES "${QT_TRANSLATION_FILE}"
+            FILES "${QT_TRANSLATION_FILE_BASE}"
             DESTINATION "translations"
         )
     endif()
+    set(QT_TRANSLATION_FILE_SCRIPT "${QT_TRANSLATIONS_DIR}/qtscript_${LANG}.qm")
+    if(EXISTS "${QT_TRANSLATION_FILE_SCRIPT}")
+        install(
+            FILES "${QT_TRANSLATION_FILE_SCRIPT}"
+            DESTINATION "translations"
+        )
+    endif()    
 endforeach()
 
 # Candle plugins
