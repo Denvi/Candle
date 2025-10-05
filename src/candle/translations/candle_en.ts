@@ -893,6 +893,10 @@ Time elapsed: %1</source>
         <source>Save file as</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Debug</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

@@ -896,6 +896,10 @@ Tempo transcorrido: %1</translation>
         <source>Save file as</source>
         <translation type="unfinished">Salvar arquivo como</translation>
     </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmSettings</name>

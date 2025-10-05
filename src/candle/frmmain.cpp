@@ -332,7 +332,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
     connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     connect(&m_scriptEngine, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
-    connect(ui->fraScript, &frmScript::ScriptStartClicked, this, &frmMain::onScriptStartClicked);
+    connect(ui->fraScript, &frmScript::beforeScriptStart, this, &frmMain::onBeforeScriptStart);
 
     // Event filter
     qApp->installEventFilter(this);
@@ -2799,31 +2799,29 @@ void frmMain::onActServiceProfilesSelected(bool checked)
     ui->actServiceProfilesDelete->setEnabled(action != ui->actServiceProfilesDefault);
 }
 
-void frmMain::onScriptStartClicked(const QString &script)
+void frmMain::onBeforeScriptStart(QScriptEngine &engine)
 {
-    QScriptEngine se;
-
     // Delegate import extension function
-    QScriptValue sv = se.newObject();
-    sv.setProperty("importExtension", se.newFunction(frmMain::importExtension));
-    se.globalObject().setProperty("script", sv);
-    se.setObjectName("script");
+    QScriptValue sv = engine.newObject();
+    sv.setProperty("importExtension", engine.newFunction(frmMain::importExtension));
+    engine.globalObject().setProperty("script", sv);
+    engine.setObjectName("script");
 
     // Delegate objects
     // App
-    QScriptValue app = se.newQObject(m_scriptApp);
+    QScriptValue app = engine.newQObject(m_scriptApp);
     app.setProperty("path", qApp->applicationDirPath());
-    se.globalObject().setProperty("app", app);
+    engine.globalObject().setProperty("app", app);
 
     // Settings
-    QScriptValue settings = se.newQObject(m_settings);
+    QScriptValue settings = engine.newQObject(m_settings);
     app.setProperty("settings", settings);
 
     // Storage
-    auto storage = se.newQObject(&m_storage);
+    auto storage = engine.newQObject(&m_storage);
     app.setProperty("storage", storage);
 
-    qScriptRegisterMetaType<StorageGroup*>(&se,
+    qScriptRegisterMetaType<StorageGroup*>(&engine,
         [](QScriptEngine *e, StorageGroup* const &g) {
             return e->newQObject(g, QScriptEngine::ScriptOwnership);
         },
@@ -2833,18 +2831,11 @@ void frmMain::onScriptStartClicked(const QString &script)
 
     // TODO: remove
     // Stored vars
-    QScriptValue vars = se.newQObject(&m_storedVars);
-    se.globalObject().setProperty("vars", vars);
+    QScriptValue vars = engine.newQObject(&m_storedVars);
+    engine.globalObject().setProperty("vars", vars);
 
     // Translator
-    se.installTranslatorFunctions();
-
-    // Evaluate script
-    sv = se.evaluate(script);
-
-    if (sv.isError()) {
-        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
-    }
+    engine.installTranslatorFunctions();
 }
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)

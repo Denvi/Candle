@@ -19,6 +19,25 @@
 
 #include "frmmain.h"
 
+void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
+{
+    auto translationsFolder = qApp->applicationDirPath() + "/translations/";
+    QDir dir(translationsFolder);
+
+    if (!dir.exists())
+        return;
+
+    for (const QString &fileName : dir.entryList(QStringList{ "*_" + locale + ".qm" }, QDir::Files))
+    {
+        auto tr = new QTranslator(&app);
+
+        if (tr->load(dir.absoluteFilePath(fileName)))
+            app.installTranslator(tr);
+        else
+            delete tr;
+    }
+}
+
 int main(int argc, char *argv[])
 {
 #ifdef UNIX
@@ -42,22 +61,9 @@ int main(int argc, char *argv[])
 #endif
 
     QSettings set;
-    QString loc = set.value("General/language", "en").toString();
+    QString locale = set.value("General/language", "en").toString();
 
-    QString translationsFolder = qApp->applicationDirPath() + "/translations/";
-    QString translationFileName = translationsFolder + "candle_" + loc + ".qm";
-
-    if(QFile::exists(translationFileName)) {
-        QTranslator* translator = new QTranslator();
-        if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
-    }
-
-    QString baseTranslationFileName = translationsFolder + "qtbase_" + loc + ".qm";
-
-    if(QFile::exists(translationFileName)) {
-        QTranslator* baseTranslator = new QTranslator();
-        if (baseTranslator->load(baseTranslationFileName)) a.installTranslator(baseTranslator); else delete baseTranslator;
-    }
+    loadTranslationsForLocale(locale, a);
 
 #ifdef UNIX
     if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {
