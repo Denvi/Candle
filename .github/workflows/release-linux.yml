@@ -44,13 +44,17 @@ jobs:
         version=${tag#v}
         echo "version=$version" >> "$GITHUB_OUTPUT"
 
-    - name: Prepare folder for upload
+    - name: Prepare package
       run: |
-        mkdir -p "${{github.workspace}}/artifact"
-        cp -r "${{github.workspace}}/build/Candle" "${{github.workspace}}/artifact/Candle"
+        mkdir -p ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}/opt/candle
+        cp -r ${{github.workspace}}/build/Candle/* ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}/opt/candle
+        cp -r ${{github.workspace}}/deploy/linux/* ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}
+        sed -i 's/{version}/${{steps.tag.outputs.version}}/' ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}/DEBIAN/control
+        chmod 0755 ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}/DEBIAN/postinst ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}/DEBIAN/prerm
+        dpkg-deb --build ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Candle_${{steps.tag.outputs.version}}_x64-linux
-        path: ${{github.workspace}}/artifact
+        path: ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}.deb

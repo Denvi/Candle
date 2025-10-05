@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Candle
+Exec=/usr/bin/candle
+Icon=/usr/share/pixmaps/candle.ico
+Type=Application
+Categories=Electronics;Engineering;
