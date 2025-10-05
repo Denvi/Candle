@@ -715,6 +715,8 @@ void frmMain::on_actServiceProfilesCreate_triggered()
 
     m_currentProfileName = profileName;
     ui->actServiceProfilesDelete->setEnabled(true);
+
+    updateControlsState();
 }
 
 void frmMain::on_actServiceProfilesDelete_triggered()
