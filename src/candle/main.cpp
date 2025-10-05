@@ -10,6 +10,7 @@
 #include <QStyleFactory>
 #include <QFontDatabase>
 #include <QMessageBox>
+#include <QDir>
 
 #include "parser/gcodepreprocessorutils.h"
 #include "parser/gcodeparser.h"
