@@ -1,8 +1,8 @@
 Package: candle
-Version: 10.10.2
+Version: {version}
 Section: electronics
 Priority: optional
 Architecture: amd64
-Maintainer: Denv <denis_vic@mail.ru>
+Maintainer: Denvi <denis_vic@mail.ru>
 Depends: libqt5serialport5, libqt5script5, libqt5websockets5, libqt5scripttools5
 Description: GRBL controller application with G-Code visualizer
