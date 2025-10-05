@@ -1,0 +1,617 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Candle" Manufacturer="Denvi" Version="$(var.ProductVersion)"
+           UpgradeCode="A53DFAC8-5BB4-40C0-9C29-BB5D640D9968">
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Candle">
+        <Directory Id="dir_script" Name="script" />
+        <Directory Id="dir_plugins" Name="plugins">
+          <Directory Id="dir_plugins_printsupport" Name="printsupport" />
+          <Directory Id="dir_plugins_iconengines" Name="iconengines" />
+          <Directory Id="dir_plugins_platforms" Name="platforms" />
+          <Directory Id="dir_plugins_playlistformats" Name="playlistformats" />
+          <Directory Id="dir_plugins_bearer" Name="bearer" />
+          <Directory Id="dir_plugins_mediaservice" Name="mediaservice" />
+          <Directory Id="dir_plugins_imageformats" Name="imageformats" />
+          <Directory Id="dir_plugins_audio" Name="audio" />
+          <Directory Id="dir_plugins_styles" Name="styles" />
+        </Directory>
+        <Directory Id="dir_designerplugins" Name="designerplugins" />
+        <Directory Id="dir_candleplugins" Name="candleplugins">
+          <Directory Id="dir_candleplugins_coordinatesystem" Name="coordinatesystem">
+            <Directory Id="dir_candleplugins_coordinatesystem_images" Name="images" />
+          </Directory>
+          <Directory Id="dir_candleplugins_camera" Name="camera" />
+          <Directory Id="dir_candleplugins_emergencybutton" Name="emergencybutton">
+            <Directory Id="dir_candleplugins_emergencybutton_images" Name="images" />
+          </Directory>
+          <Directory Id="dir_candleplugins_usercommands" Name="usercommands">
+            <Directory Id="dir_candleplugins_usercommands_images" Name="images" />
+          </Directory>
+        </Directory>
+        <Directory Id="dir_translations" Name="translations" />
+        <Directory Id="dir_doc" Name="doc">
+          <Directory Id="dir_doc_images_en" Name="images_en" />
+          <Directory Id="dir_doc_scriptexamples" Name="scriptexamples" />
+          <Directory Id="dir_doc_programexamples" Name="programexamples" />
+          <Directory Id="dir_doc_images_ru" Name="images_ru" />
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="AppMenuFolder" Name="Candle"/>
+    </StandardDirectory>
+
+    <Icon Id="AppIcon" SourceFile="..\..\doc\candle.ico" />
+
+    <Component Id="StartMenuShortcut" Guid="DCD30340-541C-4CF1-979A-A6FDEB3089AA">
+      <Shortcut Id="StartMenuCandle"
+                Directory="AppMenuFolder"
+                Name="Candle"
+                Description="Candle - G-code sender"
+                Target="[INSTALLFOLDER]candle.exe"
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="AppIcon" />
+    
+      <RemoveFolder Id="RemoveAppMenuFolder" Directory="AppMenuFolder" On="uninstall" />
+    
+      <RegistryValue Root="HKCU"
+                     Key="Software\Denvi\Candle"
+                     Name="StartMenuShortcut"
+                     Type="integer"
+                     Value="1"
+                     KeyPath="yes" />
+    </Component>
+
+    <Feature Id="MainFeature">
+      <ComponentRef Id="StartMenuShortcut" />
+      <Component Id="cmp_brotlicommon_dll" Directory="INSTALLFOLDER" Guid="36DACFA9-4800-4C03-BB93-8E4B0052EEF2">
+        <File Id="fil_brotlicommon_dll" Source="..\..\build\Candle\brotlicommon.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_brotlidec_dll" Directory="INSTALLFOLDER" Guid="51CF5A2A-4C45-44EF-9AD0-8D6811CD3734">
+        <File Id="fil_brotlidec_dll" Source="..\..\build\Candle\brotlidec.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_bz2_dll" Directory="INSTALLFOLDER" Guid="8F6215D8-97AE-4C7A-8D75-4F041496F065">
+        <File Id="fil_bz2_dll" Source="..\..\build\Candle\bz2.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candle_exe" Directory="INSTALLFOLDER" Guid="1ABE3B42-0720-4139-AA89-BDDB8E8A1B5D">
+        <File Id="fil_candle_exe" Source="..\..\build\Candle\candle.exe" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_customwidgets_dll" Directory="INSTALLFOLDER" Guid="07644038-ACCB-44D3-B1C5-850631FECD64">
+        <File Id="fil_customwidgets_dll" Source="..\..\build\Candle\customwidgets.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_double_conversion_dll" Directory="INSTALLFOLDER" Guid="55812AD2-EEB9-491B-9724-CD05A37B57C0">
+        <File Id="fil_double_conversion_dll" Source="..\..\build\Candle\double-conversion.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_freetype_dll" Directory="INSTALLFOLDER" Guid="10F739E1-10C1-4EB4-B576-5AE434D4B64C">
+        <File Id="fil_freetype_dll" Source="..\..\build\Candle\freetype.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_harfbuzz_dll" Directory="INSTALLFOLDER" Guid="BDABB8F8-FC05-48B8-8C72-3DF4E045F790">
+        <File Id="fil_harfbuzz_dll" Source="..\..\build\Candle\harfbuzz.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_jpeg62_dll" Directory="INSTALLFOLDER" Guid="0510DA97-A5D2-4BD6-9535-8EE9A2367726">
+        <File Id="fil_jpeg62_dll" Source="..\..\build\Candle\jpeg62.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libcrypto_3_x64_dll" Directory="INSTALLFOLDER" Guid="A2A9B39A-4F41-4A3D-9611-FA4B78EFDA13">
+        <File Id="fil_libcrypto_3_x64_dll" Source="..\..\build\Candle\libcrypto-3-x64.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_liblzma_dll" Directory="INSTALLFOLDER" Guid="EBB1E9E3-C26D-44E0-B28A-B46CF8BDBBB3">
+        <File Id="fil_liblzma_dll" Source="..\..\build\Candle\liblzma.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libpng16_dll" Directory="INSTALLFOLDER" Guid="3FC08821-2230-4AB8-9E44-F19C5ED20CA9">
+        <File Id="fil_libpng16_dll" Source="..\..\build\Candle\libpng16.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libsharpyuv_dll" Directory="INSTALLFOLDER" Guid="4E810667-BA54-4B0A-82D8-2C9906DCFCAB">
+        <File Id="fil_libsharpyuv_dll" Source="..\..\build\Candle\libsharpyuv.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libssl_3_x64_dll" Directory="INSTALLFOLDER" Guid="24A4B12B-C4FC-46B6-8C91-D3A0F86013A1">
+        <File Id="fil_libssl_3_x64_dll" Source="..\..\build\Candle\libssl-3-x64.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libwebp_dll" Directory="INSTALLFOLDER" Guid="4941D37E-66DB-4BCD-97BC-105ED0D6A0AD">
+        <File Id="fil_libwebp_dll" Source="..\..\build\Candle\libwebp.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libwebpdemux_dll" Directory="INSTALLFOLDER" Guid="7E26E785-4131-4702-ACEB-F49389D76868">
+        <File Id="fil_libwebpdemux_dll" Source="..\..\build\Candle\libwebpdemux.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_libwebpmux_dll" Directory="INSTALLFOLDER" Guid="C00304B2-E93D-4455-AA86-CEA4DCECAFAC">
+        <File Id="fil_libwebpmux_dll" Source="..\..\build\Candle\libwebpmux.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_LICENSE" Directory="INSTALLFOLDER" Guid="8E504190-46FB-4E1A-B9B3-8294595150B9">
+        <File Id="fil_LICENSE" Source="..\..\build\Candle\LICENSE" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_pcre2_16_dll" Directory="INSTALLFOLDER" Guid="6833B4B0-0996-4192-8772-6502F3B5EAB1">
+        <File Id="fil_pcre2_16_dll" Source="..\..\build\Candle\pcre2-16.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_qt_conf" Directory="INSTALLFOLDER" Guid="419EEED5-37D0-4FE8-8188-752FFA170A04">
+        <File Id="fil_qt_conf" Source="..\..\build\Candle\qt.conf" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Core_dll" Directory="INSTALLFOLDER" Guid="507BF4CB-3821-41F3-955B-A6548B97CBC4">
+        <File Id="fil_Qt5Core_dll" Source="..\..\build\Candle\Qt5Core.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Gui_dll" Directory="INSTALLFOLDER" Guid="DAAA2314-B868-4AFA-95EE-B5CB1DAB4CD0">
+        <File Id="fil_Qt5Gui_dll" Source="..\..\build\Candle\Qt5Gui.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Multimedia_dll" Directory="INSTALLFOLDER" Guid="24EE1B0B-C061-4632-A900-E89930FC6A7B">
+        <File Id="fil_Qt5Multimedia_dll" Source="..\..\build\Candle\Qt5Multimedia.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5MultimediaWidgets_dll" Directory="INSTALLFOLDER" Guid="F7A37E99-2EED-488C-974C-2E6E80FEDA24">
+        <File Id="fil_Qt5MultimediaWidgets_dll" Source="..\..\build\Candle\Qt5MultimediaWidgets.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Network_dll" Directory="INSTALLFOLDER" Guid="71C82CED-2579-4EDF-94D0-42CEF5CEE96A">
+        <File Id="fil_Qt5Network_dll" Source="..\..\build\Candle\Qt5Network.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Script_dll" Directory="INSTALLFOLDER" Guid="B882AF10-CE7A-476A-824F-90E48F9DB9AF">
+        <File Id="fil_Qt5Script_dll" Source="..\..\build\Candle\Qt5Script.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5ScriptTools_dll" Directory="INSTALLFOLDER" Guid="FBEE83E1-1D41-452C-8E31-B40D14E40E17">
+        <File Id="fil_Qt5ScriptTools_dll" Source="..\..\build\Candle\Qt5ScriptTools.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5SerialPort_dll" Directory="INSTALLFOLDER" Guid="5E1DA6F9-8BEE-47A2-B789-AB1B5A124A90">
+        <File Id="fil_Qt5SerialPort_dll" Source="..\..\build\Candle\Qt5SerialPort.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Svg_dll" Directory="INSTALLFOLDER" Guid="FD35C161-1ED7-4A2F-9C94-E3B86DD806EB">
+        <File Id="fil_Qt5Svg_dll" Source="..\..\build\Candle\Qt5Svg.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5WebSockets_dll" Directory="INSTALLFOLDER" Guid="0C6CEC5F-A0BA-4D59-9631-59F35A506992">
+        <File Id="fil_Qt5WebSockets_dll" Source="..\..\build\Candle\Qt5WebSockets.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5Widgets_dll" Directory="INSTALLFOLDER" Guid="4906A40B-282C-4DD0-90EB-9600FA7B4B95">
+        <File Id="fil_Qt5Widgets_dll" Source="..\..\build\Candle\Qt5Widgets.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Qt5WinExtras_dll" Directory="INSTALLFOLDER" Guid="067B1198-F432-432B-A148-1D8E4198F3D5">
+        <File Id="fil_Qt5WinExtras_dll" Source="..\..\build\Candle\Qt5WinExtras.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_tiff_dll" Directory="INSTALLFOLDER" Guid="33DFA641-C40E-4239-9389-AD0422DB57E0">
+        <File Id="fil_tiff_dll" Source="..\..\build\Candle\tiff.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_zlib1_dll" Directory="INSTALLFOLDER" Guid="3ADDCBAA-640C-4DF5-AAE7-2EF187865444">
+        <File Id="fil_zlib1_dll" Source="..\..\build\Candle\zlib1.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_config_ini" Directory="dir_candleplugins_camera" Guid="BEB2DD8E-5DE0-4625-872A-51B6502C8465">
+        <File Id="fil_candleplugins_camera_config_ini" Source="..\..\build\Candle\candleplugins\camera\config.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_script_js" Directory="dir_candleplugins_camera" Guid="89789AA0-23AA-48BC-8F1E-D1C815F5E476">
+        <File Id="fil_candleplugins_camera_script_js" Source="..\..\build\Candle\candleplugins\camera\script.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_settings_ui" Directory="dir_candleplugins_camera" Guid="19D94FF9-F3D8-4753-983E-BD4F6CB82BCF">
+        <File Id="fil_candleplugins_camera_settings_ui" Source="..\..\build\Candle\candleplugins\camera\settings.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_translation_ru_qm" Directory="dir_candleplugins_camera" Guid="7BD41157-937C-4C4A-99F6-2398C39F9719">
+        <File Id="fil_candleplugins_camera_translation_ru_qm" Source="..\..\build\Candle\candleplugins\camera\translation_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_translation_ru_ts" Directory="dir_candleplugins_camera" Guid="AC386880-EAEE-489A-BA49-54438EF9C82C">
+        <File Id="fil_candleplugins_camera_translation_ru_ts" Source="..\..\build\Candle\candleplugins\camera\translation_ru.ts" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_camera_widget_ui" Directory="dir_candleplugins_camera" Guid="AB7B58FC-4DC2-4510-A10D-1D447F91FFC1">
+        <File Id="fil_candleplugins_camera_widget_ui" Source="..\..\build\Candle\candleplugins\camera\widget.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_config_ini" Directory="dir_candleplugins_coordinatesystem" Guid="4E087F94-EAAA-4163-B2DA-08AA15F0D0B5">
+        <File Id="fil_candleplugins_coordinatesystem_config_ini" Source="..\..\build\Candle\candleplugins\coordinatesystem\config.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_script_js" Directory="dir_candleplugins_coordinatesystem" Guid="D81119C7-2F59-47F9-BB1F-E4275B640380">
+        <File Id="fil_candleplugins_coordinatesystem_script_js" Source="..\..\build\Candle\candleplugins\coordinatesystem\script.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_translation_ru_qm" Directory="dir_candleplugins_coordinatesystem" Guid="19AF416B-475E-446A-AD33-FCF0A5D44BA4">
+        <File Id="fil_candleplugins_coordinatesystem_translation_ru_qm" Source="..\..\build\Candle\candleplugins\coordinatesystem\translation_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_translation_ru_ts" Directory="dir_candleplugins_coordinatesystem" Guid="EE898C22-210B-472A-9B82-6785F97E76C3">
+        <File Id="fil_candleplugins_coordinatesystem_translation_ru_ts" Source="..\..\build\Candle\candleplugins\coordinatesystem\translation_ru.ts" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_widget_ui" Directory="dir_candleplugins_coordinatesystem" Guid="28AE4329-EC84-4D62-84EC-79BD859550B0">
+        <File Id="fil_candleplugins_coordinatesystem_widget_ui" Source="..\..\build\Candle\candleplugins\coordinatesystem\widget.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="7F17ED2F-9BA7-4B54-856C-7D8625EEE1A6">
+        <File Id="fil_candleplugins_coordinatesystem_images_0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_54_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="EF074FBD-1B88-4FB9-A19C-A720700A699A">
+        <File Id="fil_candleplugins_coordinatesystem_images_54_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\54.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_55_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="0A868DAF-B650-4444-9C17-CAC228CD0EC3">
+        <File Id="fil_candleplugins_coordinatesystem_images_55_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\55.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_56_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="8AC017C3-7E0C-4D7D-81DF-589AC084D3F3">
+        <File Id="fil_candleplugins_coordinatesystem_images_56_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\56.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_57_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="901ABFD2-E9C7-4B38-963F-DB4FEB784AE3">
+        <File Id="fil_candleplugins_coordinatesystem_images_57_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\57.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_58_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="E5B2A7F0-E913-4176-AC33-74ADD45226FD">
+        <File Id="fil_candleplugins_coordinatesystem_images_58_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\58.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_59_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="5D72F276-C709-4255-8FCC-C408D245EB78">
+        <File Id="fil_candleplugins_coordinatesystem_images_59_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\59.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_a0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="ED1482B9-9E93-4E3E-8F68-99ECB5DEA40C">
+        <File Id="fil_candleplugins_coordinatesystem_images_a0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\a0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_all0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="B2BBD0F6-0117-42E4-AF17-9E4CFAA96667">
+        <File Id="fil_candleplugins_coordinatesystem_images_all0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\all0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_all01_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="178011EE-1AB0-4F25-9C03-CA131FC33A37">
+        <File Id="fil_candleplugins_coordinatesystem_images_all01_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\all01.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_x0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="65967AC2-E827-4407-8F19-D1D69A4B7CAA">
+        <File Id="fil_candleplugins_coordinatesystem_images_x0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\x0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_y0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="CAC538BE-8F0A-493D-89F8-48177A09A10B">
+        <File Id="fil_candleplugins_coordinatesystem_images_y0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\y0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_coordinatesystem_images_z0_png" Directory="dir_candleplugins_coordinatesystem_images" Guid="D82B6D12-815E-4AC2-ACAD-24C044D533DD">
+        <File Id="fil_candleplugins_coordinatesystem_images_z0_png" Source="..\..\build\Candle\candleplugins\coordinatesystem\images\z0.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_config_ini" Directory="dir_candleplugins_emergencybutton" Guid="B308EFC4-F751-413C-AE9D-92345428CD9E">
+        <File Id="fil_candleplugins_emergencybutton_config_ini" Source="..\..\build\Candle\candleplugins\emergencybutton\config.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_script_js" Directory="dir_candleplugins_emergencybutton" Guid="19D5F765-6615-43A6-9EA9-8942FC5DFA10">
+        <File Id="fil_candleplugins_emergencybutton_script_js" Source="..\..\build\Candle\candleplugins\emergencybutton\script.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_translation_ru_qm" Directory="dir_candleplugins_emergencybutton" Guid="3CEF42B9-71E8-4AA1-8616-70FB6558A635">
+        <File Id="fil_candleplugins_emergencybutton_translation_ru_qm" Source="..\..\build\Candle\candleplugins\emergencybutton\translation_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_translation_ru_ts" Directory="dir_candleplugins_emergencybutton" Guid="CD92C8C2-2546-487F-B7B7-ACD16D5B9B04">
+        <File Id="fil_candleplugins_emergencybutton_translation_ru_ts" Source="..\..\build\Candle\candleplugins\emergencybutton\translation_ru.ts" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_widget_ui" Directory="dir_candleplugins_emergencybutton" Guid="38A722B3-D8B4-409E-AC1B-54A0B0404361">
+        <File Id="fil_candleplugins_emergencybutton_widget_ui" Source="..\..\build\Candle\candleplugins\emergencybutton\widget.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_emergencybutton_images_stop_png" Directory="dir_candleplugins_emergencybutton_images" Guid="5DF4F4E8-6CAA-4536-BE11-A94827B59F29">
+        <File Id="fil_candleplugins_emergencybutton_images_stop_png" Source="..\..\build\Candle\candleplugins\emergencybutton\images\stop.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_config_ini" Directory="dir_candleplugins_usercommands" Guid="1FE5ECD6-99B8-495D-8405-BA63AB43506E">
+        <File Id="fil_candleplugins_usercommands_config_ini" Source="..\..\build\Candle\candleplugins\usercommands\config.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_script_js" Directory="dir_candleplugins_usercommands" Guid="99C352AF-CD8B-40C5-BE9D-C4DD20AB7816">
+        <File Id="fil_candleplugins_usercommands_script_js" Source="..\..\build\Candle\candleplugins\usercommands\script.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_settings_ini" Directory="dir_candleplugins_usercommands" Guid="9969FEA9-A031-4E99-B179-CD04C127AD66">
+        <File Id="fil_candleplugins_usercommands_settings_ini" Source="..\..\build\Candle\candleplugins\usercommands\settings.ini" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_settings_ui" Directory="dir_candleplugins_usercommands" Guid="ADAF453E-F4ED-468F-96CE-35D479FC9605">
+        <File Id="fil_candleplugins_usercommands_settings_ui" Source="..\..\build\Candle\candleplugins\usercommands\settings.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_translation_ru_qm" Directory="dir_candleplugins_usercommands" Guid="8D5CAC7C-633A-4B09-B7F0-CB27802A7379">
+        <File Id="fil_candleplugins_usercommands_translation_ru_qm" Source="..\..\build\Candle\candleplugins\usercommands\translation_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_translation_ru_ts" Directory="dir_candleplugins_usercommands" Guid="18E835CC-D568-4A08-B133-57B8777CFFC2">
+        <File Id="fil_candleplugins_usercommands_translation_ru_ts" Source="..\..\build\Candle\candleplugins\usercommands\translation_ru.ts" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_widget_ui" Directory="dir_candleplugins_usercommands" Guid="A1E54365-EA17-41AF-8D9B-E644E9DFE35D">
+        <File Id="fil_candleplugins_usercommands_widget_ui" Source="..\..\build\Candle\candleplugins\usercommands\widget.ui" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_axis_return_png" Directory="dir_candleplugins_usercommands_images" Guid="E58D88CA-56BF-4244-BFB2-893AA0234112">
+        <File Id="fil_candleplugins_usercommands_images_axis_return_png" Source="..\..\build\Candle\candleplugins\usercommands\images\axis_return.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_axis_zero_png" Directory="dir_candleplugins_usercommands_images" Guid="7F4F8941-CC41-49CB-A480-B7217901AD89">
+        <File Id="fil_candleplugins_usercommands_images_axis_zero_png" Source="..\..\build\Candle\candleplugins\usercommands\images\axis_zero.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_camera_png" Directory="dir_candleplugins_usercommands_images" Guid="F00AA603-FD77-4F46-8D9F-9D16A7A130F3">
+        <File Id="fil_candleplugins_usercommands_images_camera_png" Source="..\..\build\Candle\candleplugins\usercommands\images\camera.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_cutter_png" Directory="dir_candleplugins_usercommands_images" Guid="12647E52-7111-415E-8B67-64CB76A7D7E0">
+        <File Id="fil_candleplugins_usercommands_images_cutter_png" Source="..\..\build\Candle\candleplugins\usercommands\images\cutter.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_guard_png" Directory="dir_candleplugins_usercommands_images" Guid="C3DD5C45-8623-45CD-91A6-B4EDC673F886">
+        <File Id="fil_candleplugins_usercommands_images_guard_png" Source="..\..\build\Candle\candleplugins\usercommands\images\guard.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_num1_png" Directory="dir_candleplugins_usercommands_images" Guid="90E5388D-9A34-42C4-AAEC-8CB0AA768405">
+        <File Id="fil_candleplugins_usercommands_images_num1_png" Source="..\..\build\Candle\candleplugins\usercommands\images\num1.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_num2_png" Directory="dir_candleplugins_usercommands_images" Guid="0239C515-BE03-402E-928F-79C6688D2320">
+        <File Id="fil_candleplugins_usercommands_images_num2_png" Source="..\..\build\Candle\candleplugins\usercommands\images\num2.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_num3_png" Directory="dir_candleplugins_usercommands_images" Guid="EC8373FB-E64D-494B-B003-FB9DE2BEF3E5">
+        <File Id="fil_candleplugins_usercommands_images_num3_png" Source="..\..\build\Candle\candleplugins\usercommands\images\num3.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_num4_png" Directory="dir_candleplugins_usercommands_images" Guid="7310ADDE-D617-46AD-8A2A-58DF7C79AA3A">
+        <File Id="fil_candleplugins_usercommands_images_num4_png" Source="..\..\build\Candle\candleplugins\usercommands\images\num4.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_origin_png" Directory="dir_candleplugins_usercommands_images" Guid="51D09906-50F3-45F9-A40A-474214DC0A68">
+        <File Id="fil_candleplugins_usercommands_images_origin_png" Source="..\..\build\Candle\candleplugins\usercommands\images\origin.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_run_png" Directory="dir_candleplugins_usercommands_images" Guid="78EF6499-4E70-4248-95EF-F359420E7397">
+        <File Id="fil_candleplugins_usercommands_images_run_png" Source="..\..\build\Candle\candleplugins\usercommands\images\run.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_safe_z_png" Directory="dir_candleplugins_usercommands_images" Guid="8704B059-2457-4DA8-88F8-29D715C0DD8E">
+        <File Id="fil_candleplugins_usercommands_images_safe_z_png" Source="..\..\build\Candle\candleplugins\usercommands\images\safe_z.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_search_for_z_png" Directory="dir_candleplugins_usercommands_images" Guid="397D338D-8307-4165-9C2A-943A2D1B09ED">
+        <File Id="fil_candleplugins_usercommands_images_search_for_z_png" Source="..\..\build\Candle\candleplugins\usercommands\images\search_for_z.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_candleplugins_usercommands_images_zero_z_png" Directory="dir_candleplugins_usercommands_images" Guid="A726FCA6-0932-4D8F-AD5A-7FBD145C6DB2">
+        <File Id="fil_candleplugins_usercommands_images_zero_z_png" Source="..\..\build\Candle\candleplugins\usercommands\images\zero_z.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_designerplugins_cameraplugin_dll" Directory="dir_designerplugins" Guid="14A5CED1-51A8-4B06-B657-6626C7035C99">
+        <File Id="fil_designerplugins_cameraplugin_dll" Source="..\..\build\Candle\designerplugins\cameraplugin.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_designerplugins_customwidgetsplugin_dll" Directory="dir_designerplugins" Guid="7D232AC6-3366-4922-9DF8-D284F53277A6">
+        <File Id="fil_designerplugins_customwidgetsplugin_dll" Source="..\..\build\Candle\designerplugins\customwidgetsplugin.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_candle_ico" Directory="dir_doc" Guid="299B7BD5-E06C-443F-BCC5-640308291295">
+        <File Id="fil_doc_candle_ico" Source="..\..\build\Candle\doc\candle.ico" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_help_en_html" Directory="dir_doc" Guid="B08FD17E-4F89-42C7-B793-C1C1711DBCD6">
+        <File Id="fil_doc_help_en_html" Source="..\..\build\Candle\doc\help_en.html" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_help_ru_html" Directory="dir_doc" Guid="8B5CA7B9-CBE5-49DE-8D5C-4AF1CFBB598D">
+        <File Id="fil_doc_help_ru_html" Source="..\..\build\Candle\doc\help_ru.html" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_camera_png" Directory="dir_doc_images_en" Guid="CE4EDB25-B08F-45BB-BFEC-6BEEF3827B4F">
+        <File Id="fil_doc_images_en_camera_png" Source="..\..\build\Candle\doc\images_en\camera.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_check_png" Directory="dir_doc_images_en" Guid="69908EC5-542D-42DB-BDC0-409D63C22E78">
+        <File Id="fil_doc_images_en_check_png" Source="..\..\build\Candle\doc\images_en\check.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_console_png" Directory="dir_doc_images_en" Guid="3F40820A-E1E4-43C9-8D5D-93A377B0F263">
+        <File Id="fil_doc_images_en_console_png" Source="..\..\build\Candle\doc\images_en\console.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_control_png" Directory="dir_doc_images_en" Guid="BBA4C948-990E-43C6-97FE-BA0D8ACCFD0F">
+        <File Id="fil_doc_images_en_control_png" Source="..\..\build\Candle\doc\images_en\control.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_coordinatesystem_png" Directory="dir_doc_images_en" Guid="272DF1DE-C75D-48F2-B4C2-FC0620E11C0F">
+        <File Id="fil_doc_images_en_coordinatesystem_png" Source="..\..\build\Candle\doc\images_en\coordinatesystem.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_door_png" Directory="dir_doc_images_en" Guid="D1B79B6E-7240-4475-B2AD-7EA4A31C97F2">
+        <File Id="fil_doc_images_en_door_png" Source="..\..\build\Candle\doc\images_en\door.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_flood_png" Directory="dir_doc_images_en" Guid="E708ED39-067E-46F5-B158-4A3517040594">
+        <File Id="fil_doc_images_en_flood_png" Source="..\..\build\Candle\doc\images_en\flood.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_g_codeprogram_png" Directory="dir_doc_images_en" Guid="3856845F-3B86-4821-B892-CF607DF1B639">
+        <File Id="fil_doc_images_en_g_codeprogram_png" Source="..\..\build\Candle\doc\images_en\g-codeprogram.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_heightmap_png" Directory="dir_doc_images_en" Guid="F778468F-3CAB-407B-A281-2FD61F49F62C">
+        <File Id="fil_doc_images_en_heightmap_png" Source="..\..\build\Candle\doc\images_en\heightmap.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_home_png" Directory="dir_doc_images_en" Guid="5AC92115-6E0E-42DC-9D79-A306EFDE7193">
+        <File Id="fil_doc_images_en_home_png" Source="..\..\build\Candle\doc\images_en\home.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_jogging_png" Directory="dir_doc_images_en" Guid="0C02DF6F-0EC8-4715-9EC7-5179B820A38B">
+        <File Id="fil_doc_images_en_jogging_png" Source="..\..\build\Candle\doc\images_en\jogging.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_mainwindow_png" Directory="dir_doc_images_en" Guid="A23EC4E6-D9C6-4964-91C3-697524EE4C0D">
+        <File Id="fil_doc_images_en_mainwindow_png" Source="..\..\build\Candle\doc\images_en\mainwindow.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_overriding_png" Directory="dir_doc_images_en" Guid="83ECDC95-3765-4CC4-9144-2F3155FA1979">
+        <File Id="fil_doc_images_en_overriding_png" Source="..\..\build\Candle\doc\images_en\overriding.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_pause_png" Directory="dir_doc_images_en" Guid="3C3DE730-0943-4E45-A2B7-B1F4C199E284">
+        <File Id="fil_doc_images_en_pause_png" Source="..\..\build\Candle\doc\images_en\pause.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_power_png" Directory="dir_doc_images_en" Guid="B095E69D-0AA5-4497-B8C4-D434BFC5D368">
+        <File Id="fil_doc_images_en_power_png" Source="..\..\build\Candle\doc\images_en\power.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_restart_png" Directory="dir_doc_images_en" Guid="4253EFB4-EB16-43D0-9B4F-41829437CDA4">
+        <File Id="fil_doc_images_en_restart_png" Source="..\..\build\Candle\doc\images_en\restart.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_settings_png" Directory="dir_doc_images_en" Guid="ECF13B89-9174-4314-B2B6-5D34A83E6F5D">
+        <File Id="fil_doc_images_en_settings_png" Source="..\..\build\Candle\doc\images_en\settings.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_spindle_png" Directory="dir_doc_images_en" Guid="AD8EFE55-6FFD-40D7-850F-05FE9ED4C3AD">
+        <File Id="fil_doc_images_en_spindle_png" Source="..\..\build\Candle\doc\images_en\spindle.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_status_png" Directory="dir_doc_images_en" Guid="B9A51E26-2CB4-43DC-BE6B-794B315FE730">
+        <File Id="fil_doc_images_en_status_png" Source="..\..\build\Candle\doc\images_en\status.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_unlock_png" Directory="dir_doc_images_en" Guid="867A84DD-D2C5-45B3-BE67-6B1D15E3D0A9">
+        <File Id="fil_doc_images_en_unlock_png" Source="..\..\build\Candle\doc\images_en\unlock.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_usercommands_png" Directory="dir_doc_images_en" Guid="5E608B32-8C0B-4369-A0E3-C458A2AFAB37">
+        <File Id="fil_doc_images_en_usercommands_png" Source="..\..\build\Candle\doc\images_en\usercommands.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_en_visualizer_png" Directory="dir_doc_images_en" Guid="253467D2-2880-4A05-B4F7-FC33E1A03B2D">
+        <File Id="fil_doc_images_en_visualizer_png" Source="..\..\build\Candle\doc\images_en\visualizer.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_camera_png" Directory="dir_doc_images_ru" Guid="1329D29A-A6BF-4F60-AD6E-D5FA060613CA">
+        <File Id="fil_doc_images_ru_camera_png" Source="..\..\build\Candle\doc\images_ru\camera.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_check_png" Directory="dir_doc_images_ru" Guid="D6AE8A7A-F7E1-4298-8C6D-152EED103263">
+        <File Id="fil_doc_images_ru_check_png" Source="..\..\build\Candle\doc\images_ru\check.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_console_png" Directory="dir_doc_images_ru" Guid="09EE196E-3FEB-42D1-BD77-A95E8E0CC509">
+        <File Id="fil_doc_images_ru_console_png" Source="..\..\build\Candle\doc\images_ru\console.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_control_png" Directory="dir_doc_images_ru" Guid="34B56407-D4BB-48AD-B72A-C5DC56463594">
+        <File Id="fil_doc_images_ru_control_png" Source="..\..\build\Candle\doc\images_ru\control.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_coordinatesystem_png" Directory="dir_doc_images_ru" Guid="5EEB9AA3-11BE-47EC-8CFA-958EA048A610">
+        <File Id="fil_doc_images_ru_coordinatesystem_png" Source="..\..\build\Candle\doc\images_ru\coordinatesystem.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_door_png" Directory="dir_doc_images_ru" Guid="1DAB7826-1D82-44EE-B744-14FFAFD8595D">
+        <File Id="fil_doc_images_ru_door_png" Source="..\..\build\Candle\doc\images_ru\door.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_flood_png" Directory="dir_doc_images_ru" Guid="BB4D92F4-2D07-45FD-B011-3D0FE01DD271">
+        <File Id="fil_doc_images_ru_flood_png" Source="..\..\build\Candle\doc\images_ru\flood.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_g_codeprogram_png" Directory="dir_doc_images_ru" Guid="AF05D8EC-AA9C-4F07-A0E1-3B09DE41D03D">
+        <File Id="fil_doc_images_ru_g_codeprogram_png" Source="..\..\build\Candle\doc\images_ru\g-codeprogram.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_heightmap_png" Directory="dir_doc_images_ru" Guid="EC23798D-656E-4A1B-BDB5-FC31EC913252">
+        <File Id="fil_doc_images_ru_heightmap_png" Source="..\..\build\Candle\doc\images_ru\heightmap.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_home_png" Directory="dir_doc_images_ru" Guid="236FCFB8-3CEE-4638-B177-A7FFA8CA250E">
+        <File Id="fil_doc_images_ru_home_png" Source="..\..\build\Candle\doc\images_ru\home.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_jogging_png" Directory="dir_doc_images_ru" Guid="8B8D393F-762B-47A8-B005-0F7997D1FF87">
+        <File Id="fil_doc_images_ru_jogging_png" Source="..\..\build\Candle\doc\images_ru\jogging.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_mainwindow_png" Directory="dir_doc_images_ru" Guid="4267222A-E0E4-49EB-9C43-88A63A7BDB58">
+        <File Id="fil_doc_images_ru_mainwindow_png" Source="..\..\build\Candle\doc\images_ru\mainwindow.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_overriding_png" Directory="dir_doc_images_ru" Guid="D2FD6697-2E90-46A4-96BE-0F739E2779A8">
+        <File Id="fil_doc_images_ru_overriding_png" Source="..\..\build\Candle\doc\images_ru\overriding.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_pause_png" Directory="dir_doc_images_ru" Guid="DDC483A1-826A-4C42-83B5-3E5BB62B36ED">
+        <File Id="fil_doc_images_ru_pause_png" Source="..\..\build\Candle\doc\images_ru\pause.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_power_png" Directory="dir_doc_images_ru" Guid="69CBDDEA-773B-412E-9605-2D04EEED0BF3">
+        <File Id="fil_doc_images_ru_power_png" Source="..\..\build\Candle\doc\images_ru\power.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_restart_png" Directory="dir_doc_images_ru" Guid="13BAFB83-5BE0-434D-95D0-65B109AA83D6">
+        <File Id="fil_doc_images_ru_restart_png" Source="..\..\build\Candle\doc\images_ru\restart.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_settings_png" Directory="dir_doc_images_ru" Guid="5641E1AA-7174-4CC0-A82E-611E6833AAFF">
+        <File Id="fil_doc_images_ru_settings_png" Source="..\..\build\Candle\doc\images_ru\settings.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_spindle_png" Directory="dir_doc_images_ru" Guid="5AE4206B-B1C4-42FC-9AA1-C753CEC0E746">
+        <File Id="fil_doc_images_ru_spindle_png" Source="..\..\build\Candle\doc\images_ru\spindle.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_status_png" Directory="dir_doc_images_ru" Guid="E2B0BA89-4F0C-4776-A5A6-BE180D7D600C">
+        <File Id="fil_doc_images_ru_status_png" Source="..\..\build\Candle\doc\images_ru\status.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_unlock_png" Directory="dir_doc_images_ru" Guid="FBBF608C-D530-4586-A9DA-8AE0BF4C25F0">
+        <File Id="fil_doc_images_ru_unlock_png" Source="..\..\build\Candle\doc\images_ru\unlock.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_usercommands_png" Directory="dir_doc_images_ru" Guid="FC929F7F-2EEA-4638-9928-3D9A71DCC69A">
+        <File Id="fil_doc_images_ru_usercommands_png" Source="..\..\build\Candle\doc\images_ru\usercommands.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_images_ru_visualizer_png" Directory="dir_doc_images_ru" Guid="1FEBE63A-4B26-4966-988A-3BE78BE68ABD">
+        <File Id="fil_doc_images_ru_visualizer_png" Source="..\..\build\Candle\doc\images_ru\visualizer.png" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_programexamples_level_shifter_gcode" Directory="dir_doc_programexamples" Guid="8B114D02-A406-4E26-9D56-4B36A0C09AB7">
+        <File Id="fil_doc_programexamples_level_shifter_gcode" Source="..\..\build\Candle\doc\programexamples\level_shifter.gcode" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_scriptexamples_bounds_js" Directory="dir_doc_scriptexamples" Guid="E3EDC6E2-89D3-48F5-B14F-F338A5A42716">
+        <File Id="fil_doc_scriptexamples_bounds_js" Source="..\..\build\Candle\doc\scriptexamples\bounds.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_scriptexamples_holecenterfinder_js" Directory="dir_doc_scriptexamples" Guid="9CB528BE-A1C2-4BC5-B07D-3CCAEFCC2411">
+        <File Id="fil_doc_scriptexamples_holecenterfinder_js" Source="..\..\build\Candle\doc\scriptexamples\holecenterfinder.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_scriptexamples_loadfile_js" Directory="dir_doc_scriptexamples" Guid="4B131D2A-4077-41F5-8302-8AB3DCD28DD4">
+        <File Id="fil_doc_scriptexamples_loadfile_js" Source="..\..\build\Candle\doc\scriptexamples\loadfile.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_scriptexamples_tcpserver_js" Directory="dir_doc_scriptexamples" Guid="7042D2DD-023F-44D7-945F-8642417B91E0">
+        <File Id="fil_doc_scriptexamples_tcpserver_js" Source="..\..\build\Candle\doc\scriptexamples\tcpserver.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_doc_scriptexamples_zprobe_js" Directory="dir_doc_scriptexamples" Guid="98292D7D-4F02-4EAC-B74D-ACCEBE284590">
+        <File Id="fil_doc_scriptexamples_zprobe_js" Source="..\..\build\Candle\doc\scriptexamples\zprobe.js" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_audio_qtaudio_wasapi_dll" Directory="dir_plugins_audio" Guid="A5B53565-15CA-4F3B-939C-2B9E5B473B91">
+        <File Id="fil_plugins_audio_qtaudio_wasapi_dll" Source="..\..\build\Candle\plugins\audio\qtaudio_wasapi.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_audio_qtaudio_windows_dll" Directory="dir_plugins_audio" Guid="5312F104-AFB0-44C9-90FE-601CB5C7A524">
+        <File Id="fil_plugins_audio_qtaudio_windows_dll" Source="..\..\build\Candle\plugins\audio\qtaudio_windows.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_bearer_qgenericbearer_dll" Directory="dir_plugins_bearer" Guid="6BBE5CE2-5D4D-4BD7-8D9C-030C31C9CE9D">
+        <File Id="fil_plugins_bearer_qgenericbearer_dll" Source="..\..\build\Candle\plugins\bearer\qgenericbearer.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_iconengines_qsvgicon_dll" Directory="dir_plugins_iconengines" Guid="456E9AB9-921D-4C09-82DB-42749399F41A">
+        <File Id="fil_plugins_iconengines_qsvgicon_dll" Source="..\..\build\Candle\plugins\iconengines\qsvgicon.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qgif_dll" Directory="dir_plugins_imageformats" Guid="64544501-6680-4833-87A5-DBFCF6E129CA">
+        <File Id="fil_plugins_imageformats_qgif_dll" Source="..\..\build\Candle\plugins\imageformats\qgif.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qicns_dll" Directory="dir_plugins_imageformats" Guid="B68B7863-3E0A-4AA1-BE22-5B622815B25E">
+        <File Id="fil_plugins_imageformats_qicns_dll" Source="..\..\build\Candle\plugins\imageformats\qicns.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qico_dll" Directory="dir_plugins_imageformats" Guid="26A367CC-726D-4D8C-B5F5-B1FB7B2E1522">
+        <File Id="fil_plugins_imageformats_qico_dll" Source="..\..\build\Candle\plugins\imageformats\qico.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qjpeg_dll" Directory="dir_plugins_imageformats" Guid="C82C03DA-E572-4FE6-9D47-4F7B48220383">
+        <File Id="fil_plugins_imageformats_qjpeg_dll" Source="..\..\build\Candle\plugins\imageformats\qjpeg.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qsvg_dll" Directory="dir_plugins_imageformats" Guid="66805854-CF5E-4D59-9A42-B3390229FAFA">
+        <File Id="fil_plugins_imageformats_qsvg_dll" Source="..\..\build\Candle\plugins\imageformats\qsvg.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qtga_dll" Directory="dir_plugins_imageformats" Guid="BF1A4486-1338-43A5-9733-A787B3B397C6">
+        <File Id="fil_plugins_imageformats_qtga_dll" Source="..\..\build\Candle\plugins\imageformats\qtga.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qtiff_dll" Directory="dir_plugins_imageformats" Guid="C43520D8-1C2A-4988-961F-911FC785047F">
+        <File Id="fil_plugins_imageformats_qtiff_dll" Source="..\..\build\Candle\plugins\imageformats\qtiff.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qwbmp_dll" Directory="dir_plugins_imageformats" Guid="38B09660-C374-415F-B782-32F308DB6132">
+        <File Id="fil_plugins_imageformats_qwbmp_dll" Source="..\..\build\Candle\plugins\imageformats\qwbmp.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_imageformats_qwebp_dll" Directory="dir_plugins_imageformats" Guid="54B0D6F8-290F-4B2B-9769-CC8E2BBE49F7">
+        <File Id="fil_plugins_imageformats_qwebp_dll" Source="..\..\build\Candle\plugins\imageformats\qwebp.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_mediaservice_dsengine_dll" Directory="dir_plugins_mediaservice" Guid="B7AF02A7-6401-4D01-9BBC-3AD4D481E878">
+        <File Id="fil_plugins_mediaservice_dsengine_dll" Source="..\..\build\Candle\plugins\mediaservice\dsengine.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_mediaservice_qtmedia_audioengine_dll" Directory="dir_plugins_mediaservice" Guid="1BE4B2DF-6F85-4900-8B83-BE99F17C2D26">
+        <File Id="fil_plugins_mediaservice_qtmedia_audioengine_dll" Source="..\..\build\Candle\plugins\mediaservice\qtmedia_audioengine.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_mediaservice_wmfengine_dll" Directory="dir_plugins_mediaservice" Guid="89DA8071-EAE4-4D8D-98BF-7A81D5CC6DBC">
+        <File Id="fil_plugins_mediaservice_wmfengine_dll" Source="..\..\build\Candle\plugins\mediaservice\wmfengine.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_platforms_qwindows_dll" Directory="dir_plugins_platforms" Guid="BE02C53B-331C-46ED-A708-23D652684A33">
+        <File Id="fil_plugins_platforms_qwindows_dll" Source="..\..\build\Candle\plugins\platforms\qwindows.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_playlistformats_qtmultimedia_m3u_dll" Directory="dir_plugins_playlistformats" Guid="850D9761-F287-4B18-93E4-7166B8E2198D">
+        <File Id="fil_plugins_playlistformats_qtmultimedia_m3u_dll" Source="..\..\build\Candle\plugins\playlistformats\qtmultimedia_m3u.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_plugins_styles_qwindowsvistastyle_dll" Directory="dir_plugins_styles" Guid="630643ED-F77D-4E10-892B-1866B0A4FB4D">
+        <File Id="fil_plugins_styles_qwindowsvistastyle_dll" Source="..\..\build\Candle\plugins\styles\qwindowsvistastyle.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_core_dll" Directory="dir_script" Guid="C9792139-BE9E-4BFF-8723-342B09DDE41C">
+        <File Id="fil_script_qtscript_core_dll" Source="..\..\build\Candle\script\qtscript_core.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_custom_dll" Directory="dir_script" Guid="A61DFAF3-E30E-45D3-89BC-B1A22A9AB8E3">
+        <File Id="fil_script_qtscript_custom_dll" Source="..\..\build\Candle\script\qtscript_custom.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_gui_dll" Directory="dir_script" Guid="373B3941-6D00-400B-BE90-60C2C879B4E2">
+        <File Id="fil_script_qtscript_gui_dll" Source="..\..\build\Candle\script\qtscript_gui.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_multimedia_dll" Directory="dir_script" Guid="328DE4C7-17A6-4882-9F75-53D62BC696BC">
+        <File Id="fil_script_qtscript_multimedia_dll" Source="..\..\build\Candle\script\qtscript_multimedia.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_network_dll" Directory="dir_script" Guid="5D596B6F-2939-47C3-A7CE-726AF97C3F90">
+        <File Id="fil_script_qtscript_network_dll" Source="..\..\build\Candle\script\qtscript_network.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_opengl_dll" Directory="dir_script" Guid="9C035772-ACE6-47FB-93E3-BD450ABB9E1C">
+        <File Id="fil_script_qtscript_opengl_dll" Source="..\..\build\Candle\script\qtscript_opengl.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_printsupport_dll" Directory="dir_script" Guid="E29C9B74-E69D-478B-9251-1E8595C219A7">
+        <File Id="fil_script_qtscript_printsupport_dll" Source="..\..\build\Candle\script\qtscript_printsupport.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_sql_dll" Directory="dir_script" Guid="07EB83BA-EF03-48F9-B357-C62A02EFD02C">
+        <File Id="fil_script_qtscript_sql_dll" Source="..\..\build\Candle\script\qtscript_sql.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_uitools_dll" Directory="dir_script" Guid="C0906BDC-06BF-4258-ACA0-FA95BF18847E">
+        <File Id="fil_script_qtscript_uitools_dll" Source="..\..\build\Candle\script\qtscript_uitools.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_widgets_dll" Directory="dir_script" Guid="B9C8270A-2450-4205-B792-10CFDC92B772">
+        <File Id="fil_script_qtscript_widgets_dll" Source="..\..\build\Candle\script\qtscript_widgets.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_script_qtscript_xml_dll" Directory="dir_script" Guid="346A9EAD-F5FE-4579-837C-1CAB376C34D5">
+        <File Id="fil_script_qtscript_xml_dll" Source="..\..\build\Candle\script\qtscript_xml.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_candle_en_qm" Directory="dir_translations" Guid="9665E7CB-2229-4554-AF4C-89FD32D48EF5">
+        <File Id="fil_translations_candle_en_qm" Source="..\..\build\Candle\translations\candle_en.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_candle_es_qm" Directory="dir_translations" Guid="6B2B761F-5D4C-4261-8B51-DC865D5B30FC">
+        <File Id="fil_translations_candle_es_qm" Source="..\..\build\Candle\translations\candle_es.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_candle_fr_qm" Directory="dir_translations" Guid="AD852C94-D9C5-4124-BC70-213BA629BCA5">
+        <File Id="fil_translations_candle_fr_qm" Source="..\..\build\Candle\translations\candle_fr.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_candle_pt_qm" Directory="dir_translations" Guid="FEA87D8F-E311-4E17-A99E-6CF6EFF54EC8">
+        <File Id="fil_translations_candle_pt_qm" Source="..\..\build\Candle\translations\candle_pt.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_candle_ru_qm" Directory="dir_translations" Guid="85BA564F-D76D-42F7-88DC-87446E455276">
+        <File Id="fil_translations_candle_ru_qm" Source="..\..\build\Candle\translations\candle_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtbase_es_qm" Directory="dir_translations" Guid="01E5A66C-0C64-4AAF-BBEC-574D29B3A223">
+        <File Id="fil_translations_qtbase_es_qm" Source="..\..\build\Candle\translations\qtbase_es.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtbase_fr_qm" Directory="dir_translations" Guid="B933A2DB-BF24-4881-B4E3-4E54636F92A9">
+        <File Id="fil_translations_qtbase_fr_qm" Source="..\..\build\Candle\translations\qtbase_fr.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtbase_ru_qm" Directory="dir_translations" Guid="9688E6E6-0400-4752-AC47-D7F325D2779A">
+        <File Id="fil_translations_qtbase_ru_qm" Source="..\..\build\Candle\translations\qtbase_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtscript_es_qm" Directory="dir_translations" Guid="01D62AD3-48AE-4675-B1D2-30B322362517">
+        <File Id="fil_translations_qtscript_es_qm" Source="..\..\build\Candle\translations\qtscript_es.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtscript_fr_qm" Directory="dir_translations" Guid="C43A300E-7D3D-4C01-A602-51D6D09026D2">
+        <File Id="fil_translations_qtscript_fr_qm" Source="..\..\build\Candle\translations\qtscript_fr.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtscript_ru_qm" Directory="dir_translations" Guid="C070EB10-704C-44EF-95F0-4DE23DCE4F6B">
+        <File Id="fil_translations_qtscript_ru_qm" Source="..\..\build\Candle\translations\qtscript_ru.qm" KeyPath="yes" />
+      </Component>
+    </Feature>
+
+  </Package>
+</Wix>
