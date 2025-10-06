@@ -82,6 +82,34 @@ cmake --install .
 
 Executable can be found in `build/Candle` directory.
 
+Build instructions (ubuntu)
+------------------
+
+* Install packages
+
+```
+sudo apt update
+sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev
+```
+
+* Get Candle sources
+
+```
+git clone https://github.com/Denvi/Candle.git
+cd Candle
+```
+
+* Build and install
+
+```
+mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX="~/programs/Candle"
+cmake --build . --config=Release --parallel
+cmake --install .
+```
+
+Executable can be found in `~/programs/Candle` directory.
+
 Before creating new issue
 ------
 Candle works with CNC controlled by GRBL firmware, many problems can be solved by using proper version of GRBL, using proper configuration.
