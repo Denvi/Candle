@@ -905,7 +905,7 @@ void frmSettings::setDefaultSettings()
     ui->clpToolpathEnd->setColor(QColor(0, 255, 0));
 
     setFontSize(9);
-    setPanelWidth(48);
+    setPanelWidth(40);
 
     // Shortcuts
     QMap<QString, QString> d;
