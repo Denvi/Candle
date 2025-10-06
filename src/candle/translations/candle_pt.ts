@@ -859,6 +859,10 @@ Tempo transcorrido: %1</translation>
         <source>Profiles (*.cpr)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

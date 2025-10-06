@@ -56,15 +56,28 @@ jobs:
         $version = $tag -replace '^v', ''
         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Prepare folder for upload
+    - name: Create package
+      shell: pwsh
+      run: |
+        dotnet build ${{github.workspace}}/deploy/windows `
+          -p:DefineConstants=ProductVersion=${{steps.tag.outputs.version}} `
+          -p:OutputName=candle-${{steps.tag.outputs.version}} -c Release
+
+    - name: Prepare portable version
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}/artifact
         Copy-Item -Recurse -Path ${{github.workspace}}/build/Candle `
                   -Destination ${{github.workspace}}/artifact/Candle
 
-    - name: Upload artifact
+    - name: Upload package
       uses: actions/upload-artifact@v4
       with:
-        name: Candle_${{ steps.tag.outputs.version }}_x64-windows
+        name: candle-${{steps.tag.outputs.version}}
+        path: ${{github.workspace}}/deploy/windows/bin/x64/Release/candle-${{steps.tag.outputs.version}}.msi
+
+    - name: Upload portable version
+      uses: actions/upload-artifact@v4
+      with:
+        name: candle-${{steps.tag.outputs.version}}-portable
         path: ${{github.workspace}}/artifact/*

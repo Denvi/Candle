@@ -36,6 +36,10 @@
 #include "connections/telnetconnection.h"
 #include "connections/websocketconnection.h"
 
+#ifndef WINDOWS
+#include <QWebEngineView>
+#endif
+
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
@@ -606,7 +610,14 @@ void frmMain::on_actHelpDocumentation_triggered()
         helpFileName = fallbackHelpFileName;
     }
 
+#ifdef WINDOWS
     QDesktopServices::openUrl(QUrl::fromLocalFile(helpFileName));
+#else
+    static auto view = new QWebEngineView();
+    view->setWindowTitle(tr("Documentation") + " - " + qApp->applicationDisplayName());
+    view->load(QUrl::fromLocalFile(helpFileName));
+    view->show();
+#endif
 }
 
 void frmMain::on_actJogStepNext_triggered()
@@ -3175,7 +3186,7 @@ void frmMain::restoreSettings()
 
     if (set->childKeys().size()) {
         m_settings->setFontSize(set->value("fontSize", 9).toInt());
-        m_settings->setPanelWidth(set->value("panelWidth", 48).toInt());
+        m_settings->setPanelWidth(set->value("panelWidth", 40).toInt());
         m_settings->setConnectionType((ConnectionType)set->value("connectionType").toInt());
         m_settings->setPort(set->value("port").toString());
         m_settings->setBaud(set->value("baud", 115200).toInt());
