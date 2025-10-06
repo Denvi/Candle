@@ -47,6 +47,8 @@
 
     <Icon Id="AppIcon" SourceFile="..\..\doc\candle.ico" />
 
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
     <Component Id="StartMenuShortcut" Guid="DCD30340-541C-4CF1-979A-A6FDEB3089AA">
       <Shortcut Id="StartMenuCandle"
                 Directory="AppMenuFolder"
