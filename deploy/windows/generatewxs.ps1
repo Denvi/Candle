@@ -56,10 +56,11 @@ foreach ($file in $files) {
     $compId = "cmp_" + ($relFile -replace '[\-\\/\.]','_')
     $fileId = "fil_" + ($relFile -replace '[\-\\/\.]','_')
     $guid   = New-Guid
+    $relSource = "..\..\build\Candle\" + ($relFile -replace '/','\')
 
     $comps += @"
       <Component Id="$compId" Directory="$($dirs[$relDir])" Guid="$guid">
-        <File Id="$fileId" Source="$($file.FullName)" KeyPath="yes" />
+        <File Id="$fileId" Source="$relSource" KeyPath="yes" />
       </Component>
 "@
 }
