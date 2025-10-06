@@ -118,6 +118,8 @@ $dirXml
 
     <Icon Id="AppIcon" SourceFile="$IconFile" />
 
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
     <Component Id="StartMenuShortcut" Guid="$shortcutGuid">
       <Shortcut Id="StartMenuCandle"
                 Directory="AppMenuFolder"
