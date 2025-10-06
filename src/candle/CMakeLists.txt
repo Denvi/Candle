@@ -15,6 +15,8 @@ find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools Li
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras)
+else()
+    find_package(Qt5 COMPONENTS WebEngineWidgets)
 endif()
 
 file(GLOB_RECURSE SRC_FILES *.cpp)
@@ -55,6 +57,7 @@ if(WIN32)
     target_compile_definitions(candle PRIVATE WINDOWS)
 elseif(APPLE)
 elseif(UNIX)
+    target_link_libraries(candle PRIVATE Qt5::WebEngineWidgets)
     set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
 endif()
 

@@ -36,6 +36,10 @@
 #include "connections/telnetconnection.h"
 #include "connections/websocketconnection.h"
 
+#ifndef WINDOWS
+#include <QWebEngineView>
+#endif
+
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
@@ -606,7 +610,14 @@ void frmMain::on_actHelpDocumentation_triggered()
         helpFileName = fallbackHelpFileName;
     }
 
+#ifdef WINDOWS
     QDesktopServices::openUrl(QUrl::fromLocalFile(helpFileName));
+#else
+    static auto view = new QWebEngineView();
+    view->setWindowTitle(tr("Documentation") + " - " + qApp->applicationDisplayName());
+    view->load(QUrl::fromLocalFile(helpFileName));
+    view->show();
+#endif
 }
 
 void frmMain::on_actJogStepNext_triggered()

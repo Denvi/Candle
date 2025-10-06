@@ -857,6 +857,10 @@ Time elapsed: %1</source>
         <source>Profiles (*.cpr)</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Documentation</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
