@@ -56,5 +56,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Candle_${{steps.tag.outputs.version}}_x64-linux
+        name: candle-${{steps.tag.outputs.version}}-linux
         path: ${{github.workspace}}/deploy/candle-${{steps.tag.outputs.version}}.deb
