@@ -332,6 +332,9 @@
       <Component Id="cmp_doc_candle_ico" Directory="dir_doc" Guid="299B7BD5-E06C-443F-BCC5-640308291295">
         <File Id="fil_doc_candle_ico" Source="..\..\build\Candle\doc\candle.ico" KeyPath="yes" />
       </Component>
+      <Component Id="cmp_doc_styles_css" Directory="dir_doc" Guid="9DD7E8C0-076F-4CBE-9E89-FC8D44FCC9C6">
+        <File Id="fil_doc_styles_css" Source="..\..\build\Candle\doc\styles.css" KeyPath="yes" />
+      </Component>
       <Component Id="cmp_doc_help_en_html" Directory="dir_doc" Guid="B08FD17E-4F89-42C7-B793-C1C1711DBCD6">
         <File Id="fil_doc_help_en_html" Source="..\..\build\Candle\doc\help_en.html" KeyPath="yes" />
       </Component>
