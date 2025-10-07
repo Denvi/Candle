@@ -1,0 +1,3 @@
+[submodule "src/pluginengine"]
+	path = src/pluginengine
+	url = https://github.com/etet100/G-Pilot-Plugin-Engine
