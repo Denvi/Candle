@@ -22,6 +22,7 @@ public:
     void fitDrawable(ShaderDrawable *drawable = NULL);
     bool antialiasing() const;
     void setAntialiasing(bool antialiasing);
+    QPointF calcPositionOnXYPlane(QPoint pos);
 
     QTime spendTime() const;
     void setSpendTime(const QTime &spendTime);
@@ -81,6 +82,10 @@ public:
 signals:
     void rotationChanged();
     void resized();
+    void cursorPosChanged(QPointF);
+    void goToCursor(QPointF);
+    void entered();
+    void left();
 
 public slots:
 
@@ -93,6 +98,7 @@ private:
     QPointF m_storedRot;
     QPointF m_pan;
     QPointF m_storedPan;
+    QPointF m_cursorPos;
 
     QVector3D m_lookAt;
 
@@ -161,7 +167,10 @@ protected:
     void paintGL() override;
     bool event(QEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
     void wheelEvent(QWheelEvent *we) override;
     void timerEvent(QTimerEvent *) override;
 

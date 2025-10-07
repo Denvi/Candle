@@ -24,6 +24,7 @@
 #include "drawers/origindrawer.h"
 #include "drawers/gcodedrawer.h"
 #include "drawers/tooldrawer.h"
+#include "drawers/cursordrawer.h"
 #include "drawers/heightmapborderdrawer.h"
 #include "drawers/heightmapgriddrawer.h"
 #include "drawers/heightmapinterpolationdrawer.h"
@@ -349,6 +350,7 @@ private:
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
     ToolDrawer m_toolDrawer;
+    CursorDrawer m_cursorDrawer;
     HeightMapBorderDrawer m_heightMapBorderDrawer;
     OriginDrawer m_heightMapOriginDrawer;
     HeightMapGridDrawer m_heightMapGridDrawer;

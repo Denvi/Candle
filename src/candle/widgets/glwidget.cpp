@@ -45,6 +45,10 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
     m_overlay = new Overlay(this);
 
     QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
+
+    m_cursorPos = QPointF(NAN, NAN);
+    // required for mouseMoveEvent to be called without clicking
+    setMouseTracking(true);
 }
 
 GLWidget::~GLWidget()
@@ -543,12 +547,75 @@ void GLWidget::paintGL()
     m_frames++;
 }
 
+QPointF GLWidget::calcPositionOnXYPlane(QPoint pos)
+{
+    QVector2D mouseClickPosition(
+        pos.x() / (width()  * 0.5f) - 1.0f,
+        -(pos.y() / (height() * 0.5f) - 1.0f)
+        );
+
+    // Invert the matrices
+    QMatrix4x4 invertedProjection = m_projectionMatrix.inverted();
+    QMatrix4x4 invertedView = m_viewMatrix.inverted();
+
+    // Convert 2D mouse position to 3D position with Z = -1 (near plane)
+    QVector3D nearPlanePosition(mouseClickPosition, -1.0f);
+
+    // Unproject the 3D position on the near plane to the world space
+    QVector3D nearPlaneWorldPosition = invertedProjection.map(nearPlanePosition);
+    nearPlaneWorldPosition = invertedView.map(nearPlaneWorldPosition);
+
+    // Convert 2D mouse position to 3D position with Z = 1 (far plane)
+    QVector3D farPlanePosition(mouseClickPosition, 1.0f);
+
+    // Unproject the 3D position on the far plane to the world space
+    QVector3D farPlaneWorldPosition = invertedProjection.map(farPlanePosition);
+    farPlaneWorldPosition = invertedView.map(farPlaneWorldPosition);
+
+    // Calculate the direction from the near plane to the far plane
+    QVector3D direction = farPlaneWorldPosition - nearPlaneWorldPosition;
+
+    // If the direction is parallel to the XY plane, then the click is not on the XY plane
+    if (direction.z() == 0)
+    {
+        return QPointF(NAN, NAN);
+    }
+
+    // Calculate the intersection of the line with the XY plane (Z = 0)
+    float t = -nearPlaneWorldPosition.z() / direction.z();
+    QVector3D intersection = nearPlaneWorldPosition + direction * t;
+
+    // Limit XY range
+    if (abs(intersection.x()) > 3000 || abs(intersection.y()) > 3000) {
+        return QPointF(NAN, NAN);
+    }
+
+    // qDebug() << intersection;
+
+    intersection.setX(round(intersection.x()));
+    intersection.setY(round(intersection.y()));
+
+    // qDebug() << intersection.toPointF() << qIsNaN(intersection.toPointF().y());
+
+    return intersection.toPointF();
+}
+
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     m_lastPos = event->pos();
 
     m_storedRot = m_rot;
     m_storedPan = m_pan;
+}
+
+void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        QPointF cursorPos = calcPositionOnXYPlane(event->pos());
+        if (!qIsNaN(cursorPos.x()) && !qIsNaN(cursorPos.y())) {
+            emit goToCursor(cursorPos);
+        }
+    }
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -560,6 +627,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         m_storedPan = m_pan;
 
         return;
+    }
+
+    QPointF cursorPos = calcPositionOnXYPlane(event->pos());
+    if (cursorPos != m_cursorPos) {
+        m_cursorPos = cursorPos;
+        emit cursorPosChanged(cursorPos);
     }
 
     if ((event->buttons() & Qt::MiddleButton && !(event->modifiers() & Qt::ShiftModifier)) 
@@ -584,6 +657,18 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
         updateProjection();
     }
+}
+
+void GLWidget::enterEvent(QEvent *event)
+{
+    QOpenGLWidget::enterEvent(event);
+    emit entered();
+}
+
+void GLWidget::leaveEvent(QEvent *event)
+{
+    QOpenGLWidget::leaveEvent(event);
+    emit left();
 }
 
 void GLWidget::wheelEvent(QWheelEvent *we)

@@ -13,6 +13,10 @@ void Overlay::paintEvent(QPaintEvent *pe)
     QPainter painter(this);
     QFontMetrics fm(painter.font());
 
+    auto cursor = QString("Cursor: ?, ?");
+    if (!qIsNaN(m_parent->m_cursorPos.x())) {
+        cursor = QString("Cursor: %1, %2").arg(m_parent->m_cursorPos.x(), 0, 'f', 3).arg(m_parent->m_cursorPos.y(), 0, 'f', 3);
+    }
     auto xbounds = QString("X: %1 ... %2").arg(m_parent->m_modelLowerBounds.x(), 0, 'f', 3)
         .arg(m_parent->m_modelUpperBounds.x(), 0, 'f', 3);
     auto ybounds = QString("Y: %1 ... %2").arg(m_parent->m_modelLowerBounds.y(), 0, 'f', 3)
@@ -27,7 +31,7 @@ void Overlay::paintEvent(QPaintEvent *pe)
     auto buffer = m_parent->m_bufferState;
 
     double x = 10;
-    double y = this->height() - fm.height() * 3 - 10;
+    double y = this->height() - fm.height() * 4 - 10;
 
     // painter.setBrush(QBrush(QColor(255, 255, 255, 196)));
     // painter.drawRect(5, 5, fm.horizontalAdvance(m_parent->m_parserStatus) + 10, fm.height() * 3 + 10);
@@ -47,6 +51,7 @@ void Overlay::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, y + fm.height()), ybounds);
     painter.drawText(QPoint(x, y + fm.height() * 2), zbounds);
     painter.drawText(QPoint(x, y + fm.height() * 3), ranges);
+    painter.drawText(QPoint(x, y + fm.height() * 4), cursor);
 
     painter.drawText(QPoint(x, fm.height() + 10), m_parent->m_parserStatus);
     painter.drawText(QPoint(x, fm.height() * 2 + 10), m_parent->m_speedState);

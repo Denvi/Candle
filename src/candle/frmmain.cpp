@@ -241,10 +241,32 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), QKeySequence(Qt::Key_Delete));
 
+
+    // connect(ui->glwVisualizer
+    connect(ui->glwVisualizer, &GLWidget::cursorPosChanged, this, [this](QPointF pos) {
+        m_cursorDrawer.setPosition(pos);
+    });
+    connect(ui->glwVisualizer, &GLWidget::entered, this, [this]() {
+        m_cursorDrawer.setVisible(true);
+    });
+    connect(ui->glwVisualizer, &GLWidget::left, this, [this]() {
+        m_cursorDrawer.setVisible(false);
+    });
+    connect(ui->glwVisualizer, &GLWidget::goToCursor, this, [this](QPointF pos) {
+        QString cmd = QString("G90 G1 X%1 Y%2 F%3").arg(pos.x(), 0, 'f', 2).arg(pos.y(), 0, 'f', 2).arg(ui->cboJogFeed->currentText());
+        if (QMessageBox::warning(this, this->windowTitle(),  tr("Are you sure you want to move the machine to the selected position?\n"
+                "This action may cause a crash if the position is out of machine bounds. The jog feed rate will be used. Absolute positioning will be set.\n\n"
+                "Full command: ") + cmd, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        {
+            m_currentConnection->send(cmd);
+        }
+    });
+
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(m_probeDrawer);
     ui->glwVisualizer->addDrawable(&m_toolDrawer);
+    ui->glwVisualizer->addDrawable(&m_cursorDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapOriginDrawer);
     ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
