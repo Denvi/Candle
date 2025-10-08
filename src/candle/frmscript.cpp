@@ -13,17 +13,46 @@
 #include "ui_frmscript.h"
 #include "loggingcategories.h"
 
-frmScript::frmScript(QWidget *parent) : QFrame(parent), ui(new Ui::frmScript)
+frmScript::frmScript(QWidget *parent) : QFrame(parent), engines(this), ui(new Ui::frmScript)
 {
     ui->setupUi(this);
 
     m_changed = false;
     m_fileName = "";
+
+    // connect(&engines.js()->console(), &Console::message, this, &frmScript::logSent);
+    // connect(&engines.js()->console(), &Console::message, this, &frmScript::logSent);
 }
 
 frmScript::~frmScript()
 {
     delete ui;
+}
+
+void frmScript::addLog(const QString &type, const QString &msg)
+{
+    qDebug() << type << msg;
+}
+
+void frmScript::logSent(Console::Level level, const QString &msg)
+{
+    switch (level) {
+    case Console::Level::Log:
+        this->addLog("LOG", msg);
+        qDebug() << msg;
+
+        break;
+    case Console::Level::Warn:
+        this->addLog("WARN", msg);
+        qWarning() << msg;
+
+        break;
+    case Console::Level::Error:
+        this->addLog("ERROR", msg);
+        qCritical() << msg;
+
+        break;
+    }
 }
 
 void frmScript::on_txtScript_textChanged()
@@ -74,11 +103,39 @@ void frmScript::on_cmdStart_clicked()
 
     emit beforeScriptStart(se);
 
-    auto sv = se.evaluate(ui->txtScript->toPlainText());
+    QString script = ui->txtScript->toPlainText();
+    int engineIndex = ui->comboEngine->currentIndex();
 
-    if (sv.isError()) {
-        qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+    qDebug() << "`" + script + "`";
+
+    switch (engineIndex) {
+        case 0: // JS classic
+        {
+            auto sv = se.evaluate(script);
+            if (sv.isError()) {
+                qCritical(scriptLogCategory) << "Error evaluating script" << sv.toString() << se.uncaughtExceptionBacktrace();
+            }
+            break;
+        }
+        case 1: // JS new
+            engines.js()->execute(script);
+            return;
+        case 2: // LUA new
+            engines.lua()->execute(script);
+            return;
+        case 4: // autodetect new
+            auto js = engines.js();
+            auto lua = engines.lua();
+            if (js->supported(script)) {
+                js->execute(script);
+            } else if (lua->supported(script)) {
+                lua->execute(script);
+            } else {
+                qCritical(scriptLogCategory) << "No suitable engine found for the script";
+            }
+            return;
     }
+
 }
 
 void frmScript::on_cmdDebug_clicked()

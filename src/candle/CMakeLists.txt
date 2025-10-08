@@ -11,7 +11,7 @@ execute_process(
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets Qml REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras)
@@ -31,7 +31,7 @@ qt5_add_resources(RSC_FILES
 
 qt5_add_translation(QM_FILES ${TS_FILES})
 
-add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
+add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} ${UI_FILES} icon.rc)
 
 add_custom_target(
     lupdate ALL
@@ -43,14 +43,14 @@ add_custom_target(
     VERBATIM
 )
 
-target_include_directories(candle PRIVATE . ../customwidgets)
+target_include_directories(candle PRIVATE . ../customwidgets ../pluginengine)
 
 target_compile_definitions(candle PRIVATE
         _USE_MATH_DEFINES
         QT_NO_DEBUG
 )
 
-target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets)
+target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin pluginengine Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Qml)
 
 if(WIN32)
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
