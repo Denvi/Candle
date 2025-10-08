@@ -4,6 +4,7 @@
 #pragma once
 #include <QFrame>
 #include <QScriptEngine>
+#include "enginecontainer.h"
 
 namespace Ui {
 class frmScript;
@@ -30,6 +31,7 @@ private slots:
 
 private:
     Ui::frmScript *ui;
+    EngineContainer engines;
 
     bool m_changed;
     QString m_fileName;
@@ -37,4 +39,6 @@ private:
 
     bool saveChanges();
     bool saveFile();
+    void logSent(Console::Level level, const QString &msg);
+    void addLog(const QString &type, const QString &msg);
 };

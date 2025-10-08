@@ -32,6 +32,36 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_13">
      <item>
+      <widget class="QComboBox" name="comboEngine">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>Classic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New (JS)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New (Lua)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New (Autodetect)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

@@ -20,8 +20,8 @@ frmScript::frmScript(QWidget *parent) : QFrame(parent), engines(this), ui(new Ui
     m_changed = false;
     m_fileName = "";
 
-    // connect(&engines.js()->console(), &Console::message, this, &frmScript::logSent);
-    // connect(&engines.js()->console(), &Console::message, this, &frmScript::logSent);
+    connect(&engines.js()->console(), &Console::message, this, &frmScript::logSent);
+    connect(&engines.lua()->console(), &Console::message, this, &frmScript::logSent);
 }
 
 frmScript::~frmScript()
@@ -31,7 +31,7 @@ frmScript::~frmScript()
 
 void frmScript::addLog(const QString &type, const QString &msg)
 {
-    qDebug() << type << msg;
+    qDebug() << QString("%1: %2").arg(type, msg);
 }
 
 void frmScript::logSent(Console::Level level, const QString &msg)
@@ -106,8 +106,6 @@ void frmScript::on_cmdStart_clicked()
     QString script = ui->txtScript->toPlainText();
     int engineIndex = ui->comboEngine->currentIndex();
 
-    qDebug() << "`" + script + "`";
-
     switch (engineIndex) {
         case 0: // JS classic
         {
@@ -118,17 +116,21 @@ void frmScript::on_cmdStart_clicked()
             break;
         }
         case 1: // JS new
+            qDebug(scriptLogCategory) << "Using new JS engine";
             engines.js()->execute(script);
             return;
         case 2: // LUA new
+            qDebug(scriptLogCategory) << "Using new LUA engine";
             engines.lua()->execute(script);
             return;
         case 4: // autodetect new
             auto js = engines.js();
             auto lua = engines.lua();
             if (js->supported(script)) {
+                qDebug(scriptLogCategory) << "Detected JS script";
                 js->execute(script);
             } else if (lua->supported(script)) {
+                qDebug(scriptLogCategory) << "Detected LUA script";
                 lua->execute(script);
             } else {
                 qCritical(scriptLogCategory) << "No suitable engine found for the script";
