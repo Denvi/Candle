@@ -111,6 +111,8 @@ private:
         "program",
         "lowerBounds"
         "upperBounds",
+        "fileName",
+        "lines",
 
         // Device
         "device",
