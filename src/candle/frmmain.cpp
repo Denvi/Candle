@@ -5081,8 +5081,8 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
             },
             ui->slbFeedOverride->isChecked(),
             ui->slbRapidOverride->isChecked(),
-            ui->slbFeedOverride->value(),
-            ui->slbRapidOverride->value(),
+            ui->slbFeedOverride->value() / 100.0f,
+            ui->slbRapidOverride->value() / 100.0f,
             false,
             0.0f,
             set.value(11, 0.01f)
