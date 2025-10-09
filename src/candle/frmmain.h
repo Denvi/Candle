@@ -206,6 +206,7 @@ private slots:
     void on_txtHeightMapGridY_valueChanged(double arg1);
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
     void on_txtHeightMapGridZTop_valueChanged(double arg1);
+    void on_txtHeightMapProbeFeed_valueChanged(double arg1);
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
     void on_cmdHeightMapMode_toggled(bool checked);

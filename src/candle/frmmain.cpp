@@ -1498,6 +1498,11 @@ void frmMain::on_txtHeightMapGridZTop_valueChanged(double arg1)
     updateHeightMapGrid(arg1);
 }
 
+void frmMain::on_txtHeightMapProbeFeed_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
 void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
 {
     Q_UNUSED(arg1)
