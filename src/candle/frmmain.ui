@@ -3628,28 +3628,89 @@ QLabel[overrided=&quot;false&quot;] {
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>cmdPerspective</tabstop>
+  <tabstop>cmdFit</tabstop>
+  <tabstop>cmdTop</tabstop>
+  <tabstop>cmdIsometric</tabstop>
+  <tabstop>cmdFront</tabstop>
+  <tabstop>cmdLeft</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>grpOverriding</tabstop>
+  <tabstop>chkHeightMapUse</tabstop>
+  <tabstop>cmdHeightMapCreate</tabstop>
+  <tabstop>cmdHeightMapLoad</tabstop>
+  <tabstop>cmdHeightMapMode</tabstop>
+  <tabstop>cmdHeightMapOrigin</tabstop>
   <tabstop>txtHeightMapBorderX</tabstop>
-  <tabstop>txtHeightMapBorderWidth</tabstop>
   <tabstop>txtHeightMapBorderY</tabstop>
+  <tabstop>txtHeightMapBorderWidth</tabstop>
   <tabstop>txtHeightMapBorderHeight</tabstop>
   <tabstop>chkHeightMapBorderShow</tabstop>
   <tabstop>cmdHeightMapBorderAuto</tabstop>
+  <tabstop>txtHeightMapOriginX</tabstop>
+  <tabstop>txtHeightMapOriginY</tabstop>
+  <tabstop>chkHeightMapOriginShow</tabstop>
+  <tabstop>cmdHeightMapOriginTool</tabstop>
   <tabstop>txtHeightMapGridX</tabstop>
-  <tabstop>txtHeightMapGridZTop</tabstop>
   <tabstop>txtHeightMapGridY</tabstop>
+  <tabstop>txtHeightMapGridZTop</tabstop>
   <tabstop>txtHeightMapGridZBottom</tabstop>
+  <tabstop>txtHeightMapProbeFeed</tabstop>
   <tabstop>chkHeightMapGridShow</tabstop>
   <tabstop>txtHeightMapInterpolationStepX</tabstop>
   <tabstop>txtHeightMapInterpolationStepY</tabstop>
   <tabstop>chkHeightMapInterpolationShow</tabstop>
+  <tabstop>tblProgram</tabstop>
+  <tabstop>tblHeightMap</tabstop>
+  <tabstop>chkAutoScroll</tabstop>
+  <tabstop>cmdFileOpen</tabstop>
+  <tabstop>cmdFileReset</tabstop>
+  <tabstop>cmdFileSend</tabstop>
+  <tabstop>cmdFilePause</tabstop>
+  <tabstop>cmdFileAbort</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>txtWPosX</tabstop>
+  <tabstop>txtWPosY</tabstop>
+  <tabstop>txtWPosZ</tabstop>
+  <tabstop>txtWPosA</tabstop>
+  <tabstop>txtMPosX</tabstop>
+  <tabstop>txtMPosY</tabstop>
+  <tabstop>txtMPosZ</tabstop>
+  <tabstop>txtMPosA</tabstop>
   <tabstop>txtStatus</tabstop>
   <tabstop>cmdHome</tabstop>
-  <tabstop>chkHeightMapUse</tabstop>
-  <tabstop>cmdHeightMapCreate</tabstop>
-  <tabstop>cmdHeightMapLoad</tabstop>
+  <tabstop>cmdHold</tabstop>
+  <tabstop>cmdReset</tabstop>
+  <tabstop>cmdUnlock</tabstop>
+  <tabstop>cmdCheck</tabstop>
+  <tabstop>cmdSleep</tabstop>
+  <tabstop>cmdDoor</tabstop>
+  <tabstop>cmdFlood</tabstop>
+  <tabstop>grpSpindle</tabstop>
+  <tabstop>cmdSpindle</tabstop>
+  <tabstop>grpJog</tabstop>
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
+  <tabstop>cmdYPlus</tabstop>
+  <tabstop>cmdYMinus</tabstop>
+  <tabstop>cmdStop</tabstop>
+  <tabstop>cmdZPlus</tabstop>
+  <tabstop>cmdZMinus</tabstop>
+  <tabstop>cmdAPlusX</tabstop>
+  <tabstop>cmdAMinus</tabstop>
+  <tabstop>cmdAPlusY</tabstop>
+  <tabstop>cboJogStep</tabstop>
+  <tabstop>sliJogStep</tabstop>
+  <tabstop>cboJogFeed</tabstop>
+  <tabstop>sliJogFeed</tabstop>
   <tabstop>chkKeyboardControl</tabstop>
+  <tabstop>txtConsole</tabstop>
+  <tabstop>cboCommand</tabstop>
+  <tabstop>cmdCommandSend</tabstop>
+  <tabstop>cmdClearConsole</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>cboHeightMapInterpolationType</tabstop>
+  <tabstop>grpHeightMap</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
