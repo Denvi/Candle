@@ -1498,6 +1498,11 @@ void frmMain::on_txtHeightMapGridZTop_valueChanged(double arg1)
     updateHeightMapGrid(arg1);
 }
 
+void frmMain::on_txtHeightMapProbeFeed_valueChanged(double arg1)
+{
+    updateHeightMapGrid(arg1);
+}
+
 void frmMain::on_txtHeightMapInterpolationStepX_valueChanged(double arg1)
 {
     Q_UNUSED(arg1)
@@ -4367,7 +4372,7 @@ void frmMain::loadHeightMap(QString fileName)
 
     QTextStream textStream(&file);
     auto signature = textStream.readLine();
-    if (signature != "candle map v2") {
+    if (signature != "candle map v3") {
         QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
         file.close();
         return;
@@ -4388,6 +4393,7 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapGridY->setValue(qQNaN());
     ui->txtHeightMapGridZBottom->setValue(qQNaN());
     ui->txtHeightMapGridZTop->setValue(qQNaN());
+    ui->txtHeightMapProbeFeed->setValue(qQNaN());
 
     QList<QString> list = textStream.readLine().split(";");
     ui->txtHeightMapBorderX->setValue(list[0].toDouble());
@@ -4404,6 +4410,7 @@ void frmMain::loadHeightMap(QString fileName)
     ui->txtHeightMapGridY->setValue(list[1].toDouble());
     ui->txtHeightMapGridZBottom->setValue(list[2].toDouble());
     ui->txtHeightMapGridZTop->setValue(list[3].toDouble());
+    ui->txtHeightMapProbeFeed->setValue(list[4].toDouble());
 
     m_settingsLoading = false;
 
@@ -4443,7 +4450,7 @@ bool frmMain::saveHeightMap(QString fileName)
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QTextStream textStream(&file);
-    textStream << "candle map v2\r\n";
+    textStream << "candle map v3\r\n";
     textStream << ui->txtHeightMapBorderX->text() << ";"
                << ui->txtHeightMapBorderY->text() << ";"
                << ui->txtHeightMapBorderWidth->text() << ";"
@@ -4453,7 +4460,8 @@ bool frmMain::saveHeightMap(QString fileName)
     textStream << ui->txtHeightMapGridX->text() << ";"
                << ui->txtHeightMapGridY->text() << ";"
                << ui->txtHeightMapGridZBottom->text() << ";"
-               << ui->txtHeightMapGridZTop->text() << "\r\n";
+               << ui->txtHeightMapGridZTop->text() << ";"
+               << ui->txtHeightMapProbeFeed->text() << "\r\n";
     textStream << ui->cboHeightMapInterpolationType->currentIndex() << ";"
                << ui->txtHeightMapInterpolationStepX->text() << ";"
                 << ui->txtHeightMapInterpolationStepY->text() << "\r\n";
@@ -5081,8 +5089,8 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
             },
             ui->slbFeedOverride->isChecked(),
             ui->slbRapidOverride->isChecked(),
-            ui->slbFeedOverride->value(),
-            ui->slbRapidOverride->value(),
+            ui->slbFeedOverride->value() / 100.0f,
+            ui->slbRapidOverride->value() / 100.0f,
             false,
             0.0f,
             set.value(11, 0.01f)
@@ -5090,7 +5098,7 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
         auto t = estimator->calculateTime();
         auto r = QTime(0, 0, 0);
-        r = r.addSecs(t * 60);
+        r = r.addSecs(qMin((int)(t * 60), 23 * 3600 + 59 * 60 + 59));
 
         QMetaObject::invokeMethod(ui->glwVisualizer, [=]() {
             ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
