@@ -5090,7 +5090,7 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 
         auto t = estimator->calculateTime();
         auto r = QTime(0, 0, 0);
-        r = r.addSecs(t * 60);
+        r = r.addSecs(qMin((int)(t * 60), 23 * 3600 + 59 * 60 + 59));
 
         QMetaObject::invokeMethod(ui->glwVisualizer, [=]() {
             ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
