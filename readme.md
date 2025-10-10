@@ -76,7 +76,7 @@ vcpkg install
 ```
 mkdir build; cd build
 cmake .. -DCMAKE_INSTALL_PREFIX="$(pwd)/Candle"
-cmake --build . --config=Release --parallel
+cmake --build . --config=Release
 cmake --install .
 ```
 
@@ -104,7 +104,7 @@ cd Candle
 ```
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX="~/programs/Candle"
-cmake --build . --config=Release --parallel
+cmake --build . --config=Release
 cmake --install .
 ```
 
