@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QPrinter Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QPrinter Class Reference</h1>
+<h3 align="center">[<a href="qt_printsupport.html">qt.printsupport</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QPrinter(PrinterMode mode)</b></li>
+<li><div class="fn"/><b>void QPrinter(QPrinterInfo printer, PrinterMode mode)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QPrinter prototype object</li>
+<li><b>Portrait</b></li>
+<li><b>Landscape</b></li>
+<li><b>Orientation( value )</b></li>
+<li><b>Millimeter</b></li>
+<li><b>Point</b></li>
+<li><b>Inch</b></li>
+<li><b>Pica</b></li>
+<li><b>Didot</b></li>
+<li><b>Cicero</b></li>
+<li><b>DevicePixel</b></li>
+<li><b>Unit( value )</b></li>
+<li><b>NativeFormat</b></li>
+<li><b>PdfFormat</b></li>
+<li><b>OutputFormat( value )</b></li>
+<li><b>Idle</b></li>
+<li><b>Active</b></li>
+<li><b>Aborted</b></li>
+<li><b>Error</b></li>
+<li><b>PrinterState( value )</b></li>
+<li><b>DuplexNone = 0</b></li>
+<li><b>DuplexAuto</b></li>
+<li><b>DuplexLongSide</b></li>
+<li><b>DuplexShortSide</b></li>
+<li><b>DuplexMode( value )</b></li>
+<li><b>AllPages</b></li>
+<li><b>Selection</b></li>
+<li><b>PageRange</b></li>
+<li><b>CurrentPage</b></li>
+<li><b>PrintRange( value )</b></li>
+<li><b>OnlyOne</b></li>
+<li><b>Lower</b></li>
+<li><b>Middle</b></li>
+<li><b>Manual</b></li>
+<li><b>Envelope</b></li>
+<li><b>EnvelopeManual</b></li>
+<li><b>Auto</b></li>
+<li><b>Tractor</b></li>
+<li><b>SmallFormat</b></li>
+<li><b>LargeFormat</b></li>
+<li><b>LargeCapacity</b></li>
+<li><b>Cassette</b></li>
+<li><b>FormSource</b></li>
+<li><b>MaxPageSource</b></li>
+<li><b>CustomSource</b></li>
+<li><b>PaperSource( value )</b></li>
+<li><b>FirstPageFirst</b></li>
+<li><b>LastPageFirst</b></li>
+<li><b>PageOrder( value )</b></li>
+<li><b>GrayScale</b></li>
+<li><b>Color</b></li>
+<li><b>ColorMode( value )</b></li>
+<li><b>ScreenResolution</b></li>
+<li><b>PrinterResolution</b></li>
+<li><b>HighResolution</b></li>
+<li><b>PrinterMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool abort()</b></li>
+<li><div class="fn"/><b>int actualNumCopies()</b></li>
+<li><div class="fn"/><b>bool collateCopies()</b></li>
+<li><div class="fn"/><b>ColorMode colorMode()</b></li>
+<li><div class="fn"/><b>int copyCount()</b></li>
+<li><div class="fn"/><b>String creator()</b></li>
+<li><div class="fn"/><b>int devType()</b></li>
+<li><div class="fn"/><b>String docName()</b></li>
+<li><div class="fn"/><b>bool doubleSidedPrinting()</b></li>
+<li><div class="fn"/><b>DuplexMode duplex()</b></li>
+<li><div class="fn"/><b>bool fontEmbeddingEnabled()</b></li>
+<li><div class="fn"/><b>int fromPage()</b></li>
+<li><div class="fn"/><b>bool fullPage()</b></li>
+<li><div class="fn"/><b>void getPageMargins(qreal left, qreal top, qreal right, qreal bottom, Unit unit)</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>bool newPage()</b></li>
+<li><div class="fn"/><b>int numCopies()</b></li>
+<li><div class="fn"/><b>Orientation orientation()</b></li>
+<li><div class="fn"/><b>String outputFileName()</b></li>
+<li><div class="fn"/><b>OutputFormat outputFormat()</b></li>
+<li><div class="fn"/><b>PageOrder pageOrder()</b></li>
+<li><div class="fn"/><b>QRect pageRect()</b></li>
+<li><div class="fn"/><b>QPaintEngine paintEngine()</b></li>
+<li><div class="fn"/><b>String paperName()</b></li>
+<li><div class="fn"/><b>QRect paperRect()</b></li>
+<li><div class="fn"/><b>QSizeF paperSize(Unit unit)</b></li>
+<li><div class="fn"/><b>PaperSource paperSource()</b></li>
+<li><div class="fn"/><b>QPrintEngine printEngine()</b></li>
+<li><div class="fn"/><b>String printProgram()</b></li>
+<li><div class="fn"/><b>PrintRange printRange()</b></li>
+<li><div class="fn"/><b>String printerName()</b></li>
+<li><div class="fn"/><b>PrinterState printerState()</b></li>
+<li><div class="fn"/><b>int resolution()</b></li>
+<li><div class="fn"/><b>void setCollateCopies(bool collate)</b></li>
+<li><div class="fn"/><b>void setColorMode(ColorMode arg__1)</b></li>
+<li><div class="fn"/><b>void setCopyCount(int arg__1)</b></li>
+<li><div class="fn"/><b>void setCreator(String arg__1)</b></li>
+<li><div class="fn"/><b>void setDocName(String arg__1)</b></li>
+<li><div class="fn"/><b>void setDoubleSidedPrinting(bool enable)</b></li>
+<li><div class="fn"/><b>void setDuplex(DuplexMode duplex)</b></li>
+<li><div class="fn"/><b>void setFontEmbeddingEnabled(bool enable)</b></li>
+<li><div class="fn"/><b>void setFromTo(int fromPage, int toPage)</b></li>
+<li><div class="fn"/><b>void setFullPage(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setNumCopies(int arg__1)</b></li>
+<li><div class="fn"/><b>void setOrientation(Orientation arg__1)</b></li>
+<li><div class="fn"/><b>void setOutputFileName(String arg__1)</b></li>
+<li><div class="fn"/><b>void setOutputFormat(OutputFormat format)</b></li>
+<li><div class="fn"/><b>void setPageMargins(qreal left, qreal top, qreal right, qreal bottom, Unit unit)</b></li>
+<li><div class="fn"/><b>void setPageOrder(PageOrder arg__1)</b></li>
+<li><div class="fn"/><b>void setPageSizeMM(QSizeF size)</b></li>
+<li><div class="fn"/><b>void setPaperName(String paperName)</b></li>
+<li><div class="fn"/><b>void setPaperSize(QSizeF paperSize, Unit unit)</b></li>
+<li><div class="fn"/><b>void setPaperSource(PaperSource arg__1)</b></li>
+<li><div class="fn"/><b>void setPrintProgram(String arg__1)</b></li>
+<li><div class="fn"/><b>void setPrintRange(PrintRange range)</b></li>
+<li><div class="fn"/><b>void setPrinterName(String arg__1)</b></li>
+<li><div class="fn"/><b>void setResolution(int arg__1)</b></li>
+<li><div class="fn"/><b>void setWinPageSize(int winPageSize)</b></li>
+<li><div class="fn"/><b>List supportedResolutions()</b></li>
+<li><div class="fn"/><b>bool supportsMultipleCopies()</b></li>
+<li><div class="fn"/><b>int toPage()</b></li>
+<li><div class="fn"/><b>int winPageSize()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QPrinter objects have no special properties beyond those inherited from the QPrinter prototype object.</p>
+</body>
+</html>

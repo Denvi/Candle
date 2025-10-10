@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QPixmap Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QPixmap Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<p>Inherits <a href="qpaintdevice.html">QPaintDevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QPixmap()</b></li>
+<li><div class="fn"/><b>void QPixmap(QPixmap arg__1)</b></li>
+<li><div class="fn"/><b>void QPixmap(QSize arg__1)</b></li>
+<li><div class="fn"/><b>void QPixmap(String fileName, char format, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>void QPixmap(char xpm)</b></li>
+<li><div class="fn"/><b>void QPixmap(int w, int h)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QPixmap prototype object</li>
+<li><div class="fn"/><b>int defaultDepth()</b></li>
+<li><div class="fn"/><b>QPixmap fromImage(QImage image, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QPixmap fromImageReader(QImageReader imageReader, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QPixmap grabWidget(QObject widget, QRect rect)</b></li>
+<li><div class="fn"/><b>QPixmap grabWindow(WId arg__1, int x, int y, int w, int h)</b></li>
+<li><div class="fn"/><b>QMatrix trueMatrix(QMatrix m, int w, int h)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>qint64 cacheKey()</b></li>
+<li><div class="fn"/><b>bool convertFromImage(QImage img, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QPixmap copy(QRect rect)</b></li>
+<li><div class="fn"/><b>QBitmap createHeuristicMask(bool clipTight)</b></li>
+<li><div class="fn"/><b>QBitmap createMaskFromColor(QColor maskColor, MaskMode mode)</b></li>
+<li><div class="fn"/><b>void fill(QColor fillColor)</b></li>
+<li><div class="fn"/><b>bool hasAlpha()</b></li>
+<li><div class="fn"/><b>bool hasAlphaChannel()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool isQBitmap()</b></li>
+<li><div class="fn"/><b>bool load(String fileName, char format, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>bool loadFromData(QByteArray data, char format, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QBitmap mask()</b></li>
+<li><div class="fn"/><b>QRect rect()</b></li>
+<li><div class="fn"/><b>bool save(QIODevice device, char format, int quality)</b></li>
+<li><div class="fn"/><b>QPixmap scaled(QSize s, AspectRatioMode aspectMode, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>QPixmap scaledToHeight(int h, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>QPixmap scaledToWidth(int w, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>void scroll(int dx, int dy, QRect rect, QRegion exposed)</b></li>
+<li><div class="fn"/><b>void setDevicePixelRatio(qreal scaleFactor)</b></li>
+<li><div class="fn"/><b>void setMask(QBitmap arg__1)</b></li>
+<li><div class="fn"/><b>QSize size()</b></li>
+<li><div class="fn"/><b>void swap(QPixmap other)</b></li>
+<li><div class="fn"/><b>QImage toImage()</b></li>
+<li><div class="fn"/><b>QPixmap transformed(QMatrix arg__1, TransformationMode mode)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QPixmap objects have no special properties beyond those inherited from the QPixmap prototype object.</p>
+</body>
+</html>

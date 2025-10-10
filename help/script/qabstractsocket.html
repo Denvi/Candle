@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QAbstractSocket Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QAbstractSocket Class Reference</h1>
+<h3 align="center">[<a href="qt_network.html">qt.network</a> package]</h3>
+<p>Inherits <a href="qiodevice.html">QIODevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QAbstractSocket(SocketType socketType, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QAbstractSocket prototype object</li>
+<li><b>UnknownSocketType = -1</b></li>
+<li><b>TcpSocket</b></li>
+<li><b>UdpSocket</b></li>
+<li><b>SocketType( value )</b></li>
+<li><b>PauseNever = 0x0</b></li>
+<li><b>PauseOnSslErrors = 0x1</b></li>
+<li><b>PauseMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QAbstractSocket prototype object inherits properties from the <a href="qiodevice.html">QIODevice</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void abort()</b></li>
+<li><div class="fn"/><b>void connectToHost(QHostAddress address, unsigned short port, OpenMode mode)</b></li>
+<li><div class="fn"/><b>void disconnectFromHost()</b></li>
+<li><div class="fn"/><b>SocketError error()</b></li>
+<li><div class="fn"/><b>bool flush()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>QHostAddress localAddress()</b></li>
+<li><div class="fn"/><b>unsigned short localPort()</b></li>
+<li><div class="fn"/><b>QHostAddress peerAddress()</b></li>
+<li><div class="fn"/><b>String peerName()</b></li>
+<li><div class="fn"/><b>unsigned short peerPort()</b></li>
+<li><div class="fn"/><b>QNetworkProxy proxy()</b></li>
+<li><div class="fn"/><b>qint64 readBufferSize()</b></li>
+<li><div class="fn"/><b>void resume()</b></li>
+<li><div class="fn"/><b>void setProxy(QNetworkProxy networkProxy)</b></li>
+<li><div class="fn"/><b>void setReadBufferSize(qint64 size)</b></li>
+<li><div class="fn"/><b>void setSocketOption(SocketOption option, Object value)</b></li>
+<li><div class="fn"/><b>Object socketOption(SocketOption option)</b></li>
+<li><div class="fn"/><b>SocketType socketType()</b></li>
+<li><div class="fn"/><b>SocketState state()</b></li>
+<li><div class="fn"/><b>bool waitForConnected(int msecs)</b></li>
+<li><div class="fn"/><b>bool waitForDisconnected(int msecs)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QAbstractSocket objects have no special properties beyond those inherited from the QAbstractSocket prototype object.</p>
+</body>
+</html>

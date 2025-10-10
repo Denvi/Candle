@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QMessageBox Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QMessageBox Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qdialog.html">QDialog</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QMessageBox(Icon icon, String title, String text, StandardButtons buttons, QWidget parent, WindowFlags flags)</b></li>
+<li><div class="fn"/><b>void QMessageBox(QWidget parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QMessageBox prototype object</li>
+<li><div class="fn"/><b>void about(QWidget parent, String title, String text)</b></li>
+<li><div class="fn"/><b>void aboutQt(QWidget parent, String title)</b></li>
+<li><div class="fn"/><b>StandardButton critical(QWidget parent, String title, String text, StandardButtons buttons, StandardButton defaultButton)</b></li>
+<li><div class="fn"/><b>StandardButton information(QWidget parent, String title, String text, StandardButtons buttons, StandardButton defaultButton)</b></li>
+<li><div class="fn"/><b>StandardButton question(QWidget parent, String title, String text, StandardButtons buttons, StandardButton defaultButton)</b></li>
+<li><div class="fn"/><b>StandardButton warning(QWidget parent, String title, String text, StandardButtons buttons, StandardButton defaultButton)</b></li>
+<li><b>NoIcon = 0</b></li>
+<li><b>Information = 1</b></li>
+<li><b>Warning = 2</b></li>
+<li><b>Critical = 3</b></li>
+<li><b>Question = 4</b></li>
+<li><b>Icon( value )</b></li>
+<li><b>NoButton = 0x00000000</b></li>
+<li><b>Default = 0x00000100</b></li>
+<li><b>Escape = 0x00000200</b></li>
+<li><b>FlagMask = 0x00000300</b></li>
+<li><b>ButtonMask = ~FlagMask</b></li>
+<li><b>Ok = 0x00000400</b></li>
+<li><b>Save = 0x00000800</b></li>
+<li><b>SaveAll = 0x00001000</b></li>
+<li><b>Open = 0x00002000</b></li>
+<li><b>Yes = 0x00004000</b></li>
+<li><b>YesToAll = 0x00008000</b></li>
+<li><b>No = 0x00010000</b></li>
+<li><b>NoToAll = 0x00020000</b></li>
+<li><b>Abort = 0x00040000</b></li>
+<li><b>Retry = 0x00080000</b></li>
+<li><b>Ignore = 0x00100000</b></li>
+<li><b>Close = 0x00200000</b></li>
+<li><b>Cancel = 0x00400000</b></li>
+<li><b>Discard = 0x00800000</b></li>
+<li><b>Help = 0x01000000</b></li>
+<li><b>Apply = 0x02000000</b></li>
+<li><b>Reset = 0x04000000</b></li>
+<li><b>RestoreDefaults = 0x08000000</b></li>
+<li><b>StandardButton( value )</b></li>
+<li><b>StandardButtons( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QMessageBox prototype object inherits properties from the <a href="qdialog.html">QDialog</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void addButton(QAbstractButton button, ButtonRole role)</b></li>
+<li><div class="fn"/><b>QAbstractButton button(StandardButton which)</b></li>
+<li><div class="fn"/><b>ButtonRole buttonRole(QAbstractButton button)</b></li>
+<li><div class="fn"/><b>List buttons()</b></li>
+<li><div class="fn"/><b>QCheckBox checkBox()</b></li>
+<li><div class="fn"/><b>QAbstractButton clickedButton()</b></li>
+<li><div class="fn"/><b>QPushButton defaultButton()</b></li>
+<li><div class="fn"/><b>QAbstractButton escapeButton()</b></li>
+<li><div class="fn"/><b>void open(QObject receiver, char member)</b></li>
+<li><div class="fn"/><b>void removeButton(QAbstractButton button)</b></li>
+<li><div class="fn"/><b>void setCheckBox(QCheckBox cb)</b></li>
+<li><div class="fn"/><b>void setDefaultButton(StandardButton button)</b></li>
+<li><div class="fn"/><b>void setEscapeButton(QAbstractButton button)</b></li>
+<li><div class="fn"/><b>StandardButton standardButton(QAbstractButton button)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QMessageBox objects inherit properties from the QMessageBox prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>text</b></li>
+<li><div class="fn"/><b>icon</b></li>
+<li><div class="fn"/><b>iconPixmap</b></li>
+<li><div class="fn"/><b>textFormat</b></li>
+<li><div class="fn"/><b>standardButtons</b></li>
+<li><div class="fn"/><b>detailedText</b></li>
+<li><div class="fn"/><b>informativeText</b></li>
+<li><div class="fn"/><b>textInteractionFlags</b></li>
+</ul>
+</body>
+</html>

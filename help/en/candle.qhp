@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+   <namespace>candle.en</namespace>
+   <virtualFolder>html</virtualFolder>
+   <customFilter name="candle-en">
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>en</filterAttribute>
+   </customFilter>
+   <filterSection>
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>en</filterAttribute>
+      <toc>
+         <section title="Purpose of the program" ref="purpose/index.html"/>
+         <section title="Main window" ref="mainwindow/index.html">
+            <section title="Main menu" ref="mainwindow/mainmenu.html"/>
+            <section title="Windows" ref="mainwindow/windows/index.html">
+               <section title="G-Code program" ref="mainwindow/windows/gcodeprogram.html"/>
+               <section title="Visualizer" ref="mainwindow/windows/visualizer.html"/>
+               <section title="Console" ref="mainwindow/windows/console.html"/>
+               <section title="Camera" ref="mainwindow/windows/camera.html"/>
+            </section>
+            <section title="Panels" ref="mainwindow/panels/index.html">
+               <section title="State" ref="mainwindow/panels/state.html"/>
+               <section title="Control" ref="mainwindow/panels/control.html"/>
+               <section title="Spindle" ref="mainwindow/panels/spindle.html"/>
+               <section title="Jog" ref="mainwindow/panels/jog.html"/>
+               <section title="Coordinate system" ref="mainwindow/panels/coordinatesystem.html"/>
+               <section title="Overriding" ref="mainwindow/panels/overriding.html"/>
+               <section title="Heightmap" ref="mainwindow/panels/heightmap.html"/>
+               <section title="User commands" ref="mainwindow/panels/usercommands.html"/>
+            </section>
+         </section>
+         <section title="Settings window" ref="settings/index.html"></section>
+         <section title="Working process" ref="process/index.html">
+            <section title="Preparing the program for operation" ref="process/preparing.html"/>
+            <section title="Loading the control program" ref="process/loading.html"/>
+            <section title="Creating a height map" ref="process/creatingheightmap.html"/>
+            <section title="Executing the control program" ref="process/executing.html"/>
+            <section title="Shutting down the program" ref="process/shuttingdown.html"/>
+         </section>
+         <section title="Operator Messages" ref="messages/index.html"></section>
+         <section title="Scripting" ref="scripting/index.html">
+            <section title="Running and debugging" ref="scripting/running.html"/>
+            <section title="Objects" ref="scripting/objects.html"/>
+            <section title="Additional classes" ref="scripting/customclasses.html"/>
+            <section title="Examples" ref="scripting/examples/index.html">
+               <section title="Boundary trace" ref="scripting/examples/bounds.html"/>
+               <section title="Z-probe" ref="scripting/examples/zprobe.html"/>
+               <section title="Center finder" ref="scripting/examples/centerfinder.html"/>
+               <section title="Loading a file" ref="scripting/examples/loadfile.html"/>
+               <section title="TCP server" ref="scripting/examples/tcpserver.html"/>
+            </section>
+         </section>
+         <section title="Plugins" ref="plugins/index.html">
+            <section title="Plugin configuration file" ref="plugins/config.html"/>
+            <section title="Script file" ref="plugins/script.html"/>
+            <section title="Translation file" ref="plugins/translation.html"/>
+         </section>
+         <section title="Appendices" ref="appendix/index.html">
+            <section title="GRBL settings" ref="appendix/grblsettings.html"/>
+            <section title="GrblHAL settings" ref="appendix/grblhalsettings.html"/>
+            <section title="GRBL errors" ref="appendix/grblerrors.html"/>
+            <section title="Common G-code commands" ref="appendix/commands.html"/>
+         </section>
+      </toc>
+      <files>
+         <file>purpose/index.html</file>
+         <file>mainwindow/*.html</file>
+         <file>mainwindow/windows/*.html</file>         
+         <file>mainwindow/panels/*.html</file>
+         <file>process/*.html</file>
+         <file>settings/*.html</file>
+         <file>messages/*.html</file>
+         <file>scripting/*.html</file>
+         <file>scripting/examples/*.html</file>
+         <file>plugins/*.html</file>
+         <file>appendix/*.html</file>
+         <file>css/styles.css</file>
+         <file>img/*.png</file>
+      </files>
+   </filterSection>
+</QtHelpProject>

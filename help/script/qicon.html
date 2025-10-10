@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QIcon Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QIcon Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QIcon()</b></li>
+<li><div class="fn"/><b>void QIcon(QIcon other)</b></li>
+<li><div class="fn"/><b>void QIcon(QPixmap pixmap)</b></li>
+<li><div class="fn"/><b>void QIcon(String fileName)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QIcon prototype object</li>
+<li><div class="fn"/><b>QIcon fromTheme(String name, QIcon fallback)</b></li>
+<li><div class="fn"/><b>bool hasThemeIcon(String name)</b></li>
+<li><div class="fn"/><b>void setThemeName(String path)</b></li>
+<li><div class="fn"/><b>void setThemeSearchPaths(List searchpath)</b></li>
+<li><div class="fn"/><b>String themeName()</b></li>
+<li><div class="fn"/><b>List themeSearchPaths()</b></li>
+<li><b>On</b></li>
+<li><b>Off</b></li>
+<li><b>State( value )</b></li>
+<li><b>Normal</b></li>
+<li><b>Disabled</b></li>
+<li><b>Active</b></li>
+<li><b>Selected</b></li>
+<li><b>Mode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QSize actualSize(QSize size, Mode mode, State state)</b></li>
+<li><div class="fn"/><b>void addFile(String fileName, QSize size, Mode mode, State state)</b></li>
+<li><div class="fn"/><b>void addPixmap(QPixmap pixmap, Mode mode, State state)</b></li>
+<li><div class="fn"/><b>List availableSizes(Mode mode, State state)</b></li>
+<li><div class="fn"/><b>qint64 cacheKey()</b></li>
+<li><div class="fn"/><b>bool isMask()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>String name()</b></li>
+<li><div class="fn"/><b>void paint(QPainter painter, QRect rect, Alignment alignment, Mode mode, State state)</b></li>
+<li><div class="fn"/><b>QPixmap pixmap(QSize size, Mode mode, State state)</b></li>
+<li><div class="fn"/><b>void setIsMask(bool isMask)</b></li>
+<li><div class="fn"/><b>void swap(QIcon other)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QIcon objects have no special properties beyond those inherited from the QIcon prototype object.</p>
+</body>
+</html>

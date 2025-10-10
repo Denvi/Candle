@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGLShaderProgram Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGLShaderProgram Class Reference</h1>
+<h3 align="center">[<a href="qt_opengl.html">qt.opengl</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGLShaderProgram(QObject parent)</b></li>
+<li><div class="fn"/><b>void QGLShaderProgram(QGLContext context, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGLShaderProgram prototype object</li>
+<li><div class="fn"/><b>bool hasOpenGLShaderPrograms(QGLContext context)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QGLShaderProgram prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>bool addShader(QGLShader shader)</b></li>
+<li><div class="fn"/><b>bool addShaderFromSourceCode(ShaderType type, QByteArray source)</b></li>
+<li><div class="fn"/><b>bool addShaderFromSourceFile(ShaderType type, String fileName)</b></li>
+<li><div class="fn"/><b>int attributeLocation(QByteArray name)</b></li>
+<li><div class="fn"/><b>bool bind()</b></li>
+<li><div class="fn"/><b>void bindAttributeLocation(QByteArray name, int location)</b></li>
+<li><div class="fn"/><b>void disableAttributeArray(char name)</b></li>
+<li><div class="fn"/><b>void enableAttributeArray(char name)</b></li>
+<li><div class="fn"/><b>unsigned int geometryInputType()</b></li>
+<li><div class="fn"/><b>unsigned int geometryOutputType()</b></li>
+<li><div class="fn"/><b>int geometryOutputVertexCount()</b></li>
+<li><div class="fn"/><b>bool isLinked()</b></li>
+<li><div class="fn"/><b>bool link()</b></li>
+<li><div class="fn"/><b>String log()</b></li>
+<li><div class="fn"/><b>int maxGeometryOutputVertices()</b></li>
+<li><div class="fn"/><b>unsigned int programId()</b></li>
+<li><div class="fn"/><b>void release()</b></li>
+<li><div class="fn"/><b>void removeAllShaders()</b></li>
+<li><div class="fn"/><b>void removeShader(QGLShader shader)</b></li>
+<li><div class="fn"/><b>void setAttributeArray(char name, float values, int tupleSize, int stride)</b></li>
+<li><div class="fn"/><b>void setAttributeArray_QVector2D(char name, QVector2D values, int stride)</b></li>
+<li><div class="fn"/><b>void setAttributeArray_QVector3D(char name, QVector3D values, int stride)</b></li>
+<li><div class="fn"/><b>void setAttributeArray_QVector4D(char name, QVector4D values, int stride)</b></li>
+<li><div class="fn"/><b>void setAttributeBuffer(char name, unsigned int type, int offset, int tupleSize, int stride)</b></li>
+<li><div class="fn"/><b>void setAttributeValue(char name, QColor value)</b></li>
+<li><div class="fn"/><b>void setGeometryInputType(unsigned int inputType)</b></li>
+<li><div class="fn"/><b>void setGeometryOutputType(unsigned int outputType)</b></li>
+<li><div class="fn"/><b>void setGeometryOutputVertexCount(int count)</b></li>
+<li><div class="fn"/><b>void setUniformValue(char name, QColor color)</b></li>
+<li><div class="fn"/><b>void setUniformValueArray(char name, QMatrix3x3 values, int count)</b></li>
+<li><div class="fn"/><b>void setUniformValueArray_QVector2D(char name, QVector2D values, int count)</b></li>
+<li><div class="fn"/><b>void setUniformValueArray_QVector3D(char name, QVector3D values, int count)</b></li>
+<li><div class="fn"/><b>void setUniformValueArray_QVector4D(char name, QVector4D values, int count)</b></li>
+<li><div class="fn"/><b>List shaders()</b></li>
+<li><div class="fn"/><b>int uniformLocation(QByteArray name)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGLShaderProgram objects have no special properties beyond those inherited from the QGLShaderProgram prototype object.</p>
+</body>
+</html>

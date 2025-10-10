@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QPaintEngine Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QPaintEngine Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QPaintEngine(PaintEngineFeatures features)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QPaintEngine prototype object</li>
+<li><b>AllFeatures = 0xffffffff</b></li>
+<li><b>PrimitiveTransform = 0x00000001</b></li>
+<li><b>PatternTransform = 0x00000002</b></li>
+<li><b>PixmapTransform = 0x00000004</b></li>
+<li><b>PatternBrush = 0x00000008</b></li>
+<li><b>LinearGradientFill = 0x00000010</b></li>
+<li><b>RadialGradientFill = 0x00000020</b></li>
+<li><b>ConicalGradientFill = 0x00000040</b></li>
+<li><b>AlphaBlend = 0x00000080</b></li>
+<li><b>PorterDuff = 0x00000100</b></li>
+<li><b>PainterPaths = 0x00000200</b></li>
+<li><b>Antialiasing = 0x00000400</b></li>
+<li><b>BrushStroke = 0x00000800</b></li>
+<li><b>ConstantOpacity = 0x00001000</b></li>
+<li><b>MaskedBrush = 0x00002000</b></li>
+<li><b>PerspectiveTransform = 0x00004000</b></li>
+<li><b>BlendModes = 0x00008000</b></li>
+<li><b>ObjectBoundingModeGradients = 0x00010000</b></li>
+<li><b>RasterOpModes = 0x00020000</b></li>
+<li><b>PaintOutsidePaintEvent = 0x20000000</b></li>
+<li><b>PaintEngineFeature( value )</b></li>
+<li><b>PaintEngineFeatures( value1, value2, ... )</b></li>
+<li><b>OddEvenMode</b></li>
+<li><b>WindingMode</b></li>
+<li><b>ConvexMode</b></li>
+<li><b>PolylineMode</b></li>
+<li><b>PolygonDrawMode( value )</b></li>
+<li><b>DirtyPen = 0x0001</b></li>
+<li><b>DirtyBrush = 0x0002</b></li>
+<li><b>DirtyBrushOrigin = 0x0004</b></li>
+<li><b>DirtyFont = 0x0008</b></li>
+<li><b>DirtyBackground = 0x0010</b></li>
+<li><b>DirtyBackgroundMode = 0x0020</b></li>
+<li><b>DirtyTransform = 0x0040</b></li>
+<li><b>DirtyClipRegion = 0x0080</b></li>
+<li><b>DirtyClipPath = 0x0100</b></li>
+<li><b>DirtyHints = 0x0200</b></li>
+<li><b>DirtyCompositionMode = 0x0400</b></li>
+<li><b>DirtyClipEnabled = 0x0800</b></li>
+<li><b>DirtyOpacity = 0x1000</b></li>
+<li><b>AllDirty = 0xffff</b></li>
+<li><b>DirtyFlag( value )</b></li>
+<li><b>DirtyFlags( value1, value2, ... )</b></li>
+<li><b>X11</b></li>
+<li><b>Windows</b></li>
+<li><b>QuickDraw</b></li>
+<li><b>CoreGraphics</b></li>
+<li><b>MacPrinter</b></li>
+<li><b>QWindowSystem</b></li>
+<li><b>PostScript</b></li>
+<li><b>OpenGL</b></li>
+<li><b>Picture</b></li>
+<li><b>SVG</b></li>
+<li><b>Raster</b></li>
+<li><b>Direct3D</b></li>
+<li><b>Pdf</b></li>
+<li><b>OpenVG</b></li>
+<li><b>OpenGL2</b></li>
+<li><b>PaintBuffer</b></li>
+<li><b>Blitter</b></li>
+<li><b>Direct2D</b></li>
+<li><b>User = 50</b></li>
+<li><b>MaxUser = 100</b></li>
+<li><b>Type( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool begin(QPaintDevice pdev)</b></li>
+<li><div class="fn"/><b>void clearDirty(DirtyFlags df)</b></li>
+<li><div class="fn"/><b>QPoint coordinateOffset()</b></li>
+<li><div class="fn"/><b>void drawEllipse(QRect r)</b></li>
+<li><div class="fn"/><b>void drawImage(QRectF r, QImage pm, QRectF sr, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>void drawLines(QLine lines, int lineCount)</b></li>
+<li><div class="fn"/><b>void drawPath(QPainterPath path)</b></li>
+<li><div class="fn"/><b>void drawPixmap(QRectF r, QPixmap pm, QRectF sr)</b></li>
+<li><div class="fn"/><b>void drawPoints(QPoint points, int pointCount)</b></li>
+<li><div class="fn"/><b>void drawPolygon(QPoint points, int pointCount, PolygonDrawMode mode)</b></li>
+<li><div class="fn"/><b>void drawRects(QRect rects, int rectCount)</b></li>
+<li><div class="fn"/><b>void drawTextItem(QPointF p, QTextItem textItem)</b></li>
+<li><div class="fn"/><b>void drawTiledPixmap(QRectF r, QPixmap pixmap, QPointF s)</b></li>
+<li><div class="fn"/><b>bool end()</b></li>
+<li><div class="fn"/><b>bool hasFeature(PaintEngineFeatures feature)</b></li>
+<li><div class="fn"/><b>bool isActive()</b></li>
+<li><div class="fn"/><b>bool isExtended()</b></li>
+<li><div class="fn"/><b>QPaintDevice paintDevice()</b></li>
+<li><div class="fn"/><b>QPainter painter()</b></li>
+<li><div class="fn"/><b>void setActive(bool newState)</b></li>
+<li><div class="fn"/><b>void setDirty(DirtyFlags df)</b></li>
+<li><div class="fn"/><b>void setSystemClip(QRegion baseClip)</b></li>
+<li><div class="fn"/><b>void setSystemRect(QRect rect)</b></li>
+<li><div class="fn"/><b>void syncState()</b></li>
+<li><div class="fn"/><b>QRegion systemClip()</b></li>
+<li><div class="fn"/><b>QRect systemRect()</b></li>
+<li><div class="fn"/><b>bool testDirty(DirtyFlags df)</b></li>
+<li><div class="fn"/><b>Type type()</b></li>
+<li><div class="fn"/><b>void updateState(QPaintEngineState state)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QPaintEngine objects have no special properties beyond those inherited from the QPaintEngine prototype object.</p>
+</body>
+</html>

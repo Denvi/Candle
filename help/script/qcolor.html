@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QColor Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QColor Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QColor()</b></li>
+<li><div class="fn"/><b>void QColor(GlobalColor color)</b></li>
+<li><div class="fn"/><b>void QColor(QColor color)</b></li>
+<li><div class="fn"/><b>void QColor(String name)</b></li>
+<li><div class="fn"/><b>void QColor(int r, int g, int b, int a)</b></li>
+<li><div class="fn"/><b>void QColor(unsigned int rgb)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QColor prototype object</li>
+<li><div class="fn"/><b>List colorNames()</b></li>
+<li><div class="fn"/><b>QColor fromCmyk(int c, int m, int y, int k, int a)</b></li>
+<li><div class="fn"/><b>QColor fromCmykF(qreal c, qreal m, qreal y, qreal k, qreal a)</b></li>
+<li><div class="fn"/><b>QColor fromHsl(int h, int s, int l, int a)</b></li>
+<li><div class="fn"/><b>QColor fromHslF(qreal h, qreal s, qreal l, qreal a)</b></li>
+<li><div class="fn"/><b>QColor fromHsv(int h, int s, int v, int a)</b></li>
+<li><div class="fn"/><b>QColor fromHsvF(qreal h, qreal s, qreal v, qreal a)</b></li>
+<li><div class="fn"/><b>QColor fromRgb(int r, int g, int b, int a)</b></li>
+<li><div class="fn"/><b>QColor fromRgbF(qreal r, qreal g, qreal b, qreal a)</b></li>
+<li><div class="fn"/><b>QColor fromRgba(unsigned int rgba)</b></li>
+<li><div class="fn"/><b>QColor fromRgba64(ushort r, ushort g, ushort b, ushort a)</b></li>
+<li><div class="fn"/><b>bool isValidColor(String name)</b></li>
+<li><b>Invalid</b></li>
+<li><b>Rgb</b></li>
+<li><b>Hsv</b></li>
+<li><b>Cmyk</b></li>
+<li><b>Hsl</b></li>
+<li><b>Spec( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>int alpha()</b></li>
+<li><div class="fn"/><b>qreal alphaF()</b></li>
+<li><div class="fn"/><b>int black()</b></li>
+<li><div class="fn"/><b>qreal blackF()</b></li>
+<li><div class="fn"/><b>int blue()</b></li>
+<li><div class="fn"/><b>qreal blueF()</b></li>
+<li><div class="fn"/><b>QColor convertTo(Spec colorSpec)</b></li>
+<li><div class="fn"/><b>int cyan()</b></li>
+<li><div class="fn"/><b>qreal cyanF()</b></li>
+<li><div class="fn"/><b>QColor darker(int f)</b></li>
+<li><div class="fn"/><b>void getHsl(int h, int s, int l, int a)</b></li>
+<li><div class="fn"/><b>void getHslF(qreal h, qreal s, qreal l, qreal a)</b></li>
+<li><div class="fn"/><b>int green()</b></li>
+<li><div class="fn"/><b>qreal greenF()</b></li>
+<li><div class="fn"/><b>int hslHue()</b></li>
+<li><div class="fn"/><b>qreal hslHueF()</b></li>
+<li><div class="fn"/><b>int hslSaturation()</b></li>
+<li><div class="fn"/><b>qreal hslSaturationF()</b></li>
+<li><div class="fn"/><b>int hsvHue()</b></li>
+<li><div class="fn"/><b>qreal hsvHueF()</b></li>
+<li><div class="fn"/><b>int hsvSaturation()</b></li>
+<li><div class="fn"/><b>qreal hsvSaturationF()</b></li>
+<li><div class="fn"/><b>int hue()</b></li>
+<li><div class="fn"/><b>qreal hueF()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>QColor lighter(int f)</b></li>
+<li><div class="fn"/><b>int lightness()</b></li>
+<li><div class="fn"/><b>qreal lightnessF()</b></li>
+<li><div class="fn"/><b>int magenta()</b></li>
+<li><div class="fn"/><b>qreal magentaF()</b></li>
+<li><div class="fn"/><b>String name()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QColor c)</b></li>
+<li><div class="fn"/><b>int red()</b></li>
+<li><div class="fn"/><b>qreal redF()</b></li>
+<li><div class="fn"/><b>unsigned int rgb()</b></li>
+<li><div class="fn"/><b>unsigned int rgba()</b></li>
+<li><div class="fn"/><b>int saturation()</b></li>
+<li><div class="fn"/><b>qreal saturationF()</b></li>
+<li><div class="fn"/><b>void setAlpha(int alpha)</b></li>
+<li><div class="fn"/><b>void setAlphaF(qreal alpha)</b></li>
+<li><div class="fn"/><b>void setBlue(int blue)</b></li>
+<li><div class="fn"/><b>void setBlueF(qreal blue)</b></li>
+<li><div class="fn"/><b>void setCmyk(int c, int m, int y, int k, int a)</b></li>
+<li><div class="fn"/><b>void setCmykF(qreal c, qreal m, qreal y, qreal k, qreal a)</b></li>
+<li><div class="fn"/><b>void setGreen(int green)</b></li>
+<li><div class="fn"/><b>void setGreenF(qreal green)</b></li>
+<li><div class="fn"/><b>void setHsl(int h, int s, int l, int a)</b></li>
+<li><div class="fn"/><b>void setHslF(qreal h, qreal s, qreal l, qreal a)</b></li>
+<li><div class="fn"/><b>void setHsv(int h, int s, int v, int a)</b></li>
+<li><div class="fn"/><b>void setHsvF(qreal h, qreal s, qreal v, qreal a)</b></li>
+<li><div class="fn"/><b>void setNamedColor(String name)</b></li>
+<li><div class="fn"/><b>void setRed(int red)</b></li>
+<li><div class="fn"/><b>void setRedF(qreal red)</b></li>
+<li><div class="fn"/><b>void setRgb(int r, int g, int b, int a)</b></li>
+<li><div class="fn"/><b>void setRgbF(qreal r, qreal g, qreal b, qreal a)</b></li>
+<li><div class="fn"/><b>void setRgba(unsigned int rgba)</b></li>
+<li><div class="fn"/><b>Spec spec()</b></li>
+<li><div class="fn"/><b>QColor toCmyk()</b></li>
+<li><div class="fn"/><b>QColor toHsl()</b></li>
+<li><div class="fn"/><b>QColor toHsv()</b></li>
+<li><div class="fn"/><b>QColor toRgb()</b></li>
+<li><div class="fn"/><b>int value()</b></li>
+<li><div class="fn"/><b>qreal valueF()</b></li>
+<li><div class="fn"/><b>int yellow()</b></li>
+<li><div class="fn"/><b>qreal yellowF()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QColor objects have no special properties beyond those inherited from the QColor prototype object.</p>
+</body>
+</html>

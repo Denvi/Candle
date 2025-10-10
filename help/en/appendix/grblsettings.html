@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>grblsettings.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="grbl-settings">GRBL settings</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+<th>Valid values</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Step pulse duration for stepper drivers, microseconds</td>
+<td></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Timeout for turning off stepper drivers, milliseconds</td>
+<td></td>
+<td><code>25</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bit mask of step signal inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bit mask of direction signal inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Enable signal inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>End‑stop inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Probe signal inversion flag</td>
+<td><code>0</code> low active, <code>1</code> high active</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Bit mask of status output</td>
+<td>bit 0 – work coords, bit 1 – machine coords, bit 2 – buffer info</td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Junction deviation parameter (mm)</td>
+<td></td>
+<td><code>0.01</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Max arc‑to‑segment approximation error (mm)</td>
+<td></td>
+<td><code>0.002</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Output units in inches flag</td>
+<td><code>0</code> mm, <code>1</code> inch</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td>Software limits enable flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td>Hardware limits enable flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td>Homing enabled flag</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>23</td>
+<td>Bit mask of homing direction inversion</td>
+<td>bit 0 – X, bit 1 – Y, bit 2 – Z</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td>Homing speed (mm/s)</td>
+<td></td>
+<td><code>25</code></td>
+</tr>
+<tr>
+<td>25</td>
+<td>Initial homing speed (mm/s)</td>
+<td></td>
+<td><code>250</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td>End‑stop debounce time (ms)</td>
+<td></td>
+<td><code>250</code></td>
+</tr>
+<tr>
+<td>27</td>
+<td>Home offset distance after end‑stops (mm)</td>
+<td></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>30</td>
+<td>Max spindle speed (rev/s)</td>
+<td></td>
+<td><code>10000</code></td>
+</tr>
+<tr>
+<td>31</td>
+<td>Min spindle speed (rev/s)</td>
+<td></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>32</td>
+<td>Laser mode flag (no stop on "S" command)</td>
+<td><code>0</code> off, <code>1</code> on</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>100</td>
+<td>Steps per mm for X axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>101</td>
+<td>Steps per mm for Y axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>102</td>
+<td>Steps per mm for Z axis</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>110</td>
+<td>Max feed rate X (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>111</td>
+<td>Max feed rate Y (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>112</td>
+<td>Max feed rate Z (mm/s)</td>
+<td></td>
+<td><code>2000</code></td>
+</tr>
+<tr>
+<td>120</td>
+<td>Acceleration X (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>121</td>
+<td>Acceleration Y (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>122</td>
+<td>Acceleration Z (mm/s²)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>130</td>
+<td>Max X travel from home (software limit)</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>131</td>
+<td>Max Y travel from home</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>132</td>
+<td>Max Z travel from home</td>
+<td></td>
+<td><code>200</code></td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

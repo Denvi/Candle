@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>visualizer.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="window-visualizer">Window "Visualizer"</h1>
+<p>The graphical representation of the CP is displayed in the window <strong>&quot;Visualizer&quot;</strong>.</p>
+<p class="center"><img src="../../img/visualizer.png" alt="Window Visualizer"></p>
+<p>In this window five functional areas can be identified:</p>
+<ul>
+<li><strong>Central or main area</strong>, where the CP tool trajectory is rendered as a three‑dimensional (3D) projection.</li>
+<li><strong>Controller status</strong> in the upper‑left corner.</li>
+<li><strong>View‑control buttons</strong> in the upper‑right corner.</li>
+<li><strong>Processing limits information</strong> in the lower‑left corner.</li>
+<li><strong>Auxiliary information</strong> in the lower‑right corner.</li>
+</ul>
+<p>The CP tool trajectory is represented by a set of line segments:</p>
+<ul>
+<li>Solid black lines denote portions of linear and circular interpolation.</li>
+<li>Dashed black lines indicate accelerated moves.</li>
+<li>Red lines represent vertical movements.</li>
+</ul>
+<p>When the CP is sent to the CNC controller, some segments change color according to the following rules: the part already processed by the CNC is colored grey; the portion that has been transmitted to the CNC is colored violet.</p>
+<p>Three circle markers are overlaid on the trajectory:</p>
+<ul>
+<li><strong>Red marker</strong> – start of the trajectory.</li>
+<li><strong>Green marker</strong> – end of the trajectory.</li>
+<li><strong>Purple marker</strong> – segment corresponding to the command highlighted in the &quot;G‑code program&quot; window table.</li>
+</ul>
+<p>In the main area the origin is shown as a red rectangle in the X–Y plane, with axes colored: X – red, Y – green, Z – blue. A conditional representation of the tool appears as an orange wireframe model.</p>
+<p><strong>Navigation in the main area</strong></p>
+<ul>
+<li>Rotate the 3D projection by holding the left‑mouse button (LMB) on the main area and moving the cursor, or click one of the view buttons in the upper‑right corner ("Top", "Front", "Left", "Isometric").</li>
+<li>Move the projection within the area by pressing LMB while holding the <code>&lt;Shift&gt;</code> key and dragging.</li>
+<li>Scale the projection using the mouse wheel or by clicking the <strong>Fit</strong> button in the upper‑right corner.</li>
+</ul>
+<p>In the upper‑left corner the current CNC controller state is displayed: the interpreter status string, the current feed and spindle speed values, and the states of CNC components (spindle, cooling system).</p>
+<p>The status string has the form:</p>
+<p class="center"><strong>[GC:G1 G54 G17 G21 G90 G94 M3 M9 T0 F75 S8000]</strong></p>
+<p>It shows the interpreter’s current mode for all 12 modal groups, tool number, feed rate and spindle speed. The groups and possible modes are listed in table:</p>
+<table width="100%">
+<thead>
+<tr>
+<th>Modal group</th>
+<th>Modes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Movement</strong></td>
+<td>G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80</td>
+</tr>
+<tr>
+<td><strong>Coordinate system</strong></td>
+<td>G54, G55, G56, G57, G58, G59</td>
+</tr>
+<tr>
+<td><strong>Workplane</strong></td>
+<td>G17, G18, G19</td>
+</tr>
+<tr>
+<td><strong>Distance mode</strong></td>
+<td>G90, G91</td>
+</tr>
+<tr>
+<td><strong>IJK circular interpolation</strong></td>
+<td>G91.1</td>
+</tr>
+<tr>
+<td><strong>Feed rate</strong></td>
+<td>G93, G94</td>
+</tr>
+<tr>
+<td><strong>Units of measurement</strong></td>
+<td>G20, G21</td>
+</tr>
+<tr>
+<td><strong>Tool radius compensation</strong></td>
+<td>G40</td>
+</tr>
+<tr>
+<td><strong>Tool length compensation</strong></td>
+<td>G43.1, G49</td>
+</tr>
+<tr>
+<td><strong>Program motion control</strong></td>
+<td>M0, M1, M2, M30</td>
+</tr>
+<tr>
+<td><strong>Spindle state</strong></td>
+<td>M3, M4, M5</td>
+</tr>
+<tr>
+<td><strong>Cooling system state</strong></td>
+<td>M7, M8, M9</td>
+</tr>
+</tbody>
+</table>
+<p>The CNC component status string appears as:</p>
+<p class="center"><strong>AS: SFM</strong></p>
+<ul>
+<li><strong>S</strong> indicates spindle rotation clockwise; it is replaced by <strong>C</strong> when rotating counter‑clockwise and omitted when the spindle stops.</li>
+<li><strong>F</strong> appears when water cooling is active; <strong>M</strong> denotes air cooling.</li>
+</ul>
+<p>The CP processing limits shown in the lower‑left corner list the minimum and maximum coordinates for each axis, as well as the dimensions of the machining zone (excluding tool diameter).</p>
+<p>In the lower‑right corner, the current operating time under the loaded CP is displayed, along with an estimated total runtime based on the CP.</p>
+<p>Below this area a line presents command‑queue information: the total number of commands sent and currently being processed by the CNC controller; the count of processed commands; and the number of injected commands (commands sent in addition to the CP) present in the queue.</p>
+<p>The same section also shows auxiliary data: the total number of vertices forming the 3D projection, and the frames‑per‑second rate at which the projection is being built.</p>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>preparing.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="preparing-the-program-for-operation">Preparing the program for operation</h1>
+<p>Before working with the program, perform the following steps:</p>
+<ul>
+<li>Connect and start the CNC machine.</li>
+<li>Configure the port and baud rate for connection to the CNC controller.</li>
+<li>Verify the connection to the controller. If the connection is correct, the <strong>"Status"</strong> field in the <strong>"State"</strong> panel should display <strong>"Idle"</strong>.</li>
+<li>Check the controller settings.</li>
+</ul>
+<p>To verify the settings, enter the command <code>$$</code> in the input field of the <strong>"Console"</strong> window and send it to the controller.<br>
+The correct operation of the program depends on the following settings (see <a href="#appendix-a-controller-settings">Appendix A: Controller settings</a>):</p>
+<ul>
+<li><code>$5</code>, <code>$6</code> affect the homing and probe functions.</li>
+<li><code>$10</code> must include the machine coordinate output in its mask, feed &amp; speed, pin state, work coordinate offsets, overrides; a working value example is <code>1</code> (<code>511</code> for grblHAL).</li>
+<li><code>$22</code> determines whether limit switches are used during homing; a working value example is <code>1</code>.</li>
+<li><code>$23</code> sets the direction of axis movement during homing.</li>
+<li><code>$30</code>, <code>$31</code> set the spindle speed range and may correspond to the <strong>"Spindle speed min"</strong>, <strong>"Spindle speed max"</strong> settings in the program.</li>
+<li><code>$100</code>…<code>$102</code> define the actual axis travel per commanded unit.</li>
+<li><code>$110</code>…<code>$112</code> – maximum axis travel speeds.</li>
+<li><code>$120</code>…<code>$122</code> – axis acceleration values.</li>
+<li><code>$130</code>…<code>$132</code> define the work area size; used in jogging commands.</li>
+</ul>
+<p>To set new values, send commands of the form <code>$CODE=VALUE</code> to the controller, e.g. <code>$10=1</code>.<br>
+After changing controller settings, it is recommended to reset the controller by pressing the <strong>"Reset"</strong> button on the <strong>"Control"</strong> panel.</p>
+
+</body>
+</html>

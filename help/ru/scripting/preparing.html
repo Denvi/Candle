@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>preparing.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0-%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0">Подготовка скрипта</h1>
+<p>Для знакомства с работой скриптов предлагается использовать средства, предоставляемыми в окне &quot;Скрипт&quot; программы.</p>
+<p>Перед началом работы нужно создать новый скрипт (кнопка &quot;Новый&quot;).</p>
+<p>Далее нужно ввести текст скрипта, для примера:</p>
+<pre class="hljs"><code><div>script.importExtension(<span class="hljs-string">"qt.core"</span>);
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>);
+
+<span class="hljs-keyword">const</span> x = QInputDialog.getDouble(app.window, <span class="hljs-string">""</span>, <span class="hljs-string">"Move X"</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">0</span>, Qt.Dialog);
+
+<span class="hljs-keyword">if</span> (x) {
+    app.device.sendCommand(<span class="hljs-string">"G21 G91 G0 X"</span> + x);
+}
+</div></code></pre>
+<p>Первые две строки отвечают за загрузку привязок, для возможности Qt-классов в скрипте.</p>
+<p>В следующей строке вызывается диалоговое окно запроса вещественного числа, в данном случае расстояние перемещения по оси X.</p>
+<p>После задания значения и подтверждения ввода производится относительное перемещение инструмента на заданное расстояние.</p>
+<p>Более подробная информация по доступным объектам, таким как script и app, расположена в разделе <a href="qthelp://candle.ru/html/scripting/objects.html">Доступные объекты</a>.</p>
+<p>Информация по привязкам Qt-классов на английском языке расположена в разделе <a href="qthelp://candle.script/html/index.html">Руководство по привязкам Qt-классов</a>.</p>
+<p>Помимо стандартных Qt-классов в скриптах имеются дополнительные классы, которые могут использоваться при разработке пользовательских интерфейсов - <a href="qthelp://candle.ru/html/scripting/customclasses.html">Дополнительные классы</a>.</p>
+
+</body>
+</html>

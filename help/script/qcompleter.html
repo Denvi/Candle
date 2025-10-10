@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QCompleter Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QCompleter Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QCompleter(QAbstractItemModel model, QObject parent)</b></li>
+<li><div class="fn"/><b>void QCompleter(QObject parent)</b></li>
+<li><div class="fn"/><b>void QCompleter(List completions, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QCompleter prototype object</li>
+<li><b>UnsortedModel = 0</b></li>
+<li><b>CaseSensitivelySortedModel</b></li>
+<li><b>CaseInsensitivelySortedModel</b></li>
+<li><b>ModelSorting( value )</b></li>
+<li><b>PopupCompletion</b></li>
+<li><b>UnfilteredPopupCompletion</b></li>
+<li><b>InlineCompletion</b></li>
+<li><b>CompletionMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QCompleter prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>int completionCount()</b></li>
+<li><div class="fn"/><b>QAbstractItemModel completionModel()</b></li>
+<li><div class="fn"/><b>String currentCompletion()</b></li>
+<li><div class="fn"/><b>QModelIndex currentIndex()</b></li>
+<li><div class="fn"/><b>int currentRow()</b></li>
+<li><div class="fn"/><b>QAbstractItemModel model()</b></li>
+<li><div class="fn"/><b>String pathFromIndex(QModelIndex index)</b></li>
+<li><div class="fn"/><b>QAbstractItemView popup()</b></li>
+<li><div class="fn"/><b>bool setCurrentRow(int row)</b></li>
+<li><div class="fn"/><b>void setModel(QAbstractItemModel c)</b></li>
+<li><div class="fn"/><b>void setPopup(QAbstractItemView popup)</b></li>
+<li><div class="fn"/><b>void setWidget(QWidget widget)</b></li>
+<li><div class="fn"/><b>List splitPath(String path)</b></li>
+<li><div class="fn"/><b>QWidget widget()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QCompleter objects inherit properties from the QCompleter prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>completionPrefix</b></li>
+<li><div class="fn"/><b>modelSorting</b></li>
+<li><div class="fn"/><b>filterMode</b></li>
+<li><div class="fn"/><b>completionMode</b></li>
+<li><div class="fn"/><b>completionColumn</b></li>
+<li><div class="fn"/><b>completionRole</b></li>
+<li><div class="fn"/><b>maxVisibleItems</b></li>
+<li><div class="fn"/><b>caseSensitivity</b></li>
+<li><div class="fn"/><b>wrapAround</b></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QPainterPath Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QPainterPath Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QPainterPath()</b></li>
+<li><div class="fn"/><b>void QPainterPath(QPainterPath other)</b></li>
+<li><div class="fn"/><b>void QPainterPath(QPointF startPoint)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QPainterPath prototype object</li>
+<li><b>MoveToElement</b></li>
+<li><b>LineToElement</b></li>
+<li><b>CurveToElement</b></li>
+<li><b>CurveToDataElement</b></li>
+<li><b>ElementType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void addEllipse(QPointF center, qreal rx, qreal ry)</b></li>
+<li><div class="fn"/><b>void addPath(QPainterPath path)</b></li>
+<li><div class="fn"/><b>void addPolygon(QPolygonF polygon)</b></li>
+<li><div class="fn"/><b>void addRect(QRectF rect)</b></li>
+<li><div class="fn"/><b>void addRegion(QRegion region)</b></li>
+<li><div class="fn"/><b>void addRoundRect(QRectF rect, int roundness)</b></li>
+<li><div class="fn"/><b>void addRoundedRect(QRectF rect, qreal xRadius, qreal yRadius, SizeMode mode)</b></li>
+<li><div class="fn"/><b>void addText(QPointF point, QFont f, String text)</b></li>
+<li><div class="fn"/><b>qreal angleAtPercent(qreal t)</b></li>
+<li><div class="fn"/><b>void arcMoveTo(QRectF rect, qreal angle)</b></li>
+<li><div class="fn"/><b>void arcTo(QRectF rect, qreal startAngle, qreal arcLength)</b></li>
+<li><div class="fn"/><b>QRectF boundingRect()</b></li>
+<li><div class="fn"/><b>void closeSubpath()</b></li>
+<li><div class="fn"/><b>void connectPath(QPainterPath path)</b></li>
+<li><div class="fn"/><b>bool contains(QPainterPath p)</b></li>
+<li><div class="fn"/><b>QRectF controlPointRect()</b></li>
+<li><div class="fn"/><b>void cubicTo(QPointF ctrlPt1, QPointF ctrlPt2, QPointF endPt)</b></li>
+<li><div class="fn"/><b>QPointF currentPosition()</b></li>
+<li><div class="fn"/><b>QPainterPath_Element elementAt(int i)</b></li>
+<li><div class="fn"/><b>int elementCount()</b></li>
+<li><div class="fn"/><b>FillRule fillRule()</b></li>
+<li><div class="fn"/><b>QPainterPath intersected(QPainterPath r)</b></li>
+<li><div class="fn"/><b>bool intersects(QPainterPath p)</b></li>
+<li><div class="fn"/><b>bool isEmpty()</b></li>
+<li><div class="fn"/><b>qreal length()</b></li>
+<li><div class="fn"/><b>void lineTo(QPointF p)</b></li>
+<li><div class="fn"/><b>void moveTo(QPointF p)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_add(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_add_assign(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_and(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_and_assign(QPainterPath other)</b></li>
+<li><div class="fn"/><b>bool operator_equal(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_or(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_or_assign(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_subtract(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPainterPath operator_subtract_assign(QPainterPath other)</b></li>
+<li><div class="fn"/><b>qreal percentAtLength(qreal t)</b></li>
+<li><div class="fn"/><b>QPointF pointAtPercent(qreal t)</b></li>
+<li><div class="fn"/><b>void quadTo(QPointF ctrlPt, QPointF endPt)</b></li>
+<li><div class="fn"/><b>void setElementPositionAt(int i, qreal x, qreal y)</b></li>
+<li><div class="fn"/><b>void setFillRule(FillRule fillRule)</b></li>
+<li><div class="fn"/><b>QPainterPath simplified()</b></li>
+<li><div class="fn"/><b>qreal slopeAtPercent(qreal t)</b></li>
+<li><div class="fn"/><b>QPainterPath subtracted(QPainterPath r)</b></li>
+<li><div class="fn"/><b>QPainterPath subtractedInverted(QPainterPath r)</b></li>
+<li><div class="fn"/><b>void swap(QPainterPath other)</b></li>
+<li><div class="fn"/><b>QPolygonF toFillPolygon(QMatrix matrix)</b></li>
+<li><div class="fn"/><b>List toFillPolygons(QMatrix matrix)</b></li>
+<li><div class="fn"/><b>QPainterPath toReversed()</b></li>
+<li><div class="fn"/><b>List toSubpathPolygons(QMatrix matrix)</b></li>
+<li><div class="fn"/><b>void translate(QPointF offset)</b></li>
+<li><div class="fn"/><b>QPainterPath translated(QPointF offset)</b></li>
+<li><div class="fn"/><b>QPainterPath united(QPainterPath r)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QPainterPath objects have no special properties beyond those inherited from the QPainterPath prototype object.</p>
+</body>
+</html>

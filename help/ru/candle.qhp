@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+   <namespace>candle.ru</namespace>
+   <virtualFolder>html</virtualFolder>
+   <customFilter name="candle-ru">
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>ru</filterAttribute>
+   </customFilter>
+   <filterSection>
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>ru</filterAttribute>
+      <toc>
+         <section title="Назначение программы" ref="purpose/index.html"/>
+         <section title="Главное окно" ref="mainwindow/index.html">
+            <section title="Главное меню" ref="mainwindow/mainmenu.html"/>
+            <section title="Окна" ref="mainwindow/windows/index.html">
+               <section title="G-код программа" ref="mainwindow/windows/gcodeprogram.html"/>
+               <section title="Визуализатор" ref="mainwindow/windows/visualizer.html"/>
+               <section title="Консоль" ref="mainwindow/windows/console.html"/>
+               <section title="Камера" ref="mainwindow/windows/camera.html"/>
+            </section>
+            <section title="Панели" ref="mainwindow/panels/index.html">
+               <section title="Состояние" ref="mainwindow/panels/state.html"/>
+               <section title="Управление" ref="mainwindow/panels/control.html"/>
+               <section title="Шпиндель" ref="mainwindow/panels/spindle.html"/>
+               <section title="Перемещение" ref="mainwindow/panels/jog.html"/>
+               <section title="Система координат" ref="mainwindow/panels/coordinatesystem.html"/>
+               <section title="Коррекция" ref="mainwindow/panels/overriding.html"/>
+               <section title="Карта высот" ref="mainwindow/panels/heightmap.html"/>
+               <section title="Пользовательские команды" ref="mainwindow/panels/usercommands.html"/>
+            </section>
+         </section>
+         <section title="Окно настроек" ref="settings/index.html"></section>
+         <section title="Рабочий процесс" ref="process/index.html">
+            <section title="Подготовка программы к работе" ref="process/preparing.html"/>
+            <section title="Загрузка управляющей программы" ref="process/loading.html"/>
+            <section title="Создание карты высот" ref="process/creatingheightmap.html"/>
+            <section title="Выполнение управляющей программы" ref="process/executing.html"/>
+            <section title="Завершение работы с программой" ref="process/shuttingdown.html"/>
+         </section>
+         <section title="Сообщения оператору" ref="messages/index.html"></section>
+         <section title="Разработка скриптов" ref="scripting/index.html">
+            <section title="Подготовка скрипта" ref="scripting/preparing.html"/>
+            <section title="Запуск и отладка" ref="scripting/running.html"/>
+            <section title="Доступные объекты" ref="scripting/objects.html"/>
+            <section title="Дополнительные классы" ref="scripting/customclasses.html"/>
+            <section title="Примеры" ref="scripting/examples/index.html">
+               <section title="Обход границ" ref="scripting/examples/bounds.html"/>
+               <section title="Z-зонд" ref="scripting/examples/zprobe.html"/>
+               <section title="Центроискатель" ref="scripting/examples/centerfinder.html"/>
+               <section title="Загрузка файла" ref="scripting/examples/loadfile.html"/>
+               <section title="TCP-сервер" ref="scripting/examples/tcpserver.html"/>
+            </section>
+         </section>
+         <section title="Разработка расширений" ref="plugins/index.html">
+            <section title="Файл конфигурации расширения" ref="plugins/config.html"/>
+            <section title="Файл скрипта" ref="plugins/script.html"/>
+            <section title="Файл перевода" ref="plugins/translation.html"/>
+         </section>
+         <section title="Приложения" ref="appendix/index.html">
+            <section title="Настройки контроллера" ref="appendix/grblsettings.html"/>
+            <section title="Настройки контроллера (grblHAL)" ref="appendix/grblhalsettings.html"/>
+            <section title="Ошибки контроллера" ref="appendix/grblerrors.html"/>
+            <section title="Таблица G-код команд" ref="appendix/commands.html"/>
+         </section>
+      </toc>
+      <files>
+         <file>purpose/index.html</file>
+         <file>mainwindow/*.html</file>
+         <file>mainwindow/windows/*.html</file>         
+         <file>mainwindow/panels/*.html</file>
+         <file>process/*.html</file>
+         <file>settings/*.html</file>
+         <file>messages/*.html</file>
+         <file>scripting/*.html</file>
+         <file>scripting/examples/*.html</file>
+         <file>plugins/*.html</file>
+         <file>appendix/*.html</file>
+         <file>css/styles.css</file>
+         <file>img/*.png</file>
+      </files>
+   </filterSection>
+</QtHelpProject>

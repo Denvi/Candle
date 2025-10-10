@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGraphicsScene Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGraphicsScene Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGraphicsScene(QObject parent)</b></li>
+<li><div class="fn"/><b>void QGraphicsScene(QRectF sceneRect, QObject parent)</b></li>
+<li><div class="fn"/><b>void QGraphicsScene(qreal x, qreal y, qreal width, qreal height, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGraphicsScene prototype object</li>
+<li><b>NoIndex = -1</b></li>
+<li><b>BspTreeIndex</b></li>
+<li><b>ItemIndexMethod( value )</b></li>
+<li><b>ItemLayer = 0x1</b></li>
+<li><b>BackgroundLayer = 0x2</b></li>
+<li><b>ForegroundLayer = 0x4</b></li>
+<li><b>AllLayers = 0xffff</b></li>
+<li><b>SceneLayer( value )</b></li>
+<li><b>SceneLayers( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QGraphicsScene prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>QGraphicsItem activePanel()</b></li>
+<li><div class="fn"/><b>QGraphicsWidget activeWindow()</b></li>
+<li><div class="fn"/><b>QGraphicsEllipseItem addEllipse(QRectF rect, QPen pen, QBrush brush)</b></li>
+<li><div class="fn"/><b>void addItem(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>QGraphicsLineItem addLine(QLineF line, QPen pen)</b></li>
+<li><div class="fn"/><b>QGraphicsPathItem addPath(QPainterPath path, QPen pen, QBrush brush)</b></li>
+<li><div class="fn"/><b>QGraphicsPixmapItem addPixmap(QPixmap pixmap)</b></li>
+<li><div class="fn"/><b>QGraphicsPolygonItem addPolygon(QPolygonF polygon, QPen pen, QBrush brush)</b></li>
+<li><div class="fn"/><b>QGraphicsRectItem addRect(QRectF rect, QPen pen, QBrush brush)</b></li>
+<li><div class="fn"/><b>QGraphicsSimpleTextItem addSimpleText(String text, QFont font)</b></li>
+<li><div class="fn"/><b>QGraphicsTextItem addText(String text, QFont font)</b></li>
+<li><div class="fn"/><b>QGraphicsProxyWidget addWidget(QWidget widget, WindowFlags wFlags)</b></li>
+<li><div class="fn"/><b>void clearFocus()</b></li>
+<li><div class="fn"/><b>List collidingItems(QGraphicsItem item, ItemSelectionMode mode)</b></li>
+<li><div class="fn"/><b>QGraphicsItemGroup createItemGroup(List items)</b></li>
+<li><div class="fn"/><b>void destroyItemGroup(QGraphicsItemGroup group)</b></li>
+<li><div class="fn"/><b>QGraphicsItem focusItem()</b></li>
+<li><div class="fn"/><b>bool hasFocus()</b></li>
+<li><div class="fn"/><b>qreal height()</b></li>
+<li><div class="fn"/><b>Object inputMethodQuery(InputMethodQuery query)</b></li>
+<li><div class="fn"/><b>void invalidate(qreal x, qreal y, qreal w, qreal h, SceneLayers layers)</b></li>
+<li><div class="fn"/><b>bool isActive()</b></li>
+<li><div class="fn"/><b>QGraphicsItem itemAt(QPointF pos, QTransform deviceTransform)</b></li>
+<li><div class="fn"/><b>List items(SortOrder order)</b></li>
+<li><div class="fn"/><b>QRectF itemsBoundingRect()</b></li>
+<li><div class="fn"/><b>QGraphicsItem mouseGrabberItem()</b></li>
+<li><div class="fn"/><b>void removeItem(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>void render(QPainter painter, QRectF target, QRectF source, AspectRatioMode aspectRatioMode)</b></li>
+<li><div class="fn"/><b>List selectedItems()</b></li>
+<li><div class="fn"/><b>QPainterPath selectionArea()</b></li>
+<li><div class="fn"/><b>bool sendEvent(QGraphicsItem item, QEvent event)</b></li>
+<li><div class="fn"/><b>void setActivePanel(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>void setActiveWindow(QGraphicsWidget widget)</b></li>
+<li><div class="fn"/><b>void setFocus(FocusReason focusReason)</b></li>
+<li><div class="fn"/><b>void setFocusItem(QGraphicsItem item, FocusReason focusReason)</b></li>
+<li><div class="fn"/><b>void setSceneRect(qreal x, qreal y, qreal w, qreal h)</b></li>
+<li><div class="fn"/><b>void setSelectionArea(QPainterPath path, ItemSelectionMode mode, QTransform deviceTransform)</b></li>
+<li><div class="fn"/><b>void setStyle(QStyle style)</b></li>
+<li><div class="fn"/><b>QStyle style()</b></li>
+<li><div class="fn"/><b>void update(qreal x, qreal y, qreal w, qreal h)</b></li>
+<li><div class="fn"/><b>List views()</b></li>
+<li><div class="fn"/><b>qreal width()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGraphicsScene objects inherit properties from the QGraphicsScene prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>backgroundBrush</b></li>
+<li><div class="fn"/><b>foregroundBrush</b></li>
+<li><div class="fn"/><b>itemIndexMethod</b></li>
+<li><div class="fn"/><b>sceneRect</b></li>
+<li><div class="fn"/><b>bspTreeDepth</b></li>
+<li><div class="fn"/><b>palette</b></li>
+<li><div class="fn"/><b>font</b></li>
+<li><div class="fn"/><b>sortCacheEnabled</b></li>
+<li><div class="fn"/><b>stickyFocus</b></li>
+<li><div class="fn"/><b>minimumRenderSize</b></li>
+</ul>
+</body>
+</html>

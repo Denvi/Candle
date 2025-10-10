@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>centerfinder.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="center-finder">Center finder</h1>
+<p>Below is a sample script that locates the center of a hole.</p>
+<p>Before running, jog the tool inside the hole; preliminary zeroing is not required.</p>
+<p>To let the user cancel the “search radius” prompt and abort the script early, the code is wrapped in an IIFE.</p>
+<pre class="hljs"><code><div>script.importExtension(<span class="hljs-string">"qt.core"</span>);   <span class="hljs-comment">// access to Qt globals</span>
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>); <span class="hljs-comment">// access to QInputDialog</span>
+
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">/* ---------- 1. Get search radius ---------- */</span>
+    <span class="hljs-keyword">const</span> settings     = app.storage.group(<span class="hljs-string">"HoleCenterFinder"</span>); <span class="hljs-comment">// settings group for this script</span>
+    <span class="hljs-keyword">const</span> storedRadius = settings.value(<span class="hljs-string">"radius"</span>, <span class="hljs-number">10</span>);          <span class="hljs-comment">// last used value (default 10 mm)</span>
+
+    <span class="hljs-keyword">const</span> radius = QInputDialog.getDouble(
+        app.window,                     <span class="hljs-comment">// parent window</span>
+        <span class="hljs-string">"Hole center finder"</span>,           <span class="hljs-comment">// dialog title</span>
+        <span class="hljs-string">"Find radius"</span>,                  <span class="hljs-comment">// field label</span>
+        storedRadius, <span class="hljs-number">0.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">0</span>,    <span class="hljs-comment">// value, min, max, decimals</span>
+        Qt.Dialog                       <span class="hljs-comment">// flags</span>
+    );
+    <span class="hljs-keyword">if</span> (!radius) <span class="hljs-keyword">return</span>;                <span class="hljs-comment">// user pressed Cancel</span>
+
+    settings.setValue(<span class="hljs-string">"radius"</span>, radius); <span class="hljs-comment">// remember the entered value</span>
+
+    <span class="hljs-comment">/* ---------- 2. Remember current position ---------- */</span>
+    <span class="hljs-keyword">const</span> startX = app.device.work.x;
+    <span class="hljs-keyword">const</span> startY = app.device.work.y;
+
+    <span class="hljs-comment">/* ---------- 3. Find center along Y ---------- */</span>
+    <span class="hljs-comment">// First touch: move forward by the given radius</span>
+    app.device.sendCommand(<span class="hljs-string">"G91G38.2F100Y"</span> + radius);
+    app.device.waitResponses();         <span class="hljs-comment">// wait for probe hit</span>
+    <span class="hljs-keyword">const</span> probeY = app.device.probe.y;  <span class="hljs-comment">// record touch coordinate</span>
+
+    <span class="hljs-comment">// Return to start Y, then move back by the same radius</span>
+    app.device.sendCommands([
+        <span class="hljs-string">"G90G0Y"</span> + startY,      <span class="hljs-comment">// rapid return in absolute mode</span>
+        <span class="hljs-string">"G91G38.2Y-"</span> + radius   <span class="hljs-comment">// relative move in reverse direction</span>
+    ]);
+    app.device.waitResponses();
+
+    <span class="hljs-comment">// Move to the midpoint between the two touches</span>
+    app.device.sendCommand(<span class="hljs-string">"G90G53G0Y"</span> + (app.device.probe.y + probeY) / <span class="hljs-number">2</span>);
+
+    <span class="hljs-comment">/* ---------- 4. Find center along X (same idea) ---------- */</span>
+    app.device.sendCommand(<span class="hljs-string">"G91G38.2X"</span> + radius);
+    app.device.waitResponses();
+    <span class="hljs-keyword">const</span> probeX = app.device.probe.x;
+
+    app.device.sendCommands([
+        <span class="hljs-string">"G90G0X"</span> + startX,
+        <span class="hljs-string">"G91G38.2X-"</span> + radius
+    ]);
+    app.device.waitResponses();
+
+    <span class="hljs-comment">// Final move to the absolute hole center</span>
+    app.device.sendCommand(<span class="hljs-string">"G90G53G0X"</span> + (app.device.probe.x + probeX) / <span class="hljs-number">2</span>);
+})();
+</div></code></pre>
+
+</body>
+</html>

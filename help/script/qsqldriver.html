@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QSqlDriver Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QSqlDriver Class Reference</h1>
+<h3 align="center">[<a href="qt_sql.html">qt.sql</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QSqlDriver(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QSqlDriver prototype object</li>
+<li><b>FieldName</b></li>
+<li><b>TableName</b></li>
+<li><b>IdentifierType( value )</b></li>
+<li><b>Transactions</b></li>
+<li><b>QuerySize</b></li>
+<li><b>BLOB</b></li>
+<li><b>Unicode</b></li>
+<li><b>PreparedQueries</b></li>
+<li><b>NamedPlaceholders</b></li>
+<li><b>PositionalPlaceholders</b></li>
+<li><b>LastInsertId</b></li>
+<li><b>BatchOperations</b></li>
+<li><b>SimpleLocking</b></li>
+<li><b>LowPrecisionNumbers</b></li>
+<li><b>EventNotifications</b></li>
+<li><b>FinishQuery</b></li>
+<li><b>MultipleResultSets</b></li>
+<li><b>CancelQuery</b></li>
+<li><b>DriverFeature( value )</b></li>
+<li><b>WhereStatement</b></li>
+<li><b>SelectStatement</b></li>
+<li><b>UpdateStatement</b></li>
+<li><b>InsertStatement</b></li>
+<li><b>DeleteStatement</b></li>
+<li><b>StatementType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QSqlDriver prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>bool beginTransaction()</b></li>
+<li><div class="fn"/><b>void close()</b></li>
+<li><div class="fn"/><b>bool commitTransaction()</b></li>
+<li><div class="fn"/><b>QSqlResult createResult()</b></li>
+<li><div class="fn"/><b>String escapeIdentifier(String identifier, IdentifierType type)</b></li>
+<li><div class="fn"/><b>String formatValue(QSqlField field, bool trimStrings)</b></li>
+<li><div class="fn"/><b>Object handle()</b></li>
+<li><div class="fn"/><b>bool hasFeature(DriverFeature f)</b></li>
+<li><div class="fn"/><b>bool isIdentifierEscaped(String identifier, IdentifierType type)</b></li>
+<li><div class="fn"/><b>bool isOpen()</b></li>
+<li><div class="fn"/><b>bool isOpenError()</b></li>
+<li><div class="fn"/><b>QSqlError lastError()</b></li>
+<li><div class="fn"/><b>NumericalPrecisionPolicy numericalPrecisionPolicy()</b></li>
+<li><div class="fn"/><b>bool open(String db, String user, String password, String host, int port, String connOpts)</b></li>
+<li><div class="fn"/><b>QSqlIndex primaryIndex(String tableName)</b></li>
+<li><div class="fn"/><b>QSqlRecord record(String tableName)</b></li>
+<li><div class="fn"/><b>bool rollbackTransaction()</b></li>
+<li><div class="fn"/><b>void setNumericalPrecisionPolicy(NumericalPrecisionPolicy precisionPolicy)</b></li>
+<li><div class="fn"/><b>String sqlStatement(StatementType type, String tableName, QSqlRecord rec, bool preparedStatement)</b></li>
+<li><div class="fn"/><b>String stripDelimiters(String identifier, IdentifierType type)</b></li>
+<li><div class="fn"/><b>bool subscribeToNotification(String name)</b></li>
+<li><div class="fn"/><b>List subscribedToNotifications()</b></li>
+<li><div class="fn"/><b>List tables(TableType tableType)</b></li>
+<li><div class="fn"/><b>bool unsubscribeFromNotification(String name)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QSqlDriver objects have no special properties beyond those inherited from the QSqlDriver prototype object.</p>
+</body>
+</html>

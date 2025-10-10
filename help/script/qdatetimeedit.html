@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QDateTimeEdit Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QDateTimeEdit Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qabstractspinbox.html">QAbstractSpinBox</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QDateTimeEdit(QWidget parent)</b></li>
+<li><div class="fn"/><b>void QDateTimeEdit(QDate d, QWidget parent)</b></li>
+<li><div class="fn"/><b>void QDateTimeEdit(QDateTime dt, QWidget parent)</b></li>
+<li><div class="fn"/><b>void QDateTimeEdit(QTime t, QWidget parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QDateTimeEdit prototype object</li>
+<li><b>NoSection = 0x0000</b></li>
+<li><b>AmPmSection = 0x0001</b></li>
+<li><b>MSecSection = 0x0002</b></li>
+<li><b>SecondSection = 0x0004</b></li>
+<li><b>MinuteSection = 0x0008</b></li>
+<li><b>HourSection = 0x0010</b></li>
+<li><b>TimeSections_Mask = AmPmSection|MSecSection|SecondSection|MinuteSection|HourSection</b></li>
+<li><b>DaySection = 0x0100</b></li>
+<li><b>MonthSection = 0x0200</b></li>
+<li><b>YearSection = 0x0400</b></li>
+<li><b>DateSections_Mask = DaySection|MonthSection|YearSection</b></li>
+<li><b>Section( value )</b></li>
+<li><b>Sections( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QDateTimeEdit prototype object inherits properties from the <a href="qabstractspinbox.html">QAbstractSpinBox</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>QCalendarWidget calendarWidget()</b></li>
+<li><div class="fn"/><b>void clearMaximumDate()</b></li>
+<li><div class="fn"/><b>void clearMaximumDateTime()</b></li>
+<li><div class="fn"/><b>void clearMaximumTime()</b></li>
+<li><div class="fn"/><b>void clearMinimumDate()</b></li>
+<li><div class="fn"/><b>void clearMinimumDateTime()</b></li>
+<li><div class="fn"/><b>void clearMinimumTime()</b></li>
+<li><div class="fn"/><b>Section sectionAt(int index)</b></li>
+<li><div class="fn"/><b>String sectionText(Section section)</b></li>
+<li><div class="fn"/><b>void setCalendarWidget(QCalendarWidget calendarWidget)</b></li>
+<li><div class="fn"/><b>void setDateRange(QDate min, QDate max)</b></li>
+<li><div class="fn"/><b>void setDateTimeRange(QDateTime min, QDateTime max)</b></li>
+<li><div class="fn"/><b>void setSelectedSection(Section section)</b></li>
+<li><div class="fn"/><b>void setTimeRange(QTime min, QTime max)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QDateTimeEdit objects inherit properties from the QDateTimeEdit prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>dateTime</b></li>
+<li><div class="fn"/><b>date</b></li>
+<li><div class="fn"/><b>time</b></li>
+<li><div class="fn"/><b>maximumDateTime</b></li>
+<li><div class="fn"/><b>minimumDateTime</b></li>
+<li><div class="fn"/><b>maximumDate</b></li>
+<li><div class="fn"/><b>minimumDate</b></li>
+<li><div class="fn"/><b>maximumTime</b></li>
+<li><div class="fn"/><b>minimumTime</b></li>
+<li><div class="fn"/><b>currentSection</b></li>
+<li><div class="fn"/><b>displayedSections</b></li>
+<li><div class="fn"/><b>displayFormat</b></li>
+<li><div class="fn"/><b>calendarPopup</b></li>
+<li><div class="fn"/><b>currentSectionIndex</b></li>
+<li><div class="fn"/><b>sectionCount</b></li>
+<li><div class="fn"/><b>timeSpec</b></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QUndoStack Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QUndoStack Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QUndoStack(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QUndoStack prototype object</li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QUndoStack prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void beginMacro(String text)</b></li>
+<li><div class="fn"/><b>bool canRedo()</b></li>
+<li><div class="fn"/><b>bool canUndo()</b></li>
+<li><div class="fn"/><b>int cleanIndex()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>QUndoCommand command(int index)</b></li>
+<li><div class="fn"/><b>int count()</b></li>
+<li><div class="fn"/><b>QAction createRedoAction(QObject parent, String prefix)</b></li>
+<li><div class="fn"/><b>QAction createUndoAction(QObject parent, String prefix)</b></li>
+<li><div class="fn"/><b>void endMacro()</b></li>
+<li><div class="fn"/><b>int index()</b></li>
+<li><div class="fn"/><b>bool isClean()</b></li>
+<li><div class="fn"/><b>void push(QUndoCommand cmd)</b></li>
+<li><div class="fn"/><b>String redoText()</b></li>
+<li><div class="fn"/><b>String text(int idx)</b></li>
+<li><div class="fn"/><b>String undoText()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QUndoStack objects inherit properties from the QUndoStack prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>active</b></li>
+<li><div class="fn"/><b>undoLimit</b></li>
+</ul>
+</body>
+</html>

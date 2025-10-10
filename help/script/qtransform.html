@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTransform Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTransform Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTransform()</b></li>
+<li><div class="fn"/><b>void QTransform(QMatrix mtx)</b></li>
+<li><div class="fn"/><b>void QTransform(qreal h11, qreal h12, qreal h13, qreal h21, qreal h22, qreal h23, qreal h31, qreal h32, qreal h33)</b></li>
+<li><div class="fn"/><b>void QTransform(qreal h11, qreal h12, qreal h21, qreal h22, qreal dx, qreal dy)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTransform prototype object</li>
+<li><div class="fn"/><b>QTransform fromScale(qreal dx, qreal dy)</b></li>
+<li><div class="fn"/><b>QTransform fromTranslate(qreal dx, qreal dy)</b></li>
+<li><div class="fn"/><b>bool quadToQuad(QPolygonF one, QPolygonF two, QTransform result)</b></li>
+<li><div class="fn"/><b>bool quadToSquare(QPolygonF quad, QTransform result)</b></li>
+<li><div class="fn"/><b>bool squareToQuad(QPolygonF square, QTransform result)</b></li>
+<li><b>TxNone = 0x00</b></li>
+<li><b>TxTranslate = 0x01</b></li>
+<li><b>TxScale = 0x02</b></li>
+<li><b>TxRotate = 0x04</b></li>
+<li><b>TxShear = 0x08</b></li>
+<li><b>TxProject = 0x10</b></li>
+<li><b>TransformationType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QTransform adjoint()</b></li>
+<li><div class="fn"/><b>qreal det()</b></li>
+<li><div class="fn"/><b>qreal determinant()</b></li>
+<li><div class="fn"/><b>qreal dx()</b></li>
+<li><div class="fn"/><b>qreal dy()</b></li>
+<li><div class="fn"/><b>QTransform inverted()</b></li>
+<li><div class="fn"/><b>bool isAffine()</b></li>
+<li><div class="fn"/><b>bool isIdentity()</b></li>
+<li><div class="fn"/><b>bool isInvertible()</b></li>
+<li><div class="fn"/><b>bool isRotating()</b></li>
+<li><div class="fn"/><b>bool isScaling()</b></li>
+<li><div class="fn"/><b>bool isTranslating()</b></li>
+<li><div class="fn"/><b>qreal m11()</b></li>
+<li><div class="fn"/><b>qreal m12()</b></li>
+<li><div class="fn"/><b>qreal m13()</b></li>
+<li><div class="fn"/><b>qreal m21()</b></li>
+<li><div class="fn"/><b>qreal m22()</b></li>
+<li><div class="fn"/><b>qreal m23()</b></li>
+<li><div class="fn"/><b>qreal m31()</b></li>
+<li><div class="fn"/><b>qreal m32()</b></li>
+<li><div class="fn"/><b>qreal m33()</b></li>
+<li><div class="fn"/><b>QLine map(QLine l)</b></li>
+<li><div class="fn"/><b>QRect mapRect(QRect arg__1)</b></li>
+<li><div class="fn"/><b>QPolygon mapToPolygon(QRect r)</b></li>
+<li><div class="fn"/><b>QTransform multiplied(QTransform o)</b></li>
+<li><div class="fn"/><b>QTransform operator_add_assign(qreal div)</b></li>
+<li><div class="fn"/><b>QTransform operator_divide_assign(qreal div)</b></li>
+<li><div class="fn"/><b>bool operator_equal(QTransform arg__1)</b></li>
+<li><div class="fn"/><b>QTransform operator_multiply_assign(QTransform arg__1)</b></li>
+<li><div class="fn"/><b>QTransform operator_subtract_assign(qreal div)</b></li>
+<li><div class="fn"/><b>void reset()</b></li>
+<li><div class="fn"/><b>QTransform rotate(qreal a, Axis axis)</b></li>
+<li><div class="fn"/><b>QTransform rotateRadians(qreal a, Axis axis)</b></li>
+<li><div class="fn"/><b>QTransform scale(qreal sx, qreal sy)</b></li>
+<li><div class="fn"/><b>void setMatrix(qreal m11, qreal m12, qreal m13, qreal m21, qreal m22, qreal m23, qreal m31, qreal m32, qreal m33)</b></li>
+<li><div class="fn"/><b>QTransform shear(qreal sh, qreal sv)</b></li>
+<li><div class="fn"/><b>QMatrix toAffine()</b></li>
+<li><div class="fn"/><b>QTransform translate(qreal dx, qreal dy)</b></li>
+<li><div class="fn"/><b>QTransform transposed()</b></li>
+<li><div class="fn"/><b>TransformationType type()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTransform objects have no special properties beyond those inherited from the QTransform prototype object.</p>
+</body>
+</html>

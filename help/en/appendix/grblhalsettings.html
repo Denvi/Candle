@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>grblhalsettings.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="grblhal-settings">GrblHAL settings</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+<th>Valid values</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Step pulse time (µs)</td>
+<td>min: 3.5 µs</td>
+<td>10 µs</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Step idle delay (ms)</td>
+<td>0 ‑ 65535 ms</td>
+<td>250 ms</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Step pulse invert – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>5 ( X + Z )</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Step direction invert – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Invert stepper enable output(s) – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>2 (Y‑axis)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Invert limit inputs – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Invert probe input – bitfield</td>
+<td>0 – Probe (1)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>PWM spindle options – bitfield</td>
+<td>0 – Enable (1)<br>1 – RPM controls spindle enable signal (2)<br>2 – Disable laser mode capability (4)</td>
+<td>3 (bits 0 + 1)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Status‑report options – bitfield</td>
+<td>0 – Position in machine coordinate (1)<br>1 – Buffer state (2)<br>2 – Line numbers (4)<br>3 – Feed &amp; speed (8)<br>4 – Pin state (16)<br>5 – Work coordinate offset (32)<br>6 – Overrides (64)<br>7 – Probe coordinates (128)<br>8 – Buffer sync on WCO change (256)<br>9 – Parser state (512)<br>10 – Alarm substatus (1024)<br>11 – Run substatus (2048)<br>12 – Enable when homing (4096)</td>
+<td>31 (bits 0‑4)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Junction deviation (mm)</td>
+<td>≥ 0</td>
+<td>0.02 mm</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Arc tolerance (mm)</td>
+<td>≥ 0</td>
+<td>0.1 mm</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Report in inches – boolean</td>
+<td>0 – mm (0)<br>1 – inches (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Invert control inputs – bitfield</td>
+<td>1 – Feed hold (2)<br>2 – Cycle start (4)<br>6 – E‑Stop (64)</td>
+<td>66 (bits 1 + 6)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Invert coolant outputs – bitfield</td>
+<td>0 – Flood (1)<br>1 – Mist (2)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Invert spindle signals – bitfield</td>
+<td>0 – Spindle enable (1)<br>1 – Spindle direction (2)<br>2 – PWM (4)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Pull‑up disable control inputs – bitfield</td>
+<td>1 – Feed hold (2)<br>2 – Cycle start (4)<br>6 – E‑Stop (64)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Pull‑up disable limit inputs – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Pull‑up disable probe input – bitfield</td>
+<td>0 – Probe (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Soft limits enable – boolean</td>
+<td>0 – disabled (0)<br>1 – enabled (1)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Hard limits enable – bitfield</td>
+<td>0 – Enable (1)<br>1 – Strict mode (2)<br>2 – Disable for rotary axes (4)</td>
+<td>3 (bits 0 + 1)</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Homing cycle – bitfield</td>
+<td>0 – Enable (1)<br>1 – Enable single axis commands (2)<br>2 – Homing on startup required (4)<br>3 – Set machine origin to 0 (8)<br>4 – Two switches share one input (16)<br>5 – Allow manual (32)<br>6 – Override locks (64)<br>9 – Per axis feedrates (512)</td>
+<td>7 (bits 0‑2)</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Homing direction invert – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Homing locate feed rate (mm/min)</td>
+<td>≥ 0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Homing search seek rate (mm/min)</td>
+<td>≥ 0</td>
+<td>300</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Homing switch debounce delay (ms)</td>
+<td>≥ 0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Homing switch pull‑off distance (mm)</td>
+<td>≥ 0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>28</td>
+<td>G73 retract distance (mm)</td>
+<td>≥ 0</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Pulse delay (µs)</td>
+<td>0 ‑ 20 µs</td>
+<td>5</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Maximum spindle speed (RPM)</td>
+<td>≥ 0</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Minimum spindle speed (RPM)</td>
+<td>≥ 0</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Mode of operation – enum</td>
+<td>0 – Normal (0)<br>1 – Laser mode (1)<br>2 – Lathe mode (2)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Spindle PWM frequency (Hz)</td>
+<td>≥ 0</td>
+<td>20000</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Spindle PWM off value (%)</td>
+<td>0 ‑ 100</td>
+<td>0</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Spindle PWM min value (%)</td>
+<td>0 ‑ 100</td>
+<td>10</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Spindle PWM max value (%)</td>
+<td>0 ‑ 100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Steppers to keep enabled – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Enable legacy RT commands – boolean</td>
+<td>0 – disabled (0)<br>1 – enabled (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Limit jog commands – boolean</td>
+<td>0 – disabled (0)<br>1 – enabled (1)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Homing passes</td>
+<td>1 ‑ 128</td>
+<td>4</td>
+</tr>
+<tr>
+<td>44</td>
+<td>Axes homing – first pass – axismask</td>
+<td>0 – X‑axis (1)<br>1 – Y‑axis (2)<br>2 – Z‑axis (4)<br>3 – A‑axis (8)<br>4 – B‑axis (16)<br>5 – C‑axis (32)</td>
+<td>7 (X + Y + Z)</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Axes homing – second pass – axismask</td>
+<td>(see $44)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>46</td>
+<td>Axes homing – third pass – axismask</td>
+<td>(see $44)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Axes homing – fourth pass – axismask</td>
+<td>(see $44)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>62</td>
+<td>Sleep enable – boolean</td>
+<td>0 – disabled (0)<br>1 – enabled (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>63</td>
+<td>Feed‑hold actions – bitfield</td>
+<td>0 – Disable laser during hold (1)<br>1 – Restore spindle and coolant state on resume (2)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>64</td>
+<td>Force init alarm – boolean</td>
+<td>0 – no (0)<br>1 – yes (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>65</td>
+<td>Probing options – bitfield</td>
+<td>0 – Allow feed override (1)<br>1 – Apply soft limits (2)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>100</td>
+<td>X‑axis travel resolution (steps/mm)</td>
+<td>&gt; 0</td>
+<td>250</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Y‑axis travel resolution (steps/mm)</td>
+<td>&gt; 0</td>
+<td>250</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Z‑axis travel resolution (steps/mm)</td>
+<td>&gt; 0</td>
+<td>250</td>
+</tr>
+<tr>
+<td>103</td>
+<td>A‑axis travel resolution (steps/mm)</td>
+<td>&gt; 0</td>
+<td>250</td>
+</tr>
+<tr>
+<td>110</td>
+<td>X‑axis max rate (mm/min)</td>
+<td>≥ 0</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>111</td>
+<td>Y‑axis max rate (mm/min)</td>
+<td>≥ 0</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>112</td>
+<td>Z‑axis max rate (mm/min)</td>
+<td>≥ 0</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>113</td>
+<td>A‑axis max rate (mm/min)</td>
+<td>≥ 0</td>
+<td>2000</td>
+</tr>
+<tr>
+<td>120</td>
+<td>X‑axis acceleration (mm/s²)</td>
+<td>≥ 0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>121</td>
+<td>Y‑axis acceleration (mm/s²)</td>
+<td>≥ 0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>122</td>
+<td>Z‑axis acceleration (mm/s²)</td>
+<td>≥ 0</td>
+<td>80</td>
+</tr>
+<tr>
+<td>123</td>
+<td>A‑axis acceleration (mm/s²)</td>
+<td>≥ 0</td>
+<td>60</td>
+</tr>
+<tr>
+<td>130</td>
+<td>X‑axis max travel (mm)</td>
+<td>≥ 0</td>
+<td>300</td>
+</tr>
+<tr>
+<td>131</td>
+<td>Y‑axis max travel (mm)</td>
+<td>≥ 0</td>
+<td>300</td>
+</tr>
+<tr>
+<td>132</td>
+<td>Z‑axis max travel (mm)</td>
+<td>≥ 0</td>
+<td>200</td>
+</tr>
+<tr>
+<td>133</td>
+<td>A‑axis max travel (mm)</td>
+<td>≥ 0</td>
+<td>360</td>
+</tr>
+<tr>
+<td>341</td>
+<td>Tool‑change mode – enum</td>
+<td>0 – Normal (0)<br>1 – Manual touch off (1)<br>2 – Manual touch off @ G59.3 (2)<br>3 – Automatic touch off @ G59.3 (3)<br>4 – Ignore M6 (4)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>342</td>
+<td>Tool‑change probing distance (mm)</td>
+<td>≥ 0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>343</td>
+<td>Tool‑change locate feed rate (mm/min)</td>
+<td>≥ 0</td>
+<td>200</td>
+</tr>
+<tr>
+<td>344</td>
+<td>Tool‑change search seek rate (mm/min)</td>
+<td>≥ 0</td>
+<td>600</td>
+</tr>
+<tr>
+<td>345</td>
+<td>Tool‑change probe pull‑off rate (mm/min)</td>
+<td>≥ 0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>346</td>
+<td>Tool‑change options – bitfield</td>
+<td>0 – Restore position after M6 (1)<br>1 – Change tool at G30 (2)<br>2 – Fast probe pull off (4)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>370</td>
+<td>Invert I/O Port inputs – bitfield</td>
+<td>0 – Aux 0 (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>376</td>
+<td>Rotary axes – bitfield</td>
+<td>0 – A‑Axis (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>384</td>
+<td>Disable G92 persistence – boolean</td>
+<td>0 – enabled (0)<br>1 – disabled (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>394</td>
+<td>Spindle‑on delay (s)</td>
+<td>0.5 ‑ 20</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>398</td>
+<td>Planner buffer blocks</td>
+<td>30 ‑ 1000 – reboot required</td>
+<td>200</td>
+</tr>
+<tr>
+<td>481</td>
+<td>Autoreport interval (ms)</td>
+<td>100 ‑ 1000 – reboot required</td>
+<td>250</td>
+</tr>
+<tr>
+<td>484</td>
+<td>Unlock required after E‑Stop – boolean</td>
+<td>0 – no (0)<br>1 – yes (1)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>486</td>
+<td>Lock coordinate systems – bitfield</td>
+<td>0 – G59.1 (1)<br>1 – G59.2 (2)<br>2 – G59.3 (4)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>538</td>
+<td>Fast rotary go‑to G28 – bitfield</td>
+<td>0 – A‑Axis (1)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>539</td>
+<td>Spindle‑off delay (s)</td>
+<td>0.5 ‑ 20</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>673</td>
+<td>Coolant‑on delay (s)</td>
+<td>0.5 ‑ 20</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>676</td>
+<td>Reset actions – bitfield</td>
+<td>0 – Clear homed status if position was lost (1)<br>1 – Clear offsets (except G92) (2)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>680</td>
+<td>Stepper enable delay (ms)</td>
+<td>0 ‑ 250</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

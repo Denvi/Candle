@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QNetworkProxy Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QNetworkProxy Class Reference</h1>
+<h3 align="center">[<a href="qt_network.html">qt.network</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QNetworkProxy()</b></li>
+<li><div class="fn"/><b>void QNetworkProxy(ProxyType type, String hostName, unsigned short port, String user, String password)</b></li>
+<li><div class="fn"/><b>void QNetworkProxy(QNetworkProxy other)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QNetworkProxy prototype object</li>
+<li><div class="fn"/><b>QNetworkProxy applicationProxy()</b></li>
+<li><div class="fn"/><b>void setApplicationProxy(QNetworkProxy proxy)</b></li>
+<li><b>DefaultProxy</b></li>
+<li><b>Socks5Proxy</b></li>
+<li><b>NoProxy</b></li>
+<li><b>HttpProxy</b></li>
+<li><b>HttpCachingProxy</b></li>
+<li><b>FtpCachingProxy</b></li>
+<li><b>ProxyType( value )</b></li>
+<li><b>TunnelingCapability = 0x0001</b></li>
+<li><b>ListeningCapability = 0x0002</b></li>
+<li><b>UdpTunnelingCapability = 0x0004</b></li>
+<li><b>CachingCapability = 0x0008</b></li>
+<li><b>HostNameLookupCapability = 0x0010</b></li>
+<li><b>Capability( value )</b></li>
+<li><b>Capabilities( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>Capabilities capabilities()</b></li>
+<li><div class="fn"/><b>bool hasRawHeader(QByteArray headerName)</b></li>
+<li><div class="fn"/><b>Object header(KnownHeaders header)</b></li>
+<li><div class="fn"/><b>String hostName()</b></li>
+<li><div class="fn"/><b>bool isCachingProxy()</b></li>
+<li><div class="fn"/><b>bool isTransparentProxy()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QNetworkProxy other)</b></li>
+<li><div class="fn"/><b>String password()</b></li>
+<li><div class="fn"/><b>unsigned short port()</b></li>
+<li><div class="fn"/><b>QByteArray rawHeader(QByteArray headerName)</b></li>
+<li><div class="fn"/><b>List rawHeaderList()</b></li>
+<li><div class="fn"/><b>void setCapabilities(Capabilities capab)</b></li>
+<li><div class="fn"/><b>void setHeader(KnownHeaders header, Object value)</b></li>
+<li><div class="fn"/><b>void setHostName(String hostName)</b></li>
+<li><div class="fn"/><b>void setPassword(String password)</b></li>
+<li><div class="fn"/><b>void setPort(unsigned short port)</b></li>
+<li><div class="fn"/><b>void setRawHeader(QByteArray headerName, QByteArray value)</b></li>
+<li><div class="fn"/><b>void setType(ProxyType type)</b></li>
+<li><div class="fn"/><b>void setUser(String userName)</b></li>
+<li><div class="fn"/><b>void swap(QNetworkProxy other)</b></li>
+<li><div class="fn"/><b>ProxyType type()</b></li>
+<li><div class="fn"/><b>String user()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QNetworkProxy objects have no special properties beyond those inherited from the QNetworkProxy prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>commands.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="common-g-code-commands">Common G-code commands</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>G0</code></td>
+<td>Rapid positioning</td>
+<td><code>G0 X10 Y20 Z30</code></td>
+</tr>
+<tr>
+<td><code>G1</code></td>
+<td>Linear interpolation</td>
+<td><code>G1 X0 Y0 Z0 F100</code></td>
+</tr>
+<tr>
+<td><code>G2</code></td>
+<td>Clockwise circular interpolation</td>
+<td><code>G2 X10 Y0 R5 F100</code></td>
+</tr>
+<tr>
+<td><code>G3</code></td>
+<td>Counter‑clockwise circular interpolation</td>
+<td><code>G3 X10 Y0 R5 F100</code></td>
+</tr>
+<tr>
+<td><code>G4</code></td>
+<td>Program delay, P – seconds</td>
+<td><code>G4 P0.5</code></td>
+</tr>
+<tr>
+<td><code>G10</code></td>
+<td>Set coordinate offsets</td>
+<td><code>G10 L2 X10</code>, <code>G10 L20 X0</code></td>
+</tr>
+<tr>
+<td><code>G17</code></td>
+<td>Select XY plane for circular interpolation</td>
+<td><code>G17</code></td>
+</tr>
+<tr>
+<td><code>G18</code></td>
+<td>Select ZX plane</td>
+<td><code>G18</code></td>
+</tr>
+<tr>
+<td><code>G19</code></td>
+<td>Select YZ plane</td>
+<td><code>G19</code></td>
+</tr>
+<tr>
+<td><code>G20</code></td>
+<td>Switch to inch units</td>
+<td><code>G20</code></td>
+</tr>
+<tr>
+<td><code>G21</code></td>
+<td>Switch to metric units</td>
+<td><code>G21</code></td>
+</tr>
+<tr>
+<td><code>G28</code></td>
+<td>Return to home position</td>
+<td><code>G28 G91 X0 Y0 Z0</code></td>
+</tr>
+<tr>
+<td><code>G28.1</code></td>
+<td>Set current position as new home</td>
+<td><code>G28.1</code></td>
+</tr>
+<tr>
+<td><code>G30</code></td>
+<td>Return to tool‑change position</td>
+<td><code>G30 G91 Z0</code></td>
+</tr>
+<tr>
+<td><code>G30.1</code></td>
+<td>Set current position as tool‑change position</td>
+<td><code>G30.1</code></td>
+</tr>
+<tr>
+<td><code>G38.2</code></td>
+<td>Probe towards workpiece, error on no contact</td>
+<td><code>G38.2 G91 X10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.3</code></td>
+<td>Probe towards workpiece</td>
+<td><code>G38.3 G91 X10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.4</code></td>
+<td>Probe away from workpiece, error on lost contact</td>
+<td><code>G38.4 G91 X-10 F10</code></td>
+</tr>
+<tr>
+<td><code>G38.5</code></td>
+<td>Probe away from workpiece</td>
+<td><code>G38.5 G91 X-10 F10</code></td>
+</tr>
+<tr>
+<td><code>G40</code></td>
+<td>Cancel tool radius compensation</td>
+<td><code>G40</code></td>
+</tr>
+<tr>
+<td><code>G43.1</code></td>
+<td>Tool length compensation</td>
+<td><code>G43.1 Z0.5</code></td>
+</tr>
+<tr>
+<td><code>G49</code></td>
+<td>Cancel tool length compensation</td>
+<td><code>G49</code></td>
+</tr>
+<tr>
+<td><code>G53</code></td>
+<td>Use machine (absolute) coordinates</td>
+<td><code>G53 G90 G0 X0 Y0</code></td>
+</tr>
+<tr>
+<td><code>G54…G59</code></td>
+<td>Select coordinate system</td>
+<td><code>G55</code></td>
+</tr>
+<tr>
+<td><code>G61</code></td>
+<td>Enable precise stop mode</td>
+<td><code>G1 G61 X10 F100</code></td>
+</tr>
+<tr>
+<td><code>G80</code></td>
+<td>Cancel cycles</td>
+<td><code>G80</code></td>
+</tr>
+<tr>
+<td><code>G90</code></td>
+<td>Use absolute coordinates</td>
+<td><code>G1 G90 X10 Y10 Z0</code></td>
+</tr>
+<tr>
+<td><code>G91</code></td>
+<td>Use relative coordinates</td>
+<td><code>G1 G91 X10</code></td>
+</tr>
+<tr>
+<td><code>G91.1</code></td>
+<td>Use I,J,K for circular interpolation</td>
+<td><code>G91.1</code></td>
+</tr>
+<tr>
+<td><code>G92</code></td>
+<td>Set work coordinate offsets</td>
+<td><code>G92 X0 Y0</code></td>
+</tr>
+<tr>
+<td><code>G92.1</code></td>
+<td>Reset work coordinate offsets</td>
+<td><code>G92.1</code></td>
+</tr>
+<tr>
+<td><code>G93</code></td>
+<td>Feed in reverse time units (1/F min)</td>
+<td><code>G93</code></td>
+</tr>
+<tr>
+<td><code>G94</code></td>
+<td>Feed in mm/min</td>
+<td><code>G94</code></td>
+</tr>
+<tr>
+<td><code>M0</code></td>
+<td>Pause program</td>
+<td><code>M0</code></td>
+</tr>
+<tr>
+<td><code>M1</code></td>
+<td>Optional pause</td>
+<td><code>M1</code></td>
+</tr>
+<tr>
+<td><code>M2</code></td>
+<td>End program</td>
+<td><code>M2</code></td>
+</tr>
+<tr>
+<td><code>M3</code></td>
+<td>Spindle clockwise</td>
+<td><code>M3</code></td>
+</tr>
+<tr>
+<td><code>M4</code></td>
+<td>Spindle counter‑clockwise</td>
+<td><code>M4</code></td>
+</tr>
+<tr>
+<td><code>M5</code></td>
+<td>Stop spindle</td>
+<td><code>M5</code></td>
+</tr>
+<tr>
+<td><code>M7</code></td>
+<td>Water coolant on</td>
+<td><code>M7</code></td>
+</tr>
+<tr>
+<td><code>M8</code></td>
+<td>Air coolant on</td>
+<td><code>M8</code></td>
+</tr>
+<tr>
+<td><code>M9</code></td>
+<td>Coolant off</td>
+<td><code>M9</code></td>
+</tr>
+<tr>
+<td><code>M30</code></td>
+<td>End program and rewind</td>
+<td><code>M30</code></td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

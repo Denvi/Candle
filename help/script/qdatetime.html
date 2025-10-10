@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QDateTime Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QDateTime Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QDateTime()</b></li>
+<li><div class="fn"/><b>void QDateTime(QDate arg__1)</b></li>
+<li><div class="fn"/><b>void QDateTime(QDate arg__1, QTime arg__2, TimeSpec spec)</b></li>
+<li><div class="fn"/><b>void QDateTime(QDate date, QTime time, TimeSpec spec, int offsetSeconds)</b></li>
+<li><div class="fn"/><b>void QDateTime(QDateTime other)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QDateTime prototype object</li>
+<li><div class="fn"/><b>QDateTime currentDateTime()</b></li>
+<li><div class="fn"/><b>QDateTime currentDateTimeUtc()</b></li>
+<li><div class="fn"/><b>qint64 currentMSecsSinceEpoch()</b></li>
+<li><div class="fn"/><b>QDateTime fromMSecsSinceEpoch(qint64 msecs)</b></li>
+<li><div class="fn"/><b>QDateTime fromString(String s, DateFormat f)</b></li>
+<li><div class="fn"/><b>QDateTime fromTime_t(uint secsSince1Jan1970UTC)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QDateTime addDays(qint64 days)</b></li>
+<li><div class="fn"/><b>QDateTime addMSecs(qint64 msecs)</b></li>
+<li><div class="fn"/><b>QDateTime addMonths(int months)</b></li>
+<li><div class="fn"/><b>QDateTime addSecs(qint64 secs)</b></li>
+<li><div class="fn"/><b>QDateTime addYears(int years)</b></li>
+<li><div class="fn"/><b>QDate date()</b></li>
+<li><div class="fn"/><b>qint64 daysTo(QDateTime arg__1)</b></li>
+<li><div class="fn"/><b>bool isDaylightTime()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>qint64 msecsTo(QDateTime arg__1)</b></li>
+<li><div class="fn"/><b>int offsetFromUtc()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QDateTime other)</b></li>
+<li><div class="fn"/><b>bool operator_less(QDateTime other)</b></li>
+<li><div class="fn"/><b>qint64 secsTo(QDateTime arg__1)</b></li>
+<li><div class="fn"/><b>void setDate(QDate date)</b></li>
+<li><div class="fn"/><b>void setMSecsSinceEpoch(qint64 msecs)</b></li>
+<li><div class="fn"/><b>void setOffsetFromUtc(int offsetSeconds)</b></li>
+<li><div class="fn"/><b>void setTime(QTime time)</b></li>
+<li><div class="fn"/><b>void setTimeSpec(TimeSpec spec)</b></li>
+<li><div class="fn"/><b>void setTime_t(uint secsSince1Jan1970UTC)</b></li>
+<li><div class="fn"/><b>void setUtcOffset(int seconds)</b></li>
+<li><div class="fn"/><b>void swap(QDateTime other)</b></li>
+<li><div class="fn"/><b>QTime time()</b></li>
+<li><div class="fn"/><b>TimeSpec timeSpec()</b></li>
+<li><div class="fn"/><b>String timeZoneAbbreviation()</b></li>
+<li><div class="fn"/><b>QDateTime toLocalTime()</b></li>
+<li><div class="fn"/><b>qint64 toMSecsSinceEpoch()</b></li>
+<li><div class="fn"/><b>QDateTime toOffsetFromUtc(int offsetSeconds)</b></li>
+<li><div class="fn"/><b>String toString(DateFormat f)</b></li>
+<li><div class="fn"/><b>QDateTime toTimeSpec(TimeSpec spec)</b></li>
+<li><div class="fn"/><b>uint toTime_t()</b></li>
+<li><div class="fn"/><b>QDateTime toUTC()</b></li>
+<li><div class="fn"/><b>int utcOffset()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QDateTime objects have no special properties beyond those inherited from the QDateTime prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Getting started</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">Getting started</h1>
+<p>Using the Qt API in Qt Script is very similar to C++.
+<pre>var f = new QFile("foo.txt");</pre>
+C++ enum values are mapped to properties of the script constructor function; e.g. 
+QIODevice::ReadOnly becomes QIODevice.ReadOnly.</p>
+<pre>f.open(new QIODevice.OpenMode(QIODevice.ReadOnly));</pre>
+<p>Each C++ flag type is mapped to a property of the script constructor function; e.g. 
+QIODevice::OpenMode becomes QIODevice.OpenMode. Such a property is a constructor function 
+that takes one or more enum values and constructs a flags instance by OR'ing the arguments 
+together.</p>
+<pre>var ts = new QTextStream(f);
+ts.writeString("Boo");</pre>
+<p>C++ streaming operators are normally mapped to readT() and writeT() functions.</p>
+<pre>f.close();</pre>
+<p>In Qt Script, all objects are allocated on the heap; objects that are no longer 
+referenced are garbage collected sometime in the future; therefore, make sure to 
+explicitly free up resources if you can. (Without the call to close(), the underlying 
+file would remain open until the file object is garbage collected.)</p>
+</body>
+</html>

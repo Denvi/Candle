@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>state.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="panel-state">Panel "State"</h1>
+<p class="center"><img src="../../img/status.png" alt="Panel State"></p>
+<p>The <strong>State</strong> panel displays the current work‑ and machine‑coordinates, as well as the operating mode of the CNC controller.<br>
+Coordinates are shown in output fields arranged horizontally in the order: <strong>X, Y, Z</strong>.</p>
+<h4 id="controller-operating-modes-field-status">Controller operating modes (field <em>"Status"</em>)</h4>
+<table width="100%">
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Idle</strong></td>
+<td>The controller is ready to receive commands.</td>
+</tr>
+<tr>
+<td><strong>Alarm</strong></td>
+<td>An emergency state.</td>
+</tr>
+<tr>
+<td><strong>Run</strong></td>
+<td>Executing a control program (CP).</td>
+</tr>
+<tr>
+<td><strong>Home</strong></td>
+<td>Searching for the home position.</td>
+</tr>
+<tr>
+<td><strong>Hold</strong></td>
+<td>Motion is paused, awaiting further continue/reset commands.</td>
+</tr>
+<tr>
+<td><strong>Check</strong></td>
+<td>Incoming G‑code is interpreted without actual tool movement.</td>
+</tr>
+<tr>
+<td><strong>Door</strong></td>
+<td>Door‑sensor triggered mode.</td>
+</tr>
+<tr>
+<td><strong>Jog</strong></td>
+<td>Executing special jogging commands.</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong></td>
+<td>Low‑power standby mode.</td>
+</tr>
+</tbody>
+</table>
+<p>In the same field, states that are not related to the controller’s operating mode are shown:</p>
+<ul>
+<li><strong>Not connected</strong> – when the serial port cannot be opened for the CNC.</li>
+<li><strong>Port opened</strong> – the serial port is open, but no communication with the GRBL controller has been established.</li>
+</ul>
+<p>The background color of the <em>Status</em> field may change depending on the state.</p>
+
+</body>
+</html>

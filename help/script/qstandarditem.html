@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QStandardItem Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QStandardItem Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QStandardItem()</b></li>
+<li><div class="fn"/><b>void QStandardItem(QIcon icon, String text)</b></li>
+<li><div class="fn"/><b>void QStandardItem(String text)</b></li>
+<li><div class="fn"/><b>void QStandardItem(int rows, int columns)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QStandardItem prototype object</li>
+<li><b>Type = 0</b></li>
+<li><b>UserType = 1000</b></li>
+<li><b>ItemType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>String accessibleDescription()</b></li>
+<li><div class="fn"/><b>String accessibleText()</b></li>
+<li><div class="fn"/><b>void appendColumn(List items)</b></li>
+<li><div class="fn"/><b>void appendRow(QStandardItem item)</b></li>
+<li><div class="fn"/><b>void appendRows(List items)</b></li>
+<li><div class="fn"/><b>QBrush background()</b></li>
+<li><div class="fn"/><b>CheckState checkState()</b></li>
+<li><div class="fn"/><b>QStandardItem child(int row, int column)</b></li>
+<li><div class="fn"/><b>QStandardItem clone()</b></li>
+<li><div class="fn"/><b>int column()</b></li>
+<li><div class="fn"/><b>int columnCount()</b></li>
+<li><div class="fn"/><b>Object data(int role)</b></li>
+<li><div class="fn"/><b>ItemFlags flags()</b></li>
+<li><div class="fn"/><b>QFont font()</b></li>
+<li><div class="fn"/><b>QBrush foreground()</b></li>
+<li><div class="fn"/><b>bool hasChildren()</b></li>
+<li><div class="fn"/><b>QIcon icon()</b></li>
+<li><div class="fn"/><b>QModelIndex index()</b></li>
+<li><div class="fn"/><b>void insertColumn(int column, List items)</b></li>
+<li><div class="fn"/><b>void insertColumns(int column, int count)</b></li>
+<li><div class="fn"/><b>void insertRow(int row, QStandardItem item)</b></li>
+<li><div class="fn"/><b>void insertRows(int row, List items)</b></li>
+<li><div class="fn"/><b>bool isAutoTristate()</b></li>
+<li><div class="fn"/><b>bool isCheckable()</b></li>
+<li><div class="fn"/><b>bool isDragEnabled()</b></li>
+<li><div class="fn"/><b>bool isDropEnabled()</b></li>
+<li><div class="fn"/><b>bool isEditable()</b></li>
+<li><div class="fn"/><b>bool isEnabled()</b></li>
+<li><div class="fn"/><b>bool isSelectable()</b></li>
+<li><div class="fn"/><b>bool isTristate()</b></li>
+<li><div class="fn"/><b>bool isUserTristate()</b></li>
+<li><div class="fn"/><b>QStandardItemModel model()</b></li>
+<li><div class="fn"/><b>QStandardItem parent()</b></li>
+<li><div class="fn"/><b>void removeColumn(int column)</b></li>
+<li><div class="fn"/><b>void removeColumns(int column, int count)</b></li>
+<li><div class="fn"/><b>void removeRow(int row)</b></li>
+<li><div class="fn"/><b>void removeRows(int row, int count)</b></li>
+<li><div class="fn"/><b>int row()</b></li>
+<li><div class="fn"/><b>int rowCount()</b></li>
+<li><div class="fn"/><b>void setAccessibleDescription(String accessibleDescription)</b></li>
+<li><div class="fn"/><b>void setAccessibleText(String accessibleText)</b></li>
+<li><div class="fn"/><b>void setAutoTristate(bool tristate)</b></li>
+<li><div class="fn"/><b>void setBackground(QBrush brush)</b></li>
+<li><div class="fn"/><b>void setCheckState(CheckState checkState)</b></li>
+<li><div class="fn"/><b>void setCheckable(bool checkable)</b></li>
+<li><div class="fn"/><b>void setChild(int row, QStandardItem item)</b></li>
+<li><div class="fn"/><b>void setColumnCount(int columns)</b></li>
+<li><div class="fn"/><b>void setData(Object value, int role)</b></li>
+<li><div class="fn"/><b>void setDragEnabled(bool dragEnabled)</b></li>
+<li><div class="fn"/><b>void setDropEnabled(bool dropEnabled)</b></li>
+<li><div class="fn"/><b>void setEditable(bool editable)</b></li>
+<li><div class="fn"/><b>void setEnabled(bool enabled)</b></li>
+<li><div class="fn"/><b>void setFlags(ItemFlags flags)</b></li>
+<li><div class="fn"/><b>void setFont(QFont font)</b></li>
+<li><div class="fn"/><b>void setForeground(QBrush brush)</b></li>
+<li><div class="fn"/><b>void setIcon(QIcon icon)</b></li>
+<li><div class="fn"/><b>void setRowCount(int rows)</b></li>
+<li><div class="fn"/><b>void setSelectable(bool selectable)</b></li>
+<li><div class="fn"/><b>void setSizeHint(QSize sizeHint)</b></li>
+<li><div class="fn"/><b>void setStatusTip(String statusTip)</b></li>
+<li><div class="fn"/><b>void setText(String text)</b></li>
+<li><div class="fn"/><b>void setTextAlignment(Alignment textAlignment)</b></li>
+<li><div class="fn"/><b>void setToolTip(String toolTip)</b></li>
+<li><div class="fn"/><b>void setTristate(bool tristate)</b></li>
+<li><div class="fn"/><b>void setUserTristate(bool tristate)</b></li>
+<li><div class="fn"/><b>void setWhatsThis(String whatsThis)</b></li>
+<li><div class="fn"/><b>QSize sizeHint()</b></li>
+<li><div class="fn"/><b>void sortChildren(int column, SortOrder order)</b></li>
+<li><div class="fn"/><b>String statusTip()</b></li>
+<li><div class="fn"/><b>QStandardItem takeChild(int row, int column)</b></li>
+<li><div class="fn"/><b>List takeColumn(int column)</b></li>
+<li><div class="fn"/><b>List takeRow(int row)</b></li>
+<li><div class="fn"/><b>String text()</b></li>
+<li><div class="fn"/><b>Alignment textAlignment()</b></li>
+<li><div class="fn"/><b>String toolTip()</b></li>
+<li><div class="fn"/><b>int type()</b></li>
+<li><div class="fn"/><b>String whatsThis()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QStandardItem objects have no special properties beyond those inherited from the QStandardItem prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>centerfinder.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="%D1%86%D0%B5%D0%BD%D1%82%D1%80%D0%BE%D0%B8%D1%81%D0%BA%D0%B0%D1%82%D0%B5%D0%BB%D1%8C">Центроискатель</h1>
+<p>Ниже приведен пример скрипта, позволяющего найти центр отверстия.</p>
+<p>Перед запуском необходимо подвести инструмент внутрь отверстия. Предварительное обнуление координат не требуется.</p>
+<p>Для раннего прерывания исполнения кода в случае отмены ввода радиуса поиска в примере используется конструкция IIFE.</p>
+<pre class="hljs"><code><div>script.importExtension(<span class="hljs-string">"qt.core"</span>);   <span class="hljs-comment">// Доступ к глобальным объектам Qt</span>
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>); <span class="hljs-comment">// Доступ к QInputDialog</span>
+
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">/* ---------- 1. Получаем радиус поиска ---------- */</span>
+    <span class="hljs-keyword">const</span> settings = app.storage.group(<span class="hljs-string">"HoleCenterFinder"</span>);     <span class="hljs-comment">// группа настроек для этого скрипта</span>
+    <span class="hljs-keyword">const</span> storedRadius = settings.value(<span class="hljs-string">"radius"</span>, <span class="hljs-number">10</span>);          <span class="hljs-comment">// последнее использованное значение (по умолчанию 10 мм)</span>
+
+    <span class="hljs-keyword">const</span> radius = QInputDialog.getDouble(
+        app.window,                                 <span class="hljs-comment">// родительское окно</span>
+        <span class="hljs-string">"Hole center finder"</span>,                       <span class="hljs-comment">// заголовок диалога</span>
+        <span class="hljs-string">"Find radius"</span>,                              <span class="hljs-comment">// подпись поля</span>
+        storedRadius, <span class="hljs-number">0.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">0</span>,                <span class="hljs-comment">// значение, min, max, кол-во десятичных</span>
+        Qt.Dialog                                   <span class="hljs-comment">// флаги</span>
+    );
+    <span class="hljs-keyword">if</span> (!radius) <span class="hljs-keyword">return</span>;                            <span class="hljs-comment">// пользователь нажал «Отмена»</span>
+
+    settings.setValue(<span class="hljs-string">"radius"</span>, radius);            <span class="hljs-comment">// сохраняем введённое значение</span>
+
+    <span class="hljs-comment">/* ---------- 2. Запоминаем текущие координаты ---------- */</span>
+    <span class="hljs-keyword">const</span> startX = app.device.work.x;
+    <span class="hljs-keyword">const</span> startY = app.device.work.y;
+
+    <span class="hljs-comment">/* ---------- 3. Поиск центра по оси Y ---------- */</span>
+    <span class="hljs-comment">// Первое касание: двигаемся вперёд на заданный радиус</span>
+    app.device.sendCommand(<span class="hljs-string">"G91G38.2F100Y"</span> + radius);
+    app.device.waitResponses();                     <span class="hljs-comment">// ждём срабатывания щупа</span>
+    <span class="hljs-keyword">const</span> probeY = app.device.probe.y;              <span class="hljs-comment">// фиксируем координату касания</span>
+
+    <span class="hljs-comment">// Уходим назад в исходную Y, затем двигаемся назад на тот же радиус</span>
+    app.device.sendCommands([
+        <span class="hljs-string">"G90G0Y"</span> + startY,      <span class="hljs-comment">// абсолютный быстрый возврат</span>
+        <span class="hljs-string">"G91G38.2Y-"</span> + radius   <span class="hljs-comment">// относительное движение в обратную сторону</span>
+    ]);
+    app.device.waitResponses();
+
+    <span class="hljs-comment">// Перемещаемся в середину между двумя касаниями</span>
+    app.device.sendCommand(<span class="hljs-string">"G90G53G0Y"</span> + (app.device.probe.y + probeY) / <span class="hljs-number">2</span>);
+
+    <span class="hljs-comment">/* ---------- 4. Поиск центра по оси X (аналогично Y) ---------- */</span>
+    app.device.sendCommand(<span class="hljs-string">"G91G38.2X"</span> + radius);
+    app.device.waitResponses();
+    <span class="hljs-keyword">const</span> probeX = app.device.probe.x;
+
+    app.device.sendCommands([
+        <span class="hljs-string">"G90G0X"</span> + startX,
+        <span class="hljs-string">"G91G38.2X-"</span> + radius
+    ]);
+    app.device.waitResponses();
+
+    <span class="hljs-comment">// Финальный переход в абсолютный центр отверстия</span>
+    app.device.sendCommand(<span class="hljs-string">"G90G53G0X"</span> + (app.device.probe.x + probeX) / <span class="hljs-number">2</span>);
+})();
+</div></code></pre>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QSqlDatabase Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QSqlDatabase Class Reference</h1>
+<h3 align="center">[<a href="qt_sql.html">qt.sql</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QSqlDatabase()</b></li>
+<li><div class="fn"/><b>void QSqlDatabase(QSqlDatabase other)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QSqlDatabase prototype object</li>
+<li><div class="fn"/><b>QSqlDatabase addDatabase(QSqlDriver driver, String connectionName)</b></li>
+<li><div class="fn"/><b>QSqlDatabase cloneDatabase(QSqlDatabase other, String connectionName)</b></li>
+<li><div class="fn"/><b>List connectionNames()</b></li>
+<li><div class="fn"/><b>bool contains(String connectionName)</b></li>
+<li><div class="fn"/><b>QSqlDatabase database(String connectionName, bool open)</b></li>
+<li><div class="fn"/><b>List drivers()</b></li>
+<li><div class="fn"/><b>bool isDriverAvailable(String name)</b></li>
+<li><div class="fn"/><b>void registerSqlDriver(String name, QSqlDriverCreatorBase creator)</b></li>
+<li><div class="fn"/><b>void removeDatabase(String connectionName)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void close()</b></li>
+<li><div class="fn"/><b>bool commit()</b></li>
+<li><div class="fn"/><b>String connectOptions()</b></li>
+<li><div class="fn"/><b>String connectionName()</b></li>
+<li><div class="fn"/><b>String databaseName()</b></li>
+<li><div class="fn"/><b>QSqlDriver driver()</b></li>
+<li><div class="fn"/><b>String driverName()</b></li>
+<li><div class="fn"/><b>QSqlQuery exec(String query)</b></li>
+<li><div class="fn"/><b>String hostName()</b></li>
+<li><div class="fn"/><b>bool isOpen()</b></li>
+<li><div class="fn"/><b>bool isOpenError()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>QSqlError lastError()</b></li>
+<li><div class="fn"/><b>NumericalPrecisionPolicy numericalPrecisionPolicy()</b></li>
+<li><div class="fn"/><b>bool open()</b></li>
+<li><div class="fn"/><b>String password()</b></li>
+<li><div class="fn"/><b>int port()</b></li>
+<li><div class="fn"/><b>QSqlIndex primaryIndex(String tablename)</b></li>
+<li><div class="fn"/><b>QSqlRecord record(String tablename)</b></li>
+<li><div class="fn"/><b>bool rollback()</b></li>
+<li><div class="fn"/><b>void setConnectOptions(String options)</b></li>
+<li><div class="fn"/><b>void setDatabaseName(String name)</b></li>
+<li><div class="fn"/><b>void setHostName(String host)</b></li>
+<li><div class="fn"/><b>void setNumericalPrecisionPolicy(NumericalPrecisionPolicy precisionPolicy)</b></li>
+<li><div class="fn"/><b>void setPassword(String password)</b></li>
+<li><div class="fn"/><b>void setPort(int p)</b></li>
+<li><div class="fn"/><b>void setUserName(String name)</b></li>
+<li><div class="fn"/><b>List tables(TableType type)</b></li>
+<li><div class="fn"/><b>bool transaction()</b></li>
+<li><div class="fn"/><b>String userName()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QSqlDatabase objects have no special properties beyond those inherited from the QSqlDatabase prototype object.</p>
+</body>
+</html>

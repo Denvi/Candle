@@ -600,24 +600,7 @@ void frmMain::on_actHelpAbout_triggered()
 
 void frmMain::on_actHelpDocumentation_triggered()
 {
-    auto docsFolder = qApp->applicationDirPath() + "/doc";
-    const QString fallbackHelpFileName = docsFolder + "/help_en.html";
-
-    QString helpFileName = docsFolder + "/help_" + (!m_settings->language().isEmpty() ? m_settings->language() : "en")
-        + ".html";
-
-    if (!QFile::exists(helpFileName)) {
-        helpFileName = fallbackHelpFileName;
-    }
-
-#ifdef WINDOWS
-    QDesktopServices::openUrl(QUrl::fromLocalFile(helpFileName));
-#else
-    static auto view = new QWebEngineView();
-    view->setWindowTitle(tr("Documentation") + " - " + qApp->applicationDisplayName());
-    view->load(QUrl::fromLocalFile(helpFileName));
-    view->show();
-#endif
+    m_help->show();
 }
 
 void frmMain::on_actJogStepNext_triggered()
@@ -2929,6 +2912,13 @@ void frmMain::loadSettings()
     // Language
     m_settings->setLanguage(set.value("language", "en").toString());
 
+    // Create help
+    m_help = new HelpSystem(m_settings->language());
+    m_help->setWindowFlags(Qt::Window | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint
+        | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
+    m_help->setWindowTitle(tr("Documentation"));
+    m_help->setWindowIcon(windowIcon());
+
     // Load plugins
     loadPlugins();
     emit pluginsLoaded();
@@ -2955,6 +2945,15 @@ void frmMain::loadSettings()
 
     // Settings form geometry
     m_settings->restoreGeometry(set.value("formSettingsGeometry").toByteArray());
+
+    // Help form geometry
+    auto helpGeometry = set.value("formHelpGeometry").toByteArray();
+    if (helpGeometry.size())
+    {
+        m_help->restoreGeometry(helpGeometry);
+    } else {
+        m_help->resize(600, 600);
+    }
 
     // Menu
     ui->actViewLockWindows->setChecked(set.value("lockWindows").toBool());
@@ -2992,6 +2991,9 @@ void frmMain::saveSettings()
 
     // Settings form
     set.setValue("formSettingsGeometry", m_settings->saveGeometry());
+
+    // Help form
+    set.setValue("formHelpGeometry", m_help->saveGeometry());
 
     // Language
     set.setValue("language", m_settings->language());

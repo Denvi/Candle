@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QXmlStreamReader Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QXmlStreamReader Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QXmlStreamReader()</b></li>
+<li><div class="fn"/><b>void QXmlStreamReader(QIODevice device)</b></li>
+<li><div class="fn"/><b>void QXmlStreamReader(QByteArray data)</b></li>
+<li><div class="fn"/><b>void QXmlStreamReader(String data)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QXmlStreamReader prototype object</li>
+<li><b>ErrorOnUnexpectedElement</b></li>
+<li><b>IncludeChildElements</b></li>
+<li><b>SkipChildElements</b></li>
+<li><b>ReadElementTextBehaviour( value )</b></li>
+<li><b>NoError</b></li>
+<li><b>UnexpectedElementError</b></li>
+<li><b>CustomError</b></li>
+<li><b>NotWellFormedError</b></li>
+<li><b>PrematureEndOfDocumentError</b></li>
+<li><b>Error( value )</b></li>
+<li><b>NoToken = 0</b></li>
+<li><b>Invalid</b></li>
+<li><b>StartDocument</b></li>
+<li><b>EndDocument</b></li>
+<li><b>StartElement</b></li>
+<li><b>EndElement</b></li>
+<li><b>Characters</b></li>
+<li><b>Comment</b></li>
+<li><b>DTD</b></li>
+<li><b>EntityReference</b></li>
+<li><b>ProcessingInstruction</b></li>
+<li><b>TokenType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void addData(QByteArray data)</b></li>
+<li><div class="fn"/><b>void addExtraNamespaceDeclaration(QXmlStreamNamespaceDeclaration extraNamespaceDeclaraction)</b></li>
+<li><div class="fn"/><b>void addExtraNamespaceDeclarations(List extraNamespaceDeclaractions)</b></li>
+<li><div class="fn"/><b>bool atEnd()</b></li>
+<li><div class="fn"/><b>QXmlStreamAttributes attributes()</b></li>
+<li><div class="fn"/><b>qint64 characterOffset()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>qint64 columnNumber()</b></li>
+<li><div class="fn"/><b>QIODevice device()</b></li>
+<li><div class="fn"/><b>String documentEncoding()</b></li>
+<li><div class="fn"/><b>String documentVersion()</b></li>
+<li><div class="fn"/><b>String dtdName()</b></li>
+<li><div class="fn"/><b>String dtdPublicId()</b></li>
+<li><div class="fn"/><b>String dtdSystemId()</b></li>
+<li><div class="fn"/><b>List entityDeclarations()</b></li>
+<li><div class="fn"/><b>QXmlStreamEntityResolver entityResolver()</b></li>
+<li><div class="fn"/><b>Error error()</b></li>
+<li><div class="fn"/><b>String errorString()</b></li>
+<li><div class="fn"/><b>bool hasError()</b></li>
+<li><div class="fn"/><b>bool isCDATA()</b></li>
+<li><div class="fn"/><b>bool isCharacters()</b></li>
+<li><div class="fn"/><b>bool isComment()</b></li>
+<li><div class="fn"/><b>bool isDTD()</b></li>
+<li><div class="fn"/><b>bool isEndDocument()</b></li>
+<li><div class="fn"/><b>bool isEndElement()</b></li>
+<li><div class="fn"/><b>bool isEntityReference()</b></li>
+<li><div class="fn"/><b>bool isProcessingInstruction()</b></li>
+<li><div class="fn"/><b>bool isStandaloneDocument()</b></li>
+<li><div class="fn"/><b>bool isStartDocument()</b></li>
+<li><div class="fn"/><b>bool isStartElement()</b></li>
+<li><div class="fn"/><b>bool isWhitespace()</b></li>
+<li><div class="fn"/><b>qint64 lineNumber()</b></li>
+<li><div class="fn"/><b>String name()</b></li>
+<li><div class="fn"/><b>List namespaceDeclarations()</b></li>
+<li><div class="fn"/><b>bool namespaceProcessing()</b></li>
+<li><div class="fn"/><b>String namespaceUri()</b></li>
+<li><div class="fn"/><b>List notationDeclarations()</b></li>
+<li><div class="fn"/><b>String prefix()</b></li>
+<li><div class="fn"/><b>String processingInstructionData()</b></li>
+<li><div class="fn"/><b>String processingInstructionTarget()</b></li>
+<li><div class="fn"/><b>String qualifiedName()</b></li>
+<li><div class="fn"/><b>void raiseError(String message)</b></li>
+<li><div class="fn"/><b>String readElementText(ReadElementTextBehaviour behaviour)</b></li>
+<li><div class="fn"/><b>TokenType readNext()</b></li>
+<li><div class="fn"/><b>bool readNextStartElement()</b></li>
+<li><div class="fn"/><b>void setDevice(QIODevice device)</b></li>
+<li><div class="fn"/><b>void setEntityResolver(QXmlStreamEntityResolver resolver)</b></li>
+<li><div class="fn"/><b>void setNamespaceProcessing(bool arg__1)</b></li>
+<li><div class="fn"/><b>void skipCurrentElement()</b></li>
+<li><div class="fn"/><b>String text()</b></li>
+<li><div class="fn"/><b>String tokenString()</b></li>
+<li><div class="fn"/><b>TokenType tokenType()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QXmlStreamReader objects have no special properties beyond those inherited from the QXmlStreamReader prototype object.</p>
+</body>
+</html>

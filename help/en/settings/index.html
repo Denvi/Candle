@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>index.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="settings">Settings window</h1>
+<p>The program settings are available in the <strong>Settings</strong> dialog, invoked by selecting "Settings" from the <strong>Service</strong> menu of the application.</p>
+<p class="center"><img src="../img/settings.png" alt="Settings window"></p>
+<p>The dialog contains three areas: a left panel with a list of setting groups, a right panel with controls for the selected group, and a bottom bar with buttons to reset settings to defaults, confirm changes, or cancel them.</p>
+<p>Below is information about all available program settings: group, parameter, description, permissible values, and default value.</p>
+<table width="100%">
+<thead>
+<tr>
+<th>Group</th>
+<th>Parameter</th>
+<th>Description</th>
+<th>Permissible values</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Connection</strong></td>
+<td><strong>Port</strong></td>
+<td>Serial port used to connect to the CNC controller</td>
+<td>Path to device</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Baud</strong></td>
+<td>Baud rate for serial communication</td>
+<td>9600, 14400, 19200, 38400, 57600, 115200, any integer value</td>
+<td>115200</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Status query period</strong></td>
+<td>Time between status requests to the controller</td>
+<td>10–9999 ms</td>
+<td>100</td>
+</tr>
+<tr>
+<td><strong>Machine information</strong></td>
+<td><strong>Spindle speed min.</strong></td>
+<td>Minimum spindle rotation speed (used by the "Spindle" panel)</td>
+<td>0–99 999 RPM</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Spindle speed max.</strong></td>
+<td>Maximum spindle rotation speed</td>
+<td>0–99 999 RPM</td>
+<td>10 000</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Laser power min.</strong></td>
+<td>Minimum laser power (used for half‑tone raster visualisation of CP)</td>
+<td>0–99 999</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Laser power max.</strong></td>
+<td>Maximum laser power</td>
+<td>0–99 999</td>
+<td>100</td>
+</tr>
+<tr>
+<td><strong>Parser</strong></td>
+<td><strong>Arc approximation segment size – by length</strong></td>
+<td>Length of segments that split arcs in CP when displayed in the "Visualizer" and during height‑map creation</td>
+<td>0.1–99 mm (0 = disabled)</td>
+<td>0.1 (disabled)</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Arc approximation segment size – by angle</strong></td>
+<td>Angle used to subdivide arcs in CP for the same purposes</td>
+<td>0–180°</td>
+<td>5 ° (enabled)</td>
+</tr>
+<tr>
+<td><strong>Sender</strong></td>
+<td><strong>Use program start commands</strong></td>
+<td>G‑code commands sent to the CNC controller before transmitting the CP</td>
+<td>Set of G‑code commands (JavaScript allowed)</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Use program end commands</strong></td>
+<td>G‑code commands sent after the CP has been transmitted</td>
+<td>Same as above</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Use tool change commands</strong></td>
+<td>G‑code commands sent when processing tool‑change instructions</td>
+<td>Same as above</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Ignore error responses</strong></td>
+<td>Flag that determines whether to abort CP transmission when the controller reports an error</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Automatically set parser state before sending from selected line</strong></td>
+<td>Enable sending of parser‑configuration commands before transmitting the CP from a chosen line</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Pause sender on M6 command</strong></td>
+<td>Control whether to pause CP transmission while processing tool‑change instructions</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><strong>Visualizer</strong></td>
+<td><strong>Line width</strong></td>
+<td>Thickness of 3D projection lines in the visualiser</td>
+<td>1–9</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Smoothing</strong></td>
+<td>Enable line smoothing for the 3D projection</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>MSAA</strong></td>
+<td>Multi‑sample anti‑aliasing for the 3D projection</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>FPS lock</strong></td>
+<td>FPS of the 3D projection rendering</td>
+<td>30, 60, 120, any integer</td>
+<td>60</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>V-sync</strong></td>
+<td>Enable vertical sync</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Z-buffer</strong></td>
+<td>Enable depth‑buffering for line overlap control</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Program draw mode</strong></td>
+<td>Method of CP projection: "Vector" (lines) or "Raster" (points)</td>
+<td>Vectors, Raster</td>
+<td>Vector</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Simplify geometry</strong></td>
+<td>Limit the minimum segment size when rendering the CP</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Simplify geometry – Precision</strong></td>
+<td>Minimum segment length used for simplification (0 = only segments on a single line are converted)</td>
+<td>0–99 mm</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale segments</strong></td>
+<td>Enable point colorization in raster rendering</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale segments – by 'S' code</strong></td>
+<td>Color points according to the ‘S’ G‑code value</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Grayscale segments – by 'Z' code</strong></td>
+<td>Color points according to the ‘Z’ G‑code value</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td><strong>Colors</strong></td>
+<td><strong>Visualizer – Background</strong></td>
+<td>Background color in the "Visualizer" window</td>
+<td>Any color</td>
+<td>White</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Visualizer – Text</strong></td>
+<td>Text color in the "Visualizer" window</td>
+<td>Any color</td>
+<td>Black</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Visualizer – Tool</strong></td>
+<td>Color of the tool model in the "Visualizer"</td>
+<td>Any color</td>
+<td>Orange</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – Normal</strong></td>
+<td>Color of the main trajectory paths in the CP projection</td>
+<td>Any color</td>
+<td>Black</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – Drawn</strong></td>
+<td>Color of parts already processed by the CNC when sending the CP</td>
+<td>Any color</td>
+<td>Gray</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – Highlight</strong></td>
+<td>Color of lines sent to the CNC; color of the marker for the selected CP line</td>
+<td>Any color</td>
+<td>Purple</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – Z-movement</strong></td>
+<td>Color of vertical trajectory moves</td>
+<td>Any color</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – Start point</strong></td>
+<td>Color of the start marker for the CP</td>
+<td>Any color</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Toolpath – End point</strong></td>
+<td>Color of the end marker for the CP</td>
+<td>Any color</td>
+<td>Green</td>
+</tr>
+<tr>
+<td><strong>Tool model</strong></td>
+<td><strong>Type</strong></td>
+<td>Tool model type in the "Visualizer"</td>
+<td>Flat, Conic</td>
+<td>Conical</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Angle</strong></td>
+<td>Cone angle of the conical tool model</td>
+<td>0–180°</td>
+<td>15 °</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Diameter</strong></td>
+<td>Diameter of the tool model</td>
+<td>0–99 mm</td>
+<td>3 mm</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Length</strong></td>
+<td>Length of the tool model</td>
+<td>0–999 mm</td>
+<td>30 mm</td>
+</tr>
+<tr>
+<td><strong>Shortcuts</strong></td>
+<td>–</td>
+<td>Key combinations for fast invocation of program functions</td>
+<td>Any key combination</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td><strong>Show G‑code program commands</strong></td>
+<td>Show G‑code commands of the CP in the "Console" during transmission to the controller</td>
+<td>Enabled, Disabled</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Show UI commands</strong></td>
+<td>Show commands sent via instrument panel elements</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Command auto‑completion</strong></td>
+<td>Auto‑finish a command when entering it in the "Console" field based on previously typed text</td>
+<td>Enabled, Disabled</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td><strong>User interface</strong></td>
+<td><strong>Font size</strong></td>
+<td>Size of UI font</td>
+<td>8, 9, 10, 11, 12 pt or any integer</td>
+<td>9</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Language</strong></td>
+<td>Language used for UI labels</td>
+<td>American English, Russian (list can be extended)</td>
+<td>American English</td>
+</tr>
+<tr>
+<td><strong>Camera</strong></td>
+<td><strong>Name</strong></td>
+<td>Name of the camera whose image is shown in the "Camera" window</td>
+<td>List of available cameras or any custom name</td>
+<td>None</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Resolution</strong></td>
+<td>Image resolution displayed from the camera</td>
+<td>Supported resolutions list or any custom resolution</td>
+<td>1280×720</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Position</strong></td>
+<td>Horizontal/vertical offset of the camera image in the "Camera" window</td>
+<td>Any offset in points</td>
+<td>0, 0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Zoom</strong></td>
+<td>Scaling factor for the camera image</td>
+<td>Any number</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Aim position</strong></td>
+<td>Relative offset of targeting elements horizontally/vertically</td>
+<td>Offset between 0 and 1 in relative units</td>
+<td>0, 0</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Aim size</strong></td>
+<td>Diameter of the targeting circle</td>
+<td>1–100</td>
+<td>20</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Aim color</strong></td>
+<td>Color of targeting elements</td>
+<td>Any color</td>
+<td>Red</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Aim line width</strong></td>
+<td>Thickness of crosshair lines</td>
+<td>0–100</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>User commands</strong></td>
+<td>–</td>
+<td>Table of commands for the "User commands" panel</td>
+<td>Any set of commands</td>
+<td>Test commands</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

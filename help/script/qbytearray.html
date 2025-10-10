@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QByteArray Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QByteArray Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QByteArray()</b></li>
+<li><div class="fn"/><b>void QByteArray(QByteArray arg__1)</b></li>
+<li><div class="fn"/><b>void QByteArray(int size, char c)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QByteArray prototype object</li>
+<li><div class="fn"/><b>QByteArray fromBase64(QByteArray base64)</b></li>
+<li><div class="fn"/><b>QByteArray fromHex(QByteArray hexEncoded)</b></li>
+<li><div class="fn"/><b>QByteArray fromInt(int arg__1, int base)</b></li>
+<li><div class="fn"/><b>QByteArray fromLongLong(qlonglong arg__1, int base)</b></li>
+<li><div class="fn"/><b>QByteArray fromPercentEncoding(QByteArray pctEncoded, char percent)</b></li>
+<li><div class="fn"/><b>QByteArray number(double arg__1, char f, int prec)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QByteArray append(QByteArray a)</b></li>
+<li><div class="fn"/><b>QByteArray appendByte(char c)</b></li>
+<li><div class="fn"/><b>char at(int i)</b></li>
+<li><div class="fn"/><b>int capacity()</b></li>
+<li><div class="fn"/><b>void chop(int n)</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>int count(char c)</b></li>
+<li><div class="fn"/><b>bool endsWith(char c)</b></li>
+<li><div class="fn"/><b>QByteArray fill(char c, int size)</b></li>
+<li><div class="fn"/><b>int indexOf(QByteArray a, int from)</b></li>
+<li><div class="fn"/><b>int indexOfByte(char c, int from)</b></li>
+<li><div class="fn"/><b>QByteArray insert(int i, QByteArray a)</b></li>
+<li><div class="fn"/><b>QByteArray insertByte(int i, char c)</b></li>
+<li><div class="fn"/><b>bool isEmpty()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool isSharedWith(QByteArray other)</b></li>
+<li><div class="fn"/><b>int lastIndexOf(QByteArray a, int from)</b></li>
+<li><div class="fn"/><b>int lastIndexOfByte(char c, int from)</b></li>
+<li><div class="fn"/><b>QByteArray left(int len)</b></li>
+<li><div class="fn"/><b>QByteArray leftJustified(int width, char fill, bool truncate)</b></li>
+<li><div class="fn"/><b>int length()</b></li>
+<li><div class="fn"/><b>QByteArray mid(int index, int len)</b></li>
+<li><div class="fn"/><b>QByteArray operator_assign(QByteArray arg__1)</b></li>
+<li><div class="fn"/><b>bool operator_equal(QByteArray a2)</b></li>
+<li><div class="fn"/><b>bool operator_less(QByteArray a2)</b></li>
+<li><div class="fn"/><b>QByteArray prepend(QByteArray a)</b></li>
+<li><div class="fn"/><b>QByteArray prependByte(char c)</b></li>
+<li><div class="fn"/><b>QByteArray remove(int index, int len)</b></li>
+<li><div class="fn"/><b>QByteArray repeated(int times)</b></li>
+<li><div class="fn"/><b>QByteArray replace(char before, char after)</b></li>
+<li><div class="fn"/><b>void reserve(int size)</b></li>
+<li><div class="fn"/><b>void resize(int size)</b></li>
+<li><div class="fn"/><b>QByteArray right(int len)</b></li>
+<li><div class="fn"/><b>QByteArray rightJustified(int width, char fill, bool truncate)</b></li>
+<li><div class="fn"/><b>QByteArray setDouble(double arg__1, char f, int prec)</b></li>
+<li><div class="fn"/><b>QByteArray setFloat(float arg__1, char f, int prec)</b></li>
+<li><div class="fn"/><b>QByteArray setInt(int arg__1, int base)</b></li>
+<li><div class="fn"/><b>QByteArray setLongLong(qlonglong arg__1, int base)</b></li>
+<li><div class="fn"/><b>QByteArray setRawData(char a, uint n)</b></li>
+<li><div class="fn"/><b>QByteArray setShort(short arg__1, int base)</b></li>
+<li><div class="fn"/><b>QByteArray simplified()</b></li>
+<li><div class="fn"/><b>int size()</b></li>
+<li><div class="fn"/><b>List split(char sep)</b></li>
+<li><div class="fn"/><b>void squeeze()</b></li>
+<li><div class="fn"/><b>bool startsWith(char c)</b></li>
+<li><div class="fn"/><b>void swap(QByteArray other)</b></li>
+<li><div class="fn"/><b>QByteArray toBase64()</b></li>
+<li><div class="fn"/><b>double toDouble()</b></li>
+<li><div class="fn"/><b>float toFloat()</b></li>
+<li><div class="fn"/><b>QByteArray toHex()</b></li>
+<li><div class="fn"/><b>int toInt(int base)</b></li>
+<li><div class="fn"/><b>QByteArray toLower()</b></li>
+<li><div class="fn"/><b>QByteArray toPercentEncoding(QByteArray exclude, QByteArray include, char percent)</b></li>
+<li><div class="fn"/><b>ushort toUShort(int base)</b></li>
+<li><div class="fn"/><b>QByteArray toUpper()</b></li>
+<li><div class="fn"/><b>QByteArray trimmed()</b></li>
+<li><div class="fn"/><b>void truncate(int pos)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QByteArray objects have no special properties beyond those inherited from the QByteArray prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTextBoundaryFinder Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTextBoundaryFinder Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTextBoundaryFinder()</b></li>
+<li><div class="fn"/><b>void QTextBoundaryFinder(BoundaryType type, String string)</b></li>
+<li><div class="fn"/><b>void QTextBoundaryFinder(QTextBoundaryFinder other)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTextBoundaryFinder prototype object</li>
+<li><b>Grapheme</b></li>
+<li><b>Word</b></li>
+<li><b>Sentence</b></li>
+<li><b>Line</b></li>
+<li><b>BoundaryType( value )</b></li>
+<li><b>NotAtBoundary = 0</b></li>
+<li><b>BreakOpportunity = 0x1f</b></li>
+<li><b>StartOfItem = 0x20</b></li>
+<li><b>EndOfItem = 0x40</b></li>
+<li><b>MandatoryBreak = 0x80</b></li>
+<li><b>SoftHyphen = 0x100</b></li>
+<li><b>BoundaryReason( value )</b></li>
+<li><b>BoundaryReasons( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>BoundaryReasons boundaryReasons()</b></li>
+<li><div class="fn"/><b>bool isAtBoundary()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>int position()</b></li>
+<li><div class="fn"/><b>void setPosition(int position)</b></li>
+<li><div class="fn"/><b>String string()</b></li>
+<li><div class="fn"/><b>void toEnd()</b></li>
+<li><div class="fn"/><b>int toNextBoundary()</b></li>
+<li><div class="fn"/><b>int toPreviousBoundary()</b></li>
+<li><div class="fn"/><b>void toStart()</b></li>
+<li><div class="fn"/><b>BoundaryType type()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTextBoundaryFinder objects have no special properties beyond those inherited from the QTextBoundaryFinder prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QFile Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QFile Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qfiledevice.html">QFileDevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QFile()</b></li>
+<li><div class="fn"/><b>void QFile(QObject parent)</b></li>
+<li><div class="fn"/><b>void QFile(String name)</b></li>
+<li><div class="fn"/><b>void QFile(String name, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QFile prototype object</li>
+<li><div class="fn"/><b>bool copy(String fileName, String newName)</b></li>
+<li><div class="fn"/><b>String decodeName(QByteArray localFileName)</b></li>
+<li><div class="fn"/><b>QByteArray encodeName(String fileName)</b></li>
+<li><div class="fn"/><b>bool exists(String fileName)</b></li>
+<li><div class="fn"/><b>bool link(String oldname, String newName)</b></li>
+<li><div class="fn"/><b>Permissions permissions(String filename)</b></li>
+<li><div class="fn"/><b>String readLink(String fileName)</b></li>
+<li><div class="fn"/><b>bool remove(String fileName)</b></li>
+<li><div class="fn"/><b>bool rename(String oldName, String newName)</b></li>
+<li><div class="fn"/><b>bool resize(String filename, qint64 sz)</b></li>
+<li><div class="fn"/><b>bool setPermissions(String filename, Permissions permissionSpec)</b></li>
+<li><div class="fn"/><b>String symLinkTarget(String fileName)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QFile prototype object inherits properties from the <a href="qfiledevice.html">QFileDevice</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>bool copy(String newName)</b></li>
+<li><div class="fn"/><b>bool exists()</b></li>
+<li><div class="fn"/><b>bool link(String newName)</b></li>
+<li><div class="fn"/><b>bool open(int fd, OpenMode ioFlags, FileHandleFlags handleFlags)</b></li>
+<li><div class="fn"/><b>String readLink()</b></li>
+<li><div class="fn"/><b>bool remove()</b></li>
+<li><div class="fn"/><b>bool rename(String newName)</b></li>
+<li><div class="fn"/><b>void setFileName(String name)</b></li>
+<li><div class="fn"/><b>String symLinkTarget()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QFile objects have no special properties beyond those inherited from the QFile prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QEvent Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QEvent Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QEvent(Type type)</b></li>
+<li><div class="fn"/><b>void QEvent(QEvent other)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QEvent prototype object</li>
+<li><div class="fn"/><b>int registerEventType(int hint)</b></li>
+<li><b>None = 0</b></li>
+<li><b>Timer = 1</b></li>
+<li><b>MouseButtonPress = 2</b></li>
+<li><b>MouseButtonRelease = 3</b></li>
+<li><b>MouseButtonDblClick = 4</b></li>
+<li><b>MouseMove = 5</b></li>
+<li><b>KeyPress = 6</b></li>
+<li><b>KeyRelease = 7</b></li>
+<li><b>FocusIn = 8</b></li>
+<li><b>FocusOut = 9</b></li>
+<li><b>Enter = 10</b></li>
+<li><b>Leave = 11</b></li>
+<li><b>Paint = 12</b></li>
+<li><b>Move = 13</b></li>
+<li><b>Resize = 14</b></li>
+<li><b>Create = 15</b></li>
+<li><b>Destroy = 16</b></li>
+<li><b>Show = 17</b></li>
+<li><b>Hide = 18</b></li>
+<li><b>Close = 19</b></li>
+<li><b>Quit = 20</b></li>
+<li><b>ParentChange = 21</b></li>
+<li><b>ThreadChange = 22</b></li>
+<li><b>FocusAboutToChange = 23</b></li>
+<li><b>WindowActivate = 24</b></li>
+<li><b>WindowDeactivate = 25</b></li>
+<li><b>ShowToParent = 26</b></li>
+<li><b>HideToParent = 27</b></li>
+<li><b>Wheel = 31</b></li>
+<li><b>WindowTitleChange = 33</b></li>
+<li><b>WindowIconChange = 34</b></li>
+<li><b>ApplicationWindowIconChange = 35</b></li>
+<li><b>ApplicationFontChange = 36</b></li>
+<li><b>ApplicationLayoutDirectionChange = 37</b></li>
+<li><b>ApplicationPaletteChange = 38</b></li>
+<li><b>PaletteChange = 39</b></li>
+<li><b>Clipboard = 40</b></li>
+<li><b>Speech = 42</b></li>
+<li><b>MetaCall = 43</b></li>
+<li><b>SockAct = 50</b></li>
+<li><b>ShortcutOverride = 51</b></li>
+<li><b>DeferredDelete = 52</b></li>
+<li><b>DragEnter = 60</b></li>
+<li><b>DragMove = 61</b></li>
+<li><b>DragLeave = 62</b></li>
+<li><b>Drop = 63</b></li>
+<li><b>DragResponse = 64</b></li>
+<li><b>ChildAdded = 68</b></li>
+<li><b>ChildPolished = 69</b></li>
+<li><b>ChildRemoved = 71</b></li>
+<li><b>ShowWindowRequest = 73</b></li>
+<li><b>PolishRequest = 74</b></li>
+<li><b>Polish = 75</b></li>
+<li><b>LayoutRequest = 76</b></li>
+<li><b>UpdateRequest = 77</b></li>
+<li><b>UpdateLater = 78</b></li>
+<li><b>EmbeddingControl = 79</b></li>
+<li><b>ActivateControl = 80</b></li>
+<li><b>DeactivateControl = 81</b></li>
+<li><b>ContextMenu = 82</b></li>
+<li><b>InputMethod = 83</b></li>
+<li><b>TabletMove = 87</b></li>
+<li><b>LocaleChange = 88</b></li>
+<li><b>LanguageChange = 89</b></li>
+<li><b>LayoutDirectionChange = 90</b></li>
+<li><b>Style = 91</b></li>
+<li><b>TabletPress = 92</b></li>
+<li><b>TabletRelease = 93</b></li>
+<li><b>OkRequest = 94</b></li>
+<li><b>HelpRequest = 95</b></li>
+<li><b>IconDrag = 96</b></li>
+<li><b>FontChange = 97</b></li>
+<li><b>EnabledChange = 98</b></li>
+<li><b>ActivationChange = 99</b></li>
+<li><b>StyleChange = 100</b></li>
+<li><b>IconTextChange = 101</b></li>
+<li><b>ModifiedChange = 102</b></li>
+<li><b>WindowBlocked = 103</b></li>
+<li><b>WindowUnblocked = 104</b></li>
+<li><b>WindowStateChange = 105</b></li>
+<li><b>ReadOnlyChange = 106</b></li>
+<li><b>MouseTrackingChange = 109</b></li>
+<li><b>ToolTip = 110</b></li>
+<li><b>WhatsThis = 111</b></li>
+<li><b>StatusTip = 112</b></li>
+<li><b>ActionChanged = 113</b></li>
+<li><b>ActionAdded = 114</b></li>
+<li><b>ActionRemoved = 115</b></li>
+<li><b>FileOpen = 116</b></li>
+<li><b>Shortcut = 117</b></li>
+<li><b>WhatsThisClicked = 118</b></li>
+<li><b>ToolBarChange = 120</b></li>
+<li><b>ApplicationActivate = 121</b></li>
+<li><b>ApplicationDeactivate = 122</b></li>
+<li><b>QueryWhatsThis = 123</b></li>
+<li><b>EnterWhatsThisMode = 124</b></li>
+<li><b>LeaveWhatsThisMode = 125</b></li>
+<li><b>ZOrderChange = 126</b></li>
+<li><b>HoverEnter = 127</b></li>
+<li><b>HoverLeave = 128</b></li>
+<li><b>HoverMove = 129</b></li>
+<li><b>ParentAboutToChange = 131</b></li>
+<li><b>WinEventAct = 132</b></li>
+<li><b>AcceptDropsChange = 152</b></li>
+<li><b>ZeroTimerEvent = 154</b></li>
+<li><b>GraphicsSceneMouseMove = 155</b></li>
+<li><b>GraphicsSceneMousePress = 156</b></li>
+<li><b>GraphicsSceneMouseRelease = 157</b></li>
+<li><b>GraphicsSceneMouseDoubleClick = 158</b></li>
+<li><b>GraphicsSceneContextMenu = 159</b></li>
+<li><b>GraphicsSceneHoverEnter = 160</b></li>
+<li><b>GraphicsSceneHoverMove = 161</b></li>
+<li><b>GraphicsSceneHoverLeave = 162</b></li>
+<li><b>GraphicsSceneHelp = 163</b></li>
+<li><b>GraphicsSceneDragEnter = 164</b></li>
+<li><b>GraphicsSceneDragMove = 165</b></li>
+<li><b>GraphicsSceneDragLeave = 166</b></li>
+<li><b>GraphicsSceneDrop = 167</b></li>
+<li><b>GraphicsSceneWheel = 168</b></li>
+<li><b>KeyboardLayoutChange = 169</b></li>
+<li><b>DynamicPropertyChange = 170</b></li>
+<li><b>TabletEnterProximity = 171</b></li>
+<li><b>TabletLeaveProximity = 172</b></li>
+<li><b>NonClientAreaMouseMove = 173</b></li>
+<li><b>NonClientAreaMouseButtonPress = 174</b></li>
+<li><b>NonClientAreaMouseButtonRelease = 175</b></li>
+<li><b>NonClientAreaMouseButtonDblClick = 176</b></li>
+<li><b>MacSizeChange = 177</b></li>
+<li><b>ContentsRectChange = 178</b></li>
+<li><b>MacGLWindowChange = 179</b></li>
+<li><b>FutureCallOut = 180</b></li>
+<li><b>GraphicsSceneResize = 181</b></li>
+<li><b>GraphicsSceneMove = 182</b></li>
+<li><b>CursorChange = 183</b></li>
+<li><b>ToolTipChange = 184</b></li>
+<li><b>NetworkReplyUpdated = 185</b></li>
+<li><b>GrabMouse = 186</b></li>
+<li><b>UngrabMouse = 187</b></li>
+<li><b>GrabKeyboard = 188</b></li>
+<li><b>UngrabKeyboard = 189</b></li>
+<li><b>MacGLClearDrawable = 191</b></li>
+<li><b>StateMachineSignal = 192</b></li>
+<li><b>StateMachineWrapped = 193</b></li>
+<li><b>TouchBegin = 194</b></li>
+<li><b>TouchUpdate = 195</b></li>
+<li><b>TouchEnd = 196</b></li>
+<li><b>NativeGesture = 197</b></li>
+<li><b>Gesture = 198</b></li>
+<li><b>RequestSoftwareInputPanel = 199</b></li>
+<li><b>CloseSoftwareInputPanel = 200</b></li>
+<li><b>GestureOverride = 202</b></li>
+<li><b>WinIdChange = 203</b></li>
+<li><b>ScrollPrepare = 204</b></li>
+<li><b>Scroll = 205</b></li>
+<li><b>Expose = 206</b></li>
+<li><b>InputMethodQuery = 207</b></li>
+<li><b>OrientationChange = 208</b></li>
+<li><b>TouchCancel = 209</b></li>
+<li><b>ThemeChange = 210</b></li>
+<li><b>SockClose = 211</b></li>
+<li><b>PlatformPanel = 212</b></li>
+<li><b>StyleAnimationUpdate = 213</b></li>
+<li><b>ApplicationStateChange = 214</b></li>
+<li><b>WindowChangeInternal = 215</b></li>
+<li><b>ScreenChangeInternal = 216</b></li>
+<li><b>PlatformSurface = 217</b></li>
+<li><b>User = 1000</b></li>
+<li><b>MaxUser = 65535</b></li>
+<li><b>Type( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void accept()</b></li>
+<li><div class="fn"/><b>void ignore()</b></li>
+<li><div class="fn"/><b>bool isAccepted()</b></li>
+<li><div class="fn"/><b>QEvent operator_assign(QEvent other)</b></li>
+<li><div class="fn"/><b>void setAccepted(bool accepted)</b></li>
+<li><div class="fn"/><b>bool spontaneous()</b></li>
+<li><div class="fn"/><b>Type type()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QEvent objects have no special properties beyond those inherited from the QEvent prototype object.</p>
+</body>
+</html>

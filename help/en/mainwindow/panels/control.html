@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>control.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="panel-control">Panel "Control"</h1>
+<p class="center"><img src="../../img/control.png" alt="Panel Control"></p>
+<p>The <strong>Control</strong> panel contains a set of buttons that send basic GRBL commands.
+Table lists the button, the command it sends (command code), and its description in the order they appear on the panel – left to right, top to bottom.</p>
+<p><strong>Control Panel Buttons</strong></p>
+<table width="100%">
+<thead>
+<tr>
+<th>Button</th>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Home</strong></td>
+<td><code>$H</code></td>
+<td>Search for the home position.</td>
+</tr>
+<tr>
+<td><strong>Hold</strong></td>
+<td><code>!</code> or <code>~</code></td>
+<td>Stop current motion (<code>!</code>) or resume movement (<code>~</code>).</td>
+</tr>
+<tr>
+<td><strong>Reset</strong></td>
+<td><code>0x18</code></td>
+<td>Software reset of the controller.</td>
+</tr>
+<tr>
+<td><strong>Unlock</strong></td>
+<td><code>$X</code></td>
+<td>Force unlock from alarm state.</td>
+</tr>
+<tr>
+<td><strong>Check</strong></td>
+<td><code>$C</code> or <code>0x18</code></td>
+<td>Enable (<code>$C</code>) / disable (<code>0x18</code>) CP check mode.</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong></td>
+<td><code>$SLP</code></td>
+<td>Put the controller into low‑power mode.</td>
+</tr>
+<tr>
+<td><strong>Door</strong></td>
+<td><code>0x84</code></td>
+<td>Force the controller into door‑triggered mode.</td>
+</tr>
+<tr>
+<td><strong>Flood</strong></td>
+<td><code>0xA0</code></td>
+<td>Toggle water cooling system on/off.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note: When disabling CP check mode, a software reset command is sent followed by restoration of the controller state and work‑coordinate offsets.</p>
+</blockquote>
+
+</body>
+</html>

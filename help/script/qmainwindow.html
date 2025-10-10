@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QMainWindow Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QMainWindow Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qwidget.html">QWidget</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QMainWindow(QWidget parent, WindowFlags flags)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QMainWindow prototype object</li>
+<li><b>AnimatedDocks = 0x01</b></li>
+<li><b>AllowNestedDocks = 0x02</b></li>
+<li><b>AllowTabbedDocks = 0x04</b></li>
+<li><b>ForceTabbedDocks = 0x08</b></li>
+<li><b>VerticalTabs = 0x10</b></li>
+<li><b>GroupedDragging = 0x20</b></li>
+<li><b>DockOption( value )</b></li>
+<li><b>DockOptions( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QMainWindow prototype object inherits properties from the <a href="qwidget.html">QWidget</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void addDockWidget(DockWidgetArea area, QDockWidget dockwidget)</b></li>
+<li><div class="fn"/><b>void addToolBar(QToolBar toolbar)</b></li>
+<li><div class="fn"/><b>void addToolBarBreak(ToolBarArea area)</b></li>
+<li><div class="fn"/><b>QWidget centralWidget()</b></li>
+<li><div class="fn"/><b>DockWidgetArea corner(Corner corner)</b></li>
+<li><div class="fn"/><b>QMenu createPopupMenu()</b></li>
+<li><div class="fn"/><b>DockWidgetArea dockWidgetArea(QDockWidget dockwidget)</b></li>
+<li><div class="fn"/><b>void insertToolBar(QToolBar before, QToolBar toolbar)</b></li>
+<li><div class="fn"/><b>void insertToolBarBreak(QToolBar before)</b></li>
+<li><div class="fn"/><b>bool isSeparator(QPoint pos)</b></li>
+<li><div class="fn"/><b>QMenuBar menuBar()</b></li>
+<li><div class="fn"/><b>QWidget menuWidget()</b></li>
+<li><div class="fn"/><b>void removeDockWidget(QDockWidget dockwidget)</b></li>
+<li><div class="fn"/><b>void removeToolBar(QToolBar toolbar)</b></li>
+<li><div class="fn"/><b>void removeToolBarBreak(QToolBar before)</b></li>
+<li><div class="fn"/><b>void resizeDocks(List docks, List sizes, Orientation orientation)</b></li>
+<li><div class="fn"/><b>bool restoreDockWidget(QDockWidget dockwidget)</b></li>
+<li><div class="fn"/><b>bool restoreState(QByteArray state, int version)</b></li>
+<li><div class="fn"/><b>QByteArray saveState(int version)</b></li>
+<li><div class="fn"/><b>void setCentralWidget(QWidget widget)</b></li>
+<li><div class="fn"/><b>void setCorner(Corner corner, DockWidgetArea area)</b></li>
+<li><div class="fn"/><b>void setMenuBar(QMenuBar menubar)</b></li>
+<li><div class="fn"/><b>void setMenuWidget(QWidget menubar)</b></li>
+<li><div class="fn"/><b>void setStatusBar(QStatusBar statusbar)</b></li>
+<li><div class="fn"/><b>void setTabPosition(DockWidgetAreas areas, TabPosition tabPosition)</b></li>
+<li><div class="fn"/><b>void splitDockWidget(QDockWidget after, QDockWidget dockwidget, Orientation orientation)</b></li>
+<li><div class="fn"/><b>QStatusBar statusBar()</b></li>
+<li><div class="fn"/><b>TabPosition tabPosition(DockWidgetArea area)</b></li>
+<li><div class="fn"/><b>List tabifiedDockWidgets(QDockWidget dockwidget)</b></li>
+<li><div class="fn"/><b>void tabifyDockWidget(QDockWidget first, QDockWidget second)</b></li>
+<li><div class="fn"/><b>QWidget takeCentralWidget()</b></li>
+<li><div class="fn"/><b>ToolBarArea toolBarArea(QToolBar toolbar)</b></li>
+<li><div class="fn"/><b>bool toolBarBreak(QToolBar toolbar)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QMainWindow objects inherit properties from the QMainWindow prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>iconSize</b></li>
+<li><div class="fn"/><b>toolButtonStyle</b></li>
+<li><div class="fn"/><b>animated</b></li>
+<li><div class="fn"/><b>documentMode</b></li>
+<li><div class="fn"/><b>tabShape</b></li>
+<li><div class="fn"/><b>dockNestingEnabled</b></li>
+<li><div class="fn"/><b>dockOptions</b></li>
+<li><div class="fn"/><b>unifiedTitleAndToolBarOnMac</b></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGLContext Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGLContext Class Reference</h1>
+<h3 align="center">[<a href="qt_opengl.html">qt.opengl</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGLContext(QGLFormat format)</b></li>
+<li><div class="fn"/><b>void QGLContext(QGLFormat format, QPaintDevice device)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGLContext prototype object</li>
+<li><div class="fn"/><b>bool areSharing(QGLContext context1, QGLContext context2)</b></li>
+<li><div class="fn"/><b>QGLContext currentContext()</b></li>
+<li><div class="fn"/><b>void setTextureCacheLimit(int size)</b></li>
+<li><div class="fn"/><b>int textureCacheLimit()</b></li>
+<li><b>NoBindOption = 0x0000</b></li>
+<li><b>InvertedYBindOption = 0x0001</b></li>
+<li><b>MipmapBindOption = 0x0002</b></li>
+<li><b>PremultipliedAlphaBindOption = 0x0004</b></li>
+<li><b>LinearFilteringBindOption = 0x0008</b></li>
+<li><b>DefaultBindOption = LinearFilteringBindOption|InvertedYBindOption|MipmapBindOption</b></li>
+<li><b>MemoryManagedBindOption = 0x0010</b></li>
+<li><b>InternalBindOption = MemoryManagedBindOption|PremultipliedAlphaBindOption</b></li>
+<li><b>CanFlipNativePixmapBindOption = 0x0020</b></li>
+<li><b>TemporarilyCachedBindOption = 0x0040</b></li>
+<li><b>BindOption( value )</b></li>
+<li><b>BindOptions( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>unsigned int bindTexture(QImage image, unsigned int target, int format)</b></li>
+<li><div class="fn"/><b>bool create(QGLContext shareContext)</b></li>
+<li><div class="fn"/><b>void deleteTexture(unsigned int tx_id)</b></li>
+<li><div class="fn"/><b>QPaintDevice device()</b></li>
+<li><div class="fn"/><b>void doneCurrent()</b></li>
+<li><div class="fn"/><b>void drawTexture(QPointF point, unsigned int textureId, unsigned int textureTarget)</b></li>
+<li><div class="fn"/><b>QGLFormat format()</b></li>
+<li><div class="fn"/><b>bool isSharing()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>void makeCurrent()</b></li>
+<li><div class="fn"/><b>void moveToThread(Thread thread)</b></li>
+<li><div class="fn"/><b>QColor overlayTransparentColor()</b></li>
+<li><div class="fn"/><b>QGLFormat requestedFormat()</b></li>
+<li><div class="fn"/><b>void reset()</b></li>
+<li><div class="fn"/><b>void setFormat(QGLFormat format)</b></li>
+<li><div class="fn"/><b>void swapBuffers()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGLContext objects have no special properties beyond those inherited from the QGLContext prototype object.</p>
+</body>
+</html>

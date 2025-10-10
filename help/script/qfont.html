@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QFont Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QFont Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QFont()</b></li>
+<li><div class="fn"/><b>void QFont(QFont arg__1)</b></li>
+<li><div class="fn"/><b>void QFont(QFont arg__1, QPaintDevice pd)</b></li>
+<li><div class="fn"/><b>void QFont(String family, int pointSize, int weight, bool italic)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QFont prototype object</li>
+<li><div class="fn"/><b>void cacheStatistics()</b></li>
+<li><div class="fn"/><b>void cleanup()</b></li>
+<li><div class="fn"/><b>void initialize()</b></li>
+<li><div class="fn"/><b>void insertSubstitution(String arg__1, String arg__2)</b></li>
+<li><div class="fn"/><b>void insertSubstitutions(String arg__1, List arg__2)</b></li>
+<li><div class="fn"/><b>void removeSubstitutions(String arg__1)</b></li>
+<li><div class="fn"/><b>String substitute(String arg__1)</b></li>
+<li><div class="fn"/><b>List substitutes(String arg__1)</b></li>
+<li><div class="fn"/><b>List substitutions()</b></li>
+<li><b>StyleNormal</b></li>
+<li><b>StyleItalic</b></li>
+<li><b>StyleOblique</b></li>
+<li><b>Style( value )</b></li>
+<li><b>Thin = 0</b></li>
+<li><b>ExtraLight = 12</b></li>
+<li><b>Light = 25</b></li>
+<li><b>Normal = 50</b></li>
+<li><b>Medium = 57</b></li>
+<li><b>DemiBold = 63</b></li>
+<li><b>Bold = 75</b></li>
+<li><b>ExtraBold = 81</b></li>
+<li><b>Black = 87</b></li>
+<li><b>Weight( value )</b></li>
+<li><b>PercentageSpacing</b></li>
+<li><b>AbsoluteSpacing</b></li>
+<li><b>SpacingType( value )</b></li>
+<li><b>PreferDefault = 0x0001</b></li>
+<li><b>PreferBitmap = 0x0002</b></li>
+<li><b>PreferDevice = 0x0004</b></li>
+<li><b>PreferOutline = 0x0008</b></li>
+<li><b>ForceOutline = 0x0010</b></li>
+<li><b>PreferMatch = 0x0020</b></li>
+<li><b>PreferQuality = 0x0040</b></li>
+<li><b>PreferAntialias = 0x0080</b></li>
+<li><b>NoAntialias = 0x0100</b></li>
+<li><b>OpenGLCompatible = 0x0200</b></li>
+<li><b>ForceIntegerMetrics = 0x0400</b></li>
+<li><b>NoSubpixelAntialias = 0x0800</b></li>
+<li><b>NoFontMerging = 0x8000</b></li>
+<li><b>StyleStrategy( value )</b></li>
+<li><b>Helvetica</b></li>
+<li><b>Times</b></li>
+<li><b>Courier</b></li>
+<li><b>OldEnglish</b></li>
+<li><b>System</b></li>
+<li><b>AnyStyle</b></li>
+<li><b>Cursive</b></li>
+<li><b>Monospace</b></li>
+<li><b>Fantasy</b></li>
+<li><b>StyleHint( value )</b></li>
+<li><b>MixedCase</b></li>
+<li><b>AllUppercase</b></li>
+<li><b>AllLowercase</b></li>
+<li><b>SmallCaps</b></li>
+<li><b>Capitalize</b></li>
+<li><b>Capitalization( value )</b></li>
+<li><b>UltraCondensed = 50</b></li>
+<li><b>ExtraCondensed = 62</b></li>
+<li><b>Condensed = 75</b></li>
+<li><b>SemiCondensed = 87</b></li>
+<li><b>Unstretched = 100</b></li>
+<li><b>SemiExpanded = 112</b></li>
+<li><b>Expanded = 125</b></li>
+<li><b>ExtraExpanded = 150</b></li>
+<li><b>UltraExpanded = 200</b></li>
+<li><b>Stretch( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool bold()</b></li>
+<li><div class="fn"/><b>Capitalization capitalization()</b></li>
+<li><div class="fn"/><b>String defaultFamily()</b></li>
+<li><div class="fn"/><b>bool exactMatch()</b></li>
+<li><div class="fn"/><b>String family()</b></li>
+<li><div class="fn"/><b>bool fixedPitch()</b></li>
+<li><div class="fn"/><b>bool fromString(String arg__1)</b></li>
+<li><div class="fn"/><b>bool isCopyOf(QFont arg__1)</b></li>
+<li><div class="fn"/><b>bool italic()</b></li>
+<li><div class="fn"/><b>bool kerning()</b></li>
+<li><div class="fn"/><b>String key()</b></li>
+<li><div class="fn"/><b>String lastResortFamily()</b></li>
+<li><div class="fn"/><b>String lastResortFont()</b></li>
+<li><div class="fn"/><b>qreal letterSpacing()</b></li>
+<li><div class="fn"/><b>SpacingType letterSpacingType()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QFont arg__1)</b></li>
+<li><div class="fn"/><b>bool operator_less(QFont arg__1)</b></li>
+<li><div class="fn"/><b>bool overline()</b></li>
+<li><div class="fn"/><b>int pixelSize()</b></li>
+<li><div class="fn"/><b>int pointSize()</b></li>
+<li><div class="fn"/><b>qreal pointSizeF()</b></li>
+<li><div class="fn"/><b>bool rawMode()</b></li>
+<li><div class="fn"/><b>String rawName()</b></li>
+<li><div class="fn"/><b>uint resolve()</b></li>
+<li><div class="fn"/><b>void setBold(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setCapitalization(Capitalization arg__1)</b></li>
+<li><div class="fn"/><b>void setFamily(String arg__1)</b></li>
+<li><div class="fn"/><b>void setFixedPitch(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setItalic(bool b)</b></li>
+<li><div class="fn"/><b>void setKerning(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setLetterSpacing(SpacingType type, qreal spacing)</b></li>
+<li><div class="fn"/><b>void setOverline(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setPixelSize(int arg__1)</b></li>
+<li><div class="fn"/><b>void setPointSize(int arg__1)</b></li>
+<li><div class="fn"/><b>void setPointSizeF(qreal arg__1)</b></li>
+<li><div class="fn"/><b>void setRawMode(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setRawName(String arg__1)</b></li>
+<li><div class="fn"/><b>void setStretch(int arg__1)</b></li>
+<li><div class="fn"/><b>void setStrikeOut(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setStyle(Style style)</b></li>
+<li><div class="fn"/><b>void setStyleHint(StyleHint arg__1, StyleStrategy arg__2)</b></li>
+<li><div class="fn"/><b>void setStyleName(String arg__1)</b></li>
+<li><div class="fn"/><b>void setStyleStrategy(StyleStrategy s)</b></li>
+<li><div class="fn"/><b>void setUnderline(bool arg__1)</b></li>
+<li><div class="fn"/><b>void setWeight(int arg__1)</b></li>
+<li><div class="fn"/><b>void setWordSpacing(qreal spacing)</b></li>
+<li><div class="fn"/><b>int stretch()</b></li>
+<li><div class="fn"/><b>bool strikeOut()</b></li>
+<li><div class="fn"/><b>Style style()</b></li>
+<li><div class="fn"/><b>StyleHint styleHint()</b></li>
+<li><div class="fn"/><b>String styleName()</b></li>
+<li><div class="fn"/><b>StyleStrategy styleStrategy()</b></li>
+<li><div class="fn"/><b>void swap(QFont other)</b></li>
+<li><div class="fn"/><b>String toString()</b></li>
+<li><div class="fn"/><b>bool underline()</b></li>
+<li><div class="fn"/><b>int weight()</b></li>
+<li><div class="fn"/><b>qreal wordSpacing()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QFont objects have no special properties beyond those inherited from the QFont prototype object.</p>
+</body>
+</html>

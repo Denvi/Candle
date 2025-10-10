@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QLocalSocket Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QLocalSocket Class Reference</h1>
+<h3 align="center">[<a href="qt_network.html">qt.network</a> package]</h3>
+<p>Inherits <a href="qiodevice.html">QIODevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QLocalSocket(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QLocalSocket prototype object</li>
+<li><b>ConnectionRefusedError = QAbstractSocket::ConnectionRefusedError</b></li>
+<li><b>PeerClosedError = QAbstractSocket::RemoteHostClosedError</b></li>
+<li><b>ServerNotFoundError = QAbstractSocket::HostNotFoundError</b></li>
+<li><b>SocketAccessError = QAbstractSocket::SocketAccessError</b></li>
+<li><b>SocketResourceError = QAbstractSocket::SocketResourceError</b></li>
+<li><b>SocketTimeoutError = QAbstractSocket::SocketTimeoutError</b></li>
+<li><b>DatagramTooLargeError = QAbstractSocket::DatagramTooLargeError</b></li>
+<li><b>ConnectionError = QAbstractSocket::NetworkError</b></li>
+<li><b>UnsupportedSocketOperationError = QAbstractSocket::UnsupportedSocketOperationError</b></li>
+<li><b>UnknownSocketError = QAbstractSocket::UnknownSocketError</b></li>
+<li><b>OperationError = QAbstractSocket::OperationError</b></li>
+<li><b>LocalSocketError( value )</b></li>
+<li><b>UnconnectedState = QAbstractSocket::UnconnectedState</b></li>
+<li><b>ConnectingState = QAbstractSocket::ConnectingState</b></li>
+<li><b>ConnectedState = QAbstractSocket::ConnectedState</b></li>
+<li><b>ClosingState = QAbstractSocket::ClosingState</b></li>
+<li><b>LocalSocketState( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QLocalSocket prototype object inherits properties from the <a href="qiodevice.html">QIODevice</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void abort()</b></li>
+<li><div class="fn"/><b>void connectToServer(OpenMode openMode)</b></li>
+<li><div class="fn"/><b>void disconnectFromServer()</b></li>
+<li><div class="fn"/><b>LocalSocketError error()</b></li>
+<li><div class="fn"/><b>bool flush()</b></li>
+<li><div class="fn"/><b>String fullServerName()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>qint64 readBufferSize()</b></li>
+<li><div class="fn"/><b>String serverName()</b></li>
+<li><div class="fn"/><b>void setReadBufferSize(qint64 size)</b></li>
+<li><div class="fn"/><b>void setServerName(String name)</b></li>
+<li><div class="fn"/><b>LocalSocketState state()</b></li>
+<li><div class="fn"/><b>bool waitForConnected(int msecs)</b></li>
+<li><div class="fn"/><b>bool waitForDisconnected(int msecs)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QLocalSocket objects have no special properties beyond those inherited from the QLocalSocket prototype object.</p>
+</body>
+</html>
