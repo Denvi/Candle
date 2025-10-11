@@ -6,6 +6,7 @@
 HelpBrowser::HelpBrowser(QHelpEngine *helpEngine, QWidget *parent) : QTextBrowser(parent), m_helpEngine(helpEngine)
 {
     document()->setDocumentMargin(11);
+    setOpenExternalLinks(true);
 }
 
 QVariant HelpBrowser::loadResource(int type, const QUrl &name)
