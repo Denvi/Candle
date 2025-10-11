@@ -36,10 +36,6 @@
 #include "connections/telnetconnection.h"
 #include "connections/websocketconnection.h"
 
-#ifndef WINDOWS
-#include <QWebEngineView>
-#endif
-
 frmMain::frmMain(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::frmMain)
