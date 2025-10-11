@@ -31,6 +31,8 @@ HelpSystem::HelpSystem(const QString &language, QWidget *parent) : QDialog(paren
     auto *lay = new QVBoxLayout(this);
     lay->addWidget(split);
 
+    contents->setStyleSheet("QTreeView::item { height: 2em; }");
+
     for (const auto &f : m_helpEngine->customFilters())
     {
         if (f.contains("-" + language))
