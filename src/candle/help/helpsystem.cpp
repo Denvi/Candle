@@ -15,7 +15,7 @@
 HelpSystem::HelpSystem(const QString &language, QWidget *parent) : QDialog(parent)
 {
     auto helpFile = prepareHelpFiles();
-    m_helpEngine = new QHelpEngine(helpFile, parent);
+    m_helpEngine = new QHelpEngine(helpFile, this);
 
     auto contents = m_helpEngine->contentWidget();
     auto browser = new HelpBrowser(m_helpEngine, this);
@@ -32,12 +32,14 @@ HelpSystem::HelpSystem(const QString &language, QWidget *parent) : QDialog(paren
     lay->addWidget(split);
 
     for (const auto &f : m_helpEngine->customFilters())
+    {
         if (f.contains("-" + language))
         {
             m_helpEngine->setCurrentFilter(f);
             browser->setSource(QUrl(QString("qthelp://candle.%1/html/purpose/index.html").arg(language)));
             break;
         }
+    }
 
     if (browser->source().isEmpty())
     {
@@ -45,12 +47,10 @@ HelpSystem::HelpSystem(const QString &language, QWidget *parent) : QDialog(paren
         browser->setSource(QUrl("qthelp://candle.en/html/purpose/index.html"));
     }
 
-    contents->expandAll();
-
-    connect(contents, &QTreeView::clicked, [engine = m_helpEngine, browser](const QModelIndex &idx)
-            {
+    connect(contents, &QTreeView::clicked, [engine = m_helpEngine, browser](const QModelIndex &idx) {
         auto item = engine->contentModel()->contentItemAt(idx);
-        browser->setSource(item->url()); });
+        browser->setSource(item->url());
+    });
 
     connect(contents, &QHelpContentWidget::linkActivated, browser, qOverload<const QUrl &>(&QTextBrowser::setSource));
 

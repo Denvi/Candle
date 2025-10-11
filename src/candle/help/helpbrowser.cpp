@@ -1,12 +1,22 @@
 #include "helpbrowser.h"
 #include <QHelpEngine>
 #include <QMouseEvent>
+#include <QDesktopServices>
 #include <QDebug>
 
 HelpBrowser::HelpBrowser(QHelpEngine *helpEngine, QWidget *parent) : QTextBrowser(parent), m_helpEngine(helpEngine)
 {
     document()->setDocumentMargin(11);
-    setOpenExternalLinks(true);
+    setOpenExternalLinks(false);
+    setOpenLinks(false);
+
+    connect(this, &QTextBrowser::anchorClicked, [this](const QUrl &url) {
+        if (url.scheme().startsWith("http")) {
+            QDesktopServices::openUrl(url);
+        } else {
+            setSource(url);
+        }
+    });
 }
 
 QVariant HelpBrowser::loadResource(int type, const QUrl &name)
