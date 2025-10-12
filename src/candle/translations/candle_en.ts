@@ -75,6 +75,21 @@
     </message>
 </context>
 <context>
+    <name>frmHelp</name>
+    <message>
+        <source>Documentation</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Contents</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>Check</source>

@@ -27,7 +27,7 @@ QGroupBox {
 }
 
 #listCategories {
-	margin-right: 1em;
+	margin-right: 11;
 }</string>
   </property>
   <property name="sizeGripEnabled">

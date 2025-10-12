@@ -1,17 +1,22 @@
 #pragma once
 
-#include <QObject>
-#include <QHelpEngine>
 #include <QDialog>
+#include <QHelpEngine>
 
-class HelpSystem : public QDialog
+namespace Ui {
+class frmHelp;
+}
+
+class frmHelp : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit HelpSystem(const QString &language, QWidget *parent = nullptr);
+    explicit frmHelp(const QString &language, QWidget *parent = nullptr);
 
 private:
+    Ui::frmHelp *ui;
+
     QHelpEngine *m_helpEngine;
 
     QString prepareHelpFiles();

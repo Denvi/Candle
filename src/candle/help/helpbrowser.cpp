@@ -4,7 +4,7 @@
 #include <QDesktopServices>
 #include <QDebug>
 
-HelpBrowser::HelpBrowser(QHelpEngine *helpEngine, QWidget *parent) : QTextBrowser(parent), m_helpEngine(helpEngine)
+HelpBrowser::HelpBrowser(QWidget *parent) : QTextBrowser(parent)
 {
     document()->setDocumentMargin(11);
     setOpenExternalLinks(false);
@@ -19,9 +19,14 @@ HelpBrowser::HelpBrowser(QHelpEngine *helpEngine, QWidget *parent) : QTextBrowse
     });
 }
 
+void HelpBrowser::setHelpEngine(QHelpEngine *helpEngine)
+{
+    m_helpEngine = helpEngine;
+}
+
 QVariant HelpBrowser::loadResource(int type, const QUrl &name)
 {
-    if (name.scheme() == "qthelp")
+    if (name.scheme() == "qthelp" && m_helpEngine)
     {
         return QVariant(m_helpEngine->fileData(name));
     }

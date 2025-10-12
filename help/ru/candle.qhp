@@ -66,6 +66,9 @@
             <section title="Таблица G-код команд" ref="appendix/commands.html"/>
          </section>
       </toc>
+      <keywords>
+         <keyword name="camera" ref="mainwindow/windows/camera.html"/>
+      </keywords>
       <files>
          <file>purpose/index.html</file>
          <file>mainwindow/*.html</file>

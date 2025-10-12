@@ -7,7 +7,9 @@ class QHelpEngine;
 class HelpBrowser : public QTextBrowser
 {
 public:
-    HelpBrowser(QHelpEngine *helpEngine, QWidget *parent = 0);
+    HelpBrowser(QWidget *parent = 0);
+
+    void setHelpEngine(QHelpEngine *helpEngine);
 
     QVariant loadResource(int type, const QUrl &name) override;
 

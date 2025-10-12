@@ -91,6 +91,13 @@ foreach(LANG ${QT_LANGUAGES})
             DESTINATION "translations"
         )
     endif()    
+    set(QT_TRANSLATION_FILE_HELP "${QT_TRANSLATIONS_DIR}/qt_help_${LANG}.qm")
+    if(EXISTS "${QT_TRANSLATION_FILE_HELP}")
+        install(
+            FILES "${QT_TRANSLATION_FILE_HELP}"
+            DESTINATION "translations"
+        )
+    endif()    
 endforeach()
 
 # Candle plugins

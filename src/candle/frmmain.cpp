@@ -2909,7 +2909,7 @@ void frmMain::loadSettings()
     m_settings->setLanguage(set.value("language", "en").toString());
 
     // Create help
-    m_help = new HelpSystem(m_settings->language());
+    m_help = new frmHelp(m_settings->language());
     m_help->setWindowFlags(Qt::Window | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint
         | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
     m_help->setWindowTitle(tr("Documentation"));

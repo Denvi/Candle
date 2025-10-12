@@ -55,7 +55,7 @@
     #include "shobjidl.h"
 #endif
 
-#include "help/helpsystem.h"
+#include "frmhelp.h"
 
 namespace Ui {
 class frmMain;
@@ -376,7 +376,7 @@ private:
     // Forms
     frmSettings *m_settings;
     frmAbout *m_about;
-    HelpSystem *m_help;
+    frmHelp *m_help;
 
     // Filenames
     QString m_settingsFileName;
