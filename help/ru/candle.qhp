@@ -18,6 +18,8 @@
                <section title="Визуализатор" ref="mainwindow/windows/visualizer.html"/>
                <section title="Консоль" ref="mainwindow/windows/console.html"/>
                <section title="Камера" ref="mainwindow/windows/camera.html"/>
+               <section title="Журнал приложения" ref="mainwindow/windows/log.html"/>
+               <section title="Скрипт" ref="mainwindow/windows/script.html"/>
             </section>
             <section title="Панели" ref="mainwindow/panels/index.html">
                <section title="Состояние" ref="mainwindow/panels/state.html"/>

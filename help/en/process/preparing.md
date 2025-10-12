@@ -8,7 +8,7 @@ Before working with the program, perform the following steps:
 - Check the controller settings.
 
 To verify the settings, enter the command `$$` in the input field of the **"Console"** window and send it to the controller.  
-The correct operation of the program depends on the following settings (see [Appendix A: Controller settings](#appendix-a-controller-settings)):
+The correct operation of the program depends on the following settings (see [GRBL settings](qthelp://candle.en/html/appendix/grblsettings.html)):
 
 - `$5`, `$6` affect the homing and probe functions.  
 - `$10` must include the machine coordinate output in its mask, feed & speed, pin state, work coordinate offsets, overrides; a working value example is `1` (`511` for grblHAL).  

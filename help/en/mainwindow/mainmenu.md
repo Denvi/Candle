@@ -16,5 +16,6 @@ It is divided into groups and items, whose descriptions are shown in table.
 |       | Lock windows  | Disable/enable moving of windows                    |
 |       | Lock panels   | Disable/enable moving of panels                      |
 | Service | Settings     | Open the program’s settings window                  |
+|         | Profiles     | Settings profile selection, creating, deleting, import, export  |
 | Help  | Documentation | Open the program documentation                       |
 |       | About program | Open the dialog with information about the program  |

@@ -12,7 +12,7 @@ Command configuration occurs in the program’s **Settings** window.  Within the
 - Assign an icon to the button.
 - Define command code.
 
-The program includes a limited set of icons; additional user‑defined icons can be added by selecting `...` item from the icon selection dropdown.
+The program includes a limited set of icons; additional user‑defined icons can be added by selecting "..." item from the icon selection dropdown.
 
 A command code may consist of a single or multiple G‑code lines, or script.
 

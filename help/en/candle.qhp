@@ -18,6 +18,8 @@
                <section title="Visualizer" ref="mainwindow/windows/visualizer.html"/>
                <section title="Console" ref="mainwindow/windows/console.html"/>
                <section title="Camera" ref="mainwindow/windows/camera.html"/>
+               <section title="Log" ref="mainwindow/windows/log.html"/>
+               <section title="Script" ref="mainwindow/windows/script.html"/>
             </section>
             <section title="Panels" ref="mainwindow/panels/index.html">
                <section title="State" ref="mainwindow/panels/state.html"/>

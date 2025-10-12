@@ -30,9 +30,10 @@ In the main area the origin is shown as a red rectangle in the X–Y plane, with
 
 **Navigation in the main area**
 
-- Rotate the 3D projection by holding the left‑mouse button (LMB) on the main area and moving the cursor, or click one of the view buttons in the upper‑right corner ("Top", "Front", "Left", "Isometric").  
+- Rotate the 3D projection by holding the left‑mouse button (LMB) on the main area and moving the cursor, or click one of the view buttons in the upper‑right corner (**Top**, **Front**, **Left**, **Isometric**).  
 - Move the projection within the area by pressing LMB while holding the `<Shift>` key and dragging.  
 - Scale the projection using the mouse wheel or by clicking the **Fit** button in the upper‑right corner.
+- Switch perspective/orthogonal view by **Perspective view** button.
 
 In the upper‑left corner the current CNC controller state is displayed: the interpreter status string, the current feed and spindle speed values, and the states of CNC components (spindle, cooling system).
 

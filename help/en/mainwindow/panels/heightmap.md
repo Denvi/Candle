@@ -10,6 +10,7 @@ The panel provides controls to:
 - Create, load and enable the height‑map mode.
 - Define a rectangular map area.
 - Set the number of probe points along **X** and **Y** axes.
+- Set the heightmap origin.
 - Specify the working height above the surface and probing depth.
 - Set feed rate.
 - Choose grid line count for CP partitioning on **X** and **Y**.
