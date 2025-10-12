@@ -13,6 +13,7 @@
 #include <QHelpSearchQueryWidget>
 #include <QHelpSearchResultWidget>
 #include <QHelpFilterEngine>
+#include <QShortcut>
 #include "loggingcategories.h"
 
 frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui(new Ui::frmHelp)
@@ -26,6 +27,9 @@ frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui
     m_helpEngine = new QHelpEngine(helpFile, this);
 
     ui->txtBrowser->setHelpEngine(m_helpEngine);
+
+    m_defaultPalette = ui->txtBrowser->palette();
+    ui->wgtSearch->setVisible(false);
 
     auto contents = m_helpEngine->contentWidget();
     contents->setStyleSheet("QTreeView::item { height: 2em; }");
@@ -50,27 +54,69 @@ frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui
         ui->txtBrowser->setSource(QUrl("qthelp://candle.en/html/purpose/index.html"));
     }
 
-    connect(contents, &QTreeView::clicked, [engine = m_helpEngine, browser = ui->txtBrowser](const QModelIndex &idx) {
-        auto item = engine->contentModel()->contentItemAt(idx);
-        browser->setSource(item->url());
+    auto searchShortcut = new QShortcut(QKeySequence("CTRL+F"), this);
+
+    connect(searchShortcut, &QShortcut::activated, [this] { showSearchWidget(!ui->wgtSearch->isVisible()); });
+
+    connect(contents, &QTreeView::clicked, [this](const QModelIndex &idx) {
+        auto item = m_helpEngine->contentModel()->contentItemAt(idx);
+        ui->txtBrowser->setSource(item->url());
     });
 
     connect(contents, &QHelpContentWidget::linkActivated, ui->txtBrowser, qOverload<const QUrl &>(&QTextBrowser::setSource));
 
-    connect(m_helpEngine->searchEngine()->queryWidget(), &QHelpSearchQueryWidget::search, [engine = m_helpEngine] {
-        engine->searchEngine()->search(engine->searchEngine()->queryWidget()->searchInput());
+    connect(m_helpEngine->searchEngine()->queryWidget(), &QHelpSearchQueryWidget::search, [this] {
+        m_helpEngine->searchEngine()->search(m_helpEngine->searchEngine()->queryWidget()->searchInput());
     });
 
     connect(m_helpEngine->searchEngine()->resultWidget(), &QHelpSearchResultWidget::requestShowLink,
-        [browser = ui->txtBrowser] (const QUrl &url) {
-            browser->setSource(url);
-    });
+        [this] (const QUrl &url) { ui->txtBrowser->setSource(url); });
 
     if (!m_helpEngine->setupData())
     {
         qWarning() << "Help engine setup failed:" << m_helpEngine->error();
         return;
     }
+}
+
+void frmHelp::on_cmdNext_clicked()
+{
+    auto r = ui->txtBrowser->find(ui->txtSearch->text());
+
+    if (!r) {
+        ui->txtBrowser->moveCursor(QTextCursor::Start);
+        ui->txtBrowser->find(ui->txtSearch->text());
+    }
+}
+
+void frmHelp::on_cmdPrevious_clicked()
+{
+    auto r = ui->txtBrowser->find(ui->txtSearch->text(), QTextDocument::FindBackward);
+
+    if (!r) {
+        ui->txtBrowser->moveCursor(QTextCursor::End);
+        auto r = ui->txtBrowser->find(ui->txtSearch->text(), QTextDocument::FindBackward);
+    }
+}
+
+void frmHelp::on_cmdClose_clicked()
+{
+   showSearchWidget(false);
+}
+
+void frmHelp::showSearchWidget(bool visible)
+{
+    if (visible) {
+        auto p = ui->txtBrowser->palette();
+        p.setColor(QPalette::Inactive, QPalette::Highlight, p.color(QPalette::Active, QPalette::Highlight));
+        p.setColor(QPalette::Inactive, QPalette::HighlightedText, p.color(QPalette::Active, QPalette::HighlightedText));
+        ui->txtBrowser->setPalette(p);
+        ui->txtSearch->setFocus();
+    } else {
+        ui->txtBrowser->setPalette(m_defaultPalette);
+    }
+
+    ui->wgtSearch->setVisible(visible);
 }
 
 QString frmHelp::prepareHelpFiles()

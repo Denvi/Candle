@@ -88,6 +88,22 @@
         <source>Search</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Next</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Search:</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmMain</name>
