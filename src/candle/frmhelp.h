@@ -20,6 +20,9 @@ private slots:
     void on_cmdPrevious_clicked();
     void on_cmdClose_clicked();
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     Ui::frmHelp *ui;
 

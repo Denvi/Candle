@@ -14,6 +14,7 @@
 #include <QHelpSearchResultWidget>
 #include <QHelpFilterEngine>
 #include <QShortcut>
+#include <QKeyEvent>
 #include "loggingcategories.h"
 
 frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui(new Ui::frmHelp)
@@ -77,6 +78,8 @@ frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui
         qWarning() << "Help engine setup failed:" << m_helpEngine->error();
         return;
     }
+
+    installEventFilter(this);
 }
 
 void frmHelp::on_cmdNext_clicked()
@@ -163,4 +166,23 @@ void frmHelp::copyFile(const QString &from, const QString &to)
         QFile::remove(to);
 
     QFile::copy(from, to);
+}
+
+bool frmHelp::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        auto ke = static_cast<QKeyEvent*>(event);
+
+        if (ke->key() == Qt::Key_Escape)
+        {
+            if (ui->wgtSearch->isVisible())
+            {
+                showSearchWidget(false);
+                return true;
+            }
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
