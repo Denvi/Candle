@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGraphicsItem Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGraphicsItem Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGraphicsItem(QGraphicsItem parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGraphicsItem prototype object</li>
+<li><b>ItemPositionChange</b></li>
+<li><b>ItemMatrixChange</b></li>
+<li><b>ItemVisibleChange</b></li>
+<li><b>ItemEnabledChange</b></li>
+<li><b>ItemSelectedChange</b></li>
+<li><b>ItemParentChange</b></li>
+<li><b>ItemChildAddedChange</b></li>
+<li><b>ItemChildRemovedChange</b></li>
+<li><b>ItemTransformChange</b></li>
+<li><b>ItemPositionHasChanged</b></li>
+<li><b>ItemTransformHasChanged</b></li>
+<li><b>ItemSceneChange</b></li>
+<li><b>ItemVisibleHasChanged</b></li>
+<li><b>ItemEnabledHasChanged</b></li>
+<li><b>ItemSelectedHasChanged</b></li>
+<li><b>ItemParentHasChanged</b></li>
+<li><b>ItemSceneHasChanged</b></li>
+<li><b>ItemCursorChange</b></li>
+<li><b>ItemCursorHasChanged</b></li>
+<li><b>ItemToolTipChange</b></li>
+<li><b>ItemToolTipHasChanged</b></li>
+<li><b>ItemFlagsChange</b></li>
+<li><b>ItemFlagsHaveChanged</b></li>
+<li><b>ItemZValueChange</b></li>
+<li><b>ItemZValueHasChanged</b></li>
+<li><b>ItemOpacityChange</b></li>
+<li><b>ItemOpacityHasChanged</b></li>
+<li><b>ItemScenePositionHasChanged</b></li>
+<li><b>ItemRotationChange</b></li>
+<li><b>ItemRotationHasChanged</b></li>
+<li><b>ItemScaleChange</b></li>
+<li><b>ItemScaleHasChanged</b></li>
+<li><b>ItemTransformOriginPointChange</b></li>
+<li><b>ItemTransformOriginPointHasChanged</b></li>
+<li><b>GraphicsItemChange( value )</b></li>
+<li><b>ItemIsMovable = 0x1</b></li>
+<li><b>ItemIsSelectable = 0x2</b></li>
+<li><b>ItemIsFocusable = 0x4</b></li>
+<li><b>ItemClipsToShape = 0x8</b></li>
+<li><b>ItemClipsChildrenToShape = 0x10</b></li>
+<li><b>ItemIgnoresTransformations = 0x20</b></li>
+<li><b>ItemIgnoresParentOpacity = 0x40</b></li>
+<li><b>ItemDoesntPropagateOpacityToChildren = 0x80</b></li>
+<li><b>ItemStacksBehindParent = 0x100</b></li>
+<li><b>ItemUsesExtendedStyleOption = 0x200</b></li>
+<li><b>ItemHasNoContents = 0x400</b></li>
+<li><b>ItemSendsGeometryChanges = 0x800</b></li>
+<li><b>ItemAcceptsInputMethod = 0x1000</b></li>
+<li><b>ItemNegativeZStacksBehindParent = 0x2000</b></li>
+<li><b>ItemIsPanel = 0x4000</b></li>
+<li><b>ItemIsFocusScope = 0x8000</b></li>
+<li><b>ItemSendsScenePositionChanges = 0x10000</b></li>
+<li><b>ItemStopsClickFocusPropagation = 0x20000</b></li>
+<li><b>ItemStopsFocusHandling = 0x40000</b></li>
+<li><b>ItemContainsChildrenInShape = 0x80000</b></li>
+<li><b>GraphicsItemFlag( value )</b></li>
+<li><b>GraphicsItemFlags( value1, value2, ... )</b></li>
+<li><b>NonModal</b></li>
+<li><b>PanelModal</b></li>
+<li><b>SceneModal</b></li>
+<li><b>PanelModality( value )</b></li>
+<li><b>NoCache</b></li>
+<li><b>ItemCoordinateCache</b></li>
+<li><b>DeviceCoordinateCache</b></li>
+<li><b>CacheMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool acceptDrops()</b></li>
+<li><div class="fn"/><b>bool acceptHoverEvents()</b></li>
+<li><div class="fn"/><b>bool acceptTouchEvents()</b></li>
+<li><div class="fn"/><b>MouseButtons acceptedMouseButtons()</b></li>
+<li><div class="fn"/><b>void advance(int phase)</b></li>
+<li><div class="fn"/><b>QRectF boundingRect()</b></li>
+<li><div class="fn"/><b>QRegion boundingRegion(QTransform itemToDeviceTransform)</b></li>
+<li><div class="fn"/><b>qreal boundingRegionGranularity()</b></li>
+<li><div class="fn"/><b>CacheMode cacheMode()</b></li>
+<li><div class="fn"/><b>List childItems()</b></li>
+<li><div class="fn"/><b>QRectF childrenBoundingRect()</b></li>
+<li><div class="fn"/><b>void clearFocus()</b></li>
+<li><div class="fn"/><b>QPainterPath clipPath()</b></li>
+<li><div class="fn"/><b>bool collidesWithItem(QGraphicsItem other, ItemSelectionMode mode)</b></li>
+<li><div class="fn"/><b>bool collidesWithPath(QPainterPath path, ItemSelectionMode mode)</b></li>
+<li><div class="fn"/><b>List collidingItems(ItemSelectionMode mode)</b></li>
+<li><div class="fn"/><b>QGraphicsItem commonAncestorItem(QGraphicsItem other)</b></li>
+<li><div class="fn"/><b>bool contains(QPointF point)</b></li>
+<li><div class="fn"/><b>QCursor cursor()</b></li>
+<li><div class="fn"/><b>Object data(int key)</b></li>
+<li><div class="fn"/><b>QTransform deviceTransform(QTransform viewportTransform)</b></li>
+<li><div class="fn"/><b>qreal effectiveOpacity()</b></li>
+<li><div class="fn"/><b>void ensureVisible(QRectF rect, int xmargin, int ymargin)</b></li>
+<li><div class="fn"/><b>bool filtersChildEvents()</b></li>
+<li><div class="fn"/><b>GraphicsItemFlags flags()</b></li>
+<li><div class="fn"/><b>QGraphicsItem focusItem()</b></li>
+<li><div class="fn"/><b>QGraphicsItem focusProxy()</b></li>
+<li><div class="fn"/><b>QGraphicsItem focusScopeItem()</b></li>
+<li><div class="fn"/><b>void grabKeyboard()</b></li>
+<li><div class="fn"/><b>void grabMouse()</b></li>
+<li><div class="fn"/><b>QGraphicsEffect graphicsEffect()</b></li>
+<li><div class="fn"/><b>QGraphicsItemGroup group()</b></li>
+<li><div class="fn"/><b>bool handlesChildEvents()</b></li>
+<li><div class="fn"/><b>bool hasCursor()</b></li>
+<li><div class="fn"/><b>bool hasFocus()</b></li>
+<li><div class="fn"/><b>void hide()</b></li>
+<li><div class="fn"/><b>InputMethodHints inputMethodHints()</b></li>
+<li><div class="fn"/><b>void installSceneEventFilter(QGraphicsItem filterItem)</b></li>
+<li><div class="fn"/><b>bool isActive()</b></li>
+<li><div class="fn"/><b>bool isAncestorOf(QGraphicsItem child)</b></li>
+<li><div class="fn"/><b>bool isBlockedByModalPanel(QGraphicsItem blockingPanel)</b></li>
+<li><div class="fn"/><b>bool isClipped()</b></li>
+<li><div class="fn"/><b>bool isEnabled()</b></li>
+<li><div class="fn"/><b>bool isObscured(QRectF rect)</b></li>
+<li><div class="fn"/><b>bool isObscuredBy(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>bool isPanel()</b></li>
+<li><div class="fn"/><b>bool isSelected()</b></li>
+<li><div class="fn"/><b>bool isUnderMouse()</b></li>
+<li><div class="fn"/><b>bool isVisible()</b></li>
+<li><div class="fn"/><b>bool isVisibleTo(QGraphicsItem parent)</b></li>
+<li><div class="fn"/><b>bool isWidget()</b></li>
+<li><div class="fn"/><b>bool isWindow()</b></li>
+<li><div class="fn"/><b>QTransform itemTransform(QGraphicsItem other, bool ok)</b></li>
+<li><div class="fn"/><b>QPainterPath mapFromItem(QGraphicsItem item, QPainterPath path)</b></li>
+<li><div class="fn"/><b>QPainterPath mapFromParent(QPainterPath path)</b></li>
+<li><div class="fn"/><b>QPainterPath mapFromScene(QPainterPath path)</b></li>
+<li><div class="fn"/><b>QRectF mapRectFromItem(QGraphicsItem item, QRectF rect)</b></li>
+<li><div class="fn"/><b>QRectF mapRectFromParent(QRectF rect)</b></li>
+<li><div class="fn"/><b>QRectF mapRectFromScene(QRectF rect)</b></li>
+<li><div class="fn"/><b>QRectF mapRectToItem(QGraphicsItem item, QRectF rect)</b></li>
+<li><div class="fn"/><b>QRectF mapRectToParent(QRectF rect)</b></li>
+<li><div class="fn"/><b>QRectF mapRectToScene(QRectF rect)</b></li>
+<li><div class="fn"/><b>QPainterPath mapToItem(QGraphicsItem item, QPainterPath path)</b></li>
+<li><div class="fn"/><b>QPainterPath mapToParent(QPainterPath path)</b></li>
+<li><div class="fn"/><b>QPainterPath mapToScene(QPainterPath path)</b></li>
+<li><div class="fn"/><b>void moveBy(qreal dx, qreal dy)</b></li>
+<li><div class="fn"/><b>qreal opacity()</b></li>
+<li><div class="fn"/><b>QPainterPath opaqueArea()</b></li>
+<li><div class="fn"/><b>void paint(QPainter painter, QStyleOptionGraphicsItem option, QWidget widget)</b></li>
+<li><div class="fn"/><b>QGraphicsItem panel()</b></li>
+<li><div class="fn"/><b>PanelModality panelModality()</b></li>
+<li><div class="fn"/><b>QGraphicsItem parentItem()</b></li>
+<li><div class="fn"/><b>QGraphicsObject parentObject()</b></li>
+<li><div class="fn"/><b>QGraphicsWidget parentWidget()</b></li>
+<li><div class="fn"/><b>QPointF pos()</b></li>
+<li><div class="fn"/><b>void removeSceneEventFilter(QGraphicsItem filterItem)</b></li>
+<li><div class="fn"/><b>void resetTransform()</b></li>
+<li><div class="fn"/><b>qreal rotation()</b></li>
+<li><div class="fn"/><b>qreal scale()</b></li>
+<li><div class="fn"/><b>QGraphicsScene scene()</b></li>
+<li><div class="fn"/><b>QRectF sceneBoundingRect()</b></li>
+<li><div class="fn"/><b>QPointF scenePos()</b></li>
+<li><div class="fn"/><b>QTransform sceneTransform()</b></li>
+<li><div class="fn"/><b>void scroll(qreal dx, qreal dy, QRectF rect)</b></li>
+<li><div class="fn"/><b>void setAcceptDrops(bool on)</b></li>
+<li><div class="fn"/><b>void setAcceptHoverEvents(bool enabled)</b></li>
+<li><div class="fn"/><b>void setAcceptTouchEvents(bool enabled)</b></li>
+<li><div class="fn"/><b>void setAcceptedMouseButtons(MouseButtons buttons)</b></li>
+<li><div class="fn"/><b>void setActive(bool active)</b></li>
+<li><div class="fn"/><b>void setBoundingRegionGranularity(qreal granularity)</b></li>
+<li><div class="fn"/><b>void setCacheMode(CacheMode mode, QSize cacheSize)</b></li>
+<li><div class="fn"/><b>void setCursor(QCursor cursor)</b></li>
+<li><div class="fn"/><b>void setData(int key, Object value)</b></li>
+<li><div class="fn"/><b>void setEnabled(bool enabled)</b></li>
+<li><div class="fn"/><b>void setFiltersChildEvents(bool enabled)</b></li>
+<li><div class="fn"/><b>void setFlag(GraphicsItemFlag flag, bool enabled)</b></li>
+<li><div class="fn"/><b>void setFlags(GraphicsItemFlags flags)</b></li>
+<li><div class="fn"/><b>void setFocus(FocusReason focusReason)</b></li>
+<li><div class="fn"/><b>void setFocusProxy(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>void setGraphicsEffect(QGraphicsEffect effect)</b></li>
+<li><div class="fn"/><b>void setGroup(QGraphicsItemGroup group)</b></li>
+<li><div class="fn"/><b>void setHandlesChildEvents(bool enabled)</b></li>
+<li><div class="fn"/><b>void setInputMethodHints(InputMethodHints hints)</b></li>
+<li><div class="fn"/><b>void setOpacity(qreal opacity)</b></li>
+<li><div class="fn"/><b>void setPanelModality(PanelModality panelModality)</b></li>
+<li><div class="fn"/><b>void setParentItem(QGraphicsItem parent)</b></li>
+<li><div class="fn"/><b>void setPos(QPointF pos)</b></li>
+<li><div class="fn"/><b>void setRotation(qreal angle)</b></li>
+<li><div class="fn"/><b>void setScale(qreal scale)</b></li>
+<li><div class="fn"/><b>void setSelected(bool selected)</b></li>
+<li><div class="fn"/><b>void setToolTip(String toolTip)</b></li>
+<li><div class="fn"/><b>void setTransform(QTransform matrix, bool combine)</b></li>
+<li><div class="fn"/><b>void setTransformOriginPoint(QPointF origin)</b></li>
+<li><div class="fn"/><b>void setTransformations(List transformations)</b></li>
+<li><div class="fn"/><b>void setVisible(bool visible)</b></li>
+<li><div class="fn"/><b>void setX(qreal x)</b></li>
+<li><div class="fn"/><b>void setY(qreal y)</b></li>
+<li><div class="fn"/><b>void setZValue(qreal z)</b></li>
+<li><div class="fn"/><b>QPainterPath shape()</b></li>
+<li><div class="fn"/><b>void show()</b></li>
+<li><div class="fn"/><b>void stackBefore(QGraphicsItem sibling)</b></li>
+<li><div class="fn"/><b>QGraphicsObject toGraphicsObject()</b></li>
+<li><div class="fn"/><b>String toolTip()</b></li>
+<li><div class="fn"/><b>QGraphicsItem topLevelItem()</b></li>
+<li><div class="fn"/><b>QGraphicsWidget topLevelWidget()</b></li>
+<li><div class="fn"/><b>QTransform transform()</b></li>
+<li><div class="fn"/><b>QPointF transformOriginPoint()</b></li>
+<li><div class="fn"/><b>List transformations()</b></li>
+<li><div class="fn"/><b>int type()</b></li>
+<li><div class="fn"/><b>void ungrabKeyboard()</b></li>
+<li><div class="fn"/><b>void ungrabMouse()</b></li>
+<li><div class="fn"/><b>void unsetCursor()</b></li>
+<li><div class="fn"/><b>void update(QRectF rect)</b></li>
+<li><div class="fn"/><b>QGraphicsWidget window()</b></li>
+<li><div class="fn"/><b>qreal x()</b></li>
+<li><div class="fn"/><b>qreal y()</b></li>
+<li><div class="fn"/><b>qreal zValue()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGraphicsItem objects have no special properties beyond those inherited from the QGraphicsItem prototype object.</p>
+</body>
+</html>

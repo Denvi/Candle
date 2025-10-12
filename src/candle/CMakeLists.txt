@@ -11,12 +11,10 @@ execute_process(
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets Help REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras)
-else()
-    find_package(Qt5 COMPONENTS WebEngineWidgets)
 endif()
 
 file(GLOB_RECURSE SRC_FILES *.cpp)
@@ -50,14 +48,13 @@ target_compile_definitions(candle PRIVATE
         QT_NO_DEBUG
 )
 
-target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets)
+target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help)
 
 if(WIN32)
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
     target_compile_definitions(candle PRIVATE WINDOWS)
 elseif(APPLE)
 elseif(UNIX)
-    target_link_libraries(candle PRIVATE Qt5::WebEngineWidgets)
     set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
 endif()
 
@@ -94,6 +91,13 @@ foreach(LANG ${QT_LANGUAGES})
             DESTINATION "translations"
         )
     endif()    
+    set(QT_TRANSLATION_FILE_HELP "${QT_TRANSLATIONS_DIR}/qt_help_${LANG}.qm")
+    if(EXISTS "${QT_TRANSLATION_FILE_HELP}")
+        install(
+            FILES "${QT_TRANSLATION_FILE_HELP}"
+            DESTINATION "translations"
+        )
+    endif()    
 endforeach()
 
 # Candle plugins
@@ -103,7 +107,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATC
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
 
 # Documentation
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc DESTINATION . FILES_MATCHING PATTERN *.png PATTERN *.html PATTERN *.css PATTERN *.ico PATTERN *.js PATTERN *.gcode)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION . FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
 
 # Shared libraries
 if(WIN32)

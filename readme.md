@@ -76,7 +76,7 @@ vcpkg install
 ```
 mkdir build; cd build
 cmake .. -DCMAKE_INSTALL_PREFIX="$(pwd)/Candle"
-cmake --build . --config=Release --parallel
+cmake --build . --config=Release
 cmake --install .
 ```
 
@@ -89,7 +89,7 @@ Build instructions (ubuntu)
 
 ```
 sudo apt update
-sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev qtwebengine5-dev
+sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev
 ```
 
 * Get Candle sources
@@ -104,7 +104,7 @@ cd Candle
 ```
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX="~/programs/Candle"
-cmake --build . --config=Release --parallel
+cmake --build . --config=Release
 cmake --install .
 ```
 

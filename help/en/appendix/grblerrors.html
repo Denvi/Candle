@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GRBL errors</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="grbl-errors">GRBL errors</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Error Code</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Expected G-code word</td>
+<td>Grbl expected a valid command (like G1, M3, etc.) but didn't find one. This is often due to a blank or malformed line</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bad number format</td>
+<td>A number in the command was invalid or improperly formatted</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Invalid statement</td>
+<td>The line contains an unknown or unsupported command</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Negative value</td>
+<td>A negative value was used where it isn't allowed, such as a feed rate or spindle speed</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Homing not enabled</td>
+<td>A homing cycle ($H) was requested but homing is not enabled in the settings</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Minimum step pulse time violated</td>
+<td>A step pulse was issued faster than the configured minimum time ($0)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>EEPROM read fail</td>
+<td>Grbl could not read its settings from EEPROM. May indicate hardware issues</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Not idle</td>
+<td>A command was issued that requires the machine to be idle, but motion or another operation is in progress</td>
+</tr>
+<tr>
+<td>9</td>
+<td>G-code lockout</td>
+<td>A G-code command was blocked due to machine state. Common after a reset or alarm</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Homing not set</td>
+<td>The machine requires homing to establish its position before executing the command</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Line overflow</td>
+<td>A G-code line was too long for Grbl’s internal buffer. Shorten your lines</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Step rate too high</td>
+<td>Grbl could not generate step pulses fast enough for the commanded movement</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Safety door open</td>
+<td>A command was blocked because the safety door is open</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Build info overflow</td>
+<td>The build info string exceeded the allowed character limit</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Setting disabled</td>
+<td>A command depends on a setting (like homing or soft limits) that is disabled</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Negative value in settings</td>
+<td>A setting value was set to a negative number, which is invalid</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Invalid jog command</td>
+<td>A jog command is improperly formatted or unsupported</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Unsupported command</td>
+<td>The command is not supported by Grbl’s G-code parser</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Modal group violation</td>
+<td>Two conflicting commands from the same modal group (e.g. two motion modes) were used together</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Undefined feed rate</td>
+<td>A motion command was issued without a feed rate being set</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Axis command conflict</td>
+<td>Two axis words used inappropriately together, such as in arcs or jogs</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Invalid target</td>
+<td>The target position is invalid — for example, in an arc that can’t be generated</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Invalid arc radius</td>
+<td>Arc command contains a radius value that doesn't make geometric sense</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Invalid G-code word</td>
+<td>A word was used in the wrong context or is not allowed for the active command</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Invalid line number</td>
+<td>A line number was used incorrectly or exceeds limits</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Value word repeated</td>
+<td>A G-code word was used more than once on the same line</td>
+</tr>
+<tr>
+<td>29</td>
+<td>G59.x WCS error</td>
+<td>A G59.1, G59.2, or G59.3 work coordinate system was used but isn’t supported</td>
+</tr>
+<tr>
+<td>30</td>
+<td>G53 with offset</td>
+<td>G53 motion cannot be used with G54–G59 offsets</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Invalid real value</td>
+<td>A floating-point value is invalid (e.g. NaN, too many decimal places, etc.)</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Arc axis missing</td>
+<td>An arc command is missing a required axis word</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Arc format error</td>
+<td>Arc command has incorrect or conflicting data (e.g., missing radius and offset)</td>
+</tr>
+<tr>
+<td>34</td>
+<td>No axis word in motion</td>
+<td>A motion command was issued without specifying any axis to move</td>
+</tr>
+<tr>
+<td>35</td>
+<td>G2/G3 not allowed</td>
+<td>Arc motions (G2/G3) are not allowed in certain states, like jogging</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Unused words</td>
+<td>Extra G-code words were found that don’t apply to the current command</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

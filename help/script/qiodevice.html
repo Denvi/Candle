@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QIODevice Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QIODevice Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QIODevice()</b></li>
+<li><div class="fn"/><b>void QIODevice(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QIODevice prototype object</li>
+<li><b>NotOpen = 0x0000</b></li>
+<li><b>ReadOnly = 0x0001</b></li>
+<li><b>WriteOnly = 0x0002</b></li>
+<li><b>ReadWrite = ReadOnly|WriteOnly</b></li>
+<li><b>Append = 0x0004</b></li>
+<li><b>Truncate = 0x0008</b></li>
+<li><b>Text = 0x0010</b></li>
+<li><b>Unbuffered = 0x0020</b></li>
+<li><b>OpenModeFlag( value )</b></li>
+<li><b>OpenMode( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QIODevice prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>bool atEnd()</b></li>
+<li><div class="fn"/><b>qint64 bytesAvailable()</b></li>
+<li><div class="fn"/><b>qint64 bytesToWrite()</b></li>
+<li><div class="fn"/><b>bool canReadLine()</b></li>
+<li><div class="fn"/><b>void close()</b></li>
+<li><div class="fn"/><b>String errorString()</b></li>
+<li><div class="fn"/><b>bool getChar(char c)</b></li>
+<li><div class="fn"/><b>bool isOpen()</b></li>
+<li><div class="fn"/><b>bool isReadable()</b></li>
+<li><div class="fn"/><b>bool isSequential()</b></li>
+<li><div class="fn"/><b>bool isTextModeEnabled()</b></li>
+<li><div class="fn"/><b>bool isWritable()</b></li>
+<li><div class="fn"/><b>bool open(OpenMode mode)</b></li>
+<li><div class="fn"/><b>OpenMode openMode()</b></li>
+<li><div class="fn"/><b>QByteArray peek(qint64 maxlen)</b></li>
+<li><div class="fn"/><b>qint64 pos()</b></li>
+<li><div class="fn"/><b>bool putChar(char c)</b></li>
+<li><div class="fn"/><b>QByteArray read(qint64 maxlen)</b></li>
+<li><div class="fn"/><b>QByteArray readAll()</b></li>
+<li><div class="fn"/><b>QByteArray readLine(qint64 maxlen)</b></li>
+<li><div class="fn"/><b>bool reset()</b></li>
+<li><div class="fn"/><b>bool seek(qint64 pos)</b></li>
+<li><div class="fn"/><b>void setTextModeEnabled(bool enabled)</b></li>
+<li><div class="fn"/><b>qint64 size()</b></li>
+<li><div class="fn"/><b>void ungetChar(char c)</b></li>
+<li><div class="fn"/><b>bool waitForBytesWritten(int msecs)</b></li>
+<li><div class="fn"/><b>bool waitForReadyRead(int msecs)</b></li>
+<li><div class="fn"/><b>qint64 write(QByteArray data)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QIODevice objects have no special properties beyond those inherited from the QIODevice prototype object.</p>
+</body>
+</html>

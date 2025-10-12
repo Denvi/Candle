@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTextDocument Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTextDocument Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTextDocument(QObject parent)</b></li>
+<li><div class="fn"/><b>void QTextDocument(String text, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTextDocument prototype object</li>
+<li><b>DocumentTitle</b></li>
+<li><b>DocumentUrl</b></li>
+<li><b>MetaInformation( value )</b></li>
+<li><b>FindBackward = 0x00001</b></li>
+<li><b>FindCaseSensitively = 0x00002</b></li>
+<li><b>FindWholeWords = 0x00004</b></li>
+<li><b>FindFlag( value )</b></li>
+<li><b>FindFlags( value1, value2, ... )</b></li>
+<li><b>HtmlResource = 1</b></li>
+<li><b>ImageResource = 2</b></li>
+<li><b>StyleSheetResource = 3</b></li>
+<li><b>UserResource = 100</b></li>
+<li><b>ResourceType( value )</b></li>
+<li><b>UndoStack = 0x01</b></li>
+<li><b>RedoStack = 0x02</b></li>
+<li><b>UndoAndRedoStacks = UndoStack|RedoStack</b></li>
+<li><b>Stacks( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QTextDocument prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void addResource(int type, QUrl name, Object resource)</b></li>
+<li><div class="fn"/><b>void adjustSize()</b></li>
+<li><div class="fn"/><b>List allFormats()</b></li>
+<li><div class="fn"/><b>int availableRedoSteps()</b></li>
+<li><div class="fn"/><b>int availableUndoSteps()</b></li>
+<li><div class="fn"/><b>QUrl baseUrl()</b></li>
+<li><div class="fn"/><b>QTextBlock begin()</b></li>
+<li><div class="fn"/><b>char characterAt(int pos)</b></li>
+<li><div class="fn"/><b>int characterCount()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>void clearUndoRedoStacks(Stacks historyToClear)</b></li>
+<li><div class="fn"/><b>QTextDocument clone(QObject parent)</b></li>
+<li><div class="fn"/><b>CursorMoveStyle defaultCursorMoveStyle()</b></li>
+<li><div class="fn"/><b>QTextOption defaultTextOption()</b></li>
+<li><div class="fn"/><b>QAbstractTextDocumentLayout documentLayout()</b></li>
+<li><div class="fn"/><b>void drawContents(QPainter painter, QRectF rect)</b></li>
+<li><div class="fn"/><b>QTextBlock end()</b></li>
+<li><div class="fn"/><b>QTextCursor find(QRegExp expr, QTextCursor cursor, FindFlags options)</b></li>
+<li><div class="fn"/><b>QTextBlock findBlock(int pos)</b></li>
+<li><div class="fn"/><b>QTextBlock findBlockByLineNumber(int blockNumber)</b></li>
+<li><div class="fn"/><b>QTextBlock findBlockByNumber(int blockNumber)</b></li>
+<li><div class="fn"/><b>QTextBlock firstBlock()</b></li>
+<li><div class="fn"/><b>QTextFrame frameAt(int pos)</b></li>
+<li><div class="fn"/><b>qreal idealWidth()</b></li>
+<li><div class="fn"/><b>bool isEmpty()</b></li>
+<li><div class="fn"/><b>bool isRedoAvailable()</b></li>
+<li><div class="fn"/><b>bool isUndoAvailable()</b></li>
+<li><div class="fn"/><b>QTextBlock lastBlock()</b></li>
+<li><div class="fn"/><b>int lineCount()</b></li>
+<li><div class="fn"/><b>void markContentsDirty(int from, int length)</b></li>
+<li><div class="fn"/><b>String metaInformation(MetaInformation info)</b></li>
+<li><div class="fn"/><b>QTextObject object(int objectIndex)</b></li>
+<li><div class="fn"/><b>QTextObject objectForFormat(QTextFormat arg__1)</b></li>
+<li><div class="fn"/><b>int pageCount()</b></li>
+<li><div class="fn"/><b>void redo(QTextCursor cursor)</b></li>
+<li><div class="fn"/><b>Object resource(int type, QUrl name)</b></li>
+<li><div class="fn"/><b>int revision()</b></li>
+<li><div class="fn"/><b>QTextFrame rootFrame()</b></li>
+<li><div class="fn"/><b>void setBaseUrl(QUrl url)</b></li>
+<li><div class="fn"/><b>void setDefaultCursorMoveStyle(CursorMoveStyle style)</b></li>
+<li><div class="fn"/><b>void setDefaultTextOption(QTextOption option)</b></li>
+<li><div class="fn"/><b>void setDocumentLayout(QAbstractTextDocumentLayout layout)</b></li>
+<li><div class="fn"/><b>void setHtml(String html)</b></li>
+<li><div class="fn"/><b>void setMetaInformation(MetaInformation info, String arg__2)</b></li>
+<li><div class="fn"/><b>void setPlainText(String text)</b></li>
+<li><div class="fn"/><b>String toHtml(QByteArray encoding)</b></li>
+<li><div class="fn"/><b>String toPlainText()</b></li>
+<li><div class="fn"/><b>void undo(QTextCursor cursor)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTextDocument objects inherit properties from the QTextDocument prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>undoRedoEnabled</b></li>
+<li><div class="fn"/><b>modified</b></li>
+<li><div class="fn"/><b>pageSize</b></li>
+<li><div class="fn"/><b>defaultFont</b></li>
+<li><div class="fn"/><b>useDesignMetrics</b></li>
+<li><div class="fn"/><b>size</b></li>
+<li><div class="fn"/><b>textWidth</b></li>
+<li><div class="fn"/><b>blockCount</b></li>
+<li><div class="fn"/><b>indentWidth</b></li>
+<li><div class="fn"/><b>defaultStyleSheet</b></li>
+<li><div class="fn"/><b>maximumBlockCount</b></li>
+<li><div class="fn"/><b>documentMargin</b></li>
+</ul>
+</body>
+</html>

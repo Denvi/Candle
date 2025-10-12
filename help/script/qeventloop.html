@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QEventLoop Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QEventLoop Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QEventLoop(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QEventLoop prototype object</li>
+<li><b>AllEvents = 0x00</b></li>
+<li><b>ExcludeUserInputEvents = 0x01</b></li>
+<li><b>ExcludeSocketNotifiers = 0x02</b></li>
+<li><b>WaitForMoreEvents = 0x04</b></li>
+<li><b>X11ExcludeTimers = 0x08</b></li>
+<li><b>EventLoopExec = 0x20</b></li>
+<li><b>DialogExec = 0x40</b></li>
+<li><b>ProcessEventsFlag( value )</b></li>
+<li><b>ProcessEventsFlags( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QEventLoop prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>int exec(ProcessEventsFlags flags)</b></li>
+<li><div class="fn"/><b>void exit(int returnCode)</b></li>
+<li><div class="fn"/><b>bool isRunning()</b></li>
+<li><div class="fn"/><b>bool processEvents(ProcessEventsFlags flags)</b></li>
+<li><div class="fn"/><b>void wakeUp()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QEventLoop objects have no special properties beyond those inherited from the QEventLoop prototype object.</p>
+</body>
+</html>

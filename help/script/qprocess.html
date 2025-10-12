@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QProcess Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QProcess Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qiodevice.html">QIODevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QProcess(QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QProcess prototype object</li>
+<li><div class="fn"/><b>int execute(String command)</b></li>
+<li><div class="fn"/><b>String nullDevice()</b></li>
+<li><div class="fn"/><b>bool startDetached(String command)</b></li>
+<li><div class="fn"/><b>List systemEnvironment()</b></li>
+<li><b>FailedToStart</b></li>
+<li><b>Crashed</b></li>
+<li><b>Timedout</b></li>
+<li><b>ReadError</b></li>
+<li><b>WriteError</b></li>
+<li><b>UnknownError</b></li>
+<li><b>ProcessError( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QProcess prototype object inherits properties from the <a href="qiodevice.html">QIODevice</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>List arguments()</b></li>
+<li><div class="fn"/><b>void closeReadChannel(ProcessChannel channel)</b></li>
+<li><div class="fn"/><b>void closeWriteChannel()</b></li>
+<li><div class="fn"/><b>List environment()</b></li>
+<li><div class="fn"/><b>ProcessError error()</b></li>
+<li><div class="fn"/><b>int exitCode()</b></li>
+<li><div class="fn"/><b>ExitStatus exitStatus()</b></li>
+<li><div class="fn"/><b>ProcessChannelMode processChannelMode()</b></li>
+<li><div class="fn"/><b>QProcessEnvironment processEnvironment()</b></li>
+<li><div class="fn"/><b>qint64 processId()</b></li>
+<li><div class="fn"/><b>String program()</b></li>
+<li><div class="fn"/><b>QByteArray readAllStandardError()</b></li>
+<li><div class="fn"/><b>QByteArray readAllStandardOutput()</b></li>
+<li><div class="fn"/><b>ProcessChannel readChannel()</b></li>
+<li><div class="fn"/><b>void setArguments(List arguments)</b></li>
+<li><div class="fn"/><b>void setEnvironment(List environment)</b></li>
+<li><div class="fn"/><b>void setProcessChannelMode(ProcessChannelMode mode)</b></li>
+<li><div class="fn"/><b>void setProcessEnvironment(QProcessEnvironment environment)</b></li>
+<li><div class="fn"/><b>void setProgram(String program)</b></li>
+<li><div class="fn"/><b>void setReadChannel(ProcessChannel channel)</b></li>
+<li><div class="fn"/><b>void setStandardErrorFile(String fileName, OpenMode mode)</b></li>
+<li><div class="fn"/><b>void setStandardInputFile(String fileName)</b></li>
+<li><div class="fn"/><b>void setStandardOutputFile(String fileName, OpenMode mode)</b></li>
+<li><div class="fn"/><b>void setStandardOutputProcess(QProcess destination)</b></li>
+<li><div class="fn"/><b>void setWorkingDirectory(String dir)</b></li>
+<li><div class="fn"/><b>void start(OpenMode mode)</b></li>
+<li><div class="fn"/><b>ProcessState state()</b></li>
+<li><div class="fn"/><b>bool waitForFinished(int msecs)</b></li>
+<li><div class="fn"/><b>bool waitForStarted(int msecs)</b></li>
+<li><div class="fn"/><b>String workingDirectory()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QProcess objects have no special properties beyond those inherited from the QProcess prototype object.</p>
+</body>
+</html>

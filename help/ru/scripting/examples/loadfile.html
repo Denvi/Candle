@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Загрузка файла</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%84%D0%B0%D0%B9%D0%BB%D0%B0">Загрузка файла</h1>
+<p>Пример показывает, как можно загрузить в окно &quot;G-код программа&quot; массив строк. Может использоваться при генерации собственных программ обработки.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Загружаем в рабочую область готовую G-код-программу</span>
+app.loadFile([
+    <span class="hljs-string">"G21G90"</span>,
+    <span class="hljs-string">"G0X0Y0Z0"</span>,
+    <span class="hljs-string">"G1X10F100"</span>,
+    <span class="hljs-string">"G1Y10F200"</span>,
+    <span class="hljs-string">"G0Z1"</span>,
+    <span class="hljs-string">"G0X0Y0"</span>,
+    <span class="hljs-string">"M2"</span>
+]);
+</div></code></pre>
+
+</body>
+</html>

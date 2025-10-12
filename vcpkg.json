@@ -8,6 +8,12 @@
         "extras",
         "multimedia"
       ]
-    }
+    },
+    {
+      "name": "sqlite3",
+      "features": [
+        "fts5"
+      ]
+    }    
   ]
 }

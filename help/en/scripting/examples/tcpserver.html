@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TCP server</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="tcp-server">TCP server</h1>
+<p>This example shows how to use TCP sockets for remote control and monitoring of the CNC controller.</p>
+<p>For easy debugging the dialog is shown <strong>non-modal</strong>; the script keeps running until the manual event-loop is terminated.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/*  ========== Qt module setup ========== */</span>
+script.importExtension(<span class="hljs-string">"qt.core"</span>);     <span class="hljs-comment">// QString, QTextCodec, QEventLoop ...</span>
+script.importExtension(<span class="hljs-string">"qt.network"</span>);  <span class="hljs-comment">// QTcpServer, QTcpSocket</span>
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>);  <span class="hljs-comment">// QDialog, QPlainTextEdit ...</span>
+
+<span class="hljs-comment">/*  ---------- helpers ----------  */</span>
+<span class="hljs-keyword">const</span> tc = QTextCodec.codecForMib(<span class="hljs-number">106</span>);   <span class="hljs-comment">// UTF-8 text codec</span>
+
+<span class="hljs-comment">/* =====================================================
+   1. TCP SERVER (listens on 0.0.0.0:9877)
+   ===================================================== */</span>
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> QTcpServer();
+<span class="hljs-keyword">var</span> clients  = [];                        <span class="hljs-comment">// active connections</span>
+
+<span class="hljs-comment">/* when a new client connects ... */</span>
+server.newConnection.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> client = server.nextPendingConnection();
+    clients.push(client);
+
+    <span class="hljs-comment">/* read lines from socket */</span>
+    client.readyRead.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">while</span> (client.canReadLine()) {
+            <span class="hljs-comment">/* expect JSON line terminated by \n
+               examples:
+               {"type":"c","cmd":"G0X0"}     – normal command
+               {"type":"rtc","cmd":"\u0018"} – realtime command (Ctrl-X) */</span>
+            <span class="hljs-keyword">const</span> msg = <span class="hljs-built_in">JSON</span>.parse(tc.toUnicode(client.readLine()));
+
+            <span class="hljs-keyword">switch</span> (msg.type) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">"c"</span>:
+                app.device.sendCommand(msg.cmd);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">"rtc"</span>:
+                app.device.sendRuntimeCommand(msg.cmd);
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    });
+
+    <span class="hljs-comment">/* remove client from list when disconnected */</span>
+    client.disconnected.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        clients = clients.filter(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">c</span>) </span>{ <span class="hljs-keyword">return</span> c !== client; });
+    });
+});
+
+<span class="hljs-comment">/* forward every controller-status packet to all clients */</span>
+app.device.statusReceived.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">status</span>) </span>{
+    clients.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">client</span>) </span>{
+        client.write(tc.fromUnicode(<span class="hljs-built_in">JSON</span>.stringify({ <span class="hljs-attr">status</span>: status }) + <span class="hljs-string">"\n"</span>));
+    });
+});
+
+<span class="hljs-comment">/* start server on all interfaces, port 9877 */</span>
+server.listen(<span class="hljs-string">"0.0.0.0"</span>, <span class="hljs-number">9877</span>);
+
+<span class="hljs-comment">/* =====================================================
+   2. GUI CLIENT (simple test dialog)
+   ===================================================== */</span>
+<span class="hljs-keyword">const</span> d  = <span class="hljs-keyword">new</span> QDialog();              <span class="hljs-comment">// window</span>
+<span class="hljs-keyword">const</span> el = <span class="hljs-keyword">new</span> QEventLoop();           <span class="hljs-comment">// manual event loop</span>
+<span class="hljs-keyword">const</span> l  = <span class="hljs-keyword">new</span> QVBoxLayout(d);         <span class="hljs-comment">// layout</span>
+
+<span class="hljs-keyword">const</span> te = <span class="hljs-keyword">new</span> QPlainTextEdit(d);      <span class="hljs-comment">// JSON command editor</span>
+<span class="hljs-keyword">const</span> le = <span class="hljs-keyword">new</span> QLineEdit(d);           <span class="hljs-comment">// last received reply</span>
+<span class="hljs-keyword">const</span> b  = <span class="hljs-keyword">new</span> QPushButton(<span class="hljs-string">"Send"</span>, d); <span class="hljs-comment">// send button</span>
+
+le.readOnly = <span class="hljs-literal">true</span>;                                    <span class="hljs-comment">// view-only</span>
+te.setPlainText(<span class="hljs-string">'{"type":"c","cmd":"$J=G21 G91 X1 F1000"}'</span>); <span class="hljs-comment">// sample jog cmd</span>
+
+<span class="hljs-comment">/* send text from te to server when button clicked */</span>
+b.clicked.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    client.write(tc.fromUnicode(te.plainText + <span class="hljs-string">"\n"</span>));
+});
+
+<span class="hljs-comment">/* assemble widgets */</span>
+l.addWidget(le, <span class="hljs-number">0</span>, Qt.Vertical);
+l.addWidget(te, <span class="hljs-number">1</span>, Qt.Vertical);
+l.addWidget(b, <span class="hljs-number">0</span>, Qt.Vertical);
+d.setLayout(l);
+d.modal = <span class="hljs-literal">false</span>;
+
+<span class="hljs-comment">/* exit manual loop on dialog close */</span>
+d.finished.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ el.quit(); });
+
+<span class="hljs-comment">/* =====================================================
+   3. TCP CLIENT (connects to localhost:9877)
+   ===================================================== */</span>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> QTcpSocket();
+
+<span class="hljs-comment">/* display server replies in le */</span>
+client.readyRead.connect(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">while</span> (client.canReadLine()) {
+        <span class="hljs-keyword">const</span> msg = tc.toUnicode(client.readLine());
+        le.setText(msg);               <span class="hljs-comment">// latest JSON line</span>
+    }
+});
+
+client.connectToHost(<span class="hljs-string">"localhost"</span>, <span class="hljs-number">9877</span>); <span class="hljs-comment">// connect to our own server</span>
+
+<span class="hljs-comment">/* show window and run local event loop */</span>
+d.show();
+el.exec();
+</div></code></pre>
+
+</body>
+</html>

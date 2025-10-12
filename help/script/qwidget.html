@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QWidget Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QWidget Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QWidget(QWidget parent, WindowFlags f)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QWidget prototype object</li>
+<li><div class="fn"/><b>QWidget keyboardGrabber()</b></li>
+<li><div class="fn"/><b>QWidget mouseGrabber()</b></li>
+<li><div class="fn"/><b>void setTabOrder(QWidget arg__1, QWidget arg__2)</b></li>
+<li><b>DrawWindowBackground = 0x1</b></li>
+<li><b>DrawChildren = 0x2</b></li>
+<li><b>IgnoreMask = 0x4</b></li>
+<li><b>RenderFlag( value )</b></li>
+<li><b>RenderFlags( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QWidget prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>List actions()</b></li>
+<li><div class="fn"/><b>void activateWindow()</b></li>
+<li><div class="fn"/><b>void addAction(QAction action)</b></li>
+<li><div class="fn"/><b>void addActions(List actions)</b></li>
+<li><div class="fn"/><b>void adjustSize()</b></li>
+<li><div class="fn"/><b>bool autoFillBackground()</b></li>
+<li><div class="fn"/><b>ColorRole backgroundRole()</b></li>
+<li><div class="fn"/><b>QWidget childAt(QPoint p)</b></li>
+<li><div class="fn"/><b>void clearFocus()</b></li>
+<li><div class="fn"/><b>void clearMask()</b></li>
+<li><div class="fn"/><b>QMargins contentsMargins()</b></li>
+<li><div class="fn"/><b>QRect contentsRect()</b></li>
+<li><div class="fn"/><b>void createWinId()</b></li>
+<li><div class="fn"/><b>WId effectiveWinId()</b></li>
+<li><div class="fn"/><b>void ensurePolished()</b></li>
+<li><div class="fn"/><b>QWidget focusProxy()</b></li>
+<li><div class="fn"/><b>QWidget focusWidget()</b></li>
+<li><div class="fn"/><b>ColorRole foregroundRole()</b></li>
+<li><div class="fn"/><b>void getContentsMargins(int left, int top, int right, int bottom)</b></li>
+<li><div class="fn"/><b>void grabGesture(GestureType type, GestureFlags flags)</b></li>
+<li><div class="fn"/><b>void grabKeyboard()</b></li>
+<li><div class="fn"/><b>void grabMouse()</b></li>
+<li><div class="fn"/><b>int grabShortcut(QKeySequence key, ShortcutContext context)</b></li>
+<li><div class="fn"/><b>QGraphicsEffect graphicsEffect()</b></li>
+<li><div class="fn"/><b>QGraphicsProxyWidget graphicsProxyWidget()</b></li>
+<li><div class="fn"/><b>bool hasHeightForWidth()</b></li>
+<li><div class="fn"/><b>int heightForWidth(int arg__1)</b></li>
+<li><div class="fn"/><b>InputMethodHints inputMethodHints()</b></li>
+<li><div class="fn"/><b>Object inputMethodQuery(InputMethodQuery arg__1)</b></li>
+<li><div class="fn"/><b>void insertAction(QAction before, QAction action)</b></li>
+<li><div class="fn"/><b>void insertActions(QAction before, List actions)</b></li>
+<li><div class="fn"/><b>bool isAncestorOf(QWidget child)</b></li>
+<li><div class="fn"/><b>bool isEnabledTo(QWidget arg__1)</b></li>
+<li><div class="fn"/><b>bool isHidden()</b></li>
+<li><div class="fn"/><b>bool isLeftToRight()</b></li>
+<li><div class="fn"/><b>bool isRightToLeft()</b></li>
+<li><div class="fn"/><b>bool isVisibleTo(QWidget arg__1)</b></li>
+<li><div class="fn"/><b>bool isWindow()</b></li>
+<li><div class="fn"/><b>QLayout layout()</b></li>
+<li><div class="fn"/><b>QLocale locale()</b></li>
+<li><div class="fn"/><b>QPoint mapFrom(QWidget arg__1, QPoint arg__2)</b></li>
+<li><div class="fn"/><b>QPoint mapFromGlobal(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>QPoint mapFromParent(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>QPoint mapTo(QWidget arg__1, QPoint arg__2)</b></li>
+<li><div class="fn"/><b>QPoint mapToGlobal(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>QPoint mapToParent(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>QRegion mask()</b></li>
+<li><div class="fn"/><b>void move(int x, int y)</b></li>
+<li><div class="fn"/><b>QWidget nativeParentWidget()</b></li>
+<li><div class="fn"/><b>QWidget nextInFocusChain()</b></li>
+<li><div class="fn"/><b>void overrideWindowFlags(WindowFlags type)</b></li>
+<li><div class="fn"/><b>void overrideWindowState(WindowStates state)</b></li>
+<li><div class="fn"/><b>QWidget parentWidget()</b></li>
+<li><div class="fn"/><b>QWidget previousInFocusChain()</b></li>
+<li><div class="fn"/><b>void releaseKeyboard()</b></li>
+<li><div class="fn"/><b>void releaseMouse()</b></li>
+<li><div class="fn"/><b>void releaseShortcut(int id)</b></li>
+<li><div class="fn"/><b>void removeAction(QAction action)</b></li>
+<li><div class="fn"/><b>void render(QPaintDevice target, QPoint targetOffset, QRegion sourceRegion, RenderFlags renderFlags)</b></li>
+<li><div class="fn"/><b>void repaint(QRect arg__1)</b></li>
+<li><div class="fn"/><b>void resize(int w, int h)</b></li>
+<li><div class="fn"/><b>bool restoreGeometry(QByteArray geometry)</b></li>
+<li><div class="fn"/><b>QByteArray saveGeometry()</b></li>
+<li><div class="fn"/><b>void scroll(int dx, int dy)</b></li>
+<li><div class="fn"/><b>void setAttribute(WidgetAttribute arg__1, bool on)</b></li>
+<li><div class="fn"/><b>void setAutoFillBackground(bool enabled)</b></li>
+<li><div class="fn"/><b>void setBackgroundRole(ColorRole arg__1)</b></li>
+<li><div class="fn"/><b>void setBaseSize(int basew, int baseh)</b></li>
+<li><div class="fn"/><b>void setContentsMargins(QMargins margins)</b></li>
+<li><div class="fn"/><b>void setFixedHeight(int h)</b></li>
+<li><div class="fn"/><b>void setFixedSize(QSize arg__1)</b></li>
+<li><div class="fn"/><b>void setFixedWidth(int w)</b></li>
+<li><div class="fn"/><b>void setFocus(FocusReason reason)</b></li>
+<li><div class="fn"/><b>void setFocusProxy(QWidget arg__1)</b></li>
+<li><div class="fn"/><b>void setForegroundRole(ColorRole arg__1)</b></li>
+<li><div class="fn"/><b>void setGeometry(int x, int y, int w, int h)</b></li>
+<li><div class="fn"/><b>void setGraphicsEffect(QGraphicsEffect effect)</b></li>
+<li><div class="fn"/><b>void setInputMethodHints(InputMethodHints hints)</b></li>
+<li><div class="fn"/><b>void setLayout(QLayout arg__1)</b></li>
+<li><div class="fn"/><b>void setLocale(QLocale locale)</b></li>
+<li><div class="fn"/><b>void setMask(QBitmap arg__1)</b></li>
+<li><div class="fn"/><b>void setMaximumSize(int maxw, int maxh)</b></li>
+<li><div class="fn"/><b>void setMinimumSize(int minw, int minh)</b></li>
+<li><div class="fn"/><b>void setParent(QWidget parent)</b></li>
+<li><div class="fn"/><b>void setShortcutAutoRepeat(int id, bool enable)</b></li>
+<li><div class="fn"/><b>void setShortcutEnabled(int id, bool enable)</b></li>
+<li><div class="fn"/><b>void setSizeIncrement(int w, int h)</b></li>
+<li><div class="fn"/><b>void setSizePolicy(Policy horizontal, Policy vertical)</b></li>
+<li><div class="fn"/><b>void setStyle(QStyle arg__1)</b></li>
+<li><div class="fn"/><b>void setWindowFilePath(String filePath)</b></li>
+<li><div class="fn"/><b>void setWindowFlags(WindowFlags type)</b></li>
+<li><div class="fn"/><b>void setWindowOpacity(qreal level)</b></li>
+<li><div class="fn"/><b>void setWindowRole(String arg__1)</b></li>
+<li><div class="fn"/><b>void setWindowState(WindowStates state)</b></li>
+<li><div class="fn"/><b>void stackUnder(QWidget arg__1)</b></li>
+<li><div class="fn"/><b>QStyle style()</b></li>
+<li><div class="fn"/><b>String styleSheet()</b></li>
+<li><div class="fn"/><b>bool testAttribute(WidgetAttribute arg__1)</b></li>
+<li><div class="fn"/><b>bool underMouse()</b></li>
+<li><div class="fn"/><b>void ungrabGesture(GestureType type)</b></li>
+<li><div class="fn"/><b>void unsetCursor()</b></li>
+<li><div class="fn"/><b>void unsetLayoutDirection()</b></li>
+<li><div class="fn"/><b>void unsetLocale()</b></li>
+<li><div class="fn"/><b>void update(QRect arg__1)</b></li>
+<li><div class="fn"/><b>void updateGeometry()</b></li>
+<li><div class="fn"/><b>QRegion visibleRegion()</b></li>
+<li><div class="fn"/><b>WId winId()</b></li>
+<li><div class="fn"/><b>QWidget window()</b></li>
+<li><div class="fn"/><b>String windowFilePath()</b></li>
+<li><div class="fn"/><b>WindowFlags windowFlags()</b></li>
+<li><div class="fn"/><b>qreal windowOpacity()</b></li>
+<li><div class="fn"/><b>String windowRole()</b></li>
+<li><div class="fn"/><b>WindowStates windowState()</b></li>
+<li><div class="fn"/><b>WindowType windowType()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QWidget objects inherit properties from the QWidget prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>modal</b></li>
+<li><div class="fn"/><b>windowModality</b></li>
+<li><div class="fn"/><b>enabled</b></li>
+<li><div class="fn"/><b>geometry</b></li>
+<li><div class="fn"/><b>frameGeometry</b></li>
+<li><div class="fn"/><b>normalGeometry</b></li>
+<li><div class="fn"/><b>x</b></li>
+<li><div class="fn"/><b>y</b></li>
+<li><div class="fn"/><b>pos</b></li>
+<li><div class="fn"/><b>frameSize</b></li>
+<li><div class="fn"/><b>size</b></li>
+<li><div class="fn"/><b>width</b></li>
+<li><div class="fn"/><b>height</b></li>
+<li><div class="fn"/><b>rect</b></li>
+<li><div class="fn"/><b>childrenRect</b></li>
+<li><div class="fn"/><b>childrenRegion</b></li>
+<li><div class="fn"/><b>sizePolicy</b></li>
+<li><div class="fn"/><b>minimumSize</b></li>
+<li><div class="fn"/><b>maximumSize</b></li>
+<li><div class="fn"/><b>minimumWidth</b></li>
+<li><div class="fn"/><b>minimumHeight</b></li>
+<li><div class="fn"/><b>maximumWidth</b></li>
+<li><div class="fn"/><b>maximumHeight</b></li>
+<li><div class="fn"/><b>sizeIncrement</b></li>
+<li><div class="fn"/><b>baseSize</b></li>
+<li><div class="fn"/><b>palette</b></li>
+<li><div class="fn"/><b>font</b></li>
+<li><div class="fn"/><b>cursor</b></li>
+<li><div class="fn"/><b>mouseTracking</b></li>
+<li><div class="fn"/><b>isActiveWindow</b></li>
+<li><div class="fn"/><b>focusPolicy</b></li>
+<li><div class="fn"/><b>focus</b></li>
+<li><div class="fn"/><b>contextMenuPolicy</b></li>
+<li><div class="fn"/><b>updatesEnabled</b></li>
+<li><div class="fn"/><b>visible</b></li>
+<li><div class="fn"/><b>minimized</b></li>
+<li><div class="fn"/><b>maximized</b></li>
+<li><div class="fn"/><b>fullScreen</b></li>
+<li><div class="fn"/><b>sizeHint</b></li>
+<li><div class="fn"/><b>minimumSizeHint</b></li>
+<li><div class="fn"/><b>acceptDrops</b></li>
+<li><div class="fn"/><b>windowTitle</b></li>
+<li><div class="fn"/><b>windowIcon</b></li>
+<li><div class="fn"/><b>windowIconText</b></li>
+<li><div class="fn"/><b>windowOpacity</b></li>
+<li><div class="fn"/><b>windowModified</b></li>
+<li><div class="fn"/><b>toolTip</b></li>
+<li><div class="fn"/><b>toolTipDuration</b></li>
+<li><div class="fn"/><b>statusTip</b></li>
+<li><div class="fn"/><b>whatsThis</b></li>
+<li><div class="fn"/><b>accessibleName</b></li>
+<li><div class="fn"/><b>accessibleDescription</b></li>
+<li><div class="fn"/><b>layoutDirection</b></li>
+</ul>
+</body>
+</html>

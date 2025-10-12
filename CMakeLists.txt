@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Candle VERSION 10.10.3)
+project(Candle VERSION 10.10.4)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)

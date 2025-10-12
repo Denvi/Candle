@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loading the control program</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="loading-the-control-program">Loading the control program</h1>
+<p>As an example we will use the PCB track-milling G-code, because it touches most of the program’s features.</p>
+<p>Load the G-code via the <strong>"Open"</strong> command in the <strong>"File"</strong> menu or by clicking the <strong>"Open"</strong> button in the <strong>"G-code program"</strong> window. After selecting the file and confirming, the <strong>"Visualizer"</strong> window will show the toolpath, machining boundaries, and estimated runtime.</p>
+<p>Preparation for running the G-code includes:</p>
+<ul>
+<li>Clamping the workpiece on the table (for milling it is usually placed on a <strong>"sacrificial"</strong> table).</li>
+<li>Homing the machine (<strong>"Home"</strong> button on the <strong>"Control"</strong> panel).</li>
+<li>Installing the tool.</li>
+<li>Setting the work coordinate system zero.</li>
+</ul>
+<p>Use the <strong>"Jog"</strong> panel buttons to position the tool at the desired X and Y zero point on the workpiece, then zero the work coordinates for X and Y.</p>
+<p>Note: you can zero the work zero either with the axis-zero buttons on the <strong>"User Commands"</strong> panel or on the <strong>"Coordinate System"</strong> panel.</p>
+<ul>
+<li>With <strong>"User Commands"</strong>, work coordinates are <strong>NOT</strong> restored after a controller reset or emergency stop.</li>
+<li>With <strong>"Coordinate System"</strong>, values are stored in non-volatile memory and survive power cycles.</li>
+</ul>
+<p>The user decides, but it is recommended to use the <strong>"Coordinate System"</strong> panel for X and Y; for Z you may use <strong>"User Commands"</strong>, because Z depends on the current tool length and is usually set immediately before running the G-code.</p>
+<p>Set the Z work zero manually (as with X and Y) or by using the probe command on the <strong>"User Commands"</strong> panel. Connect and configure the probe according to the CNC machine manual.</p>
+
+</body>
+</html>

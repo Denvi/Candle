@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Window "G-code program"</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="window-g-code-program">Window "G-code program"</h1>
+<p>The current CP is displayed in the <strong>"G‑code program"</strong> window shown in figure:</p>
+<p class="center"><img src="../../img/g-codeprogram.png" alt="Window G‑code program"></p>
+<p>Each row of the table corresponds to a line of the CP and contains the following columns:</p>
+<ul>
+<li><strong>"#"</strong> – CP line number.</li>
+<li><strong>"Command"</strong> – The command itself.</li>
+<li><strong>"State"</strong> – Current state of the command: "In queue", "Sent", "Processed", or "Skipped".</li>
+<li><strong>"Response"</strong> – Response from the GRBL controller to the sent command.</li>
+</ul>
+<p>The CP can be edited; the following functions are supported:</p>
+<table width="100%">
+<thead>
+<tr>
+<th>Function</th>
+<th>How it works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Change a command in a selected row</td>
+<td>Double‑click the cell in the <em>Command</em> column or press <code>&lt;F2&gt;</code> while the cell is highlighted. Confirm with <code>&lt;Enter&gt;</code> or <code>&lt;Tab&gt;</code>, cancel with <code>&lt;Esc&gt;</code>.</td>
+</tr>
+<tr>
+<td>Add new rows</td>
+<td>Select the row before which the new one should be inserted, then choose <strong>"Insert line"</strong> from the context menu (right‑click in the table) or press the <code>&lt;Ins&gt;</code> key.</td>
+</tr>
+<tr>
+<td>Delete selected rows</td>
+<td>Use <strong>"Delete lines"</strong> from the context menu or press <code>&lt;Del&gt;</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Below the table are controls for loading and sending CP to the CNC controller:</p>
+<table width="100%">
+<thead>
+<tr>
+<th>Button</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Open</strong></td>
+<td>Opens a file‑selection dialog; upon confirmation, loads the chosen CP.</td>
+</tr>
+<tr>
+<td><strong>Reset</strong></td>
+<td>Clears all selections in the table, sets the first line as current, and resets command states.</td>
+</tr>
+<tr>
+<td><strong>Send</strong></td>
+<td>Starts the transmission of the CP to the CNC controller.</td>
+</tr>
+<tr>
+<td><strong>Pause</strong></td>
+<td>Pauses the transmission process.</td>
+</tr>
+<tr>
+<td><strong>Stop</strong></td>
+<td>Stops the transmission.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong> – When "Pause" or "Stop" is activated, the actual CNC halt occurs only after the controller’s command input buffer has been emptied. For an immediate stop use the <strong>"Hold"</strong> and <strong>"Reset"</strong> commands from the <em>Control</em> panel.</p>
+</blockquote>
+<p>There is a <strong>&quot;Scroll&quot;</strong> checkbox to the left of these buttons that enables automatic scrolling of the table during CP transmission. If the CP is actively being sent while the user manually scrolls, this checkbox resets automatically.</p>
+
+</body>
+</html>

@@ -5,7 +5,7 @@ param(
     [string]$Manufacturer   = "Denvi",
     [string]$UpgradeCode    = "A53DFAC8-5BB4-40C0-9C29-BB5D640D9968",
     [string]$StartMenuName  = "Candle",
-    [string]$IconFile       = "..\..\doc\candle.ico"
+    [string]$IconFile       = "..\..\src\candle\images\candle.ico"
 )
 
 $SourceDir = $SourceDir.TrimEnd('\','/')

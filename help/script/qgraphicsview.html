@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGraphicsView Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGraphicsView Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qabstractscrollarea.html">QAbstractScrollArea</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGraphicsView(QGraphicsScene scene, QWidget parent)</b></li>
+<li><div class="fn"/><b>void QGraphicsView(QWidget parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGraphicsView prototype object</li>
+<li><b>NoDrag</b></li>
+<li><b>ScrollHandDrag</b></li>
+<li><b>RubberBandDrag</b></li>
+<li><b>DragMode( value )</b></li>
+<li><b>NoAnchor</b></li>
+<li><b>AnchorViewCenter</b></li>
+<li><b>AnchorUnderMouse</b></li>
+<li><b>ViewportAnchor( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QGraphicsView prototype object inherits properties from the <a href="qabstractscrollarea.html">QAbstractScrollArea</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void centerOn(QGraphicsItem item)</b></li>
+<li><div class="fn"/><b>void ensureVisible(QGraphicsItem item, int xmargin, int ymargin)</b></li>
+<li><div class="fn"/><b>void fitInView(QGraphicsItem item, AspectRatioMode aspectRadioMode)</b></li>
+<li><div class="fn"/><b>bool isTransformed()</b></li>
+<li><div class="fn"/><b>QGraphicsItem itemAt(QPoint pos)</b></li>
+<li><div class="fn"/><b>List items()</b></li>
+<li><div class="fn"/><b>QPainterPath mapFromScene(QPainterPath path)</b></li>
+<li><div class="fn"/><b>QPainterPath mapToScene(QPainterPath path)</b></li>
+<li><div class="fn"/><b>QMatrix matrix()</b></li>
+<li><div class="fn"/><b>void render(QPainter painter, QRectF target, QRect source, AspectRatioMode aspectRatioMode)</b></li>
+<li><div class="fn"/><b>void resetCachedContent()</b></li>
+<li><div class="fn"/><b>void resetMatrix()</b></li>
+<li><div class="fn"/><b>void resetTransform()</b></li>
+<li><div class="fn"/><b>void rotate(qreal angle)</b></li>
+<li><div class="fn"/><b>QRect rubberBandRect()</b></li>
+<li><div class="fn"/><b>void scale(qreal sx, qreal sy)</b></li>
+<li><div class="fn"/><b>QGraphicsScene scene()</b></li>
+<li><div class="fn"/><b>void setMatrix(QMatrix matrix, bool combine)</b></li>
+<li><div class="fn"/><b>void setOptimizationFlag(OptimizationFlag flag, bool enabled)</b></li>
+<li><div class="fn"/><b>void setRenderHint(RenderHint hint, bool enabled)</b></li>
+<li><div class="fn"/><b>void setScene(QGraphicsScene scene)</b></li>
+<li><div class="fn"/><b>void setSceneRect(qreal x, qreal y, qreal w, qreal h)</b></li>
+<li><div class="fn"/><b>void setTransform(QTransform matrix, bool combine)</b></li>
+<li><div class="fn"/><b>void shear(qreal sh, qreal sv)</b></li>
+<li><div class="fn"/><b>QTransform transform()</b></li>
+<li><div class="fn"/><b>void translate(qreal dx, qreal dy)</b></li>
+<li><div class="fn"/><b>QTransform viewportTransform()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGraphicsView objects inherit properties from the QGraphicsView prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>backgroundBrush</b></li>
+<li><div class="fn"/><b>foregroundBrush</b></li>
+<li><div class="fn"/><b>interactive</b></li>
+<li><div class="fn"/><b>sceneRect</b></li>
+<li><div class="fn"/><b>alignment</b></li>
+<li><div class="fn"/><b>renderHints</b></li>
+<li><div class="fn"/><b>dragMode</b></li>
+<li><div class="fn"/><b>cacheMode</b></li>
+<li><div class="fn"/><b>transformationAnchor</b></li>
+<li><div class="fn"/><b>resizeAnchor</b></li>
+<li><div class="fn"/><b>viewportUpdateMode</b></li>
+<li><div class="fn"/><b>rubberBandSelectionMode</b></li>
+<li><div class="fn"/><b>optimizationFlags</b></li>
+</ul>
+</body>
+</html>

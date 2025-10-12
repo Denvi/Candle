@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QDockWidget Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QDockWidget Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qwidget.html">QWidget</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QDockWidget(QWidget parent, WindowFlags flags)</b></li>
+<li><div class="fn"/><b>void QDockWidget(String title, QWidget parent, WindowFlags flags)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QDockWidget prototype object</li>
+<li><b>NoDockWidgetFeatures = 0x00</b></li>
+<li><b>DockWidgetClosable = 0x01</b></li>
+<li><b>DockWidgetMovable = 0x02</b></li>
+<li><b>DockWidgetFloatable = 0x04</b></li>
+<li><b>AllDockWidgetFeatures = DockWidgetClosable|DockWidgetMovable|DockWidgetFloatable</b></li>
+<li><b>DockWidgetVerticalTitleBar = 0x08</b></li>
+<li><b>DockWidgetFeatureMask = 0x0f</b></li>
+<li><b>Reserved = 0xff</b></li>
+<li><b>DockWidgetFeature( value )</b></li>
+<li><b>DockWidgetFeatures( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QDockWidget prototype object inherits properties from the <a href="qwidget.html">QWidget</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>DockWidgetAreas allowedAreas()</b></li>
+<li><div class="fn"/><b>bool isAreaAllowed(DockWidgetArea area)</b></li>
+<li><div class="fn"/><b>void setAllowedAreas(DockWidgetAreas areas)</b></li>
+<li><div class="fn"/><b>void setTitleBarWidget(QWidget widget)</b></li>
+<li><div class="fn"/><b>void setWidget(QWidget widget)</b></li>
+<li><div class="fn"/><b>QWidget titleBarWidget()</b></li>
+<li><div class="fn"/><b>QAction toggleViewAction()</b></li>
+<li><div class="fn"/><b>QWidget widget()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QDockWidget objects inherit properties from the QDockWidget prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>floating</b></li>
+<li><div class="fn"/><b>features</b></li>
+<li><div class="fn"/><b>allowedAreas</b></li>
+<li><div class="fn"/><b>windowTitle</b></li>
+</ul>
+</body>
+</html>

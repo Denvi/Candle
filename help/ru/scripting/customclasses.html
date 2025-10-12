@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Дополнительные классы</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B">Дополнительные классы</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Тип объекта</th>
+<th>Базовый тип</th>
+<th>Назначение</th>
+<th>Свойство</th>
+<th>Тип свойства</th>
+<th>Аргументы</th>
+<th>Возвращаемое значение</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ColorPicker</td>
+<td>QWidget</td>
+<td>Выбор цвета</td>
+<td>colorInt</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>32-разрядный код цвета в формате AARRGGBB</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>colorSelected</td>
+<td>Сигнал</td>
+<td>Цвет</td>
+<td>-</td>
+<td>Сигнал, генерируемый при выборе цвета пользователем</td>
+</tr>
+<tr>
+<td>Slider</td>
+<td>QSlider</td>
+<td>Ползунок с представлением текущего значения параметра</td>
+<td>currentValue</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Текущее значение параметра</td>
+</tr>
+<tr>
+<td>SliderBox</td>
+<td>QWidget</td>
+<td>Ползунок с полем ввода значения и флагом включения</td>
+<td>value</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Уставка параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>currentValue</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Текущее значение параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>minimum</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Минимальное значение параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>maximum</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Максимальное значение параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>sliderPosition</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Позиция ползунка</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>ratio</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Отношение значения в поле ввода к положению ползунка</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>title</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Наименование параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>suffix</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Единицы измерения параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>isCheckable</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Отображение флага включения</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>isChecked</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Включение/выключение флага</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>valueUserChanged</td>
+<td>Сигнал</td>
+<td>-</td>
+<td>-</td>
+<td>Сигнал, генерируемый при изменении значения параметра пользователем</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>valueChanged</td>
+<td>Сигнал</td>
+<td>-</td>
+<td>-</td>
+<td>Сигнал, генерируемый при изменении значения параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>toggled</td>
+<td>Сигнал</td>
+<td>Состояние</td>
+<td>-</td>
+<td>Сигнал, генерируемый при смене состояния флага включения параметра</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>click</td>
+<td>Функция</td>
+<td>-</td>
+<td>-</td>
+<td>Программное переключение флага</td>
+</tr>
+<tr>
+<td>StyledToolButton</td>
+<td>QToolButton</td>
+<td>Кнопка инструментальной панели</td>
+<td>backgroundColor</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Цвет фона кнопки, тип QColor</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>foregroundColor</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Цвет надписи на кнопке</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>highlightColor</td>
+<td>Значение</td>
+<td>-</td>
+<td>-</td>
+<td>Цвет подсветки границ кнопки</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTextLayout Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTextLayout Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTextLayout()</b></li>
+<li><div class="fn"/><b>void QTextLayout(String text)</b></li>
+<li><div class="fn"/><b>void QTextLayout(String text, QFont font, QPaintDevice paintdevice)</b></li>
+<li><div class="fn"/><b>void QTextLayout(QTextBlock b)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTextLayout prototype object</li>
+<li><b>SkipCharacters</b></li>
+<li><b>SkipWords</b></li>
+<li><b>CursorMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>List additionalFormats()</b></li>
+<li><div class="fn"/><b>void beginLayout()</b></li>
+<li><div class="fn"/><b>QRectF boundingRect()</b></li>
+<li><div class="fn"/><b>bool cacheEnabled()</b></li>
+<li><div class="fn"/><b>void clearAdditionalFormats()</b></li>
+<li><div class="fn"/><b>void clearFormats()</b></li>
+<li><div class="fn"/><b>void clearLayout()</b></li>
+<li><div class="fn"/><b>QTextLine createLine()</b></li>
+<li><div class="fn"/><b>CursorMoveStyle cursorMoveStyle()</b></li>
+<li><div class="fn"/><b>void draw(QPainter p, QPointF pos, List selections, QRectF clip)</b></li>
+<li><div class="fn"/><b>void drawCursor(QPainter p, QPointF pos, int cursorPosition)</b></li>
+<li><div class="fn"/><b>void endLayout()</b></li>
+<li><div class="fn"/><b>QFont font()</b></li>
+<li><div class="fn"/><b>List formats()</b></li>
+<li><div class="fn"/><b>bool isValidCursorPosition(int pos)</b></li>
+<li><div class="fn"/><b>int leftCursorPosition(int oldPos)</b></li>
+<li><div class="fn"/><b>QTextLine lineAt(int i)</b></li>
+<li><div class="fn"/><b>int lineCount()</b></li>
+<li><div class="fn"/><b>QTextLine lineForTextPosition(int pos)</b></li>
+<li><div class="fn"/><b>qreal maximumWidth()</b></li>
+<li><div class="fn"/><b>qreal minimumWidth()</b></li>
+<li><div class="fn"/><b>int nextCursorPosition(int oldPos, CursorMode mode)</b></li>
+<li><div class="fn"/><b>QPointF position()</b></li>
+<li><div class="fn"/><b>int preeditAreaPosition()</b></li>
+<li><div class="fn"/><b>String preeditAreaText()</b></li>
+<li><div class="fn"/><b>int previousCursorPosition(int oldPos, CursorMode mode)</b></li>
+<li><div class="fn"/><b>int rightCursorPosition(int oldPos)</b></li>
+<li><div class="fn"/><b>void setAdditionalFormats(List overrides)</b></li>
+<li><div class="fn"/><b>void setCacheEnabled(bool enable)</b></li>
+<li><div class="fn"/><b>void setCursorMoveStyle(CursorMoveStyle style)</b></li>
+<li><div class="fn"/><b>void setFlags(int flags)</b></li>
+<li><div class="fn"/><b>void setFont(QFont f)</b></li>
+<li><div class="fn"/><b>void setFormats(List overrides)</b></li>
+<li><div class="fn"/><b>void setPosition(QPointF p)</b></li>
+<li><div class="fn"/><b>void setPreeditArea(int position, String text)</b></li>
+<li><div class="fn"/><b>void setText(String string)</b></li>
+<li><div class="fn"/><b>void setTextOption(QTextOption option)</b></li>
+<li><div class="fn"/><b>String text()</b></li>
+<li><div class="fn"/><b>QTextOption textOption()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTextLayout objects have no special properties beyond those inherited from the QTextLayout prototype object.</p>
+</body>
+</html>

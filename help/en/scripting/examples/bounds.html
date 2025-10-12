@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Boundary trace</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="boundary-trace">Boundary trace</h1>
+<pre class="hljs"><code><div><span class="hljs-comment">// Load Qt modules so we can show a completion dialog</span>
+script.importExtension(<span class="hljs-string">"qt.gui"</span>);
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>);
+
+<span class="hljs-comment">// Build and immediately send a list of G-codes to the controller:</span>
+<span class="hljs-comment">// G21 = metric mode, G90 = absolute positioning, F100 = 100 mm/min feed-rate</span>
+<span class="hljs-comment">// Next four lines form a rectangular contour that follows the work-area bounds</span>
+<span class="hljs-comment">// M2 = proper program end; the controller will reply when the whole path is done</span>
+app.device.sendCommands([
+    <span class="hljs-string">"G21G90F100"</span>,
+    <span class="hljs-string">"G1X"</span> + app.program.lowerBounds.x() + <span class="hljs-string">"Y"</span> + app.program.lowerBounds.y(),
+    <span class="hljs-string">"G1Y"</span> + app.program.upperBounds.y(),
+    <span class="hljs-string">"G1X"</span> + app.program.upperBounds.x(),
+    <span class="hljs-string">"G1Y"</span> + app.program.lowerBounds.y(),
+    <span class="hljs-string">"G1X"</span> + app.program.lowerBounds.x(),
+    <span class="hljs-string">"M2"</span> <span class="hljs-comment">// response sent after actual motion finish</span>
+]);
+
+<span class="hljs-comment">// Wait until the controller confirms all commands (including M2) are executed</span>
+app.device.waitResponses();
+
+<span class="hljs-comment">// Show a modal "Done" message to the user</span>
+QMessageBox.information(app.window, <span class="hljs-string">""</span>, <span class="hljs-string">"Done"</span>);
+</div></code></pre>
+
+</body>
+</html>

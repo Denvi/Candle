@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTextCursor Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTextCursor Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTextCursor()</b></li>
+<li><div class="fn"/><b>void QTextCursor(QTextDocument document)</b></li>
+<li><div class="fn"/><b>void QTextCursor(QTextFrame frame)</b></li>
+<li><div class="fn"/><b>void QTextCursor(QTextBlock block)</b></li>
+<li><div class="fn"/><b>void QTextCursor(QTextCursor cursor)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTextCursor prototype object</li>
+<li><b>MoveAnchor</b></li>
+<li><b>KeepAnchor</b></li>
+<li><b>MoveMode( value )</b></li>
+<li><b>WordUnderCursor</b></li>
+<li><b>LineUnderCursor</b></li>
+<li><b>BlockUnderCursor</b></li>
+<li><b>Document</b></li>
+<li><b>SelectionType( value )</b></li>
+<li><b>NoMove</b></li>
+<li><b>Start</b></li>
+<li><b>Up</b></li>
+<li><b>StartOfLine</b></li>
+<li><b>StartOfBlock</b></li>
+<li><b>StartOfWord</b></li>
+<li><b>PreviousBlock</b></li>
+<li><b>PreviousCharacter</b></li>
+<li><b>PreviousWord</b></li>
+<li><b>Left</b></li>
+<li><b>WordLeft</b></li>
+<li><b>End</b></li>
+<li><b>Down</b></li>
+<li><b>EndOfLine</b></li>
+<li><b>EndOfWord</b></li>
+<li><b>EndOfBlock</b></li>
+<li><b>NextBlock</b></li>
+<li><b>NextCharacter</b></li>
+<li><b>NextWord</b></li>
+<li><b>Right</b></li>
+<li><b>WordRight</b></li>
+<li><b>NextCell</b></li>
+<li><b>PreviousCell</b></li>
+<li><b>NextRow</b></li>
+<li><b>PreviousRow</b></li>
+<li><b>MoveOperation( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>int anchor()</b></li>
+<li><div class="fn"/><b>bool atBlockEnd()</b></li>
+<li><div class="fn"/><b>bool atBlockStart()</b></li>
+<li><div class="fn"/><b>bool atEnd()</b></li>
+<li><div class="fn"/><b>bool atStart()</b></li>
+<li><div class="fn"/><b>void beginEditBlock()</b></li>
+<li><div class="fn"/><b>QTextBlock block()</b></li>
+<li><div class="fn"/><b>QTextCharFormat blockCharFormat()</b></li>
+<li><div class="fn"/><b>QTextBlockFormat blockFormat()</b></li>
+<li><div class="fn"/><b>int blockNumber()</b></li>
+<li><div class="fn"/><b>QTextCharFormat charFormat()</b></li>
+<li><div class="fn"/><b>void clearSelection()</b></li>
+<li><div class="fn"/><b>int columnNumber()</b></li>
+<li><div class="fn"/><b>QTextList createList(Style style)</b></li>
+<li><div class="fn"/><b>QTextFrame currentFrame()</b></li>
+<li><div class="fn"/><b>QTextList currentList()</b></li>
+<li><div class="fn"/><b>QTextTable currentTable()</b></li>
+<li><div class="fn"/><b>void deleteChar()</b></li>
+<li><div class="fn"/><b>void deletePreviousChar()</b></li>
+<li><div class="fn"/><b>QTextDocument document()</b></li>
+<li><div class="fn"/><b>void endEditBlock()</b></li>
+<li><div class="fn"/><b>bool hasComplexSelection()</b></li>
+<li><div class="fn"/><b>bool hasSelection()</b></li>
+<li><div class="fn"/><b>void insertBlock()</b></li>
+<li><div class="fn"/><b>void insertFragment(QTextDocumentFragment fragment)</b></li>
+<li><div class="fn"/><b>QTextFrame insertFrame(QTextFrameFormat format)</b></li>
+<li><div class="fn"/><b>void insertHtml(String html)</b></li>
+<li><div class="fn"/><b>void insertImage(QImage image, String name)</b></li>
+<li><div class="fn"/><b>QTextList insertList(Style style)</b></li>
+<li><div class="fn"/><b>QTextTable insertTable(int rows, int cols)</b></li>
+<li><div class="fn"/><b>void insertText(String text)</b></li>
+<li><div class="fn"/><b>bool isCopyOf(QTextCursor other)</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>void joinPreviousEditBlock()</b></li>
+<li><div class="fn"/><b>bool keepPositionOnInsert()</b></li>
+<li><div class="fn"/><b>void mergeBlockCharFormat(QTextCharFormat modifier)</b></li>
+<li><div class="fn"/><b>void mergeBlockFormat(QTextBlockFormat modifier)</b></li>
+<li><div class="fn"/><b>void mergeCharFormat(QTextCharFormat modifier)</b></li>
+<li><div class="fn"/><b>bool movePosition(MoveOperation op, MoveMode arg__2, int n)</b></li>
+<li><div class="fn"/><b>bool operator_equal(QTextCursor rhs)</b></li>
+<li><div class="fn"/><b>bool operator_less(QTextCursor rhs)</b></li>
+<li><div class="fn"/><b>int position()</b></li>
+<li><div class="fn"/><b>int positionInBlock()</b></li>
+<li><div class="fn"/><b>void removeSelectedText()</b></li>
+<li><div class="fn"/><b>void select(SelectionType selection)</b></li>
+<li><div class="fn"/><b>void selectedTableCells(int firstRow, int numRows, int firstColumn, int numColumns)</b></li>
+<li><div class="fn"/><b>String selectedText()</b></li>
+<li><div class="fn"/><b>QTextDocumentFragment selection()</b></li>
+<li><div class="fn"/><b>int selectionEnd()</b></li>
+<li><div class="fn"/><b>int selectionStart()</b></li>
+<li><div class="fn"/><b>void setBlockCharFormat(QTextCharFormat format)</b></li>
+<li><div class="fn"/><b>void setBlockFormat(QTextBlockFormat format)</b></li>
+<li><div class="fn"/><b>void setCharFormat(QTextCharFormat format)</b></li>
+<li><div class="fn"/><b>void setKeepPositionOnInsert(bool b)</b></li>
+<li><div class="fn"/><b>void setPosition(int pos, MoveMode mode)</b></li>
+<li><div class="fn"/><b>void setVerticalMovementX(int x)</b></li>
+<li><div class="fn"/><b>void setVisualNavigation(bool b)</b></li>
+<li><div class="fn"/><b>void swap(QTextCursor other)</b></li>
+<li><div class="fn"/><b>int verticalMovementX()</b></li>
+<li><div class="fn"/><b>bool visualNavigation()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTextCursor objects have no special properties beyond those inherited from the QTextCursor prototype object.</p>
+</body>
+</html>

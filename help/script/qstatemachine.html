@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QStateMachine Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QStateMachine Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qstate.html">QState</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QStateMachine(QObject parent)</b></li>
+<li><div class="fn"/><b>void QStateMachine(ChildMode childMode, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QStateMachine prototype object</li>
+<li><b>NormalPriority</b></li>
+<li><b>HighPriority</b></li>
+<li><b>EventPriority( value )</b></li>
+<li><b>NoError</b></li>
+<li><b>NoInitialStateError</b></li>
+<li><b>NoDefaultStateInHistoryStateError</b></li>
+<li><b>NoCommonAncestorForTransitionError</b></li>
+<li><b>Error( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QStateMachine prototype object inherits properties from the <a href="qstate.html">QState</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>void addDefaultAnimation(QAbstractAnimation animation)</b></li>
+<li><div class="fn"/><b>void addState(QAbstractState state)</b></li>
+<li><div class="fn"/><b>bool cancelDelayedEvent(int id)</b></li>
+<li><div class="fn"/><b>void clearError()</b></li>
+<li><div class="fn"/><b>Set configuration()</b></li>
+<li><div class="fn"/><b>List defaultAnimations()</b></li>
+<li><div class="fn"/><b>Error error()</b></li>
+<li><div class="fn"/><b>int postDelayedEvent(QEvent event, int delay)</b></li>
+<li><div class="fn"/><b>void postEvent(QEvent event, EventPriority priority)</b></li>
+<li><div class="fn"/><b>void removeDefaultAnimation(QAbstractAnimation animation)</b></li>
+<li><div class="fn"/><b>void removeState(QAbstractState state)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QStateMachine objects inherit properties from the QStateMachine prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>errorString</b></li>
+<li><div class="fn"/><b>running</b></li>
+<li><div class="fn"/><b>animated</b></li>
+</ul>
+</body>
+</html>

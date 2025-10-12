@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Z-probe</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="z-probe">Z-probe</h1>
+<p>A common example of zeroing the Z-axis.<br>
+Since probing may occur while a program is running (e.g. after a tool change), the script saves and later restores the CNC’s operating modes.</p>
+<p>The offset from the actual tool position to the surface after probing can be baked into the G92 command.<br>
+In this sample the offset is assumed to be zero.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Save current parser state (absolute/relative positioning, planes, units, etc.)</span>
+app.device.storeParserState();
+
+<span class="hljs-comment">// Run the precision surface-probe cycle:</span>
+app.device.sendCommands([
+    <span class="hljs-string">"G21G91"</span>,        <span class="hljs-comment">// 1. Switch to relative positioning (G91) and metric units (G21)</span>
+    <span class="hljs-string">"G38.2Z-30F100"</span>, <span class="hljs-comment">// 2. Fast probe: plunge 30 mm at 100 mm/min</span>
+    <span class="hljs-string">"G0Z1"</span>,          <span class="hljs-comment">// 3. Retract 1 mm after first touch</span>
+    <span class="hljs-string">"G38.2Z-2F10"</span>,   <span class="hljs-comment">// 4. Slow probe: move another 2 mm at 10 mm/min</span>
+    <span class="hljs-string">"G92Z0"</span>,         <span class="hljs-comment">// 5. Set current Z position as the new zero (zero Z)</span>
+    <span class="hljs-string">"G91G0Z5"</span>        <span class="hljs-comment">// 6. Safe retract: lift 5 mm above the new zero</span>
+]);
+
+<span class="hljs-comment">// Wait until all commands are executed and acknowledged</span>
+app.device.waitResponses();
+
+<span class="hljs-comment">// Restore original parser state</span>
+app.device.restoreParserState();
+</div></code></pre>
+
+</body>
+</html>

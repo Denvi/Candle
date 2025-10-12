@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QHostAddress Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QHostAddress Class Reference</h1>
+<h3 align="center">[<a href="qt_network.html">qt.network</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QHostAddress()</b></li>
+<li><div class="fn"/><b>void QHostAddress(SpecialAddress address)</b></li>
+<li><div class="fn"/><b>void QHostAddress(QHostAddress copy)</b></li>
+<li><div class="fn"/><b>void QHostAddress(QIPv6Address ip6Addr)</b></li>
+<li><div class="fn"/><b>void QHostAddress(String address)</b></li>
+<li><div class="fn"/><b>void QHostAddress(unsigned char ip6Addr)</b></li>
+<li><div class="fn"/><b>void QHostAddress(unsigned int ip4Addr)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QHostAddress prototype object</li>
+<li><div class="fn"/><b>QPair parseSubnet(String subnet)</b></li>
+<li><b>Null</b></li>
+<li><b>Broadcast</b></li>
+<li><b>LocalHost</b></li>
+<li><b>LocalHostIPv6</b></li>
+<li><b>Any</b></li>
+<li><b>AnyIPv6</b></li>
+<li><b>AnyIPv4</b></li>
+<li><b>SpecialAddress( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>bool isInSubnet(QHostAddress subnet, int netmask)</b></li>
+<li><div class="fn"/><b>bool isLoopback()</b></li>
+<li><div class="fn"/><b>bool isMulticast()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool operator_equal(SpecialAddress address)</b></li>
+<li><div class="fn"/><b>NetworkLayerProtocol protocol()</b></li>
+<li><div class="fn"/><b>String scopeId()</b></li>
+<li><div class="fn"/><b>void setAddress(QIPv6Address ip6Addr)</b></li>
+<li><div class="fn"/><b>void setScopeId(String id)</b></li>
+<li><div class="fn"/><b>void swap(QHostAddress other)</b></li>
+<li><div class="fn"/><b>unsigned int toIPv4Address()</b></li>
+<li><div class="fn"/><b>QIPv6Address toIPv6Address()</b></li>
+<li><div class="fn"/><b>String toString()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QHostAddress objects have no special properties beyond those inherited from the QHostAddress prototype object.</p>
+</body>
+</html>

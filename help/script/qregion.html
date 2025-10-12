@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QRegion Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QRegion Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QRegion()</b></li>
+<li><div class="fn"/><b>void QRegion(QBitmap bitmap)</b></li>
+<li><div class="fn"/><b>void QRegion(QPolygon pa, FillRule fillRule)</b></li>
+<li><div class="fn"/><b>void QRegion(QRect r, RegionType t)</b></li>
+<li><div class="fn"/><b>void QRegion(QRegion region)</b></li>
+<li><div class="fn"/><b>void QRegion(int x, int y, int w, int h, RegionType t)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QRegion prototype object</li>
+<li><b>Rectangle</b></li>
+<li><b>Ellipse</b></li>
+<li><b>RegionType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QRect boundingRect()</b></li>
+<li><div class="fn"/><b>bool contains(QPoint p)</b></li>
+<li><div class="fn"/><b>QRegion intersected(QRect r)</b></li>
+<li><div class="fn"/><b>bool intersects(QRect r)</b></li>
+<li><div class="fn"/><b>bool isEmpty()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>QRegion operator_add(QRect r)</b></li>
+<li><div class="fn"/><b>QRegion operator_and(QRect r)</b></li>
+<li><div class="fn"/><b>bool operator_equal(QRegion r)</b></li>
+<li><div class="fn"/><b>int rectCount()</b></li>
+<li><div class="fn"/><b>List rects()</b></li>
+<li><div class="fn"/><b>void setRects(QRect rect, int num)</b></li>
+<li><div class="fn"/><b>QRegion subtracted(QRegion r)</b></li>
+<li><div class="fn"/><b>void swap(QRegion other)</b></li>
+<li><div class="fn"/><b>void translate(QPoint p)</b></li>
+<li><div class="fn"/><b>QRegion translated(QPoint p)</b></li>
+<li><div class="fn"/><b>QRegion united(QRect r)</b></li>
+<li><div class="fn"/><b>QRegion xored(QRegion r)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QRegion objects have no special properties beyond those inherited from the QRegion prototype object.</p>
+</body>
+</html>

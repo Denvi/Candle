@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QImage Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QImage Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<p>Inherits <a href="qpaintdevice.html">QPaintDevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QImage()</b></li>
+<li><div class="fn"/><b>void QImage(QImage arg__1)</b></li>
+<li><div class="fn"/><b>void QImage(QSize size, Format format)</b></li>
+<li><div class="fn"/><b>void QImage(String fileName, char format)</b></li>
+<li><div class="fn"/><b>void QImage(int width, int height, Format format)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QImage prototype object</li>
+<li><div class="fn"/><b>QImage fromData(QByteArray data, char format)</b></li>
+<li><div class="fn"/><b>QMatrix trueMatrix(QMatrix arg__1, int w, int h)</b></li>
+<li><b>InvertRgb</b></li>
+<li><b>InvertRgba</b></li>
+<li><b>InvertMode( value )</b></li>
+<li><b>Format_Invalid</b></li>
+<li><b>Format_Mono</b></li>
+<li><b>Format_MonoLSB</b></li>
+<li><b>Format_Indexed8</b></li>
+<li><b>Format_RGB32</b></li>
+<li><b>Format_ARGB32</b></li>
+<li><b>Format_ARGB32_Premultiplied</b></li>
+<li><b>Format_RGB16</b></li>
+<li><b>Format_ARGB8565_Premultiplied</b></li>
+<li><b>Format_RGB666</b></li>
+<li><b>Format_ARGB6666_Premultiplied</b></li>
+<li><b>Format_RGB555</b></li>
+<li><b>Format_ARGB8555_Premultiplied</b></li>
+<li><b>Format_RGB888</b></li>
+<li><b>Format_RGB444</b></li>
+<li><b>Format_ARGB4444_Premultiplied</b></li>
+<li><b>Format_RGBX8888</b></li>
+<li><b>Format_RGBA8888</b></li>
+<li><b>Format_RGBA8888_Premultiplied</b></li>
+<li><b>Format_BGR30</b></li>
+<li><b>Format_A2BGR30_Premultiplied</b></li>
+<li><b>Format_RGB30</b></li>
+<li><b>Format_A2RGB30_Premultiplied</b></li>
+<li><b>Format_Alpha8</b></li>
+<li><b>Format_Grayscale8</b></li>
+<li><b>NImageFormats</b></li>
+<li><b>Format( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool allGray()</b></li>
+<li><div class="fn"/><b>QImage alphaChannel()</b></li>
+<li><div class="fn"/><b>int bitPlaneCount()</b></li>
+<li><div class="fn"/><b>int byteCount()</b></li>
+<li><div class="fn"/><b>int bytesPerLine()</b></li>
+<li><div class="fn"/><b>qint64 cacheKey()</b></li>
+<li><div class="fn"/><b>unsigned int color(int i)</b></li>
+<li><div class="fn"/><b>List colorTable()</b></li>
+<li><div class="fn"/><b>uchar constBits()</b></li>
+<li><div class="fn"/><b>uchar constScanLine(int arg__1)</b></li>
+<li><div class="fn"/><b>QImage convertToFormat(Format f, ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QImage copy(QRect rect)</b></li>
+<li><div class="fn"/><b>QImage createAlphaMask(ImageConversionFlags flags)</b></li>
+<li><div class="fn"/><b>QImage createHeuristicMask(bool clipTight)</b></li>
+<li><div class="fn"/><b>QImage createMaskFromColor(unsigned int color, MaskMode mode)</b></li>
+<li><div class="fn"/><b>int dotsPerMeterX()</b></li>
+<li><div class="fn"/><b>int dotsPerMeterY()</b></li>
+<li><div class="fn"/><b>void fill(GlobalColor color)</b></li>
+<li><div class="fn"/><b>Format format()</b></li>
+<li><div class="fn"/><b>bool hasAlphaChannel()</b></li>
+<li><div class="fn"/><b>void invertPixels(InvertMode arg__1)</b></li>
+<li><div class="fn"/><b>bool isGrayscale()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool load(QIODevice device, char format)</b></li>
+<li><div class="fn"/><b>bool loadFromData(QByteArray data, char aformat)</b></li>
+<li><div class="fn"/><b>QImage mirrored(bool horizontally, bool vertically)</b></li>
+<li><div class="fn"/><b>QPoint offset()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QImage arg__1)</b></li>
+<li><div class="fn"/><b>unsigned int pixel(QPoint pt)</b></li>
+<li><div class="fn"/><b>QColor pixelColor(QPoint pt)</b></li>
+<li><div class="fn"/><b>int pixelIndex(QPoint pt)</b></li>
+<li><div class="fn"/><b>QRect rect()</b></li>
+<li><div class="fn"/><b>QImage rgbSwapped()</b></li>
+<li><div class="fn"/><b>bool save(QIODevice device, char format, int quality)</b></li>
+<li><div class="fn"/><b>QImage scaled(QSize s, AspectRatioMode aspectMode, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>QImage scaledToHeight(int h, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>QImage scaledToWidth(int w, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>void setAlphaChannel(QImage alphaChannel)</b></li>
+<li><div class="fn"/><b>void setColor(int i, unsigned int c)</b></li>
+<li><div class="fn"/><b>void setColorCount(int arg__1)</b></li>
+<li><div class="fn"/><b>void setDevicePixelRatio(qreal scaleFactor)</b></li>
+<li><div class="fn"/><b>void setDotsPerMeterX(int arg__1)</b></li>
+<li><div class="fn"/><b>void setDotsPerMeterY(int arg__1)</b></li>
+<li><div class="fn"/><b>void setOffset(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>void setPixel(QPoint pt, uint index_or_rgb)</b></li>
+<li><div class="fn"/><b>void setPixelColor(QPoint pt, QColor c)</b></li>
+<li><div class="fn"/><b>void setText(String key, String value)</b></li>
+<li><div class="fn"/><b>QSize size()</b></li>
+<li><div class="fn"/><b>void swap(QImage other)</b></li>
+<li><div class="fn"/><b>String text(String key)</b></li>
+<li><div class="fn"/><b>List textKeys()</b></li>
+<li><div class="fn"/><b>QImage transformed(QMatrix matrix, TransformationMode mode)</b></li>
+<li><div class="fn"/><b>bool valid(QPoint pt)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QImage objects have no special properties beyond those inherited from the QImage prototype object.</p>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QDomNode Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QDomNode Class Reference</h1>
+<h3 align="center">[<a href="qt_xml.html">qt.xml</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QDomNode()</b></li>
+<li><div class="fn"/><b>void QDomNode(QDomNode arg__1)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QDomNode prototype object</li>
+<li><b>ElementNode = 1</b></li>
+<li><b>AttributeNode = 2</b></li>
+<li><b>TextNode = 3</b></li>
+<li><b>CDATASectionNode = 4</b></li>
+<li><b>EntityReferenceNode = 5</b></li>
+<li><b>EntityNode = 6</b></li>
+<li><b>ProcessingInstructionNode = 7</b></li>
+<li><b>CommentNode = 8</b></li>
+<li><b>DocumentNode = 9</b></li>
+<li><b>DocumentTypeNode = 10</b></li>
+<li><b>DocumentFragmentNode = 11</b></li>
+<li><b>NotationNode = 12</b></li>
+<li><b>BaseNode = 21</b></li>
+<li><b>CharacterDataNode = 22</b></li>
+<li><b>NodeType( value )</b></li>
+<li><b>EncodingFromDocument = 1</b></li>
+<li><b>EncodingFromTextStream = 2</b></li>
+<li><b>EncodingPolicy( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QDomNode appendChild(QDomNode newChild)</b></li>
+<li><div class="fn"/><b>QDomNodeList childNodes()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>QDomNode cloneNode(bool deep)</b></li>
+<li><div class="fn"/><b>int columnNumber()</b></li>
+<li><div class="fn"/><b>QDomNode firstChild()</b></li>
+<li><div class="fn"/><b>QDomElement firstChildElement(String tagName)</b></li>
+<li><div class="fn"/><b>bool hasAttributes()</b></li>
+<li><div class="fn"/><b>bool hasChildNodes()</b></li>
+<li><div class="fn"/><b>QDomNode insertAfter(QDomNode newChild, QDomNode refChild)</b></li>
+<li><div class="fn"/><b>QDomNode insertBefore(QDomNode newChild, QDomNode refChild)</b></li>
+<li><div class="fn"/><b>bool isAttr()</b></li>
+<li><div class="fn"/><b>bool isCDATASection()</b></li>
+<li><div class="fn"/><b>bool isCharacterData()</b></li>
+<li><div class="fn"/><b>bool isComment()</b></li>
+<li><div class="fn"/><b>bool isDocument()</b></li>
+<li><div class="fn"/><b>bool isDocumentFragment()</b></li>
+<li><div class="fn"/><b>bool isDocumentType()</b></li>
+<li><div class="fn"/><b>bool isElement()</b></li>
+<li><div class="fn"/><b>bool isEntity()</b></li>
+<li><div class="fn"/><b>bool isEntityReference()</b></li>
+<li><div class="fn"/><b>bool isNotation()</b></li>
+<li><div class="fn"/><b>bool isNull()</b></li>
+<li><div class="fn"/><b>bool isProcessingInstruction()</b></li>
+<li><div class="fn"/><b>bool isSupported(String feature, String version)</b></li>
+<li><div class="fn"/><b>bool isText()</b></li>
+<li><div class="fn"/><b>QDomNode lastChild()</b></li>
+<li><div class="fn"/><b>QDomElement lastChildElement(String tagName)</b></li>
+<li><div class="fn"/><b>int lineNumber()</b></li>
+<li><div class="fn"/><b>String localName()</b></li>
+<li><div class="fn"/><b>QDomNode namedItem(String name)</b></li>
+<li><div class="fn"/><b>String namespaceURI()</b></li>
+<li><div class="fn"/><b>QDomNode nextSibling()</b></li>
+<li><div class="fn"/><b>QDomElement nextSiblingElement(String taName)</b></li>
+<li><div class="fn"/><b>String nodeName()</b></li>
+<li><div class="fn"/><b>NodeType nodeType()</b></li>
+<li><div class="fn"/><b>String nodeValue()</b></li>
+<li><div class="fn"/><b>void normalize()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QDomNode arg__1)</b></li>
+<li><div class="fn"/><b>QDomDocument ownerDocument()</b></li>
+<li><div class="fn"/><b>QDomNode parentNode()</b></li>
+<li><div class="fn"/><b>String prefix()</b></li>
+<li><div class="fn"/><b>QDomNode previousSibling()</b></li>
+<li><div class="fn"/><b>QDomElement previousSiblingElement(String tagName)</b></li>
+<li><div class="fn"/><b>QDomNode removeChild(QDomNode oldChild)</b></li>
+<li><div class="fn"/><b>QDomNode replaceChild(QDomNode newChild, QDomNode oldChild)</b></li>
+<li><div class="fn"/><b>void save(QTextStream arg__1, int arg__2, EncodingPolicy arg__3)</b></li>
+<li><div class="fn"/><b>void setNodeValue(String arg__1)</b></li>
+<li><div class="fn"/><b>void setPrefix(String pre)</b></li>
+<li><div class="fn"/><b>QDomAttr toAttr()</b></li>
+<li><div class="fn"/><b>QDomCDATASection toCDATASection()</b></li>
+<li><div class="fn"/><b>QDomCharacterData toCharacterData()</b></li>
+<li><div class="fn"/><b>QDomComment toComment()</b></li>
+<li><div class="fn"/><b>QDomDocument toDocument()</b></li>
+<li><div class="fn"/><b>QDomDocumentFragment toDocumentFragment()</b></li>
+<li><div class="fn"/><b>QDomDocumentType toDocumentType()</b></li>
+<li><div class="fn"/><b>QDomElement toElement()</b></li>
+<li><div class="fn"/><b>QDomEntity toEntity()</b></li>
+<li><div class="fn"/><b>QDomEntityReference toEntityReference()</b></li>
+<li><div class="fn"/><b>QDomNotation toNotation()</b></li>
+<li><div class="fn"/><b>QDomProcessingInstruction toProcessingInstruction()</b></li>
+<li><div class="fn"/><b>QDomText toText()</b></li>
+<li><div class="fn"/><b>void writeTo(QTextStream arg__1)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QDomNode objects have no special properties beyond those inherited from the QDomNode prototype object.</p>
+</body>
+</html>

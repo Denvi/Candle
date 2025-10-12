@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGLShader Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGLShader Class Reference</h1>
+<h3 align="center">[<a href="qt_opengl.html">qt.opengl</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGLShader(ShaderType type, QObject parent)</b></li>
+<li><div class="fn"/><b>void QGLShader(ShaderType type, QGLContext context, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGLShader prototype object</li>
+<li><div class="fn"/><b>bool hasOpenGLShaders(ShaderType type, QGLContext context)</b></li>
+<li><b>Vertex = 0x0001</b></li>
+<li><b>Fragment = 0x0002</b></li>
+<li><b>Geometry = 0x0004</b></li>
+<li><b>ShaderTypeBit( value )</b></li>
+<li><b>ShaderType( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QGLShader prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>bool compileSourceCode(QByteArray source)</b></li>
+<li><div class="fn"/><b>bool compileSourceFile(String fileName)</b></li>
+<li><div class="fn"/><b>bool isCompiled()</b></li>
+<li><div class="fn"/><b>String log()</b></li>
+<li><div class="fn"/><b>unsigned int shaderId()</b></li>
+<li><div class="fn"/><b>ShaderType shaderType()</b></li>
+<li><div class="fn"/><b>QByteArray sourceCode()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGLShader objects have no special properties beyond those inherited from the QGLShader prototype object.</p>
+</body>
+</html>

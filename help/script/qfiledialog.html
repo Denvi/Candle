@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QFileDialog Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QFileDialog Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qdialog.html">QDialog</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QFileDialog(QWidget parent, WindowFlags f)</b></li>
+<li><div class="fn"/><b>void QFileDialog(QWidget parent, String caption, String directory, String filter)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QFileDialog prototype object</li>
+<li><div class="fn"/><b>String getExistingDirectory(QWidget parent, String caption, String dir, Options options)</b></li>
+<li><div class="fn"/><b>QUrl getExistingDirectoryUrl(QWidget parent, String caption, QUrl dir, Options options, List supportedSchemes)</b></li>
+<li><div class="fn"/><b>String getOpenFileName(QWidget parent, String caption, String dir, String filter, String selectedFilter, Options options)</b></li>
+<li><div class="fn"/><b>List getOpenFileNames(QWidget parent, String caption, String dir, String filter, String selectedFilter, Options options)</b></li>
+<li><div class="fn"/><b>QUrl getOpenFileUrl(QWidget parent, String caption, QUrl dir, String filter, String selectedFilter, Options options, List supportedSchemes)</b></li>
+<li><div class="fn"/><b>List getOpenFileUrls(QWidget parent, String caption, QUrl dir, String filter, String selectedFilter, Options options, List supportedSchemes)</b></li>
+<li><div class="fn"/><b>String getSaveFileName(QWidget parent, String caption, String dir, String filter, String selectedFilter, Options options)</b></li>
+<li><div class="fn"/><b>QUrl getSaveFileUrl(QWidget parent, String caption, QUrl dir, String filter, String selectedFilter, Options options, List supportedSchemes)</b></li>
+<li><b>ShowDirsOnly = 0x00000001</b></li>
+<li><b>DontResolveSymlinks = 0x00000002</b></li>
+<li><b>DontConfirmOverwrite = 0x00000004</b></li>
+<li><b>DontUseSheet = 0x00000008</b></li>
+<li><b>DontUseNativeDialog = 0x00000010</b></li>
+<li><b>ReadOnly = 0x00000020</b></li>
+<li><b>HideNameFilterDetails = 0x00000040</b></li>
+<li><b>DontUseCustomDirectoryIcons = 0x00000080</b></li>
+<li><b>Option( value )</b></li>
+<li><b>Options( value1, value2, ... )</b></li>
+<li><b>Detail</b></li>
+<li><b>List</b></li>
+<li><b>ViewMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QFileDialog prototype object inherits properties from the <a href="qdialog.html">QDialog</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>QDir directory()</b></li>
+<li><div class="fn"/><b>QUrl directoryUrl()</b></li>
+<li><div class="fn"/><b>Filters filter()</b></li>
+<li><div class="fn"/><b>List history()</b></li>
+<li><div class="fn"/><b>QFileIconProvider iconProvider()</b></li>
+<li><div class="fn"/><b>bool isNameFilterDetailsVisible()</b></li>
+<li><div class="fn"/><b>QAbstractItemDelegate itemDelegate()</b></li>
+<li><div class="fn"/><b>String labelText(DialogLabel label)</b></li>
+<li><div class="fn"/><b>List mimeTypeFilters()</b></li>
+<li><div class="fn"/><b>List nameFilters()</b></li>
+<li><div class="fn"/><b>void open(QObject receiver, char member)</b></li>
+<li><div class="fn"/><b>QAbstractProxyModel proxyModel()</b></li>
+<li><div class="fn"/><b>bool restoreState(QByteArray state)</b></li>
+<li><div class="fn"/><b>QByteArray saveState()</b></li>
+<li><div class="fn"/><b>void selectFile(String filename)</b></li>
+<li><div class="fn"/><b>void selectMimeTypeFilter(String filter)</b></li>
+<li><div class="fn"/><b>void selectNameFilter(String filter)</b></li>
+<li><div class="fn"/><b>void selectUrl(QUrl url)</b></li>
+<li><div class="fn"/><b>List selectedFiles()</b></li>
+<li><div class="fn"/><b>String selectedNameFilter()</b></li>
+<li><div class="fn"/><b>List selectedUrls()</b></li>
+<li><div class="fn"/><b>void setDirectory(QDir directory)</b></li>
+<li><div class="fn"/><b>void setDirectoryUrl(QUrl directory)</b></li>
+<li><div class="fn"/><b>void setFilter(Filters filters)</b></li>
+<li><div class="fn"/><b>void setHistory(List paths)</b></li>
+<li><div class="fn"/><b>void setIconProvider(QFileIconProvider provider)</b></li>
+<li><div class="fn"/><b>void setItemDelegate(QAbstractItemDelegate delegate)</b></li>
+<li><div class="fn"/><b>void setLabelText(DialogLabel label, String text)</b></li>
+<li><div class="fn"/><b>void setMimeTypeFilters(List filters)</b></li>
+<li><div class="fn"/><b>void setNameFilter(String filter)</b></li>
+<li><div class="fn"/><b>void setNameFilterDetailsVisible(bool enabled)</b></li>
+<li><div class="fn"/><b>void setNameFilters(List filters)</b></li>
+<li><div class="fn"/><b>void setOption(Option option, bool on)</b></li>
+<li><div class="fn"/><b>void setProxyModel(QAbstractProxyModel model)</b></li>
+<li><div class="fn"/><b>void setSidebarUrls(List urls)</b></li>
+<li><div class="fn"/><b>List sidebarUrls()</b></li>
+<li><div class="fn"/><b>bool testOption(Option option)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QFileDialog objects inherit properties from the QFileDialog prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>viewMode</b></li>
+<li><div class="fn"/><b>fileMode</b></li>
+<li><div class="fn"/><b>acceptMode</b></li>
+<li><div class="fn"/><b>readOnly</b></li>
+<li><div class="fn"/><b>resolveSymlinks</b></li>
+<li><div class="fn"/><b>confirmOverwrite</b></li>
+<li><div class="fn"/><b>defaultSuffix</b></li>
+<li><div class="fn"/><b>nameFilterDetailsVisible</b></li>
+<li><div class="fn"/><b>options</b></li>
+<li><div class="fn"/><b>supportedSchemes</b></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QPainter Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QPainter Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QPainter()</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QPainter prototype object</li>
+<li><div class="fn"/><b>QPaintDevice redirected(QPaintDevice device, QPoint offset)</b></li>
+<li><div class="fn"/><b>void restoreRedirected(QPaintDevice device)</b></li>
+<li><div class="fn"/><b>void setRedirected(QPaintDevice device, QPaintDevice replacement, QPoint offset)</b></li>
+<li><b>CompositionMode_SourceOver</b></li>
+<li><b>CompositionMode_DestinationOver</b></li>
+<li><b>CompositionMode_Clear</b></li>
+<li><b>CompositionMode_Source</b></li>
+<li><b>CompositionMode_Destination</b></li>
+<li><b>CompositionMode_SourceIn</b></li>
+<li><b>CompositionMode_DestinationIn</b></li>
+<li><b>CompositionMode_SourceOut</b></li>
+<li><b>CompositionMode_DestinationOut</b></li>
+<li><b>CompositionMode_SourceAtop</b></li>
+<li><b>CompositionMode_DestinationAtop</b></li>
+<li><b>CompositionMode_Xor</b></li>
+<li><b>CompositionMode_Plus</b></li>
+<li><b>CompositionMode_Multiply</b></li>
+<li><b>CompositionMode_Screen</b></li>
+<li><b>CompositionMode_Overlay</b></li>
+<li><b>CompositionMode_Darken</b></li>
+<li><b>CompositionMode_Lighten</b></li>
+<li><b>CompositionMode_ColorDodge</b></li>
+<li><b>CompositionMode_ColorBurn</b></li>
+<li><b>CompositionMode_HardLight</b></li>
+<li><b>CompositionMode_SoftLight</b></li>
+<li><b>CompositionMode_Difference</b></li>
+<li><b>CompositionMode_Exclusion</b></li>
+<li><b>RasterOp_SourceOrDestination</b></li>
+<li><b>RasterOp_SourceAndDestination</b></li>
+<li><b>RasterOp_SourceXorDestination</b></li>
+<li><b>RasterOp_NotSourceAndNotDestination</b></li>
+<li><b>RasterOp_NotSourceOrNotDestination</b></li>
+<li><b>RasterOp_NotSourceXorDestination</b></li>
+<li><b>RasterOp_NotSource</b></li>
+<li><b>RasterOp_NotSourceAndDestination</b></li>
+<li><b>RasterOp_SourceAndNotDestination</b></li>
+<li><b>RasterOp_NotSourceOrDestination</b></li>
+<li><b>RasterOp_SourceOrNotDestination</b></li>
+<li><b>RasterOp_ClearDestination</b></li>
+<li><b>RasterOp_SetDestination</b></li>
+<li><b>RasterOp_NotDestination</b></li>
+<li><b>CompositionMode( value )</b></li>
+<li><b>OpaqueHint = 0x01</b></li>
+<li><b>PixmapFragmentHint( value )</b></li>
+<li><b>Antialiasing = 0x01</b></li>
+<li><b>TextAntialiasing = 0x02</b></li>
+<li><b>SmoothPixmapTransform = 0x04</b></li>
+<li><b>HighQualityAntialiasing = 0x08</b></li>
+<li><b>NonCosmeticDefaultPen = 0x10</b></li>
+<li><b>Qt4CompatiblePainting = 0x20</b></li>
+<li><b>RenderHint( value )</b></li>
+<li><b>RenderHints( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>QBrush background()</b></li>
+<li><div class="fn"/><b>BGMode backgroundMode()</b></li>
+<li><div class="fn"/><b>bool begin(QPaintDevice arg__1)</b></li>
+<li><div class="fn"/><b>void beginNativePainting()</b></li>
+<li><div class="fn"/><b>QRect boundingRect(QRect rect, int flags, String text)</b></li>
+<li><div class="fn"/><b>QBrush brush()</b></li>
+<li><div class="fn"/><b>QPoint brushOrigin()</b></li>
+<li><div class="fn"/><b>QRectF clipBoundingRect()</b></li>
+<li><div class="fn"/><b>QPainterPath clipPath()</b></li>
+<li><div class="fn"/><b>QRegion clipRegion()</b></li>
+<li><div class="fn"/><b>QMatrix combinedMatrix()</b></li>
+<li><div class="fn"/><b>QTransform combinedTransform()</b></li>
+<li><div class="fn"/><b>CompositionMode compositionMode()</b></li>
+<li><div class="fn"/><b>QPaintDevice device()</b></li>
+<li><div class="fn"/><b>QMatrix deviceMatrix()</b></li>
+<li><div class="fn"/><b>QTransform deviceTransform()</b></li>
+<li><div class="fn"/><b>void drawArc(QRect arg__1, int a, int alen)</b></li>
+<li><div class="fn"/><b>void drawChord(QRect arg__1, int a, int alen)</b></li>
+<li><div class="fn"/><b>void drawConvexPolygon(QPolygon polygon)</b></li>
+<li><div class="fn"/><b>void drawEllipse(QPoint center, int rx, int ry)</b></li>
+<li><div class="fn"/><b>void drawImage(QPoint p, QImage image)</b></li>
+<li><div class="fn"/><b>void drawLine(QLine line)</b></li>
+<li><div class="fn"/><b>void drawLines(List lines)</b></li>
+<li><div class="fn"/><b>void drawLinesF(List lines)</b></li>
+<li><div class="fn"/><b>void drawLinesFromPoints(List pointPairs)</b></li>
+<li><div class="fn"/><b>void drawLinesFromPointsF(List pointPairs)</b></li>
+<li><div class="fn"/><b>void drawPath(QPainterPath path)</b></li>
+<li><div class="fn"/><b>void drawPicture(QPoint p, QPicture picture)</b></li>
+<li><div class="fn"/><b>void drawPie(QRect arg__1, int a, int alen)</b></li>
+<li><div class="fn"/><b>void drawPixmap(QPoint p, QPixmap pm)</b></li>
+<li><div class="fn"/><b>void drawPoint(QPoint p)</b></li>
+<li><div class="fn"/><b>void drawPoints(QPolygon points)</b></li>
+<li><div class="fn"/><b>void drawPolygon(QPolygon polygon, FillRule fillRule)</b></li>
+<li><div class="fn"/><b>void drawPolyline(QPolygon polygon)</b></li>
+<li><div class="fn"/><b>void drawRect(QRect rect)</b></li>
+<li><div class="fn"/><b>void drawRects(List rectangles)</b></li>
+<li><div class="fn"/><b>void drawRectsF(List rectangles)</b></li>
+<li><div class="fn"/><b>void drawRoundRect(QRect r, int xround, int yround)</b></li>
+<li><div class="fn"/><b>void drawRoundedRect(QRect rect, qreal xRadius, qreal yRadius, SizeMode mode)</b></li>
+<li><div class="fn"/><b>void drawText(QPoint p, String s)</b></li>
+<li><div class="fn"/><b>void drawTextItem(QPoint p, QTextItem ti)</b></li>
+<li><div class="fn"/><b>void drawTiledPixmap(QRect arg__1, QPixmap arg__2, QPoint arg__3)</b></li>
+<li><div class="fn"/><b>bool end()</b></li>
+<li><div class="fn"/><b>void endNativePainting()</b></li>
+<li><div class="fn"/><b>void eraseRect(QRect arg__1)</b></li>
+<li><div class="fn"/><b>void fillPath(QPainterPath path, QBrush brush)</b></li>
+<li><div class="fn"/><b>void fillRect(QRect arg__1, QBrush arg__2)</b></li>
+<li><div class="fn"/><b>QFont font()</b></li>
+<li><div class="fn"/><b>bool hasClipping()</b></li>
+<li><div class="fn"/><b>void initFrom(QPaintDevice device)</b></li>
+<li><div class="fn"/><b>bool isActive()</b></li>
+<li><div class="fn"/><b>LayoutDirection layoutDirection()</b></li>
+<li><div class="fn"/><b>qreal opacity()</b></li>
+<li><div class="fn"/><b>QPaintEngine paintEngine()</b></li>
+<li><div class="fn"/><b>QPen pen()</b></li>
+<li><div class="fn"/><b>RenderHints renderHints()</b></li>
+<li><div class="fn"/><b>void resetMatrix()</b></li>
+<li><div class="fn"/><b>void resetTransform()</b></li>
+<li><div class="fn"/><b>void restore()</b></li>
+<li><div class="fn"/><b>void rotate(qreal a)</b></li>
+<li><div class="fn"/><b>void save()</b></li>
+<li><div class="fn"/><b>void scale(qreal sx, qreal sy)</b></li>
+<li><div class="fn"/><b>void setBackground(QBrush bg)</b></li>
+<li><div class="fn"/><b>void setBackgroundMode(BGMode mode)</b></li>
+<li><div class="fn"/><b>void setBrush(BrushStyle style)</b></li>
+<li><div class="fn"/><b>void setBrushOrigin(QPoint arg__1)</b></li>
+<li><div class="fn"/><b>void setClipPath(QPainterPath path, ClipOperation op)</b></li>
+<li><div class="fn"/><b>void setClipRect(QRect arg__1, ClipOperation op)</b></li>
+<li><div class="fn"/><b>void setClipRegion(QRegion arg__1, ClipOperation op)</b></li>
+<li><div class="fn"/><b>void setClipping(bool enable)</b></li>
+<li><div class="fn"/><b>void setCompositionMode(CompositionMode mode)</b></li>
+<li><div class="fn"/><b>void setFont(QFont f)</b></li>
+<li><div class="fn"/><b>void setLayoutDirection(LayoutDirection direction)</b></li>
+<li><div class="fn"/><b>void setOpacity(qreal opacity)</b></li>
+<li><div class="fn"/><b>void setPen(PenStyle style)</b></li>
+<li><div class="fn"/><b>void setRenderHint(RenderHint hint, bool on)</b></li>
+<li><div class="fn"/><b>void setRenderHints(RenderHints hints, bool on)</b></li>
+<li><div class="fn"/><b>void setTransform(QTransform transform, bool combine)</b></li>
+<li><div class="fn"/><b>void setViewTransformEnabled(bool enable)</b></li>
+<li><div class="fn"/><b>void setViewport(QRect viewport)</b></li>
+<li><div class="fn"/><b>void setWindow(QRect window)</b></li>
+<li><div class="fn"/><b>void setWorldMatrix(QMatrix matrix, bool combine)</b></li>
+<li><div class="fn"/><b>void setWorldMatrixEnabled(bool enabled)</b></li>
+<li><div class="fn"/><b>void setWorldTransform(QTransform matrix, bool combine)</b></li>
+<li><div class="fn"/><b>void shear(qreal sh, qreal sv)</b></li>
+<li><div class="fn"/><b>void strokePath(QPainterPath path, QPen pen)</b></li>
+<li><div class="fn"/><b>bool testRenderHint(RenderHint hint)</b></li>
+<li><div class="fn"/><b>QTransform transform()</b></li>
+<li><div class="fn"/><b>void translate(QPoint offset)</b></li>
+<li><div class="fn"/><b>bool viewTransformEnabled()</b></li>
+<li><div class="fn"/><b>QRect viewport()</b></li>
+<li><div class="fn"/><b>QRect window()</b></li>
+<li><div class="fn"/><b>QMatrix worldMatrix()</b></li>
+<li><div class="fn"/><b>bool worldMatrixEnabled()</b></li>
+<li><div class="fn"/><b>QTransform worldTransform()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QPainter objects have no special properties beyond those inherited from the QPainter prototype object.</p>
+</body>
+</html>

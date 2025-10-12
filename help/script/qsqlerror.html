@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QSqlError Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QSqlError Class Reference</h1>
+<h3 align="center">[<a href="qt_sql.html">qt.sql</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QSqlError(QSqlError other)</b></li>
+<li><div class="fn"/><b>void QSqlError(String driverText, String databaseText, ErrorType type, String errorCode)</b></li>
+<li><div class="fn"/><b>void QSqlError(String driverText, String databaseText, ErrorType type, int number)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QSqlError prototype object</li>
+<li><b>NoError</b></li>
+<li><b>ConnectionError</b></li>
+<li><b>StatementError</b></li>
+<li><b>TransactionError</b></li>
+<li><b>UnknownError</b></li>
+<li><b>ErrorType( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>String databaseText()</b></li>
+<li><div class="fn"/><b>String driverText()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>String nativeErrorCode()</b></li>
+<li><div class="fn"/><b>int number()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QSqlError other)</b></li>
+<li><div class="fn"/><b>void setDatabaseText(String databaseText)</b></li>
+<li><div class="fn"/><b>void setDriverText(String driverText)</b></li>
+<li><div class="fn"/><b>void setNumber(int number)</b></li>
+<li><div class="fn"/><b>void setType(ErrorType type)</b></li>
+<li><div class="fn"/><b>String text()</b></li>
+<li><div class="fn"/><b>ErrorType type()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QSqlError objects have no special properties beyond those inherited from the QSqlError prototype object.</p>
+</body>
+</html>

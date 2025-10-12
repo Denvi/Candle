@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Обход границ</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="%D0%BE%D0%B1%D1%85%D0%BE%D0%B4-%D0%B3%D1%80%D0%B0%D0%BD%D0%B8%D1%86">Обход границ</h1>
+<pre class="hljs"><code><div><span class="hljs-comment">// Подключаем модули Qt, чтобы можно было показать диалог по завершении</span>
+script.importExtension(<span class="hljs-string">"qt.gui"</span>);
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>);
+
+<span class="hljs-comment">// Формируем и сразу отправляем в устройство список G-кодов:</span>
+<span class="hljs-comment">// G21 – работа в миллиметрах, G90 – абсолютные координаты, F100 – подача 100 мм/мин</span>
+<span class="hljs-comment">// Далее четыре строки прямоугольного контура по границам рабочей области</span>
+<span class="hljs-comment">// M2 – корректный конец программы; устройство вернёт ответ после выполнения всей траектории</span>
+app.device.sendCommands([
+    <span class="hljs-string">"G21G90F100"</span>,
+    <span class="hljs-string">"G1X"</span> + app.program.lowerBounds.x() + <span class="hljs-string">"Y"</span> + app.program.lowerBounds.y(),
+    <span class="hljs-string">"G1Y"</span> + app.program.upperBounds.y(),
+    <span class="hljs-string">"G1X"</span> + app.program.upperBounds.x(),
+    <span class="hljs-string">"G1Y"</span> + app.program.lowerBounds.y(),
+    <span class="hljs-string">"G1X"</span> + app.program.lowerBounds.x(),
+    <span class="hljs-string">"M2"</span> <span class="hljs-comment">// будет отправлен ответ, когда весь путь реально отработан</span>
+]);
+
+<span class="hljs-comment">// Ждём, пока устройство не подтвердит выполнение всех команд (включая M2)</span>
+app.device.waitResponses();
+
+<span class="hljs-comment">// Показываем пользователю модальный диалог «Done» – обработка завершена</span>
+QMessageBox.information(app.window, <span class="hljs-string">""</span>, <span class="hljs-string">"Done"</span>);
+</div></code></pre>
+
+</body>
+</html>

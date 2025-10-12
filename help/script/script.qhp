@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QtHelpProject version="1.0">
+   <namespace>candle.script</namespace>
+   <virtualFolder>html</virtualFolder>
+   <filterSection>
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>en</filterAttribute>
+      <toc>
+         <section title="Script bindings reference" ref="index.html">
+            <section title="Getting started" ref="gettingstarted.html"/>
+            <section title="Packages" ref="packages.html"/>
+            <section title="All classes" ref="classes.html"/>
+         </section>
+      </toc>
+      <files>
+         <file>classic.css</file>
+         <file>*.html</file>
+      </files>
+   </filterSection>
+   <filterSection>
+      <filterAttribute>candle</filterAttribute>
+      <filterAttribute>ru</filterAttribute>
+      <toc>
+         <section title="Руководство по привязкам Qt-классов" ref="index.html">
+            <section title="Getting started" ref="gettingstarted.html"/>
+            <section title="Packages" ref="packages.html"/>
+            <section title="All classes" ref="classes.html"/>
+         </section>
+      </toc>
+      <files>
+         <file>classic.css</file>
+         <file>*.html</file>
+      </files>
+   </filterSection>
+</QtHelpProject>

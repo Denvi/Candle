@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QDir Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QDir Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QDir(QDir arg__1)</b></li>
+<li><div class="fn"/><b>void QDir(String path)</b></li>
+<li><div class="fn"/><b>void QDir(String path, String nameFilter, SortFlags sort, Filters filter)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QDir prototype object</li>
+<li><div class="fn"/><b>void addSearchPath(String prefix, String path)</b></li>
+<li><div class="fn"/><b>String cleanPath(String path)</b></li>
+<li><div class="fn"/><b>QDir current()</b></li>
+<li><div class="fn"/><b>String currentPath()</b></li>
+<li><div class="fn"/><b>List drives()</b></li>
+<li><div class="fn"/><b>String fromNativeSeparators(String pathName)</b></li>
+<li><div class="fn"/><b>QDir home()</b></li>
+<li><div class="fn"/><b>String homePath()</b></li>
+<li><div class="fn"/><b>bool isAbsolutePath(String path)</b></li>
+<li><div class="fn"/><b>bool isRelativePath(String path)</b></li>
+<li><div class="fn"/><b>char listSeparator()</b></li>
+<li><div class="fn"/><b>bool match(String filter, String fileName)</b></li>
+<li><div class="fn"/><b>List nameFiltersFromString(String nameFilter)</b></li>
+<li><div class="fn"/><b>QDir root()</b></li>
+<li><div class="fn"/><b>String rootPath()</b></li>
+<li><div class="fn"/><b>List searchPaths(String prefix)</b></li>
+<li><div class="fn"/><b>char separator()</b></li>
+<li><div class="fn"/><b>bool setCurrent(String path)</b></li>
+<li><div class="fn"/><b>void setSearchPaths(String prefix, List searchPaths)</b></li>
+<li><div class="fn"/><b>QDir temp()</b></li>
+<li><div class="fn"/><b>String tempPath()</b></li>
+<li><div class="fn"/><b>String toNativeSeparators(String pathName)</b></li>
+<li><b>NoFilter = -1</b></li>
+<li><b>Dirs = 0x001</b></li>
+<li><b>Files = 0x002</b></li>
+<li><b>Drives = 0x004</b></li>
+<li><b>AllEntries = Dirs|Files|Drives</b></li>
+<li><b>NoSymLinks = 0x008</b></li>
+<li><b>TypeMask = 0x00f</b></li>
+<li><b>Readable = 0x010</b></li>
+<li><b>Writable = 0x020</b></li>
+<li><b>Executable = 0x040</b></li>
+<li><b>PermissionMask = 0x070</b></li>
+<li><b>Modified = 0x080</b></li>
+<li><b>Hidden = 0x100</b></li>
+<li><b>System = 0x200</b></li>
+<li><b>AccessMask = 0x3F0</b></li>
+<li><b>AllDirs = 0x400</b></li>
+<li><b>CaseSensitive = 0x800</b></li>
+<li><b>NoDot = 0x2000</b></li>
+<li><b>NoDotDot = 0x4000</b></li>
+<li><b>NoDotAndDotDot = NoDot|NoDotDot</b></li>
+<li><b>Filter( value )</b></li>
+<li><b>Filters( value1, value2, ... )</b></li>
+<li><b>NoSort = -1</b></li>
+<li><b>Name = 0x00</b></li>
+<li><b>Time = 0x01</b></li>
+<li><b>Size = 0x02</b></li>
+<li><b>Unsorted = 0x03</b></li>
+<li><b>DirsFirst = 0x04</b></li>
+<li><b>Reversed = 0x08</b></li>
+<li><b>IgnoreCase = 0x10</b></li>
+<li><b>DirsLast = 0x20</b></li>
+<li><b>LocaleAware = 0x40</b></li>
+<li><b>Type = 0x80</b></li>
+<li><b>SortFlag( value )</b></li>
+<li><b>SortFlags( value1, value2, ... )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>String absoluteFilePath(String fileName)</b></li>
+<li><div class="fn"/><b>String absolutePath()</b></li>
+<li><div class="fn"/><b>String canonicalPath()</b></li>
+<li><div class="fn"/><b>bool cd(String dirName)</b></li>
+<li><div class="fn"/><b>bool cdUp()</b></li>
+<li><div class="fn"/><b>uint count()</b></li>
+<li><div class="fn"/><b>String dirName()</b></li>
+<li><div class="fn"/><b>List entryInfoList(Filters filters, SortFlags sort)</b></li>
+<li><div class="fn"/><b>List entryList(Filters filters, SortFlags sort)</b></li>
+<li><div class="fn"/><b>bool exists()</b></li>
+<li><div class="fn"/><b>String filePath(String fileName)</b></li>
+<li><div class="fn"/><b>Filters filter()</b></li>
+<li><div class="fn"/><b>bool isAbsolute()</b></li>
+<li><div class="fn"/><b>bool isReadable()</b></li>
+<li><div class="fn"/><b>bool isRelative()</b></li>
+<li><div class="fn"/><b>bool isRoot()</b></li>
+<li><div class="fn"/><b>bool makeAbsolute()</b></li>
+<li><div class="fn"/><b>bool mkdir(String dirName)</b></li>
+<li><div class="fn"/><b>bool mkpath(String dirPath)</b></li>
+<li><div class="fn"/><b>List nameFilters()</b></li>
+<li><div class="fn"/><b>bool operator_equal(QDir dir)</b></li>
+<li><div class="fn"/><b>String operator_subscript(int arg__1)</b></li>
+<li><div class="fn"/><b>String path()</b></li>
+<li><div class="fn"/><b>void refresh()</b></li>
+<li><div class="fn"/><b>String relativeFilePath(String fileName)</b></li>
+<li><div class="fn"/><b>bool remove(String fileName)</b></li>
+<li><div class="fn"/><b>bool removeRecursively()</b></li>
+<li><div class="fn"/><b>bool rename(String oldName, String newName)</b></li>
+<li><div class="fn"/><b>bool rmdir(String dirName)</b></li>
+<li><div class="fn"/><b>bool rmpath(String dirPath)</b></li>
+<li><div class="fn"/><b>void setFilter(Filters filter)</b></li>
+<li><div class="fn"/><b>void setNameFilters(List nameFilters)</b></li>
+<li><div class="fn"/><b>void setPath(String path)</b></li>
+<li><div class="fn"/><b>void setSorting(SortFlags sort)</b></li>
+<li><div class="fn"/><b>SortFlags sorting()</b></li>
+<li><div class="fn"/><b>void swap(QDir other)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QDir objects have no special properties beyond those inherited from the QDir prototype object.</p>
+</body>
+</html>

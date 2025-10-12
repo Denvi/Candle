@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGLPixelBuffer Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGLPixelBuffer Class Reference</h1>
+<h3 align="center">[<a href="qt_opengl.html">qt.opengl</a> package]</h3>
+<p>Inherits <a href="qpaintdevice.html">QPaintDevice</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGLPixelBuffer(QSize size, QGLFormat format, QGLWidget shareWidget)</b></li>
+<li><div class="fn"/><b>void QGLPixelBuffer(int width, int height, QGLFormat format, QGLWidget shareWidget)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGLPixelBuffer prototype object</li>
+<li><div class="fn"/><b>bool hasOpenGLPbuffers()</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>unsigned int bindTexture(QImage image, unsigned int target)</b></li>
+<li><div class="fn"/><b>bool bindToDynamicTexture(unsigned int texture)</b></li>
+<li><div class="fn"/><b>QGLContext context()</b></li>
+<li><div class="fn"/><b>void deleteTexture(unsigned int texture_id)</b></li>
+<li><div class="fn"/><b>bool doneCurrent()</b></li>
+<li><div class="fn"/><b>void drawTexture(QPointF point, unsigned int textureId, unsigned int textureTarget)</b></li>
+<li><div class="fn"/><b>QGLFormat format()</b></li>
+<li><div class="fn"/><b>unsigned int generateDynamicTexture()</b></li>
+<li><div class="fn"/><b>Qt::HANDLE handle()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>bool makeCurrent()</b></li>
+<li><div class="fn"/><b>void releaseFromDynamicTexture()</b></li>
+<li><div class="fn"/><b>QSize size()</b></li>
+<li><div class="fn"/><b>QImage toImage()</b></li>
+<li><div class="fn"/><b>void updateDynamicTexture(unsigned int texture_id)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGLPixelBuffer objects have no special properties beyond those inherited from the QGLPixelBuffer prototype object.</p>
+</body>
+</html>

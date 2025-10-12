@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QInputDialog Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QInputDialog Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qdialog.html">QDialog</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QInputDialog(QWidget parent, WindowFlags flags)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QInputDialog prototype object</li>
+<li><div class="fn"/><b>double getDouble(QWidget parent, String title, String label, double value, double minValue, double maxValue, int decimals, WindowFlags flags)</b></li>
+<li><div class="fn"/><b>int getInt_private(QWidget parent, String title, String label, int value, int minValue, int maxValue, int step, bool ok, WindowFlags flags)</b></li>
+<li><div class="fn"/><b>String getItem(QWidget parent, String title, String label, List items, int current, bool editable, bool ok, WindowFlags flags, InputMethodHints inputMethodHints)</b></li>
+<li><div class="fn"/><b>String getMultiLineText(QWidget parent, String title, String label, String text, bool ok, WindowFlags flags, InputMethodHints inputMethodHints)</b></li>
+<li><div class="fn"/><b>String getText(QWidget parent, String title, String label, EchoMode echo, String text, bool ok, WindowFlags flags, InputMethodHints inputMethodHints)</b></li>
+<li><b>NoButtons = 0x00000001</b></li>
+<li><b>UseListViewForComboBoxItems = 0x00000002</b></li>
+<li><b>UsePlainTextEditForTextInput = 0x00000004</b></li>
+<li><b>InputDialogOption( value )</b></li>
+<li><b>InputDialogOptions( value1, value2, ... )</b></li>
+<li><b>TextInput</b></li>
+<li><b>IntInput</b></li>
+<li><b>DoubleInput</b></li>
+<li><b>InputMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QInputDialog prototype object inherits properties from the <a href="qdialog.html">QDialog</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>String cancelButtonText()</b></li>
+<li><div class="fn"/><b>List comboBoxItems()</b></li>
+<li><div class="fn"/><b>int doubleDecimals()</b></li>
+<li><div class="fn"/><b>double doubleMaximum()</b></li>
+<li><div class="fn"/><b>double doubleMinimum()</b></li>
+<li><div class="fn"/><b>double doubleValue()</b></li>
+<li><div class="fn"/><b>InputMode inputMode()</b></li>
+<li><div class="fn"/><b>int intMaximum()</b></li>
+<li><div class="fn"/><b>int intMinimum()</b></li>
+<li><div class="fn"/><b>int intStep()</b></li>
+<li><div class="fn"/><b>int intValue()</b></li>
+<li><div class="fn"/><b>bool isComboBoxEditable()</b></li>
+<li><div class="fn"/><b>String labelText()</b></li>
+<li><div class="fn"/><b>String okButtonText()</b></li>
+<li><div class="fn"/><b>void open(QObject receiver, char member)</b></li>
+<li><div class="fn"/><b>InputDialogOptions options()</b></li>
+<li><div class="fn"/><b>void setCancelButtonText(String text)</b></li>
+<li><div class="fn"/><b>void setComboBoxEditable(bool editable)</b></li>
+<li><div class="fn"/><b>void setComboBoxItems(List items)</b></li>
+<li><div class="fn"/><b>void setDoubleDecimals(int decimals)</b></li>
+<li><div class="fn"/><b>void setDoubleMaximum(double max)</b></li>
+<li><div class="fn"/><b>void setDoubleMinimum(double min)</b></li>
+<li><div class="fn"/><b>void setDoubleRange(double min, double max)</b></li>
+<li><div class="fn"/><b>void setDoubleValue(double value)</b></li>
+<li><div class="fn"/><b>void setInputMode(InputMode mode)</b></li>
+<li><div class="fn"/><b>void setIntMaximum(int max)</b></li>
+<li><div class="fn"/><b>void setIntMinimum(int min)</b></li>
+<li><div class="fn"/><b>void setIntRange(int min, int max)</b></li>
+<li><div class="fn"/><b>void setIntStep(int step)</b></li>
+<li><div class="fn"/><b>void setIntValue(int value)</b></li>
+<li><div class="fn"/><b>void setLabelText(String text)</b></li>
+<li><div class="fn"/><b>void setOkButtonText(String text)</b></li>
+<li><div class="fn"/><b>void setOption(InputDialogOption option, bool on)</b></li>
+<li><div class="fn"/><b>void setOptions(InputDialogOptions options)</b></li>
+<li><div class="fn"/><b>void setTextEchoMode(EchoMode mode)</b></li>
+<li><div class="fn"/><b>void setTextValue(String text)</b></li>
+<li><div class="fn"/><b>bool testOption(InputDialogOption option)</b></li>
+<li><div class="fn"/><b>EchoMode textEchoMode()</b></li>
+<li><div class="fn"/><b>String textValue()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QInputDialog objects have no special properties beyond those inherited from the QInputDialog prototype object.</p>
+</body>
+</html>

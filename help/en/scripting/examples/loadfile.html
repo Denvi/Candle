@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loading a file</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="loading-a-file">Loading a file</h1>
+<p>The example shows how to load an array of strings into the “G-code program” window.<br>
+Useful when generating your own machining programs.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Load a ready-made G-code program into the workspace</span>
+app.loadFile([
+    <span class="hljs-string">"G21G90"</span>,
+    <span class="hljs-string">"G0X0Y0Z0"</span>,
+    <span class="hljs-string">"G1X10F100"</span>,
+    <span class="hljs-string">"G1Y10F200"</span>,
+    <span class="hljs-string">"G0Z1"</span>,
+    <span class="hljs-string">"G0X0Y0"</span>,
+    <span class="hljs-string">"M2"</span>
+]);
+</div></code></pre>
+
+</body>
+</html>

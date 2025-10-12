@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QSettings Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QSettings Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QSettings(QObject parent)</b></li>
+<li><div class="fn"/><b>void QSettings(Format format, Scope scope, String organization, String application, QObject parent)</b></li>
+<li><div class="fn"/><b>void QSettings(Scope scope, String organization, String application, QObject parent)</b></li>
+<li><div class="fn"/><b>void QSettings(String fileName, Format format, QObject parent)</b></li>
+<li><div class="fn"/><b>void QSettings(String organization, String application, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QSettings prototype object</li>
+<li><div class="fn"/><b>Format defaultFormat()</b></li>
+<li><div class="fn"/><b>void setDefaultFormat(Format format)</b></li>
+<li><div class="fn"/><b>void setPath(Format format, Scope scope, String path)</b></li>
+<li><b>UserScope</b></li>
+<li><b>SystemScope</b></li>
+<li><b>Scope( value )</b></li>
+<li><b>NoError = 0</b></li>
+<li><b>AccessError</b></li>
+<li><b>FormatError</b></li>
+<li><b>Status( value )</b></li>
+<li><b>NativeFormat</b></li>
+<li><b>IniFormat</b></li>
+<li><b>InvalidFormat = 16</b></li>
+<li><b>CustomFormat1</b></li>
+<li><b>CustomFormat2</b></li>
+<li><b>CustomFormat3</b></li>
+<li><b>CustomFormat4</b></li>
+<li><b>CustomFormat5</b></li>
+<li><b>CustomFormat6</b></li>
+<li><b>CustomFormat7</b></li>
+<li><b>CustomFormat8</b></li>
+<li><b>CustomFormat9</b></li>
+<li><b>CustomFormat10</b></li>
+<li><b>CustomFormat11</b></li>
+<li><b>CustomFormat12</b></li>
+<li><b>CustomFormat13</b></li>
+<li><b>CustomFormat14</b></li>
+<li><b>CustomFormat15</b></li>
+<li><b>CustomFormat16</b></li>
+<li><b>Format( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QSettings prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>List allKeys()</b></li>
+<li><div class="fn"/><b>String applicationName()</b></li>
+<li><div class="fn"/><b>void beginGroup(String prefix)</b></li>
+<li><div class="fn"/><b>int beginReadArray(String prefix)</b></li>
+<li><div class="fn"/><b>void beginWriteArray(String prefix, int size)</b></li>
+<li><div class="fn"/><b>List childGroups()</b></li>
+<li><div class="fn"/><b>List childKeys()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>bool contains(String key)</b></li>
+<li><div class="fn"/><b>void endArray()</b></li>
+<li><div class="fn"/><b>void endGroup()</b></li>
+<li><div class="fn"/><b>bool fallbacksEnabled()</b></li>
+<li><div class="fn"/><b>String fileName()</b></li>
+<li><div class="fn"/><b>Format format()</b></li>
+<li><div class="fn"/><b>String group()</b></li>
+<li><div class="fn"/><b>QTextCodec iniCodec()</b></li>
+<li><div class="fn"/><b>bool isWritable()</b></li>
+<li><div class="fn"/><b>String organizationName()</b></li>
+<li><div class="fn"/><b>void remove(String key)</b></li>
+<li><div class="fn"/><b>Scope scope()</b></li>
+<li><div class="fn"/><b>void setArrayIndex(int i)</b></li>
+<li><div class="fn"/><b>void setFallbacksEnabled(bool b)</b></li>
+<li><div class="fn"/><b>void setIniCodec(QTextCodec codec)</b></li>
+<li><div class="fn"/><b>void setValue(String key, Object value)</b></li>
+<li><div class="fn"/><b>Status status()</b></li>
+<li><div class="fn"/><b>void sync()</b></li>
+<li><div class="fn"/><b>Object value(String key, Object defaultValue)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QSettings objects have no special properties beyond those inherited from the QSettings prototype object.</p>
+</body>
+</html>

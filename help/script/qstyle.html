@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QStyle Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QStyle Class Reference</h1>
+<h3 align="center">[<a href="qt_widgets.html">qt.widgets</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QStyle()</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QStyle prototype object</li>
+<li><div class="fn"/><b>QRect alignedRect(LayoutDirection direction, Alignment alignment, QSize size, QRect rectangle)</b></li>
+<li><div class="fn"/><b>int sliderPositionFromValue(int min, int max, int val, int space, bool upsideDown)</b></li>
+<li><div class="fn"/><b>int sliderValueFromPosition(int min, int max, int pos, int space, bool upsideDown)</b></li>
+<li><div class="fn"/><b>Alignment visualAlignment(LayoutDirection direction, Alignment alignment)</b></li>
+<li><div class="fn"/><b>QPoint visualPos(LayoutDirection direction, QRect boundingRect, QPoint logicalPos)</b></li>
+<li><div class="fn"/><b>QRect visualRect(LayoutDirection direction, QRect boundingRect, QRect logicalRect)</b></li>
+<li><b>State_None = 0x00000000</b></li>
+<li><b>State_Enabled = 0x00000001</b></li>
+<li><b>State_Raised = 0x00000002</b></li>
+<li><b>State_Sunken = 0x00000004</b></li>
+<li><b>State_Off = 0x00000008</b></li>
+<li><b>State_NoChange = 0x00000010</b></li>
+<li><b>State_On = 0x00000020</b></li>
+<li><b>State_DownArrow = 0x00000040</b></li>
+<li><b>State_Horizontal = 0x00000080</b></li>
+<li><b>State_HasFocus = 0x00000100</b></li>
+<li><b>State_Top = 0x00000200</b></li>
+<li><b>State_Bottom = 0x00000400</b></li>
+<li><b>State_FocusAtBorder = 0x00000800</b></li>
+<li><b>State_AutoRaise = 0x00001000</b></li>
+<li><b>State_MouseOver = 0x00002000</b></li>
+<li><b>State_UpArrow = 0x00004000</b></li>
+<li><b>State_Selected = 0x00008000</b></li>
+<li><b>State_Active = 0x00010000</b></li>
+<li><b>State_Window = 0x00020000</b></li>
+<li><b>State_Open = 0x00040000</b></li>
+<li><b>State_Children = 0x00080000</b></li>
+<li><b>State_Item = 0x00100000</b></li>
+<li><b>State_Sibling = 0x00200000</b></li>
+<li><b>State_Editing = 0x00400000</b></li>
+<li><b>State_KeyboardFocusChange = 0x00800000</b></li>
+<li><b>State_ReadOnly = 0x02000000</b></li>
+<li><b>State_Small = 0x04000000</b></li>
+<li><b>State_Mini = 0x08000000</b></li>
+<li><b>StateFlag( value )</b></li>
+<li><b>State( value1, value2, ... )</b></li>
+<li><b>SP_CustomBase = 0xf0000000</b></li>
+<li><b>SP_TitleBarMenuButton</b></li>
+<li><b>SP_TitleBarMinButton</b></li>
+<li><b>SP_TitleBarMaxButton</b></li>
+<li><b>SP_TitleBarCloseButton</b></li>
+<li><b>SP_TitleBarNormalButton</b></li>
+<li><b>SP_TitleBarShadeButton</b></li>
+<li><b>SP_TitleBarUnshadeButton</b></li>
+<li><b>SP_TitleBarContextHelpButton</b></li>
+<li><b>SP_DockWidgetCloseButton</b></li>
+<li><b>SP_MessageBoxInformation</b></li>
+<li><b>SP_MessageBoxWarning</b></li>
+<li><b>SP_MessageBoxCritical</b></li>
+<li><b>SP_MessageBoxQuestion</b></li>
+<li><b>SP_DesktopIcon</b></li>
+<li><b>SP_TrashIcon</b></li>
+<li><b>SP_ComputerIcon</b></li>
+<li><b>SP_DriveFDIcon</b></li>
+<li><b>SP_DriveHDIcon</b></li>
+<li><b>SP_DriveCDIcon</b></li>
+<li><b>SP_DriveDVDIcon</b></li>
+<li><b>SP_DriveNetIcon</b></li>
+<li><b>SP_DirOpenIcon</b></li>
+<li><b>SP_DirClosedIcon</b></li>
+<li><b>SP_DirLinkIcon</b></li>
+<li><b>SP_DirLinkOpenIcon</b></li>
+<li><b>SP_FileIcon</b></li>
+<li><b>SP_FileLinkIcon</b></li>
+<li><b>SP_ToolBarHorizontalExtensionButton</b></li>
+<li><b>SP_ToolBarVerticalExtensionButton</b></li>
+<li><b>SP_FileDialogStart</b></li>
+<li><b>SP_FileDialogEnd</b></li>
+<li><b>SP_FileDialogToParent</b></li>
+<li><b>SP_FileDialogNewFolder</b></li>
+<li><b>SP_FileDialogDetailedView</b></li>
+<li><b>SP_FileDialogInfoView</b></li>
+<li><b>SP_FileDialogContentsView</b></li>
+<li><b>SP_FileDialogListView</b></li>
+<li><b>SP_FileDialogBack</b></li>
+<li><b>SP_DirIcon</b></li>
+<li><b>SP_DialogOkButton</b></li>
+<li><b>SP_DialogCancelButton</b></li>
+<li><b>SP_DialogHelpButton</b></li>
+<li><b>SP_DialogOpenButton</b></li>
+<li><b>SP_DialogSaveButton</b></li>
+<li><b>SP_DialogCloseButton</b></li>
+<li><b>SP_DialogApplyButton</b></li>
+<li><b>SP_DialogResetButton</b></li>
+<li><b>SP_DialogDiscardButton</b></li>
+<li><b>SP_DialogYesButton</b></li>
+<li><b>SP_DialogNoButton</b></li>
+<li><b>SP_ArrowUp</b></li>
+<li><b>SP_ArrowDown</b></li>
+<li><b>SP_ArrowLeft</b></li>
+<li><b>SP_ArrowRight</b></li>
+<li><b>SP_ArrowBack</b></li>
+<li><b>SP_ArrowForward</b></li>
+<li><b>SP_DirHomeIcon</b></li>
+<li><b>SP_CommandLink</b></li>
+<li><b>SP_VistaShield</b></li>
+<li><b>SP_BrowserReload</b></li>
+<li><b>SP_BrowserStop</b></li>
+<li><b>SP_MediaPlay</b></li>
+<li><b>SP_MediaStop</b></li>
+<li><b>SP_MediaPause</b></li>
+<li><b>SP_MediaSkipForward</b></li>
+<li><b>SP_MediaSkipBackward</b></li>
+<li><b>SP_MediaSeekForward</b></li>
+<li><b>SP_MediaSeekBackward</b></li>
+<li><b>SP_MediaVolume</b></li>
+<li><b>SP_MediaVolumeMuted</b></li>
+<li><b>SP_LineEditClearButton</b></li>
+<li><b>StandardPixmap( value )</b></li>
+<li><b>CC_CustomBase = 0xf0000000</b></li>
+<li><b>CC_SpinBox</b></li>
+<li><b>CC_ComboBox</b></li>
+<li><b>CC_ScrollBar</b></li>
+<li><b>CC_Slider</b></li>
+<li><b>CC_ToolButton</b></li>
+<li><b>CC_TitleBar</b></li>
+<li><b>CC_Dial</b></li>
+<li><b>CC_GroupBox</b></li>
+<li><b>CC_MdiControls</b></li>
+<li><b>ComplexControl( value )</b></li>
+<li><b>CE_CustomBase = 0xf0000000</b></li>
+<li><b>CE_PushButton</b></li>
+<li><b>CE_PushButtonBevel</b></li>
+<li><b>CE_PushButtonLabel</b></li>
+<li><b>CE_CheckBox</b></li>
+<li><b>CE_CheckBoxLabel</b></li>
+<li><b>CE_RadioButton</b></li>
+<li><b>CE_RadioButtonLabel</b></li>
+<li><b>CE_TabBarTab</b></li>
+<li><b>CE_TabBarTabShape</b></li>
+<li><b>CE_TabBarTabLabel</b></li>
+<li><b>CE_ProgressBar</b></li>
+<li><b>CE_ProgressBarGroove</b></li>
+<li><b>CE_ProgressBarContents</b></li>
+<li><b>CE_ProgressBarLabel</b></li>
+<li><b>CE_MenuItem</b></li>
+<li><b>CE_MenuScroller</b></li>
+<li><b>CE_MenuVMargin</b></li>
+<li><b>CE_MenuHMargin</b></li>
+<li><b>CE_MenuTearoff</b></li>
+<li><b>CE_MenuEmptyArea</b></li>
+<li><b>CE_MenuBarItem</b></li>
+<li><b>CE_MenuBarEmptyArea</b></li>
+<li><b>CE_ToolButtonLabel</b></li>
+<li><b>CE_Header</b></li>
+<li><b>CE_HeaderSection</b></li>
+<li><b>CE_HeaderLabel</b></li>
+<li><b>CE_ToolBoxTab</b></li>
+<li><b>CE_SizeGrip</b></li>
+<li><b>CE_Splitter</b></li>
+<li><b>CE_RubberBand</b></li>
+<li><b>CE_DockWidgetTitle</b></li>
+<li><b>CE_ScrollBarAddLine</b></li>
+<li><b>CE_ScrollBarSubLine</b></li>
+<li><b>CE_ScrollBarAddPage</b></li>
+<li><b>CE_ScrollBarSubPage</b></li>
+<li><b>CE_ScrollBarSlider</b></li>
+<li><b>CE_ScrollBarFirst</b></li>
+<li><b>CE_ScrollBarLast</b></li>
+<li><b>CE_FocusFrame</b></li>
+<li><b>CE_ComboBoxLabel</b></li>
+<li><b>CE_ToolBar</b></li>
+<li><b>CE_ToolBoxTabShape</b></li>
+<li><b>CE_ToolBoxTabLabel</b></li>
+<li><b>CE_HeaderEmptyArea</b></li>
+<li><b>CE_ColumnViewGrip</b></li>
+<li><b>CE_ItemViewItem</b></li>
+<li><b>CE_ShapedFrame</b></li>
+<li><b>ControlElement( value )</b></li>
+<li><b>CT_CustomBase = 0xf0000000</b></li>
+<li><b>CT_PushButton</b></li>
+<li><b>CT_CheckBox</b></li>
+<li><b>CT_RadioButton</b></li>
+<li><b>CT_ToolButton</b></li>
+<li><b>CT_ComboBox</b></li>
+<li><b>CT_Splitter</b></li>
+<li><b>CT_ProgressBar</b></li>
+<li><b>CT_MenuItem</b></li>
+<li><b>CT_MenuBarItem</b></li>
+<li><b>CT_MenuBar</b></li>
+<li><b>CT_Menu</b></li>
+<li><b>CT_TabBarTab</b></li>
+<li><b>CT_Slider</b></li>
+<li><b>CT_ScrollBar</b></li>
+<li><b>CT_LineEdit</b></li>
+<li><b>CT_SpinBox</b></li>
+<li><b>CT_SizeGrip</b></li>
+<li><b>CT_TabWidget</b></li>
+<li><b>CT_DialogButtons</b></li>
+<li><b>CT_HeaderSection</b></li>
+<li><b>CT_GroupBox</b></li>
+<li><b>CT_MdiControls</b></li>
+<li><b>CT_ItemViewItem</b></li>
+<li><b>ContentsType( value )</b></li>
+<li><b>SE_CustomBase = 0xf0000000</b></li>
+<li><b>SE_PushButtonContents</b></li>
+<li><b>SE_PushButtonFocusRect</b></li>
+<li><b>SE_CheckBoxIndicator</b></li>
+<li><b>SE_CheckBoxContents</b></li>
+<li><b>SE_CheckBoxFocusRect</b></li>
+<li><b>SE_CheckBoxClickRect</b></li>
+<li><b>SE_RadioButtonIndicator</b></li>
+<li><b>SE_RadioButtonContents</b></li>
+<li><b>SE_RadioButtonFocusRect</b></li>
+<li><b>SE_RadioButtonClickRect</b></li>
+<li><b>SE_ComboBoxFocusRect</b></li>
+<li><b>SE_SliderFocusRect</b></li>
+<li><b>SE_ProgressBarGroove</b></li>
+<li><b>SE_ProgressBarContents</b></li>
+<li><b>SE_ProgressBarLabel</b></li>
+<li><b>SE_ToolBoxTabContents</b></li>
+<li><b>SE_HeaderLabel</b></li>
+<li><b>SE_HeaderArrow</b></li>
+<li><b>SE_TabWidgetTabBar</b></li>
+<li><b>SE_TabWidgetTabPane</b></li>
+<li><b>SE_TabWidgetTabContents</b></li>
+<li><b>SE_TabWidgetLeftCorner</b></li>
+<li><b>SE_TabWidgetRightCorner</b></li>
+<li><b>SE_ViewItemCheckIndicator</b></li>
+<li><b>SE_TabBarTearIndicator</b></li>
+<li><b>SE_TreeViewDisclosureItem</b></li>
+<li><b>SE_LineEditContents</b></li>
+<li><b>SE_FrameContents</b></li>
+<li><b>SE_DockWidgetCloseButton</b></li>
+<li><b>SE_DockWidgetFloatButton</b></li>
+<li><b>SE_DockWidgetTitleBarText</b></li>
+<li><b>SE_DockWidgetIcon</b></li>
+<li><b>SE_CheckBoxLayoutItem</b></li>
+<li><b>SE_ComboBoxLayoutItem</b></li>
+<li><b>SE_DateTimeEditLayoutItem</b></li>
+<li><b>SE_DialogButtonBoxLayoutItem</b></li>
+<li><b>SE_LabelLayoutItem</b></li>
+<li><b>SE_ProgressBarLayoutItem</b></li>
+<li><b>SE_PushButtonLayoutItem</b></li>
+<li><b>SE_RadioButtonLayoutItem</b></li>
+<li><b>SE_SliderLayoutItem</b></li>
+<li><b>SE_SpinBoxLayoutItem</b></li>
+<li><b>SE_ToolButtonLayoutItem</b></li>
+<li><b>SE_FrameLayoutItem</b></li>
+<li><b>SE_GroupBoxLayoutItem</b></li>
+<li><b>SE_TabWidgetLayoutItem</b></li>
+<li><b>SE_ItemViewItemDecoration</b></li>
+<li><b>SE_ItemViewItemText</b></li>
+<li><b>SE_ItemViewItemFocusRect</b></li>
+<li><b>SE_TabBarTabLeftButton</b></li>
+<li><b>SE_TabBarTabRightButton</b></li>
+<li><b>SE_TabBarTabText</b></li>
+<li><b>SE_ShapedFrameContents</b></li>
+<li><b>SE_ToolBarHandle</b></li>
+<li><b>SubElement( value )</b></li>
+<li><b>PE_Frame</b></li>
+<li><b>PE_FrameDefaultButton</b></li>
+<li><b>PE_FrameDockWidget</b></li>
+<li><b>PE_FrameFocusRect</b></li>
+<li><b>PE_FrameGroupBox</b></li>
+<li><b>PE_FrameLineEdit</b></li>
+<li><b>PE_FrameMenu</b></li>
+<li><b>PE_FrameStatusBar</b></li>
+<li><b>PE_FrameTabWidget</b></li>
+<li><b>PE_FrameWindow</b></li>
+<li><b>PE_FrameButtonBevel</b></li>
+<li><b>PE_FrameButtonTool</b></li>
+<li><b>PE_FrameTabBarBase</b></li>
+<li><b>PE_PanelButtonCommand</b></li>
+<li><b>PE_PanelButtonBevel</b></li>
+<li><b>PE_PanelButtonTool</b></li>
+<li><b>PE_PanelMenuBar</b></li>
+<li><b>PE_PanelToolBar</b></li>
+<li><b>PE_PanelLineEdit</b></li>
+<li><b>PE_IndicatorArrowDown</b></li>
+<li><b>PE_IndicatorArrowLeft</b></li>
+<li><b>PE_IndicatorArrowRight</b></li>
+<li><b>PE_IndicatorArrowUp</b></li>
+<li><b>PE_IndicatorBranch</b></li>
+<li><b>PE_IndicatorButtonDropDown</b></li>
+<li><b>PE_IndicatorViewItemCheck</b></li>
+<li><b>PE_IndicatorCheckBox</b></li>
+<li><b>PE_IndicatorDockWidgetResizeHandle</b></li>
+<li><b>PE_IndicatorHeaderArrow</b></li>
+<li><b>PE_IndicatorMenuCheckMark</b></li>
+<li><b>PE_IndicatorProgressChunk</b></li>
+<li><b>PE_IndicatorRadioButton</b></li>
+<li><b>PE_IndicatorSpinDown</b></li>
+<li><b>PE_IndicatorSpinMinus</b></li>
+<li><b>PE_IndicatorSpinPlus</b></li>
+<li><b>PE_IndicatorSpinUp</b></li>
+<li><b>PE_IndicatorToolBarHandle</b></li>
+<li><b>PE_IndicatorToolBarSeparator</b></li>
+<li><b>PE_PanelTipLabel</b></li>
+<li><b>PE_IndicatorTabTear</b></li>
+<li><b>PE_PanelScrollAreaCorner</b></li>
+<li><b>PE_Widget</b></li>
+<li><b>PE_IndicatorColumnViewArrow</b></li>
+<li><b>PE_IndicatorItemViewItemDrop</b></li>
+<li><b>PE_PanelItemViewItem</b></li>
+<li><b>PE_PanelItemViewRow</b></li>
+<li><b>PE_PanelStatusBar</b></li>
+<li><b>PE_IndicatorTabClose</b></li>
+<li><b>PE_PanelMenu</b></li>
+<li><b>PE_CustomBase = 0xf000000</b></li>
+<li><b>PrimitiveElement( value )</b></li>
+<li><b>PM_CustomBase = 0xf0000000</b></li>
+<li><b>PM_ButtonMargin</b></li>
+<li><b>PM_ButtonDefaultIndicator</b></li>
+<li><b>PM_MenuButtonIndicator</b></li>
+<li><b>PM_ButtonShiftHorizontal</b></li>
+<li><b>PM_ButtonShiftVertical</b></li>
+<li><b>PM_DefaultFrameWidth</b></li>
+<li><b>PM_SpinBoxFrameWidth</b></li>
+<li><b>PM_ComboBoxFrameWidth</b></li>
+<li><b>PM_MaximumDragDistance</b></li>
+<li><b>PM_ScrollBarExtent</b></li>
+<li><b>PM_ScrollBarSliderMin</b></li>
+<li><b>PM_SliderThickness</b></li>
+<li><b>PM_SliderControlThickness</b></li>
+<li><b>PM_SliderLength</b></li>
+<li><b>PM_SliderTickmarkOffset</b></li>
+<li><b>PM_SliderSpaceAvailable</b></li>
+<li><b>PM_DockWidgetSeparatorExtent</b></li>
+<li><b>PM_DockWidgetHandleExtent</b></li>
+<li><b>PM_DockWidgetFrameWidth</b></li>
+<li><b>PM_TabBarTabOverlap</b></li>
+<li><b>PM_TabBarTabHSpace</b></li>
+<li><b>PM_TabBarTabVSpace</b></li>
+<li><b>PM_TabBarBaseHeight</b></li>
+<li><b>PM_TabBarBaseOverlap</b></li>
+<li><b>PM_ProgressBarChunkWidth</b></li>
+<li><b>PM_SplitterWidth</b></li>
+<li><b>PM_TitleBarHeight</b></li>
+<li><b>PM_MenuScrollerHeight</b></li>
+<li><b>PM_MenuHMargin</b></li>
+<li><b>PM_MenuVMargin</b></li>
+<li><b>PM_MenuPanelWidth</b></li>
+<li><b>PM_MenuTearoffHeight</b></li>
+<li><b>PM_MenuDesktopFrameWidth</b></li>
+<li><b>PM_MenuBarPanelWidth</b></li>
+<li><b>PM_MenuBarItemSpacing</b></li>
+<li><b>PM_MenuBarVMargin</b></li>
+<li><b>PM_MenuBarHMargin</b></li>
+<li><b>PM_IndicatorWidth</b></li>
+<li><b>PM_IndicatorHeight</b></li>
+<li><b>PM_ExclusiveIndicatorWidth</b></li>
+<li><b>PM_ExclusiveIndicatorHeight</b></li>
+<li><b>PM_DialogButtonsSeparator</b></li>
+<li><b>PM_DialogButtonsButtonWidth</b></li>
+<li><b>PM_DialogButtonsButtonHeight</b></li>
+<li><b>PM_MdiSubWindowFrameWidth</b></li>
+<li><b>PM_MdiSubWindowMinimizedWidth</b></li>
+<li><b>PM_HeaderMargin</b></li>
+<li><b>PM_HeaderMarkSize</b></li>
+<li><b>PM_HeaderGripMargin</b></li>
+<li><b>PM_TabBarTabShiftHorizontal</b></li>
+<li><b>PM_TabBarTabShiftVertical</b></li>
+<li><b>PM_TabBarScrollButtonWidth</b></li>
+<li><b>PM_ToolBarFrameWidth</b></li>
+<li><b>PM_ToolBarHandleExtent</b></li>
+<li><b>PM_ToolBarItemSpacing</b></li>
+<li><b>PM_ToolBarItemMargin</b></li>
+<li><b>PM_ToolBarSeparatorExtent</b></li>
+<li><b>PM_ToolBarExtensionExtent</b></li>
+<li><b>PM_SpinBoxSliderHeight</b></li>
+<li><b>PM_DefaultTopLevelMargin</b></li>
+<li><b>PM_DefaultChildMargin</b></li>
+<li><b>PM_DefaultLayoutSpacing</b></li>
+<li><b>PM_ToolBarIconSize</b></li>
+<li><b>PM_ListViewIconSize</b></li>
+<li><b>PM_IconViewIconSize</b></li>
+<li><b>PM_SmallIconSize</b></li>
+<li><b>PM_LargeIconSize</b></li>
+<li><b>PM_FocusFrameVMargin</b></li>
+<li><b>PM_FocusFrameHMargin</b></li>
+<li><b>PM_ToolTipLabelFrameWidth</b></li>
+<li><b>PM_CheckBoxLabelSpacing</b></li>
+<li><b>PM_TabBarIconSize</b></li>
+<li><b>PM_SizeGripSize</b></li>
+<li><b>PM_DockWidgetTitleMargin</b></li>
+<li><b>PM_MessageBoxIconSize</b></li>
+<li><b>PM_ButtonIconSize</b></li>
+<li><b>PM_DockWidgetTitleBarButtonMargin</b></li>
+<li><b>PM_RadioButtonLabelSpacing</b></li>
+<li><b>PM_LayoutLeftMargin</b></li>
+<li><b>PM_LayoutTopMargin</b></li>
+<li><b>PM_LayoutRightMargin</b></li>
+<li><b>PM_LayoutBottomMargin</b></li>
+<li><b>PM_LayoutHorizontalSpacing</b></li>
+<li><b>PM_LayoutVerticalSpacing</b></li>
+<li><b>PM_TabBar_ScrollButtonOverlap</b></li>
+<li><b>PM_TextCursorWidth</b></li>
+<li><b>PM_TabCloseIndicatorWidth</b></li>
+<li><b>PM_TabCloseIndicatorHeight</b></li>
+<li><b>PM_ScrollView_ScrollBarSpacing</b></li>
+<li><b>PM_ScrollView_ScrollBarOverlap</b></li>
+<li><b>PM_SubMenuOverlap</b></li>
+<li><b>PM_TreeViewIndentation</b></li>
+<li><b>PM_HeaderDefaultSectionSizeHorizontal</b></li>
+<li><b>PM_HeaderDefaultSectionSizeVertical</b></li>
+<li><b>PixelMetric( value )</b></li>
+<li><b>RSIP_OnMouseClickAndAlreadyFocused</b></li>
+<li><b>RSIP_OnMouseClick</b></li>
+<li><b>RequestSoftwareInputPanel( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QStyle prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>int combinedLayoutSpacing(ControlTypes controls1, ControlTypes controls2, Orientation orientation, QStyleOption option, QWidget widget)</b></li>
+<li><div class="fn"/><b>void drawComplexControl(ComplexControl cc, QStyleOptionComplex opt, QPainter p, QWidget widget)</b></li>
+<li><div class="fn"/><b>void drawControl(ControlElement element, QStyleOption opt, QPainter p, QWidget w)</b></li>
+<li><div class="fn"/><b>void drawItemPixmap(QPainter painter, QRect rect, int alignment, QPixmap pixmap)</b></li>
+<li><div class="fn"/><b>void drawItemText(QPainter painter, QRect rect, int flags, QPalette pal, bool enabled, String text, ColorRole textRole)</b></li>
+<li><div class="fn"/><b>void drawPrimitive(PrimitiveElement pe, QStyleOption opt, QPainter p, QWidget w)</b></li>
+<li><div class="fn"/><b>QPixmap generatedIconPixmap(Mode iconMode, QPixmap pixmap, QStyleOption opt)</b></li>
+<li><div class="fn"/><b>SubControl hitTestComplexControl(ComplexControl cc, QStyleOptionComplex opt, QPoint pt, QWidget widget)</b></li>
+<li><div class="fn"/><b>QRect itemPixmapRect(QRect r, int flags, QPixmap pixmap)</b></li>
+<li><div class="fn"/><b>int layoutSpacing(ControlType control1, ControlType control2, Orientation orientation, QStyleOption option, QWidget widget)</b></li>
+<li><div class="fn"/><b>int pixelMetric(PixelMetric metric, QStyleOption option, QWidget widget)</b></li>
+<li><div class="fn"/><b>void polish(QApplication application)</b></li>
+<li><div class="fn"/><b>QStyle proxy()</b></li>
+<li><div class="fn"/><b>QSize sizeFromContents(ContentsType ct, QStyleOption opt, QSize contentsSize, QWidget w)</b></li>
+<li><div class="fn"/><b>QIcon standardIcon(StandardPixmap standardIcon, QStyleOption option, QWidget widget)</b></li>
+<li><div class="fn"/><b>QPalette standardPalette()</b></li>
+<li><div class="fn"/><b>QPixmap standardPixmap(StandardPixmap standardPixmap, QStyleOption opt, QWidget widget)</b></li>
+<li><div class="fn"/><b>int styleHint(StyleHint stylehint, QStyleOption opt, QWidget widget, QStyleHintReturn returnData)</b></li>
+<li><div class="fn"/><b>QRect subControlRect(ComplexControl cc, QStyleOptionComplex opt, SubControl sc, QWidget widget)</b></li>
+<li><div class="fn"/><b>QRect subElementRect(SubElement subElement, QStyleOption option, QWidget widget)</b></li>
+<li><div class="fn"/><b>void unpolish(QApplication application)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QStyle objects have no special properties beyond those inherited from the QStyle prototype object.</p>
+</body>
+</html>

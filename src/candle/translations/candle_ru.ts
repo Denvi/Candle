@@ -75,6 +75,37 @@
     </message>
 </context>
 <context>
+    <name>frmHelp</name>
+    <message>
+        <source>Documentation</source>
+        <translation>Документация</translation>
+    </message>
+    <message>
+        <source>Contents</source>
+        <translation>Содержание</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Поиск</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Далее</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Назад</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <source>Search:</source>
+        <translation>Поиск:</translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>G-code program</source>

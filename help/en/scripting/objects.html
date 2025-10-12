@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Objects</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="objects">Objects</h1>
+<table width="100%">
+<thead>
+<tr>
+<th>Object</th>
+<th>Property/Method</th>
+<th>Type</th>
+<th>Arguments</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app</code></td>
+<td><code>addAction(action)</code></td>
+<td>Function</td>
+<td><code>QAction</code> object</td>
+<td>–</td>
+<td>Adds an action to the application; shortcuts can be attached.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>removeAction(action)</code></td>
+<td>Function</td>
+<td><code>QAction</code> object</td>
+<td>–</td>
+<td>Removes a previously added action.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>newFile()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Creates a new G-code program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>loadFile(fileName)</code></td>
+<td>Function</td>
+<td>file name string</td>
+<td>–</td>
+<td>Loads a G-code program from a file.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>loadFile(commands)</code></td>
+<td>Function</td>
+<td>array of commands</td>
+<td>–</td>
+<td>Loads a G-code program from a list of commands.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>saveFile()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Saves the current G-code program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>saveFile(fileName)</code></td>
+<td>Function</td>
+<td>file name string</td>
+<td>–</td>
+<td>Saves the G-code program to the specified file.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>buttonSize</code></td>
+<td>Value</td>
+<td>–</td>
+<td>-</td>
+<td>Standard button size for program panels.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>dataLocation</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Application data directory path.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>profileName</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Name of the active settings profile.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>path</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Absolute installation path of the program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>device</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for interacting with the CNC controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>program</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for working with the loaded G-code program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>sender</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object controlling the sending of the G-code program to the CNC controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>storage</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Object for working with persistent data storage.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>window</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>Main application window object.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToLoad()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Before settings are loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsLoaded()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After settings have been loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToSave()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Before settings are saved.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsSaved()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After settings have been written to disk.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAboutToShow()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>Right before the Settings dialog is shown.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsAccepted()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When user accepts changes in the Settings dialog.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsRejected()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When user cancels changes in the Settings dialog.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settingsSetByDefault()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>When settings are reset to default values.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>pluginsLoaded()</code></td>
+<td>Signal</td>
+<td>–</td>
+<td>–</td>
+<td>After all extensions have been loaded.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>settings</code></td>
+<td>Object</td>
+<td>–</td>
+<td>–</td>
+<td>The global settings object (see below).</td>
+</tr>
+<tr>
+<td><code>app.device</code></td>
+<td><code>storeParserState()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Saves the current parser state.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>restoreParserState()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Restores the previously saved parser state.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>waitResponses()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>–</td>
+<td>Waits for all previously sent commands to be acknowledged by the controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>bufferLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Total size of commands currently in the controller buffer.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>commandLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Number of commands currently in the controller buffer.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>queueLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Number of commands queued for sending to the controller.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>machine</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current machine coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>probe</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Last received probe contact coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>state</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current CNC controller state.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>work</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current work coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>stateChanged</code></td>
+<td>Signal</td>
+<td>State</td>
+<td>–</td>
+<td>Current CNC controller state changed.</td>
+</tr>
+<tr>
+<td><code>app.program</code></td>
+<td><code>lowerBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Lower bounds of the loaded program.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>upperBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Upper bounds of the loaded program.</td>
+</tr>
+<tr>
+<td><code>app.sender</code></td>
+<td><code>state</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current state of the program sender.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>stateChanged</code></td>
+<td>Signal</td>
+<td>State</td>
+<td>–</td>
+<td>Sender state changed.</td>
+</tr>
+<tr>
+<td><code>app.settings</code></td>
+<td><code>port</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Connection – Port" setting.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>baud</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Connection – Baud".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>queryStateTime</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Connection – Status query period".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>spindleSpeedMin</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – Spindle speed min".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>spindleSpeedMax</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – Spindle speed max".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>laserPowerMin</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – Laser power min".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>laserPowerMax</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – Laser power max".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>axisAEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – Enable A-axis" setting.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>axisAX</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Machine information – A-axis direction – X" setting.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Arc approximation segments size – by length".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcDegree</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Arc approximation segments – by angle".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>arcDegreeMode</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Arc approximation segments ‑ by angle mode toggle.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>startCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Use program start commands".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>endCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Use program end commands".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolChangeCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Use tool change commands".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>ignoreErrors</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Ignore error responses".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>autoLine</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Automatically set parser state before sending from selected line".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>pauseToolChange</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Sender – Pause sender on M6 command.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>lineWidth</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Line width".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>antialiasing</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Smoothing".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>msaa</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – MSAA".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>fps</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – FPS lock".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>vsync</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – V‑Sync".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>zBuffer</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Z‑buffer".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>drawModeVectors</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Program draw mode" (0 raster, 1 vectors).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>simplify</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Simplify geometry".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>simplifyPrecision</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Simplify geometry - Precision".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>grayscaleSegments</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Grayscale segments".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>grayscaleSCode</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Visualizer – Grayscale segments - By 'S'‑code".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolType</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Tool model – Type" (0 flat, 1 conic).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolAngle</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Tool model – Angle".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolDiameter</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Tool model – Diameter".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>toolLength</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Tool model – Length".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>showProgramCommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Console – Show G‑code program commands".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>showUICommands</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Console – Show UI commands".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>autoCompletion</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"Console – Command auto‑completion".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>fontSize</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"User interface – Font size".</td>
+</tr>
+<tr>
+<td></td>
+<td><code>language</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>"User interface – Language" (ISO 639‑1).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>units</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>CNC units (0 metric, 1 imperial).</td>
+</tr>
+<tr>
+<td></td>
+<td><code>rapidSpeed</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Rapid movement speed.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>acceleration</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Acceleration.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>machineBounds</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>CNC movement bounds.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>homingEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Homing enabled flag.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>softLimitsEnabled</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Soft limits enabled flag.</td>
+</tr>
+<tr>
+<td><code>app.storage</code></td>
+<td><code>group(key)</code></td>
+<td>Function</td>
+<td>group key string</td>
+<td>group object</td>
+<td>Returns a data group object from storage by key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>setValue(key, value)</code></td>
+<td>Function</td>
+<td>key string, value</td>
+<td>–</td>
+<td>Stores a value under the given full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>value(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>value</td>
+<td>Retrieves a value by full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>contains(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>boolean</td>
+<td>Checks whether a value exists for the given full key.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>remove(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>–</td>
+<td>Removes the value associated with the full key.</td>
+</tr>
+<tr>
+<td><code>app.storage.group</code></td>
+<td><code>group(key)</code></td>
+<td>Function</td>
+<td>sub-group key string</td>
+<td>group object</td>
+<td>Returns a sub-group object.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>setValue(key, value)</code></td>
+<td>Function</td>
+<td>key string, value</td>
+<td>–</td>
+<td>Stores a value under the given key within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>value(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>value</td>
+<td>Retrieves a value by key within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>contains(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>boolean</td>
+<td>Checks whether a key exists within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>remove(key)</code></td>
+<td>Function</td>
+<td>key string</td>
+<td>–</td>
+<td>Removes the key-value pair within the group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>childKeys()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>array of strings</td>
+<td>Returns all keys directly under this group.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>childGroups()</code></td>
+<td>Function</td>
+<td>–</td>
+<td>array of strings</td>
+<td>Returns all sub-group names under this group.</td>
+</tr>
+<tr>
+<td><strong>vars</strong></td>
+<td><code>Mx</code>, <code>My</code>, <code>Mz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current machine coordinates X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Wx</code>, <code>Wy</code>, <code>Wz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current workpiece coordinates X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G54x</code>, …, <code>G59z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Coordinate‑system offsets for G54–G59.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>CS</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current coordinate system string ("G54"…"G59").</td>
+</tr>
+<tr>
+<td></td>
+<td><code>x</code>, <code>y</code>, <code>z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Offset of current system’s X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G92x</code>, …, <code>G92z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Workpiece offsets.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>G28x</code>, …, <code>G30z</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Saved positions for G28/G30 commands.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>TLOx</code>, …, <code>TLOz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Tool‑offsets X/Y/Z.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>PRBx</code>, <code>PRBy</code>, <code>PRBz</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Probe contact coordinates.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>tool</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Current tool number.</td>
+</tr>
+<tr>
+<td><code>script</code></td>
+<td><code>importExtension(name)</code></td>
+<td>Function</td>
+<td>extension name string</td>
+<td>–</td>
+<td>Loads another JavaScript extension; the list of available extensions is in Table 9.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>path</code></td>
+<td>Value</td>
+<td>–</td>
+<td>–</td>
+<td>Absolute path to this extension folder.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sending%E2%80%91state-enumerations">Sending‑state enumerations</h2>
+<table width="100%">
+<thead>
+<tr>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>Unknown state</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Sending program</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Transition to pause state</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pause in progress</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Program finished – all CP commands sent</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Transfer completed – controller processed all CP commands</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Manual tool change</td>
+</tr>
+</tbody>
+</table>
+<h2 id="controller-state-enumerations">Controller state enumerations</h2>
+<table width="100%">
+<thead>
+<tr>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>Unknown state</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Ready to receive commands</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Alarm</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Running</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Searching home position</td>
+</tr>
+<tr>
+<td>5</td>
+<td>End of "Hold" mode transition</td>
+</tr>
+<tr>
+<td>6</td>
+<td>In "Hold" mode</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CP verification mode</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Door closed, ready to resume</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Door open, CNC stopped</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Door open, pausing or parking</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Door closed, resuming work or returning from parking</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Movement state</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Sleep mode</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

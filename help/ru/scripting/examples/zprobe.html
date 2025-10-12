@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Z-зонд</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="z-%D0%B7%D0%BE%D0%BD%D0%B4">Z-зонд</h1>
+<p>Распространенный пример поиска нуля по Z-координате.
+Т.к. поиск может производиться в процессе выполнения УП (например, при смене инструмента), предусмотрено сохранение и восстановление режимов работы ЧПУ.</p>
+<p>Смещение от реального положения инструмента до поверхности после зондирования можно заложить в команду G92.
+В текущем примере считается, что смещение равно нулю.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Сохраняем текущий режим парсера (абсолютное/относительное позиционирование, плоскости, единицы и т.д.)</span>
+app.device.storeParserState();
+
+<span class="hljs-comment">// Запускаем цикл точного зондирования поверхности:</span>
+app.device.sendCommands([
+    <span class="hljs-string">"G21G91"</span>,           <span class="hljs-comment">// 1. Переводим в относительные координаты (G91) и миллиметры (G21)</span>
+    <span class="hljs-string">"G38.2Z-30F100"</span>,    <span class="hljs-comment">// 2. Быстрое касание: опускаемся вниз на 30 мм со скоростью 100 мм/мин</span>
+    <span class="hljs-string">"G0Z1"</span>,             <span class="hljs-comment">// 3. Поднимаемся на 1 мм после первого касания</span>
+    <span class="hljs-string">"G38.2Z-2F10"</span>,      <span class="hljs-comment">// 4. Точное касание: медленно опускаемся ещё на 2 мм со скоростью 10 мм/мин</span>
+    <span class="hljs-string">"G92Z0"</span>,            <span class="hljs-comment">// 5. Устанавливаем текущую позицию Z как новый ноль (обнуляем Z)</span>
+    <span class="hljs-string">"G91G0Z5"</span>           <span class="hljs-comment">// 6. Безопасный отъезд: поднимаемся ещё на 5 мм относительно нового нуля</span>
+]);
+
+<span class="hljs-comment">// Ждём, пока все команды выполнятся и вернут подтверждение</span>
+app.device.waitResponses();
+
+<span class="hljs-comment">// Восстанавливаем исходный режим парсера</span>
+app.device.restoreParserState();
+</div></code></pre>
+
+</body>
+</html>

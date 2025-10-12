@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QMovie Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QMovie Class Reference</h1>
+<h3 align="center">[<a href="qt_gui.html">qt.gui</a> package]</h3>
+<p>Inherits <a href="qobject.html">QObject</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QMovie(QIODevice device, QByteArray format, QObject parent)</b></li>
+<li><div class="fn"/><b>void QMovie(QObject parent)</b></li>
+<li><div class="fn"/><b>void QMovie(String fileName, QByteArray format, QObject parent)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QMovie prototype object</li>
+<li><div class="fn"/><b>List supportedFormats()</b></li>
+<li><b>NotRunning</b></li>
+<li><b>Paused</b></li>
+<li><b>Running</b></li>
+<li><b>MovieState( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QMovie prototype object inherits properties from the <a href="qobject.html">QObject</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>QColor backgroundColor()</b></li>
+<li><div class="fn"/><b>int currentFrameNumber()</b></li>
+<li><div class="fn"/><b>QImage currentImage()</b></li>
+<li><div class="fn"/><b>QPixmap currentPixmap()</b></li>
+<li><div class="fn"/><b>QIODevice device()</b></li>
+<li><div class="fn"/><b>String fileName()</b></li>
+<li><div class="fn"/><b>QByteArray format()</b></li>
+<li><div class="fn"/><b>int frameCount()</b></li>
+<li><div class="fn"/><b>QRect frameRect()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>bool jumpToFrame(int frameNumber)</b></li>
+<li><div class="fn"/><b>int loopCount()</b></li>
+<li><div class="fn"/><b>int nextFrameDelay()</b></li>
+<li><div class="fn"/><b>QSize scaledSize()</b></li>
+<li><div class="fn"/><b>void setBackgroundColor(QColor color)</b></li>
+<li><div class="fn"/><b>void setDevice(QIODevice device)</b></li>
+<li><div class="fn"/><b>void setFileName(String fileName)</b></li>
+<li><div class="fn"/><b>void setFormat(QByteArray format)</b></li>
+<li><div class="fn"/><b>void setScaledSize(QSize size)</b></li>
+<li><div class="fn"/><b>MovieState state()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QMovie objects inherit properties from the QMovie prototype object and also have the following properties.</p>
+<ul>
+<li><div class="fn"/><b>speed</b></li>
+<li><div class="fn"/><b>cacheMode</b></li>
+</ul>
+</body>
+</html>

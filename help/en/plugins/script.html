@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Script file</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="script-file">Script file</h1>
+<p>The script must be written in <strong>JavaScript</strong> and implement the required functionality.<br>
+An extension can provide UI panels for the "Device", "Modification", "User" windows, a dedicated window in the main program area, settings panel, or none of them.</p>
+<p>When the main program loads an extension it calls its functions in the order listed below:</p>
+<table width="100%">
+<thead>
+<tr>
+<th>Function</th>
+<th>Arguments</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>init()</code></td>
+<td>–</td>
+<td>–</td>
+<td>Extension initialisation routine</td>
+</tr>
+<tr>
+<td><code>createPanelWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a panel widget for "Device", "Modification" or "User" windows</td>
+</tr>
+<tr>
+<td><code>createWindowWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a standalone window in the main program area</td>
+</tr>
+<tr>
+<td><code>createSettingsWidget()</code></td>
+<td>–</td>
+<td><code>QWidget</code> object</td>
+<td>Create a settings widget (appears in the Settings dialog)</td>
+</tr>
+</tbody>
+</table>
+<p>The following global objects are available to the script: <a href="qthelp://candle.en/html/scripting/objects.html">Objects</a>.</p>
+
+</body>
+</html>

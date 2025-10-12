@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QSqlQuery Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QSqlQuery Class Reference</h1>
+<h3 align="center">[<a href="qt_sql.html">qt.sql</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QSqlQuery(QSqlDatabase db)</b></li>
+<li><div class="fn"/><b>void QSqlQuery(QSqlResult r)</b></li>
+<li><div class="fn"/><b>void QSqlQuery(QSqlQuery other)</b></li>
+<li><div class="fn"/><b>void QSqlQuery(String query, QSqlDatabase db)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QSqlQuery prototype object</li>
+<li><b>ValuesAsRows</b></li>
+<li><b>ValuesAsColumns</b></li>
+<li><b>BatchExecutionMode( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>void addBindValue(Object val, ParamType type)</b></li>
+<li><div class="fn"/><b>int at()</b></li>
+<li><div class="fn"/><b>void bindValue(String placeholder, Object val, ParamType type)</b></li>
+<li><div class="fn"/><b>Object boundValue(String placeholder)</b></li>
+<li><div class="fn"/><b>SortedMap boundValues()</b></li>
+<li><div class="fn"/><b>void clear()</b></li>
+<li><div class="fn"/><b>QSqlDriver driver()</b></li>
+<li><div class="fn"/><b>bool exec()</b></li>
+<li><div class="fn"/><b>bool execBatch(BatchExecutionMode mode)</b></li>
+<li><div class="fn"/><b>String executedQuery()</b></li>
+<li><div class="fn"/><b>void finish()</b></li>
+<li><div class="fn"/><b>bool first()</b></li>
+<li><div class="fn"/><b>bool isActive()</b></li>
+<li><div class="fn"/><b>bool isForwardOnly()</b></li>
+<li><div class="fn"/><b>bool isNull(String name)</b></li>
+<li><div class="fn"/><b>bool isSelect()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>bool last()</b></li>
+<li><div class="fn"/><b>QSqlError lastError()</b></li>
+<li><div class="fn"/><b>Object lastInsertId()</b></li>
+<li><div class="fn"/><b>String lastQuery()</b></li>
+<li><div class="fn"/><b>bool next()</b></li>
+<li><div class="fn"/><b>bool nextResult()</b></li>
+<li><div class="fn"/><b>int numRowsAffected()</b></li>
+<li><div class="fn"/><b>NumericalPrecisionPolicy numericalPrecisionPolicy()</b></li>
+<li><div class="fn"/><b>bool prepare(String query)</b></li>
+<li><div class="fn"/><b>bool previous()</b></li>
+<li><div class="fn"/><b>QSqlRecord record()</b></li>
+<li><div class="fn"/><b>QSqlResult result()</b></li>
+<li><div class="fn"/><b>bool seek(int i, bool relative)</b></li>
+<li><div class="fn"/><b>void setForwardOnly(bool forward)</b></li>
+<li><div class="fn"/><b>void setNumericalPrecisionPolicy(NumericalPrecisionPolicy precisionPolicy)</b></li>
+<li><div class="fn"/><b>int size()</b></li>
+<li><div class="fn"/><b>Object value(String name)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QSqlQuery objects have no special properties beyond those inherited from the QSqlQuery prototype object.</p>
+</body>
+</html>

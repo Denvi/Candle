@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QTextStream Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QTextStream Class Reference</h1>
+<h3 align="center">[<a href="qt_core.html">qt.core</a> package]</h3>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QTextStream()</b></li>
+<li><div class="fn"/><b>void QTextStream(QIODevice device)</b></li>
+<li><div class="fn"/><b>void QTextStream(QByteArray array, OpenMode openMode)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QTextStream prototype object</li>
+<li><b>AlignLeft</b></li>
+<li><b>AlignRight</b></li>
+<li><b>AlignCenter</b></li>
+<li><b>AlignAccountingStyle</b></li>
+<li><b>FieldAlignment( value )</b></li>
+<li><b>ShowBase = 0x1</b></li>
+<li><b>ForcePoint = 0x2</b></li>
+<li><b>ForceSign = 0x4</b></li>
+<li><b>UppercaseBase = 0x8</b></li>
+<li><b>UppercaseDigits = 0x10</b></li>
+<li><b>NumberFlag( value )</b></li>
+<li><b>NumberFlags( value1, value2, ... )</b></li>
+<li><b>Ok</b></li>
+<li><b>ReadPastEnd</b></li>
+<li><b>ReadCorruptData</b></li>
+<li><b>WriteFailed</b></li>
+<li><b>Status( value )</b></li>
+<li><b>SmartNotation</b></li>
+<li><b>FixedNotation</b></li>
+<li><b>ScientificNotation</b></li>
+<li><b>RealNumberNotation( value )</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<ul>
+<li><div class="fn"/><b>bool atEnd()</b></li>
+<li><div class="fn"/><b>bool autoDetectUnicode()</b></li>
+<li><div class="fn"/><b>QTextCodec codec()</b></li>
+<li><div class="fn"/><b>QIODevice device()</b></li>
+<li><div class="fn"/><b>FieldAlignment fieldAlignment()</b></li>
+<li><div class="fn"/><b>int fieldWidth()</b></li>
+<li><div class="fn"/><b>void flush()</b></li>
+<li><div class="fn"/><b>bool generateByteOrderMark()</b></li>
+<li><div class="fn"/><b>int integerBase()</b></li>
+<li><div class="fn"/><b>QLocale locale()</b></li>
+<li><div class="fn"/><b>NumberFlags numberFlags()</b></li>
+<li><div class="fn"/><b>char padChar()</b></li>
+<li><div class="fn"/><b>qint64 pos()</b></li>
+<li><div class="fn"/><b>String read(qint64 maxlen)</b></li>
+<li><div class="fn"/><b>String readAll()</b></li>
+<li><div class="fn"/><b>QTextStream readByte()</b></li>
+<li><div class="fn"/><b>QTextStream readDouble()</b></li>
+<li><div class="fn"/><b>QTextStream readFloat()</b></li>
+<li><div class="fn"/><b>QTextStream readInt()</b></li>
+<li><div class="fn"/><b>String readLine(qint64 maxlen)</b></li>
+<li><div class="fn"/><b>bool readLineInto(String line, qint64 maxlen)</b></li>
+<li><div class="fn"/><b>QTextStream readLongLong()</b></li>
+<li><div class="fn"/><b>QTextStream readShort()</b></li>
+<li><div class="fn"/><b>QTextStream readUInt()</b></li>
+<li><div class="fn"/><b>QTextStream readUShort()</b></li>
+<li><div class="fn"/><b>RealNumberNotation realNumberNotation()</b></li>
+<li><div class="fn"/><b>int realNumberPrecision()</b></li>
+<li><div class="fn"/><b>void reset()</b></li>
+<li><div class="fn"/><b>void resetStatus()</b></li>
+<li><div class="fn"/><b>bool seek(qint64 pos)</b></li>
+<li><div class="fn"/><b>void setAutoDetectUnicode(bool enabled)</b></li>
+<li><div class="fn"/><b>void setCodec(QTextCodec codec)</b></li>
+<li><div class="fn"/><b>void setDevice(QIODevice device)</b></li>
+<li><div class="fn"/><b>void setFieldAlignment(FieldAlignment alignment)</b></li>
+<li><div class="fn"/><b>void setFieldWidth(int width)</b></li>
+<li><div class="fn"/><b>void setGenerateByteOrderMark(bool generate)</b></li>
+<li><div class="fn"/><b>void setIntegerBase(int base)</b></li>
+<li><div class="fn"/><b>void setLocale(QLocale locale)</b></li>
+<li><div class="fn"/><b>void setNumberFlags(NumberFlags flags)</b></li>
+<li><div class="fn"/><b>void setPadChar(char ch)</b></li>
+<li><div class="fn"/><b>void setRealNumberNotation(RealNumberNotation notation)</b></li>
+<li><div class="fn"/><b>void setRealNumberPrecision(int precision)</b></li>
+<li><div class="fn"/><b>void setStatus(Status status)</b></li>
+<li><div class="fn"/><b>void skipWhiteSpace()</b></li>
+<li><div class="fn"/><b>Status status()</b></li>
+<li><div class="fn"/><b>QTextStream writeByte(char ch)</b></li>
+<li><div class="fn"/><b>QTextStream writeByteArray(QByteArray array)</b></li>
+<li><div class="fn"/><b>QTextStream writeDouble(double f)</b></li>
+<li><div class="fn"/><b>QTextStream writeFloat(float f)</b></li>
+<li><div class="fn"/><b>QTextStream writeInt(signed int i)</b></li>
+<li><div class="fn"/><b>QTextStream writeShort(signed short i)</b></li>
+<li><div class="fn"/><b>QTextStream writeString(String s)</b></li>
+<li><div class="fn"/><b>QTextStream writeStringRef(String s)</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QTextStream objects have no special properties beyond those inherited from the QTextStream prototype object.</p>
+</body>
+</html>

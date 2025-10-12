@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>QGLWidget Class Reference</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 align="center">QGLWidget Class Reference</h1>
+<h3 align="center">[<a href="qt_opengl.html">qt.opengl</a> package]</h3>
+<p>Inherits <a href="qwidget.html">QWidget</a>.</p>
+<h3>Constructor</h3>
+<ul>
+<li><div class="fn"/><b>void QGLWidget(QGLContext context, QWidget parent, QGLWidget shareWidget, WindowFlags f)</b></li>
+<li><div class="fn"/><b>void QGLWidget(QWidget parent, QGLWidget shareWidget, WindowFlags f)</b></li>
+<li><div class="fn"/><b>void QGLWidget(QGLFormat format, QWidget parent, QGLWidget shareWidget, WindowFlags f)</b></li>
+</ul>
+<h3>Constructor Properties</h3>
+<ul>
+<li><b>prototype</b>: The QGLWidget prototype object</li>
+<li><div class="fn"/><b>QImage convertToGLFormat(QImage img)</b></li>
+</ul>
+<h3>Prototype Object Properties</h3>
+<p>The QGLWidget prototype object inherits properties from the <a href="qwidget.html">QWidget</a> prototype object and also has the following properties.</p>
+<ul>
+<li><div class="fn"/><b>unsigned int bindTexture(QImage image, unsigned int target, int format)</b></li>
+<li><div class="fn"/><b>QGLColormap colormap()</b></li>
+<li><div class="fn"/><b>QGLContext context()</b></li>
+<li><div class="fn"/><b>void deleteTexture(unsigned int tx_id)</b></li>
+<li><div class="fn"/><b>void doneCurrent()</b></li>
+<li><div class="fn"/><b>bool doubleBuffer()</b></li>
+<li><div class="fn"/><b>void drawTexture(QPointF point, unsigned int textureId, unsigned int textureTarget)</b></li>
+<li><div class="fn"/><b>QGLFormat format()</b></li>
+<li><div class="fn"/><b>QImage grabFrameBuffer(bool withAlpha)</b></li>
+<li><div class="fn"/><b>bool isSharing()</b></li>
+<li><div class="fn"/><b>bool isValid()</b></li>
+<li><div class="fn"/><b>void makeCurrent()</b></li>
+<li><div class="fn"/><b>void makeOverlayCurrent()</b></li>
+<li><div class="fn"/><b>QGLContext overlayContext()</b></li>
+<li><div class="fn"/><b>void qglClearColor(QColor c)</b></li>
+<li><div class="fn"/><b>void qglColor(QColor c)</b></li>
+<li><div class="fn"/><b>QPixmap renderPixmap(int w, int h, bool useContext)</b></li>
+<li><div class="fn"/><b>void renderText(double x, double y, double z, String str, QFont fnt)</b></li>
+<li><div class="fn"/><b>void setColormap(QGLColormap map)</b></li>
+<li><div class="fn"/><b>void swapBuffers()</b></li>
+</ul>
+<h3>Instance Properties</h3>
+<p>QGLWidget objects have no special properties beyond those inherited from the QGLWidget prototype object.</p>
+</body>
+</html>
