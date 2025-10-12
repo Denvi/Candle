@@ -89,7 +89,7 @@ Build instructions (ubuntu)
 
 ```
 sudo apt update
-sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev qtwebengine5-dev
+sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev
 ```
 
 * Get Candle sources
