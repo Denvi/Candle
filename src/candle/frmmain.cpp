@@ -28,7 +28,6 @@
 #include "frmchecklist.h"
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
-#include "layoutentry.h"
 #include "settingsprofileentry.h"
 #include "utils/optarg.h"
 #include "utils/timeestimator.h"

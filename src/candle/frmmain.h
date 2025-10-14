@@ -320,9 +320,6 @@ private:
     // Ui
     Ui::frmMain *ui;
 
-    QTranslator* m_appTranslator;
-    QTranslator* m_qtTranslator;
-
     QMap<DeviceState, QString> m_deviceStatuses;
     QMap<DeviceState, QString> m_statusCaptions;
     QMap<DeviceState, QString> m_statusBackColors;
