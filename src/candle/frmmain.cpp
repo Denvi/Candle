@@ -251,6 +251,12 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] {
+        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+    });
+    connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] {
+        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+    });
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
@@ -1801,6 +1807,11 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
     ui->glwVisualizer->setUpdatesEnabled(visible);
 }
 
+void frmMain::on_sliProgram_valueChanged(int value)
+{
+    scrollToTableIndex(m_currentModel->index(value, 0));
+}
+
 void frmMain::onConnectionDataReceived(QString data)
 {
     // Filter prereset responses
@@ -2624,6 +2635,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     } else {
         m_selectionDrawer.setVisible(false);
     }
+
+    ui->sliProgram->setValue(idx1.row());
 }
 
 void frmMain::onOverridingToggled(bool checked)
@@ -4688,6 +4701,8 @@ void frmMain::updateControlsState() {
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
+
+    ui->sliProgram->setEnabled(m_programModel.rowCount() > 1 && (m_senderState == SenderStopped) && !m_heightMapMode);
 }
 
 void frmMain::updateLayouts()

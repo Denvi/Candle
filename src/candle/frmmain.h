@@ -240,6 +240,7 @@ private slots:
     void on_mnuViewWindows_aboutToShow();
     void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
+    void on_sliProgram_valueChanged(int value);
 
     void onConnectionDataReceived(QString data);
     void onConnectionErrorOccurred(QString error);
