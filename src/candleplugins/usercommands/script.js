@@ -6,6 +6,7 @@ script.importExtension("qt.gui");
 script.importExtension("qt.widgets");
 script.importExtension("qt.custom");
 script.importExtension("qt.uitools");
+script.importExtension("qt.network");
 
 // Vars
 var appPath = app.path;
@@ -23,11 +24,14 @@ var userIconPath = app.dataLocation + "/" + pluginName + "/images";
 // Ui
 var uiPanel;
 var uiSettings;
+var uiImport;
 
 function init()
 {
     loader.setWorkingDirectory(new QDir(pluginPath));
     loader.addPluginPath(designerPluginsPath);
+
+    initImportForm();
 
     app.settingsLoaded.connect(onAppSettingsLoaded);
     app.settingsSaved.connect(onAppSettingsSaved);
@@ -35,6 +39,31 @@ function init()
     app.settingsAccepted.connect(onAppSettingsAccepted);
     app.settingsRejected.connect(onAppSettingsRejected);
     app.device.stateChanged.connect(onAppDeviceStateChanged);
+}
+
+function initImportForm()
+{
+    var f = new QFile(pluginPath + "/import.ui");
+    if (f.open(QIODevice.ReadOnly)) {
+        uiImport = loader.load(f);
+    }
+
+    uiImport.windowIcon = app.window.windowIcon;
+    uiImport.tblCommands.setColumnHidden(3, true);
+
+    uiImport.cmdNext.clicked.connect(function() {
+        uiImport.accept();
+    });
+
+    uiImport.cmdCancel.clicked.connect(function() {
+        uiImport.reject();
+    });
+
+    uiImport.cmdFromFile.clicked.connect(function() {
+        uiImport.done(2);
+    });
+
+    uiImport.cmdUpdate.clicked.connect(fetchCommands);
 }
 
 function createPanelWidget()
@@ -80,6 +109,50 @@ function createSettingsWidget()
     return uiSettings;
 }
 
+function fetchCommands()
+{
+    const commands = fetchUrl("https://raw.githubusercontent.com/Denvi/CandleCommands/main/commands/index.json");
+
+    const t = uiImport.tblCommands;
+    t.rowCount = 0;
+
+    if (!commands || !commands.length) {
+        uiImport.cmdNext.setEnabled(false);
+        return;
+    }
+
+    commands.forEach(function(c) {
+        t.insertRow(t.rowCount);
+        t.setItem(t.rowCount - 1, 0, new QTableWidgetItem(c.name));
+        t.setItem(t.rowCount - 1, 1, new QTableWidgetItem(c.author));
+        t.setItem(t.rowCount - 1, 2, new QTableWidgetItem(c.description));
+        t.setItem(t.rowCount - 1, 3, new QTableWidgetItem(c.url));
+    });
+
+    t.selectRow(0);
+    uiImport.cmdNext.setEnabled(true);
+}
+
+function fetchUrl(url)
+{
+    var manager = new QNetworkAccessManager();
+    var request = new QNetworkRequest(new QUrl(url));
+    var reply = manager.get(request);
+
+    var loop = new QEventLoop();
+    reply.finished.connect(function() {
+        loop.quit();
+    });
+    loop.exec();
+
+    if (reply.lastError() == QNetworkReply.NoError) {
+        var jsonText = QTextCodec.codecForMib(106).toUnicode(reply.readAll());
+        return JSON.parse(jsonText);
+    } else {
+        return null;
+    }
+}
+
 function onCmdAddClicked()
 {
     var t = uiSettings.tblButtons;
@@ -114,33 +187,21 @@ function onCmdRemoveAllClicked()
 
 function onCmdImportClicked()
 {
-    var path = QFileDialog.getOpenFileName(app.window, qsTr("Open"), "", qsTr("User commands (*.uc)"));
+    if (!uiImport.tblCommands.rowCount)
+        fetchCommands();
 
-    if (!path)
-        return;
+    const r = uiImport.exec();
 
-    var file = new QFile(path);
-
-    if (!file.open(QIODevice.ReadOnly))
-        return;
-
-    const stream = new QTextStream(file);
-    stream.setCodec("UTF8");
-    var buttons = JSON.parse(stream.readAll());
-    file.close();
-
-    var dialog = new CheckListDialog(app.window);
-
-    var hints = [];
-    for (var i = 0; i < buttons.length; i++) {
-        hints.push(buttons[i].hint);
+    switch (r) {
+        case 0:
+            return;
+        case 1: // next
+            importFromRepository();
+        break;
+        case 2: // from file
+            importFromFile();
+        break;
     }
-    dialog.setItems(hints);
-    
-    if (!dialog.exec() || !dialog.checkedItemIndexes().length)
-        return;
-
-    importButtons(buttons, dialog.checkedItemIndexes());
 }
 
 function onCmdExportClicked()
@@ -158,7 +219,7 @@ function onCmdExportClicked()
         return;
 
     var path = QFileDialog.getSaveFileName(app.window, qsTr("Save"), "", qsTr("User commands (*.uc)"));
-    
+
     if (!path)
         return;
 
@@ -322,12 +383,52 @@ function restoreButtonsTable(b)
     }
 }
 
-function importButtons(buttons, indexes)
+function importFromRepository()
 {
-    var t = uiSettings.tblButtons;
+    const url = uiImport.tblCommands.item(uiImport.tblCommands.currentRow(), 3).data(Qt.DisplayRole);
+    const buttons = fetchUrl(url);
 
+    importButtons(buttons);
+}
+
+function importFromFile()
+{
+    var path = QFileDialog.getOpenFileName(app.window, qsTr("Open"), "", qsTr("User commands (*.uc)"));
+
+    if (!path)
+        return;
+
+    var file = new QFile(path);
+
+    if (!file.open(QIODevice.ReadOnly))
+        return;
+
+    const stream = new QTextStream(file);
+    stream.setCodec("UTF8");
+    var buttons = JSON.parse(stream.readAll());
+    file.close();
+
+    importButtons(buttons);
+}
+
+function importButtons(buttons)
+{
+    var dialog = new CheckListDialog(app.window);
+
+    var hints = [];
+    for (var i = 0; i < buttons.length; i++) {
+        hints.push(buttons[i].hint);
+    }
+    dialog.setItems(hints);
+
+    if (!dialog.exec() || !dialog.checkedItemIndexes().length)
+        return;
+
+    const indexes = dialog.checkedItemIndexes();
+
+    var t = uiSettings.tblButtons;
     for (var i = 0; i < indexes.length; i++)
-    {        
+    {
         var r = t.rowCount++;
 
         var h = new QTableWidgetItem(buttons[indexes[i]].hint);
@@ -354,7 +455,7 @@ function importButtons(buttons, indexes)
         t.setItem(r, 3, new QTableWidgetItem(buttons[indexes[i]].code));
     }
 
-    t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);    
+    t.verticalHeader().setFixedWidth(t.verticalHeader().sizeHint.width() + 11);
 }
 
 function exportButtons(indexes)

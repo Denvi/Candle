@@ -26,13 +26,15 @@
         <source>Select commands</source>
         <translation>Выберите команды</translation>
     </message>     
+</context>
+<context>
     <name>frmMain</name>
     <message>
         <source>User commands</source>
         <translation>Пользовательские команды</translation>
     </message>   
-    </context>
-    <context>
+</context>
+<context>
     <name>UserCommandsSettings</name>
     <message>
         <source>Hint</source>
@@ -74,5 +76,44 @@
         <source>Export</source>
         <translation>Экспорт</translation>
     </message> 
+</context>
+<context>
+    <name>frmImport</name>
+    <message>
+        <source>User commands import</source>
+        <translation>Импортирование пользовательских команд</translation>
+    </message>   
+    <message>
+        <source>Repository commands:</source>
+        <translation>Команды репозитория:</translation>
+    </message>   
+    <message>
+        <source>Name</source>
+        <translation>Наименование</translation>
+    </message>   
+    <message>
+        <source>Author</source>
+        <translation>Автор</translation>
+    </message>   
+    <message>
+        <source>Description</source>
+        <translation>Описание</translation>
+    </message>   
+    <message>
+        <source>From file</source>
+        <translation>Из файла</translation>
+    </message>   
+    <message>
+        <source>Update</source>
+        <translation>Обновить</translation>
+    </message>   
+    <message>
+        <source>Next</source>
+        <translation>Далее</translation>
+    </message>   
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>   
 </context>
 </TS>

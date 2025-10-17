@@ -24,7 +24,7 @@ static const char * const qtscript_QNetworkReply_function_names[] = {
     // static
     // prototype
     , "attribute"
-    , "error"
+    , "lastError"
     , "hasRawHeader"
     , "header"
     , "isFinished"
