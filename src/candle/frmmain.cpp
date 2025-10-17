@@ -3964,7 +3964,8 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
     // -2 - utility commands
     // -3 - utility commands
 
-    if (!m_currentConnection->isConnected() || !m_resetCompleted) return SendDone;
+    if (!m_currentConnection || !m_currentConnection->isConnected() || !m_resetCompleted)
+        return SendDone;
 
     // Check command
     if (command.isEmpty()) return SendEmpty;
