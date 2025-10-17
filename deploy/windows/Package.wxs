@@ -274,6 +274,9 @@
       <Component Id="cmp_candleplugins_usercommands_config_ini" Directory="dir_candleplugins_usercommands" Guid="1FE5ECD6-99B8-495D-8405-BA63AB43506E">
         <File Id="fil_candleplugins_usercommands_config_ini" Source="..\..\build\Candle\candleplugins\usercommands\config.ini" KeyPath="yes" />
       </Component>
+      <Component Id="cmp_candleplugins_usercommands_import_ui" Directory="dir_candleplugins_usercommands" Guid="87EF551C-DB3F-48DA-81F2-DBDBB1CF7FE4">
+        <File Id="fil_candleplugins_usercommands_import_ui" Source="..\..\build\Candle\candleplugins\usercommands\import.ui" KeyPath="yes" />
+      </Component>
       <Component Id="cmp_candleplugins_usercommands_script_js" Directory="dir_candleplugins_usercommands" Guid="99C352AF-CD8B-40C5-BE9D-C4DD20AB7816">
         <File Id="fil_candleplugins_usercommands_script_js" Source="..\..\build\Candle\candleplugins\usercommands\script.js" KeyPath="yes" />
       </Component>
