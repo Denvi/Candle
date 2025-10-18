@@ -425,6 +425,8 @@ void frmMain::closeEvent(QCloseEvent *ce)
     }
 
     saveSettings();
+
+    m_help->close();
 }
 
 void frmMain::dragEnterEvent(QDragEnterEvent *dee)
