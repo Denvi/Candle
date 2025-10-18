@@ -111,7 +111,8 @@ function createSettingsWidget()
 
 function fetchCommands()
 {
-    const commands = fetchUrl("https://raw.githubusercontent.com/Denvi/CandleCommands/main/commands/index.json");
+    const commands = fetchUrl("https://raw.githubusercontent.com/Denvi/CandleCommands/main/commands/"
+        + app.settings.language + "/index.json");
 
     const t = uiImport.tblCommands;
     t.rowCount = 0;
