@@ -45,8 +45,12 @@
         <translation>Значок</translation>
     </message> 
     <message>
-        <source>G-code</source>
-        <translation>G-код</translation>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message> 
+    <message>
+        <source>Code</source>
+        <translation>Код</translation>
     </message> 
     <message>
         <source>Up</source>
