@@ -50,7 +50,7 @@
 
 #include "connections/connection.h"
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     #include <QtWinExtras/QtWinExtras>
     #include "shobjidl.h"
 #endif
@@ -330,7 +330,7 @@ private:
 
     QMenu *m_tableMenu;
     QMessageBox* m_senderErrorBox;
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     QWinTaskbarButton *m_taskBarButton;
     QWinTaskbarProgress *m_taskBarProgress;
 #endif

@@ -29,92 +29,6 @@
 StyledToolButton[adjustSize=&quot;true&quot;] {
 	min-width: 2.5em;
 	min-height: 2.5em;
-}
-
-QMainWindow::separator {
-	width: 1em;
-}
-
-QDockWidget::title {
-	background-color: lightgray;
-	padding: 5 0 5 11;
-	text-align: left center;
-}
-
-QDockWidget[floating=&quot;true&quot;]&gt;QWidget&gt;QWidget {
-	margin-left: 11;
-	margin-right: 11;
-}
-
-QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
-	border: none;
-	background-color: transparent;
-}
-
-QSpinBox, QDoubleSpinBox {
-	padding-top: 1px;
-	padding-bottom: 1px;
-}
-
-QGroupBox {
-}
-
-QGroupBox:disabled {
-	color: palette(shadow);
-}
-
-QGroupBox[overrided=&quot;true&quot;] {
-	color: red;
-}
-
-QGroupBox[overrided=&quot;false&quot;] {
-	color: palette(windowtext);
-}
-
-QGroupBox[checkable=&quot;true&quot;]::title {
-	margin-top: 1px;
-}
-
-QGroupBox[checkable=&quot;true&quot;]::indicator {
-	padding: 0 -2 -0 2;
-	width: 13;
-	height: 13;
-}
-
-QGroupBox[checkable=&quot;true&quot;]::indicator:checked {	
-	image: url(:/images/collapse.png);
-}
-
-QGroupBox[checkable=&quot;true&quot;]::indicator:unchecked {	
-	image: url(:/images/expand.png);
-}
-
-QFrame#frameManualControlXY,#frameManualControlZ {
-	border: 1px solid lightgray;
-	border-radius: 4px;
-}
-
-QTableView {
-	selection-background-color: #cdcdff;
-	selection-color: rgb(0, 0, 0);
-}
-
-QSlider:horizontal {
-	height: 1.25em;
-}
-
-QSlider::handle:horizontal {	
-	background-color: #A6A6A6;
-	border: 2px solid #606060;
-	border-radius: 4px;
-}
-
-QSlider::handle:horizontal:disabled {
-    background: lightgray;
-}
-
-QSlider::handle:horizontal:hover {
-	background-color: #CACACA;
 }</string>
   </property>
   <property name="dockNestingEnabled">
@@ -438,7 +352,7 @@ QLabel[overrided=&quot;false&quot;] {
           <x>0</x>
           <y>0</y>
           <width>214</width>
-          <height>792</height>
+          <height>778</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -1388,8 +1302,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>237</width>
-          <height>820</height>
+          <width>235</width>
+          <height>816</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -2880,11 +2794,8 @@ QLabel[overrided=&quot;false&quot;] {
      </item>
      <item>
       <widget class="QFrame" name="fraProgramSlider">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+        <enum>QFrame::NoFrame</enum>
        </property>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
@@ -3122,8 +3033,8 @@ QLabel[overrided=&quot;false&quot;] {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>258</width>
-          <height>85</height>
+          <width>256</width>
+          <height>95</height>
          </rect>
         </property>
         <property name="acceptDrops">

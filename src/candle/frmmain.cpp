@@ -133,7 +133,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->fraDropModification->setVisible(false);
     ui->fraDropUser->setVisible(false);
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         m_taskBarButton = NULL;
         m_taskBarProgress = NULL;
@@ -251,10 +251,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
     });
     connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
     });
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
@@ -361,7 +361,7 @@ void frmMain::showEvent(QShowEvent *se)
 
     placeVisualizerButtons();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarButton == NULL) {
             m_taskBarButton = new QWinTaskbarButton(this);
@@ -880,7 +880,7 @@ void frmMain::on_cmdFileSend_clicked()
 
     storeParserState();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) {
             m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
@@ -2296,7 +2296,7 @@ void frmMain::onConnectionDataReceived(QString data)
                     }
 
                     // Update taskbar progress
-    #ifdef WINDOWS
+    #ifdef Q_OS_WIN
                     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                     }
@@ -2718,7 +2718,7 @@ void frmMain::onActSendFromLineTriggered()
 
     storeParserState();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) {
             m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
@@ -4649,7 +4649,7 @@ void frmMain::updateControlsState() {
 
     if (!process) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) m_taskBarProgress->setPaused(paused);
     }

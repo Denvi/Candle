@@ -41,15 +41,9 @@ void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
 
 int main(int argc, char *argv[])
 {
-#ifdef UNIX
-    bool styleOverrided = false;
-    for (int i = 0; i < argc; i++) if (QString(argv[i]).toUpper() == "-STYLE") {
-        styleOverrided = true;
-        break;
-    }
-#endif
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication a(argc, argv);
+
     a.setOrganizationName(APP_NAME);
     a.setApplicationName(APP_NAME);
     a.setApplicationDisplayName(APP_NAME);
@@ -57,43 +51,26 @@ int main(int argc, char *argv[])
 
     installFileLogHandler();
 
-#ifdef GLES
-    QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
-#endif
-
     QSettings set;
     QString locale = set.value("General/language", "en").toString();
 
     loadTranslationsForLocale(locale, a);
 
-#ifdef UNIX
-    if (!styleOverrided) foreach (QString str, QStyleFactory::keys()) {
-        qDebug() << "style" << str;
-        if (str.contains("GTK+")) {
-            a.setStyle(QStyleFactory::create(str));
-            break;
-        }
-    }
-#endif
-
-#ifdef GLES
-    a.setStyle(QStyleFactory::create("Fusion"));
-    QPalette palette;
-    palette.setColor(QPalette::Highlight, QColor(204, 204, 254));
-    palette.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
-    a.setPalette(palette);
-
-    a.setStyleSheet("QWidget {font-family: \"Ubuntu\";}\
-                    QMenuBar {background-color: #303030; padding-top: 2px; padding-bottom: 2px;}\
-                    QMenuBar::item {spacing: 3px; padding: 2px 8px; background: transparent; color: white;}\
-                    QMenuBar::item:pressed {border: 1px solid #505050; border-bottom: 1px; border-top-left-radius: 3px; border-top-right-radius: 3px; background: #404040; color: white;}\
-                    QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white;}\
-                    QDialog {border: 1px solid palette(mid);}");
-#endif
-
     a.setStyleSheet(a.styleSheet() + "QWidget {font-size: 8pt}");
 
     frmMain w;
+
+#ifdef Q_OS_WIN
+    QFile styles(":/styles/frmmaindefault.qss");
+#elif Q_OS_LINUX
+    QFile styles(":/styles/frmmaindefault.qss");
+#elif Q_OS_MACOS
+    QFile styles(":/styles/frmmaindmacos.qss");
+#endif
+
+    if (styles.open(QFile::ReadOnly))
+        w.setStyleSheet(styles.readAll());
+
     w.show();
 
     return a.exec();
