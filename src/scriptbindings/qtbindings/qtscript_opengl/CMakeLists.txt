@@ -9,5 +9,5 @@ target_include_directories(qtscript_opengl PRIVATE include)
 target_link_libraries(qtscript_opengl PRIVATE Qt5::Core Qt5::Widgets Qt5::Script Qt5::OpenGL)
 
 install(TARGETS qtscript_opengl
-    RUNTIME DESTINATION script
-    LIBRARY DESTINATION script)
+    RUNTIME DESTINATION ${SCRIPT_DESTINATION}
+    LIBRARY DESTINATION ${SCRIPT_DESTINATION})

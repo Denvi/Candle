@@ -9,5 +9,5 @@ target_include_directories(qtscript_core PRIVATE include .)
 target_link_libraries(qtscript_core PRIVATE Qt5::Core Qt5::Widgets Qt5::Script Qt5::Concurrent)
 
 install(TARGETS qtscript_core
-    RUNTIME DESTINATION script
-    LIBRARY DESTINATION script)
+    RUNTIME DESTINATION ${SCRIPT_DESTINATION}
+    LIBRARY DESTINATION ${SCRIPT_DESTINATION})

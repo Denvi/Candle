@@ -60,12 +60,12 @@ int main(int argc, char *argv[])
 
     frmMain w;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     QFile styles(":/styles/frmmaindefault.qss");
-#elif Q_OS_LINUX
+#elif defined(Q_OS_MAC)
+    QFile styles(":/styles/frmmainmacos.qss");
+#else
     QFile styles(":/styles/frmmaindefault.qss");
-#elif Q_OS_MACOS
-    QFile styles(":/styles/frmmaindmacos.qss");
 #endif
 
     if (styles.open(QFile::ReadOnly))
