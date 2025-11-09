@@ -23,6 +23,13 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
 
+    - name: Get latest tag
+      id: tag
+      run: |
+        tag=$(git describe --tags --abbrev=0)
+        version=${tag#v}
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
     - name: Download vcpkg cache
       uses: actions/cache@v4
       id: cache-vcpkg
@@ -36,35 +43,28 @@ jobs:
 
     - name: Install packages
       run: |
-        brew install cmake
-        brew install vcpkg
-        brew install pkg-config
-        brew install autoconf automake autoconf-archive
-        brew install vckpkg
+        brew install automake autoconf-archive
 
     - name: Bootstrap vcpkg
       run: |
-        git clone https://github.com/microsoft/vcpkg
+          git clone https://github.com/microsoft/vcpkg "$HOME/vcpkg"
+          export VCPKG_ROOT="$HOME/vcpkg"
+
+    - name: Configure
+      run: |
+        cmake --preset osx-x64-release
 
     - name: Build
       run: |
-        cmake --preset osx-x64-release -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
         cmake --build --preset osx-x64-release --parallel 4
 
     - name: Install
       run: |
-        cmake --install build/osx-x64-release --config Release
-
-    - name: Get latest tag
-      id: tag
-      run: |
-        $tag = git describe --tags --abbrev=0
-        $version = $tag -replace '^v', ''
-        echo "version=$version" >> $env:GITHUB_OUTPUT
+        cmake --install ${{github.workspace}}/build --config Release
 
     - name: Create bundle
       run: |
-        ${{github.workspace}}/build/vcpkg_installed/x64-osx-dynamic/tools/qt5/bin/macdeployqt ${{github.workspace}}/build/Candle/Candle.app
+        ${{github.workspace}}/build/vcpkg_installed/x64-osx-dynamic-release/tools/qt5/bin/macdeployqt ${{github.workspace}}/build/Candle/Candle.app
 
     - name: Create image
       run: |
@@ -75,4 +75,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: candle-${{steps.tag.outputs.version}}
-        path: ${{github.workspace}}/build/Candle/candle-${{steps.tag.outputs.version}}.dmg
+        path: candle-${{steps.tag.outputs.version}}.dmg
