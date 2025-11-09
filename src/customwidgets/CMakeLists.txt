@@ -11,7 +11,7 @@ target_include_directories(customwidgets PRIVATE .)
 target_link_libraries(customwidgets PRIVATE Qt5::Core Qt5::Widgets)
 
 if(APPLE)
-    install(TARGETS customwidgets LIBRARY DESTINATION candle.app/Contents/Frameworks)
+    install(TARGETS customwidgets LIBRARY DESTINATION Candle.app/Contents/Frameworks)
 else()
     install(TARGETS customwidgets RUNTIME DESTINATION .)
 endif()

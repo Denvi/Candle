@@ -1,5 +1,5 @@
 if(APPLE)
-    set(DESIGNER_DESTINATION "candle.app/Contents/MacOS/designerplugins")
+    set(DESIGNER_DESTINATION "Candle.app/Contents/MacOS/designerplugins")
 else()
     set(DESIGNER_DESTINATION "designerplugins")
 endif()

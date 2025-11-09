@@ -1,5 +1,5 @@
 if(APPLE)
-    set(SCRIPT_DESTINATION "candle.app/Contents/MacOS/script")
+    set(SCRIPT_DESTINATION "Candle.app/Contents/MacOS/script")
 else()
     set(SCRIPT_DESTINATION "script")
 endif()

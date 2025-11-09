@@ -12,6 +12,8 @@
     <string>${PROJECT_VERSION}</string>
     <key>CFBundleShortVersionString</key>
     <string>${PROJECT_VERSION}</string>
+    <key>CFBundleIconFile</key>
+    <string>candle.icns</string>
     <key>NSCameraUsageDescription</key>
     <string>This app needs to access your camera to capture video when using "Camera" plugin.</string>
 </dict>

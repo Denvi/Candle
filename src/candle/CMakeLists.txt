@@ -42,25 +42,20 @@ add_custom_target(
 
 if(WIN32)
     add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
-
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
     set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
 elseif(APPLE)
-    # set(MACOSX_BUNDLE_ICON_FILE candle.icns)
     set(APP_ICON_MACOS "${CMAKE_SOURCE_DIR}/src/candle/images/candle.icns")
     set_source_files_properties(${APP_ICON_MACOS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-
     add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} ${APP_ICON_MACOS} icon.rc)
-
     set_target_properties(candle PROPERTIES
         INSTALL_RPATH "@executable_path/../Frameworks"
         MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "Candle"
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/deploy/mac/Info.plist.in"
     )
-
 elseif(UNIX)
     add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
-
     set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
 endif()
 
@@ -82,7 +77,7 @@ endif()
 
 # Translations
 if(APPLE)
-    set(TRANSLATIONS_DESTINATION "candle.app/Contents/MacOS/translations")
+    set(TRANSLATIONS_DESTINATION "Candle.app/Contents/MacOS/translations")
 else()
     set(TRANSLATIONS_DESTINATION "translations")
 endif()
@@ -124,7 +119,7 @@ foreach(LANG ${QT_LANGUAGES})
 endforeach()
 
 if(APPLE)
-    set(GENERAL_DESTINATION "candle.app/Contents/MacOS")
+    set(GENERAL_DESTINATION "Candle.app/Contents/MacOS")
 else()
     set(GENERAL_DESTINATION ".")
 endif()
@@ -153,17 +148,17 @@ if(APPLE)
     )
 
     install(DIRECTORY ${QT_PLUGINS_DIR}/sqldrivers
-        DESTINATION candle.app/Contents/PlugIns
+        DESTINATION Candle.app/Contents/PlugIns
         FILES_MATCHING PATTERN "*.dylib"
     )
 
     install(DIRECTORY "${QT_PLUGINS_DIR}/mediaservice/"
-        DESTINATION candle.app/Contents/PlugIns/mediaservice
+        DESTINATION Candle.app/Contents/PlugIns/mediaservice
         FILES_MATCHING PATTERN "*.dylib"
     )
 
     find_library(SQLITE3_LIB sqlite3)
     if(SQLITE3_LIB)
-        install(FILES ${SQLITE3_LIB} DESTINATION candle.app/Contents/Frameworks)
+        install(FILES ${SQLITE3_LIB} DESTINATION Candle.app/Contents/Frameworks)
     endif()
 endif()
