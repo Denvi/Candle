@@ -1,0 +1,78 @@
+name: Release / Mac (x64)
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch to run on'
+        required: true
+        default: 'master'
+        type: string
+
+env:
+  VCPKG_DEFAULT_BINARY_CACHE: ${{github.workspace}}/vcpkg_cache
+
+jobs:
+  build:
+    runs-on: macos-15-intel
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.inputs.branch_name }}
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Download vcpkg cache
+      uses: actions/cache@v4
+      id: cache-vcpkg
+      with:
+        path: vcpkg_cache
+        key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+
+    - name: Ensure vcpkg cache dir
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+      run: mkdir vcpkg_cache
+
+    - name: Install packages
+      run: |
+        brew install cmake
+        brew install vcpkg
+        brew install pkg-config
+        brew install autoconf automake autoconf-archive
+        brew install vckpkg
+
+    - name: Bootstrap vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg
+
+    - name: Build
+      run: |
+        cmake --preset osx-x64-release -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        cmake --build --preset osx-x64-release --parallel 4
+
+    - name: Install
+      run: |
+        cmake --install build/osx-x64-release --config Release
+
+    - name: Get latest tag
+      id: tag
+      run: |
+        $tag = git describe --tags --abbrev=0
+        $version = $tag -replace '^v', ''
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Create bundle
+      run: |
+        ${{github.workspace}}/build/vcpkg_installed/x64-osx-dynamic/tools/qt5/bin/macdeployqt ${{github.workspace}}/build/Candle/Candle.app
+
+    - name: Create image
+      run: |
+        ln -s /Applications ${{github.workspace}}/build/Candle/Applications
+        hdiutil create -volname "Candle Installer" -srcfolder ${{github.workspace}}/build/Candle -ov -format UDZO candle-${{steps.tag.outputs.version}}.dmg
+
+    - name: Upload image
+      uses: actions/upload-artifact@v4
+      with:
+        name: candle-${{steps.tag.outputs.version}}
+        path: ${{github.workspace}}/build/Candle/candle-${{steps.tag.outputs.version}}.dmg
