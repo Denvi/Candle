@@ -1,0 +1,73 @@
+#fraProgram QToolButton {
+	min-width: 1.75em;
+	min-height: 1.75em;
+}
+
+StyledToolButton[adjustSize="true"] {
+	min-width: 2.5em;
+	min-height: 2.5em;
+}
+
+QMainWindow::separator {
+	width: 1em;
+	border: none;
+}
+
+QDockWidget[floating="true"]>QWidget>QWidget {
+	margin-left: 11;
+	margin-right: 11;
+}
+
+QToolBar#_spacerTop, QToolBar#_spacerLeft, QToolBar#_spacerRight {
+	border: none;
+	background-color: transparent;
+}
+
+QSpinBox, QDoubleSpinBox {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+QGroupBox:disabled {
+	color: palette(shadow);
+}
+
+QGroupBox[overrided="true"] {
+	color: red;
+}
+
+QGroupBox[overrided="false"] {
+	color: palette(windowtext);
+}
+
+QGroupBox[checkable="true"]::title {
+	margin-top: 1px;
+}
+
+QGroupBox[checkable="true"]::indicator {
+	padding: 0 -2 -0 2;
+	width: 13;
+	height: 13;
+}
+
+QGroupBox[checkable="true"]::indicator:checked {	
+	image: url(:/images/collapse.png);
+}
+
+QGroupBox[checkable="true"]::indicator:unchecked {	
+	image: url(:/images/expand.png);
+}
+
+QFrame#frameManualControlXY,#frameManualControlZ {
+	border: 1px solid lightgray;
+	border-radius: 4px;
+}
+
+QTableView {
+	selection-background-color: #cdcdff;
+	selection-color: rgb(0, 0, 0);
+}
+
+QSlider:horizontal {
+	padding-top: 10;
+}

@@ -30,11 +30,6 @@
     <widget class="CameraWidget" name="camMain" native="true"/>
    </item>
   </layout>
-  <action name="actPluginTest2Send">
-   <property name="text">
-    <string>&amp;Send</string>
-   </property>
-  </action>
  </widget>
  <customwidgets>
   <customwidget>

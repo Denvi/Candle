@@ -11,12 +11,10 @@ class ComboBoxKey : public QComboBox
 public:
     explicit ComboBoxKey(QWidget *parent = 0);
 
-    void setEditable(bool editable);
-
     void setCurrentNext();
     void setCurrentPrevious();
 
-    void setItems(QStringList items);
+    void setItems(QStringList items, bool keepCurrentText = false);
     QStringList items();
 
 protected:

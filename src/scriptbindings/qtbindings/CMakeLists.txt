@@ -1,3 +1,9 @@
+if(APPLE)
+    set(SCRIPT_DESTINATION "Candle.app/Contents/MacOS/script")
+else()
+    set(SCRIPT_DESTINATION "script")
+endif()
+
 add_subdirectory(qtscript_core)
 add_subdirectory(qtscript_custom)
 add_subdirectory(qtscript_gui)

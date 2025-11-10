@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>candle</string>
+    <key>CFBundleIdentifier</key>
+    <string>denvi.candle</string>
+    <key>CFBundleName</key>
+    <string>Candle</string>
+    <key>CFBundleVersion</key>
+    <string>${PROJECT_VERSION}</string>
+    <key>CFBundleShortVersionString</key>
+    <string>${PROJECT_VERSION}</string>
+    <key>CFBundleIconFile</key>
+    <string>candle.icns</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs to access your camera to capture video when using "Camera" plugin.</string>
+</dict>
+</plist>

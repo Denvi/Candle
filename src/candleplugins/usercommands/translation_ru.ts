@@ -9,15 +9,15 @@
     <message>
         <source>Open</source>
         <translation>Открыть</translation>
-    </message>   
+    </message>
     <message>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>   
+    </message>
     <message>
         <source>Images (*.png *.ico *.jpg)</source>
         <translation>Файлы изображений (*.png *.jpg *.ico)</translation>
-    </message>   
+    </message>
     <message>
         <source>User commands (*.uc)</source>
         <translation>Файлы пользовательских команд (*.uc)</translation>
@@ -25,99 +25,103 @@
     <message>
         <source>Select commands</source>
         <translation>Выберите команды</translation>
-    </message>     
+    </message>
+    <message>
+        <source>Script</source>
+        <translation>Скрипт</translation>
+    </message>
 </context>
 <context>
     <name>frmMain</name>
     <message>
         <source>User commands</source>
         <translation>Пользовательские команды</translation>
-    </message>   
+    </message>
 </context>
 <context>
     <name>UserCommandsSettings</name>
     <message>
         <source>Hint</source>
         <translation>Описание</translation>
-    </message>   
+    </message>
     <message>
         <source>Icon</source>
         <translation>Значок</translation>
-    </message> 
+    </message>
     <message>
         <source>Type</source>
         <translation>Тип</translation>
-    </message> 
+    </message>
     <message>
         <source>Code</source>
         <translation>Код</translation>
-    </message> 
+    </message>
     <message>
         <source>Up</source>
         <translation>Вверх</translation>
-    </message> 
+    </message>
     <message>
         <source>Down</source>
         <translation>Вниз</translation>
-    </message> 
+    </message>
     <message>
         <source>Add</source>
         <translation>Добавить</translation>
-    </message> 
+    </message>
     <message>
         <source>Remove</source>
         <translation>Удалить</translation>
-    </message> 
+    </message>
     <message>
         <source>Remove all</source>
         <translation>Удалить все</translation>
-    </message> 
+    </message>
     <message>
         <source>Import</source>
         <translation>Импорт</translation>
-    </message> 
+    </message>
     <message>
         <source>Export</source>
         <translation>Экспорт</translation>
-    </message> 
+    </message>
 </context>
 <context>
     <name>frmImport</name>
     <message>
         <source>User commands import</source>
         <translation>Импортирование пользовательских команд</translation>
-    </message>   
+    </message>
     <message>
         <source>Repository commands:</source>
         <translation>Команды репозитория:</translation>
-    </message>   
+    </message>
     <message>
         <source>Name</source>
         <translation>Наименование</translation>
-    </message>   
+    </message>
     <message>
         <source>Author</source>
         <translation>Автор</translation>
-    </message>   
+    </message>
     <message>
         <source>Description</source>
         <translation>Описание</translation>
-    </message>   
+    </message>
     <message>
         <source>From file</source>
         <translation>Из файла</translation>
-    </message>   
+    </message>
     <message>
         <source>Update</source>
         <translation>Обновить</translation>
-    </message>   
+    </message>
     <message>
         <source>Next</source>
         <translation>Далее</translation>
-    </message>   
+    </message>
     <message>
         <source>Cancel</source>
         <translation>Отмена</translation>
-    </message>   
+    </message>
 </context>
 </TS>

@@ -487,28 +487,36 @@ QGroupBox {
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
                  <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0,0">
-                  <item row="1" column="4">
-                   <widget class="QSpinBox" name="txtSpindleSpeedMax">
-                    <property name="font">
-                     <font>
-                      <pointsize>9</pointsize>
-                     </font>
+                  <item row="1" column="2">
+                   <spacer name="horizontalSpacer_6">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>6</width>
+                      <height>20</height>
+                     </size>
                     </property>
-                    <property name="maximum">
-                     <number>99999</number>
+                   </spacer>
+                  </item>
+                  <item row="3" column="1" colspan="4">
+                   <widget class="QLineEdit" name="txtJogSteps">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="placeholderText">
+                     <string>0.1, 1, 10, ...</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_29">
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_18">
                     <property name="text">
-                     <string>Reference position:</string>
+                     <string>Laser power min.:</string>
                     </property>
                    </widget>
                   </item>
@@ -519,14 +527,7 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="3">
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>max.:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="3">
+                  <item row="5" column="3">
                    <widget class="QWidget" name="widget_2" native="true">
                     <layout class="QHBoxLayout" name="horizontalLayout_8">
                      <property name="topMargin">
@@ -555,57 +556,14 @@ QGroupBox {
                     </layout>
                    </widget>
                   </item>
-                  <item row="2" column="3">
-                   <widget class="QLabel" name="label_35">
+                  <item row="1" column="3">
+                   <widget class="QLabel" name="label_13">
                     <property name="text">
                      <string>max.:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
-                   <widget class="QSpinBox" name="txtLaserPowerMin">
-                    <property name="font">
-                     <font>
-                      <pointsize>9</pointsize>
-                     </font>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
-                    </property>
-                    <property name="maximum">
-                     <number>99999</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_18">
-                    <property name="text">
-                     <string>Laser power min.:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QSpinBox" name="txtSpindleSpeedMin">
-                    <property name="font">
-                     <font>
-                      <pointsize>9</pointsize>
-                     </font>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
-                    </property>
-                    <property name="maximum">
-                     <number>99999</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
+                  <item row="5" column="1">
                    <widget class="QWidget" name="widget_3" native="true">
                     <layout class="QHBoxLayout" name="horizontalLayout_9">
                      <property name="topMargin">
@@ -634,23 +592,39 @@ QGroupBox {
                     </layout>
                    </widget>
                   </item>
-                  <item row="1" column="2">
-                   <spacer name="horizontalSpacer_6">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>Jog steps:</string>
                     </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Fixed</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>6</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
+                   </widget>
                   </item>
-                  <item row="3" column="4">
+                  <item row="1" column="1">
+                   <widget class="QSpinBox" name="txtSpindleSpeedMin">
+                    <property name="font">
+                     <font>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="maximum">
+                     <number>99999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1" colspan="4">
+                   <widget class="QLineEdit" name="txtJogFeeds">
+                    <property name="placeholderText">
+                     <string>1, 10, 100, ...</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="4">
                    <widget class="QWidget" name="widget" native="true">
                     <layout class="QHBoxLayout" name="horizontalLayout_5">
                      <property name="topMargin">
@@ -679,6 +653,63 @@ QGroupBox {
                     </layout>
                    </widget>
                   </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_29">
+                    <property name="text">
+                     <string>Reference position:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QLabel" name="label_35">
+                    <property name="text">
+                     <string>max.:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Jog feeds:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QSpinBox" name="txtLaserPowerMin">
+                    <property name="font">
+                     <font>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="maximum">
+                     <number>99999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="4">
+                   <widget class="QSpinBox" name="txtSpindleSpeedMax">
+                    <property name="font">
+                     <font>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="maximum">
+                     <number>99999</number>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="2" column="4">
                    <widget class="QSpinBox" name="txtLaserPowerMax">
                     <property name="font">
@@ -697,14 +728,14 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="6" column="0">
                    <widget class="QCheckBox" name="chkAxisA">
                     <property name="text">
                      <string>Enable axis 'A'</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="3">
+                  <item row="6" column="3">
                    <widget class="QWidget" name="widget_4" native="true">
                     <property name="enabled">
                      <bool>false</bool>
@@ -736,7 +767,7 @@ QGroupBox {
                     </layout>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="6" column="1">
                    <widget class="QLabel" name="label_8">
                     <property name="text">
                      <string>direction:</string>
@@ -1892,12 +1923,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>48</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>48</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1908,12 +1939,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>57</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>334</x>
-     <y>57</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1924,12 +1955,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>57</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>57</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1940,12 +1971,12 @@ segment size:</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>50</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>285</x>
-     <y>51</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1956,12 +1987,12 @@ segment size:</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>50</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>296</x>
-     <y>51</y>
+     <x>341</x>
+     <y>34</y>
     </hint>
    </hints>
   </connection>
@@ -1972,12 +2003,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>53</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>334</x>
-     <y>53</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -1988,12 +2019,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>53</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>53</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -2004,12 +2035,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>357</x>
-     <y>44</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>43</y>
+     <x>368</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
@@ -2020,12 +2051,12 @@ segment size:</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>291</x>
-     <y>54</y>
+     <x>440</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>54</y>
+     <x>786</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>

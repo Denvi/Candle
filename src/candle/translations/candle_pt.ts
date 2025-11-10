@@ -596,10 +596,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -894,6 +890,10 @@ Tempo transcorrido: %1</translation>
         <source>Documentation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>From Line</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1053,10 +1053,6 @@ Tempo transcorrido: %1</translation>
     <message>
         <source>Background:</source>
         <translation>Fundo:</translation>
-    </message>
-    <message>
-        <source>Machine information</source>
-        <translation>Informação sobre máquina</translation>
     </message>
     <message>
         <source>Status query period:</source>
@@ -1381,6 +1377,26 @@ segment size:</source>
     </message>
     <message>
         <source>Binary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Machine information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

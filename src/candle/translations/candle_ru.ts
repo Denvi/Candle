@@ -596,10 +596,6 @@
         <translation>Сон</translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation>Отправить с текущей строки</translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation>Подача:</translation>
     </message>
@@ -897,6 +893,10 @@ Time elapsed: %1</source>
         <source>Documentation</source>
         <translation>Документация</translation>
     </message>
+    <message>
+        <source>From Line</source>
+        <translation>Со строки</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -956,10 +956,6 @@ Time elapsed: %1</source>
     <message>
         <source>Baud:</source>
         <translation>Скорость:</translation>
-    </message>
-    <message>
-        <source>Machine information</source>
-        <translation>Информация о станке</translation>
     </message>
     <message>
         <source>Status query period:</source>
@@ -1387,6 +1383,26 @@ segment size:</source>
     <message>
         <source>Binary</source>
         <translation>Двоичный</translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation>Шаги перемещения:</translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation>Подачи перемещения:</translation>
+    </message>
+    <message>
+        <source>Machine information</source>
+        <translation>Информация о станке</translation>
     </message>
 </context>
 </TS>

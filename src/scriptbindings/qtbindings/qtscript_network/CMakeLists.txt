@@ -9,5 +9,5 @@ target_include_directories(qtscript_network PRIVATE include)
 target_link_libraries(qtscript_network PRIVATE Qt5::Core Qt5::Script Qt5::Network)
 
 install(TARGETS qtscript_network
-    RUNTIME DESTINATION script
-    LIBRARY DESTINATION script)
+    RUNTIME DESTINATION ${SCRIPT_DESTINATION}
+    LIBRARY DESTINATION ${SCRIPT_DESTINATION})

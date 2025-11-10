@@ -43,6 +43,8 @@ class frmSettings : public QDialog
     Q_PROPERTY(int spindleSpeedMax READ spindleSpeedMax WRITE setSpindleSpeedMax)
     Q_PROPERTY(int laserPowerMin READ laserPowerMin WRITE setLaserPowerMin)
     Q_PROPERTY(int laserPowerMax READ laserPowerMax WRITE setLaserPowerMax)
+    Q_PROPERTY(QStringList jogSteps READ jogSteps WRITE setJogSteps)
+    Q_PROPERTY(QStringList jogFeeds READ jogFeeds WRITE setJogFeeds)
     Q_PROPERTY(int queryStateTime READ queryStateTime WRITE setQueryStateTime)
     Q_PROPERTY(int toolType READ toolType WRITE setToolType)
     Q_PROPERTY(double toolAngle READ toolAngle WRITE setToolAngle)
@@ -115,6 +117,10 @@ public:
     void setLaserPowerMin(int value);
     int laserPowerMax();
     void setLaserPowerMax(int value);
+    QStringList jogSteps();
+    void setJogSteps(QStringList steps);
+    QStringList jogFeeds();
+    void setJogFeeds(QStringList steps);
     int rapidSpeed();
     void setRapidSpeed(int rapidSpeed);
     int acceleration();

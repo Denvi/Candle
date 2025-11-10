@@ -592,10 +592,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation></translation>
     </message>
@@ -892,6 +888,10 @@ Time elapsed: %1</source>
         <source>Documentation</source>
         <translation></translation>
     </message>
+    <message>
+        <source>From Line</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -985,10 +985,6 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Status query period:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Machine information</source>
         <translation></translation>
     </message>
     <message>
@@ -1378,6 +1374,26 @@ segment size:</source>
     </message>
     <message>
         <source>Binary</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Machine information</source>
         <translation></translation>
     </message>
 </context>

@@ -9,5 +9,5 @@ target_include_directories(qtscript_xml PRIVATE include)
 target_link_libraries(qtscript_xml PRIVATE Qt5::Core Qt5::Script Qt5::Xml)
 
 install(TARGETS qtscript_xml
-    RUNTIME DESTINATION script
-    LIBRARY DESTINATION script)
+    RUNTIME DESTINATION ${SCRIPT_DESTINATION}
+    LIBRARY DESTINATION ${SCRIPT_DESTINATION})
