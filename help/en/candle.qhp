@@ -42,6 +42,7 @@
          </section>
          <section title="Operator Messages" ref="messages/index.html"></section>
          <section title="Scripting" ref="scripting/index.html">
+            <section title="Script preparation" ref="scripting/preparing.html"/>
             <section title="Running and debugging" ref="scripting/running.html"/>
             <section title="Objects" ref="scripting/objects.html"/>
             <section title="Additional classes" ref="scripting/customclasses.html"/>

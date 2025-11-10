@@ -30,16 +30,6 @@ qt5_add_resources(RSC_FILES
 
 qt5_add_translation(QM_FILES ${TS_FILES})
 
-add_custom_target(
-    lupdate ALL
-    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
-        ${SRC_FILES} ${UI_FILES}
-        -locations none
-        -no-obsolete
-        -ts ${TS_FILES}
-    VERBATIM
-)
-
 if(WIN32)
     add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
     target_link_libraries(candle PRIVATE Qt5::WinExtras)
@@ -124,6 +114,29 @@ else()
     set(GENERAL_DESTINATION ".")
 endif()
 
+# Manual targets
+# Translations
+add_custom_target(
+    lupdate
+    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
+        ${SRC_FILES} ${UI_FILES}
+        -locations none
+        -no-obsolete
+        -ts ${TS_FILES}
+    VERBATIM
+)
+
+# Docs
+add_custom_target(
+    docs
+    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::qhelpgenerator>
+        ${CMAKE_SOURCE_DIR}/help/candle.qhcp
+        -o ${CMAKE_SOURCE_DIR}/help/candle.qhc
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    VERBATIM
+)
+
+# Install
 # Candle plugins
 if (APPLE)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
