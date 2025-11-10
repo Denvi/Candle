@@ -133,7 +133,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->fraDropModification->setVisible(false);
     ui->fraDropUser->setVisible(false);
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         m_taskBarButton = NULL;
         m_taskBarProgress = NULL;
@@ -177,12 +177,6 @@ frmMain::frmMain(QWidget *parent) :
     ui->cboJogFeed->lineEdit()->setValidator(new QIntValidator(0, 100000));
     connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
     connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
-
-    // Prepare "Send"-button
-    ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
-    QMenu *menuSend = new QMenu();
-    menuSend->addAction(tr("Send from current line"), this, SLOT(onActSendFromLineTriggered()));
-    ui->cmdFileSend->setMenu(menuSend);
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
@@ -251,10 +245,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
     });
     connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() - 1);
+        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
     });
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
@@ -361,7 +355,7 @@ void frmMain::showEvent(QShowEvent *se)
 
     placeVisualizerButtons();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarButton == NULL) {
             m_taskBarButton = new QWinTaskbarButton(this);
@@ -880,7 +874,7 @@ void frmMain::on_cmdFileSend_clicked()
 
     storeParserState();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) {
             m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
@@ -2296,7 +2290,7 @@ void frmMain::onConnectionDataReceived(QString data)
                     }
 
                     // Update taskbar progress
-    #ifdef WINDOWS
+    #ifdef Q_OS_WIN
                     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
                         if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                     }
@@ -2666,7 +2660,7 @@ void frmMain::onActRecentFileTriggered()
     }
 }
 
-void frmMain::onActSendFromLineTriggered()
+void frmMain::on_cmdFileSendFromLine_clicked()
 {
     if (m_currentModel->rowCount() == 1) return;
 
@@ -2718,7 +2712,7 @@ void frmMain::onActSendFromLineTriggered()
 
     storeParserState();
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) {
             m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
@@ -3090,9 +3084,9 @@ void frmMain::storeSettings()
     set->setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
     set->setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
-    set->setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
+    set->setValue("jogSteps", m_settings->jogSteps());
     set->setValue("jogStep", ui->cboJogStep->currentIndex());
-    set->setValue("jogFeeds", ui->cboJogFeed->items());
+    set->setValue("jogFeeds", m_settings->jogFeeds());
     set->setValue("jogFeed", ui->cboJogFeed->currentIndex());
 
     set->setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
@@ -3236,6 +3230,11 @@ void frmMain::restoreSettings()
         m_settings->setSpindleSpeedMax(set->value("spindleSpeedMax", 10000).toInt());
         m_settings->setLaserPowerMin(set->value("laserPowerMin", 0).toInt());
         m_settings->setLaserPowerMax(set->value("laserPowerMax", 100).toInt());
+        m_settings->setJogSteps(set->value("jogSteps", QStringList { "0.01", "0.1", "1", "5", "10", "100" })
+            .toStringList());
+        m_settings->setJogFeeds(set->value("jogFeeds", QStringList { "10", "50", "100", "500", "1000", "2000" })
+            .toStringList());
+
         m_settings->setRapidSpeed(set->value("rapidSpeed", 0).toInt());
         m_settings->setAcceleration(set->value("acceleration", 10).toInt());
         m_settings->setFps(set->value("fps", 60).toInt());
@@ -3287,13 +3286,15 @@ void frmMain::restoreSettings()
 
     m_storedKeyboardControl = set->value("keyboardControl", false).toBool();
 
-    QStringList steps = set->value("jogSteps").toStringList();
-    if (steps.count() > 0) {
-        steps.insert(0, ui->cboJogStep->items().first());
-        ui->cboJogStep->setItems(steps);
-    }
+    auto steps = m_settings->jogSteps();
+    steps.prepend(ui->cboJogStep->items().first());
+    ui->sliJogStep->setMaximum(steps.count() - 1);
+    ui->cboJogStep->setItems(steps);
     ui->cboJogStep->setCurrentIndex(set->value("jogStep", "3").toInt());
-    ui->cboJogFeed->setItems(set->value("jogFeeds").toStringList());
+
+    auto feeds = m_settings->jogFeeds();
+    ui->sliJogFeed->setMaximum(feeds.count() - 1);
+    ui->cboJogFeed->setItems(feeds);
     ui->cboJogFeed->setCurrentIndex(set->value("jogFeed", "2").toInt());
 
     ui->txtHeightMapBorderX->setValue(set->value("heightmapBorderX", 0).toDouble());
@@ -3554,6 +3555,15 @@ void frmMain::applySettings()
     ui->glwVisualizer->setFps(m_settings->fps());
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
+
+    auto steps = m_settings->jogSteps();
+    steps.prepend(ui->cboJogStep->items().first());
+    ui->sliJogStep->setMaximum(steps.count() - 1);
+    ui->cboJogStep->setItems(steps, true);
+
+    auto feeds = m_settings->jogFeeds();
+    ui->sliJogFeed->setMaximum(feeds.count() - 1);
+    ui->cboJogFeed->setItems(feeds, true);
 
     ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
@@ -4624,6 +4634,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(m_senderState == SenderStopped);
     ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
+    ui->cmdFileSendFromLine->setEnabled(ui->cmdFileSend->isEnabled() && !ui->cmdHeightMapMode->isChecked());
     ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing));
     ui->cmdFilePause->setChecked(paused);
     ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping);
@@ -4649,7 +4660,7 @@ void frmMain::updateControlsState() {
 
     if (!process) ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
 
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         if (m_taskBarProgress) m_taskBarProgress->setPaused(paused);
     }
@@ -4662,11 +4673,13 @@ void frmMain::updateControlsState() {
     style()->unpolish(ui->cmdFileOpen);
     style()->unpolish(ui->cmdFileReset);
     style()->unpolish(ui->cmdFileSend);
+    style()->unpolish(ui->cmdFileSendFromLine);
     style()->unpolish(ui->cmdFilePause);
     style()->unpolish(ui->cmdFileAbort);
     ui->cmdFileOpen->ensurePolished();
     ui->cmdFileReset->ensurePolished();
     ui->cmdFileSend->ensurePolished();
+    ui->cmdFileSendFromLine->ensurePolished();
     ui->cmdFilePause->ensurePolished();
     ui->cmdFileAbort->ensurePolished();
 
@@ -4701,8 +4714,6 @@ void frmMain::updateControlsState() {
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
 
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
-
-    ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
     ui->sliProgram->setEnabled(m_programModel.rowCount() > 1 && (m_senderState == SenderStopped) && !m_heightMapMode);
 }

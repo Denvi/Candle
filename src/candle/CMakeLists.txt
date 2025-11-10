@@ -25,21 +25,29 @@ qt5_add_resources(RSC_FILES
         shaders.qrc
         images.qrc
         fonts.qrc
+        styles.qrc
 )
 
 qt5_add_translation(QM_FILES ${TS_FILES})
 
-add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
-
-add_custom_target(
-    lupdate ALL
-    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
-        ${SRC_FILES} ${UI_FILES}
-        -locations none
-        -no-obsolete
-        -ts ${TS_FILES}
-    VERBATIM
-)
+if(WIN32)
+    add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
+    target_link_libraries(candle PRIVATE Qt5::WinExtras)
+    set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
+elseif(APPLE)
+    set(APP_ICON_MACOS "${CMAKE_SOURCE_DIR}/src/candle/images/candle.icns")
+    set_source_files_properties(${APP_ICON_MACOS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} ${APP_ICON_MACOS} icon.rc)
+    set_target_properties(candle PROPERTIES
+        INSTALL_RPATH "@executable_path/../Frameworks"
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "Candle"
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/deploy/mac/Info.plist.in"
+    )
+elseif(UNIX)
+    add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
+    set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
+endif()
 
 target_include_directories(candle PRIVATE . ../customwidgets)
 
@@ -48,23 +56,23 @@ target_compile_definitions(candle PRIVATE
         QT_NO_DEBUG
 )
 
-target_link_libraries(candle PRIVATE customwidgets customwidgetsplugin Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help)
-
-if(WIN32)
-    target_link_libraries(candle PRIVATE Qt5::WinExtras)
-    target_compile_definitions(candle PRIVATE WINDOWS)
-elseif(APPLE)
-elseif(UNIX)
-    set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
-endif()
-
-set_target_properties(candle PROPERTIES WIN32_EXECUTABLE ON)
+target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help)
 
 # Main executable
-install(TARGETS candle RUNTIME DESTINATION .)
+if(APPLE)
+    install(TARGETS candle BUNDLE DESTINATION .)
+else()
+    install(TARGETS candle RUNTIME DESTINATION .)
+endif()
 
 # Translations
-install(FILES ${QM_FILES} DESTINATION translations)
+if(APPLE)
+    set(TRANSLATIONS_DESTINATION "Candle.app/Contents/MacOS/translations")
+else()
+    set(TRANSLATIONS_DESTINATION "translations")
+endif()
+
+install(FILES ${QM_FILES} DESTINATION ${TRANSLATIONS_DESTINATION})
 
 # Base translations
 get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
@@ -81,35 +89,104 @@ foreach(LANG ${QT_LANGUAGES})
     if(EXISTS "${QT_TRANSLATION_FILE_BASE}")
         install(
             FILES "${QT_TRANSLATION_FILE_BASE}"
-            DESTINATION "translations"
+            DESTINATION ${TRANSLATIONS_DESTINATION}
         )
     endif()
     set(QT_TRANSLATION_FILE_SCRIPT "${QT_TRANSLATIONS_DIR}/qtscript_${LANG}.qm")
     if(EXISTS "${QT_TRANSLATION_FILE_SCRIPT}")
         install(
             FILES "${QT_TRANSLATION_FILE_SCRIPT}"
-            DESTINATION "translations"
+            DESTINATION ${TRANSLATIONS_DESTINATION}
         )
     endif()    
     set(QT_TRANSLATION_FILE_HELP "${QT_TRANSLATIONS_DIR}/qt_help_${LANG}.qm")
     if(EXISTS "${QT_TRANSLATION_FILE_HELP}")
         install(
             FILES "${QT_TRANSLATION_FILE_HELP}"
-            DESTINATION "translations"
+            DESTINATION ${TRANSLATIONS_DESTINATION}
         )
     endif()    
 endforeach()
 
+if(APPLE)
+    set(GENERAL_DESTINATION "Candle.app/Contents/MacOS")
+else()
+    set(GENERAL_DESTINATION ".")
+endif()
+
+# Manual targets
+# Translations
+add_custom_target(
+    lupdate
+    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::lupdate>
+        ${SRC_FILES} ${UI_FILES}
+        -locations none
+        -no-obsolete
+        -ts ${TS_FILES}
+    VERBATIM
+)
+
+# Docs
+add_custom_target(
+    docs
+    COMMAND $<TARGET_FILE:Qt${QT_VERSION}::qhelpgenerator>
+        ${CMAKE_SOURCE_DIR}/help/candle.qhcp
+        -o ${CMAKE_SOURCE_DIR}/help/candle.qhc
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    VERBATIM
+)
+
+# Install
 # Candle plugins
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION . FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
+if (APPLE)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${GENERAL_DESTINATION}
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+        PATTERN camera EXCLUDE
+    )
+else()
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${GENERAL_DESTINATION}
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+    )
+endif()
 
 # License
-install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION .)
+install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION ${GENERAL_DESTINATION})
 
 # Documentation
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION . FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
-
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION ${GENERAL_DESTINATION} FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
+ 
 # Shared libraries
 if(WIN32)
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll PATTERN qt.conf)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/ DESTINATION . FILES_MATCHING PATTERN *.dll PATTERN qt.conf)
+endif()
+
+# Plugins
+if(APPLE)
+    get_target_property(QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    execute_process(
+        COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_PLUGINS
+        OUTPUT_VARIABLE QT_PLUGINS_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    install(DIRECTORY ${QT_PLUGINS_DIR}/sqldrivers
+        DESTINATION Candle.app/Contents/PlugIns
+        FILES_MATCHING PATTERN "*.dylib"
+    )
+
+    install(DIRECTORY "${QT_PLUGINS_DIR}/mediaservice/"
+        DESTINATION Candle.app/Contents/PlugIns/mediaservice
+        FILES_MATCHING PATTERN "*.dylib"
+    )
+
+    find_library(SQLITE3_LIB sqlite3)
+    if(SQLITE3_LIB)
+        install(FILES ${SQLITE3_LIB} DESTINATION Candle.app/Contents/Frameworks)
+    endif()
 endif()

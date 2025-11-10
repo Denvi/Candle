@@ -1,0 +1,44 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "windows-x64-release",
+            "displayName": "Windows x64 Release",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/Candle",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        },
+        {
+            "name": "osx-x64-release",
+            "displayName": "OS X x64 Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/Candle",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "~/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
+                "VCPKG_TARGET_TRIPLET": "x64-osx-dynamic-release"
+            }
+        }        
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-x64-release",
+            "displayName": "Windows x64 Release",
+            "configurePreset": "windows-x64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "osx-x64-release",
+            "displayName": "OS X x64 Release",
+            "configurePreset": "osx-x64-release",
+            "configuration": "Release"
+        }
+    ]
+}

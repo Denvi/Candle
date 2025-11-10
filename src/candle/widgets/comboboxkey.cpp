@@ -4,28 +4,6 @@ ComboBoxKey::ComboBoxKey(QWidget *parent) : QComboBox(parent)
 {
 }
 
-// TODO: Rework user items
-void ComboBoxKey::setEditable(bool editable)
-{
-    if (!editable) {
-        if (currentText() != itemText(currentIndex())) {
-            // Remove user item if exist
-            QString value = currentText();
-            if (itemData(count() - 1) == 1) {
-                removeItem(count() - 1);
-                removeItem(count() - 1);
-            }
-
-            // Add user item to the end of list
-            insertSeparator(count());
-            addItem(value, 1);
-            setCurrentIndex(count() - 1);
-        }
-    }
-
-    QComboBox::setEditable(editable);
-}
-
 void ComboBoxKey::setCurrentNext()
 {
     do {
@@ -40,20 +18,23 @@ void ComboBoxKey::setCurrentPrevious()
     } while (currentText().isEmpty());
 }
 
-void ComboBoxKey::setItems(QStringList items)
+void ComboBoxKey::setItems(QStringList items, bool keepCurrentText)
 {
-    if (items.isEmpty()) return;
+    auto storedText = this->currentText();
 
     clear();
 
-    bool userItem = false;
+    if (items.isEmpty()) return;
+
     foreach (QString item, items) {
-        if (item.isEmpty()) {
-            insertSeparator(count());
-            userItem = true;
-        } else {
-            insertItem(count(), item, userItem ? 1 : QVariant());
-        }
+        insertItem(count(), item);
+    }
+
+    if (keepCurrentText) {
+        auto currentIndex = this->items().indexOf(storedText);
+        if (currentIndex != -1)
+            setCurrentIndex(currentIndex);
+
     }
 }
 

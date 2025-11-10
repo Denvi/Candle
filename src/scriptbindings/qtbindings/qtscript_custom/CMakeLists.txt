@@ -9,5 +9,5 @@ target_include_directories(qtscript_custom PRIVATE include ../../../customwidget
 target_link_libraries(qtscript_custom PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::Script)
 
 install(TARGETS qtscript_custom
-    RUNTIME DESTINATION script
-    LIBRARY DESTINATION script)
+    RUNTIME DESTINATION ${SCRIPT_DESTINATION}
+    LIBRARY DESTINATION ${SCRIPT_DESTINATION})

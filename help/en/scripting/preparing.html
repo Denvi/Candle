@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Script preparation</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+</head>
+<body>
+<h1 id="script-preparation">Script preparation</h1>
+<p>To get familiar with script operation, it is suggested to use the tools provided in the program's &quot;Script&quot; window.</p>
+<p>Before starting work, you need to create a new script (the &quot;New&quot; button).</p>
+<p>Next, you need to enter the script text. For example:</p>
+<pre class="hljs"><code><div>script.importExtension(<span class="hljs-string">"qt.core"</span>);
+script.importExtension(<span class="hljs-string">"qt.widgets"</span>);
+
+<span class="hljs-keyword">const</span> x = QInputDialog.getDouble(app.window, <span class="hljs-string">""</span>, <span class="hljs-string">"Move X"</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">0</span>, Qt.Dialog);
+
+<span class="hljs-keyword">if</span> (x) {
+    app.device.sendCommand(<span class="hljs-string">"G21 G91 G0 X"</span> + x);
+}
+</div></code></pre>
+<p>The first two lines are responsible for loading bindings (packages) to enable the use of Qt classes in the script.</p>
+<p>The next line calls a dialog box to request a real number - the movement distance along the X-axis.</p>
+<p>After setting the value and confirming the input, a relative movement of the tool by the specified distance is performed.</p>
+<p>More detailed information on available objects, such as <code>script</code> and <code>app</code>, is located in the <a href="qthelp://candle.en/html/scripting/objects.html">Objects</a> section.</p>
+<p>Information on Qt class bindings in English is located in the <a href="qthelp://candle.script/html/index.html">Script bindings reference</a> section.</p>
+<p>In addition to the standard Qt classes, there are additional classes available in scripts that can be used when developing user interfaces - <a href="qthelp://candle.en/html/scripting/customclasses.html">Additional Classes</a>.</p>
+
+</body>
+</html>

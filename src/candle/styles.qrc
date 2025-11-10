@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles/frmmaindefault.qss</file>
+        <file>styles/frmmainmacos.qss</file>
+    </qresource>
+</RCC>

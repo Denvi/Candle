@@ -1,5 +1,7 @@
 # Additional classes
 
+The following classes are available when the "qt.custom" package is imported.
+
 | Object type     | Base class | Purpose                                      | Property         | Type   | Arguments | Return value | Description                                                                 |
 |-----------------|------------|----------------------------------------------|------------------|--------|-----------|---------------|-----------------------------------------------------------------------------|
 | `ColorPicker`   | `QWidget` | Color selection                             | `colorInt`       | Value  | –         | –             | 32‑bit color code in AARRGGBB format.                                      |
