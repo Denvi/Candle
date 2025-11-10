@@ -125,7 +125,22 @@ else()
 endif()
 
 # Candle plugins
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins DESTINATION ${GENERAL_DESTINATION} FILES_MATCHING PATTERN *.* PATTERN *.pro EXCLUDE)
+if (APPLE)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${GENERAL_DESTINATION}
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+        PATTERN camera EXCLUDE
+    )
+else()
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${GENERAL_DESTINATION}
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+    )
+endif()
 
 # License
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION ${GENERAL_DESTINATION})
