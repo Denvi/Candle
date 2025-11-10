@@ -4,5 +4,5 @@ Section: electronics
 Priority: optional
 Architecture: amd64
 Maintainer: Denvi <denis_vic@mail.ru>
-Depends: libqt5serialport5, libqt5script5, libqt5websockets5, libqt5scripttools5, libqt5help5, libqt5sql5-sqlite
+Depends: libqt5serialport5, libqt5script5, libqt5websockets5, libqt5scripttools5, libqt5help5, libqt5sql5-sqlite, libqt5multimedia5, libqt5multimediawidgets5
 Description: GRBL controller application with G-Code visualizer
