@@ -13,12 +13,6 @@ QMainWindow::separator {
 	border: none;
 }
 
-QDockWidget::title {
-	background-color: lightgray;
-	padding: 5 0 5 11;
-	text-align: left center;
-}
-
 QDockWidget[floating="true"]>QWidget>QWidget {
 	margin-left: 11;
 	margin-right: 11;
