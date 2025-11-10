@@ -343,6 +343,26 @@ void frmSettings::setLaserPowerMax(int value)
     ui->txtLaserPowerMax->setValue(value);
 }
 
+QStringList frmSettings::jogSteps()
+{
+    return ui->txtJogSteps->text().split(QRegExp("\\s*,\\s*"));
+}
+
+void frmSettings::setJogSteps(QStringList steps)
+{
+    ui->txtJogSteps->setText(steps.join(", "));
+}
+
+QStringList frmSettings::jogFeeds()
+{
+    return ui->txtJogFeeds->text().split(QRegExp("\\s*,\\s"));
+}
+
+void frmSettings::setJogFeeds(QStringList feeds)
+{
+    ui->txtJogFeeds->setText(feeds.join(", "));
+}
+
 int frmSettings::rapidSpeed()
 {
     return m_rapidSpeed;
@@ -862,6 +882,8 @@ void frmSettings::setDefaultSettings()
     setSpindleSpeedMax(10000);
     setLaserPowerMin(0);
     setLaserPowerMax(100);
+    setJogSteps(QStringList { "0.01", "0.1", "1", "5", "10", "100" });
+    setJogFeeds(QStringList { "10", "50", "100", "500", "1000", "2000" });
     setUnits(0);
 
     setArcLength(0.1);

@@ -988,10 +988,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Machine information</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>max.:</source>
         <translation></translation>
     </message>
@@ -1378,6 +1374,26 @@ segment size:</source>
     </message>
     <message>
         <source>Binary</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Machine information</source>
         <translation></translation>
     </message>
 </context>

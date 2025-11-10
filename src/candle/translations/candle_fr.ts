@@ -1047,10 +1047,6 @@ Temps écoulé: %1</translation>
         <translation>Fond:</translation>
     </message>
     <message>
-        <source>Machine information</source>
-        <translation>Renseignements de machine</translation>
-    </message>
-    <message>
         <source>Status query period:</source>
         <translation>Période de question de statut:</translation>
     </message>
@@ -1381,6 +1377,26 @@ segment size:</source>
     </message>
     <message>
         <source>Binary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Machine information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

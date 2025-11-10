@@ -3084,9 +3084,9 @@ void frmMain::storeSettings()
     set->setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
     set->setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
-    set->setValue("jogSteps", (QStringList)ui->cboJogStep->items().mid(1, ui->cboJogStep->items().count() - 1));
+    set->setValue("jogSteps", m_settings->jogSteps());
     set->setValue("jogStep", ui->cboJogStep->currentIndex());
-    set->setValue("jogFeeds", ui->cboJogFeed->items());
+    set->setValue("jogFeeds", m_settings->jogFeeds());
     set->setValue("jogFeed", ui->cboJogFeed->currentIndex());
 
     set->setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
@@ -3230,6 +3230,11 @@ void frmMain::restoreSettings()
         m_settings->setSpindleSpeedMax(set->value("spindleSpeedMax", 10000).toInt());
         m_settings->setLaserPowerMin(set->value("laserPowerMin", 0).toInt());
         m_settings->setLaserPowerMax(set->value("laserPowerMax", 100).toInt());
+        m_settings->setJogSteps(set->value("jogSteps", QStringList { "0.01", "0.1", "1", "5", "10", "100" })
+            .toStringList());
+        m_settings->setJogFeeds(set->value("jogFeeds", QStringList { "10", "50", "100", "500", "1000", "2000" })
+            .toStringList());
+
         m_settings->setRapidSpeed(set->value("rapidSpeed", 0).toInt());
         m_settings->setAcceleration(set->value("acceleration", 10).toInt());
         m_settings->setFps(set->value("fps", 60).toInt());
@@ -3281,13 +3286,15 @@ void frmMain::restoreSettings()
 
     m_storedKeyboardControl = set->value("keyboardControl", false).toBool();
 
-    QStringList steps = set->value("jogSteps").toStringList();
-    if (steps.count() > 0) {
-        steps.insert(0, ui->cboJogStep->items().first());
-        ui->cboJogStep->setItems(steps);
-    }
+    auto steps = m_settings->jogSteps();
+    steps.prepend(ui->cboJogStep->items().first());
+    ui->sliJogStep->setMaximum(steps.count() - 1);
+    ui->cboJogStep->setItems(steps);
     ui->cboJogStep->setCurrentIndex(set->value("jogStep", "3").toInt());
-    ui->cboJogFeed->setItems(set->value("jogFeeds").toStringList());
+
+    auto feeds = m_settings->jogFeeds();
+    ui->sliJogFeed->setMaximum(feeds.count() - 1);
+    ui->cboJogFeed->setItems(feeds);
     ui->cboJogFeed->setCurrentIndex(set->value("jogFeed", "2").toInt());
 
     ui->txtHeightMapBorderX->setValue(set->value("heightmapBorderX", 0).toDouble());
@@ -3548,6 +3555,15 @@ void frmMain::applySettings()
     ui->glwVisualizer->setFps(m_settings->fps());
     ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
     ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
+
+    auto steps = m_settings->jogSteps();
+    steps.prepend(ui->cboJogStep->items().first());
+    ui->sliJogStep->setMaximum(steps.count() - 1);
+    ui->cboJogStep->setItems(steps, true);
+
+    auto feeds = m_settings->jogFeeds();
+    ui->sliJogFeed->setMaximum(feeds.count() - 1);
+    ui->cboJogFeed->setItems(feeds, true);
 
     ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());

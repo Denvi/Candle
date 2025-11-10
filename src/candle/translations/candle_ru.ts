@@ -958,10 +958,6 @@ Time elapsed: %1</source>
         <translation>Скорость:</translation>
     </message>
     <message>
-        <source>Machine information</source>
-        <translation>Информация о станке</translation>
-    </message>
-    <message>
         <source>Status query period:</source>
         <translation>Период опроса:</translation>
     </message>
@@ -1387,6 +1383,26 @@ segment size:</source>
     <message>
         <source>Binary</source>
         <translation>Двоичный</translation>
+    </message>
+    <message>
+        <source>0.1, 1, 10, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog steps:</source>
+        <translation>Шаги перемещения:</translation>
+    </message>
+    <message>
+        <source>1, 10, 100, ...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Jog feeds:</source>
+        <translation>Подачи перемещения:</translation>
+    </message>
+    <message>
+        <source>Machine information</source>
+        <translation>Информация о станке</translation>
     </message>
 </context>
 </TS>
