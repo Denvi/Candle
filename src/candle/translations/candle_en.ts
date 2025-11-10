@@ -592,10 +592,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation></translation>
     </message>
@@ -890,6 +886,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Documentation</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>From Line</source>
         <translation></translation>
     </message>
 </context>

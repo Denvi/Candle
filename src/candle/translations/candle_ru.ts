@@ -596,10 +596,6 @@
         <translation>Сон</translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation>Отправить с текущей строки</translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation>Подача:</translation>
     </message>
@@ -896,6 +892,10 @@ Time elapsed: %1</source>
     <message>
         <source>Documentation</source>
         <translation>Документация</translation>
+    </message>
+    <message>
+        <source>From Line</source>
+        <translation>Со строки</translation>
     </message>
 </context>
 <context>

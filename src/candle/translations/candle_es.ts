@@ -596,10 +596,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send from current line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Feed rate:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -892,6 +888,10 @@ Tiempo transcurrido: %1</translation>
     </message>
     <message>
         <source>Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From Line</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -187,24 +187,16 @@ QLabel[overrided=&quot;false&quot;] {
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="cmdFileSend">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="baseSize">
-            <size>
-             <width>93</width>
-             <height>0</height>
-            </size>
-           </property>
+          <widget class="QPushButton" name="cmdFileSend">
            <property name="text">
             <string>Send</string>
            </property>
-           <property name="popupMode">
-            <enum>QToolButton::MenuButtonPopup</enum>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cmdFileSendFromLine">
+           <property name="text">
+            <string>From Line</string>
            </property>
           </widget>
          </item>
@@ -3034,7 +3026,7 @@ QLabel[overrided=&quot;false&quot;] {
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>95</height>
+          <height>85</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -3525,6 +3517,11 @@ QLabel[overrided=&quot;false&quot;] {
   <action name="actServiceProfilesExport">
    <property name="text">
     <string>&amp;Export</string>
+   </property>
+  </action>
+  <action name="actProgramSendFromLine">
+   <property name="text">
+    <string>From Line</string>
    </property>
   </action>
  </widget>
@@ -4320,6 +4317,22 @@ QLabel[overrided=&quot;false&quot;] {
     <hint type="destinationlabel">
      <x>292</x>
      <y>697</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actProgramSendFromLine</sender>
+   <signal>triggered()</signal>
+   <receiver>cmdFileSendFromLine</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1397</x>
+     <y>990</y>
     </hint>
    </hints>
   </connection>

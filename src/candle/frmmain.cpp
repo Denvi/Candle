@@ -178,12 +178,6 @@ frmMain::frmMain(QWidget *parent) :
     connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
     connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, this, &frmMain::updateJogTitle);
 
-    // Prepare "Send"-button
-    ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
-    QMenu *menuSend = new QMenu();
-    menuSend->addAction(tr("Send from current line"), this, SLOT(onActSendFromLineTriggered()));
-    ui->cmdFileSend->setMenu(menuSend);
-
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
     foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d"))) {
@@ -2666,7 +2660,7 @@ void frmMain::onActRecentFileTriggered()
     }
 }
 
-void frmMain::onActSendFromLineTriggered()
+void frmMain::on_cmdFileSendFromLine_clicked()
 {
     if (m_currentModel->rowCount() == 1) return;
 
@@ -4624,6 +4618,7 @@ void frmMain::updateControlsState() {
     ui->cmdFileOpen->setEnabled(m_senderState == SenderStopped);
     ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
     ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
+    ui->cmdFileSendFromLine->setEnabled(ui->cmdFileSend->isEnabled() && !ui->cmdHeightMapMode->isChecked());
     ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing));
     ui->cmdFilePause->setChecked(paused);
     ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping);
@@ -4662,11 +4657,13 @@ void frmMain::updateControlsState() {
     style()->unpolish(ui->cmdFileOpen);
     style()->unpolish(ui->cmdFileReset);
     style()->unpolish(ui->cmdFileSend);
+    style()->unpolish(ui->cmdFileSendFromLine);
     style()->unpolish(ui->cmdFilePause);
     style()->unpolish(ui->cmdFileAbort);
     ui->cmdFileOpen->ensurePolished();
     ui->cmdFileReset->ensurePolished();
     ui->cmdFileSend->ensurePolished();
+    ui->cmdFileSendFromLine->ensurePolished();
     ui->cmdFilePause->ensurePolished();
     ui->cmdFileAbort->ensurePolished();
 
@@ -4701,8 +4698,6 @@ void frmMain::updateControlsState() {
     ui->chkHeightMapUse->setEnabled(!m_heightMapMode && !ui->txtHeightMap->text().isEmpty());
 
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
-
-    ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
     ui->sliProgram->setEnabled(m_programModel.rowCount() > 1 && (m_senderState == SenderStopped) && !m_heightMapMode);
 }

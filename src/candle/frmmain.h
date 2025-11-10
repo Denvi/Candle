@@ -167,6 +167,7 @@ private slots:
 
     void on_cmdFileOpen_clicked();
     void on_cmdFileSend_clicked();
+    void on_cmdFileSendFromLine_clicked();
     void on_cmdFilePause_clicked(bool checked);
     void on_cmdFileAbort_clicked();
     void on_cmdFileReset_clicked();
@@ -255,7 +256,6 @@ private slots:
     void onOverridingToggled(bool checked);
     void onOverrideChanged();
     void onActRecentFileTriggered();
-    void onActSendFromLineTriggered();
     void onSlbSpindleValueUserChanged();
     void onSlbSpindleValueChanged();
     void onCboCommandReturnPressed();
