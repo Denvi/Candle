@@ -33,9 +33,9 @@ class ShaderDrawable : protected QOpenGLFunctions
 {
 public:
     explicit ShaderDrawable();
-    ~ShaderDrawable();
     void update();
     void draw(QOpenGLShaderProgram *shaderProgram);
+    void dispose();
 
     /// @brief Draw 2D graphics for the object
     /// @param projection - world to the visualizer window transform matrix

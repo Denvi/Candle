@@ -215,16 +215,25 @@ frmMain::frmMain(QWidget *parent) :
 
     m_originDrawer = new OriginDrawer();
     m_codeDrawer = new GcodeDrawer();
-    m_codeDrawer->setViewParser(&m_viewParser);
     m_probeDrawer = new GcodeDrawer();
+    m_toolDrawer = new ToolDrawer();
+    m_heightMapBorderDrawer = new HeightMapBorderDrawer();
+    m_heightMapOriginDrawer = new OriginDrawer();
+    m_heightMapGridDrawer = new HeightMapGridDrawer();
+    m_heightMapInterpolationDrawer = new HeightMapInterpolationDrawer();
+    m_selectionDrawer = new SelectionDrawer();
+    m_machineBoundsDrawer = new MachineBoundsDrawer();
+
+    m_codeDrawer->setViewParser(&m_viewParser);
     m_probeDrawer->setViewParser(&m_probeParser);
     m_probeDrawer->setVisible(false);
-    m_heightMapGridDrawer.setModel(&m_heightMapModel);
-    m_heightMapOriginDrawer.setWorldScale(3);
+
+    m_heightMapGridDrawer->setModel(&m_heightMapModel);
+    m_heightMapOriginDrawer->setWorldScale(3);
     m_currentDrawer = m_codeDrawer;
-    m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
-    m_selectionDrawer.setVisible(false);
-    m_machineBoundsDrawer.setVisible(false);
+    m_toolDrawer->setToolPosition(QVector3D(0, 0, 0));
+    m_selectionDrawer->setVisible(false);
+    m_machineBoundsDrawer->setVisible(false);
 
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
@@ -233,13 +242,13 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(m_probeDrawer);
-    ui->glwVisualizer->addDrawable(&m_toolDrawer);
-    ui->glwVisualizer->addDrawable(&m_heightMapBorderDrawer);
-    ui->glwVisualizer->addDrawable(&m_heightMapOriginDrawer);
-    ui->glwVisualizer->addDrawable(&m_heightMapGridDrawer);
-    ui->glwVisualizer->addDrawable(&m_heightMapInterpolationDrawer);
-    ui->glwVisualizer->addDrawable(&m_selectionDrawer);
-    ui->glwVisualizer->addDrawable(&m_machineBoundsDrawer);
+    ui->glwVisualizer->addDrawable(m_toolDrawer);
+    ui->glwVisualizer->addDrawable(m_heightMapBorderDrawer);
+    ui->glwVisualizer->addDrawable(m_heightMapOriginDrawer);
+    ui->glwVisualizer->addDrawable(m_heightMapGridDrawer);
+    ui->glwVisualizer->addDrawable(m_heightMapInterpolationDrawer);
+    ui->glwVisualizer->addDrawable(m_selectionDrawer);
+    ui->glwVisualizer->addDrawable(m_machineBoundsDrawer);
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
@@ -382,7 +391,7 @@ void frmMain::resizeEvent(QResizeEvent *re)
 void frmMain::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerToolAnimation.timerId()) {
-        m_toolDrawer.spin((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
+        m_toolDrawer->spin((m_spindleCW ? -40 : 40) * (double)(ui->slbSpindle->currentValue())
                             / (ui->slbSpindle->maximum()));
     } else {
         QMainWindow::timerEvent(te);
@@ -957,8 +966,8 @@ void frmMain::on_cmdFileReset_clicked()
         ui->txtHeightMapGridZBottom->setEnabled(true);
         ui->txtHeightMapGridZTop->setEnabled(true);
 
-        delete m_heightMapInterpolationDrawer.data();
-        m_heightMapInterpolationDrawer.setData(NULL);
+        delete m_heightMapInterpolationDrawer->data();
+        m_heightMapInterpolationDrawer->setData(NULL);
 
         m_heightMapModel.clear();
         updateHeightMapGrid();
@@ -1926,7 +1935,7 @@ void frmMain::onConnectionDataReceived(QString data)
             workOffset = QVector4D(wpx.cap(1).toDouble(), wpx.cap(2).toDouble(), wpx.cap(3).toDouble(),
                                     wpx.cap(4).toDouble());
 
-            m_machineBoundsDrawer.setTranslation(
+            m_machineBoundsDrawer->setTranslation(
                 -QVector3D(
                     toMetric(workOffset.x()),
                     toMetric(workOffset.y()),
@@ -1968,7 +1977,7 @@ void frmMain::onConnectionDataReceived(QString data)
 
             auto normalizedRotation = Util::normalizeRotation(ui->txtWPosA->value());
 
-            m_toolDrawer.setToolPosition(
+            m_toolDrawer->setToolPosition(
                 m_codeDrawer->getIgnoreZ() ? QVector3D(toolPosition.x(), toolPosition.y(), 0) : toolPosition);
 
             if (m_settings->axisAEnabled() && m_currentDrawer->viewParser()->axisRotationUsed(GcodeViewParse::RotationAxisA)) {
@@ -1982,7 +1991,7 @@ void frmMain::onConnectionDataReceived(QString data)
                     Util::rotationVector(m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
                 );
             }
-            m_selectionDrawer.setRotation(m_codeDrawer->rotation());
+            m_selectionDrawer->setRotation(m_codeDrawer->rotation());
         }
 
         // Toolpath shadowing
@@ -2408,7 +2417,7 @@ void frmMain::onConnectionDataReceived(QString data)
                         if (!drawnLines.isEmpty() && (i < list.count())) {
                             m_lastDrawnLineIndex = i;
                             QVector3D vec = list.at(i)->getEnd();
-                            m_toolDrawer.setToolPosition(vec);
+                            m_toolDrawer->setToolPosition(vec);
                         }
 
                         foreach (int i, drawnLines) {
@@ -2418,7 +2427,7 @@ void frmMain::onConnectionDataReceived(QString data)
                     } else {
                         foreach (LineSegment* s, list) {
                             if (!qIsNaN(s->getEnd().length())) {
-                                m_toolDrawer.setToolPosition(s->getEnd());
+                                m_toolDrawer->setToolPosition(s->getEnd());
                                 break;
                             }
                         }
@@ -2624,11 +2633,11 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
     if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
         QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
-        m_selectionDrawer.setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
-        m_selectionDrawer.setVisible(true);
-        m_selectionDrawer.update();
+        m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+        m_selectionDrawer->setVisible(true);
+        m_selectionDrawer->update();
     } else {
-        m_selectionDrawer.setVisible(false);
+        m_selectionDrawer->setVisible(false);
     }
 
     ui->sliProgram->setValue(idx1.row());
@@ -2848,7 +2857,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
     if (m_settingsLoading) return;
 
     QRectF borderRect = borderRectFromTextboxes();
-    m_heightMapInterpolationDrawer.setBorderRect(borderRect);
+    m_heightMapInterpolationDrawer->setBorderRect(borderRect);
 
     QVector<QVector<double>> *interpolationData = new QVector<QVector<double>>;
 
@@ -2870,13 +2879,13 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
         interpolationData->append(row);
     }
 
-    if (m_heightMapInterpolationDrawer.data() != NULL) {
-        delete m_heightMapInterpolationDrawer.data();
+    if (m_heightMapInterpolationDrawer->data() != NULL) {
+        delete m_heightMapInterpolationDrawer->data();
     }
-    m_heightMapInterpolationDrawer.setData(interpolationData);
+    m_heightMapInterpolationDrawer->setData(interpolationData);
 
     // Update grid drawer
-    m_heightMapGridDrawer.update();
+    m_heightMapGridDrawer->update();
 
     // Heightmap changed by table user input
     if (sender() == &m_heightMapModel) m_heightMapChanged = true;
@@ -3536,15 +3545,15 @@ void frmMain::applySettings()
     // Drawers
     m_originDrawer->setLineWidth(m_settings->lineWidth());
 
-    m_toolDrawer.setLineWidth(m_settings->lineWidth());
-    m_toolDrawer.setColor(m_settings->colors("Tool"));
-    m_toolDrawer.setToolLength(m_settings->toolLength());
-    m_toolDrawer.setToolDiameter(m_settings->toolDiameter());
-    m_toolDrawer.setToolAngle(m_settings->toolType() == 0 ? 180 : m_settings->toolAngle());
+    m_toolDrawer->setLineWidth(m_settings->lineWidth());
+    m_toolDrawer->setColor(m_settings->colors("Tool"));
+    m_toolDrawer->setToolLength(m_settings->toolLength());
+    m_toolDrawer->setToolDiameter(m_settings->toolDiameter());
+    m_toolDrawer->setToolAngle(m_settings->toolType() == 0 ? 180 : m_settings->toolAngle());
 
-    m_heightMapBorderDrawer.setLineWidth(m_settings->lineWidth());
-    m_heightMapGridDrawer.setLineWidth(0.1);
-    m_heightMapInterpolationDrawer.setLineWidth(m_settings->lineWidth());
+    m_heightMapBorderDrawer->setLineWidth(m_settings->lineWidth());
+    m_heightMapGridDrawer->setLineWidth(0.1);
+    m_heightMapInterpolationDrawer->setLineWidth(m_settings->lineWidth());
 
     m_codeDrawer->setLineWidth(m_settings->lineWidth());
     m_codeDrawer->setSimplify(m_settings->simplify());
@@ -3563,7 +3572,7 @@ void frmMain::applySettings()
     m_codeDrawer->setGrayscaleMax(m_settings->laserPowerMax());
     m_codeDrawer->update();
 
-    m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
+    m_selectionDrawer->setColor(m_settings->colors("ToolpathHighlight"));
 
     ui->glwVisualizer->setLineWidth(m_settings->lineWidth());
     ui->glwVisualizer->setAntialiasing(m_settings->antialiasing());
@@ -4514,8 +4523,8 @@ void frmMain::clearTable()
 
 void frmMain::resetHeightmap()
 {
-    delete m_heightMapInterpolationDrawer.data();
-    m_heightMapInterpolationDrawer.setData(NULL);
+    delete m_heightMapInterpolationDrawer->data();
+    m_heightMapInterpolationDrawer->setData(NULL);
 
     ui->tblHeightMap->setModel(NULL);
     m_heightMapModel.resize(1, 1);
@@ -4562,7 +4571,7 @@ void frmMain::newFile()
     ui->tblProgram->selectRow(0);
 
     // Clear selection marker
-    m_selectionDrawer.setVisible(false);
+    m_selectionDrawer->setVisible(false);
 
     resetHeightmap();
 
@@ -4687,10 +4696,10 @@ void frmMain::updateControlsState() {
     ui->cmdFileAbort->ensurePolished();
 
     // Heightmap
-    m_heightMapBorderDrawer.setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
-    m_heightMapOriginDrawer.setVisible(ui->chkHeightMapOriginShow->isChecked() && m_heightMapMode);
-    m_heightMapGridDrawer.setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
-    m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
+    m_heightMapBorderDrawer->setVisible(ui->chkHeightMapBorderShow->isChecked() && m_heightMapMode);
+    m_heightMapOriginDrawer->setVisible(ui->chkHeightMapOriginShow->isChecked() && m_heightMapMode);
+    m_heightMapGridDrawer->setVisible(ui->chkHeightMapGridShow->isChecked() && m_heightMapMode);
+    m_heightMapInterpolationDrawer->setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
     ui->grpProgram->setText(m_heightMapMode ? tr("Heightmap") : tr("G-code program"));
     ui->grpProgram->setProperty("overrided", m_heightMapMode);
@@ -4812,7 +4821,7 @@ void frmMain::updateHeightMapBorderDrawer()
 {
     if (m_settingsLoading) return;
 
-    m_heightMapBorderDrawer.setBorderRect(borderRectFromTextboxes());
+    m_heightMapBorderDrawer->setBorderRect(borderRectFromTextboxes());
 }
 
 bool frmMain::updateHeightMapGrid()
@@ -4832,13 +4841,13 @@ bool frmMain::updateHeightMapGrid()
 
     // Update grid drawer
     QRectF borderRect = borderRectFromTextboxes();
-    m_heightMapGridDrawer.setBorderRect(borderRect);
-    m_heightMapGridDrawer.setGridSize(QPointF(ui->txtHeightMapGridX->value(), ui->txtHeightMapGridY->value()));
-    m_heightMapGridDrawer.setZBottom(ui->txtHeightMapGridZBottom->value());
-    m_heightMapGridDrawer.setZTop(ui->txtHeightMapGridZTop->value());
+    m_heightMapGridDrawer->setBorderRect(borderRect);
+    m_heightMapGridDrawer->setGridSize(QPointF(ui->txtHeightMapGridX->value(), ui->txtHeightMapGridY->value()));
+    m_heightMapGridDrawer->setZBottom(ui->txtHeightMapGridZBottom->value());
+    m_heightMapGridDrawer->setZTop(ui->txtHeightMapGridZTop->value());
 
     // Update origin drawer
-    m_heightMapOriginDrawer.setTranslation(QVector3D(ui->txtHeightMapOriginX->value(), ui->txtHeightMapOriginY->value(), 0.0));
+    m_heightMapOriginDrawer->setTranslation(QVector3D(ui->txtHeightMapOriginX->value(), ui->txtHeightMapOriginY->value(), 0.0));
 
     // Reset model
     int gridPointsX = ui->txtHeightMapGridX->value();
@@ -5456,7 +5465,7 @@ void frmMain::processSettingsResponse(QString response)
     if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
     if (set.keys().contains(22)) {
         m_settings->setHomingEnabled(set[22]);
-        m_machineBoundsDrawer.setVisible(set[22]);
+        m_machineBoundsDrawer->setVisible(set[22]);
     }
     if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
     if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
@@ -5465,7 +5474,7 @@ void frmMain::processSettingsResponse(QString response)
             m_settings->referenceXPlus() ? -set[130] : set[130],
             m_settings->referenceYPlus() ? -set[131] : set[131],
             m_settings->referenceZPlus() ? -set[132] : set[132]));
-        m_machineBoundsDrawer.setBorderRect(QRectF(0, 0,
+        m_machineBoundsDrawer->setBorderRect(QRectF(0, 0,
             m_settings->referenceXPlus() ? -set[130] : set[130],
             m_settings->referenceYPlus() ? -set[131] : set[131]));
     }

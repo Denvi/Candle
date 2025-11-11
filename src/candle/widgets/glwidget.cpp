@@ -49,6 +49,14 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
 
 GLWidget::~GLWidget()
 {
+    makeCurrent();
+
+    for (auto drawable : m_shaderDrawables) {
+        drawable->dispose();
+    }
+
+    doneCurrent();
+
     if (m_shaderProgram) {
         delete m_shaderProgram;
     }
