@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 script.importExtension("qt.core");
 script.importExtension("qt.gui");
@@ -96,9 +96,12 @@ function onAppSettingsLoaded()
     var settings = app.storage.group(pluginName);
 
     // Load settings
+    uiSettings.cboCameraName.blockSignals(true);
     uiSettings.cboCameraName.clear();
     uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
     uiSettings.cboCameraName.currentText = settings.value("name");
+    uiSettings.cboCameraName.blockSignals(false);
+
     uiSettings.cboCameraResolution.currentText = settings.value("resolution", "1280x720");
     uiSettings.txtCameraZoom.text = settings.value("zoom", 1);
     uiSettings.txtCameraPosition.text = settings.value("position", "0, 0");
