@@ -87,6 +87,8 @@ function onAppSettingsSaved()
     settings.setValue("aimSize", uiSettings.txtCameraAimSize.value);
     settings.setValue("aimLineWidth", uiSettings.txtCameraAimLineWidth.value);
     settings.setValue("aimColor", uiSettings.colCameraAimColor.colorInt);
+    settings.setValue("mirrorHorizontal", uiSettings.chkMirrorHorizontal.checked);
+    settings.setValue("mirrorVertical", uiSettings.chkMirrorVertical.checked);
 }
 
 function onAppSettingsLoaded()
@@ -104,6 +106,8 @@ function onAppSettingsLoaded()
     uiSettings.txtCameraAimSize.value = settings.value("aimSize", 20);
     uiSettings.txtCameraAimLineWidth.value = settings.value("aimLineWidth", 1);
     uiSettings.colCameraAimColor.colorInt = settings.value("aimColor", -65536);
+    uiSettings.chkMirrorHorizontal.checked = settings.value("mirrorHorizontal", false);
+    uiSettings.chkMirrorVertical.checked = settings.value("mirrorVertical", false);
 
     // Apply settings
     applySettings();
@@ -179,6 +183,10 @@ function applySettings()
     
     // Aim color
     uiWindow.camMain.aimColor = parseInt(uiSettings.colCameraAimColor.colorInt);
+
+    // Mirror
+    uiWindow.camMain.mirrorHorizontal = uiSettings.chkMirrorHorizontal.checked;
+    uiWindow.camMain.mirrorVertical = uiSettings.chkMirrorVertical.checked;
 
     // Update camera
     uiWindow.camMain.cameraName = uiSettings.cboCameraName.currentText;

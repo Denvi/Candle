@@ -21,7 +21,7 @@ bool VideoSurface::present(const QVideoFrame &frame)
     if (!frame.isValid())
         return false;
 
-    emit frameReady(frame.image().mirrored(false, true));
+    emit frameReady(frame.image());
 
     return true;
 }

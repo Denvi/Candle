@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>348</width>
-    <height>124</height>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,17 +28,61 @@
    </property>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="lblCameraName">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txtCameraPosition"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="lblCameraAimSize">
        <property name="text">
-        <string>Name:</string>
+        <string>Aim size:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="cboCameraName">
-       <property name="editable">
-        <bool>true</bool>
+     <item row="3" column="3">
+      <widget class="QLabel" name="lblCameraAimLineWidth">
+       <property name="text">
+        <string>Aim line width:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QSpinBox" name="txtCameraAimSize">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="2">
+      <widget class="QCheckBox" name="chkMirrorHorizontal">
+       <property name="text">
+        <string>Mirror horizontal</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblCameraAimPosition">
+       <property name="text">
+        <string>Aim position:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblCameraAimColor">
+       <property name="text">
+        <string>Aim color:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="ColorPicker" name="colCameraAimColor" native="true"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="lblCameraZoom">
+       <property name="text">
+        <string>Zoom:</string>
        </property>
       </widget>
      </item>
@@ -58,6 +102,16 @@
        </property>
       </spacer>
      </item>
+     <item row="3" column="4">
+      <widget class="QDoubleSpinBox" name="txtCameraAimLineWidth">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="txtCameraZoom"/>
+     </item>
      <item row="0" column="3">
       <widget class="QLabel" name="lblCameraResolution">
        <property name="text">
@@ -72,6 +126,13 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="cboCameraName">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="lblCameraPosition">
        <property name="text">
@@ -79,67 +140,20 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="txtCameraPosition"/>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLabel" name="lblCameraZoom">
-       <property name="text">
-        <string>Zoom:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLineEdit" name="txtCameraZoom"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lblCameraAimPosition">
-       <property name="text">
-        <string>Aim position:</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="1">
       <widget class="QLineEdit" name="txtCameraAimPosition"/>
      </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="lblCameraAimSize">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCameraName">
        <property name="text">
-        <string>Aim size:</string>
+        <string>Name:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="4">
-      <widget class="QSpinBox" name="txtCameraAimSize">
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lblCameraAimColor">
+     <item row="5" column="0" colspan="2">
+      <widget class="QCheckBox" name="chkMirrorVertical">
        <property name="text">
-        <string>Aim color:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="ColorPicker" name="colCameraAimColor" native="true"/>
-     </item>
-     <item row="3" column="3">
-      <widget class="QLabel" name="lblCameraAimLineWidth">
-       <property name="text">
-        <string>Aim line width:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QDoubleSpinBox" name="txtCameraAimLineWidth">
-       <property name="decimals">
-        <number>1</number>
+        <string>Mirror vertical</string>
        </property>
       </widget>
      </item>

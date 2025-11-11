@@ -196,6 +196,26 @@ int CameraWidget::aimColor() const
     return m_overlay->aimColor();
 }
 
+void CameraWidget::setMirrorHorizontal(bool mirror)
+{
+    m_mirrorHorizontal = mirror;
+}
+
+bool CameraWidget::mirrorHorizontal() const
+{
+    return m_mirrorHorizontal;
+}
+
+void CameraWidget::setMirrorVertical(bool mirror)
+{
+    m_mirrorVertical = mirror;
+}
+
+bool CameraWidget::mirrorVertical() const
+{
+    return m_mirrorVertical;
+}
+
 void CameraWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->buttons() == Qt::LeftButton)
@@ -342,7 +362,7 @@ void CameraWidget::updateSize()
 
 void CameraWidget::processFrame(const QImage &frame)
 {
-    m_currentFrame = frame;
+    m_currentFrame = frame.mirrored(m_mirrorHorizontal, m_mirrorVertical);
 
     drawCurrentFrame();
 }

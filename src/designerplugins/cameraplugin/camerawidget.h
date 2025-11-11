@@ -23,6 +23,8 @@ class CameraWidget : public QWidget
     Q_PROPERTY(int aimSize READ aimSize WRITE setAimSize);
     Q_PROPERTY(int aimLineWidth READ aimLineWidth WRITE setAimLineWidth);
     Q_PROPERTY(int aimColor READ aimColor WRITE setAimColor);
+    Q_PROPERTY(int mirrorHorizontal READ mirrorHorizontal WRITE setMirrorHorizontal);
+    Q_PROPERTY(int mirrorVertical READ mirrorVertical WRITE setMirrorVertical);
 
 public:
     CameraWidget(QWidget *parent = 0);
@@ -54,6 +56,12 @@ public:
     void setAimColor(int aimColor);
     int aimColor() const;
 
+    void setMirrorHorizontal(bool mirror);
+    bool mirrorHorizontal() const;
+
+    void setMirrorVertical(bool mirror);
+    bool mirrorVertical() const;
+
 signals:
 
     void posChanged(QVariantList pos);
@@ -84,6 +92,8 @@ private:
     QPoint m_pos;
 
     QImage m_currentFrame;
+    bool m_mirrorHorizontal;
+    bool m_mirrorVertical;
 
     void initCamera(const QCameraInfo &cameraInfo);
     void deleteCamera();
