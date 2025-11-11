@@ -1905,12 +1905,78 @@ segment size:</string>
  </customwidgets>
  <tabstops>
   <tabstop>listCategories</tabstop>
-  <tabstop>chkShowProgramCommands</tabstop>
-  <tabstop>chkShowUICommands</tabstop>
-  <tabstop>chkAutocompletion</tabstop>
   <tabstop>cmdDefaults</tabstop>
   <tabstop>cmdOK</tabstop>
   <tabstop>cmdCancel</tabstop>
+  <tabstop>scrollSettings_2</tabstop>
+  <tabstop>radConnectionSerial</tabstop>
+  <tabstop>cboPort</tabstop>
+  <tabstop>cmdRefresh</tabstop>
+  <tabstop>cboBaud</tabstop>
+  <tabstop>radConnectionTelnet</tabstop>
+  <tabstop>txtTelnetAddress</tabstop>
+  <tabstop>spbTelnetPort</tabstop>
+  <tabstop>radConnectionWebSocket</tabstop>
+  <tabstop>txtWebSocketUrl</tabstop>
+  <tabstop>radWebSocketModeText</tabstop>
+  <tabstop>radWebSocketModeBinary</tabstop>
+  <tabstop>txtQueryStateTime</tabstop>
+  <tabstop>txtSpindleSpeedMin</tabstop>
+  <tabstop>txtSpindleSpeedMax</tabstop>
+  <tabstop>txtLaserPowerMin</tabstop>
+  <tabstop>txtLaserPowerMax</tabstop>
+  <tabstop>txtJogSteps</tabstop>
+  <tabstop>txtJogFeeds</tabstop>
+  <tabstop>radReferenceXMinus</tabstop>
+  <tabstop>radReferenceXPlus</tabstop>
+  <tabstop>radReferenceYMinus</tabstop>
+  <tabstop>radReferenceYPlus</tabstop>
+  <tabstop>radReferenceZMinus</tabstop>
+  <tabstop>radReferenceZPlus</tabstop>
+  <tabstop>chkAxisA</tabstop>
+  <tabstop>radAxisAX</tabstop>
+  <tabstop>radAxisAY</tabstop>
+  <tabstop>chkUseStartCommands</tabstop>
+  <tabstop>txtStartCommands</tabstop>
+  <tabstop>chkUseEndCommands</tabstop>
+  <tabstop>txtEndCommands</tabstop>
+  <tabstop>chkToolChangeUseCommands</tabstop>
+  <tabstop>txtToolChangeCommands</tabstop>
+  <tabstop>chkToolChangeUseCommandsConfirm</tabstop>
+  <tabstop>chkToolChangePause</tabstop>
+  <tabstop>chkIgnoreErrors</tabstop>
+  <tabstop>chkAutoLine</tabstop>
+  <tabstop>cboFontSize</tabstop>
+  <tabstop>txtPanelWidth</tabstop>
+  <tabstop>cboLanguage</tabstop>
+  <tabstop>chkInvertedSliderControls</tabstop>
+  <tabstop>tblShortcuts</tabstop>
+  <tabstop>txtLineWidth</tabstop>
+  <tabstop>chkAntialiasing</tabstop>
+  <tabstop>radMSAA</tabstop>
+  <tabstop>cboFps</tabstop>
+  <tabstop>chkVSync</tabstop>
+  <tabstop>chkZBuffer</tabstop>
+  <tabstop>radDrawModeVectors</tabstop>
+  <tabstop>radDrawModeRaster</tabstop>
+  <tabstop>chkSimplify</tabstop>
+  <tabstop>txtSimplifyPrecision</tabstop>
+  <tabstop>radArcLengthMode</tabstop>
+  <tabstop>radArcDegreeMode</tabstop>
+  <tabstop>txtArcLength</tabstop>
+  <tabstop>txtArcDegree</tabstop>
+  <tabstop>chkGrayscale</tabstop>
+  <tabstop>radGrayscaleS</tabstop>
+  <tabstop>radGrayscaleZ</tabstop>
+  <tabstop>cboToolType</tabstop>
+  <tabstop>txtToolAngle</tabstop>
+  <tabstop>txtToolDiameter</tabstop>
+  <tabstop>txtToolLength</tabstop>
+  <tabstop>chkShowProgramCommands</tabstop>
+  <tabstop>chkShowUICommands</tabstop>
+  <tabstop>chkAutocompletion</tabstop>
+  <tabstop>cmdShortcutsImport</tabstop>
+  <tabstop>cmdShortcutsExport</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
