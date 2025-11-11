@@ -3533,44 +3533,20 @@ void frmMain::applySettings()
         }
     }
 
+    // Drawers
     m_originDrawer->setLineWidth(m_settings->lineWidth());
-    m_toolDrawer.setToolDiameter(m_settings->toolDiameter());
-    m_toolDrawer.setToolLength(m_settings->toolLength());
+
     m_toolDrawer.setLineWidth(m_settings->lineWidth());
-    m_codeDrawer->setLineWidth(m_settings->lineWidth());
+    m_toolDrawer.setColor(m_settings->colors("Tool"));
+    m_toolDrawer.setToolLength(m_settings->toolLength());
+    m_toolDrawer.setToolDiameter(m_settings->toolDiameter());
+    m_toolDrawer.setToolAngle(m_settings->toolType() == 0 ? 180 : m_settings->toolAngle());
+
     m_heightMapBorderDrawer.setLineWidth(m_settings->lineWidth());
     m_heightMapGridDrawer.setLineWidth(0.1);
     m_heightMapInterpolationDrawer.setLineWidth(m_settings->lineWidth());
-    ui->glwVisualizer->setLineWidth(m_settings->lineWidth());
-    m_timerStateQuery.setInterval(m_settings->queryStateTime());
 
-    m_toolDrawer.setToolAngle(m_settings->toolType() == 0 ? 180 : m_settings->toolAngle());
-    m_toolDrawer.setColor(m_settings->colors("Tool"));
-    m_toolDrawer.update();
-
-    ui->glwVisualizer->setAntialiasing(m_settings->antialiasing());
-    ui->glwVisualizer->setMsaa(m_settings->msaa());
-    ui->glwVisualizer->setZBuffer(m_settings->zBuffer());
-    ui->glwVisualizer->setVsync(m_settings->vsync());
-    ui->glwVisualizer->setFps(m_settings->fps());
-    ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
-    ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
-
-    auto steps = m_settings->jogSteps();
-    steps.prepend(ui->cboJogStep->items().first());
-    ui->sliJogStep->setMaximum(steps.count() - 1);
-    ui->cboJogStep->setItems(steps, true);
-
-    auto feeds = m_settings->jogFeeds();
-    ui->sliJogFeed->setMaximum(feeds.count() - 1);
-    ui->cboJogFeed->setItems(feeds, true);
-
-    ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
-    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
-    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
-
-    ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
-
+    m_codeDrawer->setLineWidth(m_settings->lineWidth());
     m_codeDrawer->setSimplify(m_settings->simplify());
     m_codeDrawer->setSimplifyPrecision(m_settings->simplifyPrecision());
     m_codeDrawer->setColorNormal(m_settings->colors("ToolpathNormal"));
@@ -3589,6 +3565,15 @@ void frmMain::applySettings()
 
     m_selectionDrawer.setColor(m_settings->colors("ToolpathHighlight"));
 
+    ui->glwVisualizer->setLineWidth(m_settings->lineWidth());
+    ui->glwVisualizer->setAntialiasing(m_settings->antialiasing());
+    ui->glwVisualizer->setMsaa(m_settings->msaa());
+    ui->glwVisualizer->setZBuffer(m_settings->zBuffer());
+    ui->glwVisualizer->setVsync(m_settings->vsync());
+    ui->glwVisualizer->setFps(m_settings->fps());
+    ui->glwVisualizer->setColorBackground(m_settings->colors("VisualizerBackground"));
+    ui->glwVisualizer->setColorText(m_settings->colors("VisualizerText"));
+
     // Axis A
     m_viewParser.setAxisRotationVector(
         GcodeViewParse::RotationAxisA,
@@ -3596,6 +3581,22 @@ void frmMain::applySettings()
             ? (m_settings->axisAX() ? Util::RotationVectorX : Util::RotationVectorY)
             : Util::RotationVectorNone)
     );
+
+    // Widgets
+    auto steps = m_settings->jogSteps();
+    steps.prepend(ui->cboJogStep->items().first());
+    ui->sliJogStep->setMaximum(steps.count() - 1);
+    ui->cboJogStep->setItems(steps, true);
+
+    auto feeds = m_settings->jogFeeds();
+    ui->sliJogFeed->setMaximum(feeds.count() - 1);
+    ui->cboJogFeed->setItems(feeds, true);
+
+    ui->slbSpindle->setRatio(pow(10, qMax<double>(0, floor(log10(m_settings->spindleSpeedMax())) - 2)));
+    ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
+    ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
+
+    ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
 
     ui->lblPosA->setVisible(m_settings->axisAEnabled());
     ui->txtWPosA->setVisible(m_settings->axisAEnabled());
@@ -3762,6 +3763,8 @@ void frmMain::applySettings()
     if (connectionSettingsChanged || newConnectionCreated) {
         m_currentConnection->connect();
     }
+
+    m_timerStateQuery.setInterval(m_settings->queryStateTime());
 
     updateControlsState();
 }
