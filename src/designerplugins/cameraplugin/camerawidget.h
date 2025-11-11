@@ -3,12 +3,14 @@
 
 #include <QScrollArea>
 #include <QCameraInfo>
+#include <QLabel>
 #include "overlay.h"
+#include "videosurface.h"
 
 class QCamera;
 class QCameraViewfinder;
 
-class CameraWidget: public QWidget
+class CameraWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QStringList availableCameras READ availableCameras);
@@ -63,12 +65,13 @@ signals:
 
 public slots:
 
-    void start();
-    void stop();
+    void startCamera();
+    void stopCamera();
 
 private:
     QCamera *m_camera;
-    QCameraViewfinder *m_viewFinder;
+    QLabel *m_videoLabel;
+    VideoSurface *m_videoSurface;
     QScrollArea *m_scrollArea;
     Overlay *m_overlay;
 
@@ -78,19 +81,27 @@ private:
 
     QPoint m_mousePos;
     QPointF m_aimPos;
-
     QPoint m_pos;
 
-    void setCamera(const QCameraInfo &cameraInfo);
-    void resizeEvent(QResizeEvent *e);
-    void updateSize();
+    QImage m_currentFrame;
 
+    void initCamera(const QCameraInfo &cameraInfo);
+    void deleteCamera();
+
+    void resizeEvent(QResizeEvent *e);
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
 
     void hideEvent(QHideEvent *e) override;
     void showEvent(QShowEvent *e) override;
+
+    void updateSize();
+    void processFrame(const QImage &frame);
+    void drawCurrentFrame();
+    void clearCurrentFrame();
+
+    void startStop(bool start);
 };
 
 #endif

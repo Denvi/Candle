@@ -50,6 +50,14 @@ function createWindowWidget()
     if (f.open(QIODevice.ReadOnly)) {        
         uiWindow = loader.load(f);
     }
+
+    uiWindow.camMain.posChanged.connect(onPosChanged);
+    uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
+    uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
+    uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
+    uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
+    uiWindow.camMain.zoomChanged.connect(onZoomChanged);
+
     return uiWindow;
 }
 
@@ -61,6 +69,9 @@ function createSettingsWidget()
         uiSettings = loader.load(f);
         
     }
+
+    uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
+
     return uiSettings;
 }
 
@@ -83,6 +94,7 @@ function onAppSettingsLoaded()
     var settings = app.storage.group(pluginName);
 
     // Load settings
+    uiSettings.cboCameraName.clear();
     uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
     uiSettings.cboCameraName.currentText = settings.value("name");
     uiSettings.cboCameraResolution.currentText = settings.value("resolution", "1280x720");
@@ -98,17 +110,9 @@ function onAppSettingsLoaded()
 
     // Update resolutions list
     var r = uiSettings.cboCameraResolution.currentText;
+    uiSettings.cboCameraResolution.clear();
     uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
     uiSettings.cboCameraResolution.currentText = r;
-
-    // Connect signals/slots
-    uiWindow.camMain.posChanged.connect(onPosChanged);
-    uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
-    uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
-    uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
-    uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
-    uiWindow.camMain.zoomChanged.connect(onZoomChanged);
-    uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
 }
 
 function onAppSettingsAboutToShow()
