@@ -7,8 +7,10 @@ ToolDrawer::ToolDrawer()
 {
     m_toolDiameter = 3;
     m_toolLength = 15;
+    m_toolAngle = 15;
     m_toolPosition = QVector3D(0, 0, 0);
     m_spinAngle = 0;
+    adjustToolEndLength();
 }
 
 bool ToolDrawer::updateData()
@@ -124,6 +126,7 @@ void ToolDrawer::setToolDiameter(double toolDiameter)
 {
     if (m_toolDiameter != toolDiameter) {
         m_toolDiameter = toolDiameter;
+        adjustToolEndLength();
         update();
     }
 }
@@ -136,9 +139,25 @@ void ToolDrawer::setToolLength(double toolLength)
 {
     if (m_toolLength != toolLength) {
         m_toolLength = toolLength;
+        adjustToolEndLength();
         update();
     }
 }
+
+double ToolDrawer::toolAngle() const
+{
+    return m_toolAngle;
+}
+
+void ToolDrawer::setToolAngle(double toolAngle)
+{
+    if (m_toolAngle != toolAngle) {
+        m_toolAngle = toolAngle;
+        adjustToolEndLength();
+        update();
+    }
+}
+
 QVector3D ToolDrawer::toolPosition() const
 {
     return m_toolPosition;
@@ -170,27 +189,16 @@ void ToolDrawer::spin(double angle)
     setSpinAngle(normalizeAngle(m_spinAngle + angle));
 }
 
-double ToolDrawer::toolAngle() const
-{
-    return m_toolAngle;
-}
-
-void ToolDrawer::setToolAngle(double toolAngle)
-{
-    if (m_toolAngle != toolAngle) {
-        m_toolAngle = toolAngle;
-
-        m_endLength = m_toolAngle > 0 && m_toolAngle < 180 ? m_toolDiameter / 2 / tan(m_toolAngle / 180 * M_PI / 2) : 0;
-        if (m_toolLength < m_endLength) m_toolLength = m_endLength;
-
-        update();
-    }
-}
-
 double ToolDrawer::normalizeAngle(double angle)
 {
     while (angle < 0) angle += 360;
     while (angle > 360) angle -= 360;
     
     return angle;
+}
+
+void ToolDrawer::adjustToolEndLength()
+{
+    m_endLength = m_toolAngle > 0 && m_toolAngle < 180 ? m_toolDiameter / 2 / tan(m_toolAngle / 180 * M_PI / 2) : 0;
+    if (m_toolLength < m_endLength) m_toolLength = m_endLength;
 }

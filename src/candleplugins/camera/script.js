@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
+// Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 script.importExtension("qt.core");
 script.importExtension("qt.gui");
@@ -50,6 +50,14 @@ function createWindowWidget()
     if (f.open(QIODevice.ReadOnly)) {        
         uiWindow = loader.load(f);
     }
+
+    uiWindow.camMain.posChanged.connect(onPosChanged);
+    uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
+    uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
+    uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
+    uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
+    uiWindow.camMain.zoomChanged.connect(onZoomChanged);
+
     return uiWindow;
 }
 
@@ -61,6 +69,9 @@ function createSettingsWidget()
         uiSettings = loader.load(f);
         
     }
+
+    uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
+
     return uiSettings;
 }
 
@@ -76,6 +87,8 @@ function onAppSettingsSaved()
     settings.setValue("aimSize", uiSettings.txtCameraAimSize.value);
     settings.setValue("aimLineWidth", uiSettings.txtCameraAimLineWidth.value);
     settings.setValue("aimColor", uiSettings.colCameraAimColor.colorInt);
+    settings.setValue("mirrorHorizontal", uiSettings.chkMirrorHorizontal.checked);
+    settings.setValue("mirrorVertical", uiSettings.chkMirrorVertical.checked);
 }
 
 function onAppSettingsLoaded()
@@ -83,8 +96,12 @@ function onAppSettingsLoaded()
     var settings = app.storage.group(pluginName);
 
     // Load settings
+    uiSettings.cboCameraName.blockSignals(true);
+    uiSettings.cboCameraName.clear();
     uiSettings.cboCameraName.addItems(uiWindow.camMain.availableCameras);
     uiSettings.cboCameraName.currentText = settings.value("name");
+    uiSettings.cboCameraName.blockSignals(false);
+
     uiSettings.cboCameraResolution.currentText = settings.value("resolution", "1280x720");
     uiSettings.txtCameraZoom.text = settings.value("zoom", 1);
     uiSettings.txtCameraPosition.text = settings.value("position", "0, 0");
@@ -92,23 +109,17 @@ function onAppSettingsLoaded()
     uiSettings.txtCameraAimSize.value = settings.value("aimSize", 20);
     uiSettings.txtCameraAimLineWidth.value = settings.value("aimLineWidth", 1);
     uiSettings.colCameraAimColor.colorInt = settings.value("aimColor", -65536);
+    uiSettings.chkMirrorHorizontal.checked = settings.value("mirrorHorizontal", false);
+    uiSettings.chkMirrorVertical.checked = settings.value("mirrorVertical", false);
 
     // Apply settings
     applySettings();
 
     // Update resolutions list
     var r = uiSettings.cboCameraResolution.currentText;
+    uiSettings.cboCameraResolution.clear();
     uiSettings.cboCameraResolution.addItems(uiWindow.camMain.availableResolutions);
     uiSettings.cboCameraResolution.currentText = r;
-
-    // Connect signals/slots
-    uiWindow.camMain.posChanged.connect(onPosChanged);
-    uiWindow.camMain.aimPosChanged.connect(onAimPosChanged);
-    uiWindow.camMain.aimSizeChanged.connect(onAimSizeChanged);
-    uiWindow.camMain.aimLineWidthChanged.connect(onAimLineWidthChanged);
-    uiWindow.camMain.aimColorChanged.connect(onAimColorChanged);
-    uiWindow.camMain.zoomChanged.connect(onZoomChanged);
-    uiSettings.cboCameraName.currentTextChanged.connect(onCameraNameChanged);
 }
 
 function onAppSettingsAboutToShow()
@@ -175,6 +186,10 @@ function applySettings()
     
     // Aim color
     uiWindow.camMain.aimColor = parseInt(uiSettings.colCameraAimColor.colorInt);
+
+    // Mirror
+    uiWindow.camMain.mirrorHorizontal = uiSettings.chkMirrorHorizontal.checked;
+    uiWindow.camMain.mirrorVertical = uiSettings.chkMirrorVertical.checked;
 
     // Update camera
     uiWindow.camMain.cameraName = uiSettings.cboCameraName.currentText;

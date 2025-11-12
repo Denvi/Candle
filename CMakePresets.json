@@ -14,6 +14,17 @@
             }
         },
         {
+            "name": "windows-x64-debug",
+            "displayName": "Windows x64 Debug",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        },
+        {
             "name": "osx-x64-release",
             "displayName": "OS X x64 Release",
             "generator": "Ninja",
@@ -33,6 +44,12 @@
             "displayName": "Windows x64 Release",
             "configurePreset": "windows-x64-release",
             "configuration": "Release"
+        },
+        {
+            "name": "windows-x64-debug",
+            "displayName": "Windows x64 Debug",
+            "configurePreset": "windows-x64-debug",
+            "configuration": "Debug"
         },
         {
             "name": "osx-x64-release",

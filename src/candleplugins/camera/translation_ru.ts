@@ -6,41 +6,49 @@
     <message>
         <source>Camera</source>
         <translation>Камера</translation>
-    </message>   
+    </message>
     </context>
     <context>
     <name>pluginCameraSettings</name>
     <message>
         <source>Name:</source>
         <translation>Наименование:</translation>
-    </message>          
+    </message>
     <message>
         <source>Resolution:</source>
         <translation>Разрешение:</translation>
-    </message>          
+    </message>
     <message>
         <source>Position:</source>
         <translation>Позиция:</translation>
-    </message>          
+    </message>
     <message>
         <source>Zoom:</source>
         <translation>Масштаб:</translation>
-    </message>          
+    </message>
     <message>
         <source>Aim position:</source>
         <translation>Позиция перекрестия:</translation>
-    </message>          
+    </message>
     <message>
         <source>Aim size:</source>
         <translation>Размер перекрестия:</translation>
-    </message>          
+    </message>
     <message>
         <source>Aim line width:</source>
         <translation>Толщина линии:</translation>
-    </message>          
+    </message>
     <message>
         <source>Aim color:</source>
         <translation>Цвет перекрестия:</translation>
-    </message>          
+    </message>
+    <message>
+        <source>Mirror horizontal</source>
+        <translation>Отразить горизонтально</translation>
+    </message>
+    <message>
+        <source>Mirror vertical</source>
+        <translation>Отразить вертикально</translation>
+    </message>
 </context>
 </TS>

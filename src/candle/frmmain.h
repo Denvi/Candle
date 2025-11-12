@@ -349,13 +349,13 @@ private:
     GcodeDrawer *m_codeDrawer;    
     GcodeDrawer *m_probeDrawer;
     GcodeDrawer *m_currentDrawer;
-    ToolDrawer m_toolDrawer;
-    HeightMapBorderDrawer m_heightMapBorderDrawer;
-    OriginDrawer m_heightMapOriginDrawer;
-    HeightMapGridDrawer m_heightMapGridDrawer;
-    HeightMapInterpolationDrawer m_heightMapInterpolationDrawer;
-    SelectionDrawer m_selectionDrawer;
-    MachineBoundsDrawer m_machineBoundsDrawer;
+    ToolDrawer *m_toolDrawer;
+    HeightMapBorderDrawer *m_heightMapBorderDrawer;
+    OriginDrawer *m_heightMapOriginDrawer;
+    HeightMapGridDrawer *m_heightMapGridDrawer;
+    HeightMapInterpolationDrawer *m_heightMapInterpolationDrawer;
+    SelectionDrawer *m_selectionDrawer;
+    MachineBoundsDrawer *m_machineBoundsDrawer;
 
     // Table models
     GCodeTableModel m_programModel;

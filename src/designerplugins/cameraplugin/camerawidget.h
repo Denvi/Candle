@@ -3,12 +3,14 @@
 
 #include <QScrollArea>
 #include <QCameraInfo>
+#include <QLabel>
 #include "overlay.h"
+#include "videosurface.h"
 
 class QCamera;
 class QCameraViewfinder;
 
-class CameraWidget: public QWidget
+class CameraWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QStringList availableCameras READ availableCameras);
@@ -21,6 +23,8 @@ class CameraWidget: public QWidget
     Q_PROPERTY(int aimSize READ aimSize WRITE setAimSize);
     Q_PROPERTY(int aimLineWidth READ aimLineWidth WRITE setAimLineWidth);
     Q_PROPERTY(int aimColor READ aimColor WRITE setAimColor);
+    Q_PROPERTY(int mirrorHorizontal READ mirrorHorizontal WRITE setMirrorHorizontal);
+    Q_PROPERTY(int mirrorVertical READ mirrorVertical WRITE setMirrorVertical);
 
 public:
     CameraWidget(QWidget *parent = 0);
@@ -52,6 +56,12 @@ public:
     void setAimColor(int aimColor);
     int aimColor() const;
 
+    void setMirrorHorizontal(bool mirror);
+    bool mirrorHorizontal() const;
+
+    void setMirrorVertical(bool mirror);
+    bool mirrorVertical() const;
+
 signals:
 
     void posChanged(QVariantList pos);
@@ -63,12 +73,13 @@ signals:
 
 public slots:
 
-    void start();
-    void stop();
+    void startCamera();
+    void stopCamera();
 
 private:
     QCamera *m_camera;
-    QCameraViewfinder *m_viewFinder;
+    QLabel *m_videoLabel;
+    VideoSurface *m_videoSurface;
     QScrollArea *m_scrollArea;
     Overlay *m_overlay;
 
@@ -78,19 +89,29 @@ private:
 
     QPoint m_mousePos;
     QPointF m_aimPos;
-
     QPoint m_pos;
 
-    void setCamera(const QCameraInfo &cameraInfo);
-    void resizeEvent(QResizeEvent *e);
-    void updateSize();
+    QImage m_currentFrame;
+    bool m_mirrorHorizontal;
+    bool m_mirrorVertical;
 
+    void initCamera(const QCameraInfo &cameraInfo);
+    void deleteCamera();
+
+    void resizeEvent(QResizeEvent *e);
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
 
     void hideEvent(QHideEvent *e) override;
     void showEvent(QShowEvent *e) override;
+
+    void updateSize();
+    void processFrame(const QImage &frame);
+    void drawCurrentFrame();
+    void clearCurrentFrame();
+
+    void startStop(bool start);
 };
 
 #endif

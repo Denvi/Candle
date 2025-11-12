@@ -52,6 +52,7 @@ private:
 
     double normalizeAngle(double angle);
     QVector<VertexData> createCircle(QVector3D center, double radius, int arcs, QVector3D color);
+    void adjustToolEndLength();
 };
 
 #endif // TOOLDRAWER_H
