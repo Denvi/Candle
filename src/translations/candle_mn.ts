@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Args</source>
-        <translation>Захиалга</translation>
+        <translation>Аргументууд</translation>
     </message>
     <message>
         <source>In queue</source>
@@ -41,11 +41,11 @@
     </message>
     <message>
         <source>Skipped</source>
-        <translation>Түрөө Алга</translation>
+        <translation>Алгассан</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Ул мэдэх</translation>
+        <translation>Үл мэдэгдэх</translation>
     </message>
 </context>
 <context>
@@ -78,11 +78,11 @@
     <name>frmMain</name>
     <message>
         <source>Candle</source>
-        <translation>Лаа</translation>
+        <translation>Candle</translation>
     </message>
     <message>
         <source>Program</source>
-        <translation>Хөтөлбөр</translation>
+        <translation>Програм</translation>
     </message>
     <message>
         <source>Check</source>
@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>&amp;Panels</source>
-        <translation>&amp;Самбар</translation>
+        <translation>&amp;Самбарууд</translation>
     </message>
     <message>
         <source>Modification</source>
@@ -222,7 +222,7 @@
     </message>
     <message>
         <source>Type:</source>
-        <translation>Төрөр:</translation>
+        <translation>Төрөл:</translation>
     </message>
     <message>
         <source>Bicubic</source>
@@ -278,7 +278,7 @@
     </message>
     <message>
         <source>Jog feed next</source>
-        <translation>Jog Feed Дараа нь</translation>
+        <translation>Jog Feed Дараах</translation>
     </message>
     <message>
         <source>Jog feed previous</source>
@@ -692,7 +692,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Skip</source>
-        <translation>Дэвхрэх</translation>
+        <translation>Алгасах</translation>
     </message>
     <message>
         <source> (%1)</source>
@@ -1079,7 +1079,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>8</source>
-        <translation>Үд</translation>
+        <translation>8</translation>
     </message>
     <message>
         <source>9</source>
