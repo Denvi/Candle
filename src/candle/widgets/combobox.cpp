@@ -11,19 +11,32 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
 
 void ComboBox::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter && !currentText().isEmpty()) {
-        // Remove last item if new one entered
-        if (count() == maxCount() && !items().contains(currentText()))
-            removeItem(maxCount() - 1);
+    if ((e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) && !currentText().isEmpty())
+    {
+        auto text = currentText();
+        auto index = findText(text);
 
-        // Force item add
-        QComboBox::keyPressEvent(e);
+        // If item exists, remove it to prepare for moving to top
+        if (index != -1)
+        {
+            removeItem(index);
+        }
+        // If item doesn't exist and we're at max capacity, remove last item
+        else if (count() == maxCount())
+        {
+            removeItem(maxCount() - 1);
+        }
+
+        insertItem(0, text);
+        setCurrentIndex(0);
 
         emit returnPressed();
 
-        setCurrentIndex(-1);
         setCurrentText("");
-    } else {
+        setCurrentIndex(-1);
+    }
+    else
+    {
         QComboBox::keyPressEvent(e);
     }
 }
