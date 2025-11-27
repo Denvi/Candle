@@ -41,7 +41,7 @@ For GRBL v0.9 and below
 * Windows: [candle_1.0.11.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.zip)
 * Linux: [candle_1.0.11.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.tar.gz)
 
-Build instructions (windows)
+Build instructions (Windows)
 ------------------
 
 * Install cmake
@@ -82,7 +82,7 @@ cmake --install .
 
 Executable can be found in `build/Candle` directory.
 
-Build instructions (ubuntu)
+Build instructions (Ubuntu, Raspberry Pi OS Trixie)
 ------------------
 
 * Install packages
