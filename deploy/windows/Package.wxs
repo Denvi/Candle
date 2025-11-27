@@ -142,9 +142,6 @@
       <Component Id="cmp_Qt5Multimedia_dll" Directory="INSTALLFOLDER" Guid="24EE1B0B-C061-4632-A900-E89930FC6A7B">
         <File Id="fil_Qt5Multimedia_dll" Source="..\..\build\Candle\Qt5Multimedia.dll" KeyPath="yes" />
       </Component>
-      <Component Id="cmp_Qt5MultimediaWidgets_dll" Directory="INSTALLFOLDER" Guid="F7A37E99-2EED-488C-974C-2E6E80FEDA24">
-        <File Id="fil_Qt5MultimediaWidgets_dll" Source="..\..\build\Candle\Qt5MultimediaWidgets.dll" KeyPath="yes" />
-      </Component>
       <Component Id="cmp_Qt5Network_dll" Directory="INSTALLFOLDER" Guid="71C82CED-2579-4EDF-94D0-42CEF5CEE96A">
         <File Id="fil_Qt5Network_dll" Source="..\..\build\Candle\Qt5Network.dll" KeyPath="yes" />
       </Component>

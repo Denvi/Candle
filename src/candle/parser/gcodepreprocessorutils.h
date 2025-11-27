@@ -35,8 +35,8 @@ public:
     static QVector3D updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise);
     static QString generateG1FromPoints(QVector3D start, QVector3D end, bool absoluteMode, int precision);
     static double getAngle(QVector3D start, QVector3D end);
-    static double calculateSweep(double startAngle, double endAngle, bool isCw);
-    static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode);
+    static double calculateSweep(double startAngle, double endAngle, bool isCw, int turns = 1);
+    static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode, int turns = 1);
     static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D p1, QVector3D p2, QVector3D center, bool isCw, double radius, double startAngle, double sweep, int numPoints);
     static inline bool isDigit(char c);
     static inline bool isLetter(char c);
