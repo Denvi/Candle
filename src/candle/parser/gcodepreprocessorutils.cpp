@@ -425,7 +425,7 @@ double GcodePreprocessorUtils::getAngle(QVector3D start, QVector3D end) {
     return angle;
 }
 
-double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle, bool isCw)
+double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle, bool isCw, int turns)
 {
     double sweep;
 
@@ -448,13 +448,18 @@ double GcodePreprocessorUtils::calculateSweep(double startAngle, double endAngle
         }
     }
 
+    // Add extra full circles for P > 1
+    if (turns > 1) {
+        sweep += (M_PI * 2) * (turns - 1);
+    }
+
     return sweep;
 }
 
 /**
 * Generates the points along an arc including the start and end points.
 */
-QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode)
+QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode, int turns)
 {
     double radius = R;
 
@@ -485,7 +490,7 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
 
     double startAngle = getAngle(center, start);
     double endAngle = getAngle(center, end);
-    double sweep = calculateSweep(startAngle, endAngle, clockwise);
+    double sweep = calculateSweep(startAngle, endAngle, clockwise, turns);
 
     // Convert units.
     double arcLength = sweep * radius;

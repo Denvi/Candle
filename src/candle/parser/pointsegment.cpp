@@ -256,3 +256,15 @@ void PointSegment::setDwell(double dwell)
 {
     m_dwell = dwell;
 }
+
+int PointSegment::getArcTurns() const
+{
+    if (this->m_arcProperties != NULL) return this->m_arcProperties->turns;
+    return 1;
+}
+
+void PointSegment::setArcTurns(int turns)
+{
+    if (this->m_arcProperties == NULL) this->m_arcProperties = new ArcProperties();
+    this->m_arcProperties->turns = turns > 0 ? turns : 1;
+}

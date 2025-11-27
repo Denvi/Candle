@@ -67,6 +67,9 @@ public:
     double getDwell() const;
     void setDwell(double dwell);
 
+    int getArcTurns() const;
+    void setArcTurns(int turns);
+
 private:
     ArcProperties *m_arcProperties;
     int m_toolhead;
