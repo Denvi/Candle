@@ -161,7 +161,7 @@ QList<PointSegment*> GcodeParser::expandArc()
     // Start expansion.
     //
 
-    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength, false);
+    QList<QVector3D> expandedPoints = GcodePreprocessorUtils::generatePointsAlongArcBDring(plane, *start, *end, *center, clockwise, radius, m_smallArcThreshold, m_smallArcSegmentLength, false, lastSegment->getArcTurns());
 
     // Validate output of expansion.
     if (expandedPoints.length() == 0) {
@@ -229,10 +229,6 @@ PointSegment *GcodeParser::processCommand(const QStringList &args)
     double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
     if (!qIsNaN(spindleSpeed)) this->m_lastSpindleSpeed = spindleSpeed;
 
-    // Handle P code
-    double dwell = GcodePreprocessorUtils::parseCoord(args, 'P');
-    if (!qIsNaN(dwell)) this->m_points.last()->setDwell(dwell);
-
     // handle G codes.
     gCodes = GcodePreprocessorUtils::parseCodes(args, 'G');
 
@@ -284,9 +280,10 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint,
     PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, 
         m_commandNumber++);
 
-    QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args, 
+    QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args,
         this->m_currentPoint, nextPoint, this->m_inAbsoluteIJKMode, clockwise);
     double radius = GcodePreprocessorUtils::parseCoord(args, 'R');
+    double pValue = GcodePreprocessorUtils::parseCoord(args, 'P');
 
     // Calculate radius if necessary.
     if (qIsNaN(radius)) {
@@ -319,6 +316,7 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint,
     ps->setSpeed(this->m_lastSpeed);
     ps->setSpindleSpeed(this->m_lastSpindleSpeed);
     ps->setPlane(m_currentPlane);
+    if (!qIsNaN(pValue)) ps->setArcTurns((int)pValue);
     this->m_points.append(ps);
 
     // Save off the endpoint.

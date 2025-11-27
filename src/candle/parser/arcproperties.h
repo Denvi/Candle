@@ -17,6 +17,7 @@ public:
     bool isClockwise;
     double radius;
     QVector3D *center;
+    int turns;
 };
 
 #endif // ARCPROPERTIES_H
