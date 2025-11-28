@@ -29,6 +29,10 @@ class frmSettings : public QDialog
     Q_OBJECT
     Q_PROPERTY(QString port READ port WRITE setPort)
     Q_PROPERTY(int baud READ baud WRITE setBaud)
+    Q_PROPERTY(QString telnetAddress READ telnetAddress WRITE setTelnetAddress)
+    Q_PROPERTY(int telnetPort READ telnetPort WRITE setTelnetPort)
+    Q_PROPERTY(QString webSocketUrl READ webSocketUrl WRITE setWebSocketUrl)
+    Q_PROPERTY(bool webSocketBinaryMode READ webSocketBinaryMode WRITE setWebSocketBinaryMode)
     Q_PROPERTY(double toolDiameter READ toolDiameter WRITE setToolDiameter)
     Q_PROPERTY(double toolLength READ toolLength WRITE setToolLength)
     Q_PROPERTY(bool antialiasing READ antialiasing WRITE setAntialiasing)
