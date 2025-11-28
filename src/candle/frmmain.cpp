@@ -118,6 +118,7 @@ frmMain::frmMain(QWidget *parent) :
 
     m_deviceState = DeviceUnknown;
     m_senderState = SenderUnknown;
+    m_sdRun = false;
 
     m_spindleCW = true;
 
@@ -265,7 +266,7 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
+    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScrollBarAction(int)));
     connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     clearTable();
 
@@ -1874,7 +1875,7 @@ void frmMain::onConnectionDataReceived(QString data)
             ui->cmdCheck->setChecked(state == DeviceCheck);
             ui->cmdHold->setChecked(state == DeviceHold0 || state == DeviceHold1 || state == DeviceQueue);
             ui->cmdSpindle->setEnabled(state == DeviceHold0 || ((m_senderState != SenderTransferring) &&
-                (m_senderState != SenderStopping)));
+                (m_senderState != SenderStopping) && !m_sdRun));
 
             // Update "elapsed time" timer
             if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) {
@@ -1994,32 +1995,88 @@ void frmMain::onConnectionDataReceived(QString data)
             m_selectionDrawer->setRotation(m_codeDrawer->rotation());
         }
 
+        // Process SD card status
+        // SD:77.88,/sd/cutout1.nc
+        static QRegExp sdx("SD:([^,]*),([^,>|]*)");
+        if (sdx.indexIn(data) != -1)
+        {
+            if (!m_sdRun)
+            {
+                m_sdRun = true;
+                ui->glwVisualizer->setParserStatus(QString("[🔴 SD/RUN '%1']").arg(sdx.cap(2)));
+                updateControlsState();
+            }
+
+            auto sdSync = QFileInfo(m_programFileName).fileName().toLower() == QFileInfo(sdx.cap(2)).fileName().toLower();
+
+            if (sdSync) {
+                auto percentage = sdx.cap(1).toDouble();
+                auto processedCommandIndex = (m_currentModel->rowCount() - 2) / 100.0 * percentage;
+
+                GcodeViewParse *parser = m_currentDrawer->viewParser();
+                QList<LineSegment*> &list = parser->getLineSegmentList();
+
+                int i;
+                QList<int> drawnLines;
+
+                for (i = m_lastDrawnLineIndex; i < list.count()
+                        && list.at(i)->getLineNumber()
+                            <= (m_currentModel->data(m_currentModel->index(processedCommandIndex, 4)).toInt()); i++) {
+                    drawnLines << i;
+                }
+
+                if (!drawnLines.isEmpty()) {
+                    foreach (int j, drawnLines) {
+                        list.at(j)->setDrawn(true);
+                    }
+                    m_currentDrawer->update(drawnLines);
+
+                    if (ui->chkAutoScroll->isChecked()) {
+                        scrollToTableIndex(m_currentModel->index(processedCommandIndex, 0));
+                    }
+
+                    if (i < list.count())
+                        m_lastDrawnLineIndex = i;
+                }
+            }
+        }
+        else if (m_sdRun)
+        {
+            m_sdRun = false;
+            updateControlsState();
+
+            qApp->beep();
+            QMessageBox::information(this, qApp->applicationDisplayName(), tr("Sending file from SD card completed"));
+        }
+
         // Toolpath shadowing
-        if (((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)
-            || (m_senderState == SenderPausing) || (m_senderState == SenderPaused)) && state != DeviceCheck) {
+        static QList<SenderState> shadowingSenderStates { SenderTransferring, SenderStopping, SenderPausing, SenderPaused };
+        if ((shadowingSenderStates.contains(m_senderState) && state != DeviceCheck)) {
             GcodeViewParse *parser = m_currentDrawer->viewParser();
 
-            bool toolOntoolpath = false;
+            bool toolOnToolpath = false;
 
             QList<int> drawnLines;
-            QList<LineSegment*> list = parser->getLineSegmentList();
+            QList<LineSegment*> &list = parser->getLineSegmentList();
 
             for (int i = m_lastDrawnLineIndex; i < list.count()
                     && list.at(i)->getLineNumber()
                     <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
                 if (list.at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition)) {
-                    toolOntoolpath = true;
+                    toolOnToolpath = true;
                     m_lastDrawnLineIndex = i;
                     break;
                 }
                 drawnLines << i;
             }
 
-            if (toolOntoolpath) {
+            if (toolOnToolpath) {
                 foreach (int i, drawnLines) {
                     list.at(i)->setDrawn(true);
                 }
-                if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
+                if (!drawnLines.isEmpty()) {
+                    m_currentDrawer->update(drawnLines);
+                }
             }
             else if (m_lastDrawnLineIndex < list.count() && m_lastDrawnLineIndex > 0)
             {
@@ -2088,6 +2145,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 ui->cmdSpindle->setChecked(false);
             }
             ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(spindleSpeed)));
+            ui->slbSpindle->setCurrentValue(spindleSpeed.toDouble());
         }
 
         // Store device state
@@ -2402,9 +2460,10 @@ void frmMain::onConnectionDataReceived(QString data)
                 // Toolpath shadowing on check mode
                 if (m_deviceState == DeviceCheck) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
-                    QList<LineSegment*> list = parser->getLineSegmentList();
+                    QList<LineSegment*> &list = parser->getLineSegmentList();
 
-                    if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1) {
+                    if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)
+                    {
                         int i;
                         QList<int> drawnLines;
 
@@ -2489,7 +2548,34 @@ void frmMain::onConnectionConnected()
 
     updateControlsState();
 
-    QTimer::singleShot(1000, [this]() { grblReset(); });
+    QTimer::singleShot(1000, [this]()
+    {
+        if (m_settings->resetOnConnection())
+        {
+            grblReset();
+        }
+        else
+        {
+            m_sdRun = false;
+            m_fileCommandIndex = 0;
+            m_commands.clear();
+            m_queue.clear();
+
+            m_reseting = false;
+            m_resetCompleted = true;
+            m_homing = false;
+            m_updateSpindleSpeed = false;
+            m_updateParserStatus = true;
+            m_statusReceived = true;
+
+            setSenderState(SenderStopped);
+            setDeviceState(DeviceUnknown);
+
+            // Query grbl settings
+            sendCommand("$$", -2, false);
+            sendCommand("$#", -2, false, true);            
+        }    
+    });
 }
 
 void frmMain::onConnectionDisconnected()
@@ -2603,7 +2689,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
+    QList<LineSegment*> &list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     // Update linesegments on cell changed
@@ -2770,17 +2856,17 @@ void frmMain::onDockTopLevelChanged(bool topLevel)
     widget->setMaximumWidth(widget->maximumWidth() + 22 * (topLevel ? 1 : -1));
 }
 
-void frmMain::onScroolBarAction(int action)
+void frmMain::onScrollBarAction(int action)
 {
     Q_UNUSED(action)
 
-    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping) || m_sdRun)
         ui->chkAutoScroll->setChecked(false);
 }
 
 void frmMain::onScriptException(const QScriptValue &exception)
 {
-    qCritical(scriptLogCategory) << "Script exception occured in plugin path:" << exception.engine()->objectName()
+    qCritical(scriptLogCategory) << "Script exception occurred in plugin path:" << exception.engine()->objectName()
         << exception.toString();
 }
 
@@ -3058,6 +3144,7 @@ void frmMain::storeSettings()
     set->setValue("toolType", m_settings->toolType());
     set->setValue("fps", m_settings->fps());
     set->setValue("queryStateTime", m_settings->queryStateTime());
+    set->setValue("resetOnConnection", m_settings->resetOnConnection());
     set->setValue("axisAEnabled", m_settings->axisAEnabled());
     set->setValue("axisAX", m_settings->axisAX());
 
@@ -3248,6 +3335,7 @@ void frmMain::restoreSettings()
         m_settings->setAcceleration(set->value("acceleration", 10).toInt());
         m_settings->setFps(set->value("fps", 60).toInt());
         m_settings->setQueryStateTime(set->value("queryStateTime", 40).toInt());
+        m_settings->setResetOnConnection(set->value("resetOnConnection", true).toBool());
         m_settings->setUseStartCommands(set->value("useStartCommands").toBool());
         m_settings->setStartCommands(set->value("startCommands").toString());
         m_settings->setUseEndCommands(set->value("useEndCommands").toBool());
@@ -3956,6 +4044,7 @@ void frmMain::grblReset()
 
     setSenderState(SenderStopped);
     setDeviceState(DeviceUnknown);
+    m_sdRun = false;
     m_fileCommandIndex = 0;
 
     m_reseting = true;
@@ -4249,6 +4338,7 @@ void frmMain::loadFile(QList<QString> data)
     m_probeModel.clear();
     m_programHeightmapModel.clear();
     m_currentModel = &m_programModel;
+    m_lastDrawnLineIndex = 0;
 
     // Reset parsers
     m_viewParser.reset();
@@ -4621,14 +4711,14 @@ void frmMain::setupCoordsTextboxes()
 
 void frmMain::updateControlsState() {
     bool portOpened = m_currentConnection && m_currentConnection->isConnected();
-    bool process = (m_senderState == SenderTransferring) || (m_senderState == SenderStopping);
+    bool process = (m_senderState == SenderTransferring) || (m_senderState == SenderStopping) || m_sdRun;
     bool paused = (m_senderState == SenderPausing) || (m_senderState == SenderPaused) || (m_senderState == SenderChangingTool);
 
     ui->grpState->setEnabled(portOpened);
     ui->grpControl->setEnabled(portOpened);
     ui->widgetSpindle->setEnabled(portOpened);
     ui->widgetJog->setEnabled(portOpened && ((m_senderState == SenderStopped)
-        || (m_senderState == SenderChangingTool)));
+        || (m_senderState == SenderChangingTool)) && !m_sdRun);
     ui->cboCommand->setEnabled(portOpened && (!ui->chkKeyboardControl->isChecked()));
     ui->cmdCommandSend->setEnabled(portOpened);
 
@@ -4637,6 +4727,7 @@ void frmMain::updateControlsState() {
     ui->cmdCheck->setEnabled(!process);
     ui->cmdUnlock->setEnabled(!process);
     ui->cmdSpindle->setEnabled(!process);
+    ui->slbSpindle->setEnabled(!m_sdRun);
     ui->cmdSleep->setEnabled(!process);
 
     ui->actFileNew->setEnabled(m_senderState == SenderStopped);
@@ -4644,18 +4735,18 @@ void frmMain::updateControlsState() {
     ui->actFileReload->setEnabled(m_senderState == SenderStopped
         && (m_heightMapMode ? !m_heightMapFileName.isEmpty(): !m_programFileName.isEmpty()));
     ui->cmdFileOpen->setEnabled(m_senderState == SenderStopped);
-    ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
-    ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1);
-    ui->cmdFileSendFromLine->setEnabled(ui->cmdFileSend->isEnabled() && !ui->cmdHeightMapMode->isChecked());
-    ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing));
+    ui->cmdFileReset->setEnabled((m_senderState == SenderStopped) && m_programModel.rowCount() > 1 && !m_sdRun);
+    ui->cmdFileSend->setEnabled(portOpened && (m_senderState == SenderStopped) && m_programModel.rowCount() > 1 && !m_sdRun);
+    ui->cmdFileSendFromLine->setEnabled(ui->cmdFileSend->isEnabled() && !ui->cmdHeightMapMode->isChecked() && !m_sdRun);
+    ui->cmdFilePause->setEnabled(portOpened && (process || paused) && (m_senderState != SenderPausing) && !m_sdRun);
     ui->cmdFilePause->setChecked(paused);
-    ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping);
+    ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping && !m_sdRun);
     ui->mnuRecent->setEnabled((m_senderState == SenderStopped) && ((m_recentFiles.count() > 0 && !m_heightMapMode)
                                                       || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
     ui->actFileSave->setEnabled(m_programModel.rowCount() > 1);
     ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
-    ui->tblProgram->setEditTriggers((m_senderState != SenderStopped) ? QAbstractItemView::NoEditTriggers :
+    ui->tblProgram->setEditTriggers((m_senderState != SenderStopped || m_sdRun) ? QAbstractItemView::NoEditTriggers :
         QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked |
         QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
@@ -4727,7 +4818,8 @@ void frmMain::updateControlsState() {
 
     ui->actFileSaveTransformedAs->setVisible(ui->chkHeightMapUse->isChecked());
 
-    ui->sliProgram->setEnabled(m_programModel.rowCount() > 1 && (m_senderState == SenderStopped) && !m_heightMapMode);
+    ui->sliProgram->setEnabled(m_programModel.rowCount() > 1 && (m_senderState == SenderStopped) && !m_heightMapMode
+        && !m_sdRun);
 }
 
 void frmMain::updateLayouts()
@@ -5002,7 +5094,9 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
                 }
             }
         }
-    } else if (obj == ui->tblProgram && ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))) {
+    } else if (obj == ui->tblProgram && ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping)
+        || m_sdRun))
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp
                     || keyEvent->key() == Qt::Key_Down || keyEvent->key() == Qt::Key_Up) {
@@ -5346,7 +5440,7 @@ void frmMain::completeTransfer()
 {
     // Shadow last segment
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
+    QList<LineSegment*> &list = parser->getLineSegmentList();
     if (m_lastDrawnLineIndex < list.count()) {
         list[m_lastDrawnLineIndex]->setDrawn(true);
         m_currentDrawer->update(QList<int>() << m_lastDrawnLineIndex);
@@ -5382,7 +5476,7 @@ QString frmMain::getLineInitCommands(int row)
     QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
+    QList<LineSegment*> &list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();

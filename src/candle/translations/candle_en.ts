@@ -892,6 +892,10 @@ Time elapsed: %1</source>
         <source>From Line</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Sending file from SD card completed</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1394,6 +1398,10 @@ segment size:</source>
     </message>
     <message>
         <source>Machine information</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Reset machine on connection</source>
         <translation></translation>
     </message>
 </context>

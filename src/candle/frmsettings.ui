@@ -447,6 +447,13 @@ QGroupBox {
                   </item>
                  </layout>
                 </item>
+                <item>
+                 <widget class="QCheckBox" name="chkResetOnConnection">
+                  <property name="text">
+                   <string>Reset machine on connection</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
              </item>

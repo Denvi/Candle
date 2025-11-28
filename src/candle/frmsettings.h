@@ -131,6 +131,8 @@ public:
     void setAcceleration(int acceleration);
     int queryStateTime();
     void setQueryStateTime(int queryStateTime);
+    bool resetOnConnection();
+    void setResetOnConnection(bool resetOnConnection);
     int toolType();
     void setToolType(int toolType);
     double toolAngle();

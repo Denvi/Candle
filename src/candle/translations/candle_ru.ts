@@ -897,6 +897,10 @@ Time elapsed: %1</source>
         <source>From Line</source>
         <translation>Со строки</translation>
     </message>
+    <message>
+        <source>Sending file from SD card completed</source>
+        <translation>Отправка файла с SD карты завершена</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1403,6 +1407,10 @@ segment size:</source>
     <message>
         <source>Machine information</source>
         <translation>Информация о станке</translation>
+    </message>
+    <message>
+        <source>Reset machine on connection</source>
+        <translation>Отправлять команду сброса при подключении</translation>
     </message>
 </context>
 </TS>
