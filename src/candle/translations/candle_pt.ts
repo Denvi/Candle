@@ -894,6 +894,10 @@ Tempo transcorrido: %1</translation>
         <source>From Line</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sending file from SD card completed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
@@ -1397,6 +1401,10 @@ segment size:</source>
     </message>
     <message>
         <source>Machine information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset machine on connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

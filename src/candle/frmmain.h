@@ -260,7 +260,7 @@ private slots:
     void onSlbSpindleValueChanged();
     void onCboCommandReturnPressed();
     void onDockTopLevelChanged(bool topLevel);
-    void onScroolBarAction(int action);
+    void onScrollBarAction(int action);
     void onScriptException(const QScriptValue &exception);
     void onActServiceProfilesSelected(bool checked);
     void onBeforeScriptStart(QScriptEngine &engine);
@@ -342,6 +342,7 @@ private:
     // State
     SenderState m_senderState;
     DeviceState m_deviceState;
+    bool m_sdRun;
 
     // Visualizer drawers
     // TODO: Add machine table visualizer

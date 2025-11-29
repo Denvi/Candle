@@ -393,6 +393,16 @@ void frmSettings::setQueryStateTime(int queryStateTime)
     ui->txtQueryStateTime->setValue(queryStateTime);
 }
 
+bool frmSettings::resetOnConnection()
+{
+    return ui->chkResetOnConnection->isChecked();
+}
+
+void frmSettings::setResetOnConnection(bool resetOnConnection)
+{
+    ui->chkResetOnConnection->setChecked(resetOnConnection);
+}
+
 int frmSettings::toolType()
 {
     return ui->cboToolType->currentIndex();
@@ -876,6 +886,7 @@ void frmSettings::setDefaultSettings()
     setIgnoreErrors(false);
 
     setQueryStateTime(40);
+    setResetOnConnection(true);
     setRapidSpeed(2000);
     setAcceleration(100);
     setSpindleSpeedMin(0);
