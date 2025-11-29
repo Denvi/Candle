@@ -2140,12 +2140,12 @@ void frmMain::onConnectionDataReceived(QString data)
                     m_timerToolAnimation.start(25, this);
                     ui->cmdSpindle->setChecked(true);
                 }
+                ui->slbSpindle->setCurrentValue(spindleSpeed.toDouble());
             } else if (m_timerToolAnimation.isActive()) {
                 m_timerToolAnimation.stop();
                 ui->cmdSpindle->setChecked(false);
             }
             ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(spindleSpeed)));
-            ui->slbSpindle->setCurrentValue(spindleSpeed.toDouble());
         }
 
         // Store device state
