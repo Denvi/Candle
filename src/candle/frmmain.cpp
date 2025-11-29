@@ -2014,7 +2014,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 auto processedCommandIndex = (m_currentModel->rowCount() - 2) / 100.0 * percentage;
 
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
-                QList<LineSegment*> &list = parser->getLineSegmentList();
+                QList<LineSegment*> list = parser->getLineSegmentList();
 
                 int i;
                 QList<int> drawnLines;
@@ -2038,6 +2038,31 @@ void frmMain::onConnectionDataReceived(QString data)
                     if (i < list.count())
                         m_lastDrawnLineIndex = i;
                 }
+
+#ifdef Q_OS_WIN
+                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+                {
+                    if (!m_taskBarProgress->isVisible()) {
+                        if (m_taskBarProgress) {
+                            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+                            m_taskBarProgress->show();
+                        }
+                    }
+
+                    if (m_taskBarProgress)
+                        m_taskBarProgress->setValue(processedCommandIndex);
+                }
+#endif
+            }
+            else
+            {
+#ifdef Q_OS_WIN
+                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+                {
+                    if (m_taskBarProgress->isVisible())
+                        m_taskBarProgress->hide();
+                }
+#endif
             }
         }
         else if (m_sdRun)
@@ -2057,7 +2082,7 @@ void frmMain::onConnectionDataReceived(QString data)
             bool toolOnToolpath = false;
 
             QList<int> drawnLines;
-            QList<LineSegment*> &list = parser->getLineSegmentList();
+            QList<LineSegment*> list = parser->getLineSegmentList();
 
             for (int i = m_lastDrawnLineIndex; i < list.count()
                     && list.at(i)->getLineNumber()
@@ -2140,12 +2165,12 @@ void frmMain::onConnectionDataReceived(QString data)
                     m_timerToolAnimation.start(25, this);
                     ui->cmdSpindle->setChecked(true);
                 }
+                ui->slbSpindle->setCurrentValue(spindleSpeed.toDouble());
             } else if (m_timerToolAnimation.isActive()) {
                 m_timerToolAnimation.stop();
                 ui->cmdSpindle->setChecked(false);
             }
             ui->glwVisualizer->setSpeedState((QString(tr("F/S: %1 / %2")).arg(fs.cap(1)).arg(spindleSpeed)));
-            ui->slbSpindle->setCurrentValue(spindleSpeed.toDouble());
         }
 
         // Store device state
@@ -2460,7 +2485,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 // Toolpath shadowing on check mode
                 if (m_deviceState == DeviceCheck) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
-                    QList<LineSegment*> &list = parser->getLineSegmentList();
+                    QList<LineSegment*> list = parser->getLineSegmentList();
 
                     if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)
                     {
@@ -2689,7 +2714,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     // Update linesegments on cell changed
@@ -5030,6 +5055,9 @@ void frmMain::scrollToTableIndex(QModelIndex index)
         });
     }
 
+    if (ui->tblProgram->currentIndex() == index)
+        return;
+
     if (!intervalTimer.isValid() || intervalTimer.hasExpired(INTERVAL)) {
         pendingTimer->stop();
         intervalTimer.start();
@@ -5440,7 +5468,7 @@ void frmMain::completeTransfer()
 {
     // Shadow last segment
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     if (m_lastDrawnLineIndex < list.count()) {
         list[m_lastDrawnLineIndex]->setDrawn(true);
         m_currentDrawer->update(QList<int>() << m_lastDrawnLineIndex);
@@ -5476,7 +5504,7 @@ QString frmMain::getLineInitCommands(int row)
     QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();

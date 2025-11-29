@@ -43,7 +43,7 @@ public:
     bool axisRotationUsed(RotationAxis axis);
 
     QList<LineSegment*> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
-    QList<LineSegment*> &getLineSegmentList();
+    QList<LineSegment*> getLineSegmentList();
     QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
 
     QList<LineSegment*> *getLines();

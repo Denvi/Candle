@@ -81,7 +81,7 @@ QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcP
     return getLinesFromParser(&gp, arcPrecision, arcDegreeMode);
 }
 
-QList<LineSegment*> &GcodeViewParse::getLineSegmentList()
+QList<LineSegment*> GcodeViewParse::getLineSegmentList()
 {
     return m_lines;
 }
