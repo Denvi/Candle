@@ -2038,6 +2038,31 @@ void frmMain::onConnectionDataReceived(QString data)
                     if (i < list.count())
                         m_lastDrawnLineIndex = i;
                 }
+
+#ifdef Q_OS_WIN
+                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+                {
+                    if (!m_taskBarProgress->isVisible()) {
+                        if (m_taskBarProgress) {
+                            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+                            m_taskBarProgress->show();
+                        }
+                    }
+
+                    if (m_taskBarProgress)
+                        m_taskBarProgress->setValue(processedCommandIndex);
+                }
+#endif
+            }
+            else
+            {
+#ifdef Q_OS_WIN
+                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+                {
+                    if (m_taskBarProgress->isVisible())
+                        m_taskBarProgress->hide();
+                }
+#endif
             }
         }
         else if (m_sdRun)
