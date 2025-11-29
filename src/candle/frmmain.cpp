@@ -5055,6 +5055,9 @@ void frmMain::scrollToTableIndex(QModelIndex index)
         });
     }
 
+    if (ui->tblProgram->currentIndex() == index)
+        return;
+
     if (!intervalTimer.isValid() || intervalTimer.hasExpired(INTERVAL)) {
         pendingTimer->stop();
         intervalTimer.start();
