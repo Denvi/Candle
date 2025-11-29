@@ -2014,7 +2014,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 auto processedCommandIndex = (m_currentModel->rowCount() - 2) / 100.0 * percentage;
 
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
-                QList<LineSegment*> &list = parser->getLineSegmentList();
+                QList<LineSegment*> list = parser->getLineSegmentList();
 
                 int i;
                 QList<int> drawnLines;
@@ -2082,7 +2082,7 @@ void frmMain::onConnectionDataReceived(QString data)
             bool toolOnToolpath = false;
 
             QList<int> drawnLines;
-            QList<LineSegment*> &list = parser->getLineSegmentList();
+            QList<LineSegment*> list = parser->getLineSegmentList();
 
             for (int i = m_lastDrawnLineIndex; i < list.count()
                     && list.at(i)->getLineNumber()
@@ -2485,7 +2485,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 // Toolpath shadowing on check mode
                 if (m_deviceState == DeviceCheck) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
-                    QList<LineSegment*> &list = parser->getLineSegmentList();
+                    QList<LineSegment*> list = parser->getLineSegmentList();
 
                     if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)
                     {
@@ -2714,7 +2714,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     // Update linesegments on cell changed
@@ -5465,7 +5465,7 @@ void frmMain::completeTransfer()
 {
     // Shadow last segment
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     if (m_lastDrawnLineIndex < list.count()) {
         list[m_lastDrawnLineIndex]->setDrawn(true);
         m_currentDrawer->update(QList<int>() << m_lastDrawnLineIndex);
@@ -5501,7 +5501,7 @@ QString frmMain::getLineInitCommands(int row)
     QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> &list = parser->getLineSegmentList();
+    QList<LineSegment*> list = parser->getLineSegmentList();
     QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
