@@ -12,7 +12,7 @@ Supported functions:
 
 System requirements for running "Candle":
 -------------------
-* Windows/Linux x86
+* Windows/Linux (Ubuntu)/macOS/Raspberry Pi OS (Trixie)
 * CPU with SSE2 instruction set support
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
