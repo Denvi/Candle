@@ -571,6 +571,97 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongArcBDring(PointSegme
     return segments;
 }
 
+QVector3D GcodePreprocessorUtils::lerp(const QVector3D &a, const QVector3D &b, double t)
+{
+    return (1.0 - t) * a + t * b;
+}
+
+QVector3D GcodePreprocessorUtils::evalCubicBSpline(double t, const QVector3D &p0,
+    const QVector3D &p1, const QVector3D &p2, const QVector3D &p3)
+{
+    // De Casteljau's algorithm - 3 levels
+    QVector3D q0 = lerp(p0, p1, t);
+    QVector3D q1 = lerp(p1, p2, t);
+    QVector3D q2 = lerp(p2, p3, t);
+
+    QVector3D r0 = lerp(q0, q1, t);
+    QVector3D r1 = lerp(q1, q2, t);
+
+    return lerp(r0, r1, t);
+}
+
+QVector3D GcodePreprocessorUtils::evalQuadraticBSpline(double t, const QVector3D &p0,
+    const QVector3D &p1, const QVector3D &p2)
+{
+    // De Casteljau's algorithm - 2 levels
+    QVector3D q0 = lerp(p0, p1, t);
+    QVector3D q1 = lerp(p1, p2, t);
+
+    return lerp(q0, q1, t);
+}
+
+QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongSpline(
+    const QVector3D &start, const QVector3D &end, const QVector3D *cp1,
+    const QVector3D *cp2, double tolerance)
+{
+    QList<QVector3D> points;
+
+    const double MIN_STEP = 0.001;
+    const double MAX_STEP = 0.1;
+
+    double t = 0.0;
+    double step = MAX_STEP;
+
+    bool isCubic = (cp2 != NULL);
+
+    while (t < 1.0) {
+        double tNext = qMin(t + step, 1.0);
+        double tMid = t + (tNext - t) / 2.0;
+
+        QVector3D current, next, mid;
+
+        if (isCubic) {
+            current = evalCubicBSpline(t, start, *cp1, *cp2, end);
+            next = evalCubicBSpline(tNext, start, *cp1, *cp2, end);
+            mid = evalCubicBSpline(tMid, start, *cp1, *cp2, end);
+        } else {
+            current = evalQuadraticBSpline(t, start, *cp1, end);
+            next = evalQuadraticBSpline(tNext, start, *cp1, end);
+            mid = evalQuadraticBSpline(tMid, start, *cp1, end);
+        }
+
+        QVector3D linearMid = 0.5 * (current + next);
+
+        // Error calculation on XY plane only (curve defined in plane, Z interpolates separately)
+        double dx = mid.x() - linearMid.x();
+        double dy = mid.y() - linearMid.y();
+        double error = sqrt(dx * dx + dy * dy);
+
+        if (error < tolerance) {
+            points.append(next);
+            t = tNext;
+
+            if (step < MAX_STEP) step = qMin(step * 2, MAX_STEP);
+        } else {
+            step /= 2;
+            if (step < MIN_STEP) {
+                points.append(next);
+                t = qMin(t + MIN_STEP, 1.0);
+                step = MIN_STEP;
+            }
+        }
+
+        if (points.length() > 1000) break;
+    }
+
+    if (!points.isEmpty() && (points.last() - end).length() <= 0.001) {
+        points.removeLast();
+    }
+    points.append(end);
+
+    return points;
+}
+
 bool GcodePreprocessorUtils::isDigit(char c)
 {
     return c > 47 && c < 58;

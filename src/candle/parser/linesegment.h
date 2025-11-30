@@ -53,6 +53,8 @@ public:
     bool isZMovement();
     void setIsArc(bool isA);
     bool isArc();
+    void setIsSpline(bool isSpline);
+    bool isSpline() const;
     void setIsFastTraverse(bool isF);
     bool isFastTraverse() const;
 
@@ -100,6 +102,7 @@ private:
     // Line properties
     bool m_isZMovement;
     bool m_isArc;
+    bool m_isSpline;
     bool m_isClockwise;
     bool m_isFastTraverse;
     int m_lineNumber;
