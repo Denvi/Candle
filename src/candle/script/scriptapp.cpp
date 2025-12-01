@@ -78,6 +78,11 @@ bool ScriptApp::saveFile(QString fileName)
     return false;
 }
 
+void ScriptApp::resetFile()
+{
+    m_frmMain->on_cmdFileReset_clicked();
+}
+
 void ScriptApp::addAction(QAction *action)
 {
     m_frmMain->addAction(action);

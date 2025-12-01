@@ -2003,6 +2003,8 @@ void frmMain::onConnectionDataReceived(QString data)
             if (!m_sdRun)
             {
                 m_sdRun = true;
+                m_sdProcessedCommandIndex = -1;
+                m_lastDrawnLineIndex = 0;
                 ui->glwVisualizer->setParserStatus(QString("[🔴 SD/RUN '%1']").arg(sdx.cap(2)));
                 updateControlsState();
             }
@@ -2012,6 +2014,10 @@ void frmMain::onConnectionDataReceived(QString data)
             if (sdSync) {
                 auto percentage = sdx.cap(1).toDouble();
                 auto processedCommandIndex = (m_currentModel->rowCount() - 2) / 100.0 * percentage;
+
+                for (int i = m_sdProcessedCommandIndex + 1; i <= processedCommandIndex; i++)
+                    m_currentModel->setData(m_currentModel->index(i, 2), GCodeItem::Processed);
+                m_sdProcessedCommandIndex = processedCommandIndex;
 
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
                 QList<LineSegment*> list = parser->getLineSegmentList();
@@ -4126,8 +4132,6 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
         return SendQueue;
     }
 
-    command = command.toUpper();
-
     CommandAttributes ca;
     if (showInConsole) {
         ui->txtConsole->appendPlainText(command);
@@ -4142,7 +4146,7 @@ frmMain::SendCommandResult frmMain::sendCommand(QString command, int tableIndex,
 
     m_commands.append(ca);
 
-    QString uncomment = GcodePreprocessorUtils::removeComment(command);
+    QString uncomment = GcodePreprocessorUtils::removeComment(command).toUpper();
 
     // Processing spindle speed only from g-code program
     static QRegExp s("[Ss]0*(\\d+)");

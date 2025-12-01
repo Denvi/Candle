@@ -415,6 +415,7 @@ private:
     int m_fileCommandIndex;
     int m_fileProcessedCommandIndex;
     int m_probeIndex;
+    int m_sdProcessedCommandIndex;
 
     // Current values
     int m_lastDrawnLineIndex;
