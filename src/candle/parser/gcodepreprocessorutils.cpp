@@ -630,6 +630,11 @@ QList<QVector3D> GcodePreprocessorUtils::generatePointsAlongSpline(
             mid = evalQuadraticBSpline(tMid, start, *cp1, end);
         }
 
+        // Z interpolates linearly (Marlin compatible)
+        current.setZ(start.z() + t * (end.z() - start.z()));
+        next.setZ(start.z() + tNext * (end.z() - start.z()));
+        mid.setZ(start.z() + tMid * (end.z() - start.z()));
+
         QVector3D linearMid = 0.5 * (current + next);
 
         // Error calculation on XY plane only (curve defined in plane, Z interpolates separately)
