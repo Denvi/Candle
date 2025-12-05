@@ -76,6 +76,7 @@ private:
     double m_lastSpeed;
     double m_traverseSpeed;
     double m_lastSpindleSpeed;
+    QVector3D m_lastSplinePQ;  // Last P,Q from previous G5 for auto-matching
 
     // The gcode.
     QList<PointSegment*> m_points;
@@ -83,10 +84,12 @@ private:
     PointSegment *processCommand(const QStringList &args);
     void handleMCode(float code, const QStringList &args);
     PointSegment *handleGCode(float code, const QStringList &args);
-    PointSegment *addLinearPointSegment(const QVector3D &nextPoint, 
+    PointSegment *addLinearPointSegment(const QVector3D &nextPoint,
         const QVector3D &nextAxes, bool fastTraverse);
-    PointSegment *addArcPointSegment(const QVector3D &nextPoint, 
+    PointSegment *addArcPointSegment(const QVector3D &nextPoint,
         const QVector3D &nextAxes, bool clockwise, const QStringList &args);
+    PointSegment *addSplinePointSegment(const QVector3D &nextPoint,
+        const QVector3D &nextAxes, SplineType type, const QStringList &args);
     void setLastGcodeCommand(float num);
 };
 

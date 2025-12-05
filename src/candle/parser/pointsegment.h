@@ -11,6 +11,7 @@
 #include <QVector3D>
 
 #include "arcproperties.h"
+#include "splineproperties.h"
 
 class PointSegment
 {
@@ -70,8 +71,17 @@ public:
     int getArcTurns() const;
     void setArcTurns(int turns);
 
+    bool isSpline() const;
+    void setIsSpline(bool isSpline);
+    void setSplineControlPoints(const QVector3D *cp1, const QVector3D *cp2);
+    QVector3D* getSplineControlPoint1();
+    QVector3D* getSplineControlPoint2();
+    SplineType getSplineType() const;
+    void setSplineType(SplineType type);
+
 private:
     ArcProperties *m_arcProperties;
+    SplineProperties *m_splineProperties;
     int m_toolhead;
     double m_speed;
     double m_spindleSpeed;
@@ -81,6 +91,7 @@ private:
     bool m_isMetric;
     bool m_isZMovement;
     bool m_isArc;
+    bool m_isSpline;
     bool m_isFastTraverse;
     bool m_isAbsolute;
     int m_lineNumber;

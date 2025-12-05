@@ -1,0 +1,82 @@
+name: Nightly / Windows (x64) - ondemand
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch to run on'
+        required: true
+        default: 'master'
+        type: string
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DEFAULT_BINARY_CACHE: ${{github.workspace}}/vcpkg_cache
+  VCPKG_VERSION: '2025.07.25'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      # Checkout the same branch that the workflow is running from
+      # (not from branch_name input which defaults to master)
+
+    - name: Cache vcpkg repository
+      uses: actions/cache@v4
+      id: cache-vcpkg-repo
+      with:
+        path: vcpkg
+        key: vcpkg-repo-${{ env.VCPKG_VERSION }}
+
+    - name: Cache vcpkg packages
+      uses: actions/cache@v4
+      id: cache-vcpkg-packages
+      with:
+        path: |
+          vcpkg_cache
+          vcpkg/downloads
+          vcpkg/buildtrees
+          vcpkg/packages
+          vcpkg/installed
+        key: vcpkg-packages-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          vcpkg-packages-${{ runner.os }}-
+
+    - name: Ensure vcpkg cache dir
+      run: |
+        if (!(Test-Path vcpkg_cache)) { New-Item -ItemType Directory -Path vcpkg_cache }
+
+    - name: Bootstrap vcpkg
+      if: steps.cache-vcpkg-repo.outputs.cache-hit != 'true'
+      run: |
+        if (Test-Path vcpkg) { Remove-Item -Recurse -Force vcpkg }
+        git clone --branch ${{ env.VCPKG_VERSION }} --depth 1 https://github.com/microsoft/vcpkg.git
+        ./vcpkg/bootstrap-vcpkg.bat
+
+    - name: Cache CMake build
+      uses: actions/cache@v4
+      id: cache-cmake
+      with:
+        path: build
+        key: cmake-${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ github.sha }}
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/Candle -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Install
+      run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Create archive
+      run: |
+        Compress-Archive -Path ${{github.workspace}}/build/Candle -DestinationPath candle.zip
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Candle-${{ github.sha }}
+        path: ${{github.workspace}}/candle.zip

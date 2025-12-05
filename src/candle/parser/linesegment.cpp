@@ -13,6 +13,7 @@ LineSegment::LineSegment()
     m_toolhead = 0;
     m_isZMovement = false;
     m_isArc = false;
+    m_isSpline = false;
     m_isFastTraverse = false;
     m_drawn = false;
     m_isMetric = true;
@@ -27,6 +28,7 @@ LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
     m_toolhead = 0;
     m_isZMovement = false;
     m_isArc = false;
+    m_isSpline = false;
     m_isFastTraverse = false;
     m_drawn = false;
     m_isMetric = true;
@@ -44,6 +46,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_toolhead = initial->getToolhead();
     m_isZMovement = initial->isZMovement();
     m_isArc = initial->isArc();
+    m_isSpline = initial->isSpline();
     m_isFastTraverse = initial->isFastTraverse();
     m_drawn = initial->drawn();
     m_first = initial->getStart();
@@ -181,6 +184,14 @@ void LineSegment::setIsArc(bool isA) {
 
 bool LineSegment::isArc() {
     return m_isArc;
+}
+
+void LineSegment::setIsSpline(bool isSpline) {
+    this->m_isSpline = isSpline;
+}
+
+bool LineSegment::isSpline() const {
+    return m_isSpline;
 }
 
 void LineSegment::setIsFastTraverse(bool isF) {

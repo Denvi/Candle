@@ -38,6 +38,10 @@ public:
     static double calculateSweep(double startAngle, double endAngle, bool isCw, int turns = 1);
     static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D start, QVector3D end, QVector3D center, bool clockwise, double R, double minArcLength, double arcPrecision, bool arcDegreeMode, int turns = 1);
     static QList<QVector3D> generatePointsAlongArcBDring(PointSegment::planes plane, QVector3D p1, QVector3D p2, QVector3D center, bool isCw, double radius, double startAngle, double sweep, int numPoints);
+    static QVector3D lerp(const QVector3D &a, const QVector3D &b, double t);
+    static QVector3D evalCubicBSpline(double t, const QVector3D &p0, const QVector3D &p1, const QVector3D &p2, const QVector3D &p3);
+    static QVector3D evalQuadraticBSpline(double t, const QVector3D &p0, const QVector3D &p1, const QVector3D &p2);
+    static QList<QVector3D> generatePointsAlongSpline(const QVector3D &start, const QVector3D &end, const QVector3D *cp1, const QVector3D *cp2, double tolerance = 0.1);
     static inline bool isDigit(char c);
     static inline bool isLetter(char c);
     static inline char toUpper(char c);

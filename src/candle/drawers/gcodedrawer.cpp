@@ -63,10 +63,6 @@ bool GcodeDrawer::prepareVectors()
     bool drawFirstPoint = true;
     for (int i = 0; i < list->count(); i++) {
 
-        if (qIsNaN(list->at(i)->getEnd().z())) {
-            continue;
-        }
-
         // Find first point of toolpath
         if (drawFirstPoint) {
 
@@ -74,14 +70,14 @@ bool GcodeDrawer::prepareVectors()
 
             // Draw first toolpath point
             vertex.color = Util::colorToVector(m_colorStart);
-            vertex.position = list->at(i)->getEnd();
+            vertex.position = list->at(i)->getStart();
             vertex.type = VertexDataTypePoint;
-            if (m_ignoreZ) vertex.position.setZ(0);
+            if (m_ignoreZ || qIsNaN(vertex.position.z())) vertex.position.setZ(0);
             vertex.data = QVector3D(m_pointSize, 0, 0);
             m_points.append(vertex);
 
             drawFirstPoint = false;
-            continue;
+            // Don't continue - draw the first segment too!
         }
 
         // Prepare vertices
@@ -121,12 +117,12 @@ bool GcodeDrawer::prepareVectors()
 
         // Line start
         vertex.position = list->at(j)->getStart();
-        if (m_ignoreZ) vertex.position.setZ(0);
+        if (m_ignoreZ || qIsNaN(vertex.position.z())) vertex.position.setZ(0);
         m_lines.append(vertex);
 
         // Line end
         vertex.position = list->at(i)->getEnd();
-        if (m_ignoreZ) vertex.position.setZ(0);
+        if (m_ignoreZ || qIsNaN(vertex.position.z())) vertex.position.setZ(0);
         m_lines.append(vertex);
 
         // Draw last toolpath point
@@ -134,7 +130,7 @@ bool GcodeDrawer::prepareVectors()
             vertex.type = VertexDataTypePoint;
             vertex.color = Util::colorToVector(m_colorEnd);
             vertex.position = list->at(i)->getEnd();
-            if (m_ignoreZ) vertex.position.setZ(0);
+            if (m_ignoreZ || qIsNaN(vertex.position.z())) vertex.position.setZ(0);
             vertex.data = QVector3D(m_pointSize, 0, 0);
             m_points.append(vertex);
         }
