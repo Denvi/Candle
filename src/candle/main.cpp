@@ -42,6 +42,9 @@ void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
 int main(int argc, char *argv[])
 {
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+#ifdef Q_OS_LINUX
+    QApplication::setAttribute(Qt::AA_DontUseNativeDialogs);
+#endif
     QApplication a(argc, argv);
 
     a.setOrganizationName(APP_NAME);
