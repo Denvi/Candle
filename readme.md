@@ -21,7 +21,7 @@ Downloads
 ----------
 Latest release versions:
 
-* [Version 10.10 release](https://github.com/Denvi/Candle/releases/tag/v10.10)
+* [Releases](https://github.com/Denvi/Candle/releases)
 
 Nightly build versions:
 
