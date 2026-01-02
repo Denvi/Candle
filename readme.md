@@ -82,14 +82,24 @@ cmake --install .
 
 Executable can be found in `build/Candle` directory.
 
-Build instructions (Ubuntu, Raspberry Pi OS Trixie)
+Build instructions (Ubuntu, Raspberry Pi OS Trixie, Fedora 43)
 ------------------
 
 * Install packages
 
+For Ubuntu, Raspberry Pi OS Trixie users:
+
 ```
 sudo apt update
 sudo apt install cmake build-essential qtbase5-dev libqt5serialport5-dev qtscript5-dev qttools5-dev libqt5websockets5-dev qtmultimedia5-dev
+```
+
+For Fedora users:
+
+```
+sudo dnf update
+sudo dnf group install development-tools
+sudo dnf install cmake qt5-qtbase-devel qt5-qtserialport-devel qt5-qtscript-devel qt5-qttools-static qt5-qttools-devel qt5-qtwebsockets-devel qt5-qtmultimedia-devel
 ```
 
 * Get Candle sources
