@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Candle
-Exec=/usr/bin/candle
+Exec=env QT_QPA_PLATFORM=xcb /usr/bin/candle
 Icon=/usr/share/pixmaps/candle.ico
 Type=Application
 Categories=Electronics;Engineering;
