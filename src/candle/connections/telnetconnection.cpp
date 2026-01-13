@@ -36,7 +36,7 @@ void TelnetConnection::disconnect()
 
 bool TelnetConnection::isConnected() const
 {
-    return m_socket.isOpen();
+    return m_socket.state() == QAbstractSocket::ConnectedState;
 }
 
 void TelnetConnection::send(const QByteArray &data)
