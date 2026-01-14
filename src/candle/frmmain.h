@@ -500,6 +500,7 @@ private:
     void resizeTableHeightMapSections();
     void scrollToTableIndex(QModelIndex index);
     bool eventFilter(QObject *obj, QEvent *event);
+    void updateSliderProgramMaxValue();
 
     // Utility
     int bufferLength();

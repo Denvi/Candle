@@ -254,13 +254,13 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
-    connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
-    });
-    connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
-    });
+    connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
+    connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
+
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programHeightmapModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
+    connect(&m_programHeightmapModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
+
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
@@ -1425,6 +1425,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
     ui->actFileSaveTransformedAs->setVisible(checked);
 
     ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+
+    updateSliderProgramMaxValue();
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -5175,6 +5177,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
     }
 
     return QMainWindow::eventFilter(obj, event);
+}
+
+void frmMain::updateSliderProgramMaxValue()
+{
+    ui->sliProgram->setMaximum(m_currentModel->rowCount() > 1 ? m_currentModel->rowCount() - 2 : 1);
 }
 
 int frmMain::bufferLength()
