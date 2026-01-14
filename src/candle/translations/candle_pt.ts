@@ -898,6 +898,14 @@ Tempo transcorrido: %1</translation>
         <source>Sending file from SD card completed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Copy lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Paste lines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

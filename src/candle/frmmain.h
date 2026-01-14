@@ -251,6 +251,8 @@ private slots:
     void onTimerStateQuery();
     void onTableInsertLine();
     void onTableDeleteLines();
+    void onTableCopyLines();
+    void onTablePasteLines();
     void onTableCellChanged(QModelIndex i1, QModelIndex i2);
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onOverridingToggled(bool checked);
