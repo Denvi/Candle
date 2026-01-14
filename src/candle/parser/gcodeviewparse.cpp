@@ -226,6 +226,53 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
                     }
                     lineIndex++;
                 }
+            // Expand spline for graphics
+            } else if (ps->isSpline()) {
+                QList<QVector3D> points =
+                    GcodePreprocessorUtils::generatePointsAlongSpline(
+                        *start, *end,
+                        ps->getSplineControlPoint1(),
+                        ps->getSplineControlPoint2());
+
+                // Create line segments from points
+                int segments = points.length();
+                if (segments > 0) {
+                    double rotation = (Util::nAssign(startAxes->x()) - Util::nAssign(endAxes->x()));
+                    double segmentRotation = rotation / segments;
+
+                    QVector3D startPoint = *start;
+                    foreach (QVector3D nextPoint, points) {
+                        if (!Util::nIsNaN(m_axesRotationVectors[RotationAxisA]))
+                            endRotation.rotate(segmentRotation, m_axesRotationVectors[RotationAxisA]);
+
+                        ls = new LineSegment(startRotation * startPoint,
+                            endRotation * nextPoint, lineIndex);
+                        ls->setIsSpline(true);
+                        ls->setIsFastTraverse(ps->isFastTraverse());
+                        ls->setIsZMovement(ps->isZMovement());
+                        ls->setIsMetric(isMetric);
+                        ls->setIsAbsolute(ps->isAbsolute());
+                        ls->setSpeed(ps->getSpeed());
+                        ls->setSpindleSpeed(ps->getSpindleSpeed());
+                        ls->setDwell(ps->getDwell());
+                        ls->setModelStart(startPoint);
+                        ls->setModelEnd(nextPoint);
+                        ls->setAxesStart(*startAxes);
+                        ls->setAxesEnd(*endAxes);
+                        ls->setIndex(index++);
+
+                        this->updateViewBounds(ls->getEnd());
+                        this->updateModelBounds(nextPoint);
+
+                        m_lines.append(ls);
+                        m_lineIndexes[ps->getLineNumber()].append(
+                            m_lines.count() - 1);
+
+                        startPoint = nextPoint;
+                        startRotation = endRotation;
+                    }
+                    lineIndex++;
+                }
             // Line
             } else {
                 QVector3D startPoint = *start;

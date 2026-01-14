@@ -12,7 +12,7 @@ Supported functions:
 
 System requirements for running "Candle":
 -------------------
-* Windows/Linux x86
+* Windows/Linux (Ubuntu)/macOS/Raspberry Pi OS (Trixie)
 * CPU with SSE2 instruction set support
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
@@ -21,7 +21,7 @@ Downloads
 ----------
 Latest release versions:
 
-* [Version 10.10 release](https://github.com/Denvi/Candle/releases/tag/v10.10)
+* [Releases](https://github.com/Denvi/Candle/releases)
 
 Nightly build versions:
 
@@ -41,7 +41,7 @@ For GRBL v0.9 and below
 * Windows: [candle_1.0.11.zip](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.zip)
 * Linux: [candle_1.0.11.tar.gz](https://github.com/Denvi/Candle/releases/download/v1.0/Candle_1.0.11.tar.gz)
 
-Build instructions (windows)
+Build instructions (Windows)
 ------------------
 
 * Install cmake
@@ -82,7 +82,7 @@ cmake --install .
 
 Executable can be found in `build/Candle` directory.
 
-Build instructions (ubuntu)
+Build instructions (Ubuntu, Raspberry Pi OS Trixie)
 ------------------
 
 * Install packages

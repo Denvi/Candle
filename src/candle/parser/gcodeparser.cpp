@@ -28,6 +28,7 @@ GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
     m_lastSpeed = 0;
     m_lastSpindleSpeed = 0;
     m_traverseSpeed = 300;
+    m_lastSplinePQ = QVector3D();  // Null until first G5 executes
 
     reset();
 }
@@ -324,6 +325,82 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint,
     return ps;
 }
 
+PointSegment *GcodeParser::addSplinePointSegment(const QVector3D &nextPoint,
+    const QVector3D &nextAxes, SplineType type, const QStringList &args)
+{
+    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, m_commandNumber++);
+
+    // Parse control point offsets
+    double I = GcodePreprocessorUtils::parseCoord(args, 'I');
+    double J = GcodePreprocessorUtils::parseCoord(args, 'J');
+    double P = GcodePreprocessorUtils::parseCoord(args, 'P');
+    double Q = GcodePreprocessorUtils::parseCoord(args, 'Q');
+
+    QVector3D cp1, cp2;
+
+    if (type == CUBIC_SPLINE) {
+        // G5: Two control points
+        if (qIsNaN(I) && qIsNaN(J)) {
+            // Auto-match: I,J = -(previous P,Q) per Marlin/LinuxCNC spec
+            // "as if I and J are the negation of the previous P and Q"
+            if (this->m_lastSplinePQ.isNull()) {
+                // No previous spline - use default I,J = (0,0)
+                cp1 = this->m_currentPoint;
+            } else {
+                cp1 = this->m_currentPoint + QVector3D(
+                    -this->m_lastSplinePQ.x(),
+                    -this->m_lastSplinePQ.y(),
+                    0
+                );
+            }
+        } else {
+            // Explicit I,J
+            cp1 = this->m_currentPoint + QVector3D(
+                qIsNaN(I) ? 0 : I,
+                qIsNaN(J) ? 0 : J,
+                0
+            );
+        }
+
+        cp2 = nextPoint + QVector3D(
+            qIsNaN(P) ? 0 : P,
+            qIsNaN(Q) ? 0 : Q,
+            0
+        );
+
+        ps->setSplineControlPoints(&cp1, &cp2);
+
+        // Store P,Q for next auto-match
+        this->m_lastSplinePQ = QVector3D(
+            qIsNaN(P) ? 0 : P,
+            qIsNaN(Q) ? 0 : Q,
+            0
+        );
+
+    } else {
+        // G5.1: One control point
+        cp1 = this->m_currentPoint + QVector3D(
+            qIsNaN(I) ? 0 : I,
+            qIsNaN(J) ? 0 : J,
+            0
+        );
+        ps->setSplineControlPoints(&cp1, NULL);
+    }
+
+    ps->setIsSpline(true);
+    ps->setSplineType(type);
+    ps->setIsMetric(this->m_isMetric);
+    ps->setIsAbsolute(this->m_inAbsoluteMode);
+    ps->setSpeed(this->m_lastSpeed);
+    ps->setSpindleSpeed(this->m_lastSpindleSpeed);
+    ps->setPlane(m_currentPlane);
+
+    this->m_points.append(ps);
+    this->m_currentPoint = nextPoint;
+
+    return ps;
+}
+
 void GcodeParser::handleMCode(float code, const QStringList &args)
 {
     double spindleSpeed = GcodePreprocessorUtils::parseCoord(args, 'S');
@@ -342,10 +419,14 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
         false);
     else if (code == 38.2f) ps = addLinearPointSegment(nextPoint, nextAxes, 
         false);
-    else if (code == 2.0f) ps = addArcPointSegment(nextPoint, nextAxes, true, 
+    else if (code == 2.0f) ps = addArcPointSegment(nextPoint, nextAxes, true,
         args);
-    else if (code == 3.0f) ps = addArcPointSegment(nextPoint, nextAxes, false, 
+    else if (code == 3.0f) ps = addArcPointSegment(nextPoint, nextAxes, false,
         args);
+    else if (code == 5.0f) ps = addSplinePointSegment(nextPoint, nextAxes,
+        CUBIC_SPLINE, args);
+    else if (code == 5.1f) ps = addSplinePointSegment(nextPoint, nextAxes,
+        QUADRATIC_SPLINE, args);
     else if (code == 17.0f) this->m_currentPlane = PointSegment::XY;
     else if (code == 18.0f) this->m_currentPlane = PointSegment::ZX;
     else if (code == 19.0f) this->m_currentPlane = PointSegment::YZ;
@@ -356,7 +437,7 @@ PointSegment * GcodeParser::handleGCode(float code, const QStringList &args)
     else if (code == 91.0f) this->m_inAbsoluteMode = false;
     else if (code == 91.1f) this->m_inAbsoluteIJKMode = false;
 
-    if (code == 0.0f || code == 1.0f || code == 2.0f || code == 3.0f || code == 38.2f) this->m_lastGcodeCommand = code;
+    if (code == 0.0f || code == 1.0f || code == 2.0f || code == 3.0f || code == 5.0f || code == 5.1f || code == 38.2f) this->m_lastGcodeCommand = code;
 
     return ps;
 }
