@@ -16,9 +16,11 @@ PointSegment::PointSegment()
     m_isAbsolute = true;
     m_isZMovement = false;
     m_isArc = false;
+    m_isSpline = false;
     m_isFastTraverse = false;
     m_lineNumber = -1;
     m_arcProperties = NULL;
+    m_splineProperties = NULL;
     m_speed = 0;
     m_spindleSpeed = 0;
     m_dwell = 0;
@@ -66,6 +68,11 @@ PointSegment::~PointSegment()
 {
     if (this->m_arcProperties != NULL && this->m_arcProperties->center != NULL) delete this->m_arcProperties->center;
     if (this->m_arcProperties != NULL) delete this->m_arcProperties;
+    if (this->m_splineProperties != NULL) {
+        if (this->m_splineProperties->controlPoint1 != NULL) delete this->m_splineProperties->controlPoint1;
+        if (this->m_splineProperties->controlPoint2 != NULL) delete this->m_splineProperties->controlPoint2;
+        delete this->m_splineProperties;
+    }
     if (this->m_point != NULL) delete this->m_point;
     if (this->m_axes != NULL) delete this->m_axes;
 }
@@ -267,4 +274,50 @@ void PointSegment::setArcTurns(int turns)
 {
     if (this->m_arcProperties == NULL) this->m_arcProperties = new ArcProperties();
     this->m_arcProperties->turns = turns > 0 ? turns : 1;
+}
+
+// Spline properties
+
+bool PointSegment::isSpline() const
+{
+    return m_isSpline;
+}
+
+void PointSegment::setIsSpline(bool isSpline)
+{
+    m_isSpline = isSpline;
+}
+
+void PointSegment::setSplineControlPoints(const QVector3D *cp1, const QVector3D *cp2)
+{
+    if (this->m_splineProperties == NULL) this->m_splineProperties = new SplineProperties();
+    this->m_splineProperties->controlPoint1 = new QVector3D(*cp1);
+    if (cp2 != NULL) {
+        this->m_splineProperties->controlPoint2 = new QVector3D(*cp2);
+    }
+    this->setIsSpline(true);
+}
+
+QVector3D* PointSegment::getSplineControlPoint1()
+{
+    if (this->m_splineProperties != NULL) return this->m_splineProperties->controlPoint1;
+    return NULL;
+}
+
+QVector3D* PointSegment::getSplineControlPoint2()
+{
+    if (this->m_splineProperties != NULL) return this->m_splineProperties->controlPoint2;
+    return NULL;
+}
+
+SplineType PointSegment::getSplineType() const
+{
+    if (this->m_splineProperties != NULL) return this->m_splineProperties->type;
+    return CUBIC_SPLINE;
+}
+
+void PointSegment::setSplineType(SplineType type)
+{
+    if (this->m_splineProperties == NULL) this->m_splineProperties = new SplineProperties();
+    this->m_splineProperties->type = type;
 }
