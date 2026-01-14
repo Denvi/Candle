@@ -239,6 +239,9 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), QKeySequence(Qt::Key_Delete));
+    m_tableMenu->addSeparator();
+    m_tableMenu->addAction(tr("&Copy lines"), this, SLOT(onTableCopyLines()), QKeySequence::Copy);
+    m_tableMenu->addAction(tr("&Paste lines"), this, SLOT(onTablePasteLines()), QKeySequence::Paste);
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
@@ -254,13 +257,13 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
-    connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
-    });
-    connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] {
-        ui->sliProgram->setMaximum(m_programModel.rowCount() > 1 ? m_programModel.rowCount() - 1 : 1);
-    });
+    connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
+    connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
+
     connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programHeightmapModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
+    connect(&m_programHeightmapModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
+
     connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
@@ -1425,6 +1428,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
     ui->actFileSaveTransformedAs->setVisible(checked);
 
     ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+
+    updateSliderProgramMaxValue();
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -2678,6 +2683,55 @@ void frmMain::onTableDeleteLines()
     updateParser();
 
     ui->tblProgram->selectRow(firstRow.row());
+}
+
+void frmMain::onTableCopyLines()
+{
+    int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
+    if (rowsCount < 1)
+        return;
+
+    if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
+
+    auto firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
+
+    if (firstRow.row() != m_currentModel->rowCount() - 1)
+    {
+        QStringList lines;
+
+        for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
+        {
+            lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+        }
+
+        QApplication::clipboard()->setText(lines.join('\n'));
+    }
+}
+
+void frmMain::onTablePasteLines()
+{
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+
+    int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
+
+    auto clipboardText =  QApplication::clipboard()->text();
+    if (clipboardText.isEmpty())
+        return;
+
+    auto lines = clipboardText.split('\n');
+    m_programLoading = true;
+
+    for (auto &line : lines)
+    {
+        m_currentModel->insertRow(row);
+        m_currentModel->setData(m_currentModel->index(row, 1), line);
+        m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
+        row++;
+    }
+
+    m_programLoading = false;
+    updateParser();
 }
 
 void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
@@ -5175,6 +5229,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
     }
 
     return QMainWindow::eventFilter(obj, event);
+}
+
+void frmMain::updateSliderProgramMaxValue()
+{
+    ui->sliProgram->setMaximum(m_currentModel->rowCount() > 1 ? m_currentModel->rowCount() - 2 : 1);
 }
 
 int frmMain::bufferLength()

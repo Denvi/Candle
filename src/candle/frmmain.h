@@ -251,6 +251,8 @@ private slots:
     void onTimerStateQuery();
     void onTableInsertLine();
     void onTableDeleteLines();
+    void onTableCopyLines();
+    void onTablePasteLines();
     void onTableCellChanged(QModelIndex i1, QModelIndex i2);
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onOverridingToggled(bool checked);
@@ -500,6 +502,7 @@ private:
     void resizeTableHeightMapSections();
     void scrollToTableIndex(QModelIndex index);
     bool eventFilter(QObject *obj, QEvent *event);
+    void updateSliderProgramMaxValue();
 
     // Utility
     int bufferLength();

@@ -896,6 +896,14 @@ Time elapsed: %1</source>
         <source>Sending file from SD card completed</source>
         <translation></translation>
     </message>
+    <message>
+        <source>&amp;Copy lines</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Paste lines</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

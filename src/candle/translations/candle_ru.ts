@@ -609,7 +609,7 @@
     </message>
     <message>
         <source>&amp;Insert line</source>
-        <translation>&amp;Вставить строку</translation>
+        <translation>&amp;Добавить строку</translation>
     </message>
     <message>
         <source>&amp;Delete lines</source>
@@ -900,6 +900,14 @@ Time elapsed: %1</source>
     <message>
         <source>Sending file from SD card completed</source>
         <translation>Отправка файла с SD карты завершена</translation>
+    </message>
+    <message>
+        <source>&amp;Copy lines</source>
+        <translation>&amp;Копировать строки</translation>
+    </message>
+    <message>
+        <source>&amp;Paste lines</source>
+        <translation>&amp;Вставить строки</translation>
     </message>
 </context>
 <context>
