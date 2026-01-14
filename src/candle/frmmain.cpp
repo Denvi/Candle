@@ -1819,7 +1819,7 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
 
 void frmMain::on_sliProgram_valueChanged(int value)
 {
-    scrollToTableIndex(m_currentModel->index(value, 0));
+    scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
 }
 
 void frmMain::onConnectionDataReceived(QString data)
