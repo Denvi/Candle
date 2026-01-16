@@ -237,12 +237,15 @@ frmMain::frmMain(QWidget *parent) :
     m_machineBoundsDrawer->setVisible(false);
 
     m_tableMenu = new QMenu(this);
-    m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
-    m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), QKeySequence(Qt::Key_Delete));
+    m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
+    m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
     m_tableMenu->addSeparator();
-    m_tableMenu->addAction(tr("&Cut lines"), this, SLOT(onTableCutLines()), QKeySequence::Cut);
-    m_tableMenu->addAction(tr("&Copy lines"), this, SLOT(onTableCopyLines()), QKeySequence::Copy);
-    m_tableMenu->addAction(tr("&Paste lines"), this, SLOT(onTablePasteLines()), QKeySequence::Paste);
+    m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
+    m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
+    m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
+    m_tableMenu->addSeparator();
+    m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
+    m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
@@ -257,15 +260,20 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
-    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+
+    // Setup tables history manager
+    m_programTableHistoryManager = new TableHistoryManager(&m_programModel);
+    m_programHeightmapTableHistoryManager = new TableHistoryManager(&m_programHeightmapModel);
+
+    connect(&m_programModel, &GCodeTableModel::commandChanged, this, &frmMain::onTableCellChanged);
     connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
     connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
 
-    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programHeightmapModel, &GCodeTableModel::commandChanged, this, &frmMain::onTableCellChanged);
     connect(&m_programHeightmapModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
     connect(&m_programHeightmapModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
 
-    connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_probeModel, &GCodeTableModel::commandChanged, this, &frmMain::onTableCellChanged);
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
     ui->tblProgram->setModel(&m_programModel);
@@ -1368,7 +1376,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     if (progress.wasCanceled()) throw cancel;
                 }
             }
+
             m_programHeightmapModel.insertRow(m_programHeightmapModel.rowCount());
+
+            // Clear history
+            m_programHeightmapTableHistoryManager->clear();
         }
         progress.close();
 
@@ -2650,7 +2662,7 @@ void frmMain::onTableInsertLine()
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
-    m_currentModel->insertRow(row);
+    m_currentModel->addRow(row);
     m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
 
     updateParser();
@@ -2664,7 +2676,8 @@ void frmMain::onTableDeleteLines()
 {
     if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
         (m_senderState == SenderTransferring) || (m_senderState == SenderStopping) ||
-        QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) return;
+        QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+        return;
 
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
@@ -2691,7 +2704,8 @@ void frmMain::onTableDeleteLines()
 void frmMain::onTableCutLines()
 {
     if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+        return;
 
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
     if (rowsCount < 1)
@@ -2756,7 +2770,8 @@ void frmMain::onTableCopyLines()
 void frmMain::onTablePasteLines()
 {
     if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+        return;
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
@@ -2765,24 +2780,14 @@ void frmMain::onTablePasteLines()
         return;
 
     auto lines = clipboardText.split('\n');
-    m_programLoading = true;
-
-    for (auto &line : lines)
-    {
-        m_currentModel->insertRow(row);
-        m_currentModel->setData(m_currentModel->index(row, 1), line);
-        m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
-        row++;
-    }
-
-    m_programLoading = false;
+    m_currentModel->insertCommands(row, lines);
 
     // Drop heightmap cache
     if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
     updateParser();
 
-    auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
+    auto index = m_currentModel->index(row + lines.count(), ui->tblProgram->selectionModel()->currentIndex().column());
     ui->tblProgram->selectionModel()->clearSelection();
     ui->tblProgram->scrollTo(index);
     ui->tblProgram->setCurrentIndex(index);
@@ -2790,24 +2795,77 @@ void frmMain::onTablePasteLines()
     onTableCurrentChanged(index, index);
 }
 
-void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
+void frmMain::onTableUndo()
 {
-    Q_UNUSED(i2)
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+        return;
 
+    bool result = false;
+
+    if (m_currentModel == &m_programModel)
+    {
+        result = m_programTableHistoryManager->undo();
+    }
+    else if (m_currentModel == &m_programHeightmapModel)
+    {
+        result = m_programHeightmapTableHistoryManager->undo();
+    }
+    else
+    {
+        return;
+    }
+
+    if (result)
+    {
+        updateParser();
+        resetTableSelection();
+    }
+}
+
+void frmMain::onTableRedo()
+{
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+        return;
+
+    bool result = false;
+
+    if (m_currentModel == &m_programModel)
+    {
+        result = m_programTableHistoryManager->redo();
+    }
+    else if (m_currentModel == &m_programHeightmapModel)
+    {
+        result = m_programHeightmapTableHistoryManager->redo();
+    }
+    else
+    {
+        return;
+    }
+
+    if (result)
+    {
+        updateParser();
+        resetTableSelection();
+    }
+}
+
+void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
+{
     GCodeTableModel *model = (GCodeTableModel*)sender();
 
-    if (i1.column() != 1) return;
     // Inserting new line at end
-    if (i1.row() == (model->rowCount() - 1) && model->data(model->index(i1.row(), 1)).toString() != "") {
+    if (row == (model->rowCount() - 1) && newValue != "") {
         model->setData(model->index(model->rowCount() - 1, 2), GCodeItem::InQueue);
         model->insertRow(model->rowCount());
-        if (!m_programLoading) ui->tblProgram->setCurrentIndex(model->index(i1.row() + 1, 1));
+        if (!m_programLoading) ui->tblProgram->setCurrentIndex(model->index(row + 1, 1));
     }
 
     if (!m_programLoading) {
 
         // Clear cached args
-        model->setData(model->index(i1.row(), 5), QVariant());
+        model->setData(model->index(row, 5), QVariant());
 
         // Drop heightmap cache
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
@@ -2817,7 +2875,7 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
 
         // Highlight w/o current cell changed event (double highlight on current cell changed)
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
-        for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(i1.row(), 4)).toInt(); i++) {
+        for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(row, 4)).toInt(); i++) {
             list[i]->setIsHighlight(true);
         }
     }
@@ -4579,6 +4637,9 @@ void frmMain::loadFile(QList<QString> data)
 
     resetHeightmap();
     updateControlsState();
+
+    m_programTableHistoryManager->clear();
+    m_programHeightmapTableHistoryManager->clear();
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -4807,6 +4868,9 @@ void frmMain::newFile()
     resetHeightmap();
 
     updateControlsState();
+
+    m_programTableHistoryManager->clear();
+    m_programHeightmapTableHistoryManager->clear();
 }
 
 void frmMain::newHeightmap()
@@ -5292,6 +5356,17 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
 void frmMain::updateSliderProgramMaxValue()
 {
     ui->sliProgram->setMaximum(m_currentModel->rowCount() > 1 ? m_currentModel->rowCount() - 2 : 1);
+}
+
+void frmMain::resetTableSelection()
+{
+    auto index = ui->tblProgram->selectionModel()->currentIndex();
+
+    ui->tblProgram->selectionModel()->clearSelection();
+    ui->tblProgram->scrollTo(index);
+    ui->tblProgram->setCurrentIndex(index);
+
+    onTableCurrentChanged(index, index);
 }
 
 int frmMain::bufferLength()

@@ -47,20 +47,67 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
 
 bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    if (index.isValid() && role == Qt::EditRole)
+    {
         switch (index.column())
         {
-        case 0: return false;
-        case 1: m_data[index.row()].command = value.toString(); break;
-        case 2: m_data[index.row()].state = value.toInt(); break;
-        case 3: m_data[index.row()].response = value.toString(); break;
-        case 4: m_data[index.row()].line = value.toInt(); break;
-        case 5: m_data[index.row()].args = value.toStringList(); break;
+            case 0:
+                return false;
+            case 1:
+                {
+                    auto oldCommand = m_data.at(index.row()).command;
+                    m_data[index.row()].command = value.toString();
+                    emit commandChanged(index.row(), oldCommand, value.toString());
+                }
+                break;
+            case 2:
+                m_data[index.row()].state = value.toInt();
+                break;
+            case 3:
+                m_data[index.row()].response = value.toString();
+                break;
+            case 4:
+                m_data[index.row()].line = value.toInt();
+                break;
+            case 5:
+                m_data[index.row()].args = value.toStringList();
+                break;
         }
+
         emit dataChanged(index, index);
+
         return true;
     }
+
     return false;
+}
+
+void GCodeTableModel::setCommand(int row, const QString &command)
+{
+    m_data[row].command = command;
+    m_data[row].args.clear();
+
+    auto index = this->index(row, 1);
+    emit dataChanged(index, index);
+}
+
+void GCodeTableModel::insertCommands(int row, const QList<QString> &commands)
+{
+    for (auto i = 0; i < commands.count(); i++)
+    {
+        insertRow(row + i);
+        setCommand(row + i, commands.at(i));
+        setData(this->index(row + i, 2), GCodeItem::InQueue);
+    }
+
+    emit commandsInserted(row, commands);
+}
+
+void GCodeTableModel::addRow(int row)
+{
+    insertRow(row);
+
+    emit rowAdded(row);
 }
 
 bool GCodeTableModel::insertRow(int row, const QModelIndex &parent)
@@ -75,8 +122,6 @@ bool GCodeTableModel::insertRow(int row, const QModelIndex &parent)
 
 bool GCodeTableModel::removeRow(int row, const QModelIndex &parent)
 {
-    //if (!index(row, 0).isValid()) return false;
-
     beginRemoveRows(parent, row, row);
     m_data.removeAt(row);
     endRemoveRows();
@@ -94,9 +139,6 @@ bool GCodeTableModel::removeRows(int row, int count, const QModelIndex &parent)
 void GCodeTableModel::clear()
 {
     beginResetModel();
-
-//    foreach (GCodeItem* item, m_data) delete item;
-
     m_data.clear();
     endResetModel();
 }

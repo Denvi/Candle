@@ -910,6 +910,14 @@ Tiempo transcurrido: %1</translation>
         <source>&amp;Cut lines</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

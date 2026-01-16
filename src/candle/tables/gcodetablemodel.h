@@ -39,7 +39,14 @@ public:
 
     QList<GCodeItem> &data();
 
+    void setCommand(int row, const QString &command);
+    void insertCommands(int row, const QList<QString> &commands);
+    void addRow(int row);
+
 signals:
+    void commandChanged(int row, QString oldValue, QString newValue);
+    void commandsInserted(int row, const QList<QString> &commands);
+    void rowAdded(int row);
 
 public slots:
 
