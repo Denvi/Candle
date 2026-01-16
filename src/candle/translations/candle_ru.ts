@@ -909,6 +909,10 @@ Time elapsed: %1</source>
         <source>&amp;Paste lines</source>
         <translation>&amp;Вставить строки</translation>
     </message>
+    <message>
+        <source>&amp;Cut lines</source>
+        <translation>&amp;Вырезать строки</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

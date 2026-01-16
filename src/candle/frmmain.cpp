@@ -240,6 +240,7 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), QKeySequence(Qt::Key_Delete));
     m_tableMenu->addSeparator();
+    m_tableMenu->addAction(tr("&Cut lines"), this, SLOT(onTableCutLines()), QKeySequence::Cut);
     m_tableMenu->addAction(tr("&Copy lines"), this, SLOT(onTableCopyLines()), QKeySequence::Copy);
     m_tableMenu->addAction(tr("&Paste lines"), this, SLOT(onTablePasteLines()), QKeySequence::Paste);
 
@@ -2654,7 +2655,9 @@ void frmMain::onTableInsertLine()
 
     updateParser();
 
-    ui->tblProgram->selectRow(row);
+    auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
+    ui->tblProgram->scrollTo(index);
+    ui->tblProgram->setCurrentIndex(index);
 }
 
 void frmMain::onTableDeleteLines()
@@ -2667,16 +2670,65 @@ void frmMain::onTableDeleteLines()
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
     if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
 
-    if (firstRow.row() != m_currentModel->rowCount() - 1) {
+    if (firstRow.row() != m_currentModel->rowCount() - 1)
+    {
+        // Store index
+        auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
+
+        // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
-    } else return;
 
-    // Drop heightmap cache
-    if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+        // Drop heightmap cache
+        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-    updateParser();
+        updateParser();
 
-    ui->tblProgram->selectRow(firstRow.row());
+        ui->tblProgram->scrollTo(index);
+        ui->tblProgram->setCurrentIndex(index);
+    }
+}
+
+void frmMain::onTableCutLines()
+{
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+
+    int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
+    if (rowsCount < 1)
+        return;
+
+    if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
+
+    auto firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
+
+    if (firstRow.row() != m_currentModel->rowCount() - 1)
+    {
+        // Copy lines to clipboard
+        QStringList lines;
+
+        for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
+            lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+
+        QApplication::clipboard()->setText(lines.join('\n'));
+
+        m_programLoading = true;
+
+        // Store index
+        auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
+
+        // Remove lines
+        m_currentModel->removeRows(firstRow.row(), rowsCount);
+
+        m_programLoading = false;
+
+        // Drop heightmap cache
+        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+
+        updateParser();
+
+        ui->tblProgram->scrollTo(index);
+        ui->tblProgram->setCurrentIndex(index);
+    }
 }
 
 void frmMain::onTableCopyLines()
@@ -2691,12 +2743,11 @@ void frmMain::onTableCopyLines()
 
     if (firstRow.row() != m_currentModel->rowCount() - 1)
     {
+        // Copy lines to clipboard
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-        {
             lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
-        }
 
         QApplication::clipboard()->setText(lines.join('\n'));
     }
@@ -2725,7 +2776,18 @@ void frmMain::onTablePasteLines()
     }
 
     m_programLoading = false;
+
+    // Drop heightmap cache
+    if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+
     updateParser();
+
+    auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
+    ui->tblProgram->selectionModel()->clearSelection();
+    ui->tblProgram->scrollTo(index);
+    ui->tblProgram->setCurrentIndex(index);
+
+    onTableCurrentChanged(index, index);
 }
 
 void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)

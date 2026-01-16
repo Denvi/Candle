@@ -904,6 +904,10 @@ Time elapsed: %1</source>
         <source>&amp;Paste lines</source>
         <translation></translation>
     </message>
+    <message>
+        <source>&amp;Cut lines</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
