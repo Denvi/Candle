@@ -1819,7 +1819,8 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
 
 void frmMain::on_sliProgram_valueChanged(int value)
 {
-    scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
+    if (!ui->sliProgram->property("programmaticChange").toBool())
+        scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
 }
 
 void frmMain::onConnectionDataReceived(QString data)
@@ -2811,7 +2812,9 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         m_selectionDrawer->setVisible(false);
     }
 
+    ui->sliProgram->setProperty("programmaticChange", true);
     ui->sliProgram->setValue(idx1.row());
+    ui->sliProgram->setProperty("programmaticChange", false);
 }
 
 void frmMain::onOverridingToggled(bool checked)
