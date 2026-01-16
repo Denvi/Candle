@@ -298,7 +298,7 @@ QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)
 QColor GcodeDrawer::getSegmentColor(LineSegment *segment)
 {
     if (segment->drawn()) return m_colorDrawn;//QVector3D(0.85, 0.85, 0.85);
-    else if (segment->isHightlight()) return m_colorHighlight;//QVector3D(0.57, 0.51, 0.9);
+    else if (segment->isHighlight()) return m_colorHighlight;//QVector3D(0.57, 0.51, 0.9);
     else if (segment->isFastTraverse()) return m_colorNormal;// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return m_colorZMovement;//QVector3D(1.0, 0.0, 0.0);
     else if (m_grayscaleSegments) switch (m_grayscaleCode) {

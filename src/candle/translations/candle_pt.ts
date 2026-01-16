@@ -906,6 +906,10 @@ Tempo transcorrido: %1</translation>
         <source>&amp;Paste lines</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Cut lines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

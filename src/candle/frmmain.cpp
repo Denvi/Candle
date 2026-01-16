@@ -240,6 +240,7 @@ frmMain::frmMain(QWidget *parent) :
     m_tableMenu->addAction(tr("&Insert line"), this, SLOT(onTableInsertLine()), QKeySequence(Qt::Key_Insert));
     m_tableMenu->addAction(tr("&Delete lines"), this, SLOT(onTableDeleteLines()), QKeySequence(Qt::Key_Delete));
     m_tableMenu->addSeparator();
+    m_tableMenu->addAction(tr("&Cut lines"), this, SLOT(onTableCutLines()), QKeySequence::Cut);
     m_tableMenu->addAction(tr("&Copy lines"), this, SLOT(onTableCopyLines()), QKeySequence::Copy);
     m_tableMenu->addAction(tr("&Paste lines"), this, SLOT(onTablePasteLines()), QKeySequence::Paste);
 
@@ -1555,7 +1556,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     QList<int> indexes;
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);
-        list[i]->setIsHightlight(false);
+        list[i]->setIsHighlight(false);
         indexes.append(i);
     }
     // Update only vertex color.
@@ -1757,13 +1758,6 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 {
     if (m_senderState != SenderStopped) return;
 
-    if (ui->tblProgram->selectionModel()->selectedRows().count() > 0) {
-        m_tableMenu->actions().at(0)->setEnabled(true);
-        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_currentModel->rowCount() - 1);
-    } else {
-        m_tableMenu->actions().at(0)->setEnabled(false);
-        m_tableMenu->actions().at(1)->setEnabled(false);
-    }
     m_tableMenu->popup(ui->tblProgram->viewport()->mapToGlobal(pos));
 }
 
@@ -1819,7 +1813,8 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
 
 void frmMain::on_sliProgram_valueChanged(int value)
 {
-    scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
+    if (!ui->sliProgram->property("programmaticChange").toBool())
+        scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
 }
 
 void frmMain::onConnectionDataReceived(QString data)
@@ -2660,7 +2655,9 @@ void frmMain::onTableInsertLine()
 
     updateParser();
 
-    ui->tblProgram->selectRow(row);
+    auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
+    ui->tblProgram->scrollTo(index);
+    ui->tblProgram->setCurrentIndex(index);
 }
 
 void frmMain::onTableDeleteLines()
@@ -2673,16 +2670,65 @@ void frmMain::onTableDeleteLines()
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
     if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
 
-    if (firstRow.row() != m_currentModel->rowCount() - 1) {
+    if (firstRow.row() != m_currentModel->rowCount() - 1)
+    {
+        // Store index
+        auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
+
+        // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
-    } else return;
 
-    // Drop heightmap cache
-    if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+        // Drop heightmap cache
+        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-    updateParser();
+        updateParser();
 
-    ui->tblProgram->selectRow(firstRow.row());
+        ui->tblProgram->scrollTo(index);
+        ui->tblProgram->setCurrentIndex(index);
+    }
+}
+
+void frmMain::onTableCutLines()
+{
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
+        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+
+    int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
+    if (rowsCount < 1)
+        return;
+
+    if (ui->tblProgram->selectionModel()->selectedRows().last().row() == m_currentModel->rowCount() - 1) rowsCount--;
+
+    auto firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
+
+    if (firstRow.row() != m_currentModel->rowCount() - 1)
+    {
+        // Copy lines to clipboard
+        QStringList lines;
+
+        for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
+            lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+
+        QApplication::clipboard()->setText(lines.join('\n'));
+
+        m_programLoading = true;
+
+        // Store index
+        auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
+
+        // Remove lines
+        m_currentModel->removeRows(firstRow.row(), rowsCount);
+
+        m_programLoading = false;
+
+        // Drop heightmap cache
+        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+
+        updateParser();
+
+        ui->tblProgram->scrollTo(index);
+        ui->tblProgram->setCurrentIndex(index);
+    }
 }
 
 void frmMain::onTableCopyLines()
@@ -2697,12 +2743,11 @@ void frmMain::onTableCopyLines()
 
     if (firstRow.row() != m_currentModel->rowCount() - 1)
     {
+        // Copy lines to clipboard
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-        {
             lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
-        }
 
         QApplication::clipboard()->setText(lines.join('\n'));
     }
@@ -2731,7 +2776,18 @@ void frmMain::onTablePasteLines()
     }
 
     m_programLoading = false;
+
+    // Drop heightmap cache
+    if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+
     updateParser();
+
+    auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
+    ui->tblProgram->selectionModel()->clearSelection();
+    ui->tblProgram->scrollTo(index);
+    ui->tblProgram->setCurrentIndex(index);
+
+    onTableCurrentChanged(index, index);
 }
 
 void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
@@ -2759,17 +2815,17 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
         // Update visualizer
         updateParser();
 
-        // Hightlight w/o current cell changed event (double hightlight on current cell changed)
+        // Highlight w/o current cell changed event (double highlight on current cell changed)
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
         for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(i1.row(), 4)).toInt(); i++) {
-            list[i]->setIsHightlight(true);
+            list[i]->setIsHighlight(true);
         }
     }
 }
 
 void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 {
-    // Update toolpath hightlighting
+    // Update toolpath highlighting
     if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
@@ -2780,7 +2836,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
         for (int i = 0; i < list.count(); i++) {
-            list.at(i)->setIsHightlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+            list.at(i)->setIsHighlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
         }
     // Update vertices on current cell changed
     } else {
@@ -2792,7 +2848,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
             foreach (int l, lineIndexes.at(i)) {
-                list.at(l)->setIsHightlight(idx1.row() > idx2.row());
+                list.at(l)->setIsHighlight(idx1.row() > idx2.row());
                 indexes.append(l);
             }
         }
@@ -2811,7 +2867,9 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         m_selectionDrawer->setVisible(false);
     }
 
+    ui->sliProgram->setProperty("programmaticChange", true);
     ui->sliProgram->setValue(idx1.row());
+    ui->sliProgram->setProperty("programmaticChange", false);
 }
 
 void frmMain::onOverridingToggled(bool checked)

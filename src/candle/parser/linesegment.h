@@ -69,8 +69,8 @@ public:
     bool isAbsolute() const;
     void setIsAbsolute(bool isAbsolute);
 
-    bool isHightlight() const;
-    void setIsHightlight(bool isHightlight);
+    bool isHighlight() const;
+    void setIsHighlight(bool isHighlight);
 
     int vertexIndex() const;
     void setVertexIndex(int vertexIndex);
@@ -109,7 +109,7 @@ private:
     bool m_drawn;
     bool m_isMetric;
     bool m_isAbsolute;
-    bool m_isHightlight;
+    bool m_isHighlight;
     int m_vertexIndex;
     int m_index;
 
