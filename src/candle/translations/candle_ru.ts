@@ -913,6 +913,14 @@ Time elapsed: %1</source>
         <source>&amp;Cut lines</source>
         <translation>&amp;Вырезать строки</translation>
     </message>
+    <message>
+        <source>&amp;Undo</source>
+        <translation>&amp;Отменить</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translation>&amp;Повторить</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

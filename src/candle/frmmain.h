@@ -57,6 +57,8 @@
 
 #include "frmhelp.h"
 
+#include "tablehistorymanager/tablehistorymanager.h"
+
 namespace Ui {
 class frmMain;
 class frmProgram;
@@ -254,7 +256,9 @@ private slots:
     void onTableCutLines();
     void onTableCopyLines();
     void onTablePasteLines();
-    void onTableCellChanged(QModelIndex i1, QModelIndex i2);
+    void onTableUndo();
+    void onTableRedo();
+    void onTableCellChanged(int row, QString oldValue, QString newValue);
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onOverridingToggled(bool checked);
     void onOverrideChanged();
@@ -367,6 +371,10 @@ private:
     GCodeTableModel m_programHeightmapModel;
     GCodeTableModel *m_currentModel;
     HeightMapTableModel m_heightMapModel;
+
+    // Table history managers
+    TableHistoryManager *m_programTableHistoryManager;
+    TableHistoryManager *m_programHeightmapTableHistoryManager;
 
     // Connections
     Connection *m_currentConnection;
@@ -504,6 +512,7 @@ private:
     void scrollToTableIndex(QModelIndex index);
     bool eventFilter(QObject *obj, QEvent *event);
     void updateSliderProgramMaxValue();
+    void resetTableSelection();
 
     // Utility
     int bufferLength();
