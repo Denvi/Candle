@@ -265,6 +265,11 @@ frmMain::frmMain(QWidget *parent) :
     m_programTableHistoryManager = new TableHistoryManager(&m_programModel);
     m_programHeightmapTableHistoryManager = new TableHistoryManager(&m_programHeightmapModel);
 
+    connect(m_programTableHistoryManager, &TableHistoryManager::historyChanged, this, &frmMain::onTableHistoryChanged);
+    connect(m_programHeightmapTableHistoryManager, &TableHistoryManager::historyChanged, this, &frmMain::onTableHistoryChanged);
+
+    ui->lblTableHeightmapHistory->setVisible(false);
+
     connect(&m_programModel, &GCodeTableModel::commandChanged, this, &frmMain::onTableCellChanged);
     connect(&m_programModel, &GCodeTableModel::rowsInserted, [this] { updateSliderProgramMaxValue(); });
     connect(&m_programModel, &GCodeTableModel::rowsRemoved, [this] { updateSliderProgramMaxValue(); });
@@ -1443,6 +1448,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
     ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 
     updateSliderProgramMaxValue();
+
+    ui->lblTableHistory->setVisible(!checked);
+    ui->lblTableHeightmapHistory->setVisible(checked);
 }
 
 void frmMain::on_chkHeightMapGridShow_toggled(bool checked)
@@ -2806,6 +2814,9 @@ void frmMain::onTableUndo()
     if (m_currentModel == &m_programModel)
     {
         result = m_programTableHistoryManager->undo();
+
+        if (result)
+            m_programHeightmapModel.clear();
     }
     else if (m_currentModel == &m_programHeightmapModel)
     {
@@ -2834,6 +2845,9 @@ void frmMain::onTableRedo()
     if (m_currentModel == &m_programModel)
     {
         result = m_programTableHistoryManager->redo();
+
+        if (result)
+            m_programHeightmapModel.clear();
     }
     else if (m_currentModel == &m_programHeightmapModel)
     {
@@ -3137,6 +3151,41 @@ void frmMain::onBeforeScriptStart(QScriptEngine &engine)
 
     // Translator
     engine.installTranslatorFunctions();
+}
+
+void frmMain::onTableHistoryChanged(QStringList history, int currentIndex)
+{
+    auto historyView = history;
+
+    if (currentIndex >= 0 && currentIndex < historyView.count())
+        historyView[currentIndex] = QString("<span style=\"color:#ff0000;\">%1</span>").arg(historyView.at(currentIndex));
+
+    if (historyView.count() > 10) {
+        auto from = historyView.count() - 10;
+
+        if (currentIndex < from)
+            from = currentIndex;
+
+        if (from < 0)
+            from = 0;
+
+        historyView = historyView.mid(from, 10);
+
+        if (from > 0)
+            historyView.prepend("⋅⋅⋅");
+
+        if (from + 10 < history.count())
+            historyView.append("⋅⋅⋅");
+    }
+
+    if (sender() == m_programTableHistoryManager)
+    {
+        ui->lblTableHistory->setText(historyView.join(""));
+    }
+    else
+    {
+        ui->lblTableHeightmapHistory->setText(historyView.join(""));
+    }
 }
 
 void frmMain::updateHeightMapInterpolationDrawer(bool reset)

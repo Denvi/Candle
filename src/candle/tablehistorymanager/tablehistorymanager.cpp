@@ -4,7 +4,7 @@
 #include "rowsremovedhistoryitem.h"
 #include "rowaddedhistoryitem.h"
 
-TableHistoryManager::TableHistoryManager(GCodeTableModel *model)
+TableHistoryManager::TableHistoryManager(GCodeTableModel *model, QObject *parent) : QObject(parent)
 {
     m_model = model;
     m_currentIndex = -1;
@@ -29,6 +29,8 @@ bool TableHistoryManager::undo()
 
     m_blockUpdates = false;
 
+    emitHistory();
+
     return true;
 }
 
@@ -44,6 +46,8 @@ bool TableHistoryManager::redo()
 
     m_blockUpdates = false;
 
+    emitHistory();
+
     return true;
 }
 
@@ -51,6 +55,8 @@ void TableHistoryManager::clear()
 {
     m_items.clear();
     m_currentIndex = -1;
+
+    emitHistory();
 }
 
 void TableHistoryManager::addItem(QSharedPointer<HistoryItem> item)
@@ -62,6 +68,27 @@ void TableHistoryManager::addItem(QSharedPointer<HistoryItem> item)
     }
 
     m_items.append(std::move(item));
+
+    emitHistory();
+}
+
+void TableHistoryManager::emitHistory()
+{
+    QStringList history;
+
+    for (auto &item : m_items)
+    {
+        if (item.dynamicCast<RowAddedHistoryItem>())
+            history.append(tr("❐"));
+        if (item.dynamicCast<RowChangedHistoryItem>())
+            history.append(tr("✍"));
+        if (item.dynamicCast<RowsInsertedHistoryItem>())
+            history.append(tr("✚"));
+        if (item.dynamicCast<RowsRemovedHistoryItem>())
+            history.append(tr("−"));
+    }
+
+    emit historyChanged(history, m_currentIndex);
 }
 
 void TableHistoryManager::onCommandChanged(int row, QString oldValue, QString newValue)

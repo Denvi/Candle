@@ -38,7 +38,7 @@ StyledToolButton[adjustSize=&quot;true&quot;] {
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_23">
+   <layout class="QVBoxLayout" name="verticalLayout_23" stretch="0,1">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -52,25 +52,65 @@ StyledToolButton[adjustSize=&quot;true&quot;] {
      <number>0</number>
     </property>
     <item>
-     <widget class="QLabel" name="grpProgram">
+     <widget class="QFrame" name="fraProgramTitle">
       <property name="styleSheet">
-       <string notr="true">QLabel {
-	padding: 5 0 5 11;
+       <string notr="true">QFrame#fraProgramTitle {
+	/*padding: 5 0 5 11;*/
 	background-color: palette(window);
 	border: 1px solid lightgray;
 }
-
-QLabel[overrided=&quot;true&quot;] {
+</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,1">
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="grpProgram">
+         <property name="styleSheet">
+          <string notr="true">QLabel[overrided=&quot;true&quot;] {
 	color: red;
 }
 
 QLabel[overrided=&quot;false&quot;] {
 	color: palette(windowtext);
 }</string>
-      </property>
-      <property name="text">
-       <string>Program</string>
-      </property>
+         </property>
+         <property name="text">
+          <string>Program</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblTableHistory">
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblTableHeightmapHistory">
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>

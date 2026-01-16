@@ -271,6 +271,7 @@ private slots:
     void onScriptException(const QScriptValue &exception);
     void onActServiceProfilesSelected(bool checked);
     void onBeforeScriptStart(QScriptEngine &engine);
+    void onTableHistoryChanged(QStringList history, int currentIndex);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
