@@ -18,7 +18,7 @@ LineSegment::LineSegment()
     m_drawn = false;
     m_isMetric = true;
     m_isAbsolute = true;
-    m_isHightlight = false;
+    m_isHighlight = false;
     m_vertexIndex = -1;
     m_index = -1;
 }
@@ -33,7 +33,7 @@ LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
     m_drawn = false;
     m_isMetric = true;
     m_isAbsolute = true;
-    m_isHightlight = false;
+    m_isHighlight = false;
     m_vertexIndex = -1;
 
     m_first = a;
@@ -55,7 +55,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_speed = initial->getSpeed();
     m_isMetric = initial->isMetric();
     m_isAbsolute = initial->isAbsolute();
-    m_isHightlight = initial->isHightlight();
+    m_isHighlight = initial->isHighlight();
     m_vertexIndex = initial->vertexIndex();
     m_axesStart = initial->axesStart();
     m_axesEnd = initial->axesEnd();
@@ -240,14 +240,14 @@ void LineSegment::setIsAbsolute(bool isAbsolute)
 {
     m_isAbsolute = isAbsolute;
 }
-bool LineSegment::isHightlight() const
+bool LineSegment::isHighlight() const
 {
-    return m_isHightlight;
+    return m_isHighlight;
 }
 
-void LineSegment::setIsHightlight(bool isHightlight)
+void LineSegment::setIsHighlight(bool isHighlight)
 {
-    m_isHightlight = isHightlight;
+    m_isHighlight = isHighlight;
 }
 
 int LineSegment::vertexIndex() const

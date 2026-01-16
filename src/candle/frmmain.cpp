@@ -1555,7 +1555,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     QList<int> indexes;
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);
-        list[i]->setIsHightlight(false);
+        list[i]->setIsHighlight(false);
         indexes.append(i);
     }
     // Update only vertex color.
@@ -2753,17 +2753,17 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2)
         // Update visualizer
         updateParser();
 
-        // Hightlight w/o current cell changed event (double hightlight on current cell changed)
+        // Highlight w/o current cell changed event (double highlight on current cell changed)
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
         for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(i1.row(), 4)).toInt(); i++) {
-            list[i]->setIsHightlight(true);
+            list[i]->setIsHighlight(true);
         }
     }
 }
 
 void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 {
-    // Update toolpath hightlighting
+    // Update toolpath highlighting
     if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
@@ -2774,7 +2774,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
         for (int i = 0; i < list.count(); i++) {
-            list.at(i)->setIsHightlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+            list.at(i)->setIsHighlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
         }
     // Update vertices on current cell changed
     } else {
@@ -2786,7 +2786,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
             foreach (int l, lineIndexes.at(i)) {
-                list.at(l)->setIsHightlight(idx1.row() > idx2.row());
+                list.at(l)->setIsHighlight(idx1.row() > idx2.row());
                 indexes.append(l);
             }
         }
