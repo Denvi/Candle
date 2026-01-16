@@ -1757,13 +1757,6 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
 {
     if (m_senderState != SenderStopped) return;
 
-    if (ui->tblProgram->selectionModel()->selectedRows().count() > 0) {
-        m_tableMenu->actions().at(0)->setEnabled(true);
-        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_currentModel->rowCount() - 1);
-    } else {
-        m_tableMenu->actions().at(0)->setEnabled(false);
-        m_tableMenu->actions().at(1)->setEnabled(false);
-    }
     m_tableMenu->popup(ui->tblProgram->viewport()->mapToGlobal(pos));
 }
 
