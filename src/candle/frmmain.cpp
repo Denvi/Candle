@@ -1555,6 +1555,8 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
         m_currentModel = &m_probeModel;
         m_currentDrawer = m_probeDrawer;
         updateParser();  // Update probe program parser
+        ui->lblTableHistory->setVisible(false);
+        ui->lblTableHeightmapHistory->setVisible(false);
     } else {
         m_probeParser.reset();
         if (!ui->chkHeightMapUse->isChecked()) {
@@ -1569,6 +1571,8 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             ui->glwVisualizer->updateModelBounds(m_codeDrawer);
             updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
         }
+        ui->lblTableHistory->setVisible(!ui->chkHeightMapUse->isChecked());
+        ui->lblTableHeightmapHistory->setVisible(ui->chkHeightMapUse->isChecked());
     }
 
     // Shadow toolpath
