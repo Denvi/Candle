@@ -19,7 +19,7 @@ TableHistoryManager::TableHistoryManager(GCodeTableModel *model, QObject *parent
 
 bool TableHistoryManager::undo()
 {
-    if (m_currentIndex == -1)
+    if (!canUndo())
         return false;
 
     m_blockUpdates = true;
@@ -36,7 +36,7 @@ bool TableHistoryManager::undo()
 
 bool TableHistoryManager::redo()
 {
-    if (m_currentIndex == m_items.count() - 1)
+    if (!canRedo())
         return false;
 
     m_blockUpdates = true;
@@ -49,6 +49,16 @@ bool TableHistoryManager::redo()
     emitHistory();
 
     return true;
+}
+
+bool TableHistoryManager::canUndo()
+{
+    return m_currentIndex != -1;
+}
+
+bool TableHistoryManager::canRedo()
+{
+    return m_currentIndex != m_items.count() - 1;
 }
 
 void TableHistoryManager::clear()

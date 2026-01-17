@@ -456,6 +456,10 @@ private:
     // In memory settings for plugins
     Storage m_storage;
 
+    // Futures
+    QFuture<void> m_updateParserFuture;
+    QFuture<void> m_updateProgramEstimatedTimeFuture;
+
     // Initialization
     void initVariables();
     void initUi();
@@ -487,6 +491,8 @@ private:
 
     // Parser
     void updateParser();
+    void updateParserInBackground();
+    void cancelBackgroundParserUpdate();
     void storeParserState();
     void restoreParserState();
     void restoreOffsets();
@@ -530,6 +536,7 @@ private:
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
     void updateProgramEstimatedTime(QList<LineSegment *> lines);
+    void cancelUpdateProgramEstimatedTime();
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     void jogContinuous();

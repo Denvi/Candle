@@ -33,6 +33,8 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
     m_vsync = false;
     m_targetFps = 60;
 
+    m_updating = false;
+
     setAttribute(Qt::WA_AcceptTouchEvents, true);
     grabGesture(Qt::PanGesture);
     grabGesture(Qt::PinchGesture);
@@ -187,6 +189,16 @@ void GLWidget::setPerspective(bool perspective)
 
     updateProjection();
     updateView();
+}
+
+bool GLWidget::updating() const
+{
+    return m_updating;
+}
+
+void GLWidget::setUpdating(bool updating)
+{
+    m_updating = updating;
 }
 
 bool GLWidget::vsync() const

@@ -145,7 +145,7 @@ bool GcodeViewParse::axisRotationUsed(GcodeViewParse::RotationAxis axis)
     return false;
 }
 
-QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode)
+QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled)
 {
     QList<PointSegment*> psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
@@ -321,6 +321,9 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
         }
         start = end;
         startAxes = endAxes;
+
+        if (isCancelled && isCancelled())
+            return m_lines;
     }
 
     return m_lines;

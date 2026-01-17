@@ -23,7 +23,7 @@ public:
     float time() const;
     int progress() const;
 
-    float calculateTime();
+    float calculateTime(std::function<bool()> isCancelled = nullptr);
 
 private:
     struct RefineSegmentData {

@@ -196,10 +196,12 @@ int TimeEstimator::progress() const
  * Calculates time synchronously
  * @return Time estimation value in minutes
  */
-float TimeEstimator::calculateTime()
+float TimeEstimator::calculateTime(std::function<bool()> isCancelled)
 {
     reset();
-    while (advance());
+
+    while (advance() && !(isCancelled && isCancelled()));
+
     return time();
 }
 

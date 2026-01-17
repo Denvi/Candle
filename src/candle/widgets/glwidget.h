@@ -76,6 +76,9 @@ public:
     bool perspective() const;
     void setPerspective(bool perspective);
 
+    bool updating() const;
+    void setUpdating(bool updating);
+
     friend class Overlay;
 
 signals:
@@ -154,6 +157,8 @@ private:
     QColor m_colorText;
 
     Overlay *m_overlay;
+
+    bool m_updating;
 
 protected:
     void initializeGL() override;
