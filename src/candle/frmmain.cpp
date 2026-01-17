@@ -5179,14 +5179,14 @@ void frmMain::addRecentFile(QString fileName)
 {
     m_recentFiles.removeAll(fileName);
     m_recentFiles.append(fileName);
-    if (m_recentFiles.count() > 5) m_recentFiles.takeFirst();
+    if (m_recentFiles.count() > RECENTFILESCOUNT) m_recentFiles.takeFirst();
 }
 
 void frmMain::addRecentHeightmap(QString fileName)
 {
     m_recentHeightmaps.removeAll(fileName);
     m_recentHeightmaps.append(fileName);
-    if (m_recentHeightmaps.count() > 5) m_recentHeightmaps.takeFirst();
+    if (m_recentHeightmaps.count() > RECENTFILESCOUNT) m_recentHeightmaps.takeFirst();
 }
 
 QRectF frmMain::borderRectFromTextboxes()
