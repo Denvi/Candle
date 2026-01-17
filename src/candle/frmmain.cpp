@@ -992,13 +992,10 @@ void frmMain::on_cmdFileReset_clicked()
         }
         m_codeDrawer->update(indexes);
 
-        ui->tblProgram->setUpdatesEnabled(false);
-
         for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
             m_currentModel->data()[i].state = GCodeItem::InQueue;
             m_currentModel->data()[i].response = QString();
         }
-        ui->tblProgram->setUpdatesEnabled(true);
 
         ui->tblProgram->scrollTo(m_currentModel->index(0, 0));
         ui->tblProgram->clearSelection();
@@ -3052,8 +3049,6 @@ void frmMain::on_cmdFileSendFromLine_clicked()
     }
     m_codeDrawer->update(indexes);
 
-    ui->tblProgram->setUpdatesEnabled(false);
-
     for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
         m_currentModel->data()[i].state = i < commandIndex ? GCodeItem::Skipped : GCodeItem::InQueue;
         m_currentModel->data()[i].response = QString();
@@ -4497,8 +4492,6 @@ void frmMain::updateParser()
     gp.setTraverseSpeed(m_settings->rapidSpeed());
     if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
 
-    ui->tblProgram->setUpdatesEnabled(false);
-
     QString stripped;
     QList<QString> args;
 
@@ -4541,8 +4534,6 @@ void frmMain::updateParser()
         ui->tblProgram->setFocus();
 
     progress.close();
-
-    ui->tblProgram->setUpdatesEnabled(true);
 
     parser->reset();
 
