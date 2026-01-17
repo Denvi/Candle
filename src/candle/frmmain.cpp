@@ -982,11 +982,11 @@ void frmMain::on_cmdFileReset_clicked()
     m_probeIndex = -1;
 
     if (!m_heightMapMode) {
-        QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+        QList<LineSegment*> *list = m_viewParser.getLines();
 
         QList<int> indexes;
-        for (int i = 0; i < list.count(); i++) {
-            list[i]->setDrawn(false);
+        for (int i = 0; i < list->count(); i++) {
+            list->at(i)->setDrawn(false);
             indexes.append(i);
         }
         m_codeDrawer->update(indexes);
@@ -1605,11 +1605,11 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     }
 
     // Shadow toolpath
-    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+    QList<LineSegment*> *list = m_viewParser.getLines();
     QList<int> indexes;
-    for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
-        list[i]->setDrawn(checked);
-        list[i]->setIsHighlight(false);
+    for (int i = m_lastDrawnLineIndex; i < list->count(); i++) {
+        list->at(i)->setDrawn(checked);
+        list->at(i)->setIsHighlight(false);
         indexes.append(i);
     }
     // Update only vertex color.
@@ -2073,20 +2073,20 @@ void frmMain::onConnectionDataReceived(QString data)
                 m_sdProcessedCommandIndex = processedCommandIndex;
 
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
-                QList<LineSegment*> list = parser->getLineSegmentList();
+                QList<LineSegment*> *list = parser->getLines();
 
                 int i;
                 QList<int> drawnLines;
 
-                for (i = m_lastDrawnLineIndex; i < list.count()
-                        && list.at(i)->getLineNumber()
+                for (i = m_lastDrawnLineIndex; i < list->count()
+                        && list->at(i)->getLineNumber()
                             <= (m_currentModel->data(m_currentModel->index(processedCommandIndex, 4)).toInt()); i++) {
                     drawnLines << i;
                 }
 
                 if (!drawnLines.isEmpty()) {
                     foreach (int j, drawnLines) {
-                        list.at(j)->setDrawn(true);
+                        list->at(j)->setDrawn(true);
                     }
                     m_currentDrawer->update(drawnLines);
 
@@ -2094,7 +2094,7 @@ void frmMain::onConnectionDataReceived(QString data)
                         scrollToTableIndex(m_currentModel->index(processedCommandIndex, 0));
                     }
 
-                    if (i < list.count())
+                    if (i < list->count())
                         m_lastDrawnLineIndex = i;
                 }
 
@@ -2141,12 +2141,12 @@ void frmMain::onConnectionDataReceived(QString data)
             bool toolOnToolpath = false;
 
             QList<int> drawnLines;
-            QList<LineSegment*> list = parser->getLineSegmentList();
+            QList<LineSegment*> *list = parser->getLines();
 
-            for (int i = m_lastDrawnLineIndex; i < list.count()
-                    && list.at(i)->getLineNumber()
+            for (int i = m_lastDrawnLineIndex; i < list->count()
+                    && list->at(i)->getLineNumber()
                     <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                if (list.at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition)) {
+                if (list->at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition)) {
                     toolOnToolpath = true;
                     m_lastDrawnLineIndex = i;
                     break;
@@ -2156,17 +2156,17 @@ void frmMain::onConnectionDataReceived(QString data)
 
             if (toolOnToolpath) {
                 foreach (int i, drawnLines) {
-                    list.at(i)->setDrawn(true);
+                    list->at(i)->setDrawn(true);
                 }
                 if (!drawnLines.isEmpty()) {
                     m_currentDrawer->update(drawnLines);
                 }
             }
-            else if (m_lastDrawnLineIndex < list.count() && m_lastDrawnLineIndex > 0)
+            else if (m_lastDrawnLineIndex < list->count() && m_lastDrawnLineIndex > 0)
             {
                 qWarning(generalLogCategory)
                 << QString("Tool not on toolpath. Last drawn line index: %1, model line: %2, processed index: %3")
-                    .arg(list.at(m_lastDrawnLineIndex)->getLineNumber())
+                    .arg(list->at(m_lastDrawnLineIndex)->getLineNumber())
                     .arg(m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt())
                     .arg(m_fileProcessedCommandIndex);
             }
@@ -2544,31 +2544,31 @@ void frmMain::onConnectionDataReceived(QString data)
                 // Toolpath shadowing on check mode
                 if (m_deviceState == DeviceCheck) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
-                    QList<LineSegment*> list = parser->getLineSegmentList();
+                    QList<LineSegment*> *list = parser->getLines();
 
                     if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)
                     {
                         int i;
                         QList<int> drawnLines;
 
-                        for (i = m_lastDrawnLineIndex; i < list.count()
-                                && list.at(i)->getLineNumber()
+                        for (i = m_lastDrawnLineIndex; i < list->count()
+                                && list->at(i)->getLineNumber()
                                 <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()); i++) {
                             drawnLines << i;
                         }
 
-                        if (!drawnLines.isEmpty() && (i < list.count())) {
+                        if (!drawnLines.isEmpty() && (i < list->count())) {
                             m_lastDrawnLineIndex = i;
-                            QVector3D vec = list.at(i)->getEnd();
+                            QVector3D vec = list->at(i)->getEnd();
                             m_toolDrawer->setToolPosition(vec);
                         }
 
                         foreach (int i, drawnLines) {
-                            list.at(i)->setDrawn(true);
+                            list->at(i)->setDrawn(true);
                         }
                         if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                     } else {
-                        foreach (LineSegment* s, list) {
+                        foreach (LineSegment* s, *list) {
                             if (!qIsNaN(s->getEnd().length())) {
                                 m_toolDrawer->setToolPosition(s->getEnd());
                                 break;
@@ -2919,17 +2919,17 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
         updateParser();
 
         // Highlight w/o current cell changed event (double highlight on current cell changed)
-        QList<LineSegment*> list = m_viewParser.getLineSegmentList();
-        QVector<QList<int>> lineIndexes = m_viewParser.getLinesIndexes();
+        QList<LineSegment*> *list = m_viewParser.getLines();
+        QVector<QList<int>> *lineIndexes = m_viewParser.getLinesIndexes();
 
         auto line = m_currentModel->data(m_currentModel->index(row, 4)).toInt();
-        for (int i = 0; i < list.count() && list[i]->getLineNumber() <= line; i++) {
-            list[i]->setIsHighlight(true);
+        for (int i = 0; i < list->count() && list->at(i)->getLineNumber() <= line; i++) {
+            list->at(i)->setIsHighlight(true);
         }
 
         // Update selection marker
-        if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
-            QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
+        if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty()) {
+            QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
             m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
             m_selectionDrawer->setVisible(true);
             m_selectionDrawer->update();
@@ -2946,13 +2946,13 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
-    QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
+    QList<LineSegment*> *list = parser->getLines();
+    QVector<QList<int>> *lineIndexes = parser->getLinesIndexes();
 
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
-        for (int i = 0; i < list.count(); i++) {
-            list.at(i)->setIsHighlight(list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+        for (int i = 0; i < list->count(); i++) {
+            list->at(i)->setIsHighlight(list->at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
         }
     // Update vertices on current cell changed
     } else {
@@ -2963,8 +2963,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
-            foreach (int l, lineIndexes.at(i)) {
-                list.at(l)->setIsHighlight(idx1.row() > idx2.row());
+            foreach (int l, lineIndexes->at(i)) {
+                list->at(l)->setIsHighlight(idx1.row() > idx2.row());
                 indexes.append(l);
             }
         }
@@ -2974,8 +2974,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 
     // Update selection marker
     int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
-    if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
-        QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
+    if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty()) {
+        QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
         m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
         m_selectionDrawer->setVisible(true);
         m_selectionDrawer->update();
@@ -3039,11 +3039,11 @@ void frmMain::on_cmdFileSendFromLine_clicked()
     m_lastDrawnLineIndex = 0;
     m_probeIndex = -1;
 
-    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+    QList<LineSegment*> *list = m_viewParser.getLines();
 
     QList<int> indexes;
-    for (int i = 0; i < list.count(); i++) {
-        list[i]->setDrawn(list.at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
+    for (int i = 0; i < list->count(); i++) {
+        list->at(i)->setDrawn(list->at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
         indexes.append(i);
     }
     m_codeDrawer->update(indexes);
@@ -5763,9 +5763,9 @@ void frmMain::completeTransfer()
 {
     // Shadow last segment
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
-    if (m_lastDrawnLineIndex < list.count()) {
-        list[m_lastDrawnLineIndex]->setDrawn(true);
+    QList<LineSegment*> *list = parser->getLines();
+    if (m_lastDrawnLineIndex < list->count()) {
+        list->at(m_lastDrawnLineIndex)->setDrawn(true);
         m_currentDrawer->update(QList<int>() << m_lastDrawnLineIndex);
     }
 
@@ -5799,23 +5799,23 @@ QString frmMain::getLineInitCommands(int row)
     QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> list = parser->getLineSegmentList();
-    QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
+    QList<LineSegment*> *list = parser->getLines();
+    QVector<QList<int>> *lineIndexes = parser->getLinesIndexes();
 
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
     if (lineNumber < 0) {
         return "";
     }
 
-    LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
-    LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
+    LineSegment* firstSegment = list->at(lineIndexes->at(lineNumber).first());
+    LineSegment* lastSegment = list->at(lineIndexes->at(lineNumber).last());
     LineSegment* feedSegment = lastSegment;
     LineSegment* preFirstSegment = firstSegment;
 
-    int segmentIndex = list.indexOf(feedSegment);
-    while (feedSegment->isFastTraverse() && segmentIndex > 0) feedSegment = list.at(--segmentIndex);
-    segmentIndex = list.indexOf(firstSegment);
-    if (segmentIndex > 0) preFirstSegment = list.at(--segmentIndex);
+    int segmentIndex = list->indexOf(feedSegment);
+    while (feedSegment->isFastTraverse() && segmentIndex > 0) feedSegment = list->at(--segmentIndex);
+    segmentIndex = list->indexOf(firstSegment);
+    if (segmentIndex > 0) preFirstSegment = list->at(--segmentIndex);
 
     commands.append(QString("M3 S%1\n").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
 

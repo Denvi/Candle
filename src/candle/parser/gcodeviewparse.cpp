@@ -331,7 +331,7 @@ QList<LineSegment*> *GcodeViewParse::getLines()
     return &m_lines;
 }
 
-QVector<QList<int> > &GcodeViewParse::getLinesIndexes()
+QVector<QList<int>> *GcodeViewParse::getLinesIndexes()
 {
-    return m_lineIndexes;
+    return &m_lineIndexes;
 }
