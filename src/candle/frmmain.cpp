@@ -237,15 +237,31 @@ frmMain::frmMain(QWidget *parent) :
     m_machineBoundsDrawer->setVisible(false);
 
     m_tableMenu = new QMenu(this);
-    m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
+    auto insertAction = m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
     m_tableMenu->addSeparator();
-    m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
-    m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
+    auto undoAction = m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
+    auto redoAction = m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
     m_tableMenu->addSeparator();
-    m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
-    m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
-    m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
-    m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
+    auto cutAction = m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
+    auto copyAction = m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
+    auto pasteAction = m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
+    auto deleteAction = m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
+
+    insertAction->setShortcutContext(Qt::WidgetShortcut);
+    undoAction->setShortcutContext(Qt::WidgetShortcut);
+    redoAction->setShortcutContext(Qt::WidgetShortcut);
+    cutAction->setShortcutContext(Qt::WidgetShortcut);
+    copyAction->setShortcutContext(Qt::WidgetShortcut);
+    pasteAction->setShortcutContext(Qt::WidgetShortcut);
+    deleteAction->setShortcutContext(Qt::WidgetShortcut);
+    
+    ui->tblProgram->addAction(insertAction);
+    ui->tblProgram->addAction(undoAction);
+    ui->tblProgram->addAction(redoAction);
+    ui->tblProgram->addAction(cutAction);
+    ui->tblProgram->addAction(copyAction);
+    ui->tblProgram->addAction(pasteAction);
+    ui->tblProgram->addAction(deleteAction);
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
