@@ -455,6 +455,14 @@ private:
     // In memory settings for plugins
     Storage m_storage;
 
+    // Initialization
+    void initVariables();
+    void initUi();
+    void initDrawers();
+    void initProgramTable();
+    void initScriptWrapper();
+    void initScriptEngine();
+
     // Settings
     void preloadSettings();
     void loadSettings();
