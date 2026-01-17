@@ -4532,6 +4532,10 @@ void frmMain::updateParser()
             if (progress.wasCanceled()) break;
         }
     }
+
+    if (progress.isVisible())
+        ui->tblProgram->setFocus();
+
     progress.close();
 
     ui->tblProgram->setUpdatesEnabled(true);
