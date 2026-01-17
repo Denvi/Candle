@@ -1868,7 +1868,10 @@ void frmMain::on_dockVisualizer_visibilityChanged(bool visible)
 void frmMain::on_sliProgram_valueChanged(int value)
 {
     if (!ui->sliProgram->property("programmaticChange").toBool())
-        scrollToTableIndex(m_currentModel->index(value, ui->tblProgram->currentIndex().column()));
+        scrollToTableIndex(m_currentModel->index(
+            value,
+            ui->tblProgram->currentIndex().column() >= 0 ? ui->tblProgram->currentIndex().column() : 1
+        ));
 }
 
 void frmMain::onConnectionDataReceived(QString data)

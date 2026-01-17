@@ -13,9 +13,5 @@ void RowsInsertedHistoryItem::undo() const
 
 void RowsInsertedHistoryItem::redo() const
 {
-    for (auto i = 0; i < m_rows.count(); i++)
-    {
-        m_model->insertRow(m_row + i);
-        m_model->setCommand(m_row + i, m_rows.at(i));
-    }
+    m_model->insertCommands(m_row, m_rows);
 }

@@ -93,12 +93,10 @@ void GCodeTableModel::setCommand(int row, const QString &command)
 
 void GCodeTableModel::insertCommands(int row, const QList<QString> &commands)
 {
+    insertRows(row, commands.count());
+
     for (auto i = 0; i < commands.count(); i++)
-    {
-        insertRow(row + i);
         setCommand(row + i, commands.at(i));
-        setData(this->index(row + i, 2), GCodeItem::InQueue);
-    }
 
     emit commandsInserted(row, commands);
 }
@@ -110,13 +108,43 @@ void GCodeTableModel::addRow(int row)
     emit rowAdded(row);
 }
 
+bool GCodeTableModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if (row > rowCount())
+        return false;
+
+    beginInsertRows(parent, row, row + count - 1);
+
+    QList<GCodeItem> newData;
+    newData.reserve(m_data.size() + count);
+
+    for (int i = 0; i < row; i++)
+        newData.append(std::move(m_data[i]));
+
+    for (int i = 0; i < count; i++)
+        newData.append(GCodeItem());
+
+    for (int i = row; i < m_data.size(); i++)
+        newData.append(std::move(m_data[i]));
+
+    m_data = std::move(newData);
+
+    endInsertRows();
+
+    return true;    
+}
+
 bool GCodeTableModel::insertRow(int row, const QModelIndex &parent)
 {
-    if (row > rowCount()) return false;
+    if (row > rowCount())
+        return false;
 
     beginInsertRows(parent, row, row);
+
     m_data.insert(row, GCodeItem());
+
     endInsertRows();
+
     return true;
 }
 
