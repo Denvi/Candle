@@ -56,6 +56,25 @@
     </message>
 </context>
 <context>
+    <name>TableHistoryManager</name>
+    <message>
+        <source>❐</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>✍</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>−</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>frmAbout</name>
     <message>
         <source>About</source>
@@ -920,6 +939,18 @@ Time elapsed: %1</source>
     <message>
         <source>&amp;Redo</source>
         <translation>&amp;Повторить</translation>
+    </message>
+    <message>
+        <source>&lt;span style=&quot;color:#ff0000;&quot;&gt;%1&lt;/span&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>[%1] </source>
+        <translation></translation>
+    </message>
+    <message>
+        <source> [%1]</source>
+        <translation></translation>
     </message>
 </context>
 <context>

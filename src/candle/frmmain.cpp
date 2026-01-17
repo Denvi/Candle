@@ -3159,13 +3159,14 @@ void frmMain::onBeforeScriptStart(QScriptEngine &engine)
 
 void frmMain::onTableHistoryChanged(QStringList history, int currentIndex)
 {
+    const int historyViewSize = 25;
     auto historyView = history;
 
     if (currentIndex >= 0 && currentIndex < historyView.count())
-        historyView[currentIndex] = QString("<span style=\"color:#ff0000;\">%1</span>").arg(historyView.at(currentIndex));
+        historyView[currentIndex] = QString(tr("<span style=\"color:#ff0000;\">%1</span>")).arg(historyView.at(currentIndex));
 
-    if (historyView.count() > 10) {
-        auto from = historyView.count() - 10;
+    if (historyView.count() > historyViewSize) {
+        auto from = historyView.count() - historyViewSize;
 
         if (currentIndex < from)
             from = currentIndex;
@@ -3173,13 +3174,13 @@ void frmMain::onTableHistoryChanged(QStringList history, int currentIndex)
         if (from < 0)
             from = 0;
 
-        historyView = historyView.mid(from, 10);
+        historyView = historyView.mid(from, historyViewSize);
 
         if (from > 0)
-            historyView.prepend("⋅⋅⋅");
+            historyView.prepend(QString(tr("[%1] ")).arg(from));
 
-        if (from + 10 < history.count())
-            historyView.append("⋅⋅⋅");
+        if (from + historyViewSize < history.count())
+            historyView.append(QString(tr(" [%1]")).arg(history.count() - (from + historyViewSize)));
     }
 
     if (sender() == m_programTableHistoryManager)
