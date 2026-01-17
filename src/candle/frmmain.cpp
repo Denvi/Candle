@@ -2809,8 +2809,7 @@ void frmMain::onTablePasteLines()
 
 void frmMain::onTableUndo()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
         return;
 
     bool result = false;
@@ -2840,8 +2839,7 @@ void frmMain::onTableUndo()
 
 void frmMain::onTableRedo()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
         return;
 
     bool result = false;
