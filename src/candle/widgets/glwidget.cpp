@@ -44,7 +44,7 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
 
     m_overlay = new Overlay(this);
 
-    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
+    QTimer::singleShot(1000, this, &GLWidget::onFramesTimer);
 }
 
 GLWidget::~GLWidget()
@@ -139,7 +139,7 @@ void GLWidget::onFramesTimer()
     m_fps = m_frames;
     m_frames = 0;
 
-    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
+    QTimer::singleShot(1000, this, &GLWidget::onFramesTimer);
 }
 
 void GLWidget::viewAnimation()

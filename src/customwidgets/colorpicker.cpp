@@ -15,7 +15,7 @@ ColorPicker::ColorPicker(QWidget *parent) :
     m_layout->addWidget(m_frame, 1);
     m_layout->addWidget(m_button);
 
-    connect(m_button, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
+    connect(m_button, &QToolButton::clicked, this, &ColorPicker::onButtonClicked);
 }
 
 QColor ColorPicker::color() const
