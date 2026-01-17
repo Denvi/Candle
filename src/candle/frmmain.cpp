@@ -1,5 +1,5 @@
 // This file is a part of "Candle" application.
-// Copyright 2015-2025 Hayrullin Denis Ravilevich
+// Copyright 2015-2026 Hayrullin Denis Ravilevich
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -35,9 +35,42 @@
 #include "connections/telnetconnection.h"
 #include "connections/websocketconnection.h"
 
-frmMain::frmMain(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::frmMain)
+frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
+{
+    initVariables();
+
+    m_settings = new frmSettings(this);
+    m_about = new frmAbout(this);
+    ui->setupUi(this);
+
+    initUi();
+    initDrawers();
+    initProgramTable();
+    initScriptWrapper();
+    initScriptEngine();
+
+    // Load settings
+    loadSettings();
+    setSenderState(SenderStopped);
+    updateControlsState();
+
+    // Handle cli file loading
+    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
+        loadFile(qApp->arguments().last());
+    }
+
+    // Setup timers
+    connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
+    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
+
+    m_timerConnection.start(1000);
+    m_timerStateQuery.start();
+
+    // Event filter
+    qApp->installEventFilter(this);
+}
+
+void frmMain::initVariables()
 {
     // Initializing variables
     m_deviceStatuses[DeviceUnknown] = "Unknown";
@@ -122,18 +155,6 @@ frmMain::frmMain(QWidget *parent) :
 
     m_spindleCW = true;
 
-    // Loading settings
-
-    m_settings = new frmSettings(this);
-    m_about = new frmAbout(this);
-
-    ui->setupUi(this);
-
-    // Drag&drop placeholders
-    ui->fraDropDevice->setVisible(false);
-    ui->fraDropModification->setVisible(false);
-    ui->fraDropUser->setVisible(false);
-
 #ifdef Q_OS_WIN
     if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
         m_taskBarButton = NULL;
@@ -146,6 +167,17 @@ frmMain::frmMain(QWidget *parent) :
     m_fileProcessedCommandIndex = 0;
     m_programLoading = false;
     m_currentModel = &m_programModel;
+
+    // Connection
+    m_currentConnection = nullptr;
+}
+
+void frmMain::initUi()
+{
+    // Drag&drop placeholders
+    ui->fraDropDevice->setVisible(false);
+    ui->fraDropModification->setVisible(false);
+    ui->fraDropUser->setVisible(false);
 
     // Dock widgets
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
@@ -185,6 +217,10 @@ frmMain::frmMain(QWidget *parent) :
         connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
     }
 
+    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(),
+        QMessageBox::Ignore | QMessageBox::Abort, this);
+    m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
+
     // Setting up slider boxes
     ui->slbFeedOverride->setRatio(1);
     ui->slbFeedOverride->setMinimum(10);
@@ -214,6 +250,23 @@ frmMain::frmMain(QWidget *parent) :
     ui->slbSpindleOverride->setSuffix("%");
     connect(ui->slbSpindleOverride, SIGNAL(toggled(bool)), this, SLOT(onOverridingToggled(bool)));
 
+    // Setting up spindle slider box
+    ui->slbSpindle->setTitle(tr("Speed:"));
+    ui->slbSpindle->setCheckable(false);
+    ui->slbSpindle->setChecked(true);
+    connect(ui->slbSpindle, &SliderBox::valueUserChanged, this, &frmMain::onSlbSpindleValueUserChanged);
+    connect(ui->slbSpindle, &SliderBox::valueChanged, this, &frmMain::onSlbSpindleValueChanged);
+
+    // Enable form actions
+    QList<QAction*> noActions;
+    noActions << ui->actJogXMinus << ui->actJogXPlus
+              << ui->actJogYMinus << ui->actJogYPlus
+              << ui->actJogZMinus << ui->actJogZPlus;
+    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
+}
+
+void frmMain::initDrawers()
+{
     m_originDrawer = new OriginDrawer();
     m_codeDrawer = new GcodeDrawer();
     m_probeDrawer = new GcodeDrawer();
@@ -236,33 +289,6 @@ frmMain::frmMain(QWidget *parent) :
     m_selectionDrawer->setVisible(false);
     m_machineBoundsDrawer->setVisible(false);
 
-    m_tableMenu = new QMenu(this);
-    auto insertAction = m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
-    m_tableMenu->addSeparator();
-    auto undoAction = m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
-    auto redoAction = m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
-    m_tableMenu->addSeparator();
-    auto cutAction = m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
-    auto copyAction = m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
-    auto pasteAction = m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
-    auto deleteAction = m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
-
-    insertAction->setShortcutContext(Qt::WidgetShortcut);
-    undoAction->setShortcutContext(Qt::WidgetShortcut);
-    redoAction->setShortcutContext(Qt::WidgetShortcut);
-    cutAction->setShortcutContext(Qt::WidgetShortcut);
-    copyAction->setShortcutContext(Qt::WidgetShortcut);
-    pasteAction->setShortcutContext(Qt::WidgetShortcut);
-    deleteAction->setShortcutContext(Qt::WidgetShortcut);
-    
-    ui->tblProgram->addAction(insertAction);
-    ui->tblProgram->addAction(undoAction);
-    ui->tblProgram->addAction(redoAction);
-    ui->tblProgram->addAction(cutAction);
-    ui->tblProgram->addAction(copyAction);
-    ui->tblProgram->addAction(pasteAction);
-    ui->tblProgram->addAction(deleteAction);
-
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
     ui->glwVisualizer->addDrawable(m_probeDrawer);
@@ -276,7 +302,10 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
+}
 
+void frmMain::initProgramTable()
+{
     // Setup tables history manager
     m_programTableHistoryManager = new TableHistoryManager(&m_programModel);
     m_programHeightmapTableHistoryManager = new TableHistoryManager(&m_programHeightmapModel);
@@ -298,15 +327,43 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
     ui->tblProgram->setModel(&m_programModel);
+    ui->tblProgram->hideColumn(4);
+    ui->tblProgram->hideColumn(5);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScrollBarAction(int)));
     connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
     clearTable();
 
-    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(),
-                                       QMessageBox::Ignore | QMessageBox::Abort, this);
-    m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
+    m_tableMenu = new QMenu(this);
+    auto insertAction = m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
+    m_tableMenu->addSeparator();
+    auto undoAction = m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
+    auto redoAction = m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
+    m_tableMenu->addSeparator();
+    auto cutAction = m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
+    auto copyAction = m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
+    auto pasteAction = m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
+    auto deleteAction = m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
 
+    insertAction->setShortcutContext(Qt::WidgetShortcut);
+    undoAction->setShortcutContext(Qt::WidgetShortcut);
+    redoAction->setShortcutContext(Qt::WidgetShortcut);
+    cutAction->setShortcutContext(Qt::WidgetShortcut);
+    copyAction->setShortcutContext(Qt::WidgetShortcut);
+    pasteAction->setShortcutContext(Qt::WidgetShortcut);
+    deleteAction->setShortcutContext(Qt::WidgetShortcut);
+
+    ui->tblProgram->addAction(insertAction);
+    ui->tblProgram->addAction(undoAction);
+    ui->tblProgram->addAction(redoAction);
+    ui->tblProgram->addAction(cutAction);
+    ui->tblProgram->addAction(copyAction);
+    ui->tblProgram->addAction(pasteAction);
+    ui->tblProgram->addAction(deleteAction);
+}
+
+void frmMain::initScriptWrapper()
+{
     // Prepare script functions
     m_scriptApp = new ScriptApp(this);
     connect(this, &frmMain::responseReceived, m_scriptApp->device(), &ScriptDevice::responseReceived);
@@ -322,43 +379,10 @@ frmMain::frmMain(QWidget *parent) :
     connect(this, &frmMain::settingsRejected, m_scriptApp, &ScriptApp::settingsRejected);
     connect(this, &frmMain::settingsSetByDefault, m_scriptApp, &ScriptApp::settingsSetByDefault);
     connect(this, &frmMain::pluginsLoaded, m_scriptApp, &ScriptApp::pluginsLoaded);
+}
 
-    // Connection
-    m_currentConnection = nullptr;
-
-    // Loading settings
-    loadSettings();
-    ui->tblProgram->hideColumn(4);
-    ui->tblProgram->hideColumn(5);
-
-    setSenderState(SenderStopped);
-    updateControlsState();
-
-    // Prepare jog buttons
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
-    {
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
-    }
-
-    // Setting up spindle slider box
-    ui->slbSpindle->setTitle(tr("Speed:"));
-    ui->slbSpindle->setCheckable(false);
-    ui->slbSpindle->setChecked(true);
-    connect(ui->slbSpindle, &SliderBox::valueUserChanged, this, &frmMain::onSlbSpindleValueUserChanged);
-    connect(ui->slbSpindle, &SliderBox::valueChanged, this, &frmMain::onSlbSpindleValueChanged);
-
-    // Enable form actions
-    QList<QAction*> noActions;
-    noActions << ui->actJogXMinus << ui->actJogXPlus
-              << ui->actJogYMinus << ui->actJogYPlus
-              << ui->actJogZMinus << ui->actJogZPlus;
-    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
-
-    // Handle file drop
-    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
-        loadFile(qApp->arguments().last());
-    }
-
+void frmMain::initScriptEngine()
+{
     // TODO: remove global script engine and related features
     // Delegate vars to script engine
     QScriptValue vars = m_scriptEngine.newQObject(&m_storedVars);
@@ -370,18 +394,8 @@ frmMain::frmMain(QWidget *parent) :
     m_scriptEngine.globalObject().setProperty("script", sv);
     m_scriptEngine.setObjectName("global");
 
-    // Signals/slots
-    connect(&m_timerConnection, SIGNAL(timeout()), this, SLOT(onTimerConnection()));
-    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStateQuery()));
     connect(&m_scriptEngine, &QScriptEngine::signalHandlerException, this, &frmMain::onScriptException);
     connect(ui->fraScript, &frmScript::beforeScriptStart, this, &frmMain::onBeforeScriptStart);
-
-    // Event filter
-    qApp->installEventFilter(this);
-
-    // Start timers
-    m_timerConnection.start(1000);
-    m_timerStateQuery.start();
 }
 
 frmMain::~frmMain()
