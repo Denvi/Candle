@@ -297,6 +297,7 @@ void frmMain::initDrawers()
     ui->glwVisualizer->fitDrawable();
 
     connect(ui->glwVisualizer, &GLWidget::resized, this, &frmMain::placeVisualizerButtons);
+    connect(ui->dockVisualizer, &QDockWidget::visibilityChanged, this, &frmMain::placeVisualizerButtons);
 }
 
 void frmMain::initProgramTable()
