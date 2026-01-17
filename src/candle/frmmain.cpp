@@ -2921,8 +2921,21 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
 
         // Highlight w/o current cell changed event (double highlight on current cell changed)
         QList<LineSegment*> list = m_viewParser.getLineSegmentList();
-        for (int i = 0; i < list.count() && list[i]->getLineNumber() <= m_currentModel->data(m_currentModel->index(row, 4)).toInt(); i++) {
+        QVector<QList<int>> lineIndexes = m_viewParser.getLinesIndexes();
+
+        auto line = m_currentModel->data(m_currentModel->index(row, 4)).toInt();
+        for (int i = 0; i < list.count() && list[i]->getLineNumber() <= line; i++) {
             list[i]->setIsHighlight(true);
+        }
+
+        // Update selection marker
+        if (line > 0 && line < lineIndexes.count() && !lineIndexes.at(line).isEmpty()) {
+            QVector3D pos = list.at(lineIndexes.at(line).last())->getEnd();
+            m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+            m_selectionDrawer->setVisible(true);
+            m_selectionDrawer->update();
+        } else {
+            m_selectionDrawer->setVisible(false);
         }
     }
 }
