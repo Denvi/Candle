@@ -5006,8 +5006,7 @@ void frmMain::updateControlsState() {
     ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers((m_senderState != SenderStopped || m_sdRun) ? QAbstractItemView::NoEditTriggers :
-        QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked |
-        QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
+        QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
     if (!portOpened) {
         ui->txtStatus->setText(tr("Not connected"));
