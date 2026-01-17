@@ -56,8 +56,13 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
             case 1:
                 {
                     auto oldCommand = m_data.at(index.row()).command;
-                    m_data[index.row()].command = value.toString();
-                    emit commandChanged(index.row(), oldCommand, value.toString());
+                    auto newCommand = value.toString();
+
+                    if (newCommand != oldCommand)
+                    {
+                        m_data[index.row()].command = newCommand;
+                        emit commandChanged(index.row(), oldCommand, newCommand);
+                    }
                 }
                 break;
             case 2:

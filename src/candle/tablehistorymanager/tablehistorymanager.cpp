@@ -93,7 +93,7 @@ void TableHistoryManager::emitHistory()
 
 void TableHistoryManager::onCommandChanged(int row, QString oldValue, QString newValue)
 {
-    if (m_blockUpdates || oldValue == newValue)
+    if (m_blockUpdates)
         return;
 
     if (row == m_model->rowCount() - 1)
