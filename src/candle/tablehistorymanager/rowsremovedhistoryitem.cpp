@@ -8,11 +8,7 @@ RowsRemovedHistoryItem::RowsRemovedHistoryItem(GCodeTableModel *model, int row, 
 
 void RowsRemovedHistoryItem::undo() const
 {
-    for (auto i = 0; i < m_rows.count(); i++)
-    {
-        m_model->insertRow(m_row + i);
-        m_model->setCommand(m_row + i, m_rows.at(i));
-    }
+    m_model->insertCommands(m_row, m_rows);
 }
 
 void RowsRemovedHistoryItem::redo() const

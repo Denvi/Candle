@@ -99,7 +99,7 @@ public:
     {
         QEventLoop loop;
 
-        QTimer::singleShot(ms, &loop, SLOT(quit()));
+        QTimer::singleShot(ms, &loop, &QEventLoop::quit);
         loop.exec();
     }
 

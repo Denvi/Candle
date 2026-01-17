@@ -290,6 +290,7 @@ private:
     static const int BUFFERLENGTH = 127;
     static const int PROGRESSMINLINES = 10000;
     static const int PROGRESSSTEP = 1000;    
+    static const int RECENTFILESCOUNT = 10;
 
     enum SenderState {
         SenderUnknown = -1,

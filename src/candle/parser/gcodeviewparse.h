@@ -47,7 +47,7 @@ public:
     QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
 
     QList<LineSegment*> *getLines();
-    QVector<QList<int>> &getLinesIndexes();
+    QVector<QList<int>> *getLinesIndexes();
 
     void reset();
 

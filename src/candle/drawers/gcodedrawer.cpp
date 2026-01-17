@@ -14,7 +14,7 @@ GcodeDrawer::GcodeDrawer() : QObject()
     m_grayscaleMax = 255;
     m_drawMode = GcodeDrawer::Vectors;
 
-    connect(&m_timerVertexUpdate, SIGNAL(timeout()), SLOT(onTimerVertexUpdate()));
+    connect(&m_timerVertexUpdate, &QTimer::timeout, this, &GcodeDrawer::onTimerVertexUpdate);
     m_timerVertexUpdate.start(100);
 }
 
