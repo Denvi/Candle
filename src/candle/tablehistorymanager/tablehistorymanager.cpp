@@ -83,7 +83,7 @@ void TableHistoryManager::emitHistory()
         if (item.dynamicCast<RowChangedHistoryItem>())
             history.append(tr("✍"));
         if (item.dynamicCast<RowsInsertedHistoryItem>())
-            history.append(tr("✚"));
+            history.append(tr("+"));
         if (item.dynamicCast<RowsRemovedHistoryItem>())
             history.append(tr("−"));
     }

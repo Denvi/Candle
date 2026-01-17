@@ -238,14 +238,14 @@ frmMain::frmMain(QWidget *parent) :
 
     m_tableMenu = new QMenu(this);
     m_tableMenu->addAction(tr("&Insert line"), this, &frmMain::onTableInsertLine, QKeySequence(Qt::Key_Insert));
-    m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
+    m_tableMenu->addSeparator();
+    m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
+    m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
     m_tableMenu->addSeparator();
     m_tableMenu->addAction(tr("&Cut lines"), this, &frmMain::onTableCutLines, QKeySequence::Cut);
     m_tableMenu->addAction(tr("&Copy lines"), this, &frmMain::onTableCopyLines, QKeySequence::Copy);
     m_tableMenu->addAction(tr("&Paste lines"), this, &frmMain::onTablePasteLines, QKeySequence::Paste);
-    m_tableMenu->addSeparator();
-    m_tableMenu->addAction(tr("&Undo"), this, &frmMain::onTableUndo, QKeySequence::Undo);
-    m_tableMenu->addAction(tr("&Redo"), this, &frmMain::onTableRedo, QKeySequence::Redo);
+    m_tableMenu->addAction(tr("&Delete lines"), this, &frmMain::onTableDeleteLines, QKeySequence(Qt::Key_Delete));
 
     ui->glwVisualizer->addDrawable(m_originDrawer);
     ui->glwVisualizer->addDrawable(m_codeDrawer);
@@ -3159,13 +3159,14 @@ void frmMain::onBeforeScriptStart(QScriptEngine &engine)
 
 void frmMain::onTableHistoryChanged(QStringList history, int currentIndex)
 {
+    const int historyViewSize = 25;
     auto historyView = history;
 
     if (currentIndex >= 0 && currentIndex < historyView.count())
-        historyView[currentIndex] = QString("<span style=\"color:#ff0000;\">%1</span>").arg(historyView.at(currentIndex));
+        historyView[currentIndex] = QString(tr("<span style=\"color:#ff0000;\">%1</span>")).arg(historyView.at(currentIndex));
 
-    if (historyView.count() > 10) {
-        auto from = historyView.count() - 10;
+    if (historyView.count() > historyViewSize) {
+        auto from = historyView.count() - historyViewSize;
 
         if (currentIndex < from)
             from = currentIndex;
@@ -3173,13 +3174,13 @@ void frmMain::onTableHistoryChanged(QStringList history, int currentIndex)
         if (from < 0)
             from = 0;
 
-        historyView = historyView.mid(from, 10);
+        historyView = historyView.mid(from, historyViewSize);
 
         if (from > 0)
-            historyView.prepend("⋅⋅⋅");
+            historyView.prepend(QString(tr("[%1] ")).arg(from));
 
-        if (from + 10 < history.count())
-            historyView.append("⋅⋅⋅");
+        if (from + historyViewSize < history.count())
+            historyView.append(QString(tr(" [%1]")).arg(history.count() - (from + historyViewSize)));
     }
 
     if (sender() == m_programTableHistoryManager)
@@ -5005,8 +5006,7 @@ void frmMain::updateControlsState() {
     ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers((m_senderState != SenderStopped || m_sdRun) ? QAbstractItemView::NoEditTriggers :
-        QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked |
-        QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
+        QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
     if (!portOpened) {
         ui->txtStatus->setText(tr("Not connected"));
