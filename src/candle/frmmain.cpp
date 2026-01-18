@@ -399,6 +399,9 @@ frmMain::~frmMain()
 {
     qApp->removeEventFilter(this);
 
+    ensureProgramEstimatedTimeUpdateNotRunning();
+    ensureParserUpdateNotRunning();
+
     delete m_senderErrorBox;
     delete ui;
 }
@@ -1218,6 +1221,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
     ui->glwVisualizer->setUpdatesEnabled(false);
 
+    ensureParserUpdateNotRunning();
+
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
     ui->tblProgram->setModel(NULL);
@@ -1441,6 +1446,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         ui->chkHeightMapUse->setChecked(false);
 
+        ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
+
         return;
     } else {                                        // Restore original program
         m_currentModel = &m_programModel;
@@ -1562,6 +1569,8 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
 
 void frmMain::on_cmdHeightMapMode_toggled(bool checked)
 {
+    ensureParserUpdateNotRunning();
+
     // Update flag
     m_heightMapMode = checked;
 
@@ -2699,15 +2708,17 @@ void frmMain::onTimerStateQuery()
 
 void frmMain::onTableInsertLine()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping)) return;
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
+        return;
+
+    ensureParserUpdateNotRunning();
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
     m_currentModel->addRow(row);
     m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
 
-    updateParser();
+    updateParserInBackground();
 
     auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
     ui->tblProgram->scrollTo(index);
@@ -2716,9 +2727,8 @@ void frmMain::onTableInsertLine()
 
 void frmMain::onTableDeleteLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping) ||
-        QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped
+        || QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
         return;
 
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
@@ -2730,13 +2740,15 @@ void frmMain::onTableDeleteLines()
         // Store index
         auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
 
+        ensureParserUpdateNotRunning();
+
         // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
 
         // Drop heightmap cache
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-        updateParser();
+        updateParserInBackground();
 
         ui->tblProgram->scrollTo(index);
         ui->tblProgram->setCurrentIndex(index);
@@ -2745,8 +2757,7 @@ void frmMain::onTableDeleteLines()
 
 void frmMain::onTableCutLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
         return;
 
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
@@ -2772,6 +2783,8 @@ void frmMain::onTableCutLines()
         // Store index
         auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
 
+        ensureParserUpdateNotRunning();
+
         // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
 
@@ -2780,7 +2793,7 @@ void frmMain::onTableCutLines()
         // Drop heightmap cache
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-        updateParser();
+        updateParserInBackground();
 
         ui->tblProgram->scrollTo(index);
         ui->tblProgram->setCurrentIndex(index);
@@ -2811,8 +2824,7 @@ void frmMain::onTableCopyLines()
 
 void frmMain::onTablePasteLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
         return;
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
@@ -2821,79 +2833,71 @@ void frmMain::onTablePasteLines()
     if (clipboardText.isEmpty())
         return;
 
+    ensureParserUpdateNotRunning();
+
     auto lines = clipboardText.split('\n');
     m_currentModel->insertCommands(row, lines);
 
     // Drop heightmap cache
     if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-    updateParser();
+    updateParserInBackground();
 
     auto index = m_currentModel->index(row + lines.count(), ui->tblProgram->selectionModel()->currentIndex().column());
     ui->tblProgram->selectionModel()->clearSelection();
     ui->tblProgram->scrollTo(index);
     ui->tblProgram->setCurrentIndex(index);
-
-    onTableCurrentChanged(index, index);
 }
 
 void frmMain::onTableUndo()
 {
-    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (m_senderState != SenderStopped)
         return;
 
-    bool result = false;
+    auto historyManager =
+        m_currentModel == &m_programModel
+            ? m_programTableHistoryManager
+            : m_currentModel == &m_programHeightmapModel
+                ? m_programHeightmapTableHistoryManager
+                : nullptr;
 
-    if (m_currentModel == &m_programModel)
+    if (historyManager && historyManager->canUndo())
     {
-        result = m_programTableHistoryManager->undo();
+        ensureParserUpdateNotRunning();
 
-        if (result)
-            m_programHeightmapModel.clear();
-    }
-    else if (m_currentModel == &m_programHeightmapModel)
-    {
-        result = m_programHeightmapTableHistoryManager->undo();
-    }
-    else
-    {
-        return;
-    }
+        historyManager->undo();
 
-    if (result)
-    {
-        updateParser();
+        updateParserInBackground();
         resetTableSelection();
+
+        if (historyManager == m_programTableHistoryManager)
+            m_programHeightmapModel.clear();
     }
 }
 
 void frmMain::onTableRedo()
 {
-    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (m_senderState != SenderStopped)
         return;
 
-    bool result = false;
+    auto historyManager =
+        m_currentModel == &m_programModel
+            ? m_programTableHistoryManager
+            : m_currentModel == &m_programHeightmapModel
+                ? m_programHeightmapTableHistoryManager
+                : nullptr;
 
-    if (m_currentModel == &m_programModel)
+    if (historyManager && historyManager->canRedo())
     {
-        result = m_programTableHistoryManager->redo();
+        ensureParserUpdateNotRunning();
 
-        if (result)
-            m_programHeightmapModel.clear();
-    }
-    else if (m_currentModel == &m_programHeightmapModel)
-    {
-        result = m_programHeightmapTableHistoryManager->redo();
-    }
-    else
-    {
-        return;
-    }
+        historyManager->redo();
 
-    if (result)
-    {
-        updateParser();
+        updateParserInBackground();
         resetTableSelection();
+
+        if (historyManager == m_programTableHistoryManager)
+            m_programHeightmapModel.clear();
     }
 }
 
@@ -2917,31 +2921,17 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
         // Update visualizer
-        updateParser();
-
-        // Highlight w/o current cell changed event (double highlight on current cell changed)
-        QList<LineSegment*> *list = m_viewParser.getLines();
-        QVector<QList<int>> *lineIndexes = m_viewParser.getLinesIndexes();
-
-        auto line = m_currentModel->data(m_currentModel->index(row, 4)).toInt();
-        for (int i = 0; i < list->count() && list->at(i)->getLineNumber() <= line; i++) {
-            list->at(i)->setIsHighlight(true);
-        }
-
-        // Update selection marker
-        if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty()) {
-            QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
-            m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
-            m_selectionDrawer->setVisible(true);
-            m_selectionDrawer->update();
-        } else {
-            m_selectionDrawer->setVisible(false);
-        }
+        updateParserInBackground();
     }
 }
 
 void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 {
+    // Prevent updates if background parser update is running
+    // sender() is nullptr if calling directly from updateParser task
+    if (m_updateParserFuture.isRunning() && sender())
+        return;
+
     // Update toolpath highlighting
     if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
@@ -4547,6 +4537,85 @@ void frmMain::updateParser()
     ui->glwVisualizer->setUpdatesEnabled(!isMinimized() && ui->dockVisualizer->isVisible());
 }
 
+void frmMain::updateParserInBackground()
+{
+    ensureParserUpdateNotRunning();
+
+    if (m_currentModel == &m_programModel)
+        m_fileChanged = true;
+
+    ui->glwVisualizer->setUpdating(true);
+
+    m_updateParserFuture = QtConcurrent::run([=, &future = m_updateParserFuture]
+    {
+        GcodeParser gp;
+
+        gp.setTraverseSpeed(m_settings->rapidSpeed());
+        if (m_codeDrawer->getIgnoreZ())
+            gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+
+        QString stripped;
+        QList<QString> args;
+
+        for (int i = 0; i < m_currentModel->rowCount() - 1; i++)
+        {
+            // Get stored args
+            args = m_currentModel->data().at(i).args;
+
+            // Store args if none
+            if (args.isEmpty()) {
+                stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
+                args = GcodePreprocessorUtils::splitCommand(stripped);
+                m_currentModel->data()[i].args = args;
+            }
+
+            // Add command to parser
+            gp.addCommand(args);
+
+            // Update table model
+            m_currentModel->data()[i].state = GCodeItem::InQueue;
+            m_currentModel->data()[i].response = QString();
+            m_currentModel->data()[i].line = gp.getCommandNumber();
+
+            if (future.isCanceled())
+                return;
+        }
+
+        auto *parser = m_currentDrawer->viewParser();
+        parser->reset();
+        parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(), [=] { return future.isCanceled(); });
+
+        if (future.isCanceled())
+            return;
+
+        updateProgramEstimatedTime(parser->getLineSegmentList());
+
+        m_currentDrawer->update();
+
+        QMetaObject::invokeMethod(this, [=]
+        {
+            ui->glwVisualizer->updateModelBounds(m_currentDrawer);
+            ui->glwVisualizer->setUpdating(false);
+            updateControlsState();
+
+            auto currentIndex = ui->tblProgram->selectionModel()->currentIndex();
+            auto firstRowIndex = m_currentModel->index(0, currentIndex.column());
+            onTableCurrentChanged(currentIndex, firstRowIndex);
+        });
+    });
+}
+
+void frmMain::ensureParserUpdateNotRunning()
+{
+    if (m_updateParserFuture.isRunning())
+    {
+        m_updateParserFuture.cancel();
+        m_updateParserFuture.waitForFinished();
+
+        ui->glwVisualizer->setUpdating(false);
+    }
+}
+
 void frmMain::storeParserState()
 {
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
@@ -4625,6 +4694,8 @@ void frmMain::loadFile(QString fileName)
 
 void frmMain::loadFile(QList<QString> data)
 {
+    ensureParserUpdateNotRunning();
+
     // Reset tables
     clearTable();
     m_probeModel.clear();
@@ -4922,6 +4993,8 @@ void frmMain::resetHeightmap()
 
 void frmMain::newFile()
 {
+    ensureParserUpdateNotRunning();
+
     // Reset tables
     clearTable();
     m_probeModel.clear();
@@ -5459,8 +5532,6 @@ void frmMain::resetTableSelection()
     ui->tblProgram->selectionModel()->clearSelection();
     ui->tblProgram->scrollTo(index);
     ui->tblProgram->setCurrentIndex(index);
-
-    onTableCurrentChanged(index, index);
 }
 
 int frmMain::bufferLength()
@@ -5509,13 +5580,16 @@ bool frmMain::dataIsReset(QString data) {
 
 void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
+    ensureProgramEstimatedTimeUpdateNotRunning();
+
     if (!lines.size()) {
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
         ui->glwVisualizer->setEstimatedTime(QTime(0, 0, 0));
         return;
     }
 
-    QtConcurrent::run([=]() {
+    m_updateProgramEstimatedTimeFuture = QtConcurrent::run([=, &future = m_updateProgramEstimatedTimeFuture]
+    {
         auto set = m_settings->deviceSettings();
         auto estimator = new TimeEstimator(
             lines,
@@ -5546,15 +5620,29 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
             set.value(11, 0.01f)
         );
 
-        auto t = estimator->calculateTime();
+        auto t = estimator->calculateTime([=] { return future.isCanceled(); });
+
+        if (future.isCanceled())
+            return;
+
         auto r = QTime(0, 0, 0);
         r = r.addSecs(qMin((int)(t * 60), 23 * 3600 + 59 * 60 + 59));
 
-        QMetaObject::invokeMethod(ui->glwVisualizer, [=]() {
+        QMetaObject::invokeMethod(ui->glwVisualizer, [=]
+        {
             ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
             ui->glwVisualizer->setEstimatedTime(r);
         });
     });
+}
+
+void frmMain::ensureProgramEstimatedTimeUpdateNotRunning()
+{
+    if (m_updateProgramEstimatedTimeFuture.isRunning())
+    {
+        m_updateProgramEstimatedTimeFuture.cancel();
+        m_updateProgramEstimatedTimeFuture.waitForFinished();
+    }
 }
 
 QList<LineSegment*> frmMain::subdivideSegment(LineSegment* segment)

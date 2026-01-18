@@ -93,7 +93,7 @@ void GCodeTableModel::setCommand(int row, const QString &command)
     m_data[row].args.clear();
 
     auto index = this->index(row, 1);
-    emit dataChanged(index, index);
+    emit dataChanged(this->index(row, 1), this->index(row, 5));
 }
 
 void GCodeTableModel::insertCommands(int row, const QList<QString> &commands)

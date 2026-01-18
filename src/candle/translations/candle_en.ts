@@ -54,6 +54,10 @@
         <source>Vertices: %1</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Updating...</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>TableHistoryManager</name>
@@ -736,10 +740,6 @@ Time elapsed: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Updating...</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Untitled</source>
         <translation></translation>
     </message>
@@ -945,6 +945,10 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source> [%1]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
         <translation></translation>
     </message>
 </context>

@@ -19,6 +19,9 @@ public:
     bool redo();
     void clear();
 
+    bool canUndo();
+    bool canRedo();
+
 public slots:
     void onCommandChanged(int row, QString oldValue, QString newValue);
     void onCommandsInserted(int row, const QList<QString> &commands);

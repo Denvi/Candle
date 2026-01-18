@@ -44,7 +44,7 @@ public:
 
     QList<LineSegment*> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
     QList<LineSegment*> getLineSegmentList();
-    QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode);
+    QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled = nullptr);
 
     QList<LineSegment*> *getLines();
     QVector<QList<int>> *getLinesIndexes();

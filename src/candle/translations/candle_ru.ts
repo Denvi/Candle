@@ -54,6 +54,10 @@
         <source>Vertices: %1</source>
         <translation>Вершины: %1</translation>
     </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Обновление...</translation>
+    </message>
 </context>
 <context>
     <name>TableHistoryManager</name>
@@ -717,10 +721,6 @@
         <translation>Загрузка файла...</translation>
     </message>
     <message>
-        <source>Updating...</source>
-        <translation>Обновление...</translation>
-    </message>
-    <message>
         <source>Job done.
 Time elapsed: %1</source>
         <translation>Задание выполнено.
@@ -951,6 +951,10 @@ Time elapsed: %1</source>
     <message>
         <source> [%1]</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Обновление...</translation>
     </message>
 </context>
 <context>
