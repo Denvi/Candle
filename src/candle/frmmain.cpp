@@ -2708,8 +2708,7 @@ void frmMain::onTimerStateQuery()
 
 void frmMain::onTableInsertLine()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
         return;
 
     ensureParserUpdateNotRunning();
@@ -2728,9 +2727,8 @@ void frmMain::onTableInsertLine()
 
 void frmMain::onTableDeleteLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping) ||
-        QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped
+        || QMessageBox::warning(this, this->windowTitle(), tr("Delete lines?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
         return;
 
     QModelIndex firstRow = ui->tblProgram->selectionModel()->selectedRows()[0];
@@ -2759,8 +2757,7 @@ void frmMain::onTableDeleteLines()
 
 void frmMain::onTableCutLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
         return;
 
     int rowsCount = ui->tblProgram->selectionModel()->selectedRows().count();
@@ -2827,8 +2824,7 @@ void frmMain::onTableCopyLines()
 
 void frmMain::onTablePasteLines()
 {
-    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 ||
-        (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (ui->tblProgram->selectionModel()->selectedRows().count() == 0 || m_senderState != SenderStopped)
         return;
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
@@ -2855,7 +2851,7 @@ void frmMain::onTablePasteLines()
 
 void frmMain::onTableUndo()
 {
-    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (m_senderState != SenderStopped)
         return;
 
     auto historyManager =
@@ -2881,7 +2877,7 @@ void frmMain::onTableUndo()
 
 void frmMain::onTableRedo()
 {
-    if ((m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
+    if (m_senderState != SenderStopped)
         return;
 
     auto historyManager =
@@ -2925,7 +2921,6 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
         // Update visualizer
-        ensureParserUpdateNotRunning();
         updateParserInBackground();
     }
 }
