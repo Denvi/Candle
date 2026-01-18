@@ -13,11 +13,12 @@ LineSegment::LineSegment()
     m_toolhead = 0;
     m_isZMovement = false;
     m_isArc = false;
+    m_isSpline = false;
     m_isFastTraverse = false;
     m_drawn = false;
     m_isMetric = true;
     m_isAbsolute = true;
-    m_isHightlight = false;
+    m_isHighlight = false;
     m_vertexIndex = -1;
     m_index = -1;
 }
@@ -27,11 +28,12 @@ LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
     m_toolhead = 0;
     m_isZMovement = false;
     m_isArc = false;
+    m_isSpline = false;
     m_isFastTraverse = false;
     m_drawn = false;
     m_isMetric = true;
     m_isAbsolute = true;
-    m_isHightlight = false;
+    m_isHighlight = false;
     m_vertexIndex = -1;
 
     m_first = a;
@@ -44,6 +46,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_toolhead = initial->getToolhead();
     m_isZMovement = initial->isZMovement();
     m_isArc = initial->isArc();
+    m_isSpline = initial->isSpline();
     m_isFastTraverse = initial->isFastTraverse();
     m_drawn = initial->drawn();
     m_first = initial->getStart();
@@ -52,7 +55,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_speed = initial->getSpeed();
     m_isMetric = initial->isMetric();
     m_isAbsolute = initial->isAbsolute();
-    m_isHightlight = initial->isHightlight();
+    m_isHighlight = initial->isHighlight();
     m_vertexIndex = initial->vertexIndex();
     m_axesStart = initial->axesStart();
     m_axesEnd = initial->axesEnd();
@@ -183,6 +186,14 @@ bool LineSegment::isArc() {
     return m_isArc;
 }
 
+void LineSegment::setIsSpline(bool isSpline) {
+    this->m_isSpline = isSpline;
+}
+
+bool LineSegment::isSpline() const {
+    return m_isSpline;
+}
+
 void LineSegment::setIsFastTraverse(bool isF) {
     this->m_isFastTraverse = isF;
 }
@@ -229,14 +240,14 @@ void LineSegment::setIsAbsolute(bool isAbsolute)
 {
     m_isAbsolute = isAbsolute;
 }
-bool LineSegment::isHightlight() const
+bool LineSegment::isHighlight() const
 {
-    return m_isHightlight;
+    return m_isHighlight;
 }
 
-void LineSegment::setIsHightlight(bool isHightlight)
+void LineSegment::setIsHighlight(bool isHighlight)
 {
-    m_isHightlight = isHightlight;
+    m_isHighlight = isHighlight;
 }
 
 int LineSegment::vertexIndex() const

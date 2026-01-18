@@ -54,6 +54,29 @@
         <source>Vertices: %1</source>
         <translation type="unfinished">Vertices: %1</translation>
     </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TableHistoryManager</name>
+    <message>
+        <source>❐</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>✍</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>−</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>frmAbout</name>
@@ -735,10 +758,6 @@ Temps écoulé: %1</translation>
         <translation></translation>
     </message>
     <message>
-        <source>Updating...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Untitled</source>
         <translation>Sans titre</translation>
     </message>
@@ -896,6 +915,42 @@ Temps écoulé: %1</translation>
     </message>
     <message>
         <source>Sending file from SD card completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Copy lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Paste lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Cut lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&quot;color:#ff0000;&quot;&gt;%1&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[%1] </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

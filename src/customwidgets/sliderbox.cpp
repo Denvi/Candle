@@ -16,7 +16,7 @@ SliderBox::SliderBox(QWidget *parent) :
     this->setValue(0);
     this->setCurrentValue(0);
 
-    connect(&m_timerValueChanged, SIGNAL(timeout()), this, SLOT(onTimerValueChanged()));
+    connect(&m_timerValueChanged, &QTimer::timeout, this, &SliderBox::onTimerValueChanged);
     m_timerValueChanged.setInterval(250);
 }
 

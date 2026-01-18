@@ -33,6 +33,8 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
     m_vsync = false;
     m_targetFps = 60;
 
+    m_updating = false;
+
     setAttribute(Qt::WA_AcceptTouchEvents, true);
     grabGesture(Qt::PanGesture);
     grabGesture(Qt::PinchGesture);
@@ -44,7 +46,7 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent), m_shaderProgram(0)
 
     m_overlay = new Overlay(this);
 
-    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
+    QTimer::singleShot(1000, this, &GLWidget::onFramesTimer);
 }
 
 GLWidget::~GLWidget()
@@ -139,7 +141,7 @@ void GLWidget::onFramesTimer()
     m_fps = m_frames;
     m_frames = 0;
 
-    QTimer::singleShot(1000, this, SLOT(onFramesTimer()));
+    QTimer::singleShot(1000, this, &GLWidget::onFramesTimer);
 }
 
 void GLWidget::viewAnimation()
@@ -187,6 +189,16 @@ void GLWidget::setPerspective(bool perspective)
 
     updateProjection();
     updateView();
+}
+
+bool GLWidget::updating() const
+{
+    return m_updating;
+}
+
+void GLWidget::setUpdating(bool updating)
+{
+    m_updating = updating;
 }
 
 bool GLWidget::vsync() const

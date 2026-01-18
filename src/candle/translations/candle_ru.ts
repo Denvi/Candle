@@ -54,6 +54,29 @@
         <source>Vertices: %1</source>
         <translation>Вершины: %1</translation>
     </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Обновление...</translation>
+    </message>
+</context>
+<context>
+    <name>TableHistoryManager</name>
+    <message>
+        <source>❐</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>✍</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>−</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmAbout</name>
@@ -609,7 +632,7 @@
     </message>
     <message>
         <source>&amp;Insert line</source>
-        <translation>&amp;Вставить строку</translation>
+        <translation>&amp;Добавить строку</translation>
     </message>
     <message>
         <source>&amp;Delete lines</source>
@@ -696,10 +719,6 @@
     <message>
         <source>Opening file...</source>
         <translation>Загрузка файла...</translation>
-    </message>
-    <message>
-        <source>Updating...</source>
-        <translation>Обновление...</translation>
     </message>
     <message>
         <source>Job done.
@@ -900,6 +919,42 @@ Time elapsed: %1</source>
     <message>
         <source>Sending file from SD card completed</source>
         <translation>Отправка файла с SD карты завершена</translation>
+    </message>
+    <message>
+        <source>&amp;Copy lines</source>
+        <translation>&amp;Копировать строки</translation>
+    </message>
+    <message>
+        <source>&amp;Paste lines</source>
+        <translation>&amp;Вставить строки</translation>
+    </message>
+    <message>
+        <source>&amp;Cut lines</source>
+        <translation>&amp;Вырезать строки</translation>
+    </message>
+    <message>
+        <source>&amp;Undo</source>
+        <translation>&amp;Отменить</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translation>&amp;Повторить</translation>
+    </message>
+    <message>
+        <source>&lt;span style=&quot;color:#ff0000;&quot;&gt;%1&lt;/span&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>[%1] </source>
+        <translation></translation>
+    </message>
+    <message>
+        <source> [%1]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Обновление...</translation>
     </message>
 </context>
 <context>

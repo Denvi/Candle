@@ -57,6 +57,8 @@
 
 #include "frmhelp.h"
 
+#include "tablehistorymanager/tablehistorymanager.h"
+
 namespace Ui {
 class frmMain;
 class frmProgram;
@@ -251,7 +253,12 @@ private slots:
     void onTimerStateQuery();
     void onTableInsertLine();
     void onTableDeleteLines();
-    void onTableCellChanged(QModelIndex i1, QModelIndex i2);
+    void onTableCutLines();
+    void onTableCopyLines();
+    void onTablePasteLines();
+    void onTableUndo();
+    void onTableRedo();
+    void onTableCellChanged(int row, QString oldValue, QString newValue);
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
     void onOverridingToggled(bool checked);
     void onOverrideChanged();
@@ -264,6 +271,7 @@ private slots:
     void onScriptException(const QScriptValue &exception);
     void onActServiceProfilesSelected(bool checked);
     void onBeforeScriptStart(QScriptEngine &engine);
+    void onTableHistoryChanged(QStringList history, int currentIndex);
 
     void updateHeightMapInterpolationDrawer(bool reset = false);
     void placeVisualizerButtons();
@@ -282,6 +290,7 @@ private:
     static const int BUFFERLENGTH = 127;
     static const int PROGRESSMINLINES = 10000;
     static const int PROGRESSSTEP = 1000;    
+    static const int RECENTFILESCOUNT = 10;
 
     enum SenderState {
         SenderUnknown = -1,
@@ -365,6 +374,10 @@ private:
     GCodeTableModel *m_currentModel;
     HeightMapTableModel m_heightMapModel;
 
+    // Table history managers
+    TableHistoryManager *m_programTableHistoryManager;
+    TableHistoryManager *m_programHeightmapTableHistoryManager;
+
     // Connections
     Connection *m_currentConnection;
 
@@ -443,6 +456,18 @@ private:
     // In memory settings for plugins
     Storage m_storage;
 
+    // Futures
+    QFuture<void> m_updateParserFuture;
+    QFuture<void> m_updateProgramEstimatedTimeFuture;
+
+    // Initialization
+    void initVariables();
+    void initUi();
+    void initDrawers();
+    void initProgramTable();
+    void initScriptWrapper();
+    void initScriptEngine();
+
     // Settings
     void preloadSettings();
     void loadSettings();
@@ -466,6 +491,8 @@ private:
 
     // Parser
     void updateParser();
+    void updateParserInBackground();
+    void ensureParserUpdateNotRunning();
     void storeParserState();
     void restoreParserState();
     void restoreOffsets();
@@ -500,6 +527,8 @@ private:
     void resizeTableHeightMapSections();
     void scrollToTableIndex(QModelIndex index);
     bool eventFilter(QObject *obj, QEvent *event);
+    void updateSliderProgramMaxValue();
+    void resetTableSelection();
 
     // Utility
     int bufferLength();
@@ -507,6 +536,7 @@ private:
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
     void updateProgramEstimatedTime(QList<LineSegment *> lines);
+    void ensureProgramEstimatedTimeUpdateNotRunning();
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     void jogContinuous();
