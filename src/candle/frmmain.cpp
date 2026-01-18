@@ -399,8 +399,8 @@ frmMain::~frmMain()
 {
     qApp->removeEventFilter(this);
 
-    cancelUpdateProgramEstimatedTime();
-    cancelBackgroundParserUpdate();
+    ensureProgramEstimatedTimeUpdateNotRunning();
+    ensureParserUpdateNotRunning();
 
     delete m_senderErrorBox;
     delete ui;
@@ -1221,7 +1221,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 {
     ui->glwVisualizer->setUpdatesEnabled(false);
 
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -1569,7 +1569,7 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1)
 
 void frmMain::on_cmdHeightMapMode_toggled(bool checked)
 {
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     // Update flag
     m_heightMapMode = checked;
@@ -2712,7 +2712,7 @@ void frmMain::onTableInsertLine()
         (m_senderState == SenderTransferring) || (m_senderState == SenderStopping))
         return;
 
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     int row = ui->tblProgram->selectionModel()->selectedRows()[0].row();
 
@@ -2742,7 +2742,7 @@ void frmMain::onTableDeleteLines()
         // Store index
         auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
 
-        cancelBackgroundParserUpdate();
+        ensureParserUpdateNotRunning();
 
         // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
@@ -2786,7 +2786,7 @@ void frmMain::onTableCutLines()
         // Store index
         auto index = m_currentModel->index(firstRow.row(), ui->tblProgram->selectionModel()->currentIndex().column());
 
-        cancelBackgroundParserUpdate();
+        ensureParserUpdateNotRunning();
 
         // Remove lines
         m_currentModel->removeRows(firstRow.row(), rowsCount);
@@ -2837,7 +2837,7 @@ void frmMain::onTablePasteLines()
     if (clipboardText.isEmpty())
         return;
 
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     auto lines = clipboardText.split('\n');
     m_currentModel->insertCommands(row, lines);
@@ -2867,7 +2867,7 @@ void frmMain::onTableUndo()
 
     if (historyManager && historyManager->canUndo())
     {
-        cancelBackgroundParserUpdate();
+        ensureParserUpdateNotRunning();
 
         historyManager->undo();
 
@@ -2893,7 +2893,7 @@ void frmMain::onTableRedo()
 
     if (historyManager && historyManager->canRedo())
     {
-        cancelBackgroundParserUpdate();
+        ensureParserUpdateNotRunning();
 
         historyManager->redo();
 
@@ -2925,7 +2925,7 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
         // Update visualizer
-        cancelBackgroundParserUpdate();
+        ensureParserUpdateNotRunning();
         updateParserInBackground();
     }
 }
@@ -4544,7 +4544,7 @@ void frmMain::updateParser()
 
 void frmMain::updateParserInBackground()
 {
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     if (m_currentModel == &m_programModel)
         m_fileChanged = true;
@@ -4610,7 +4610,7 @@ void frmMain::updateParserInBackground()
     });
 }
 
-void frmMain::cancelBackgroundParserUpdate()
+void frmMain::ensureParserUpdateNotRunning()
 {
     if (m_updateParserFuture.isRunning())
     {
@@ -4699,7 +4699,7 @@ void frmMain::loadFile(QString fileName)
 
 void frmMain::loadFile(QList<QString> data)
 {
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     // Reset tables
     clearTable();
@@ -4998,7 +4998,7 @@ void frmMain::resetHeightmap()
 
 void frmMain::newFile()
 {
-    cancelBackgroundParserUpdate();
+    ensureParserUpdateNotRunning();
 
     // Reset tables
     clearTable();
@@ -5585,7 +5585,7 @@ bool frmMain::dataIsReset(QString data) {
 
 void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
 {
-    cancelUpdateProgramEstimatedTime();
+    ensureProgramEstimatedTimeUpdateNotRunning();
 
     if (!lines.size()) {
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
@@ -5641,7 +5641,7 @@ void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
     });
 }
 
-void frmMain::cancelUpdateProgramEstimatedTime()
+void frmMain::ensureProgramEstimatedTimeUpdateNotRunning()
 {
     if (m_updateProgramEstimatedTimeFuture.isRunning())
     {

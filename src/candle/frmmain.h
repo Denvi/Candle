@@ -492,7 +492,7 @@ private:
     // Parser
     void updateParser();
     void updateParserInBackground();
-    void cancelBackgroundParserUpdate();
+    void ensureParserUpdateNotRunning();
     void storeParserState();
     void restoreParserState();
     void restoreOffsets();
@@ -536,7 +536,7 @@ private:
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
     void updateProgramEstimatedTime(QList<LineSegment *> lines);
-    void cancelUpdateProgramEstimatedTime();
+    void ensureProgramEstimatedTimeUpdateNotRunning();
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     void jogContinuous();
