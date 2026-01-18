@@ -146,6 +146,8 @@ bool GcodeDrawer::updateVectors()
     QList<LineSegment*> *list = m_viewParser->getLines();
 
     auto isVbo = m_vbo.isCreated();
+    auto firstVertexIndex = -1;
+    auto lastVertexIndex = -1;
 
     // Remove duplicates and sort
     std::sort(m_indexes.begin(), m_indexes.end());
@@ -163,21 +165,32 @@ bool GcodeDrawer::updateVectors()
 
         if (vertexIndex >= 0)
         {
+            // Update vertex data
             auto color = getSegmentColorVector(list->at(i));
-
-            // Update drawable data
             m_lines[vertexIndex].color = color;
             m_lines[vertexIndex + 1].color = color;
 
-            // Update vertex array
-            if (isVbo)
+            // Prepare vertex indexes
+            if (firstVertexIndex == -1)
             {
-                auto vertexColorOffset = vertexIndex * sizeof(VertexData) + offsetof(VertexData, color);
-
-                glBufferSubData(GL_ARRAY_BUFFER, vertexColorOffset, sizeof(QVector3D), &color);
-                glBufferSubData(GL_ARRAY_BUFFER, vertexColorOffset + sizeof(VertexData), sizeof(QVector3D), &color);
+                firstVertexIndex = vertexIndex;
+                lastVertexIndex = vertexIndex;
+            }
+            else
+            {
+                firstVertexIndex = qMin(firstVertexIndex, vertexIndex);
+                lastVertexIndex = qMax(lastVertexIndex, vertexIndex);            
             }
         }
+    }
+
+    if (isVbo && firstVertexIndex != -1)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,
+            firstVertexIndex * sizeof(VertexData),
+            (lastVertexIndex - firstVertexIndex + 2) * sizeof(VertexData),
+            m_lines.data() + firstVertexIndex
+        );
     }
 
     m_indexes.clear();
