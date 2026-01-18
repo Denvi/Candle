@@ -145,30 +145,57 @@ bool GcodeDrawer::updateVectors()
     // Update vertices
     QList<LineSegment*> *list = m_viewParser->getLines();
 
-    // Map buffer
-    VertexData *data = (VertexData*)m_vbo.map(QOpenGLBuffer::WriteOnly);
+    auto isVbo = m_vbo.isCreated();
+    auto firstVertexIndex = -1;
+    auto lastVertexIndex = -1;
+
+    // Remove duplicates and sort
+    std::sort(m_indexes.begin(), m_indexes.end());
+    auto last = std::unique(m_indexes.begin(), m_indexes.end());
+    m_indexes.erase(last, m_indexes.end());
 
     // Update vertices for each line segment
-    int vertexIndex;
-    foreach (int i, m_indexes) {
+    foreach (int i, m_indexes)
+    {
         // Update vertex pair
-        if (i < 0 || i > list->count() - 1) continue;
-        vertexIndex = list->at(i)->vertexIndex();
-        if (vertexIndex >= 0) {
-            // Update vertex array            
-            if (data) {
-                data[vertexIndex].color = getSegmentColorVector(list->at(i));
-                data[vertexIndex + 1].color = data[vertexIndex].color;
-            } else {
-                m_lines[vertexIndex].color = getSegmentColorVector(list->at(i));
-                m_lines[vertexIndex + 1].color = m_lines.at(vertexIndex).color;
+        if (i < 0 || i > list->count() - 1)
+            continue;
+
+        auto vertexIndex = list->at(i)->vertexIndex();
+
+        if (vertexIndex >= 0)
+        {
+            // Update vertex data
+            auto color = getSegmentColorVector(list->at(i));
+            m_lines[vertexIndex].color = color;
+            m_lines[vertexIndex + 1].color = color;
+
+            // Prepare vertex indexes
+            if (firstVertexIndex == -1)
+            {
+                firstVertexIndex = vertexIndex;
+                lastVertexIndex = vertexIndex;
+            }
+            else
+            {
+                firstVertexIndex = qMin(firstVertexIndex, vertexIndex);
+                lastVertexIndex = qMax(lastVertexIndex, vertexIndex);            
             }
         }
     }
 
+    if (isVbo && firstVertexIndex != -1)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,
+            firstVertexIndex * sizeof(VertexData),
+            (lastVertexIndex - firstVertexIndex + 2) * sizeof(VertexData),
+            m_lines.data() + firstVertexIndex
+        );
+    }
+
     m_indexes.clear();
-    if (data) m_vbo.unmap();
-    return !data;
+
+    return !isVbo;
 }
 
 bool GcodeDrawer::prepareRaster()
