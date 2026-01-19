@@ -986,11 +986,11 @@ void frmMain::on_cmdFileReset_clicked()
     m_probeIndex = -1;
 
     if (!m_heightMapMode) {
-        QList<LineSegment*> *list = m_viewParser.getLines();
+        QList<LineSegment*> *list = m_viewParser.getLineSegments();
 
         QList<int> indexes;
         for (int i = 0; i < list->count(); i++) {
-            list->at(i)->setDrawn(false);
+            list->at(i)->setIsDrawn(false);
             indexes.append(i);
         }
         m_codeDrawer->update(indexes);
@@ -1245,7 +1245,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
         if (m_programHeightmapModel.rowCount() == 0) {
 
             // Modifying linesegments
-            QList<LineSegment*> *list = m_viewParser.getLines();
+            QList<LineSegment*> *list = m_viewParser.getLineSegments();
             QRectF borderRect = borderRectFromTextboxes();
             double x, y, z;
             QVector3D point;
@@ -1616,10 +1616,10 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
     }
 
     // Shadow toolpath
-    QList<LineSegment*> *list = m_viewParser.getLines();
+    QList<LineSegment*> *list = m_viewParser.getLineSegments();
     QList<int> indexes;
     for (int i = m_lastDrawnLineIndex; i < list->count(); i++) {
-        list->at(i)->setDrawn(checked);
+        list->at(i)->setIsDrawn(checked);
         list->at(i)->setIsHighlight(false);
         indexes.append(i);
     }
@@ -2087,7 +2087,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 m_sdProcessedCommandIndex = processedCommandIndex;
 
                 GcodeViewParse *parser = m_currentDrawer->viewParser();
-                QList<LineSegment*> *list = parser->getLines();
+                QList<LineSegment*> *list = parser->getLineSegments();
 
                 int i;
                 QList<int> drawnLines;
@@ -2100,7 +2100,7 @@ void frmMain::onConnectionDataReceived(QString data)
 
                 if (!drawnLines.isEmpty()) {
                     foreach (int j, drawnLines) {
-                        list->at(j)->setDrawn(true);
+                        list->at(j)->setIsDrawn(true);
                     }
                     m_currentDrawer->update(drawnLines);
 
@@ -2155,7 +2155,7 @@ void frmMain::onConnectionDataReceived(QString data)
             bool toolOnToolpath = false;
 
             QList<int> drawnLines;
-            QList<LineSegment*> *list = parser->getLines();
+            QList<LineSegment*> *list = parser->getLineSegments();
 
             for (int i = m_lastDrawnLineIndex; i < list->count()
                     && list->at(i)->getLineNumber()
@@ -2170,7 +2170,7 @@ void frmMain::onConnectionDataReceived(QString data)
 
             if (toolOnToolpath) {
                 foreach (int i, drawnLines) {
-                    list->at(i)->setDrawn(true);
+                    list->at(i)->setIsDrawn(true);
                 }
                 if (!drawnLines.isEmpty()) {
                     m_currentDrawer->update(drawnLines);
@@ -2558,7 +2558,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 // Toolpath shadowing on check mode
                 if (m_deviceState == DeviceCheck) {
                     GcodeViewParse *parser = m_currentDrawer->viewParser();
-                    QList<LineSegment*> *list = parser->getLines();
+                    QList<LineSegment*> *list = parser->getLineSegments();
 
                     if ((m_senderState != SenderStopping) && m_fileProcessedCommandIndex < m_currentModel->rowCount() - 1)
                     {
@@ -2578,7 +2578,7 @@ void frmMain::onConnectionDataReceived(QString data)
                         }
 
                         foreach (int i, drawnLines) {
-                            list->at(i)->setDrawn(true);
+                            list->at(i)->setIsDrawn(true);
                         }
                         if (!drawnLines.isEmpty()) m_currentDrawer->update(drawnLines);
                     } else {
@@ -2946,8 +2946,8 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> *list = parser->getLines();
-    QVector<QList<int>> *lineIndexes = parser->getLinesIndexes();
+    QList<LineSegment*> *list = parser->getLineSegments();
+    QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
 
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
@@ -3039,11 +3039,11 @@ void frmMain::on_cmdFileSendFromLine_clicked()
     m_lastDrawnLineIndex = 0;
     m_probeIndex = -1;
 
-    QList<LineSegment*> *list = m_viewParser.getLines();
+    QList<LineSegment*> *list = m_viewParser.getLineSegments();
 
     QList<int> indexes;
     for (int i = 0; i < list->count(); i++) {
-        list->at(i)->setDrawn(list->at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
+        list->at(i)->setIsDrawn(list->at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
         indexes.append(i);
     }
     m_codeDrawer->update(indexes);
@@ -5860,9 +5860,9 @@ void frmMain::completeTransfer()
 {
     // Shadow last segment
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> *list = parser->getLines();
+    QList<LineSegment*> *list = parser->getLineSegments();
     if (m_lastDrawnLineIndex < list->count()) {
-        list->at(m_lastDrawnLineIndex)->setDrawn(true);
+        list->at(m_lastDrawnLineIndex)->setIsDrawn(true);
         m_currentDrawer->update(QList<int>() << m_lastDrawnLineIndex);
     }
 
@@ -5896,8 +5896,8 @@ QString frmMain::getLineInitCommands(int row)
     QString commands;
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
-    QList<LineSegment*> *list = parser->getLines();
-    QVector<QList<int>> *lineIndexes = parser->getLinesIndexes();
+    QList<LineSegment*> *list = parser->getLineSegments();
+    QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
 
     int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
     if (lineNumber < 0) {

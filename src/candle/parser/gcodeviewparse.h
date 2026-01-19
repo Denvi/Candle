@@ -46,8 +46,8 @@ public:
     QList<LineSegment*> getLineSegmentList();
     QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled = nullptr);
 
-    QList<LineSegment*> *getLines();
-    QVector<QList<int>> *getLinesIndexes();
+    QList<LineSegment*> *getLineSegments();
+    QVector<QList<int>> *getLineSegmentIndexes();
 
     void reset();
 
@@ -67,8 +67,8 @@ private:
 
     double m_modelMinLineLength;
 
-    QList<LineSegment*> m_lines;
-    QVector<QList<int>> m_lineIndexes;    
+    QList<LineSegment*> m_lineSegments;
+    QVector<QList<int>> m_lineSegmentIndexes;    
 
     // Parsing state.
     QVector3D lastPoint;

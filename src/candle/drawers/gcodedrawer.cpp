@@ -45,7 +45,7 @@ bool GcodeDrawer::updateData()
 
 bool GcodeDrawer::prepareVectors()
 {
-    QList<LineSegment*> *list = m_viewParser->getLines();
+    QList<LineSegment*> *list = m_viewParser->getLineSegments();
     VertexData vertex;
 
     // Clear all vertex data
@@ -143,7 +143,7 @@ bool GcodeDrawer::prepareVectors()
 bool GcodeDrawer::updateVectors()
 {
     // Update vertices
-    QList<LineSegment*> *list = m_viewParser->getLines();
+    QList<LineSegment*> *list = m_viewParser->getLineSegments();
 
     auto isVbo = m_vbo.isCreated();
     auto firstVertexIndex = -1;
@@ -211,7 +211,7 @@ bool GcodeDrawer::prepareRaster()
         image = QImage(m_viewParser->getModelResolution(), QImage::Format_RGB888);
         image.fill(Qt::white);
 
-        QList<LineSegment*> *list = m_viewParser->getLines();
+        QList<LineSegment*> *list = m_viewParser->getLineSegments();
 
         double pixelSize = m_viewParser->getModelMinLineLength();
         QVector3D origin = m_viewParser->getViewLowerBounds();
@@ -289,7 +289,7 @@ bool GcodeDrawer::updateRaster()
 {
     if (!m_image.isNull()) {
 
-        QList<LineSegment*> *list = m_viewParser->getLines();
+        QList<LineSegment*> *list = m_viewParser->getLineSegments();
 
         double pixelSize = m_viewParser->getModelMinLineLength();
         QVector3D origin = m_viewParser->getViewLowerBounds();
@@ -324,7 +324,7 @@ QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)
 
 QColor GcodeDrawer::getSegmentColor(LineSegment *segment)
 {
-    if (segment->drawn()) return m_colorDrawn;//QVector3D(0.85, 0.85, 0.85);
+    if (segment->isDrawn()) return m_colorDrawn;//QVector3D(0.85, 0.85, 0.85);
     else if (segment->isHighlight()) return m_colorHighlight;//QVector3D(0.57, 0.51, 0.9);
     else if (segment->isFastTraverse()) return m_colorNormal;// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return m_colorZMovement;//QVector3D(1.0, 0.0, 0.0);
