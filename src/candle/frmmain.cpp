@@ -1011,8 +1011,7 @@ void frmMain::on_cmdFileReset_clicked()
         ui->txtHeightMapGridZBottom->setEnabled(true);
         ui->txtHeightMapGridZTop->setEnabled(true);
 
-        delete m_heightMapInterpolationDrawer->data();
-        m_heightMapInterpolationDrawer->setData(NULL);
+        m_heightMapInterpolationDrawer->clear();
 
         m_heightMapModel.clear();
         updateHeightMapGrid();
@@ -3238,7 +3237,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
     QRectF borderRect = borderRectFromTextboxes();
     m_heightMapInterpolationDrawer->setBorderRect(borderRect);
 
-    QVector<QVector<double>> *interpolationData = new QVector<QVector<double>>;
+    QVector<QVector<double>> interpolationData;
 
     int interpolationPointsX = ui->txtHeightMapInterpolationStepX->value();// * (ui->txtHeightMapGridX->value() - 1) + 1;
     int interpolationPointsY = ui->txtHeightMapInterpolationStepY->value();// * (ui->txtHeightMapGridY->value() - 1) + 1;
@@ -3255,12 +3254,9 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset)
 
             row.append(reset ? qQNaN() : Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y));
         }
-        interpolationData->append(row);
+        interpolationData.append(row);
     }
 
-    if (m_heightMapInterpolationDrawer->data() != NULL) {
-        delete m_heightMapInterpolationDrawer->data();
-    }
     m_heightMapInterpolationDrawer->setData(interpolationData);
 
     // Update grid drawer
@@ -4996,8 +4992,7 @@ void frmMain::clearTable()
 
 void frmMain::resetHeightmap()
 {
-    delete m_heightMapInterpolationDrawer->data();
-    m_heightMapInterpolationDrawer->setData(NULL);
+    m_heightMapInterpolationDrawer->clear();
 
     ui->tblHeightMap->setModel(NULL);
     m_heightMapModel.resize(1, 1);
