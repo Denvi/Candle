@@ -15,9 +15,8 @@
 #include "gcodeparser.h"
 #include "../utils/util.h"
 
-class GcodeViewParse : public QObject
+class GcodeViewParse
 {
-    Q_OBJECT
 public:
     enum RotationAxis {
         RotationAxisA,
@@ -25,7 +24,7 @@ public:
         RotationAxisC
     };
 
-    explicit GcodeViewParse(QObject *parent = 0);
+    explicit GcodeViewParse();
     ~GcodeViewParse();
 
     QVector3D &getViewLowerBounds();
@@ -48,10 +47,6 @@ public:
     QVector<QList<int>> *getLineSegmentIndexes();
 
     void reset();
-
-signals:
-
-public slots:
 
 private:
     bool absoluteMode;

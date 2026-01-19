@@ -8,8 +8,7 @@
 #include <QDebug>
 #include "gcodeviewparse.h"
 
-GcodeViewParse::GcodeViewParse(QObject *parent) :
-    QObject(parent)
+GcodeViewParse::GcodeViewParse()
 {
     absoluteMode = true;
     absoluteIJK = false;
