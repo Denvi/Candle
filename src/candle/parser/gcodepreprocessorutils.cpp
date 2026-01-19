@@ -220,7 +220,8 @@ QVector3D GcodePreprocessorUtils::updateAxesWithCommand(const QStringList &comma
     return newAxes;    
 }
 
-QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise)
+QVector3D GcodePreprocessorUtils::updateCenterWithCommand(const QStringList &commandArgs, const QVector3D &initial, const QVector3D &nextPoint,
+    bool absoluteIJKMode, bool clockwise)
 {
     double i = qQNaN();
     double j = qQNaN();
@@ -256,7 +257,7 @@ QVector3D GcodePreprocessorUtils::updateCenterWithCommand(QStringList commandArg
     return updatePointWithCommand(initial, i, j, k, absoluteIJKMode);
 }
 
-QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D end, bool absoluteMode, int precision)
+QString GcodePreprocessorUtils::generateG1FromPoints(const QVector3D &start, const QVector3D &end, bool absoluteMode, int precision)
 {
     QString sb("G1");
 
@@ -316,10 +317,8 @@ QList<QByteArray> GcodePreprocessorUtils::splitCommand(const QString &command)
 
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
-// const &
 double GcodePreprocessorUtils::parseCoord(const QStringList &args, char c)
 {
-    // const &
     foreach (const auto &t, args)
     {
         if (t.length() > 0 && t.at(0).toUpper() == c)
@@ -373,7 +372,8 @@ QVector3D GcodePreprocessorUtils::convertRToCenter(QVector3D start, QVector3D en
 /**
 * Return the angle in radians when going from start to end.
 */
-double GcodePreprocessorUtils::getAngle(QVector3D start, QVector3D end) {
+double GcodePreprocessorUtils::getAngle(const QVector3D &start, const QVector3D &end)
+{
     double deltaX = end.x() - start.x();
     double deltaY = end.y() - start.y();
 
