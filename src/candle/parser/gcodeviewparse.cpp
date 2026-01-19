@@ -70,22 +70,6 @@ void GcodeViewParse::updateModelMinLineLength(const QVector3D &start, const QVec
     if (!qIsNaN(length) && length != 0) m_modelMinLineLength = qIsNaN(m_modelMinLineLength) ? length : qMin<double>(m_modelMinLineLength, length);
 }
 
-QList<LineSegment*> GcodeViewParse::toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode)
-{
-    GcodeParser gp;
-
-    foreach (QString s, gcode) {
-        gp.addCommand(s);
-    }
-
-    return getLinesFromParser(&gp, arcPrecision, arcDegreeMode);
-}
-
-QList<LineSegment*> GcodeViewParse::getLineSegmentList()
-{
-    return m_lineSegments;
-}
-
 void GcodeViewParse::reset()
 {
     foreach (LineSegment *ls, m_lineSegments) delete ls;
@@ -145,7 +129,7 @@ bool GcodeViewParse::axisRotationUsed(GcodeViewParse::RotationAxis axis)
     return false;
 }
 
-QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled)
+void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled)
 {
     QList<PointSegment*> *psl = gp->getPointSegmentList();
     // For a line segment list ALL arcs must be converted to lines.
@@ -323,10 +307,8 @@ QList<LineSegment*> GcodeViewParse::getLinesFromParser(GcodeParser *gp, double a
         startAxes = endAxes;
 
         if (isCancelled && isCancelled())
-            return m_lineSegments;
+            return;
     }
-
-    return m_lineSegments;
 }
 
 QList<LineSegment*> *GcodeViewParse::getLineSegments()

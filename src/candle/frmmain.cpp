@@ -1609,7 +1609,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             ui->tblProgram->selectRow(0);
 
             ui->glwVisualizer->updateModelBounds(m_codeDrawer);
-            updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+            updateProgramEstimatedTime(*m_currentDrawer->viewParser()->getLineSegments());
         }
         ui->lblTableHistory->setVisible(!ui->chkHeightMapUse->isChecked());
         ui->lblTableHeightmapHistory->setVisible(ui->chkHeightMapUse->isChecked());
@@ -3000,7 +3000,7 @@ void frmMain::onOverridingToggled(bool checked)
 
 void frmMain::onOverrideChanged()
 {
-    updateProgramEstimatedTime(m_currentDrawer->viewParser()->getLineSegmentList());
+    updateProgramEstimatedTime(*m_currentDrawer->viewParser()->getLineSegments());
 }
 
 void frmMain::onActRecentFileTriggered()
@@ -4485,7 +4485,7 @@ void frmMain::updateParser()
 {
     ui->glwVisualizer->setUpdatesEnabled(false);
 
-    GcodeViewParse *parser = m_currentDrawer->viewParser();
+    GcodeViewParse *viewParser = m_currentDrawer->viewParser();
 
     GcodeParser gp;
     gp.setTraverseSpeed(m_settings->rapidSpeed());
@@ -4534,9 +4534,11 @@ void frmMain::updateParser()
 
     progress.close();
 
-    parser->reset();
+    viewParser->reset();
+    viewParser->updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
 
-    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
+    updateProgramEstimatedTime(*viewParser->getLineSegments());
+
     m_currentDrawer->update();
     ui->glwVisualizer->updateModelBounds(m_currentDrawer);
     updateControlsState();
@@ -4590,14 +4592,14 @@ void frmMain::updateParserInBackground()
                 return;
         }
 
-        auto *parser = m_currentDrawer->viewParser();
-        parser->reset();
-        parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(), [=] { return future.isCanceled(); });
+        auto viewParser = m_currentDrawer->viewParser();
+        viewParser->reset();
+        viewParser->updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(), [=] { return future.isCanceled(); });
 
         if (future.isCanceled())
             return;
 
-        updateProgramEstimatedTime(parser->getLineSegmentList());
+        updateProgramEstimatedTime(*viewParser->getLineSegments());
 
         m_currentDrawer->update();
 
@@ -4794,11 +4796,11 @@ void frmMain::loadFile(const QList<QString> &data)
     progress.close();
 
     m_programModel.insertRow(m_programModel.rowCount());
-
-    auto lines = m_viewParser.getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
-    updateProgramEstimatedTime(lines);
-
     m_programLoading = false;
+
+    m_viewParser.updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+
+    updateProgramEstimatedTime(*m_viewParser.getLineSegments());
 
     // Set table model
     ui->tblProgram->setModel(&m_programModel);
@@ -5592,7 +5594,7 @@ bool frmMain::dataIsReset(QString data) {
     return QRegExp("^GRBL|GCARVIN\\s\\d\\.\\d.").indexIn(data.toUpper()) != -1;
 }
 
-void frmMain::updateProgramEstimatedTime(QList<LineSegment*> lines)
+void frmMain::updateProgramEstimatedTime(const QList<LineSegment*> &lines)
 {
     ensureProgramEstimatedTimeUpdateNotRunning();
 

@@ -535,7 +535,7 @@ private:
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
-    void updateProgramEstimatedTime(QList<LineSegment *> lines);
+    void updateProgramEstimatedTime(const QList<LineSegment *> &lines);
     void ensureProgramEstimatedTimeUpdateNotRunning();
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
