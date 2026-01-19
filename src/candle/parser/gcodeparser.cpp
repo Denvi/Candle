@@ -9,7 +9,7 @@
 #include <QDebug>
 #include "gcodeparser.h"
 
-GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
+GcodeParser::GcodeParser()
 {
     m_isMetric = true;
     m_inAbsoluteMode = true;
@@ -35,7 +35,8 @@ GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
 
 GcodeParser::~GcodeParser()
 {
-    foreach (PointSegment *ps, this->m_points) delete ps;
+    foreach (PointSegment *ps, this->m_points)
+        delete ps;
 }
 
 bool GcodeParser::getConvertArcsToLines() {

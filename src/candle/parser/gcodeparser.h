@@ -8,18 +8,16 @@
 #ifndef GCODEPARSER_H
 #define GCODEPARSER_H
 
-#include <QObject>
 #include <QVector3D>
 #include <cmath>
 #include "pointsegment.h"
 #include "gcodepreprocessorutils.h"
 #include "../utils/util.h"
 
-class GcodeParser : public QObject
+class GcodeParser
 {
-    Q_OBJECT
 public:
-    explicit GcodeParser(QObject *parent = 0);
+    explicit GcodeParser();
     ~GcodeParser();
 
     bool getConvertArcsToLines();
@@ -47,10 +45,6 @@ public:
     double getTraverseSpeed() const;
     void setTraverseSpeed(double traverseSpeed);
     int getCommandNumber() const;
-
-signals:
-
-public slots:
 
 private:
 

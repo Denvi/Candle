@@ -4490,9 +4490,10 @@ void frmMain::updateParser()
 
     GcodeViewParse *viewParser = m_currentDrawer->viewParser();
 
-    GcodeParser gp;
-    gp.setTraverseSpeed(m_settings->rapidSpeed());
-    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+    auto gp = new GcodeParser();
+    gp->setTraverseSpeed(m_settings->rapidSpeed());
+    if (m_codeDrawer->getIgnoreZ())
+        gp->reset(QVector3D(qQNaN(), qQNaN(), 0));
 
     QString stripped;
     QList<QByteArray> args;
@@ -4518,12 +4519,12 @@ void frmMain::updateParser()
         }
 
         // Add command to parser
-        gp.addCommand(args);
+        gp->addCommand(args);
 
         // Update table model
         m_currentModel->data()[i].state = GCodeItem::InQueue;
         m_currentModel->data()[i].response = QByteArray();
-        m_currentModel->data()[i].line = gp.getCommandNumber();
+        m_currentModel->data()[i].line = gp->getCommandNumber();
 
         if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
             progress.setValue(i);
@@ -4538,7 +4539,9 @@ void frmMain::updateParser()
     progress.close();
 
     viewParser->reset();
-    viewParser->updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+    viewParser->updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+
+    QtConcurrent::run([=] { delete gp; });
 
     updateProgramEstimatedTime(*viewParser->getLineSegments());
 
@@ -4562,11 +4565,11 @@ void frmMain::updateParserInBackground()
 
     m_updateParserFuture = QtConcurrent::run([=, &future = m_updateParserFuture]
     {
-        GcodeParser gp;
+        auto gp = new GcodeParser();
 
-        gp.setTraverseSpeed(m_settings->rapidSpeed());
+        gp->setTraverseSpeed(m_settings->rapidSpeed());
         if (m_codeDrawer->getIgnoreZ())
-            gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+            gp->reset(QVector3D(qQNaN(), qQNaN(), 0));
 
         QString stripped;
         QList<QByteArray> args;
@@ -4584,20 +4587,26 @@ void frmMain::updateParserInBackground()
             }
 
             // Add command to parser
-            gp.addCommand(args);
+            gp->addCommand(args);
 
             // Update table model
             m_currentModel->data()[i].state = GCodeItem::InQueue;
             m_currentModel->data()[i].response = QByteArray();
-            m_currentModel->data()[i].line = gp.getCommandNumber();
+            m_currentModel->data()[i].line = gp->getCommandNumber();
 
             if (future.isCanceled())
+            {
+                // Free resources in separate task for fast finish
+                QtConcurrent::run([=] { delete gp; });
                 return;
+            }
         }
 
         auto viewParser = m_currentDrawer->viewParser();
         viewParser->reset();
-        viewParser->updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(), [=] { return future.isCanceled(); });
+        viewParser->updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(), [=] { return future.isCanceled(); });
+
+        QtConcurrent::run([=] { delete gp; });
 
         if (future.isCanceled())
             return;
@@ -4744,9 +4753,10 @@ void frmMain::loadFile(const QList<QString> &data)
     ui->tblProgram->setModel(NULL);
 
     // Prepare parser
-    GcodeParser gp;
-    gp.setTraverseSpeed(m_settings->rapidSpeed());
-    if (m_codeDrawer->getIgnoreZ()) gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
+    auto gp = new GcodeParser();
+    gp->setTraverseSpeed(m_settings->rapidSpeed());
+    if (m_codeDrawer->getIgnoreZ())
+        gp->reset(QVector3D(qQNaN(), qQNaN(), 0));
 
     // Block parser updates on table changes
     m_programLoading = true;
@@ -4781,12 +4791,12 @@ void frmMain::loadFile(const QList<QString> &data)
             stripped = GcodePreprocessorUtils::removeComment(command);
             args = GcodePreprocessorUtils::splitCommand(stripped);
 
-            gp.addCommand(args);
+            gp->addCommand(args);
 
             item.command = trimmed.toUtf8();
             item.command.squeeze();
             item.state = GCodeItem::InQueue;
-            item.line = gp.getCommandNumber();
+            item.line = gp->getCommandNumber();
             item.args = args;
 
             m_programModel.data().append(item);
@@ -4805,7 +4815,9 @@ void frmMain::loadFile(const QList<QString> &data)
     m_programModel.insertRow(m_programModel.rowCount());
     m_programLoading = false;
 
-    m_viewParser.updateFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+    m_viewParser.updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+
+    QtConcurrent::run([=] { delete gp; });
 
     updateProgramEstimatedTime(*m_viewParser.getLineSegments());
 
@@ -5642,7 +5654,7 @@ void frmMain::updateProgramEstimatedTime(const QList<LineSegment*> &lines)
 
         auto t = estimator->calculateTime([=] { return future.isCanceled(); });
 
-        delete estimator;
+        QtConcurrent::run([=] { delete estimator; });
 
         if (future.isCanceled())
             return;

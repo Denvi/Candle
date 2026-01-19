@@ -150,7 +150,7 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
     // Prepare segments indexes
     m_lineSegmentIndexes.resize(psl->count());
 
-    foreach (PointSegment *segment, *psl) {
+    foreach (const auto &segment, *psl) {
         PointSegment *ps = segment;
         bool isMetric = ps->isMetric();
         ps->convertToMetric();
