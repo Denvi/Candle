@@ -2092,8 +2092,8 @@ void frmMain::onConnectionDataReceived(QString data)
                 QList<int> drawnLines;
 
                 for (i = m_lastDrawnLineIndex; i < list->count()
-                        && list->at(i)->getLineNumber()
-                            <= (m_currentModel->data(m_currentModel->index(processedCommandIndex, 4)).toInt()); i++) {
+                    && list->at(i)->getLineNumber() <= (m_currentModel->data().at(processedCommandIndex).line); i++)
+                {
                     drawnLines << i;
                 }
 
@@ -2157,9 +2157,10 @@ void frmMain::onConnectionDataReceived(QString data)
             QList<LineSegment*> *list = parser->getLineSegments();
 
             for (int i = m_lastDrawnLineIndex; i < list->count()
-                    && list->at(i)->getLineNumber()
-                    <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt() + 1); i++) {
-                if (list->at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition)) {
+                && list->at(i)->getLineNumber() <= (m_currentModel->data().at(m_fileProcessedCommandIndex).line + 1); i++)
+            {
+                if (list->at(i)->contains(m_codeDrawer->rotation().transposed() * toolPosition))
+                {
                     toolOnToolpath = true;
                     m_lastDrawnLineIndex = i;
                     break;
@@ -2180,7 +2181,7 @@ void frmMain::onConnectionDataReceived(QString data)
                 qWarning(generalLogCategory)
                 << QString("Tool not on toolpath. Last drawn line index: %1, model line: %2, processed index: %3")
                     .arg(list->at(m_lastDrawnLineIndex)->getLineNumber())
-                    .arg(m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt())
+                    .arg(m_currentModel->data().at(m_fileProcessedCommandIndex).line)
                     .arg(m_fileProcessedCommandIndex);
             }
         }
@@ -2565,8 +2566,8 @@ void frmMain::onConnectionDataReceived(QString data)
                         QList<int> drawnLines;
 
                         for (i = m_lastDrawnLineIndex; i < list->count()
-                                && list->at(i)->getLineNumber()
-                                <= (m_currentModel->data(m_currentModel->index(m_fileProcessedCommandIndex, 4)).toInt()); i++) {
+                                && list->at(i)->getLineNumber() <= (m_currentModel->data().at(m_fileProcessedCommandIndex).line); i++)
+                        {
                             drawnLines << i;
                         }
 
@@ -2777,7 +2778,7 @@ void frmMain::onTableCutLines()
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-            lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            lines.append(m_currentModel->data().at(i).command);
 
         QApplication::clipboard()->setText(lines.join('\n'));
 
@@ -2819,7 +2820,7 @@ void frmMain::onTableCopyLines()
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-            lines.append(m_currentModel->data(m_currentModel->index(i, 1)).toString());
+            lines.append(m_currentModel->data().at(i).command);
 
         QApplication::clipboard()->setText(lines.join('\n'));
     }
@@ -2923,10 +2924,11 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
     if (!m_programLoading) {
 
         // Clear cached args
-        model->setData(model->index(row, 5), QVariant());
+        model->data()[row].args = QList<QByteArray>();
 
         // Drop heightmap cache
-        if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
+        if (m_currentModel == &m_programModel)
+            m_programHeightmapModel.clear();
 
         // Update visualizer
         updateParserInBackground();
@@ -2944,20 +2946,25 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
     if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
 
+    if (idx1.row() < 0 || idx2.row() < 0)
+        return;
+
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> *list = parser->getLineSegments();
     QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
 
     // Update linesegments on cell changed
-    if (!m_currentDrawer->geometryUpdated()) {
+    if (!m_currentDrawer->geometryUpdated())
+    {
         for (int i = 0; i < list->count(); i++) {
-            list->at(i)->setIsHighlight(list->at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
+            list->at(i)->setIsHighlight(list->at(i)->getLineNumber() <= m_currentModel->data().at(idx1.row()).line);
         }
     // Update vertices on current cell changed
-    } else {
-
-        int lineFirst = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
-        int lineLast = m_currentModel->data(m_currentModel->index(idx2.row(), 4)).toInt();
+    }
+    else
+    {
+        int lineFirst = m_currentModel->data().at(idx1.row()).line;
+        int lineLast = m_currentModel->data().at(idx2.row()).line;
         if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
 
         QList<int> indexes;
@@ -2972,7 +2979,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     }
 
     // Update selection marker
-    int line = m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt();
+    int line = m_currentModel->data().at(idx1.row()).line;
     if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty()) {
         QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
         m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
@@ -4445,7 +4452,7 @@ void frmMain::sendCommands(QString commands, int tableIndex)
 void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
-    QString command = m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString();
+    auto command = m_currentModel->data().at(m_fileCommandIndex).command;
     static QRegExp M230("(M0*2|M30|M0*6)(?!\\d)");
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
@@ -4456,7 +4463,7 @@ void frmMain::sendNextFileCommands() {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), GCodeItem::Sent);
         sendCommand(command, m_fileCommandIndex, m_settings->showProgramCommands());
         m_fileCommandIndex++;
-        command = m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString();
+        command = m_currentModel->data().at(m_fileCommandIndex).command;
     }
 }
 
@@ -4857,7 +4864,7 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
     QTextStream textStream(&file);
 
     for (int i = 0; i < model->rowCount() - 1; i++) {
-        textStream << model->data(model->index(i, 1)).toString() << "\r\n";
+        textStream << model->data().at(i).command << "\r\n";
     }
 
     file.close();
@@ -5898,7 +5905,7 @@ QString frmMain::getLineInitCommands(int row)
     QList<LineSegment*> *list = parser->getLineSegments();
     QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
 
-    int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
+    int lineNumber = m_currentModel->data().at(commandIndex).line;
     if (lineNumber < 0) {
         return "";
     }
