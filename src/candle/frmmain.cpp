@@ -5638,6 +5638,8 @@ void frmMain::updateProgramEstimatedTime(const QList<LineSegment*> &lines)
 
         auto t = estimator->calculateTime([=] { return future.isCanceled(); });
 
+        delete estimator;
+
         if (future.isCanceled())
             return;
 
