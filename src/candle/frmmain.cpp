@@ -4735,6 +4735,9 @@ void frmMain::loadFile(const QList<QString> &data)
     ui->grpHeightMap->setProperty("overrided", false);
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
+    ui->sliProgram->setValue(0);
+    m_programTableHistoryManager->clear();
+    m_programHeightmapTableHistoryManager->clear();
 
     // Reset tableview
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -4822,9 +4825,6 @@ void frmMain::loadFile(const QList<QString> &data)
 
     resetHeightmap();
     updateControlsState();
-
-    m_programTableHistoryManager->clear();
-    m_programHeightmapTableHistoryManager->clear();
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
@@ -5030,11 +5030,15 @@ void frmMain::newFile()
     ui->glwVisualizer->fitDrawable();
     updateProgramEstimatedTime(QList<LineSegment*>());
 
+    // Update interface
     m_programFileName = "";
     ui->chkHeightMapUse->setChecked(false);
     ui->grpHeightMap->setProperty("overrided", false);
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
+    ui->sliProgram->setValue(0);
+    m_programTableHistoryManager->clear();
+    m_programHeightmapTableHistoryManager->clear();
 
     // Reset tableview
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
@@ -5055,9 +5059,6 @@ void frmMain::newFile()
     resetHeightmap();
 
     updateControlsState();
-
-    m_programTableHistoryManager->clear();
-    m_programHeightmapTableHistoryManager->clear();
 }
 
 void frmMain::newHeightmap()
