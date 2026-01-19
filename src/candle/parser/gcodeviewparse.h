@@ -60,8 +60,8 @@ private:
 
     double m_modelMinLineLength;
 
-    QList<LineSegment*> m_lineSegments;
-    QVector<QList<int>> m_lineSegmentIndexes;    
+    QList<LineSegment*> *m_lineSegments;
+    QVector<QList<int>> *m_lineSegmentIndexes;    
 
     // Parsing state.
     QVector3D lastPoint;

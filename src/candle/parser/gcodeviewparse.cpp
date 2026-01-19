@@ -6,6 +6,7 @@
 // Copyright 2015-2025 Hayrullin Denis Ravilevich
 
 #include <QDebug>
+#include <QtConcurrent/QtConcurrent>
 #include "gcodeviewparse.h"
 
 GcodeViewParse::GcodeViewParse()
@@ -14,6 +15,9 @@ GcodeViewParse::GcodeViewParse()
     absoluteIJK = false;
     currentLine = 0;
     debug = true;
+
+    m_lineSegments = new QList<LineSegment*>();
+    m_lineSegmentIndexes = new QVector<QList<int>>();
 
     setAxisRotationVector(RotationAxisA, Util::rotationVector(Util::RotationVectorX));
     setAxisRotationVector(RotationAxisB, Util::rotationVector(Util::RotationVectorX));
@@ -30,7 +34,10 @@ GcodeViewParse::GcodeViewParse()
 
 GcodeViewParse::~GcodeViewParse()
 {
-    foreach (LineSegment *ls, m_lineSegments) delete ls;
+    foreach (LineSegment *ls, *m_lineSegments)
+        delete ls;
+
+    delete m_lineSegments;
 }
 
 QVector3D &GcodeViewParse::getViewLowerBounds()
@@ -71,10 +78,20 @@ void GcodeViewParse::updateModelMinLineLength(const QVector3D &start, const QVec
 
 void GcodeViewParse::reset()
 {
-    foreach (LineSegment *ls, m_lineSegments) delete ls;
-    m_lineSegments.clear();
-    m_lineSegmentIndexes.clear();
+    QtConcurrent::run([lineSegments = m_lineSegments, lineIndexes = m_lineSegmentIndexes]
+    {
+        foreach (auto ls, *lineSegments)
+            delete ls;
+
+        delete lineSegments;
+        delete lineIndexes;
+    });
+
+    m_lineSegments = new QList<LineSegment*>();
+    m_lineSegmentIndexes = new QVector<QList<int>>();
+
     currentLine = 0;
+
     m_viewLowerBounds = Util::nVector();
     m_viewUpperBounds = Util::nVector();
     
@@ -106,20 +123,20 @@ const QVector3D &GcodeViewParse::getAxisRotationVector(RotationAxis axis) {
 
 bool GcodeViewParse::axisRotationUsed(GcodeViewParse::RotationAxis axis)
 {
-    if (m_lineSegments.count() > 0) {
+    if (m_lineSegments->count() > 0) {
         switch (axis) {
             case RotationAxisA:
-                if (!qIsNaN(m_lineSegments.last()->axesEnd().x())){
+                if (!qIsNaN(m_lineSegments->last()->axesEnd().x())){
                     return true;
                 }
                 break;
             case RotationAxisB:
-                if (!qIsNaN(m_lineSegments.last()->axesEnd().y())){
+                if (!qIsNaN(m_lineSegments->last()->axesEnd().y())){
                     return true;
                 }
                 break;
             case RotationAxisC:
-                if (!qIsNaN(m_lineSegments.last()->axesEnd().z())){
+                if (!qIsNaN(m_lineSegments->last()->axesEnd().z())){
                     return true;
                 }
                 break;
@@ -147,7 +164,7 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
     int lineIndex = 0;
 
     // Prepare segments indexes
-    m_lineSegmentIndexes.resize(psl->count());
+    m_lineSegmentIndexes->resize(psl->count());
 
     foreach (const auto &segment, *psl) {
         PointSegment *ps = segment;
@@ -200,9 +217,8 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
                         this->updateViewBounds(ls->getEnd());
                         this->updateModelBounds(nextPoint);
 
-                        m_lineSegments.append(ls);
-                        m_lineSegmentIndexes[ps->getLineNumber()].append(
-                            m_lineSegments.count() - 1);
+                        m_lineSegments->append(ls);
+                        (*m_lineSegmentIndexes)[ps->getLineNumber()].append(m_lineSegments->count() - 1);
 
                         startPoint = nextPoint;
                         startRotation = endRotation;
@@ -247,9 +263,8 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
                         this->updateViewBounds(ls->getEnd());
                         this->updateModelBounds(nextPoint);
 
-                        m_lineSegments.append(ls);
-                        m_lineSegmentIndexes[ps->getLineNumber()].append(
-                            m_lineSegments.count() - 1);
+                        m_lineSegments->append(ls);
+                        (*m_lineSegmentIndexes)[ps->getLineNumber()].append(m_lineSegments->count() - 1);
 
                         startPoint = nextPoint;
                         startRotation = endRotation;
@@ -291,9 +306,8 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
                     this->updateModelBounds(nextPoint);
                     this->updateModelMinLineLength(startPoint, nextPoint);
 
-                    m_lineSegments.append(ls);
-                    m_lineSegmentIndexes[ps->getLineNumber()].append(
-                        m_lineSegments.count() - 1);
+                    m_lineSegments->append(ls);
+                    (*m_lineSegmentIndexes)[ps->getLineNumber()].append(m_lineSegments->count() - 1);
 
                     startPoint = nextPoint;
                     startRotation = endRotation;
@@ -312,10 +326,10 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
 
 QList<LineSegment*> *GcodeViewParse::getLineSegments()
 {
-    return &m_lineSegments;
+    return m_lineSegments;
 }
 
 QVector<QList<int>> *GcodeViewParse::getLineSegmentIndexes()
 {
-    return &m_lineSegmentIndexes;
+    return m_lineSegmentIndexes;
 }
