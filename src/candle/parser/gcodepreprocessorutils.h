@@ -25,11 +25,10 @@ public:
     static QList<float> parseCodes(const QStringList &args, char code);
     static QList<int> parseGCodes(QString command);
     static QList<int> parseMCodes(QString command);
-    static QStringList splitCommand(const QString &command);
-    static double parseCoord(QStringList argList, char c);
+    static QList<QByteArray> splitCommand(const QString &command);
+    static double parseCoord(const QStringList &args, char c);
     static QVector3D updatePointWithCommand(const QVector3D &initial, double x, double y, double z, bool absoluteMode);
     static QVector3D updatePointWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode);
-    static QVector3D updatePointWithCommand(const QString &command, const QVector3D &initial, bool absoluteMode);
     static QVector3D updateAxesWithCommand(const QStringList &commandArgs, const QVector3D &initial, bool absoluteMode);
     static QVector3D convertRToCenter(QVector3D start, QVector3D end, double radius, bool absoluteIJK, bool clockwise);
     static QVector3D updateCenterWithCommand(QStringList commandArgs, QVector3D initial, QVector3D nextPoint, bool absoluteIJKMode, bool clockwise);

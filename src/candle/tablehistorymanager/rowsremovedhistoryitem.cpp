@@ -1,6 +1,6 @@
 #include "rowsremovedhistoryitem.h"
 
-RowsRemovedHistoryItem::RowsRemovedHistoryItem(GCodeTableModel *model, int row, const QList<QString> &rows) : HistoryItem(model)
+RowsRemovedHistoryItem::RowsRemovedHistoryItem(GCodeTableModel *model, int row, const QList<QByteArray> &rows) : HistoryItem(model)
 {
     m_row = row;
     m_rows = rows;

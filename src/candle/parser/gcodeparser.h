@@ -37,13 +37,13 @@ public:
     void reset(const QVector3D &initialPoint = Util::nVector(),
         const QVector3D &initialAxes = Util::nVector());
     PointSegment *addCommand(QString command);
-    PointSegment *addCommand(const QStringList &args);
+    PointSegment *addCommand(const QList<QByteArray> &args);
     QVector3D* getCurrentPoint();
     QList<PointSegment *> expandArc();
     QStringList preprocessCommands(QStringList commands);
     QStringList preprocessCommand(QString command);
     QStringList convertArcsToLines(QString command);
-    QList<PointSegment *> getPointSegmentList();
+    QList<PointSegment*> *getPointSegmentList();
     double getTraverseSpeed() const;
     void setTraverseSpeed(double traverseSpeed);
     int getCommandNumber() const;

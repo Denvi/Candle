@@ -1,6 +1,6 @@
 #include "rowchangedhistoryitem.h"
 
-RowChangedHistoryItem::RowChangedHistoryItem(GCodeTableModel *model, int row, QString oldValue, QString newValue) : HistoryItem(model)
+RowChangedHistoryItem::RowChangedHistoryItem(GCodeTableModel *model, int row, const QByteArray &oldValue, const QByteArray &newValue) : HistoryItem(model)
 {
     m_row = row;
     m_oldValue = oldValue;

@@ -92,8 +92,9 @@ QList<float> GcodePreprocessorUtils::parseCodes(const QStringList &args, char co
 {
     QList<float> l;
 
-    foreach (QString s, args) {
-        if (s.length() > 0 && s[0].toUpper() == code) l.append(s.mid(1).toDouble());
+    foreach (const auto &s, args) {
+        if (s.length() > 0 && s.at(0).toUpper() == code)
+            l.append(s.mid(1).toDouble());
     }
 
     return l;
@@ -127,15 +128,6 @@ QList<int> GcodePreprocessorUtils::parseMCodes(QString command)
     }
 
     return codes;
-}
-
-/**
-* Update a point given the arguments of a command.
-*/
-QVector3D GcodePreprocessorUtils::updatePointWithCommand(const QString &command, const QVector3D &initial, bool absoluteMode)
-{
-    QStringList l = splitCommand(command);
-    return updatePointWithCommand(l, initial, absoluteMode);
 }
 
 /**
@@ -286,10 +278,13 @@ QString GcodePreprocessorUtils::generateG1FromPoints(QVector3D start, QVector3D 
 //* This command is about the same speed as the string.split(" ") command,
 //* but might be a little faster using precompiled regex.
 //*/
-QStringList GcodePreprocessorUtils::splitCommand(const QString &command) {
-    QStringList l;
+QList<QByteArray> GcodePreprocessorUtils::splitCommand(const QString &command)
+{
+    QList<QByteArray> l;
     bool readNumeric = false;
     QString sb;
+
+    sb.reserve(command.size());
 
     QByteArray ba(command.toLatin1());
     const char *cmd = ba.constData(); // Direct access to string data
@@ -300,7 +295,8 @@ QStringList GcodePreprocessorUtils::splitCommand(const QString &command) {
 
         if (readNumeric && !isDigit(c) && c != '.') {
             readNumeric = false;
-            l.append(sb);
+            l.append(sb.toUtf8());
+            l.last().squeeze();
             sb.clear();
             if (isLetter(c)) sb.append(c);
         } else if (isDigit(c) || c == '.' || c == '-') {
@@ -309,43 +305,27 @@ QStringList GcodePreprocessorUtils::splitCommand(const QString &command) {
         } else if (isLetter(c)) sb.append(c);
     }
 
-    if (sb.length() > 0) l.append(sb);
-
-//    QChar c;
-
-//    for (int i = 0; i < command.length(); i++) {
-//        c = command[i];
-
-//        if (readNumeric && !c.isDigit() && c != '.') {
-//            readNumeric = false;
-//            l.append(sb);
-//            sb = "";
-//            if (c.isLetter()) sb.append(c);
-//        } else if (c.isDigit() || c == '.' || c == '-') {
-//            sb.append(c);
-//            readNumeric = true;
-//        } else if (c.isLetter()) sb.append(c);
-//    }
-
-//    if (sb.length() > 0) l.append(sb);
+    if (sb.length() > 0)
+    {
+        l.append(sb.toUtf8());
+        l.last().squeeze();
+    }
 
     return l;
 }
 
 // TODO: Replace everything that uses this with a loop that loops through
 // the string and creates a hash with all the values.
-double GcodePreprocessorUtils::parseCoord(QStringList argList, char c)
+// const &
+double GcodePreprocessorUtils::parseCoord(const QStringList &args, char c)
 {
-//    int n = argList.length();
-
-//    for (int i = 0; i < n; i++) {
-//        if (argList[i].length() > 0 && argList[i][0].toUpper() == c) return argList[i].mid(1).toDouble();
-//    }
-
-    foreach (QString t, argList)
+    // const &
+    foreach (const auto &t, args)
     {
-        if (t.length() > 0 && t[0].toUpper() == c) return t.mid(1).toDouble();
+        if (t.length() > 0 && t.at(0).toUpper() == c)
+            return t.mid(1).toDouble();
     }
+
     return qQNaN();
 }
 

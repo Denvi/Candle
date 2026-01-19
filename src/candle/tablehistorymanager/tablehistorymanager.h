@@ -23,8 +23,8 @@ public:
     bool canRedo();
 
 public slots:
-    void onCommandChanged(int row, QString oldValue, QString newValue);
-    void onCommandsInserted(int row, const QList<QString> &commands);
+    void onCommandChanged(int row, const QByteArray &oldValue, const QByteArray &newValue);
+    void onCommandsInserted(int row, const QList<QByteArray> &commands);
     void onRowAdded(int row);
     void onRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
     void onRowsRemoved(const QModelIndex &parent, int first, int last);
@@ -37,7 +37,7 @@ private:
     QList<QSharedPointer<HistoryItem>> m_items;
     int m_currentIndex;
     bool m_blockUpdates;
-    QList<QString> m_rowsAboutToBeRemoved;
+    QList<QByteArray> m_rowsAboutToBeRemoved;
 
     void addItem(QSharedPointer<HistoryItem> item);
     void emitHistory();
