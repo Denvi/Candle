@@ -11,11 +11,11 @@ struct GCodeItem
 {
     enum States { InQueue, Sent, Processed, Skipped };
 
-    QString command;
+    QByteArray command;
     char state;
-    QString response;
+    QByteArray response;
     int line;
-    QStringList args;
+    QList<QByteArray> args;
 };
 
 class GCodeTableModel : public QAbstractTableModel
@@ -40,13 +40,13 @@ public:
 
     QList<GCodeItem> &data();
 
-    void setCommand(int row, const QString &command);
-    void insertCommands(int row, const QList<QString> &commands);
+    void setCommand(int row, const QByteArray &command);
+    void insertCommands(int row, const QList<QByteArray> &commands);
     void addRow(int row);
 
 signals:
-    void commandChanged(int row, QString oldValue, QString newValue);
-    void commandsInserted(int row, const QList<QString> &commands);
+    void commandChanged(int row, const QByteArray &oldValue, const QByteArray &newValue);
+    void commandsInserted(int row, const QList<QByteArray> &commands);
     void rowAdded(int row);
 
 public slots:

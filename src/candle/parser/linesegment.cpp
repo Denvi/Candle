@@ -10,92 +10,52 @@
 
 LineSegment::LineSegment()
 {
+    m_flags = {false};
+    m_flags.isMetric = true;
+    m_flags.isAbsolute = true;
+
     m_toolhead = 0;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isSpline = false;
-    m_isFastTraverse = false;
-    m_drawn = false;
-    m_isMetric = true;
-    m_isAbsolute = true;
-    m_isHighlight = false;
     m_vertexIndex = -1;
     m_index = -1;
 }
 
-LineSegment::LineSegment(QVector3D a, QVector3D b, int num)
+LineSegment::LineSegment(const QVector3D &start, const QVector3D &end, int lineNumber) : LineSegment()
 {
-    m_toolhead = 0;
-    m_isZMovement = false;
-    m_isArc = false;
-    m_isSpline = false;
-    m_isFastTraverse = false;
-    m_drawn = false;
-    m_isMetric = true;
-    m_isAbsolute = true;
-    m_isHighlight = false;
-    m_vertexIndex = -1;
-
-    m_first = a;
-    m_second = b;
-    m_lineNumber = num;
+    m_first = start;
+    m_second = end;
+    m_lineIndex = lineNumber;
 }
 
-LineSegment::LineSegment(LineSegment* initial)
+LineSegment::LineSegment(LineSegment *initial)
 {
-    m_toolhead = initial->getToolhead();
-    m_isZMovement = initial->isZMovement();
-    m_isArc = initial->isArc();
-    m_isSpline = initial->isSpline();
-    m_isFastTraverse = initial->isFastTraverse();
-    m_drawn = initial->drawn();
-    m_first = initial->getStart();
-    m_second = initial->getEnd();
-    m_lineNumber = initial->getLineNumber();
-    m_speed = initial->getSpeed();
-    m_isMetric = initial->isMetric();
-    m_isAbsolute = initial->isAbsolute();
-    m_isHighlight = initial->isHighlight();
-    m_vertexIndex = initial->vertexIndex();
-    m_axesStart = initial->axesStart();
-    m_axesEnd = initial->axesEnd();
-    m_modelStart = initial->modelStart();
-    m_modelEnd = initial->modelEnd();
-    m_index = initial->index();
-    m_dwell = initial->getDwell();
-    m_spindleSpeed = initial->getSpindleSpeed();
+    m_flags = initial->m_flags;
+    m_toolhead = initial->m_toolhead;
+    m_first = initial->m_first;
+    m_second = initial->m_second;
+    m_lineIndex = initial->m_lineIndex;
+    m_speed = initial->m_speed;
+    m_vertexIndex = initial->m_vertexIndex;
+    m_axesStart = initial->m_axesStart;
+    m_axesEnd = initial->m_axesEnd;
+    m_modelStart = initial->m_modelStart;
+    m_modelEnd = initial->m_modelEnd;
+    m_index = initial->m_index;
+    m_dwell = initial->m_dwell;
+    m_spindleSpeed = initial->m_spindleSpeed;
 }
 
 LineSegment::~LineSegment()
 {
 }
 
-int LineSegment::getLineNumber() {
-    return m_lineNumber;
-}
-
-QList<QVector3D> LineSegment::getPointArray()
+int LineSegment::getLineNumber()
 {
-    QList<QVector3D> pointarr;
-    pointarr.append(m_first);
-    pointarr.append(m_second);
-    return pointarr;
+    return m_lineIndex;
 }
 
-QList<double> LineSegment::getPoints()
+QVector3D &LineSegment::getStart()
 {
-    QList<double> points;
-    points.append(m_first.x());
-    points.append(m_first.y());
-    points.append(m_first.z());
-    points.append(m_second.x());
-    points.append(m_second.y());
-    points.append(m_second.z());
-    return points;
-}
-
-QVector3D &LineSegment::getStart() {
-    return this->m_first;
+    return m_first;
 }
 
 void LineSegment::setStart(QVector3D vector)
@@ -103,8 +63,9 @@ void LineSegment::setStart(QVector3D vector)
     m_first = vector;
 }
 
-QVector3D &LineSegment::getEnd() {
-    return this->m_second;
+QVector3D &LineSegment::getEnd()
+{
+    return m_second;
 }
 
 void LineSegment::setEnd(QVector3D vector)
@@ -152,8 +113,9 @@ void LineSegment::setAxesEnd(const QVector3D &axesEnd)
     m_axesEnd = axesEnd;
 }
 
-void LineSegment::setToolHead(int head) {
-    this->m_toolhead = head;
+void LineSegment::setToolHead(int head)
+{
+    m_toolhead = head;
 }
 
 int LineSegment::getToolhead()
@@ -161,8 +123,9 @@ int LineSegment::getToolhead()
     return m_toolhead;
 }
 
-void LineSegment::setSpeed(double s) {
-    this->m_speed = s;
+void LineSegment::setSpeed(double s)
+{
+    m_speed = s;
 }
 
 double LineSegment::getSpeed() const
@@ -170,84 +133,94 @@ double LineSegment::getSpeed() const
     return m_speed;
 }
 
-void LineSegment::setIsZMovement(bool isZ) {
-    this->m_isZMovement = isZ;
-}
-
-bool LineSegment::isZMovement() {
-    return m_isZMovement;
-}
-
-void LineSegment::setIsArc(bool isA) {
-    this->m_isArc = isA;
-}
-
-bool LineSegment::isArc() {
-    return m_isArc;
-}
-
-void LineSegment::setIsSpline(bool isSpline) {
-    this->m_isSpline = isSpline;
-}
-
-bool LineSegment::isSpline() const {
-    return m_isSpline;
-}
-
-void LineSegment::setIsFastTraverse(bool isF) {
-    this->m_isFastTraverse = isF;
-}
-
-bool LineSegment::isFastTraverse() const {
-    return this->m_isFastTraverse;
-}
-
-bool LineSegment::contains(const QVector3D &point)
-{
-    double delta;
-    QVector3D line = this->getEnd() - this->getStart();
-    QVector3D pt = point - this->getStart();
-
-    delta = (line - pt).length() - (line.length() - pt.length());
-
-    return delta < 0.01;
-}
-
-bool LineSegment::drawn() const
-{
-    return m_drawn;
-}
-
-void LineSegment::setDrawn(bool drawn)
-{
-    m_drawn = drawn;
-}
-bool LineSegment::isMetric() const
-{
-    return m_isMetric;
-}
-
-void LineSegment::setIsMetric(bool isMetric)
-{
-    m_isMetric = isMetric;
-}
 bool LineSegment::isAbsolute() const
 {
-    return m_isAbsolute;
+    return m_flags.isAbsolute;
 }
 
 void LineSegment::setIsAbsolute(bool isAbsolute)
 {
-    m_isAbsolute = isAbsolute;
+    m_flags.isAbsolute = isAbsolute;
 }
+
+bool LineSegment::isArc()
+{
+    return m_flags.isArc;
+}
+
+void LineSegment::setIsArc(bool isA)
+{
+    m_flags.isArc = isA;
+}
+
+bool LineSegment::isClockwise() const
+{
+    return m_flags.isClockwise;
+}
+
+void LineSegment::setIsClockwise(bool isClockwise)
+{
+    m_flags.isClockwise = isClockwise;
+}
+
+bool LineSegment::isDrawn() const
+{
+    return m_flags.isDrawn;
+}
+
+void LineSegment::setIsDrawn(bool drawn)
+{
+    m_flags.isDrawn = drawn;
+}
+
+bool LineSegment::isFastTraverse() const
+{
+    return m_flags.isFastTraverse;
+}
+
+void LineSegment::setIsFastTraverse(bool isF)
+{
+    m_flags.isFastTraverse = isF;
+}
+
 bool LineSegment::isHighlight() const
 {
-    return m_isHighlight;
+    return m_flags.isHighlight;
 }
 
 void LineSegment::setIsHighlight(bool isHighlight)
 {
-    m_isHighlight = isHighlight;
+    m_flags.isHighlight = isHighlight;
+}
+
+bool LineSegment::isMetric() const
+{
+    return m_flags.isMetric;
+}
+
+void LineSegment::setIsMetric(bool isMetric)
+{
+    m_flags.isMetric = isMetric;
+}
+
+bool LineSegment::isSpline() const
+{
+    return m_flags.isSpline;
+}
+
+void LineSegment::setIsSpline(bool isSpline)
+{
+    m_flags.isSpline = isSpline;
+}
+
+bool LineSegment::isZMovement()
+{
+    return m_flags.isZMovement;
+}
+
+void LineSegment::setIsZMovement(bool isZ)
+{
+    m_flags.isZMovement = isZ;
 }
 
 int LineSegment::vertexIndex() const
@@ -280,16 +253,6 @@ void LineSegment::setDwell(double dwell)
     m_dwell = dwell;
 }
 
-bool LineSegment::isClockwise() const
-{
-    return m_isClockwise;
-}
-
-void LineSegment::setIsClockwise(bool isClockwise)
-{
-    m_isClockwise = isClockwise;
-}
-
 PointSegment::planes LineSegment::plane() const
 {
     return m_plane;
@@ -310,7 +273,14 @@ void LineSegment::setIndex(int index)
     m_index = index;
 }
 
+bool LineSegment::contains(const QVector3D &point)
+{
+    double delta;
 
+    QVector3D line = m_second - m_first;
+    QVector3D pt = point - m_first;
 
+    delta = (line - pt).length() - (line.length() - pt.length());
 
-
+    return delta < 0.01;
+}

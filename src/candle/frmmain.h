@@ -500,7 +500,7 @@ private:
 
     // Files/models
     void loadFile(QString fileName);
-    void loadFile(QList<QString> data);
+    void loadFile(const QList<QString> &data);
     bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     void loadHeightMap(QString fileName);
@@ -535,7 +535,7 @@ private:
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
-    void updateProgramEstimatedTime(QList<LineSegment *> lines);
+    void updateProgramEstimatedTime(const QList<LineSegment *> &lines);
     void ensureProgramEstimatedTimeUpdateNotRunning();
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();

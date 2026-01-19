@@ -31,7 +31,7 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
             return tr("Unknown");
         case 3: return m_data.at(index.row()).response;
         case 4: return m_data.at(index.row()).line;
-        case 5: return QVariant(m_data.at(index.row()).args);
+        case 5: return QVariant::fromValue(m_data.at(index.row()).args);
         }
     }
 
@@ -56,11 +56,12 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
             case 1:
                 {
                     auto oldCommand = m_data.at(index.row()).command;
-                    auto newCommand = value.toString();
+                    auto newCommand = value.toString().toUtf8();
 
                     if (newCommand != oldCommand)
                     {
                         m_data[index.row()].command = newCommand;
+                        m_data[index.row()].command.squeeze();
                         emit commandChanged(index.row(), oldCommand, newCommand);
                     }
                 }
@@ -69,13 +70,14 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
                 m_data[index.row()].state = value.toInt();
                 break;
             case 3:
-                m_data[index.row()].response = value.toString();
+                m_data[index.row()].response = value.toString().toUtf8();
+                m_data[index.row()].response.squeeze();
                 break;
             case 4:
                 m_data[index.row()].line = value.toInt();
                 break;
             case 5:
-                m_data[index.row()].args = value.toStringList();
+                m_data[index.row()].args = value.value<QList<QByteArray>>();
                 break;
         }
 
@@ -87,16 +89,17 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
     return false;
 }
 
-void GCodeTableModel::setCommand(int row, const QString &command)
+void GCodeTableModel::setCommand(int row, const QByteArray &command)
 {
     m_data[row].command = command;
-    m_data[row].args.clear();
+    m_data[row].command.squeeze();
+    m_data[row].args = QList<QByteArray>();
 
     auto index = this->index(row, 1);
     emit dataChanged(this->index(row, 1), this->index(row, 5));
 }
 
-void GCodeTableModel::insertCommands(int row, const QList<QString> &commands)
+void GCodeTableModel::insertCommands(int row, const QList<QByteArray> &commands)
 {
     insertRows(row, commands.count());
 

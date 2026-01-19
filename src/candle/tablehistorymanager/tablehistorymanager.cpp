@@ -101,14 +101,14 @@ void TableHistoryManager::emitHistory()
     emit historyChanged(history, m_currentIndex);
 }
 
-void TableHistoryManager::onCommandChanged(int row, QString oldValue, QString newValue)
+void TableHistoryManager::onCommandChanged(int row, const QByteArray &oldValue, const QByteArray &newValue)
 {
     if (m_blockUpdates)
         return;
 
     if (row == m_model->rowCount() - 1)
     {
-        addItem(QSharedPointer<RowsInsertedHistoryItem>::create(m_model, row, QList<QString> { newValue }));
+        addItem(QSharedPointer<RowsInsertedHistoryItem>::create(m_model, row, QList<QByteArray> { newValue }));
     }
     else
     {
@@ -116,7 +116,7 @@ void TableHistoryManager::onCommandChanged(int row, QString oldValue, QString ne
     }
 }
 
-void TableHistoryManager::onCommandsInserted(int row, const QList<QString> &commands)
+void TableHistoryManager::onCommandsInserted(int row, const QList<QByteArray> &commands)
 {
     if (m_blockUpdates)
         return;
@@ -140,7 +140,7 @@ void TableHistoryManager::onRowsAboutToBeRemoved(const QModelIndex &parent, int 
     m_rowsAboutToBeRemoved.clear();
 
     for (auto i = first; i <= last; i++)
-        m_rowsAboutToBeRemoved.append(m_model->data(m_model->index(i, 1)).toString());
+        m_rowsAboutToBeRemoved.append(m_model->data()[i].command);
 }
 
 void TableHistoryManager::onRowsRemoved(const QModelIndex &parent, int first, int last)
@@ -149,4 +149,6 @@ void TableHistoryManager::onRowsRemoved(const QModelIndex &parent, int first, in
         return;
 
     addItem(QSharedPointer<RowsRemovedHistoryItem>::create(m_model, first, m_rowsAboutToBeRemoved));
+
+    m_rowsAboutToBeRemoved.clear();
 }

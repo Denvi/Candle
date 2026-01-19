@@ -15,9 +15,8 @@
 #include "gcodeparser.h"
 #include "../utils/util.h"
 
-class GcodeViewParse : public QObject
+class GcodeViewParse
 {
-    Q_OBJECT
 public:
     enum RotationAxis {
         RotationAxisA,
@@ -25,7 +24,7 @@ public:
         RotationAxisC
     };
 
-    explicit GcodeViewParse(QObject *parent = 0);
+    explicit GcodeViewParse();
     ~GcodeViewParse();
 
     QVector3D &getViewLowerBounds();
@@ -42,18 +41,12 @@ public:
 
     bool axisRotationUsed(RotationAxis axis);
 
-    QList<LineSegment*> toObjRedux(QList<QString> gcode, double arcPrecision, bool arcDegreeMode);
-    QList<LineSegment*> getLineSegmentList();
-    QList<LineSegment*> getLinesFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled = nullptr);
+    void updateFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled = nullptr);
 
-    QList<LineSegment*> *getLines();
-    QVector<QList<int>> *getLinesIndexes();
+    QList<LineSegment*> *getLineSegments();
+    QVector<QList<int>> *getLineSegmentIndexes();
 
     void reset();
-
-signals:
-
-public slots:
 
 private:
     bool absoluteMode;
@@ -67,8 +60,8 @@ private:
 
     double m_modelMinLineLength;
 
-    QList<LineSegment*> m_lines;
-    QVector<QList<int>> m_lineIndexes;    
+    QList<LineSegment*> m_lineSegments;
+    QVector<QList<int>> m_lineSegmentIndexes;    
 
     // Parsing state.
     QVector3D lastPoint;

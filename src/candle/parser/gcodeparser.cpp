@@ -9,7 +9,7 @@
 #include <QDebug>
 #include "gcodeparser.h"
 
-GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
+GcodeParser::GcodeParser()
 {
     m_isMetric = true;
     m_inAbsoluteMode = true;
@@ -35,7 +35,8 @@ GcodeParser::GcodeParser(QObject *parent) : QObject(parent)
 
 GcodeParser::~GcodeParser()
 {
-    foreach (PointSegment *ps, this->m_points) delete ps;
+    foreach (PointSegment *ps, this->m_points)
+        delete ps;
 }
 
 bool GcodeParser::getConvertArcsToLines() {
@@ -104,19 +105,25 @@ void GcodeParser::reset(const QVector3D &initialPoint, const QVector3D &initialA
 PointSegment* GcodeParser::addCommand(QString command)
 {
     QString stripped = GcodePreprocessorUtils::removeComment(command);
-    QStringList args = GcodePreprocessorUtils::splitCommand(stripped);
+    auto args = GcodePreprocessorUtils::splitCommand(stripped);
     return this->addCommand(args);
 }
 
 /**
 * Add a command which has already been broken up into its arguments.
 */
-PointSegment* GcodeParser::addCommand(const QStringList &args)
+PointSegment* GcodeParser::addCommand(const QList<QByteArray> &args)
 {
     if (args.isEmpty()) {
         return NULL;
     }
-    return processCommand(args);
+
+    QStringList commandArgs;
+
+    foreach (auto &arg, args)
+        commandArgs.append(arg);
+
+    return processCommand(commandArgs);
 }
 
 /**
@@ -198,9 +205,11 @@ QList<PointSegment*> GcodeParser::expandArc()
     return psl;
 }
 
-QList<PointSegment*> GcodeParser::getPointSegmentList() {
-    return this->m_points;
+QList<PointSegment*> *GcodeParser::getPointSegmentList()
+{
+    return &m_points;
 }
+
 double GcodeParser::getTraverseSpeed() const
 {
     return m_traverseSpeed;

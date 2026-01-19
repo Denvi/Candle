@@ -6,13 +6,13 @@
 class RowChangedHistoryItem : public HistoryItem
 {
 public:
-    RowChangedHistoryItem(GCodeTableModel *model, int row, QString oldValue, QString newValue);
+    RowChangedHistoryItem(GCodeTableModel *model, int row, const QByteArray &oldValue, const QByteArray &newValue);
 
     void undo() const override;
     void redo() const override;
 
 private:
     int m_row;
-    QString m_oldValue;
-    QString m_newValue;
+    QByteArray m_oldValue;
+    QByteArray m_newValue;
 };
