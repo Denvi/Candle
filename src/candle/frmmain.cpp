@@ -4725,6 +4725,7 @@ void frmMain::loadFile(const QList<QString> &data)
     // Reset code drawer
     m_currentDrawer = m_codeDrawer;
     m_codeDrawer->update();
+    m_selectionDrawer->setVisible(false);
     ui->glwVisualizer->fitDrawable(m_codeDrawer);
     ui->glwVisualizer->setUpdatesEnabled(false);
     updateProgramEstimatedTime(QList<LineSegment*>());
