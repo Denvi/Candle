@@ -55,7 +55,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Updating...</source>
+        <source>Updating</source>
         <translation></translation>
     </message>
 </context>
