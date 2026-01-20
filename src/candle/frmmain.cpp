@@ -2937,18 +2937,27 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
 
 void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
 {
+    // Normalize indexes
+    if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
+    if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
+
+    // Update slider
+    if (idx1.row() >= 0)
+    {
+        ui->sliProgram->setProperty("programmaticChange", true);
+        ui->sliProgram->setValue(idx1.row());
+        ui->sliProgram->setProperty("programmaticChange", false);
+    }
+
     // Prevent updates if background parser update is running
     // sender() is nullptr if calling directly from updateParser task
     if (m_updateParserFuture.isRunning() && sender())
         return;
 
     // Update toolpath highlighting
-    if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
-    if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
-
     if (idx1.row() < 0 || idx2.row() < 0)
         return;
-
+    
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> *list = parser->getLineSegments();
     QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
@@ -2988,10 +2997,6 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     } else {
         m_selectionDrawer->setVisible(false);
     }
-
-    ui->sliProgram->setProperty("programmaticChange", true);
-    ui->sliProgram->setValue(idx1.row());
-    ui->sliProgram->setProperty("programmaticChange", false);
 }
 
 void frmMain::onOverridingToggled(bool checked)
