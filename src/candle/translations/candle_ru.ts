@@ -55,8 +55,8 @@
         <translation>Вершины: %1</translation>
     </message>
     <message>
-        <source>Updating...</source>
-        <translation>Обновление...</translation>
+        <source>Updating</source>
+        <translation>Обновление</translation>
     </message>
 </context>
 <context>

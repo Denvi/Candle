@@ -55,7 +55,7 @@
         <translation type="unfinished">Vertices: %1</translation>
     </message>
     <message>
-        <source>Updating...</source>
+        <source>Updating</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

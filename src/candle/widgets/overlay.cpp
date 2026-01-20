@@ -10,7 +10,8 @@ Overlay::Overlay(GLWidget *parent) : QWidget(parent), m_parent(parent)
 
 void Overlay::paintEvent(QPaintEvent *pe)
 {
-    const QString updatingText = tr("Updating...");
+    static const QString updatingText = tr("Updating");
+    static const QString updatingAnimation = "...";
 
     QPainter painter(this);
     QFontMetrics fm(painter.font());
@@ -60,7 +61,8 @@ void Overlay::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(this->width() - fm.width(buffer) - 10, y + fm.height()), buffer);
 
     if (m_parent->m_updating)
-        painter.drawText(QPoint((this->width() - fm.width(updatingText)) / 2, y + fm.height() * 3), updatingText);
+        painter.drawText(QPoint((this->width() - fm.width(updatingText)) / 2, y + fm.height() * 3),
+        updatingText + updatingAnimation.mid(2 - QTime::currentTime().second() % 3));
 
     QMatrix4x4 w;
     w.scale(width() / 2, -height() / 2);
