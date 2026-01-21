@@ -36,7 +36,18 @@
                 "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
                 "VCPKG_TARGET_TRIPLET": "x64-osx-dynamic-release"
             }
-        }        
+        },
+        {
+            "name": "linux-x64-release",
+            "displayName": "Linux x64 Release",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/Candle",
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
     ],
     "buildPresets": [
         {
@@ -55,6 +66,12 @@
             "name": "osx-x64-release",
             "displayName": "OS X x64 Release",
             "configurePreset": "osx-x64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "linux-x64-release",
+            "displayName": "Linux x64 Release",
+            "configurePreset": "linux-x64-release",
             "configuration": "Release"
         }
     ]
