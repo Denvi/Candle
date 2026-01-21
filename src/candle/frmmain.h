@@ -18,6 +18,7 @@
 #include <QScriptEngine>
 #include <QGroupBox>
 #include <exception>
+#include <QFuture>
 
 #include "parser/gcodeviewparse.h"
 
