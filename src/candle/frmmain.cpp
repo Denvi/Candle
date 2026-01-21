@@ -9,6 +9,7 @@
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QMessageBox>
+#include <QClipboard>
 #include <QFuture>
 #include <QComboBox>
 #include <QScrollBar>
