@@ -22,6 +22,7 @@
 #include <QInputDialog>
 #include <QElapsedTimer>
 #include <QtConcurrent/QtConcurrent>
+#include <QClipboard>
 #include "frmmain.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
