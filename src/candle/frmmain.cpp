@@ -179,6 +179,9 @@ void frmMain::initUi()
     ui->fraDropModification->setVisible(false);
     ui->fraDropUser->setVisible(false);
 
+    // Default Speed Selection
+    ui->cboTraceSpeed->setCurrentIndex(1); // 0=Slow, 1=Medium, 2=Fast
+
     // Dock widgets
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -3380,7 +3383,10 @@ void frmMain::saveSettings()
 
     // Language
     set.setValue("language", m_settings->language());
-
+	
+	// Save Trace Z
+    set.setValue("heightmapTraceZ", ui->txtHeightMapTraceZ->value());
+	
     set.endGroup();
 }
 
@@ -3570,7 +3576,10 @@ void frmMain::storeSettings()
 void frmMain::restoreSettings()
 {
     auto set = m_storage.group("General");
-
+	
+	// Restore Trace Z
+    ui->txtHeightMapTraceZ->setValue(set->value("heightmapTraceZ", 5.0).toDouble());
+	
     m_settingsLoading = true;
 
     emit settingsAboutToLoad();
@@ -5996,3 +6005,204 @@ QScriptValue frmMain::importExtension(QScriptContext *context, QScriptEngine *en
 {
     return engine->importExtension(context->argument(0).toString());
 }
+
+// =================================================================
+// Emergency Stop Button
+// =================================================================
+void frmMain::on_cmdHeightMapStop_clicked()
+{
+    // Send reset command to the controller. This command stops all movements immediately.
+    grblReset();
+}
+
+// =================================================================
+// Trace Border Function with Speed Control
+// =================================================================
+void frmMain::on_cmdHeightMapTrace_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) {
+         QMessageBox::warning(this, tr("Safety Error"), tr("Device is busy. Please wait for IDLE state."));
+         return;
+    }
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double w = ui->txtHeightMapBorderWidth->value();
+    double h = ui->txtHeightMapBorderHeight->value();
+
+    if (w <= 0 || h <= 0) return;
+
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    // Determine speed based on user selection
+    // Recommended values (mm/min)
+    int speedIndex = ui->cboTraceSpeed->currentIndex();
+    double traceFeed;
+
+    switch (speedIndex) {
+        case 0: traceFeed = 300.0;  break; // Slow - for high precision
+        case 1: traceFeed = 800.0;  break; // Medium
+        case 2: traceFeed = 2000.0; break; // Fast - quick but risky
+        default: traceFeed = 500.0;
+    }
+
+    // Coordinate calculation
+    double x_start = x;
+    double y_start = y;
+    double x_end = x + w;
+    double y_end = y + h;
+
+    QStringList cmds;
+
+    // 1. Set Absolute mode (G90) and Millimeters (G21)
+    cmds << "G21 G90";
+
+    // 2. Move tool up to Safe Z at maximum speed (G0)
+    cmds << QString("G0 Z%1").arg(safeZ);
+
+    // 3. Move to starting point (bottom-left corner) at maximum speed
+    cmds << QString("G0 X%1 Y%2").arg(x_start).arg(y_start);
+
+    // 4. Trace the border with user-selected speed (G1 F...)
+    cmds << QString("G1 X%1 F%2").arg(x_end).arg(traceFeed); // Move Right
+    cmds << QString("G1 Y%1").arg(y_end);                    // Move Up
+    cmds << QString("G1 X%1").arg(x_start);                  // Move Left
+    cmds << QString("G1 Y%1").arg(y_start);                  // Move Down (Return)
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+// =================================================================
+// 4 Corner Navigation Buttons (TL, TR, BL, BR)
+// =================================================================
+
+// 1. Top-Left
+void frmMain::on_cmdCornerTL_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) return;
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double h = ui->txtHeightMapBorderHeight->value();
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    double targetX = x;
+    double targetY = y + h;
+
+    QStringList cmds;
+    cmds << "G21 G90"; // Switch to Absolute mode
+    cmds << QString("G0 Z%1").arg(safeZ); // Move to specified Safe Z height
+    cmds << QString("G0 X%1 Y%2").arg(targetX).arg(targetY);
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+// 2. Top-Right
+void frmMain::on_cmdCornerTR_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) return;
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double w = ui->txtHeightMapBorderWidth->value();
+    double h = ui->txtHeightMapBorderHeight->value();
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    double targetX = x + w;
+    double targetY = y + h;
+
+    QStringList cmds;
+    cmds << "G21 G90"; // Absolute
+    cmds << QString("G0 Z%1").arg(safeZ);
+    cmds << QString("G0 X%1 Y%2").arg(targetX).arg(targetY);
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+// 3. Bottom-Left
+void frmMain::on_cmdCornerBL_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) return;
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    double targetX = x;
+    double targetY = y;
+
+    QStringList cmds;
+    cmds << "G21 G90"; // Absolute
+    cmds << QString("G0 Z%1").arg(safeZ);
+    cmds << QString("G0 X%1 Y%2").arg(targetX).arg(targetY);
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+// 4. Bottom-Right
+void frmMain::on_cmdCornerBR_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) return;
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double w = ui->txtHeightMapBorderWidth->value();
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    double targetX = x + w;
+    double targetY = y;
+
+    QStringList cmds;
+    cmds << "G21 G90"; // Absolute
+    cmds << QString("G0 Z%1").arg(safeZ);
+    cmds << QString("G0 X%1 Y%2").arg(targetX).arg(targetY);
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+// =================================================================
+// Move to Center Function
+// =================================================================
+void frmMain::on_cmdHeightMapCenter_clicked()
+{
+    if (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) return;
+
+    double x = ui->txtHeightMapBorderX->value();
+    double y = ui->txtHeightMapBorderY->value();
+    double w = ui->txtHeightMapBorderWidth->value();
+    double h = ui->txtHeightMapBorderHeight->value();
+    double safeZ = ui->txtHeightMapTraceZ->value();
+
+    if (w <= 0 || h <= 0) return;
+
+    // Calculate center point
+    double centerX = x + (w / 2.0);
+    double centerY = y + (h / 2.0);
+
+    QStringList cmds;
+
+    // Set Absolute mode
+    cmds << "G21 G90";
+
+    // First: Rapid move to Safe Z height (to avoid surface collisions)
+    cmds << QString("G0 Z%1").arg(safeZ);
+
+    // Second: Rapid move to center coordinates
+    cmds << QString("G0 X%1 Y%2").arg(centerX).arg(centerY);
+
+    if (m_currentConnection && m_currentConnection->isConnected()) {
+        sendCommands(cmds.join("\n"), -1);
+    }
+}
+
+#include "frmmain.moc"

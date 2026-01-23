@@ -219,6 +219,7 @@ private slots:
     void on_cmdHeightMapLoad_clicked();
     void on_cmdHeightMapOrigin_clicked();
     void on_cmdHeightMapBorderAuto_clicked();
+	void on_cmdHeightMapTrace_clicked();
     void on_cmdHeightMapOriginTool_clicked();
     void on_cmdYPlus_pressed();
     void on_cmdYPlus_released();
@@ -244,6 +245,12 @@ private slots:
     void on_mnuViewPanels_aboutToShow();
     void on_dockVisualizer_visibilityChanged(bool visible);
     void on_sliProgram_valueChanged(int value);
+	void on_cmdCornerTL_clicked();
+    void on_cmdCornerTR_clicked();
+    void on_cmdCornerBL_clicked();
+    void on_cmdCornerBR_clicked();
+    void on_cmdHeightMapStop_clicked();
+	void on_cmdHeightMapCenter_clicked();
 
     void onConnectionDataReceived(QString data);
     void onConnectionErrorOccurred(QString error);
