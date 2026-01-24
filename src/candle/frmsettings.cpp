@@ -345,7 +345,7 @@ void frmSettings::setLaserPowerMax(int value)
 
 QStringList frmSettings::jogSteps()
 {
-    return ui->txtJogSteps->text().split(QRegExp("\\s*,\\s*"));
+    return ui->txtJogSteps->text().split(QRegularExpression("\\s*,\\s*"));
 }
 
 void frmSettings::setJogSteps(QStringList steps)
@@ -355,7 +355,7 @@ void frmSettings::setJogSteps(QStringList steps)
 
 QStringList frmSettings::jogFeeds()
 {
-    return ui->txtJogFeeds->text().split(QRegExp("\\s*,\\s"));
+    return ui->txtJogFeeds->text().split(QRegularExpression("\\s*,\\s"));
 }
 
 void frmSettings::setJogFeeds(QStringList feeds)
