@@ -14,7 +14,7 @@ struct GCodeItem
     QByteArray command;
     char state;
     QByteArray response;
-    int line;
+    int line = -1;
     QList<QByteArray> args;
 };
 
