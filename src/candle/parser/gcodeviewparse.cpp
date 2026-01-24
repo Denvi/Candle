@@ -281,13 +281,15 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
                 double segmentRotation = rotation / segments;
 
                 // Create line segments on axis rotation
-                for (int i = 0; i < segments; i++) {
-                    nextPoint = startPoint + segmentVector;
+                for (int i = 0; i < segments; i++)
+                {
+                    nextPoint = segments > 1 ? startPoint + segmentVector : *end;
+
                     if (!Util::nIsNaN(m_axesRotationVectors[RotationAxisA]))
                         endRotation.rotate(segmentRotation, m_axesRotationVectors[RotationAxisA]);
 
-                    ls = new LineSegment(startRotation * startPoint, 
-                        endRotation * nextPoint, lineIndex);
+                    ls = new LineSegment(startRotation * startPoint, endRotation * nextPoint, lineIndex);
+
                     ls->setIsArc(ps->isArc());
                     ls->setIsFastTraverse(ps->isFastTraverse());
                     ls->setIsZMovement(ps->isZMovement());
@@ -312,6 +314,7 @@ void GcodeViewParse::updateFromParser(GcodeParser *gp, double arcPrecision, bool
                     startPoint = nextPoint;
                     startRotation = endRotation;
                 }
+
                 lineIndex++;
                 index++;
             }

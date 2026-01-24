@@ -110,7 +110,7 @@ bool GcodeDrawer::prepareVectors()
                 continue;
 
             // Store toolpath first point
-            m_start = lineSegmentBegin->getStart();
+            m_start = lineSegmentBegin->getEnd();
             if (m_ignoreZ || qIsNaN(m_start.z()))
                 m_start.setZ(0);
 
