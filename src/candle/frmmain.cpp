@@ -3027,21 +3027,14 @@ void frmMain::onTableSelectionChanged(const QItemSelection &selected, const QIte
         int top = range.top();
         int bottom = range.bottom();
 
-        // Nothing to select/unselect on last empty row
-        if (top == bottom && bottom == (m_currentModel->rowCount() - 1))
-            return;
-
-        // Bound bottom row
-        bottom = qMin(bottom, m_currentModel->rowCount() - 2);
-
-        int lineFirst = m_currentModel->data().at(top).line;
-        int lineLast = m_currentModel->data().at(bottom).line;
-
-        for (int i = lineFirst; i <= lineLast; i++)
+        for (int i = top; i <= bottom; i++)
         {
-            if (i >= 0)
+            auto line = m_currentModel->data().at(i).line;
+
+            if (line >= 0)
             {
-                foreach (int l, lineIndexes->at(i)) {
+                foreach (auto &l, lineIndexes->at(line))
+                {
                     list->at(l)->setIsHighlight(isSelected);
                     indexes.append(l);
                 }
