@@ -22,6 +22,7 @@ public:
     void update();
     void update(QList<int> indexes);
     bool updateData();
+    void drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio) override;
 
     QVector3D getViewLowerBounds();
     QVector3D getViewUpperBounds();
@@ -108,6 +109,9 @@ private:
     QImage m_image;
     QList<int> m_indexes;
     bool m_geometryUpdated;
+
+    QVector3D m_start;
+    QVector3D m_end;
 
     bool prepareVectors();
     bool updateVectors();

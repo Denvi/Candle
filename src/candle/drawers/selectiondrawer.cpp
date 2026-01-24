@@ -5,21 +5,19 @@
 
 SelectionDrawer::SelectionDrawer()
 {
-    m_pointSize = 6.0;
 }
 
-bool SelectionDrawer::updateData()
+void SelectionDrawer::drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio)
 {
-    m_points.clear();
+    static auto polygon = QPolygon({ QPoint(0, 0), QPoint(-4, 32), QPoint(4, 32), QPoint(0, 0) });
 
-    VertexData vertex;
-    vertex.type = VertexDataTypePoint;
-    vertex.color = Util::colorToVector(m_color);
-    vertex.position = m_position;
-    vertex.data = QVector3D(m_pointSize, 0, 0);
-    m_points.append(vertex);
+    painter.translate((projection * m_position).toPoint());
+    painter.scale(1, -1);
 
-    return true;
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(QPen(m_color));
+    painter.setBrush(QBrush(m_color));
+    painter.drawPolygon(polygon);
 }
 
 QColor SelectionDrawer::color() const
