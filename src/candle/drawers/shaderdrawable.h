@@ -40,6 +40,10 @@ public:
     /// @brief Draw 2D graphics for the object
     /// @param projection - world to the visualizer window transform matrix
     /// @param ratio - visualizer window pixels to the world units ratio
+    /// @example
+    /// ```cpp
+    /// auto screenPosition = (projection * position);
+    /// ```
     virtual void drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio);
 
     bool needsUpdateGeometry() const;

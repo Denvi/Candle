@@ -260,7 +260,8 @@ private slots:
     void onTableUndo();
     void onTableRedo();
     void onTableCellChanged(int row, QString oldValue, QString newValue);
-    void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
+    void onTableCurrentChanged(const QModelIndex &idx1, const QModelIndex &idx2);
+    void onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void onOverridingToggled(bool checked);
     void onOverrideChanged();
     void onActRecentFileTriggered();

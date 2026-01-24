@@ -13,6 +13,8 @@ GcodeDrawer::GcodeDrawer() : QObject()
     m_grayscaleMin = 0;
     m_grayscaleMax = 255;
     m_drawMode = GcodeDrawer::Vectors;
+    m_start = Util::nVector();
+    m_end = Util::nVector();
 
     connect(&m_timerVertexUpdate, &QTimer::timeout, this, &GcodeDrawer::onTimerVertexUpdate);
     m_timerVertexUpdate.start(100);
@@ -43,12 +45,45 @@ bool GcodeDrawer::updateData()
     }
 }
 
+void GcodeDrawer::drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio)
+{
+    static auto polygon = QPolygon({ QPoint(0, 0), QPoint(-4, 32), QPoint(4, 32), QPoint(0, 0) });
+
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    if (!Util::nIsNaN(m_start))
+    {
+        painter.save();
+
+        painter.translate((projection * m_start).toPoint());
+        painter.scale(1, -1);
+
+        painter.setPen(QPen(m_colorStart));
+        painter.setBrush(QBrush(m_colorStart));
+        painter.drawPolygon(polygon);
+
+        painter.restore();
+    }
+
+    if (!Util::nIsNaN(m_end))
+    {
+        painter.translate((projection * m_end).toPoint());
+        painter.scale(1, -1);
+
+        painter.setPen(QPen(m_colorEnd));
+        painter.setBrush(QBrush(m_colorEnd));
+        painter.drawPolygon(polygon);
+    }
+}
+
 bool GcodeDrawer::prepareVectors()
 {
     // Clear all vertex data
     m_lines.clear();
     m_points.clear();
     m_triangles.clear();
+    m_start = Util::nVector();
+    m_end = Util::nVector();
 
     // Delete texture on mode change
     if (m_texture)
@@ -74,17 +109,12 @@ bool GcodeDrawer::prepareVectors()
             if (qIsNaN(lineSegmentBegin->getEnd().x()) || qIsNaN(lineSegmentBegin->getEnd().y()))
                 continue;
 
-            // Draw first toolpath point
-            vertex.color = Util::colorToVector(m_colorStart);
-            vertex.position = lineSegmentBegin->getStart();
-            vertex.type = VertexDataTypePoint;
-            if (m_ignoreZ || qIsNaN(vertex.position.z()))
-                vertex.position.setZ(0);
-            vertex.data = QVector3D(m_pointSize, 0, 0);
-            m_points.append(vertex);
+            // Store toolpath first point
+            m_start = lineSegmentBegin->getEnd();
+            if (m_ignoreZ || qIsNaN(m_start.z()))
+                m_start.setZ(0);
 
             isFirstPointAdded = true;
-            // Don't continue - draw the first segment too!
         }
 
         // Prepare vertices
@@ -140,16 +170,12 @@ bool GcodeDrawer::prepareVectors()
             vertex.position.setZ(0);
         m_lines.append(vertex);
 
-        // Draw last toolpath point
+        // Store last toolpath point
         if (i == lineSegmentsCount - 1)
         {
-            vertex.type = VertexDataTypePoint;
-            vertex.color = Util::colorToVector(m_colorEnd);
-            vertex.position = lineSegmentEnd->getEnd();
-            if (m_ignoreZ || qIsNaN(vertex.position.z()))
-                vertex.position.setZ(0);
-            vertex.data = QVector3D(m_pointSize, 0, 0);
-            m_points.append(vertex);
+            m_end = lineSegmentEnd->getEnd();
+            if (m_ignoreZ || qIsNaN(m_end.z()))
+                m_end.setZ(0);            
         }
     }
 
@@ -343,8 +369,8 @@ QVector3D GcodeDrawer::getSegmentColorVector(LineSegment *segment)
 
 QColor GcodeDrawer::getSegmentColor(LineSegment *segment)
 {
-    if (segment->isDrawn()) return m_colorDrawn;//QVector3D(0.85, 0.85, 0.85);
-    else if (segment->isHighlight()) return m_colorHighlight;//QVector3D(0.57, 0.51, 0.9);
+    if (segment->isHighlight()) return m_colorHighlight;//QVector3D(0.57, 0.51, 0.9);
+    else if (segment->isDrawn()) return m_colorDrawn;//QVector3D(0.85, 0.85, 0.85);
     else if (segment->isFastTraverse()) return m_colorNormal;// QVector3D(0.0, 0.0, 0.0);
     else if (segment->isZMovement()) return m_colorZMovement;//QVector3D(1.0, 0.0, 0.0);
     else if (m_grayscaleSegments) switch (m_grayscaleCode) {

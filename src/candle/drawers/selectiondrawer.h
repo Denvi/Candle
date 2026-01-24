@@ -17,8 +17,7 @@ public:
     const QVector3D &position();
     void setPosition(const QVector3D &position);
 
-protected:
-    bool  updateData();
+    void drawPainter(QPainter &painter, const QMatrix4x4 &projection, double ratio) override;
 
 private:
     QColor m_color;
