@@ -17,7 +17,7 @@ GcodeDrawer::GcodeDrawer() : QObject()
     m_end = Util::nVector();
 
     connect(&m_timerVertexUpdate, &QTimer::timeout, this, &GcodeDrawer::onTimerVertexUpdate);
-    m_timerVertexUpdate.start(100);
+    m_timerVertexUpdate.start(20);
 }
 
 void GcodeDrawer::update()
