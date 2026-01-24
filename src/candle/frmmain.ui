@@ -594,678 +594,193 @@ QLabel[overrided=&quot;false&quot;] {
                 </layout>
                </item>
                <item>
-                <widget class="QWidget" name="widgetHeightmapSettings" native="true">
-                 <layout class="QVBoxLayout" name="verticalLayout_7">
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_18">
-                    <item>
-                     <widget class="QLabel" name="label_5">
-                      <property name="text">
-                       <string>Border:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout">
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label_6">
-                        <property name="text">
-                         <string>X:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapBorderX">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="3">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapBorderHeight">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>10.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="2">
-                       <widget class="QLabel" name="label_9">
-                        <property name="text">
-                         <string>H:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapBorderY">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_7">
-                        <property name="text">
-                         <string>Y:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="2">
-                       <widget class="QLabel" name="label_8">
-                        <property name="text">
-                         <string>W:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="3">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapBorderWidth">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>10.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_18">
-                      <item>
-                       <widget class="QCheckBox" name="chkHeightMapBorderShow">
-                        <property name="text">
-                         <string>Show border</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="StyledToolButton" name="cmdHeightMapBorderAuto">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>Auto</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_30">
-                    <item>
-                     <widget class="QLabel" name="label_27">
-                      <property name="text">
-                       <string>Origin:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout_7">
-                      <item row="0" column="2">
-                       <widget class="QLabel" name="label_31">
-                        <property name="text">
-                         <string>Y:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapOriginX">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label_28">
-                        <property name="text">
-                         <string>X:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="3">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapOriginY">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-9999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_20">
-                    <item>
-                     <widget class="QCheckBox" name="chkHeightMapOriginShow">
-                      <property name="text">
-                       <string>Show origin</string>
-                      </property>
-                      <property name="checked">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="StyledToolButton" name="cmdHeightMapOriginTool">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="toolTip">
-                       <string>Use current toolhead position</string>
-                      </property>
-                      <property name="text">
-                       <string>Tool</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_19">
-                    <item>
-                     <widget class="QLabel" name="label_10">
-                      <property name="text">
-                       <string>Probe grid:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout_4">
-                      <item row="0" column="3">
-                       <widget class="QLabel" name="label_14">
-                        <property name="text">
-                         <string>Zt:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label_12">
-                        <property name="text">
-                         <string>X:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapGridX">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="decimals">
-                         <number>0</number>
-                        </property>
-                        <property name="minimum">
-                         <double>2.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>1000.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="5">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>-1.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="5">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapGridZTop">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="minimum">
-                         <double>-999.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>1.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_13">
-                        <property name="text">
-                         <string>Y:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="3">
-                       <widget class="QLabel" name="label_11">
-                        <property name="text">
-                         <string>Zb:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapGridY">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="decimals">
-                         <number>0</number>
-                        </property>
-                        <property name="minimum">
-                         <double>2.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>1000.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="2" column="0">
-                       <widget class="QLabel" name="label_21">
-                        <property name="text">
-                         <string>F:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="2" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapProbeFeed">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="decimals">
-                         <number>0</number>
-                        </property>
-                        <property name="minimum">
-                         <double>0.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>0.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_19">
-                      <item>
-                       <widget class="QCheckBox" name="chkHeightMapGridShow">
-                        <property name="text">
-                         <string>Show probe grid</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer_6">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>40</width>
-                          <height>1</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_20">
-                    <item>
-                     <widget class="QLabel" name="label_16">
-                      <property name="text">
-                       <string>Interpolation grid:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout_6">
-                      <item row="1" column="2">
-                       <widget class="QLabel" name="label_19">
-                        <property name="text">
-                         <string>Y:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_18">
-                        <property name="text">
-                         <string>X:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepX">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="decimals">
-                         <number>0</number>
-                        </property>
-                        <property name="minimum">
-                         <double>2.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>1000.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="3">
-                       <widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepY">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="locale">
-                         <locale language="C" country="AnyCountry"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="decimals">
-                         <number>0</number>
-                        </property>
-                        <property name="minimum">
-                         <double>2.000000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>1000.000000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="0,0">
-                      <item>
-                       <widget class="QLabel" name="lblHeightMapInterpolationType">
-                        <property name="text">
-                         <string>Type:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QComboBox" name="cboHeightMapInterpolationType">
-                        <property name="enabled">
-                         <bool>false</bool>
-                        </property>
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Bicubic</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_24">
-                      <item>
-                       <widget class="QCheckBox" name="chkHeightMapInterpolationShow">
-                        <property name="text">
-                         <string>Show interpolation grid</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer_8">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>40</width>
-                          <height>1</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
+			<widget class="QWidget" name="widgetHeightmapSettings" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_HeightmapSettings">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          
+          <item>
+           <widget class="QGroupBox" name="grpBorder">
+            <property name="title">
+             <string>Border</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_Border">
+             <property name="verticalSpacing"><number>4</number></property>
+             
+             <item row="0" column="0"><widget class="QLabel" name="label_6"><property name="text"><string>X:</string></property></widget></item>
+             <item row="0" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapBorderX"><property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property></widget></item>
+             
+             <item row="1" column="0"><widget class="QLabel" name="label_7"><property name="text"><string>Y:</string></property></widget></item>
+             <item row="1" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapBorderY"><property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property></widget></item>
+
+             <item row="2" column="0"><widget class="QLabel" name="label_8"><property name="text"><string>W:</string></property></widget></item>
+             <item row="2" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapBorderWidth"><property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property><property name="value"><double>10.0</double></property></widget></item>
+
+             <item row="3" column="0"><widget class="QLabel" name="label_9"><property name="text"><string>H:</string></property></widget></item>
+             <item row="3" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapBorderHeight"><property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property><property name="value"><double>10.0</double></property></widget></item>
+             
+             <item row="4" column="0" colspan="1"><widget class="QCheckBox" name="chkHeightMapBorderShow"><property name="text"><string>Show</string></property><property name="checked"><bool>true</bool></property></widget></item>
+             <item row="4" column="1"><widget class="StyledToolButton" name="cmdHeightMapBorderAuto"><property name="text"><string>Auto</string></property></widget></item>
+            </layout>
+           </widget>
+          </item>
+		  <item>
+           <widget class="QGroupBox" name="grpTraceActions">
+            <property name="title">
+             <string>Trace &amp; Control</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_Trace">
+             <property name="verticalSpacing"><number>5</number></property>
+             <property name="horizontalSpacing"><number>5</number></property>
+
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_TraceZ">
+               <property name="text"><string>Z:</string></property>
+               <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="txtHeightMapTraceZ">
+               <property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property>
+               <property name="alignment"><set>Qt::AlignCenter</set></property>
+               <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+               <property name="decimals"><number>1</number></property>
+               <property name="minimum"><double>1.0</double></property>
+               <property name="maximum"><double>50.0</double></property>
+               <property name="value"><double>5.0</double></property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_TraceFeed">
+               <property name="text"><string>Spd:</string></property>
+               <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QComboBox" name="cboTraceSpeed">
+               <property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property>
+               <property name="toolTip"><string>Speed</string></property>
+               <item><property name="text"><string>Slow</string></property></item>
+               <item><property name="text"><string>Med</string></property></item>
+               <item><property name="text"><string>Fast</string></property></item>
+              </widget>
+             </item>
+
+             <item row="1" column="0" colspan="2">
+              <widget class="StyledToolButton" name="cmdHeightMapTrace">
+               <property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property>
+               <property name="text"><string>Trace</string></property>
+               <property name="icon"><iconset resource="images.qrc"><normaloff>:/images/fit_1.png</normaloff>:/images/fit_1.png</iconset></property>
+              </widget>
+             </item>
+             <item row="1" column="2" colspan="2">
+              <widget class="StyledToolButton" name="cmdHeightMapStop">
+               <property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property>
+               <property name="text"><string>STOP</string></property>
+               <property name="icon"><iconset resource="images.qrc"><normaloff>:/images/brake.png</normaloff>:/images/brake.png</iconset></property>
+               <property name="styleSheet"><string notr="true">color: red; font-weight: bold;</string></property>
+              </widget>
+             </item>
+
+             <item row="2" column="0" colspan="4">
+              <widget class="StyledToolButton" name="cmdHeightMapCenter">
+               <property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property>
+               <property name="text"><string>Go to Center ✛</string></property>
+               <property name="toolTip"><string>Move to center of the border</string></property>
+              </widget>
+             </item>
+
+             <item row="3" column="0" colspan="2"><widget class="StyledToolButton" name="cmdCornerTL"><property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>TL ↖</string></property></widget></item>
+             <item row="3" column="2" colspan="2"><widget class="StyledToolButton" name="cmdCornerTR"><property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>TR ↗</string></property></widget></item>
+
+             <item row="4" column="0" colspan="2"><widget class="StyledToolButton" name="cmdCornerBL"><property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>BL ↙</string></property></widget></item>
+             <item row="4" column="2" colspan="2"><widget class="StyledToolButton" name="cmdCornerBR"><property name="sizePolicy"><sizepolicy hsizetype="Preferred" vsizetype="Fixed"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>BR ↘</string></property></widget></item>
+
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="grpProbe">
+             <property name="title"><string>Probe Grid</string></property>
+             <layout class="QGridLayout" name="gridLayout_Probe">
+               <property name="verticalSpacing"><number>4</number></property>
+               
+               <item row="0" column="0"><widget class="QLabel" name="label_12"><property name="text"><string>Points X:</string></property></widget></item>
+               <item row="0" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapGridX"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="decimals"><number>0</number></property><property name="minimum"><double>2.0</double></property><property name="value"><double>2.0</double></property></widget></item>
+               
+               <item row="1" column="0"><widget class="QLabel" name="label_13"><property name="text"><string>Points Y:</string></property></widget></item>
+               <item row="1" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapGridY"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="decimals"><number>0</number></property><property name="minimum"><double>2.0</double></property><property name="value"><double>2.0</double></property></widget></item>
+               
+               <item row="2" column="0"><widget class="QLabel" name="label_14"><property name="text"><string>Z Top:</string></property></widget></item>
+               <item row="2" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapGridZTop"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-999.0</double></property><property name="value"><double>1.0</double></property></widget></item>
+               
+               <item row="3" column="0"><widget class="QLabel" name="label_11"><property name="text"><string>Z Btm:</string></property></widget></item>
+               <item row="3" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapGridZBottom"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-999.0</double></property><property name="value"><double>-1.0</double></property></widget></item>
+               
+               <item row="4" column="0"><widget class="QLabel" name="label_21"><property name="text"><string>Feed:</string></property></widget></item>
+               <item row="4" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapProbeFeed"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="decimals"><number>0</number></property><property name="maximum"><double>9999.0</double></property><property name="value"><double>10.0</double></property></widget></item>
+
+               <item row="5" column="0" colspan="2"><widget class="QCheckBox" name="chkHeightMapGridShow"><property name="text"><string>Show grid</string></property><property name="checked"><bool>true</bool></property></widget></item>
+             </layout>
+           </widget>
+          </item>
+
+          <item>
+             <widget class="QGroupBox" name="grpInterp">
+               <property name="title"><string>Interpolation</string></property>
+               <layout class="QGridLayout" name="gridLayout_Interp">
+                 <item row="0" column="0"><widget class="QLabel" name="label_18"><property name="text"><string>Step X:</string></property></widget></item>
+                 <item row="0" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepX"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="decimals"><number>0</number></property><property name="minimum"><double>2.0</double></property><property name="value"><double>2.0</double></property></widget></item>
+                 
+                 <item row="1" column="0"><widget class="QLabel" name="label_19"><property name="text"><string>Step Y:</string></property></widget></item>
+                 <item row="1" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapInterpolationStepY"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="decimals"><number>0</number></property><property name="minimum"><double>2.0</double></property><property name="value"><double>2.0</double></property></widget></item>
+                 
+                 <item row="2" column="0"><widget class="QLabel" name="lblHeightMapInterpolationType"><property name="text"><string>Type:</string></property></widget></item>
+                 <item row="2" column="1">
+                   <widget class="QComboBox" name="cboHeightMapInterpolationType">
+                    <property name="enabled"><bool>false</bool></property>
+                    <item><property name="text"><string>Bicubic</string></property></item>
+                   </widget>
+                 </item>
+                 <item row="3" column="0" colspan="2">
+                   <widget class="QCheckBox" name="chkHeightMapInterpolationShow"><property name="text"><string>Show interp. grid</string></property><property name="checked"><bool>true</bool></property></widget>
+                 </item>
+               </layout>
+             </widget>
+          </item>
+
+          <item>
+             <widget class="QGroupBox" name="grpOrigin">
+               <property name="title"><string>Origin</string></property>
+               <layout class="QGridLayout" name="gridLayout_Origin">
+                 <item row="0" column="0"><widget class="QLabel" name="label_28"><property name="text"><string>X:</string></property></widget></item>
+                 <item row="0" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapOriginX"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property></widget></item>
+                 
+                 <item row="1" column="0"><widget class="QLabel" name="label_31"><property name="text"><string>Y:</string></property></widget></item>
+                 <item row="1" column="1"><widget class="QDoubleSpinBox" name="txtHeightMapOriginY"><property name="alignment"><set>Qt::AlignCenter</set></property><property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property><property name="minimum"><double>-9999.0</double></property><property name="maximum"><double>9999.0</double></property></widget></item>
+                 
+                 <item row="2" column="0"><widget class="QCheckBox" name="chkHeightMapOriginShow"><property name="text"><string>Show</string></property><property name="checked"><bool>true</bool></property></widget></item>
+                 <item row="2" column="1"><widget class="StyledToolButton" name="cmdHeightMapOriginTool"><property name="text"><string>To Tool</string></property></widget></item>
+               </layout>
+             </widget>
+          </item>
+
+         </layout>
+        </widget>
+			   </item>
               </layout>
              </widget>
             </item>
