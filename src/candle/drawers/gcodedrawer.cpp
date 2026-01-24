@@ -115,6 +115,8 @@ bool GcodeDrawer::prepareVectors()
                 m_start.setZ(0);
 
             isFirstPointAdded = true;
+
+            continue;
         }
 
         // Prepare vertices
