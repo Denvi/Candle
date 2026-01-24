@@ -2945,8 +2945,8 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
 
 void frmMain::onTableCurrentChanged(const QModelIndex &idx1, const QModelIndex &idx2)
 {
-    auto row1 = qMin(idx1.row(), m_currentModel->rowCount() - 2);
-    auto row2 = qMin(idx2.row(), m_currentModel->rowCount() - 2);
+    auto row1 = qBound(0, idx1.row(), m_currentModel->rowCount() - 2);
+    auto row2 = qBound(0, idx2.row(), m_currentModel->rowCount() - 2);
 
     // Update slider
     if (row1 >= 0)
@@ -2982,10 +2982,6 @@ void frmMain::onTableCurrentChanged(const QModelIndex &idx1, const QModelIndex &
             m_selectionDrawer->setVisible(false);
         }
     }
-
-    // Update toolpath shadowing
-    if (row1 < 0 || row2 < 0)
-        return;
 
     if (m_senderState == SenderState::SenderStopped && !m_sdRun)
     {
