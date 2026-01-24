@@ -3022,45 +3022,38 @@ void frmMain::onTableSelectionChanged(const QItemSelection &selected, const QIte
     QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
     QList<int> indexes;
 
-    foreach (auto &range, selected)
+    auto updateRangeSelection = [=, &indexes] (const QItemSelectionRange &range, bool isSelected)
     {
-        int top = qMin(range.top(), m_currentModel->rowCount() - 2);
-        int bottom = qMin(range.bottom(), m_currentModel->rowCount() - 2);
+        int top = range.top();
+        int bottom = range.bottom();
 
-        if (top == -1 || bottom == -1)
-            continue;
+        // Nothing to select/unselect on last empty row
+        if (top == bottom && bottom == (m_currentModel->rowCount() - 1))
+            return;
+
+        // Bound bottom row
+        bottom = qMin(bottom, m_currentModel->rowCount() - 2);
 
         int lineFirst = m_currentModel->data().at(top).line;
         int lineLast = m_currentModel->data().at(bottom).line;
 
-        for (int i = lineFirst; i <= lineLast; i++) {
+        for (int i = lineFirst; i <= lineLast; i++)
+        {
             if (i >= 0)
+            {
                 foreach (int l, lineIndexes->at(i)) {
-                    list->at(l)->setIsHighlight(true);
+                    list->at(l)->setIsHighlight(isSelected);
                     indexes.append(l);
                 }
+            }
         }
-    }
+    };
+
+    foreach (auto &range, selected)
+        updateRangeSelection(range, true);
 
     foreach (auto &range, deselected)
-    {
-        int top = qMin(range.top(), m_currentModel->rowCount() - 2);
-        int bottom = qMin(range.bottom(), m_currentModel->rowCount() - 2);
-
-        if (top == -1 || bottom == -1)
-            continue;
-
-        int lineFirst = m_currentModel->data().at(top).line;
-        int lineLast = m_currentModel->data().at(bottom).line;
-
-        for (int i = lineFirst; i <= lineLast; i++) {
-            if (i >= 0)
-                foreach (int l, lineIndexes->at(i)) {
-                    list->at(l)->setIsHighlight(false);
-                    indexes.append(l);
-                }
-        }
-    }
+        updateRangeSelection(range, false);
 
     if (!indexes.isEmpty() && m_currentDrawer->geometryUpdated())
         m_currentDrawer->update(indexes);
@@ -4696,7 +4689,7 @@ void frmMain::updateParserInBackground()
             auto currentIndex = ui->tblProgram->selectionModel()->currentIndex();
             auto firstRowIndex = m_currentModel->index(0, currentIndex.column());
             onTableCurrentChanged(currentIndex, firstRowIndex);
-            onTableSelectionChanged(QItemSelection(currentIndex, currentIndex), QItemSelection());
+            onTableSelectionChanged(ui->tblProgram->selectionModel()->selection(), QItemSelection());
         });
     });
 }
