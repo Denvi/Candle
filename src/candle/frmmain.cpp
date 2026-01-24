@@ -330,6 +330,7 @@ void frmMain::initProgramTable()
     connect(ui->tblProgram->verticalScrollBar(), QOverload<int>::of(&QScrollBar::actionTriggered), this, &frmMain::onScrollBarAction);
     connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
         this, &frmMain::onTableCurrentChanged);
+    connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
     clearTable();
 
     m_tableMenu = new QMenu(this);
@@ -1427,6 +1428,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
             this, &frmMain::onTableCurrentChanged);
+        connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
 
         m_programLoading = false;
 
@@ -1446,6 +1448,8 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
             this, &frmMain::onTableCurrentChanged);
+        connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
+
         ui->tblProgram->selectRow(0);
 
         ui->chkHeightMapUse->setChecked(false);
@@ -1461,6 +1465,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
         connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
             this, &frmMain::onTableCurrentChanged);
+        connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
 
         // Store changes flag
         bool fileChanged = m_fileChanged;
@@ -1606,6 +1611,8 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked)
             ui->tblProgram->setModel(&m_programModel);
             connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
                 this, &frmMain::onTableCurrentChanged);
+            connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
+
             ui->tblProgram->selectRow(0);
 
             ui->glwVisualizer->updateModelBounds(m_codeDrawer);
@@ -2723,11 +2730,11 @@ void frmMain::onTableInsertLine()
     m_currentModel->addRow(row);
     m_currentModel->setData(m_currentModel->index(row, 2), GCodeItem::InQueue);
 
-    updateParserInBackground();
-
     auto index = m_currentModel->index(row, ui->tblProgram->selectionModel()->currentIndex().column());
     ui->tblProgram->scrollTo(index);
     ui->tblProgram->setCurrentIndex(index);
+
+    updateParserInBackground();
 }
 
 void frmMain::onTableDeleteLines()
@@ -2753,10 +2760,10 @@ void frmMain::onTableDeleteLines()
         // Drop heightmap cache
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-        updateParserInBackground();
-
         ui->tblProgram->scrollTo(index);
         ui->tblProgram->setCurrentIndex(index);
+
+        updateParserInBackground();
     }
 }
 
@@ -2798,10 +2805,10 @@ void frmMain::onTableCutLines()
         // Drop heightmap cache
         if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-        updateParserInBackground();
-
         ui->tblProgram->scrollTo(index);
         ui->tblProgram->setCurrentIndex(index);
+
+        updateParserInBackground();
     }
 }
 
@@ -2851,12 +2858,12 @@ void frmMain::onTablePasteLines()
     // Drop heightmap cache
     if (m_currentModel == &m_programModel) m_programHeightmapModel.clear();
 
-    updateParserInBackground();
-
     auto index = m_currentModel->index(row + lines.count(), ui->tblProgram->selectionModel()->currentIndex().column());
     ui->tblProgram->selectionModel()->clearSelection();
     ui->tblProgram->scrollTo(index);
     ui->tblProgram->setCurrentIndex(index);
+
+    updateParserInBackground();
 }
 
 void frmMain::onTableUndo()
@@ -2877,11 +2884,11 @@ void frmMain::onTableUndo()
 
         historyManager->undo();
 
-        updateParserInBackground();
-        resetTableSelection();
-
         if (historyManager == m_programTableHistoryManager)
             m_programHeightmapModel.clear();
+
+        resetTableSelection();
+        updateParserInBackground();
     }
 }
 
@@ -2903,11 +2910,11 @@ void frmMain::onTableRedo()
 
         historyManager->redo();
 
-        updateParserInBackground();
-        resetTableSelection();
-
         if (historyManager == m_programTableHistoryManager)
             m_programHeightmapModel.clear();
+
+        resetTableSelection();
+        updateParserInBackground();
     }
 }
 
@@ -2936,17 +2943,16 @@ void frmMain::onTableCellChanged(int row, QString oldValue, QString newValue)
     }
 }
 
-void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
+void frmMain::onTableCurrentChanged(const QModelIndex &idx1, const QModelIndex &idx2)
 {
-    // Normalize indexes
-    if (idx1.row() > m_currentModel->rowCount() - 2) idx1 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
-    if (idx2.row() > m_currentModel->rowCount() - 2) idx2 = m_currentModel->index(m_currentModel->rowCount() - 2, 0);
+    auto row1 = qMin(idx1.row(), m_currentModel->rowCount() - 2);
+    auto row2 = qMin(idx2.row(), m_currentModel->rowCount() - 2);
 
     // Update slider
-    if (idx1.row() >= 0)
+    if (row1 >= 0)
     {
         ui->sliProgram->setProperty("programmaticChange", true);
-        ui->sliProgram->setValue(idx1.row());
+        ui->sliProgram->setValue(row1);
         ui->sliProgram->setProperty("programmaticChange", false);
     }
 
@@ -2955,49 +2961,113 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2)
     if (m_updateParserFuture.isRunning() && sender())
         return;
 
-    // Update toolpath highlighting
-    if (idx1.row() < 0 || idx2.row() < 0)
-        return;
-    
     GcodeViewParse *parser = m_currentDrawer->viewParser();
     QList<LineSegment*> *list = parser->getLineSegments();
     QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
 
-    // Update linesegments on cell changed
-    if (!m_currentDrawer->geometryUpdated())
+    // Update selection marker
+    if (row1 >= 0)
     {
-        for (int i = 0; i < list->count(); i++) {
-            list->at(i)->setIsHighlight(list->at(i)->getLineNumber() <= m_currentModel->data().at(idx1.row()).line);
-        }
-    // Update vertices on current cell changed
-    }
-    else
-    {
-        int lineFirst = m_currentModel->data().at(idx1.row()).line;
-        int lineLast = m_currentModel->data().at(idx2.row()).line;
-        if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
+        int line = m_currentModel->data().at(row1).line;
 
-        QList<int> indexes;
-        for (int i = lineFirst + 1; i <= lineLast; i++) {
-            foreach (int l, lineIndexes->at(i)) {
-                list->at(l)->setIsHighlight(idx1.row() > idx2.row());
-                indexes.append(l);
+        if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty())
+        {
+            QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
+            m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
+            m_selectionDrawer->setVisible(true);
+            m_selectionDrawer->update();
+        }
+        else
+        {
+            m_selectionDrawer->setVisible(false);
+        }
+    }
+
+    // Update toolpath shadowing
+    if (row1 < 0 || row2 < 0)
+        return;
+
+    if (m_senderState == SenderState::SenderStopped && !m_sdRun)
+    {
+        if (!m_currentDrawer->geometryUpdated())
+        {
+            for (int i = 0; i < list->count(); i++) {
+                list->at(i)->setIsDrawn(list->at(i)->getLineNumber() <= m_currentModel->data().at(row1).line);
             }
         }
+        else
+        {
+            int lineFirst = m_currentModel->data().at(row1).line;
+            int lineLast = m_currentModel->data().at(row2).line;
 
-        if (!indexes.isEmpty()) m_currentDrawer->update(indexes);
+            if (lineLast < lineFirst) qSwap(lineLast, lineFirst);
+
+            QList<int> indexes;
+            for (int i = lineFirst + 1; i <= lineLast; i++) {
+                foreach (int l, lineIndexes->at(i)) {
+                    list->at(l)->setIsDrawn(row1 > row2);
+                    indexes.append(l);
+                }
+            }
+
+            if (!indexes.isEmpty())
+                m_currentDrawer->update(indexes);
+        }
+    }
+}
+
+void frmMain::onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    if (m_updateParserFuture.isRunning() && sender())
+        return;
+
+    GcodeViewParse *parser = m_currentDrawer->viewParser();
+    QList<LineSegment*> *list = parser->getLineSegments();
+    QVector<QList<int>> *lineIndexes = parser->getLineSegmentIndexes();
+    QList<int> indexes;
+
+    foreach (auto &range, selected)
+    {
+        int top = qMin(range.top(), m_currentModel->rowCount() - 2);
+        int bottom = qMin(range.bottom(), m_currentModel->rowCount() - 2);
+
+        if (top == -1 || bottom == -1)
+            continue;
+
+        int lineFirst = m_currentModel->data().at(top).line;
+        int lineLast = m_currentModel->data().at(bottom).line;
+
+        for (int i = lineFirst; i <= lineLast; i++) {
+            if (i >= 0)
+                foreach (int l, lineIndexes->at(i)) {
+                    list->at(l)->setIsHighlight(true);
+                    indexes.append(l);
+                }
+        }
     }
 
-    // Update selection marker
-    int line = m_currentModel->data().at(idx1.row()).line;
-    if (line > 0 && line < lineIndexes->count() && !lineIndexes->at(line).isEmpty()) {
-        QVector3D pos = list->at(lineIndexes->at(line).last())->getEnd();
-        m_selectionDrawer->setPosition(m_codeDrawer->getIgnoreZ() ? QVector3D(pos.x(), pos.y(), 0) : pos);
-        m_selectionDrawer->setVisible(true);
-        m_selectionDrawer->update();
-    } else {
-        m_selectionDrawer->setVisible(false);
+    foreach (auto &range, deselected)
+    {
+        int top = qMin(range.top(), m_currentModel->rowCount() - 2);
+        int bottom = qMin(range.bottom(), m_currentModel->rowCount() - 2);
+
+        if (top == -1 || bottom == -1)
+            continue;
+
+        int lineFirst = m_currentModel->data().at(top).line;
+        int lineLast = m_currentModel->data().at(bottom).line;
+
+        for (int i = lineFirst; i <= lineLast; i++) {
+            if (i >= 0)
+                foreach (int l, lineIndexes->at(i)) {
+                    list->at(l)->setIsHighlight(false);
+                    indexes.append(l);
+                }
+        }
     }
+
+    if (!indexes.isEmpty() && m_currentDrawer->geometryUpdated())
+        m_currentDrawer->update(indexes);
 }
 
 void frmMain::onOverridingToggled(bool checked)
@@ -4630,6 +4700,7 @@ void frmMain::updateParserInBackground()
             auto currentIndex = ui->tblProgram->selectionModel()->currentIndex();
             auto firstRowIndex = m_currentModel->index(0, currentIndex.column());
             onTableCurrentChanged(currentIndex, firstRowIndex);
+            onTableSelectionChanged(QItemSelection(currentIndex, currentIndex), QItemSelection());
         });
     });
 }
@@ -4834,6 +4905,8 @@ void frmMain::loadFile(const QList<QString> &data)
     // Update tableview
     connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
         this, &frmMain::onTableCurrentChanged);
+    connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
+
     ui->tblProgram->selectRow(0);
 
     //  Update code drawer
@@ -5069,6 +5142,8 @@ void frmMain::newFile()
     // Update tableview
     connect(ui->tblProgram->selectionModel(), QOverload<const QModelIndex&, const QModelIndex&>::of(&QItemSelectionModel::currentChanged),
         this, &frmMain::onTableCurrentChanged);
+    connect(ui->tblProgram->selectionModel(), &QItemSelectionModel::selectionChanged, this, &frmMain::onTableSelectionChanged);
+
     ui->tblProgram->selectRow(0);
 
     // Clear selection marker
