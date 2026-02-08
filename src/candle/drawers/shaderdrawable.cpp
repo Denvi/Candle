@@ -108,17 +108,7 @@ void ShaderDrawable::updateGeometry(QOpenGLShaderProgram *shaderProgram)
 
 bool ShaderDrawable::updateData()
 {
-    // Test data
-    m_lines = {
-        {QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector3D(), VertexDataTypeLine},
-        {QVector3D(10, 0, 0), QVector3D(1, 0, 0), QVector3D(), VertexDataTypeLine},
-        {QVector3D(0, 0, 0), QVector3D(0, 1, 0), QVector3D(), VertexDataTypeLine},
-        {QVector3D(0, 10, 0), QVector3D(0, 1, 0), QVector3D(), VertexDataTypeLine},
-        {QVector3D(0, 0, 0), QVector3D(0, 0, 1), QVector3D(), VertexDataTypeLine},
-        {QVector3D(0, 0, 10), QVector3D(0, 0, 1), QVector3D(), VertexDataTypeLine}
-    };
-
-    return true;
+    return false;
 }
 
 bool ShaderDrawable::needsUpdateGeometry() const
