@@ -25,7 +25,7 @@ QStringList ScriptProgram::lines() const
 {
     auto r = QStringList();
 
-    for (auto it = m_frmMain->m_programModel.data().constBegin(); it != m_frmMain->m_programModel.data().constEnd(); it++)
+    for (auto it = m_frmMain->m_currentModel->data().constBegin(); it != m_frmMain->m_currentModel->data().constEnd(); it++)
         r.append((*it).command);
 
     return r;
