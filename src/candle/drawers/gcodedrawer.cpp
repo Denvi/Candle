@@ -571,11 +571,3 @@ void GcodeDrawer::setGrayscaleSegments(bool grayscaleSegments)
 {
     m_grayscaleSegments = grayscaleSegments;
 }
-
-
-
-
-
-
-
-
