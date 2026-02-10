@@ -46,8 +46,8 @@
 #include "script/scriptvars.h"
 #include "script/scriptapp.h"
 
-#include "storage.h"
-#include "storagegroup.h"
+#include "settings/storage.h"
+#include "settings/storagegroup.h"
 
 #include "connections/connection.h"
 

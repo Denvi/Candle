@@ -15,7 +15,7 @@
 #include "parser/gcodepreprocessorutils.h"
 #include "parser/gcodeparser.h"
 #include "parser/gcodeviewparse.h"
-#include "fileloghandler.h"
+#include "logging/fileloghandler.h"
 #include "versionconfig.h"
 
 #include "frmmain.h"

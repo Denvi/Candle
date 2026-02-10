@@ -15,7 +15,7 @@
 #include <QHelpFilterEngine>
 #include <QShortcut>
 #include <QKeyEvent>
-#include "loggingcategories.h"
+#include "logging/loggingcategories.h"
 
 frmHelp::frmHelp(const QString &language, QWidget *parent) : QDialog(parent), ui(new Ui::frmHelp)
 {

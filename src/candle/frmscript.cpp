@@ -11,7 +11,7 @@
 #include <QAction>
 #include "frmscript.h"
 #include "ui_frmscript.h"
-#include "loggingcategories.h"
+#include "logging/loggingcategories.h"
 
 frmScript::frmScript(QWidget *parent) : QFrame(parent), ui(new Ui::frmScript)
 {

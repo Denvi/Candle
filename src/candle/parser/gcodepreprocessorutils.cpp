@@ -11,7 +11,7 @@
 #include "gcodepreprocessorutils.h"
 #include "limits"
 #include "../tables/gcodetablemodel.h"
-#include "loggingcategories.h"
+#include "logging/loggingcategories.h"
 
 /**
 * Searches the command string for an 'f' and replaces the speed value
