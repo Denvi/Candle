@@ -1,12 +1,17 @@
 set(APP_NAME ${PROJECT_NAME})
 set(APP_VERSION ${PROJECT_VERSION})
 
+# Try to get build number from git, fallback to "unknown"
 execute_process(
   COMMAND git log -1 --format=%h
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   OUTPUT_VARIABLE BUILD_NUMBER
   OUTPUT_STRIP_TRAILING_WHITESPACE
+  ERROR_QUIET
 )
+if(NOT BUILD_NUMBER)
+  set(BUILD_NUMBER "unknown")
+endif()
 
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -46,7 +51,14 @@ elseif(APPLE)
     )
 elseif(UNIX)
     add_executable(candle ${SRC_FILES} ${RSC_FILES} ${QM_FILES} icon.rc)
-    set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
+    if(CANDLE_USE_STANDARD_PATHS)
+        # Calculate relative path from bindir to libdir/candle
+        file(RELATIVE_PATH _lib_rel_path ${CMAKE_INSTALL_FULL_BINDIR} ${CMAKE_INSTALL_FULL_LIBDIR})
+        set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/${_lib_rel_path}/candle")
+        unset(_lib_rel_path)
+    else()
+        set_target_properties(candle PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
+    endif()
 endif()
 
 target_include_directories(candle PRIVATE . ../customwidgets)
@@ -56,11 +68,32 @@ target_compile_definitions(candle PRIVATE
         QT_NO_DEBUG
 )
 
+# Add path definitions for resources
+if(CANDLE_USE_STANDARD_PATHS)
+    target_compile_definitions(candle PRIVATE
+        CANDLE_TRANSLATIONS_DIR="${CMAKE_INSTALL_FULL_DATADIR}/candle/translations"
+        CANDLE_PLUGINS_DIR="${CMAKE_INSTALL_FULL_LIBDIR}/candle/candleplugins"
+        CANDLE_SCRIPT_PLUGINS_DIR="${CMAKE_INSTALL_FULL_LIBDIR}/candle/plugins/script"
+        CANDLE_DOCS_DIR="${CMAKE_INSTALL_FULL_DOCDIR}"
+        CANDLE_DATA_DIR="${CMAKE_INSTALL_FULL_DATADIR}/candle"
+    )
+else()
+    target_compile_definitions(candle PRIVATE
+        CANDLE_TRANSLATIONS_DIR=""
+        CANDLE_PLUGINS_DIR=""
+        CANDLE_SCRIPT_PLUGINS_DIR=""
+        CANDLE_DOCS_DIR=""
+        CANDLE_DATA_DIR=""
+    )
+endif()
+
 target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help)
 
 # Main executable
 if(APPLE)
     install(TARGETS candle BUNDLE DESTINATION .)
+elseif(CANDLE_USE_STANDARD_PATHS)
+    install(TARGETS candle RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 else()
     install(TARGETS candle RUNTIME DESTINATION .)
 endif()
@@ -68,6 +101,8 @@ endif()
 # Translations
 if(APPLE)
     set(TRANSLATIONS_DESTINATION "Candle.app/Contents/MacOS/translations")
+elseif(CANDLE_USE_STANDARD_PATHS)
+    set(TRANSLATIONS_DESTINATION ${CMAKE_INSTALL_DATADIR}/candle/translations)
 else()
     set(TRANSLATIONS_DESTINATION "translations")
 endif()
@@ -75,41 +110,46 @@ endif()
 install(FILES ${QM_FILES} DESTINATION ${TRANSLATIONS_DESTINATION})
 
 # Base translations
-get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-execute_process(
-    COMMAND "${QT5_QMAKE_EXECUTABLE}" -query QT_INSTALL_TRANSLATIONS
-    OUTPUT_VARIABLE QT_TRANSLATIONS_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+# For system-wide installation, rely on system Qt translations instead of copying them
+if(NOT CANDLE_USE_STANDARD_PATHS)
+    get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    execute_process(
+        COMMAND "${QT5_QMAKE_EXECUTABLE}" -query QT_INSTALL_TRANSLATIONS
+        OUTPUT_VARIABLE QT_TRANSLATIONS_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
-set(QT_LANGUAGES ru es fr pt)
+    set(QT_LANGUAGES ru es fr pt)
 
-foreach(LANG ${QT_LANGUAGES})
-    set(QT_TRANSLATION_FILE_BASE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")
-    if(EXISTS "${QT_TRANSLATION_FILE_BASE}")
-        install(
-            FILES "${QT_TRANSLATION_FILE_BASE}"
-            DESTINATION ${TRANSLATIONS_DESTINATION}
-        )
-    endif()
-    set(QT_TRANSLATION_FILE_SCRIPT "${QT_TRANSLATIONS_DIR}/qtscript_${LANG}.qm")
-    if(EXISTS "${QT_TRANSLATION_FILE_SCRIPT}")
-        install(
-            FILES "${QT_TRANSLATION_FILE_SCRIPT}"
-            DESTINATION ${TRANSLATIONS_DESTINATION}
-        )
-    endif()    
-    set(QT_TRANSLATION_FILE_HELP "${QT_TRANSLATIONS_DIR}/qt_help_${LANG}.qm")
-    if(EXISTS "${QT_TRANSLATION_FILE_HELP}")
-        install(
-            FILES "${QT_TRANSLATION_FILE_HELP}"
-            DESTINATION ${TRANSLATIONS_DESTINATION}
-        )
-    endif()    
-endforeach()
+    foreach(LANG ${QT_LANGUAGES})
+        set(QT_TRANSLATION_FILE_BASE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")
+        if(EXISTS "${QT_TRANSLATION_FILE_BASE}")
+            install(
+                FILES "${QT_TRANSLATION_FILE_BASE}"
+                DESTINATION ${TRANSLATIONS_DESTINATION}
+            )
+        endif()
+        set(QT_TRANSLATION_FILE_SCRIPT "${QT_TRANSLATIONS_DIR}/qtscript_${LANG}.qm")
+        if(EXISTS "${QT_TRANSLATION_FILE_SCRIPT}")
+            install(
+                FILES "${QT_TRANSLATION_FILE_SCRIPT}"
+                DESTINATION ${TRANSLATIONS_DESTINATION}
+            )
+        endif()
+        set(QT_TRANSLATION_FILE_HELP "${QT_TRANSLATIONS_DIR}/qt_help_${LANG}.qm")
+        if(EXISTS "${QT_TRANSLATION_FILE_HELP}")
+            install(
+                FILES "${QT_TRANSLATION_FILE_HELP}"
+                DESTINATION ${TRANSLATIONS_DESTINATION}
+            )
+        endif()
+    endforeach()
+endif()
 
 if(APPLE)
     set(GENERAL_DESTINATION "Candle.app/Contents/MacOS")
+elseif(CANDLE_USE_STANDARD_PATHS)
+    set(GENERAL_DESTINATION ${CMAKE_INSTALL_DATADIR}/candle)
 else()
     set(GENERAL_DESTINATION ".")
 endif()
@@ -138,18 +178,37 @@ add_custom_target(
 
 # Install
 # Candle plugins
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
-    DESTINATION ${GENERAL_DESTINATION}
-    FILES_MATCHING
-    PATTERN *.*
-    PATTERN *.pro EXCLUDE
-)
+if(CANDLE_USE_STANDARD_PATHS)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/candle
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+        PATTERN *.ts EXCLUDE
+    )
+else()
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/candleplugins
+        DESTINATION ${GENERAL_DESTINATION}
+        FILES_MATCHING
+        PATTERN *.*
+        PATTERN *.pro EXCLUDE
+        PATTERN *.ts EXCLUDE
+    )
+endif()
 
 # License
-install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION ${GENERAL_DESTINATION})
+if(CANDLE_USE_STANDARD_PATHS)
+    install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION ${CMAKE_INSTALL_DOCDIR})
+else()
+    install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION ${GENERAL_DESTINATION})
+endif()
 
 # Documentation
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION ${GENERAL_DESTINATION} FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
+if(CANDLE_USE_STANDARD_PATHS)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION ${CMAKE_INSTALL_DOCDIR} FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
+else()
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/help DESTINATION ${GENERAL_DESTINATION} FILES_MATCHING PATTERN *.qch PATTERN *.qhc)
+endif()
  
 # Shared libraries
 if(WIN32)

@@ -3,6 +3,7 @@
 
 #include "frmsettings.h"
 #include "ui_frmsettings.h"
+#include "candlepaths.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
@@ -86,7 +87,7 @@ frmSettings::frmSettings(QWidget *parent) :
     searchPorts();
 
     // Languages
-    QDir d(qApp->applicationDirPath() + "/translations");
+    QDir d(candleTranslationsDir());
     QStringList fl = QStringList() << "candle_*.qm";
     QStringList tl = d.entryList(fl, QDir::Files);
     QRegExp fx("_([^\\.]+)");

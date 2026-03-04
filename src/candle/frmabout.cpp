@@ -4,6 +4,7 @@
 #include <QDesktopServices>
 #include "frmabout.h"
 #include "ui_frmabout.h"
+#include "candlepaths.h"
 #include "versionconfig.h"
 
 frmAbout::frmAbout(QWidget *parent) :
@@ -18,7 +19,7 @@ frmAbout::frmAbout(QWidget *parent) :
         .arg(BUILD_NUMBER)
     );
 
-    QFile file(qApp->applicationDirPath() + "/LICENSE");
+    QFile file(candleDocsDir() + "/LICENSE");
 
     if (file.open(QIODevice::ReadOnly)) {
         ui->txtLicense->setPlainText(file.readAll());
