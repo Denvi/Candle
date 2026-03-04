@@ -1,5 +1,7 @@
 if(APPLE)
     set(SCRIPT_DESTINATION "Candle.app/Contents/MacOS/script")
+elseif(CANDLE_USE_STANDARD_PATHS)
+    set(SCRIPT_DESTINATION ${CMAKE_INSTALL_LIBDIR}/candle/plugins/script)
 else()
     set(SCRIPT_DESTINATION "script")
 endif()

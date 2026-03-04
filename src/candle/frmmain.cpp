@@ -27,6 +27,7 @@
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "frmchecklist.h"
+#include "candlepaths.h"
 #include "widgets/widgetmimedata.h"
 #include "loggingcategories.h"
 #include "settingsprofileentry.h"
@@ -3231,7 +3232,7 @@ void frmMain::onBeforeScriptStart(QScriptEngine &engine)
     // Delegate objects
     // App
     QScriptValue app = engine.newQObject(m_scriptApp);
-    app.setProperty("path", qApp->applicationDirPath());
+    app.setProperty("path", candleDataDir());
     engine.globalObject().setProperty("app", app);
 
     // Settings
@@ -4233,7 +4234,7 @@ void frmMain::applySettings()
 
 void frmMain::loadPlugins()
 {
-    QString pluginsDir = qApp->applicationDirPath() + "/candleplugins/";
+    QString pluginsDir = candlePluginsDir();
 
     // Get plugins list
     QStringList pl = QDir(pluginsDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -4271,7 +4272,7 @@ void frmMain::loadPlugins()
             // Delegate objects
             // App
             QScriptValue app = se->newQObject(m_scriptApp);
-            app.setProperty("path", qApp->applicationDirPath());
+            app.setProperty("path", candleDataDir());
             se->globalObject().setProperty("app", app);
 
             // Settings

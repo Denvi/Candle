@@ -17,12 +17,13 @@
 #include "parser/gcodeviewparse.h"
 #include "fileloghandler.h"
 #include "versionconfig.h"
+#include "candlepaths.h"
 
 #include "frmmain.h"
 
 void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
 {
-    auto translationsFolder = qApp->applicationDirPath() + "/translations/";
+    QString translationsFolder = candleTranslationsDir();
     QDir dir(translationsFolder);
 
     if (!dir.exists())
@@ -51,6 +52,9 @@ int main(int argc, char *argv[])
     a.setApplicationName(APP_NAME);
     a.setApplicationDisplayName(APP_NAME);
     a.setApplicationVersion(APP_VERSION);
+
+    // Add script plugin library path for QtScript extensions
+    a.addLibraryPath(candleScriptPluginsDir());
 
     installFileLogHandler();
 
