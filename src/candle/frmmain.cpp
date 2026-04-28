@@ -28,8 +28,8 @@
 #include "ui_frmsettings.h"
 #include "frmchecklist.h"
 #include "widgets/widgetmimedata.h"
-#include "loggingcategories.h"
-#include "settingsprofileentry.h"
+#include "logging/loggingcategories.h"
+#include "settings/settingsprofileentry.h"
 #include "utils/optarg.h"
 #include "utils/timeestimator.h"
 #include "connections/serialportconnection.h"
@@ -59,6 +59,13 @@ frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
     if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
         loadFile(qApp->arguments().last());
     }
+
+    // Enable form actions
+    QList<QAction*> noActions;
+    noActions << ui->actJogXMinus << ui->actJogXPlus
+              << ui->actJogYMinus << ui->actJogYPlus
+              << ui->actJogZMinus << ui->actJogZPlus;
+    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
 
     // Setup timers
     connect(&m_timerConnection, &QTimer::timeout, this, &frmMain::onTimerConnection);
@@ -252,13 +259,6 @@ void frmMain::initUi()
     ui->slbSpindle->setChecked(true);
     connect(ui->slbSpindle, &SliderBox::valueUserChanged, this, &frmMain::onSlbSpindleValueUserChanged);
     connect(ui->slbSpindle, &SliderBox::valueChanged, this, &frmMain::onSlbSpindleValueChanged);
-
-    // Enable form actions
-    QList<QAction*> noActions;
-    noActions << ui->actJogXMinus << ui->actJogXPlus
-              << ui->actJogYMinus << ui->actJogYPlus
-              << ui->actJogZMinus << ui->actJogZPlus;
-    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
 }
 
 void frmMain::initDrawers()

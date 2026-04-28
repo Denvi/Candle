@@ -128,8 +128,3 @@ void HeightMapGridDrawer::setModel(QAbstractTableModel *model)
     m_model = model;
     update();
 }
-
-
-
-
-

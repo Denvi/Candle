@@ -2,7 +2,7 @@
 #include "frmmain.h"
 #include <QApplication>
 #include <qstandardpaths.h>
-#include "loggingcategories.h"
+#include "logging/loggingcategories.h"
 
 ScriptApp::ScriptApp(frmMain *f): QObject(0), m_frmMain(f)
 {

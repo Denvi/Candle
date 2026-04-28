@@ -63,11 +63,6 @@ QGroupBox[checkable="true"]::indicator:unchecked {
 	image: url(:/images/expand.png);
 }
 
-QFrame#frameManualControlXY,#frameManualControlZ {
-	border: 1px solid lightgray;
-	border-radius: 4px;
-}
-
 QTableView {
 	selection-background-color: #cdcdff;
 	selection-color: rgb(0, 0, 0);

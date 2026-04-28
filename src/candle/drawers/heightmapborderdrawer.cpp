@@ -38,5 +38,3 @@ bool HeightMapBorderDrawer::updateData()
     };
     return true;
 }
-
-
