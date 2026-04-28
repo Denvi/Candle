@@ -60,6 +60,13 @@ frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
         loadFile(qApp->arguments().last());
     }
 
+    // Enable form actions
+    QList<QAction*> noActions;
+    noActions << ui->actJogXMinus << ui->actJogXPlus
+              << ui->actJogYMinus << ui->actJogYPlus
+              << ui->actJogZMinus << ui->actJogZPlus;
+    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
+
     // Setup timers
     connect(&m_timerConnection, &QTimer::timeout, this, &frmMain::onTimerConnection);
     connect(&m_timerStateQuery, &QTimer::timeout, this, &frmMain::onTimerStateQuery);
@@ -252,13 +259,6 @@ void frmMain::initUi()
     ui->slbSpindle->setChecked(true);
     connect(ui->slbSpindle, &SliderBox::valueUserChanged, this, &frmMain::onSlbSpindleValueUserChanged);
     connect(ui->slbSpindle, &SliderBox::valueChanged, this, &frmMain::onSlbSpindleValueChanged);
-
-    // Enable form actions
-    QList<QAction*> noActions;
-    noActions << ui->actJogXMinus << ui->actJogXPlus
-              << ui->actJogYMinus << ui->actJogYPlus
-              << ui->actJogZMinus << ui->actJogZPlus;
-    foreach (QAction* a, findChildren<QAction*>()) if (!noActions.contains(a)) addAction(a);
 }
 
 void frmMain::initDrawers()
