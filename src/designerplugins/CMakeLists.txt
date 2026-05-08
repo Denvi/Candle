@@ -1,5 +1,7 @@
 if(APPLE)
     set(DESIGNER_DESTINATION "Candle.app/Contents/MacOS/designerplugins")
+elseif(CANDLE_USE_STANDARD_PATHS)
+    set(DESIGNER_DESTINATION ${CMAKE_INSTALL_LIBDIR}/candle/designerplugins)
 else()
     set(DESIGNER_DESTINATION "designerplugins")
 endif()

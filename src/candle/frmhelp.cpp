@@ -1,5 +1,6 @@
 #include "frmhelp.h"
 #include "ui_frmhelp.h"
+#include "candlepaths.h"
 #include <QDebug>
 #include <QSplitter>
 #include <QVBoxLayout>
@@ -124,7 +125,7 @@ void frmHelp::showSearchWidget(bool visible)
 
 QString frmHelp::prepareHelpFiles()
 {
-    auto baseDir = qApp->applicationDirPath() + "/help";
+    auto baseDir = candleDocsDir() + "/help";
     auto dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/help";
     auto baseCollectionFile = baseDir + "/candle.qhc";
     auto dataCollectionFile = dataDir + "/candle.qhc";
