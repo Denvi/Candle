@@ -82,7 +82,7 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(QT_LANGUAGES ru es fr pt)
+set(QT_LANGUAGES ru es fr pt zh_CN)
 
 foreach(LANG ${QT_LANGUAGES})
     set(QT_TRANSLATION_FILE_BASE "${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm")

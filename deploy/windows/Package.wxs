@@ -463,6 +463,9 @@
       <Component Id="cmp_translations_candle_ru_qm" Directory="dir_translations" Guid="85BA564F-D76D-42F7-88DC-87446E455276">
         <File Id="fil_translations_candle_ru_qm" Source="..\..\build\Candle\translations\candle_ru.qm" KeyPath="yes" />
       </Component>
+      <Component Id="cmp_translations_candle_zh_CN_qm" Directory="dir_translations" Guid="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+        <File Id="fil_translations_candle_zh_CN_qm" Source="..\..\build\Candle\translations\candle_zh_CN.qm" KeyPath="yes" />
+      </Component>
       <Component Id="cmp_translations_qt_help_es_qm" Directory="dir_translations" Guid="724C829D-96E3-4253-8A74-503B819A5C66">
         <File Id="fil_translations_qt_help_es_qm" Source="..\..\build\Candle\translations\qt_help_es.qm" KeyPath="yes" />
       </Component>
@@ -471,6 +474,9 @@
       </Component>
       <Component Id="cmp_translations_qt_help_ru_qm" Directory="dir_translations" Guid="37A21559-12E1-4E4E-99FC-CD30BF601CF2">
         <File Id="fil_translations_qt_help_ru_qm" Source="..\..\build\Candle\translations\qt_help_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qt_help_zh_CN_qm" Directory="dir_translations" Guid="B2C3D4E5-F6A7-8901-BCDE-F12345678901">
+        <File Id="fil_translations_qt_help_zh_CN_qm" Source="..\..\build\Candle\translations\qt_help_zh_CN.qm" KeyPath="yes" />
       </Component>
       <Component Id="cmp_translations_qtbase_es_qm" Directory="dir_translations" Guid="01E5A66C-0C64-4AAF-BBEC-574D29B3A223">
         <File Id="fil_translations_qtbase_es_qm" Source="..\..\build\Candle\translations\qtbase_es.qm" KeyPath="yes" />
@@ -481,6 +487,9 @@
       <Component Id="cmp_translations_qtbase_ru_qm" Directory="dir_translations" Guid="9688E6E6-0400-4752-AC47-D7F325D2779A">
         <File Id="fil_translations_qtbase_ru_qm" Source="..\..\build\Candle\translations\qtbase_ru.qm" KeyPath="yes" />
       </Component>
+      <Component Id="cmp_translations_qtbase_zh_CN_qm" Directory="dir_translations" Guid="C3D4E5F6-A7B8-9012-CDEF-123456789012">
+        <File Id="fil_translations_qtbase_zh_CN_qm" Source="..\..\build\Candle\translations\qtbase_zh_CN.qm" KeyPath="yes" />
+      </Component>
       <Component Id="cmp_translations_qtscript_es_qm" Directory="dir_translations" Guid="01D62AD3-48AE-4675-B1D2-30B322362517">
         <File Id="fil_translations_qtscript_es_qm" Source="..\..\build\Candle\translations\qtscript_es.qm" KeyPath="yes" />
       </Component>
@@ -489,6 +498,9 @@
       </Component>
       <Component Id="cmp_translations_qtscript_ru_qm" Directory="dir_translations" Guid="C070EB10-704C-44EF-95F0-4DE23DCE4F6B">
         <File Id="fil_translations_qtscript_ru_qm" Source="..\..\build\Candle\translations\qtscript_ru.qm" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_translations_qtscript_zh_CN_qm" Directory="dir_translations" Guid="D4E5F6A7-B8C9-0123-DEF0-234567890123">
+        <File Id="fil_translations_qtscript_zh_CN_qm" Source="..\..\build\Candle\translations\qtscript_zh_CN.qm" KeyPath="yes" />
       </Component>
     </Feature>
 
