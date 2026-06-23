@@ -55,10 +55,10 @@ void Overlay::paintEvent(QPaintEvent *pe)
     painter.drawText(QPoint(x, fm.height() * 2 + 10), m_parent->m_speedState);
     painter.drawText(QPoint(x, fm.height() * 3 + 10), m_parent->m_pinState);
 
-    painter.drawText(QPoint(this->width() - fm.width(vertices) - 10, y + fm.height() * 2), vertices);
-    painter.drawText(QPoint(this->width() - fm.width(fps) - 10, y + fm.height() * 3), fps);
-    painter.drawText(QPoint(this->width() - fm.width(estimate) - 10, y), estimate);
-    painter.drawText(QPoint(this->width() - fm.width(buffer) - 10, y + fm.height()), buffer);
+    painter.drawText(QPoint(this->width() - fm.horizontalAdvance(vertices) - 10, y + fm.height() * 2), vertices);
+    painter.drawText(QPoint(this->width() - fm.horizontalAdvance(fps) - 10, y + fm.height() * 3), fps);
+    painter.drawText(QPoint(this->width() - fm.horizontalAdvance(estimate) - 10, y), estimate);
+    painter.drawText(QPoint(this->width() - fm.horizontalAdvance(buffer) - 10, y + fm.height()), buffer);
 
     if (m_parent->m_updating)
         painter.drawText(QPoint((this->width() - fm.width(updatingText)) / 2, y + fm.height() * 3),
