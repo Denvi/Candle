@@ -1493,11 +1493,11 @@ segment size:</source>
     </message>
     <message>
         <source>Window:</source>
-        <translation>Фон:</translation>
+        <translation>Фон окна:</translation>
     </message>
     <message>
         <source>Window text:</source>
-        <translation>Текст фона:</translation>
+        <translation>Текст:</translation>
     </message>
     <message>
         <source>Base:</source>
@@ -1513,7 +1513,7 @@ segment size:</source>
     </message>
     <message>
         <source>Highlighted text:</source>
-        <translation>Текст выделения:</translation>
+        <translation>Выделенный текст:</translation>
     </message>
 </context>
 </TS>
