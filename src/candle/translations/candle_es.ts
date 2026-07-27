@@ -1462,5 +1462,53 @@ segment size:</source>
         <source>Reset machine on connection</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Theme:</source>
+        <translation>Tema:</translation>
+    </message>
+    <message>
+        <source>System theme</source>
+        <translation>Tema del sistema</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation>Tema oscuro</translation>
+    </message>
+    <message>
+        <source>Light theme</source>
+        <translation>Tema claro</translation>
+    </message>
+    <message>
+        <source>Custom theme</source>
+        <translation>Tema personalizado</translation>
+    </message>
+    <message>
+        <source>Palette colors</source>
+        <translation>Colores de la paleta</translation>
+    </message>
+    <message>
+        <source>Window:</source>
+        <translation>Ventana:</translation>
+    </message>
+    <message>
+        <source>Window text:</source>
+        <translation>Texto de ventana:</translation>
+    </message>
+    <message>
+        <source>Base:</source>
+        <translation>Base:</translation>
+    </message>
+    <message>
+        <source>Button:</source>
+        <translation>Botón:</translation>
+    </message>
+    <message>
+        <source>Button text:</source>
+        <translation>Texto de botón:</translation>
+    </message>
+    <message>
+        <source>Highlighted text:</source>
+        <translation>Texto resaltado:</translation>
+    </message>
 </context>
 </TS>

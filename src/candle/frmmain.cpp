@@ -23,7 +23,9 @@
 #include <QElapsedTimer>
 #include <QtConcurrent/QtConcurrent>
 #include <QClipboard>
+#include <QStyleFactory>
 #include "frmmain.h"
+#include "theme.h"
 #include "ui_frmmain.h"
 #include "ui_frmsettings.h"
 #include "frmchecklist.h"
@@ -38,6 +40,9 @@
 
 frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
 {
+    m_defaultPalette = qApp->palette();
+    m_defaultStyleName = qApp->style()->objectName();
+
     initVariables();
 
     m_settings = new frmSettings(this);
@@ -3512,6 +3517,7 @@ void frmMain::storeSettings()
     set->setValue("lastFolder", m_lastFolder);
     set->setValue("fontSize", m_settings->fontSize());
     set->setValue("panelWidth", m_settings->panelWidth());
+    set->setValue("theme", m_settings->theme());
     set->setValue("keyboardControl", m_storedKeyboardControl);
 
     set->setValue("useStartCommands", m_settings->useStartCommands());
@@ -3565,6 +3571,10 @@ void frmMain::storeSettings()
 
     foreach (ColorPicker* pick, m_settings->colors()) {
         set->setValue("" + pick->objectName().mid(3), pick->color().name());
+    }
+
+    foreach (ColorPicker* pick, m_settings->paletteColors()) {
+        set->setValue(pick->objectName().mid(3), pick->color().name());
     }
 
     QStringList list;
@@ -3648,6 +3658,7 @@ void frmMain::restoreSettings()
     if (set->childKeys().size()) {
         m_settings->setFontSize(set->value("fontSize", 9).toInt());
         m_settings->setPanelWidth(set->value("panelWidth", 40).toInt());
+        m_settings->setTheme(set->value("theme", ThemeSystem).toInt());
         m_settings->setConnectionType((ConnectionType)set->value("connectionType").toInt());
         m_settings->setPort(set->value("port").toString());
         m_settings->setBaud(set->value("baud", 115200).toInt());
@@ -3708,6 +3719,10 @@ void frmMain::restoreSettings()
         m_settings->setAxisAX(set->value("axisAX", true).toBool());
 
         foreach (ColorPicker* pick, m_settings->colors()) {
+            pick->setColor(QColor(set->value(pick->objectName().mid(3), "black").toString()));
+        }
+
+        foreach (ColorPicker* pick, m_settings->paletteColors()) {
             pick->setColor(QColor(set->value(pick->objectName().mid(3), "black").toString()));
         }
     } else {
@@ -3945,8 +3960,66 @@ void frmMain::loadProfiles(QSettings &set)
     (it != actions.constEnd() ? *it : ui->actServiceProfilesDefault)->setChecked(true);
 }
 
+void frmMain::applyTheme()
+{
+    switch (m_settings->theme()) {
+    case ThemeDark: {
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+
+        QPalette p;
+        p.setColor(QPalette::Window, QColor(53, 53, 53));
+        p.setColor(QPalette::WindowText, Qt::white);
+        p.setColor(QPalette::Base, QColor(35, 35, 35));
+        p.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+        p.setColor(QPalette::ToolTipBase, Qt::white);
+        p.setColor(QPalette::ToolTipText, Qt::white);
+        p.setColor(QPalette::Text, Qt::white);
+        p.setColor(QPalette::Button, QColor(53, 53, 53));
+        p.setColor(QPalette::ButtonText, Qt::white);
+        p.setColor(QPalette::BrightText, Qt::red);
+        p.setColor(QPalette::Link, QColor(42, 130, 218));
+        p.setColor(QPalette::Highlight, QColor(42, 130, 218));
+        p.setColor(QPalette::HighlightedText, Qt::black);
+        p.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
+        p.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(127, 127, 127));
+        p.setColor(QPalette::Disabled, QPalette::WindowText, QColor(127, 127, 127));
+
+        qApp->setPalette(p);
+        break;
+    }
+    case ThemeLight:
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+        qApp->setPalette(qApp->style()->standardPalette());
+        break;
+    case ThemeCustom: {
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+
+        QPalette p = qApp->style()->standardPalette();
+        p.setColor(QPalette::Window, m_settings->paletteColor("Window"));
+        p.setColor(QPalette::WindowText, m_settings->paletteColor("WindowText"));
+        p.setColor(QPalette::Base, m_settings->paletteColor("Base"));
+        p.setColor(QPalette::Text, m_settings->paletteColor("Text"));
+        p.setColor(QPalette::Button, m_settings->paletteColor("Button"));
+        p.setColor(QPalette::ButtonText, m_settings->paletteColor("ButtonText"));
+        p.setColor(QPalette::Highlight, m_settings->paletteColor("Highlight"));
+        p.setColor(QPalette::HighlightedText, m_settings->paletteColor("HighlightedText"));
+
+        qApp->setPalette(p);
+        break;
+    }
+    case ThemeSystem:
+    default:
+        qApp->setStyle(QStyleFactory::create(m_defaultStyleName));
+        qApp->setPalette(m_defaultPalette);
+        break;
+    }
+}
+
 void frmMain::applySettings()
 {
+    // Apply theme
+    applyTheme();
+
     // Apply font size QWidget {font-size: 8pt}
     qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp(
         "QWidget \\{font-size: \\d+pt\\}"),

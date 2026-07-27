@@ -86,7 +86,7 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;The program is provided AS IS without any guarantees or warranty. Use at your own risk.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;本程序按"原样"提供，不附带任何形式的保证或担保。使用风险由您自行承担。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;本程序按&quot;原样&quot;提供，不附带任何形式的保证或担保。使用风险由您自行承担。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>OK</source>
@@ -652,7 +652,7 @@
     </message>
     <message>
         <source>Change tool and press &apos;Pause&apos; button to continue job</source>
-        <translation>更换刀具后按下"暂停"按钮继续作业</translation>
+        <translation>更换刀具后按下&quot;暂停&quot;按钮继续作业</translation>
     </message>
     <message>
         <source>M6 command detected. Send tool change commands?
@@ -858,7 +858,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Profile &apos;%1&apos; already exists</source>
-        <translation>配置文件 '%1' 已存在</translation>
+        <translation>配置文件 &apos;%1&apos; 已存在</translation>
     </message>
     <message>
         <source>Machine</source>
@@ -902,7 +902,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Profile &apos;%1&apos; already exists. Overwrite?</source>
-        <translation>配置文件 '%1' 已存在。是否覆盖？</translation>
+        <translation>配置文件 &apos;%1&apos; 已存在。是否覆盖？</translation>
     </message>
     <message>
         <source>Profiles (*.cpr)</source>
@@ -1170,11 +1170,11 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>By &apos;Z&apos;-code</source>
-        <translation>按 'Z' 代码</translation>
+        <translation>按 &apos;Z&apos; 代码</translation>
     </message>
     <message>
         <source>By &apos;S&apos;-code</source>
-        <translation>按 'S' 代码</translation>
+        <translation>按 &apos;S&apos; 代码</translation>
     </message>
     <message>
         <source>Grayscale segments</source>
@@ -1366,7 +1366,7 @@ Time elapsed: %1</source>
     </message>
     <message>
         <source>Enable axis &apos;A&apos;</source>
-        <translation>启用 'A' 轴</translation>
+        <translation>启用 &apos;A&apos; 轴</translation>
     </message>
     <message>
         <source>direction:</source>
@@ -1453,6 +1453,66 @@ segment size:</source>
     <message>
         <source>Reset machine on connection</source>
         <translation>连接时重置机器</translation>
+    </message>
+    <message>
+        <source>10</source>
+        <translation type="unfinished">10</translation>
+    </message>
+    <message>
+        <source>Theme:</source>
+        <translation>主题：</translation>
+    </message>
+    <message>
+        <source>System theme</source>
+        <translation>系统主题</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation>深色主题</translation>
+    </message>
+    <message>
+        <source>Light theme</source>
+        <translation>浅色主题</translation>
+    </message>
+    <message>
+        <source>Custom theme</source>
+        <translation>自定义主题</translation>
+    </message>
+    <message>
+        <source>Palette colors</source>
+        <translation>调色板颜色</translation>
+    </message>
+    <message>
+        <source>Window:</source>
+        <translation>窗口：</translation>
+    </message>
+    <message>
+        <source>Window text:</source>
+        <translation>窗口文字：</translation>
+    </message>
+    <message>
+        <source>Base:</source>
+        <translation>输入框：</translation>
+    </message>
+    <message>
+        <source>Button:</source>
+        <translation>按钮：</translation>
+    </message>
+    <message>
+        <source>Button text:</source>
+        <translation>按钮文字：</translation>
+    </message>
+    <message>
+        <source>Highlighted text:</source>
+        <translation>高亮文字：</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished">类型：</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
     </message>
 </context>
 </TS>

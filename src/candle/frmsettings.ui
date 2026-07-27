@@ -1090,7 +1090,136 @@ QGroupBox {
                     </property>
                    </widget>
                   </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="lblTheme">
+                    <property name="text">
+                     <string>Theme:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QComboBox" name="cboTheme">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>System theme</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Dark theme</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Light theme</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Custom theme</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
                  </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="grpPaletteColors">
+               <property name="visible">
+                <bool>false</bool>
+               </property>
+               <property name="title">
+                <string>Palette colors</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_10">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_39">
+                  <property name="text">
+                   <string>Window:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="ColorPicker" name="clpPaletteWindow" native="true"/>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_40">
+                  <property name="text">
+                   <string>Window text:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="ColorPicker" name="clpPaletteWindowText" native="true"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_41">
+                  <property name="text">
+                   <string>Base:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="ColorPicker" name="clpPaletteBase" native="true"/>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QLabel" name="label_42">
+                  <property name="text">
+                   <string>Text:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="ColorPicker" name="clpPaletteText" native="true"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_43">
+                  <property name="text">
+                   <string>Button:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="ColorPicker" name="clpPaletteButton" native="true"/>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QLabel" name="label_44">
+                  <property name="text">
+                   <string>Button text:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="3">
+                 <widget class="ColorPicker" name="clpPaletteButtonText" native="true"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_45">
+                  <property name="text">
+                   <string>Highlight:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="ColorPicker" name="clpPaletteHighlight" native="true"/>
+                </item>
+                <item row="3" column="2">
+                 <widget class="QLabel" name="label_46">
+                  <property name="text">
+                   <string>Highlighted text:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="3">
+                 <widget class="ColorPicker" name="clpPaletteHighlightedText" native="true"/>
                 </item>
                </layout>
               </widget>

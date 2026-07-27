@@ -70,6 +70,8 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->cboFps->setValidator(&m_intValidator);
     ui->cboFontSize->setValidator(&m_intValidator);
 
+    ui->grpPaletteColors->setVisible(ui->cboTheme->currentIndex() == ThemeCustom);
+
     for (int i = 0; i < ui->stackMain->count(); i++) {
         ui->listCategories->addItem(ui->stackMain->widget(i)->findChild<QGroupBox*>()->title());
     }
@@ -514,6 +516,27 @@ void frmSettings::setFontSize(int fontSize)
     ui->cboFontSize->setCurrentText(QString::number(fontSize));
 }
 
+int frmSettings::theme()
+{
+    return ui->cboTheme->currentIndex();
+}
+
+void frmSettings::setTheme(int theme)
+{
+    ui->cboTheme->setCurrentIndex(theme);
+}
+
+QList<ColorPicker *> frmSettings::paletteColors()
+{
+    return ui->grpPaletteColors->findChildren<ColorPicker*>();
+}
+
+QColor frmSettings::paletteColor(QString name)
+{
+    ColorPicker *pick = ui->grpPaletteColors->findChild<ColorPicker*>("clpPalette" + name);
+    if (pick) return pick->color(); else return QColor();
+}
+
 int frmSettings::panelWidth()
 {
     return ui->txtPanelWidth->value();
@@ -940,6 +963,16 @@ void frmSettings::setDefaultSettings()
     setFontSize(9);
     setPanelWidth(40);
 
+    setTheme(ThemeSystem);
+    ui->clpPaletteWindow->setColor(QColor(240, 240, 240));
+    ui->clpPaletteWindowText->setColor(QColor(0, 0, 0));
+    ui->clpPaletteBase->setColor(QColor(255, 255, 255));
+    ui->clpPaletteText->setColor(QColor(0, 0, 0));
+    ui->clpPaletteButton->setColor(QColor(240, 240, 240));
+    ui->clpPaletteButtonText->setColor(QColor(0, 0, 0));
+    ui->clpPaletteHighlight->setColor(QColor(48, 140, 198));
+    ui->clpPaletteHighlightedText->setColor(QColor(255, 255, 255));
+
     // Shortcuts
     QMap<QString, QString> d;
     d["actFileNew"] = "Ctrl+N";
@@ -976,6 +1009,11 @@ void frmSettings::setDefaultSettings()
     ui->chkToolChangeUseCommands->setChecked(false);
     ui->chkToolChangeUseCommandsConfirm->setChecked(false);
     setLanguage("en");
+}
+
+void frmSettings::on_cboTheme_currentIndexChanged(int index)
+{
+    ui->grpPaletteColors->setVisible(index == ThemeCustom);
 }
 
 void frmSettings::on_radDrawModeVectors_toggled(bool checked)

@@ -17,6 +17,7 @@
 #include <QProgressDialog>
 #include <QScriptEngine>
 #include <QGroupBox>
+#include <QPalette>
 #include <exception>
 #include <QFuture>
 
@@ -458,6 +459,10 @@ private:
     // In memory settings for plugins
     Storage m_storage;
 
+    // Theme
+    QPalette m_defaultPalette;
+    QString m_defaultStyleName;
+
     // Futures
     QFuture<void> m_updateParserFuture;
     QFuture<void> m_updateProgramEstimatedTimeFuture;
@@ -475,6 +480,7 @@ private:
     void loadSettings();
     void saveSettings();
     void applySettings();
+    void applyTheme();
     void storeSettings();
     void restoreSettings();
 

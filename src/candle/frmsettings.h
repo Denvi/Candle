@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 #include "colorpicker.h"
 #include "connections/connectiontype.h"
+#include "theme.h"
 
 namespace Ui {
 class frmSettings;
@@ -59,6 +60,7 @@ class frmSettings : public QDialog
     Q_PROPERTY(bool simplify READ simplify WRITE setSimplify)
     Q_PROPERTY(double simplifyPrecision READ simplifyPrecision WRITE setSimplifyPrecision)
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize)
+    Q_PROPERTY(int theme READ theme WRITE setTheme)
     Q_PROPERTY(bool grayscaleSegments READ grayscaleSegments WRITE setGrayscaleSegments)
     Q_PROPERTY(bool grayscaleSCode READ grayscaleSCode WRITE setGrayscaleSCode)
     Q_PROPERTY(bool drawModeVectors READ drawModeVectors WRITE setDrawModeVectors)
@@ -155,6 +157,10 @@ public:
     QColor colors(QString name);
     int fontSize();
     void setFontSize(int fontSize);
+    int theme();
+    void setTheme(int theme);
+    QList<ColorPicker*> paletteColors();
+    QColor paletteColor(QString name);
     int panelWidth();
     void setPanelWidth(int panelWidth);
     bool grayscaleSegments();
@@ -250,6 +256,7 @@ private slots:
     void on_radGrayscaleZ_toggled(bool checked);
     void on_cmdShortcutsImport_clicked();
     void on_cmdShortcutsExport_clicked();
+    void on_cboTheme_currentIndexChanged(int index);
 
 private:
     struct Shortcut {

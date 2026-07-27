@@ -1467,5 +1467,53 @@ segment size:</source>
         <source>Reset machine on connection</source>
         <translation>Отправлять команду сброса при подключении</translation>
     </message>
+    <message>
+        <source>Theme:</source>
+        <translation>Тема:</translation>
+    </message>
+    <message>
+        <source>System theme</source>
+        <translation>Системная тема</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation>Тёмная тема</translation>
+    </message>
+    <message>
+        <source>Light theme</source>
+        <translation>Светлая тема</translation>
+    </message>
+    <message>
+        <source>Custom theme</source>
+        <translation>Своя тема</translation>
+    </message>
+    <message>
+        <source>Palette colors</source>
+        <translation>Цвета палитры</translation>
+    </message>
+    <message>
+        <source>Window:</source>
+        <translation>Фон:</translation>
+    </message>
+    <message>
+        <source>Window text:</source>
+        <translation>Текст фона:</translation>
+    </message>
+    <message>
+        <source>Base:</source>
+        <translation>Поле ввода:</translation>
+    </message>
+    <message>
+        <source>Button:</source>
+        <translation>Кнопка:</translation>
+    </message>
+    <message>
+        <source>Button text:</source>
+        <translation>Текст кнопки:</translation>
+    </message>
+    <message>
+        <source>Highlighted text:</source>
+        <translation>Текст выделения:</translation>
+    </message>
 </context>
 </TS>
