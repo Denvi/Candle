@@ -406,7 +406,7 @@ private:
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
-    QTime m_startTime;
+    QElapsedTimer m_startTime;
 
     // Stored parser params
     QString m_storedParserStatus;
