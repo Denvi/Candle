@@ -6,7 +6,8 @@
         "serialport",
         "script",
         "extras",
-        "multimedia"
+        "multimedia",
+        "svg"
       ]
     },
     {
@@ -14,6 +15,7 @@
       "features": [
         "fts5"
       ]
-    }    
+    },
+    "sdl2"
   ]
 }

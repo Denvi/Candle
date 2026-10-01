@@ -2613,12 +2613,19 @@ QLabel[overrided=&quot;false&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="chkKeyboardControl">
-                 <property name="text">
-                  <string>Keyboard control</string>
-                 </property>
-                </widget>
-               </item>
+               <widget class="QCheckBox" name="chkKeyboardControl">
+                <property name="text">
+                 <string>Keyboard control</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkUSBControllerControl">
+                <property name="text">
+                 <string>USB controller control</string>
+                </property>
+               </widget>
+              </item>
               </layout>
              </widget>
             </item>
@@ -3689,6 +3696,7 @@ QLabel[overrided=&quot;false&quot;] {
   <tabstop>cboJogFeed</tabstop>
   <tabstop>sliJogFeed</tabstop>
   <tabstop>chkKeyboardControl</tabstop>
+  <tabstop>chkUSBControllerControl</tabstop>
   <tabstop>txtConsole</tabstop>
   <tabstop>cboCommand</tabstop>
   <tabstop>cmdCommandSend</tabstop>

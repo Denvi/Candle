@@ -11,7 +11,8 @@ execute_process(
 configure_file(versionconfig.h.in versionconfig.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets Help REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets OpenGL SerialPort Script ScriptTools LinguistTools Network WebSockets Help Svg REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS WinExtras)
@@ -56,7 +57,7 @@ target_compile_definitions(candle PRIVATE
         QT_NO_DEBUG
 )
 
-target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help)
+target_link_libraries(candle PRIVATE customwidgets Qt5::Core Qt5::Widgets Qt5::OpenGL Qt5::SerialPort Qt5::Script Qt5::ScriptTools Qt5::Network Qt5::WebSockets Qt5::Help Qt5::Svg SDL2::SDL2)
 
 # Main executable
 if(APPLE)

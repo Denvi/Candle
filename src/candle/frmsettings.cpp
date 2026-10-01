@@ -18,6 +18,15 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QJsonArray>
+#include <QDoubleSpinBox>
+#include <QFormLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QHeaderView>
+#include <QPainter>
+#include <QtSvg/QSvgRenderer>
+#include <SDL.h>
 
 class CustomKeySequenceEdit : public QKeySequenceEdit
 {
@@ -79,6 +88,55 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->listCategories->item(0)->setSelected(true);
 
     connect(this, SIGNAL(settingsSetByDefault()), parent, SIGNAL(settingsSetByDefault()));
+
+    auto controllerSettings = new QGroupBox(tr("USB controller jogging"), this);
+    auto controllerLayout = new QFormLayout(controllerSettings);
+    m_controllerDevices = new QComboBox(controllerSettings);
+    m_controllerDevices->setMinimumWidth(260);
+    auto refreshControllers = new QPushButton(tr("Refresh"), controllerSettings);
+    auto deviceLayout = new QHBoxLayout();
+    deviceLayout->addWidget(m_controllerDevices, 1);
+    deviceLayout->addWidget(refreshControllers);
+    controllerLayout->addRow(tr("Controller:"), deviceLayout);
+    auto mapping = new QLabel(controllerSettings);
+    mapping->setAlignment(Qt::AlignCenter);
+    QPixmap mappingPixmap(920, 629);
+    mappingPixmap.fill(Qt::transparent);
+    QPainter mappingPainter(&mappingPixmap);
+    QSvgRenderer mappingRenderer(QStringLiteral(":/images/controller_mapping.svg"));
+    if (mappingRenderer.isValid()) mappingRenderer.render(&mappingPainter);
+    mapping->setPixmap(mappingPixmap.scaled(532, 364, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    mapping->setMinimumHeight(300);
+    mapping->setToolTip(tr("Controller controls: sticks jog continuously; D-pad jogs one step; face buttons adjust Jog step and feed."));
+    controllerLayout->addRow(mapping);
+    m_controllerActions = new QTableWidget(4, 3, controllerSettings);
+    m_controllerActions->setHorizontalHeaderLabels({tr("Button"), tr("Type"), tr("Command / script")});
+    m_controllerActions->verticalHeader()->hide();
+    m_controllerActions->horizontalHeader()->setStretchLastSection(true);
+    m_controllerActions->setMinimumHeight(190);
+    const QStringList buttonNames {tr("View"), tr("Menu"), tr("Left stick click"), tr("Right stick click")};
+    const QStringList defaults {QStringLiteral("G92X0Y0"), QStringLiteral("$J={jogUnits} G90 X0 Y0 F{jogFeed}"), QString(), QString()};
+    for (int row = 0; row < buttonNames.size(); ++row) {
+        auto name = new QTableWidgetItem(buttonNames.at(row));
+        name->setFlags(name->flags() & ~Qt::ItemIsEditable);
+        m_controllerActions->setItem(row, 0, name);
+        auto type = new QComboBox(m_controllerActions);
+        type->addItems({tr("G-code"), tr("Script")});
+        if (row == 1) type->setCurrentIndex(1);
+        m_controllerActions->setCellWidget(row, 1, type);
+        auto code = new QPlainTextEdit(m_controllerActions);
+        code->setPlainText(defaults.at(row));
+        code->setToolTip(tr("Placeholders: {jogFeed} uses the current Jog feed; {jogUnits} uses the current G20/G21 units."));
+        code->setMaximumHeight(52);
+        m_controllerActions->setCellWidget(row, 2, code);
+    }
+    m_controllerActions->setColumnWidth(0, 130);
+    m_controllerActions->setColumnWidth(1, 90);
+    controllerLayout->addRow(tr("Button actions:"), m_controllerActions);
+    addCustomSettings(controllerSettings);
+    connect(refreshControllers, &QPushButton::clicked, this, &frmSettings::refreshControllerDevices);
+    SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
+    refreshControllerDevices();
 
     // Shortcuts table
     ui->tblShortcuts->setItemDelegateForColumn(2, new ShortcutDelegate);
@@ -897,6 +955,11 @@ void frmSettings::on_cmdDefaults_clicked()
 
 void frmSettings::setDefaultSettings()
 {
+    setControllerDevice(QString());
+    setControllerButtonActions({QVariantMap {{"type", 0}, {"code", QStringLiteral("G92X0Y0")}},
+                                QVariantMap {{"type", 0}, {"code", QStringLiteral("$J={jogUnits} G90 X0 Y0 F{jogFeed}")}},
+                                QVariantMap {{"type", 0}, {"code", QString()}},
+                                QVariantMap {{"type", 0}, {"code", QString()}}});
     setPort("");
     setBaud(115200);
 
@@ -1159,4 +1222,64 @@ void frmSettings::setWebSocketBinaryMode(bool binary)
 bool frmSettings::webSocketBinaryMode() const
 {
     return ui->radWebSocketModeBinary->isChecked();
+}
+
+QString frmSettings::controllerDevice() const
+{
+    return m_controllerDevices->currentData().toString();
+}
+
+void frmSettings::setControllerDevice(const QString &device)
+{
+    int index = m_controllerDevices->findData(device);
+    if (index < 0 && !device.isEmpty()) {
+        m_controllerDevices->addItem(tr("Saved controller (disconnected)"), device);
+        index = m_controllerDevices->count() - 1;
+    }
+    m_controllerDevices->setCurrentIndex(index >= 0 ? index : 0);
+}
+
+QVariantList frmSettings::controllerButtonActions() const
+{
+    QVariantList actions;
+    for (int row = 0; row < m_controllerActions->rowCount(); ++row) {
+        auto type = qobject_cast<QComboBox*>(m_controllerActions->cellWidget(row, 1));
+        auto code = qobject_cast<QPlainTextEdit*>(m_controllerActions->cellWidget(row, 2));
+        actions.append(QVariantMap {{QStringLiteral("type"), type ? type->currentIndex() : 0},
+                                   {QStringLiteral("code"), code ? code->toPlainText() : QString()}});
+    }
+    return actions;
+}
+
+void frmSettings::setControllerButtonActions(const QVariantList &actions)
+{
+    for (int row = 0; row < m_controllerActions->rowCount() && row < actions.size(); ++row) {
+        const QVariantMap action = actions.at(row).toMap();
+        if (auto type = qobject_cast<QComboBox*>(m_controllerActions->cellWidget(row, 1)))
+            type->setCurrentIndex(qBound(0, action.value(QStringLiteral("type")).toInt(), 1));
+        if (auto code = qobject_cast<QPlainTextEdit*>(m_controllerActions->cellWidget(row, 2)))
+            code->setPlainText(action.value(QStringLiteral("code")).toString());
+    }
+}
+
+void frmSettings::refreshControllerDevices()
+{
+    QString selected = m_controllerDevices->currentData().toString();
+    m_controllerDevices->clear();
+    m_controllerDevices->addItem(tr("Disabled"), QString());
+    SDL_GameControllerUpdate();
+    for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+        if (!SDL_IsGameController(i)) continue;
+        SDL_GameController *controller = SDL_GameControllerOpen(i);
+        if (!controller) continue;
+        SDL_Joystick *joystick = SDL_GameControllerGetJoystick(controller);
+        const char *path = SDL_JoystickPath(joystick);
+        char guid[33];
+        SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
+        QString id = path ? QString::fromUtf8(path) : QString::fromLatin1(guid);
+        QString name = QString::fromUtf8(SDL_GameControllerName(controller));
+        m_controllerDevices->addItem(QString("%1 (%2)").arg(name, id), id);
+        SDL_GameControllerClose(controller);
+    }
+    setControllerDevice(selected);
 }

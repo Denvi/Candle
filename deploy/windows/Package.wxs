@@ -70,6 +70,9 @@
 
     <Feature Id="MainFeature">
       <ComponentRef Id="StartMenuShortcut" />
+      <Component Id="cmp_SDL2_dll" Directory="INSTALLFOLDER" Guid="E870786B-E213-4246-9CD9-92A66FDFE0A1">
+        <File Id="fil_SDL2_dll" Source="..\..\build\Candle\SDL2.dll" KeyPath="yes" />
+      </Component>
       <Component Id="cmp_brotlicommon_dll" Directory="INSTALLFOLDER" Guid="36DACFA9-4800-4C03-BB93-8E4B0052EEF2">
         <File Id="fil_brotlicommon_dll" Source="..\..\build\Candle\brotlicommon.dll" KeyPath="yes" />
       </Component>

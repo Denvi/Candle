@@ -24,6 +24,9 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QClipboard>
 #include <QStyleFactory>
+#include <QStatusBar>
+#include <QtMath>
+#include <SDL.h>
 #include "frmmain.h"
 #include "theme.h"
 #include "ui_frmmain.h"
@@ -82,6 +85,11 @@ frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
     // Setup timers
     connect(&m_timerConnection, &QTimer::timeout, this, &frmMain::onTimerConnection);
     connect(&m_timerStateQuery, &QTimer::timeout, this, &frmMain::onTimerStateQuery);
+    connect(&m_timerController, &QTimer::timeout, this, &frmMain::updateControllerJog);
+    SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
+    m_controllerStatus = new QLabel(tr("USB controller: disabled"), this);
+    statusBar()->addPermanentWidget(m_controllerStatus);
+    m_timerController.start(50);
 
     m_timerConnection.start(1000);
     m_timerStateQuery.start();
@@ -414,6 +422,8 @@ void frmMain::initScriptEngine()
 
 frmMain::~frmMain()
 {
+    stopControllerJog();
+    if (m_gameController) SDL_GameControllerClose(m_gameController);
     qApp->removeEventFilter(this);
 
     ensureProgramEstimatedTimeUpdateNotRunning();
@@ -1210,6 +1220,17 @@ void frmMain::on_chkKeyboardControl_toggled(bool checked)
     if ((m_senderState != SenderTransferring) && (m_senderState != SenderStopping))
         m_storedKeyboardControl = checked;
 
+    updateJogTitle();
+    updateControlsState();
+}
+
+void frmMain::on_chkUSBControllerControl_toggled(bool checked)
+{
+    if (!checked) stopControllerJog();
+    m_controllerButtonsDown.clear();
+    m_controllerRightTriggerDown = false;
+    m_controllerLeftTriggerDown = false;
+    m_controllerInputInitialized = false;
     updateJogTitle();
     updateControlsState();
 }
@@ -2298,6 +2319,11 @@ void frmMain::onConnectionDataReceived(QString data)
 
                 // Take command from buffer
                 CommandAttributes ca = m_commands.takeFirst();
+                if (ca.tableIndex == -4 && response.contains("error", Qt::CaseInsensitive)) {
+                    m_controllerFaulted = true;
+                    stopControllerJog();
+                    m_controllerStatus->setText(tr("USB controller jog blocked"));
+                }
                 QTextBlock tb = ui->txtConsole->document()->findBlockByNumber(ca.consoleIndex);
                 QTextCursor tc(tb);
 
@@ -3544,6 +3570,7 @@ void frmMain::storeSettings()
     set->setValue("panelWidth", m_settings->panelWidth());
     set->setValue("theme", m_settings->theme());
     set->setValue("keyboardControl", m_storedKeyboardControl);
+    set->setValue("usbControllerControl", ui->chkUSBControllerControl->isChecked());
 
     set->setValue("useStartCommands", m_settings->useStartCommands());
     set->setValue("startCommands", m_settings->startCommands());
@@ -3569,6 +3596,8 @@ void frmMain::storeSettings()
     set->setValue("jogStep", ui->cboJogStep->currentIndex());
     set->setValue("jogFeeds", m_settings->jogFeeds());
     set->setValue("jogFeed", ui->cboJogFeed->currentIndex());
+    set->setValue("controllerDevice", m_settings->controllerDevice());
+    set->setValue("controllerButtonActions", m_settings->controllerButtonActions());
 
     set->setValue("heightmapBorderX", ui->txtHeightMapBorderX->value());
     set->setValue("heightmapBorderY", ui->txtHeightMapBorderY->value());
@@ -3720,6 +3749,32 @@ void frmMain::restoreSettings()
             .toStringList());
         m_settings->setJogFeeds(set->value("jogFeeds", QStringList { "10", "50", "100", "500", "1000", "2000" })
             .toStringList());
+        m_settings->setControllerDevice(set->value("controllerDevice").toString());
+        QVariantList controllerActions = set->value("controllerButtonActions").toList();
+        if (controllerActions.isEmpty()) {
+            controllerActions = {QVariantMap {{"type", 0}, {"code", QStringLiteral("G92X0Y0")}},
+                                 QVariantMap {{"type", 0}, {"code", QStringLiteral("$J={jogUnits} G90 X0 Y0 F{jogFeed}")}},
+                                 QVariantMap {{"type", 0}, {"code", QString()}},
+                                 QVariantMap {{"type", 0}, {"code", QString()}}};
+        }
+        // Keep previously saved built-in actions aligned with the current defaults.
+        QVariantMap viewAction = controllerActions.first().toMap();
+        if (viewAction.value(QStringLiteral("type")).toInt() == 0 &&
+            viewAction.value(QStringLiteral("code")).toString().trimmed().compare("$J={jogUnits} G90 X0 Y0 F{jogFeed}", Qt::CaseInsensitive) == 0) {
+            viewAction.insert(QStringLiteral("code"), QStringLiteral("G92X0Y0"));
+            controllerActions[0] = viewAction;
+        }
+        if (controllerActions.size() > 1) {
+            QVariantMap menuAction = controllerActions.at(1).toMap();
+            if (menuAction.value(QStringLiteral("type")).toInt() == 1 &&
+                menuAction.value(QStringLiteral("code")).toString().trimmed() ==
+                    QStringLiteral("app.device.sendRuntimeCommand(String.fromCharCode(132));")) {
+                menuAction.insert(QStringLiteral("type"), 0);
+                menuAction.insert(QStringLiteral("code"), QStringLiteral("$J={jogUnits} G90 X0 Y0 F{jogFeed}"));
+                controllerActions[1] = menuAction;
+            }
+        }
+        m_settings->setControllerButtonActions(controllerActions);
 
         m_settings->setRapidSpeed(set->value("rapidSpeed", 0).toInt());
         m_settings->setAcceleration(set->value("acceleration", 10).toInt());
@@ -3785,6 +3840,7 @@ void frmMain::restoreSettings()
     m_lastFolder = set->value("lastFolder", QDir::homePath()).toString();
 
     m_storedKeyboardControl = set->value("keyboardControl", false).toBool();
+    ui->chkUSBControllerControl->setChecked(set->value("usbControllerControl", false).toBool());
 
     auto steps = m_settings->jogSteps();
     steps.prepend(ui->cboJogStep->items().first());
@@ -6250,4 +6306,318 @@ bool frmMain::actionTextLessThan(const QAction *a1, const QAction *a2)
 QScriptValue frmMain::importExtension(QScriptContext *context, QScriptEngine *engine)
 {
     return engine->importExtension(context->argument(0).toString());
+}
+
+void frmMain::stopControllerJog()
+{
+    if (m_controllerJogActive && m_currentConnection && m_currentConnection->isConnected())
+        m_currentConnection->send(QByteArray(1, char(0x85)));
+    m_controllerJogActive = false;
+    m_controllerVector = QVector3D();
+    m_controllerFeedBucket = -1;
+    m_controllerLastCommand.invalidate();
+}
+
+void frmMain::executeControllerButtonAction(int index)
+{
+    const QVariantList actions = m_settings->controllerButtonActions();
+    if (index < 0 || index >= actions.size()) return;
+    const QVariantMap action = actions.at(index).toMap();
+    QString code = action.value(QStringLiteral("code")).toString();
+    code.replace(QStringLiteral("{jogFeed}"), QString::number(qMax(1, qRound(ui->cboJogFeed->currentText().toDouble()))));
+    code.replace(QStringLiteral("{jogUnits}"), m_settings->units() ? QStringLiteral("G20") : QStringLiteral("G21"));
+    if (code.trimmed().isEmpty()) return;
+    if (action.value(QStringLiteral("type")).toInt() == 0)
+        sendCommands(code);
+    else {
+        QScriptValue app = m_scriptEngine.newQObject(m_scriptApp);
+        m_scriptEngine.globalObject().setProperty("app", app);
+        m_scriptEngine.evaluate(code);
+        m_scriptEngine.globalObject().setProperty("app", QScriptValue());
+    }
+}
+
+void frmMain::updateControllerJog()
+{
+    SDL_GameControllerUpdate();
+    if (m_settings->isVisible()) {
+        stopControllerJog();
+        if (m_gameController) {
+            m_controllerButtonsDown.clear();
+            for (int button = 0; button < SDL_CONTROLLER_BUTTON_MAX; ++button) {
+                if (SDL_GameControllerGetButton(m_gameController, SDL_GameControllerButton(button)))
+                    m_controllerButtonsDown.insert(button);
+            }
+            m_controllerRightTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+                SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 16384;
+            m_controllerLeftTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+                SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 16384;
+            m_controllerInputInitialized = true;
+        }
+        m_controllerStatus->setText(tr("USB controller: settings open"));
+        return;
+    }
+    if (!ui->chkUSBControllerControl->isChecked()) {
+        stopControllerJog();
+        m_controllerFaulted = false;
+        m_controllerButtonsDown.clear();
+        m_controllerRightTriggerDown = false;
+        m_controllerLeftTriggerDown = false;
+        m_controllerInputInitialized = false;
+        if (m_gameController) {
+            SDL_GameControllerClose(m_gameController);
+            m_gameController = nullptr;
+        }
+        m_gameControllerId.clear();
+        m_controllerStatus->setText(tr("USB controller: disabled"));
+        return;
+    }
+    const QString selectedId = m_settings->controllerDevice();
+    if (selectedId.isEmpty()) {
+        stopControllerJog();
+        m_controllerFaulted = false;
+        m_controllerButtonsDown.clear();
+        m_controllerRightTriggerDown = false;
+        m_controllerLeftTriggerDown = false;
+        m_controllerInputInitialized = false;
+        if (m_gameController) {
+            SDL_GameControllerClose(m_gameController);
+            m_gameController = nullptr;
+        }
+        m_gameControllerId.clear();
+        m_controllerStatus->setText(tr("USB controller: disabled"));
+        return;
+    }
+
+    if (m_gameController && (!SDL_GameControllerGetAttached(m_gameController) || m_gameControllerId != selectedId)) {
+        stopControllerJog();
+        m_controllerFaulted = false;
+        SDL_GameControllerClose(m_gameController);
+        m_gameController = nullptr;
+        m_gameControllerId.clear();
+        m_controllerInputInitialized = false;
+    }
+
+    if (!m_gameController) {
+        for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+            if (!SDL_IsGameController(i)) continue;
+            SDL_GameController *candidate = SDL_GameControllerOpen(i);
+            if (!candidate) continue;
+            SDL_Joystick *joystick = SDL_GameControllerGetJoystick(candidate);
+            const char *path = SDL_JoystickPath(joystick);
+            char guid[33];
+            SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
+            const QString id = path ? QString::fromUtf8(path) : QString::fromLatin1(guid);
+            if (id == selectedId) {
+                m_gameController = candidate;
+                m_gameControllerId = id;
+                break;
+            }
+            SDL_GameControllerClose(candidate);
+        }
+    }
+
+    if (!m_gameController) {
+        stopControllerJog();
+        m_controllerFaulted = false;
+        m_controllerButtonsDown.clear();
+        m_controllerRightTriggerDown = false;
+        m_controllerLeftTriggerDown = false;
+        m_controllerInputInitialized = false;
+        m_controllerStatus->setText(tr("USB controller: disconnected"));
+        return;
+    }
+
+    if (!m_controllerInputInitialized) {
+        m_controllerButtonsDown.clear();
+        for (int button = 0; button < SDL_CONTROLLER_BUTTON_MAX; ++button) {
+            if (SDL_GameControllerGetButton(m_gameController, SDL_GameControllerButton(button)))
+                m_controllerButtonsDown.insert(button);
+        }
+        m_controllerRightTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+            SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 16384;
+        m_controllerLeftTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+            SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 16384;
+        m_controllerInputInitialized = true;
+    }
+
+    m_controllerStatus->setText(m_controllerJogActive ? tr("USB controller: jogging") : tr("USB controller: connected"));
+    if (!m_currentConnection || !m_currentConnection->isConnected() || !m_resetCompleted ||
+        (m_deviceState != DeviceIdle && m_deviceState != DeviceJog) ||
+        m_senderState != SenderStopped || ui->cmdHold->isChecked() || m_jogVector.length() > 0) {
+        m_controllerButtonsDown.clear();
+        for (int button = 0; button < SDL_CONTROLLER_BUTTON_MAX; ++button) {
+            if (SDL_GameControllerGetButton(m_gameController, SDL_GameControllerButton(button)))
+                m_controllerButtonsDown.insert(button);
+        }
+        m_controllerRightTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+            SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 16384;
+        m_controllerLeftTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+            SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 16384;
+        stopControllerJog();
+        return;
+    }
+
+    QSet<int> buttonsDown;
+    for (int button = 0; button < SDL_CONTROLLER_BUTTON_MAX; ++button) {
+        if (SDL_GameControllerGetButton(m_gameController, SDL_GameControllerButton(button)))
+            buttonsDown.insert(button);
+    }
+    const QSet<int> pressedButtons = buttonsDown - m_controllerButtonsDown;
+    m_controllerButtonsDown = buttonsDown;
+    auto jogOneStep = [this](QAbstractButton *button) {
+        const int selectedStep = ui->cboJogStep->currentIndex();
+        if (ui->cboJogStep->currentText().toDouble() == 0.0 && ui->cboJogStep->count() > 1)
+            ui->cboJogStep->setCurrentIndex(1);
+        button->click();
+        if (selectedStep == 0) ui->cboJogStep->setCurrentIndex(selectedStep);
+    };
+    bool discreteJogHeld = buttonsDown.contains(SDL_CONTROLLER_BUTTON_DPAD_UP) ||
+        buttonsDown.contains(SDL_CONTROLLER_BUTTON_DPAD_DOWN) ||
+        buttonsDown.contains(SDL_CONTROLLER_BUTTON_DPAD_LEFT) ||
+        buttonsDown.contains(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) ||
+        buttonsDown.contains(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+    for (int button : pressedButtons) {
+        switch (button) {
+        case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+            stopControllerJog();
+            jogOneStep(ui->cmdXMinus);
+            discreteJogHeld = true;
+            break;
+        case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+            stopControllerJog();
+            jogOneStep(ui->cmdXPlus);
+            discreteJogHeld = true;
+            break;
+        case SDL_CONTROLLER_BUTTON_DPAD_UP:
+            stopControllerJog();
+            jogOneStep(ui->cmdYPlus);
+            discreteJogHeld = true;
+            break;
+        case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+            stopControllerJog();
+            jogOneStep(ui->cmdYMinus);
+            discreteJogHeld = true;
+            break;
+        case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+            stopControllerJog();
+            jogOneStep(ui->cmdZPlus);
+            discreteJogHeld = true;
+            break;
+        case SDL_CONTROLLER_BUTTON_LEFTSHOULDER: {
+            stopControllerJog();
+            on_actJogFeedNext_triggered();
+            break;
+        }
+        case SDL_CONTROLLER_BUTTON_Y:
+            on_actJogStepNext_triggered();
+            break;
+        case SDL_CONTROLLER_BUTTON_A:
+            on_actJogStepPrevious_triggered();
+            break;
+        case SDL_CONTROLLER_BUTTON_X:
+            stopControllerJog();
+            on_actJogFeedPrevious_triggered();
+            break;
+        case SDL_CONTROLLER_BUTTON_B:
+            stopControllerJog();
+            on_actJogFeedNext_triggered();
+            break;
+        case SDL_CONTROLLER_BUTTON_BACK:
+            stopControllerJog();
+            executeControllerButtonAction(0);
+            break;
+        case SDL_CONTROLLER_BUTTON_START:
+            executeControllerButtonAction(1);
+            break;
+        case SDL_CONTROLLER_BUTTON_LEFTSTICK:
+            executeControllerButtonAction(2);
+            break;
+        case SDL_CONTROLLER_BUTTON_RIGHTSTICK:
+            executeControllerButtonAction(3);
+            break;
+        }
+    }
+    const bool rightTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+        SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 16384;
+    if (rightTriggerDown && !m_controllerRightTriggerDown) {
+        stopControllerJog();
+        jogOneStep(ui->cmdZMinus);
+    }
+    m_controllerRightTriggerDown = rightTriggerDown;
+    discreteJogHeld = discreteJogHeld || rightTriggerDown;
+    const bool leftTriggerDown = SDL_GameControllerGetAxis(m_gameController,
+        SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 16384;
+    if (leftTriggerDown && !m_controllerLeftTriggerDown) {
+        stopControllerJog();
+        on_actJogFeedPrevious_triggered();
+    }
+    m_controllerLeftTriggerDown = leftTriggerDown;
+    if (discreteJogHeld) {
+        stopControllerJog();
+        return;
+    }
+
+    auto axis = [](Sint16 value) {
+        double v = value < 0 ? double(value) / 32768.0 : double(value) / 32767.0;
+        const double deadzone = 0.12;
+        if (qAbs(v) <= deadzone) return 0.0;
+        const double scaled = (qAbs(v) - deadzone) / (1.0 - deadzone);
+        return v < 0 ? -scaled : scaled;
+    };
+    double x = axis(SDL_GameControllerGetAxis(m_gameController, SDL_CONTROLLER_AXIS_LEFTX));
+    double y = -axis(SDL_GameControllerGetAxis(m_gameController, SDL_CONTROLLER_AXIS_LEFTY));
+    double z = -axis(SDL_GameControllerGetAxis(m_gameController, SDL_CONTROLLER_AXIS_RIGHTY));
+    const double magnitude = qMin(1.0, qSqrt(x * x + y * y + z * z));
+    if (magnitude == 0.0) {
+        m_controllerFaulted = false;
+        stopControllerJog();
+        m_controllerStatus->setText(tr("USB controller: connected"));
+        return;
+    }
+    if (m_controllerFaulted) {
+        m_controllerStatus->setText(tr("USB controller jog blocked"));
+        return;
+    }
+
+    const int feedBucket = qBound(1, qRound(magnitude * 20.0), 20);
+    const QVector3D vector(x, y, z);
+    const double oldMagnitude = m_controllerVector.length();
+    const double dot = oldMagnitude > 0 ?
+        (m_controllerVector.x() * x + m_controllerVector.y() * y + m_controllerVector.z() * z) / oldMagnitude / magnitude : 1.0;
+    const bool directionChanged = oldMagnitude > 0 && dot < 0.9;
+    const bool speedChanged = m_controllerFeedBucket != -1 && qAbs(feedBucket - m_controllerFeedBucket) >= 2;
+    if (m_controllerJogActive && (directionChanged || speedChanged)) {
+        m_currentConnection->send(QByteArray(1, char(0x85)));
+        m_controllerJogActive = false;
+    }
+    m_controllerVector = vector;
+    m_controllerFeedBucket = feedBucket;
+
+    for (const auto &command : m_commands) {
+        if (command.command.startsWith("$J=")) return;
+    }
+    for (const auto &command : m_queue) {
+        if (command.command.startsWith("$J=")) return;
+    }
+
+    const double dt = m_controllerLastCommand.isValid()
+        ? qBound(0.05, m_controllerLastCommand.restart() / 1000.0, 0.25) : 0.05;
+    const double maxFeed = qMax(1.0, ui->cboJogFeed->currentText().toDouble());
+    const double motionScale = magnitude > 1.0 ? 1.0 / magnitude : 1.0;
+    const double feed = qMax(1, qRound(maxFeed * qMin(1.0, magnitude)));
+    const double factor = maxFeed * dt / 60.0;
+    const int decimals = m_settings->units() ? 5 : 4;
+    const QString units = m_settings->units() ? "G20" : "G21";
+    const QString jog = QString("$J=%1G91X%2Y%3Z%4F%5")
+        .arg(units)
+        .arg(x * motionScale * factor, 0, 'f', decimals)
+        .arg(y * motionScale * factor, 0, 'f', decimals)
+        .arg(z * motionScale * factor, 0, 'f', decimals)
+        .arg(feed);
+    if (sendCommand(jog, -4, false) == SendDone) {
+        if (!m_controllerLastCommand.isValid()) m_controllerLastCommand.start();
+        m_controllerJogActive = true;
+        m_controllerStatus->setText(tr("USB controller: jogging"));
+    }
 }

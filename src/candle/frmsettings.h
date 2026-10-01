@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QVector3D>
 #include <QComboBox>
+#include <QDoubleSpinBox>
 #include <QPlainTextEdit>
 #include <QTableWidget>
 #include <QTranslator>
@@ -133,6 +134,11 @@ public:
     void setAcceleration(int acceleration);
     int queryStateTime();
     void setQueryStateTime(int queryStateTime);
+    QString controllerDevice() const;
+    void setControllerDevice(const QString &device);
+    QVariantList controllerButtonActions() const;
+    void setControllerButtonActions(const QVariantList &actions);
+    void refreshControllerDevices();
     bool resetOnConnection();
     void setResetOnConnection(bool resetOnConnection);
     int toolType();
@@ -280,6 +286,8 @@ private:
     };
 
     Ui::frmSettings *ui;
+    QComboBox *m_controllerDevices = nullptr;
+    QTableWidget *m_controllerActions = nullptr;
 
     void searchPorts();
 

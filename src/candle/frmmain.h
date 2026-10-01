@@ -7,6 +7,9 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QTimer>
+#include <QLabel>
+#include <QElapsedTimer>
+#include <QSet>
 #include <QBasicTimer>
 #include <QStringList>
 #include <QList>
@@ -51,6 +54,8 @@
 #include "settings/storagegroup.h"
 
 #include "connections/connection.h"
+
+typedef struct _SDL_GameController SDL_GameController;
 
 #ifdef Q_OS_WIN
     #include <QtWinExtras/QtWinExtras>
@@ -198,6 +203,7 @@ private slots:
     void on_grpJog_toggled(bool checked);
     void on_grpHeightMap_toggled(bool arg1);
     void on_chkKeyboardControl_toggled(bool checked);
+    void on_chkUSBControllerControl_toggled(bool checked);
     void on_chkHeightMapBorderShow_toggled(bool checked);
     void on_chkHeightMapOriginShow_toggled(bool checked);
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
@@ -405,6 +411,7 @@ private:
     // Timers
     QTimer m_timerConnection;
     QTimer m_timerStateQuery;
+    QTimer m_timerController;
     QBasicTimer m_timerToolAnimation;
     QTime m_startTime;
 
@@ -446,6 +453,18 @@ private:
 
     // Jog
     QVector4D m_jogVector;
+    SDL_GameController *m_gameController = nullptr;
+    QString m_gameControllerId;
+    QLabel *m_controllerStatus = nullptr;
+    QVector3D m_controllerVector;
+    int m_controllerFeedBucket = -1;
+    bool m_controllerJogActive = false;
+    bool m_controllerFaulted = false;
+    bool m_controllerInputInitialized = false;
+    bool m_controllerRightTriggerDown = false;
+    bool m_controllerLeftTriggerDown = false;
+    QSet<int> m_controllerButtonsDown;
+    QElapsedTimer m_controllerLastCommand;
 
     // Script
     QScriptEngine m_scriptEngine;
@@ -550,6 +569,9 @@ private:
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
     void jogStep();
     void jogContinuous();
+    void updateControllerJog();
+    void stopControllerJog();
+    void executeControllerButtonAction(int index);
     double toMetric(double value);
     double toInches(double value);
     bool compareCoordinates(double x, double y, double z);
