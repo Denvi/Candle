@@ -38,6 +38,20 @@
             }
         },
         {
+            "name": "osx-arm64-release",
+            "displayName": "macOS ARM64 Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-arm64",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/build-arm64/Candle",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "~/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-dynamic-release",
+                "CMAKE_OSX_ARCHITECTURES": "arm64"
+            }
+        },
+        {
             "name": "linux-x64-release",
             "displayName": "Linux x64 Release",
             "binaryDir": "${sourceDir}/build",
@@ -66,6 +80,12 @@
             "name": "osx-x64-release",
             "displayName": "OS X x64 Release",
             "configurePreset": "osx-x64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "osx-arm64-release",
+            "displayName": "macOS ARM64 Release",
+            "configurePreset": "osx-arm64-release",
             "configuration": "Release"
         },
         {
