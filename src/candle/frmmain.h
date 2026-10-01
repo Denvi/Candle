@@ -230,6 +230,14 @@ private slots:
     void on_cmdXPlus_released();
     void on_cmdXMinus_pressed();
     void on_cmdXMinus_released();
+    void on_cmdXMinusYPlus_pressed();
+    void on_cmdXMinusYPlus_released();
+    void on_cmdXPlusYPlus_pressed();
+    void on_cmdXPlusYPlus_released();
+    void on_cmdXMinusYMinus_pressed();
+    void on_cmdXMinusYMinus_released();
+    void on_cmdXPlusYMinus_pressed();
+    void on_cmdXPlusYMinus_released();
     void on_cmdZPlus_pressed();
     void on_cmdZPlus_released();
     void on_cmdZMinus_pressed();

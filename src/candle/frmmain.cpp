@@ -214,6 +214,10 @@ void frmMain::initUi()
     ui->cmdXPlus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYMinus->setBackColor(ui->cmdXMinus->backColor());
     ui->cmdYPlus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdXMinusYPlus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdXPlusYPlus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdXMinusYMinus->setBackColor(ui->cmdXMinus->backColor());
+    ui->cmdXPlusYMinus->setBackColor(ui->cmdXMinus->backColor());
 
     ui->cmdFit->setParent(ui->glwVisualizer);
     ui->cmdIsometric->setParent(ui->glwVisualizer);
@@ -1760,6 +1764,15 @@ void frmMain::on_cmdXMinus_released()
     m_jogVector -= QVector4D(-1, 0, 0, 0);
     jogStep();
 }
+
+void frmMain::on_cmdXMinusYPlus_pressed() { m_jogVector += QVector4D(-1, 1, 0, 0); jogStep(); }
+void frmMain::on_cmdXMinusYPlus_released() { m_jogVector -= QVector4D(-1, 1, 0, 0); jogStep(); }
+void frmMain::on_cmdXPlusYPlus_pressed() { m_jogVector += QVector4D(1, 1, 0, 0); jogStep(); }
+void frmMain::on_cmdXPlusYPlus_released() { m_jogVector -= QVector4D(1, 1, 0, 0); jogStep(); }
+void frmMain::on_cmdXMinusYMinus_pressed() { m_jogVector += QVector4D(-1, -1, 0, 0); jogStep(); }
+void frmMain::on_cmdXMinusYMinus_released() { m_jogVector -= QVector4D(-1, -1, 0, 0); jogStep(); }
+void frmMain::on_cmdXPlusYMinus_pressed() { m_jogVector += QVector4D(1, -1, 0, 0); jogStep(); }
+void frmMain::on_cmdXPlusYMinus_released() { m_jogVector -= QVector4D(1, -1, 0, 0); jogStep(); }
 
 void frmMain::on_cmdZPlus_pressed()
 {

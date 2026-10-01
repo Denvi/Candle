@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="/">
+    <file>images/1_chevron-left_up.png</file>
+    <file>images/1_chevron-right_up.png</file>
+    <file>images/1_chevron-left_down.png</file>
+    <file>images/1_chevron-right_down.png</file>
     <file>images/circle_down.png</file>
     <file>images/circle_left.png</file>
     <file>images/circle_right.png</file>

@@ -2171,7 +2171,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </item>
                   </layout>
                  </item>
-                 <item row="2" column="1">
+                 <item row="1" column="1">
                   <widget class="StyledToolButton" name="cmdStop">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2200,7 +2200,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="2">
+                 <item row="1" column="2">
                   <widget class="StyledToolButton" name="cmdXPlus">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2304,7 +2304,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </item>
                   </layout>
                  </item>
-                 <item row="3" column="1">
+                 <item row="2" column="1">
                   <widget class="StyledToolButton" name="cmdYMinus">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2333,7 +2333,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
+                 <item row="1" column="0">
                   <widget class="StyledToolButton" name="cmdXMinus">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2362,7 +2362,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="0">
+                 <item row="5" column="0">
                   <widget class="StyledToolButton" name="cmdAPlusX">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2391,7 +2391,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="0">
+                 <item row="5" column="1">
                   <widget class="StyledToolButton" name="cmdAMinus">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2420,7 +2420,7 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="2">
+                 <item row="5" column="2">
                   <widget class="StyledToolButton" name="cmdAPlusY">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2449,6 +2449,10 @@ QLabel[overrided=&quot;false&quot;] {
                    </property>
                   </widget>
                  </item>
+                 <item row="0" column="0"><widget class="StyledToolButton" name="cmdXMinusYPlus"><property name="toolTip"><string>X- / Y+</string></property><property name="icon"><iconset resource="images.qrc"><normaloff>:/images/1_chevron-left_up.png</normaloff>:/images/1_chevron-left_up.png</iconset></property><property name="iconSize"><size><width>32</width><height>32</height></size></property></widget></item>
+                 <item row="0" column="2"><widget class="StyledToolButton" name="cmdXPlusYPlus"><property name="toolTip"><string>X+ / Y+</string></property><property name="icon"><iconset resource="images.qrc"><normaloff>:/images/1_chevron-right_up.png</normaloff>:/images/1_chevron-right_up.png</iconset></property><property name="iconSize"><size><width>32</width><height>32</height></size></property></widget></item>
+                 <item row="2" column="0"><widget class="StyledToolButton" name="cmdXMinusYMinus"><property name="toolTip"><string>X- / Y-</string></property><property name="icon"><iconset resource="images.qrc"><normaloff>:/images/1_chevron-left_down.png</normaloff>:/images/1_chevron-left_down.png</iconset></property><property name="iconSize"><size><width>32</width><height>32</height></size></property></widget></item>
+                 <item row="2" column="2"><widget class="StyledToolButton" name="cmdXPlusYMinus"><property name="toolTip"><string>X+ / Y-</string></property><property name="icon"><iconset resource="images.qrc"><normaloff>:/images/1_chevron-right_down.png</normaloff>:/images/1_chevron-right_down.png</iconset></property><property name="iconSize"><size><width>32</width><height>32</height></size></property></widget></item>
                 </layout>
                </item>
                <item>
@@ -3677,6 +3681,10 @@ QLabel[overrided=&quot;false&quot;] {
   <tabstop>cmdXMinus</tabstop>
   <tabstop>cmdXPlus</tabstop>
   <tabstop>cmdYPlus</tabstop>
+  <tabstop>cmdXMinusYPlus</tabstop>
+  <tabstop>cmdXPlusYPlus</tabstop>
+  <tabstop>cmdXMinusYMinus</tabstop>
+  <tabstop>cmdXPlusYMinus</tabstop>
   <tabstop>cmdYMinus</tabstop>
   <tabstop>cmdStop</tabstop>
   <tabstop>cmdZPlus</tabstop>
