@@ -510,8 +510,20 @@ private:
     // Files/models
     void loadFile(QString fileName);
     void loadFile(const QList<QString> &data);
-    void loadFileLines(std::function<bool(QString &, int &, int &)> nextLine, int lineCount,
-        const QSharedPointer<ProgramSource> &source = QSharedPointer<ProgramSource>());
+    // Line-addressed view of the program text: either spans into a
+    // memory-mapped file (offsets/lengths) or an already decoded list.
+    struct LoadSource {
+        QSharedPointer<ProgramSource> map;  // when set, lines are file spans
+        QVector<int> offsets;
+        QVector<int> lengths;
+        QList<QString> list;                // used when 'map' is null
+    };
+
+    GcodeParser *beginProgramLoad(QProgressDialog &progress, QByteArray &headerState,
+        int lineCount, const QSharedPointer<ProgramSource> &source);
+    void finishProgramLoad(const QByteArray &headerState);
+    void loadFileLines(QSharedPointer<LoadSource> lines, int lineCount);
+    void loadFileLinesStream(std::function<bool(QString &, int &, int &)> nextLine, int lineCount);
     void reanchorProgramSource(const QString &fileName);
     bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);

@@ -24,6 +24,10 @@
 #include <QInputDialog>
 #include <QElapsedTimer>
 #include <QtConcurrent/QtConcurrent>
+#include <QThread>
+#include <QThreadPool>
+#include <atomic>
+#include <memory>
 #include <QClipboard>
 #include <QStyleFactory>
 #include "frmmain.h"
@@ -4904,26 +4908,21 @@ void frmMain::loadFile(QString fileName)
     }
 
     if (source) {
-        int fileLine = 0;
+        QSharedPointer<LoadSource> lines(new LoadSource);
+        lines->map = source;
+        lines->offsets = std::move(offsets);
+        lines->lengths = std::move(lengths);
 
-        loadFileLines([&offsets, &lengths, &fileLine, source](QString &text, int &offset, int &length) -> bool {
-            if (fileLine >= offsets.count())
-                return false;
-
-            offset = offsets[fileLine];
-            length = lengths[fileLine];
-            text = source->lineText(offset, length);
-            fileLine++;
-
-            return true;
-        }, offsets.count(), source);
+        loadFileLines(lines, lines->offsets.count());
 
         return;
     }
 
-    // Fall back to an eager streaming load (UTF-16/too large/unmappable
-    // files): count lines with a fast byte scan for an accurate progress
-    // dialog and stream the text in without holding the whole file.
+    // Fall back to an eager load for files that can't be memory-mapped
+    // (UTF-16, non-UTF8, over 2 GB). Files that comfortably fit in RAM are
+    // decoded into a line list and go through the same parallel pipeline;
+    // larger ones are streamed line-by-line serially without keeping the
+    // whole file in memory.
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -4931,6 +4930,26 @@ void frmMain::loadFile(QString fileName)
         return;
     }
 
+    static const qint64 LISTLOADMAX = 1024LL * 1024 * 1024;
+
+    if (file.size() <= LISTLOADMAX) {
+        QList<QString> list = QTextStream(&file).readAll().split('\n');
+
+        // split() leaves the CR on CRLF lines; line-wise reads would drop it.
+        for (QString &line : list) {
+            if (line.endsWith('\r'))
+                line.chop(1);
+        }
+
+        QSharedPointer<LoadSource> lines(new LoadSource);
+        lines->list = list;
+
+        loadFileLines(lines, list.count());
+
+        return;
+    }
+
+    // Count lines with a fast byte scan for an accurate progress dialog.
     int lineCount = 1;
     QByteArray scanBuf;
     scanBuf.resize(65536);
@@ -4940,7 +4959,7 @@ void frmMain::loadFile(QString fileName)
     file.seek(0);
 
     QTextStream textStream(&file);
-    loadFileLines([&textStream](QString &line, int &offset, int &length) -> bool {
+    loadFileLinesStream([&textStream](QString &line, int &offset, int &length) -> bool {
         if (textStream.atEnd())
             return false;
         offset = -1;
@@ -4952,21 +4971,15 @@ void frmMain::loadFile(QString fileName)
 
 void frmMain::loadFile(const QList<QString> &data)
 {
-    int index = 0;
-    loadFileLines([&data, &index](QString &line, int &offset, int &length) -> bool {
-        if (index >= data.count())
-            return false;
-        offset = -1;
-        length = -1;
-        line = data.at(index++);
-        return true;
-    }, data.count());
+    QSharedPointer<LoadSource> lines(new LoadSource);
+    lines->list = data;
+
+    loadFileLines(lines, data.count());
 }
 
-void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLine, int lineCount,
-    const QSharedPointer<ProgramSource> &source)
+GcodeParser *frmMain::beginProgramLoad(QProgressDialog &progress, QByteArray &headerState,
+    int lineCount, const QSharedPointer<ProgramSource> &source)
 {
-    const bool lazy = source && source->isOpen();
     ensureParserUpdateNotRunning();
     // Reset tables
     clearTable();
@@ -4997,7 +5010,7 @@ void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLin
     m_programHeightmapTableHistoryManager->clear();
 
     // Reset tableview
-    QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
+    headerState = ui->tblProgram->horizontalHeader()->saveState();
     ui->tblProgram->setModel(NULL);
 
     // Prepare parser
@@ -5009,19 +5022,11 @@ void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLin
     // Block parser updates on table changes
     m_programLoading = true;
 
-    QString command;
-    int srcOffset = -1, srcLength = -1;
-    QString stripped;
-    QString trimmed;
-    QList<QByteArray> args;
-    GCodeItem item;
-
     // Prepare model
     m_programModel.data().clear();
     m_programModel.setSource(source);
     m_programModel.data().reserve(lineCount);
 
-    QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, lineCount, this);
     progress.setWindowModality(Qt::WindowModal);
     progress.setFixedSize(progress.sizeHint());
     if (lineCount > PROGRESSMINLINES) {
@@ -5029,54 +5034,13 @@ void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLin
         progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
     }
 
-    int i = 0;
-    while (nextLine(command, srcOffset, srcLength))
-    {
-        // Trim command
-        trimmed = command.trimmed();
+    return gp;
+}
 
-        if (!trimmed.isEmpty()) {
-            // Split command
-            stripped = GcodePreprocessorUtils::removeComment(command);
-            args = GcodePreprocessorUtils::splitCommand(stripped);
-
-            gp->addCommand(args);
-
-            if (lazy && srcOffset >= 0) {
-                // Text stays in the source file; only the span is stored.
-                item.command = QByteArray();
-                item.srcOffset = srcOffset;
-                item.srcLength = srcLength;
-            } else {
-                item.command = trimmed.toUtf8();
-                item.command.squeeze();
-                item.srcOffset = -1;
-                item.srcLength = -1;
-            }
-            item.state = GCodeItem::InQueue;
-            item.line = gp->getCommandNumber();
-
-            m_programModel.data().append(item);
-        }
-
-        i++;
-
-        if (progress.isVisible() && (i % PROGRESSSTEP == 0))
-        {
-            progress.setValue(i);
-            qApp->processEvents();
-            if (progress.wasCanceled())
-                break;
-        }
-    }
-    progress.close();
-
+void frmMain::finishProgramLoad(const QByteArray &headerState)
+{
     m_programModel.insertRow(m_programModel.rowCount());
     m_programLoading = false;
-
-    m_viewParser.updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
-
-    QtConcurrent::run([=] { delete gp; });
 
     updateProgramEstimatedTime(*m_viewParser.getLineSegments());
 
@@ -5099,6 +5063,196 @@ void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLin
 
     resetHeightmap();
     updateControlsState();
+}
+
+void frmMain::loadFileLines(QSharedPointer<LoadSource> lines, int lineCount)
+{
+    const bool lazy = !lines->map.isNull();
+
+    QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, lineCount, this);
+    QByteArray headerState;
+    GcodeParser *gp = beginProgramLoad(progress, headerState, lineCount, lines->map);
+
+    // Decoding and tokenizing of lines run in parallel on worker threads;
+    // the stateful parser (modal state, command numbers) and the table
+    // append stay serial and consume parsed chunks in file order.
+    auto cancel = std::make_shared<std::atomic<bool>>(false);
+    std::atomic_int rowsLoaded(0);
+
+    // Publish as the parser-update future so any other parser user waits
+    // for the load via ensureParserUpdateNotRunning().
+    m_updateParserFuture = QtConcurrent::run([this, lines, lineCount, lazy, gp, cancel, &rowsLoaded] {
+        struct ParsedLine {
+            QString trimmed;
+            QList<QByteArray> args;
+            int offset = -1;
+            int length = 0;
+            bool keep = false;
+        };
+
+        QThreadPool pool;
+        pool.setMaxThreadCount(qMax(1, QThread::idealThreadCount() - 1));
+
+        const int chunkSize = 16384;
+        const int chunkCount = lineCount > 0 ? (lineCount + chunkSize - 1) / chunkSize : 0;
+
+        const auto produce = [lines, cancel](int first, int last) {
+            QVector<ParsedLine> out;
+            out.reserve(last - first);
+
+            for (int r = first; r < last; r++) {
+                if (cancel->load(std::memory_order_relaxed))
+                    break;
+
+                const QString text = lines->map ?
+                    lines->map->lineText(lines->offsets.at(r), lines->lengths.at(r)) : lines->list.at(r);
+
+                ParsedLine pl;
+                pl.trimmed = text.trimmed();
+                pl.keep = !pl.trimmed.isEmpty();
+                if (pl.keep)
+                    pl.args = GcodePreprocessorUtils::splitCommand(GcodePreprocessorUtils::removeComment(text));
+                if (lines->map) {
+                    pl.offset = lines->offsets.at(r);
+                    pl.length = lines->lengths.at(r);
+                }
+                out.append(pl);
+            }
+            return out;
+        };
+
+        QVector<QFuture<QVector<ParsedLine>>> futs;
+        futs.resize(chunkCount);
+
+        const auto submit = [&](int chunk) {
+            const int first = chunk * chunkSize;
+            futs[chunk] = QtConcurrent::run(&pool, produce, first, qMin(lineCount, first + chunkSize));
+        };
+
+        if (chunkCount > 0)
+            submit(0);
+        if (chunkCount > 1)
+            submit(1);
+
+        GCodeItem item;
+        int i = 0;
+
+        for (int c = 0; c < chunkCount; c++) {
+            if (cancel->load(std::memory_order_relaxed))
+            {
+                // Drop the parsed chunk to release worker threads to cancel.
+                futs[c].cancel();
+                continue;
+            }
+            if (c + 2 < chunkCount)
+                submit(c + 2);
+
+            QVector<ParsedLine> chunk = futs[c].result();
+
+            for (const ParsedLine &pl : chunk) {
+                if (pl.keep) {
+                    gp->addCommand(pl.args);
+
+                    if (lazy && pl.offset >= 0) {
+                        // Text stays in the source file; only the span is stored.
+                        item.command = QByteArray();
+                        item.srcOffset = pl.offset;
+                        item.srcLength = pl.length;
+                    } else {
+                        item.command = pl.trimmed.toUtf8();
+                        item.command.squeeze();
+                        item.srcOffset = -1;
+                        item.srcLength = -1;
+                    }
+                    item.state = GCodeItem::InQueue;
+                    item.line = gp->getCommandNumber();
+                    m_programModel.data().append(item);
+                }
+                i++;
+            }
+            rowsLoaded.store(i, std::memory_order_relaxed);
+        }
+
+        pool.waitForDone();
+
+        // Rebuild visualizer data on the worker thread as well (the same
+        // pattern as background parser updates).
+        m_viewParser.updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode(),
+            [cancel]() { return cancel->load(std::memory_order_relaxed); });
+
+        QtConcurrent::run([gp] { delete gp; });
+
+        return i;
+    });
+
+    while (m_updateParserFuture.isRunning()) {
+        QThread::msleep(20);
+        if (progress.isVisible()) {
+            progress.setValue(qMin(rowsLoaded.load(std::memory_order_relaxed), lineCount));
+            qApp->processEvents();
+            if (progress.wasCanceled())
+                cancel->store(true, std::memory_order_relaxed);
+        }
+    }
+    m_updateParserFuture.waitForFinished();
+    progress.close();
+
+    finishProgramLoad(headerState);
+}
+
+void frmMain::loadFileLinesStream(std::function<bool(QString &, int &, int &)> nextLine, int lineCount)
+{
+    QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, lineCount, this);
+    QByteArray headerState;
+    GcodeParser *gp = beginProgramLoad(progress, headerState, lineCount, QSharedPointer<ProgramSource>());
+
+    QString command;
+    int srcOffset = -1, srcLength = -1;
+    QString stripped;
+    QString trimmed;
+    QList<QByteArray> args;
+    GCodeItem item;
+    int i = 0;
+
+    while (nextLine(command, srcOffset, srcLength))
+    {
+        // Trim command
+        trimmed = command.trimmed();
+
+        if (!trimmed.isEmpty()) {
+            // Split command
+            stripped = GcodePreprocessorUtils::removeComment(command);
+            args = GcodePreprocessorUtils::splitCommand(stripped);
+
+            gp->addCommand(args);
+
+            item.command = trimmed.toUtf8();
+            item.command.squeeze();
+            item.srcOffset = -1;
+            item.srcLength = -1;
+            item.state = GCodeItem::InQueue;
+            item.line = gp->getCommandNumber();
+
+            m_programModel.data().append(item);
+        }
+
+        i++;
+
+        if (progress.isVisible() && (i % PROGRESSSTEP == 0))
+        {
+            progress.setValue(i);
+            qApp->processEvents();
+            if (progress.wasCanceled())
+                break;
+        }
+    }
+    progress.close();
+
+    m_viewParser.updateFromParser(gp, m_settings->arcPrecision(), m_settings->arcDegreeMode());
+
+    QtConcurrent::run([=] { delete gp; });
+
+    finishProgramLoad(headerState);
 }
 
 bool frmMain::saveChanges(bool heightMapMode)
