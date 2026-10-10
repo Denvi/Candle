@@ -93,14 +93,14 @@ bool GcodeDrawer::prepareVectors()
         m_texture = nullptr;
     }
 
-    const auto &lineSegments = m_viewParser->getLineSegments();
+    auto *lineSegments = m_viewParser->getLineSegments();
     bool isFirstPointAdded = false;
     int lineSegmentsCount = lineSegments->count();
     VertexData vertex;
 
     for (int i = 0; i < lineSegmentsCount; i++)
     {
-        const auto &lineSegmentBegin = lineSegments->at(i);
+        auto *lineSegmentBegin = &lineSegments->operator[](i);
         auto lineSegmentEnd = lineSegmentBegin;
 
         // Find first point of toolpath
@@ -143,7 +143,7 @@ bool GcodeDrawer::prepareVectors()
 
             for (auto j = i + 1; j < lineSegmentsCount; j++)
             {
-                lineSegment = lineSegments->at(j);
+                lineSegment = &lineSegments->operator[](j);
                 if (getSegmentType(lineSegment) != lineSegmentType)
                     break;
 
@@ -190,7 +190,7 @@ bool GcodeDrawer::prepareVectors()
 bool GcodeDrawer::updateVectors()
 {
     // Update vertices
-    QList<LineSegment*> *list = m_viewParser->getLineSegments();
+    QVector<LineSegment> *list = m_viewParser->getLineSegments();
 
     auto isVbo = m_vbo.isCreated();
     auto firstVertexIndex = -1;
@@ -208,12 +208,12 @@ bool GcodeDrawer::updateVectors()
         if (i < 0 || i > list->count() - 1)
             continue;
 
-        auto vertexIndex = list->at(i)->vertexIndex();
+        auto vertexIndex = list->at(i).vertexIndex();
 
         if (vertexIndex >= 0)
         {
             // Update vertex data
-            auto color = getSegmentColorVector(list->at(i));
+            auto color = getSegmentColorVector(&list->operator[](i));
             m_lines[vertexIndex].color = color;
             m_lines[vertexIndex + 1].color = color;
 
@@ -258,15 +258,15 @@ bool GcodeDrawer::prepareRaster()
         image = QImage(m_viewParser->getModelResolution(), QImage::Format_RGB888);
         image.fill(Qt::white);
 
-        QList<LineSegment*> *list = m_viewParser->getLineSegments();
+        QVector<LineSegment> *list = m_viewParser->getLineSegments();
 
         double pixelSize = m_viewParser->getModelMinLineLength();
         QVector3D origin = m_viewParser->getViewLowerBounds();
 
         for (int i = 0; i < list->count(); i++) {
-            if (!qIsNaN(list->at(i)->getEnd().length())) {
-                setImagePixelColor(image, (list->at(i)->getEnd().x() - origin.x()) / pixelSize,
-                                   (list->at(i)->getEnd().y() - origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
+            if (!qIsNaN(list->at(i).getEnd().length())) {
+                setImagePixelColor(image, (list->at(i).getEnd().x() - origin.x()) / pixelSize,
+                                   (list->at(i).getEnd().y() - origin.y()) / pixelSize, getSegmentColor(&list->operator[](i)).rgb());
             }
         }
     }
@@ -336,13 +336,13 @@ bool GcodeDrawer::updateRaster()
 {
     if (!m_image.isNull()) {
 
-        QList<LineSegment*> *list = m_viewParser->getLineSegments();
+        QVector<LineSegment> *list = m_viewParser->getLineSegments();
 
         double pixelSize = m_viewParser->getModelMinLineLength();
         QVector3D origin = m_viewParser->getViewLowerBounds();
 
-        foreach (int i, m_indexes) setImagePixelColor(m_image, (list->at(i)->getEnd().x() - origin.x()) / pixelSize,
-                                                      (list->at(i)->getEnd().y() - origin.y()) / pixelSize, getSegmentColor(list->at(i)).rgb());
+        foreach (int i, m_indexes) setImagePixelColor(m_image, (list->at(i).getEnd().x() - origin.x()) / pixelSize,
+                                                      (list->at(i).getEnd().y() - origin.y()) / pixelSize, getSegmentColor(&list->operator[](i)).rgb());
 
         if (m_texture) m_texture->setData(QOpenGLTexture::RGB, QOpenGLTexture::UInt8, m_image.bits());
     }

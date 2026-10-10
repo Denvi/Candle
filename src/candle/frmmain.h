@@ -510,6 +510,7 @@ private:
     // Files/models
     void loadFile(QString fileName);
     void loadFile(const QList<QString> &data);
+    void loadFileLines(std::function<bool(QString &)> nextLine, int lineCount);
     bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     void loadHeightMap(QString fileName);
@@ -545,9 +546,9 @@ private:
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
-    void updateProgramEstimatedTime(const QList<LineSegment *> &lines);
+    void updateProgramEstimatedTime(const QVector<LineSegment> &lines);
     void ensureProgramEstimatedTimeUpdateNotRunning();
-    QList<LineSegment *> subdivideSegment(LineSegment *segment);
+    QVector<LineSegment> subdivideSegment(LineSegment &segment);
     void jogStep();
     void jogContinuous();
     double toMetric(double value);
