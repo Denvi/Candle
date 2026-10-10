@@ -36,6 +36,7 @@
 #include "settings/settingsprofileentry.h"
 #include "utils/optarg.h"
 #include "utils/timeestimator.h"
+#include "utils/interpolation.h"
 #include "connections/serialportconnection.h"
 #include "connections/telnetconnection.h"
 #include "connections/websocketconnection.h"
@@ -1300,6 +1301,32 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
             progress.setLabelText(tr("Updating Z-coordinates..."));
             progress.setMaximum(modifiedSegments.count() - 1);
+
+            // Apply interpolated Z-coordinates to the subdivided segments.
+            for (int i = 0; i < modifiedSegments.count(); i++) {
+                if (i == 0) {
+                    x = modifiedSegments[i].getStart().x();
+                    y = modifiedSegments[i].getStart().y();
+                    z = modifiedSegments[i].getStart().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                    modifiedSegments[i].setStart(QVector3D(x, y, z));
+                } else modifiedSegments[i].setStart(modifiedSegments[i - 1].getEnd());
+
+                x = modifiedSegments[i].getEnd().x();
+                y = modifiedSegments[i].getEnd().y();
+                z = modifiedSegments[i].getEnd().z() + Interpolation::bicubicInterpolate(borderRect, &m_heightMapModel, x, y);
+                modifiedSegments[i].setEnd(QVector3D(x, y, z));
+
+                if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
+                    progress.setValue(i);
+                    qApp->processEvents();
+                    if (progress.wasCanceled()) throw cancel;
+                }
+            }
+
+            // Modified commands are built from the modified segments
+            // (subdivided, Z-corrected). The view parser is re-parsed from
+            // the modified program by updateParser() below.
+            list = &modifiedSegments;
 
             progress.setLabelText(tr("Modifying G-code program..."));
             progress.setMaximum(m_programModel.rowCount() - 2);
