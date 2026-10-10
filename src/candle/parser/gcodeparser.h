@@ -11,6 +11,7 @@
 #include <QVector3D>
 #include <cmath>
 #include "pointsegment.h"
+#include "../utils/arena.h"
 #include "gcodepreprocessorutils.h"
 #include "../utils/util.h"
 
@@ -75,7 +76,9 @@ private:
 
     // The gcode.
     QList<PointSegment*> m_points;
-
+    // Point segments are bump-allocated: pointers stay stable and the
+    // whole batch is released at once on reset/destruction.
+    Arena m_arena;
     PointSegment *processCommand(const QStringList &args);
     void handleMCode(float code, const QStringList &args);
     PointSegment *handleGCode(float code, const QStringList &args);
