@@ -19,7 +19,7 @@ QVariant GCodeTableModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
         case 0: return index.row() == this->rowCount() - 1 ? QString() : QString::number(index.row() + 1);
-        case 1: return m_data.at(index.row()).command;
+        case 1: return commandAt(index.row());
         case 2:
             if (index.row() == this->rowCount() - 1) return QString();
             switch (m_data.at(index.row()).state) {
@@ -55,13 +55,15 @@ bool GCodeTableModel::setData(const QModelIndex &index, const QVariant &value, i
                 return false;
             case 1:
                 {
-                    auto oldCommand = m_data.at(index.row()).command;
+                    auto oldCommand = commandAt(index.row());
                     auto newCommand = value.toString().toUtf8();
 
                     if (newCommand != oldCommand)
                     {
                         m_data[index.row()].command = newCommand;
                         m_data[index.row()].command.squeeze();
+                        m_data[index.row()].srcOffset = -1;
+                        m_data[index.row()].srcLength = -1;
                         emit commandChanged(index.row(), oldCommand, newCommand);
                     }
                 }
@@ -94,6 +96,8 @@ void GCodeTableModel::setCommand(int row, const QByteArray &command)
     m_data[row].command = command;
     m_data[row].command.squeeze();
     m_data[row].args = QList<QByteArray>();
+    m_data[row].srcOffset = -1;
+    m_data[row].srcLength = -1;
 
     auto index = this->index(row, 1);
     emit dataChanged(this->index(row, 1), this->index(row, 5));
@@ -176,6 +180,7 @@ void GCodeTableModel::clear()
 {
     beginResetModel();
     m_data.clear();
+    m_source.reset();
     endResetModel();
 }
 
@@ -210,4 +215,46 @@ Qt::ItemFlags GCodeTableModel::flags(const QModelIndex &index) const
 QList<GCodeItem> &GCodeTableModel::data()
 {
     return m_data;
+}
+
+void GCodeTableModel::setSource(const QSharedPointer<ProgramSource> &source)
+{
+    m_source = source;
+}
+
+QByteArray GCodeTableModel::commandAt(int row) const
+{
+    const GCodeItem &item = m_data.at(row);
+
+    if (!item.command.isNull())
+        return item.command;
+
+    if (item.srcLength >= 0 && m_source && m_source->isOpen())
+        return m_source->lineText(item.srcOffset, item.srcLength).trimmed().toUtf8();
+
+    return QByteArray();
+}
+
+bool GCodeTableModel::isLazy(int row) const
+{
+    const GCodeItem &item = m_data.at(row);
+    return item.command.isNull() && item.srcLength >= 0;
+}
+
+void GCodeTableModel::materializeRow(int row)
+{
+    if (!isLazy(row))
+        return;
+
+    m_data[row].command = commandAt(row);
+    m_data[row].srcOffset = -1;
+    m_data[row].srcLength = -1;
+}
+
+void GCodeTableModel::materializeAll()
+{
+    for (int i = 0; i < m_data.size(); i++)
+        materializeRow(i);
+
+    m_source.reset();
 }

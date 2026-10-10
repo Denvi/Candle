@@ -510,7 +510,9 @@ private:
     // Files/models
     void loadFile(QString fileName);
     void loadFile(const QList<QString> &data);
-    void loadFileLines(std::function<bool(QString &)> nextLine, int lineCount);
+    void loadFileLines(std::function<bool(QString &, int &, int &)> nextLine, int lineCount,
+        const QSharedPointer<ProgramSource> &source = QSharedPointer<ProgramSource>());
+    void reanchorProgramSource(const QString &fileName);
     bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     void loadHeightMap(QString fileName);

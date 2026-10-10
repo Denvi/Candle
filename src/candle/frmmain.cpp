@@ -1327,7 +1327,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
 
             m_programLoading = true;
             for (int i = 0; i < m_programModel.rowCount() - 1; i++) {
-                command = m_programModel.data().at(i).command;
+                command = QString::fromUtf8(m_programModel.commandAt(i));
                 line = m_programModel.data().at(i).line;
                 isLinearMove = false;
                 hasCommand = false;
@@ -1343,7 +1343,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked)
                     // Derive args on demand (lazy cache stays empty until re-parse)
                     if (args.isEmpty())
                         args = GcodePreprocessorUtils::splitCommand(
-                            GcodePreprocessorUtils::removeComment(m_programModel.data().at(i).command));
+                            GcodePreprocessorUtils::removeComment(m_programModel.commandAt(i)));
                     newCommand.clear();
 
                     // Prevent G53 commands from modification
@@ -2804,7 +2804,7 @@ void frmMain::onTableCutLines()
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-            lines.append(m_currentModel->data().at(i).command);
+            lines.append(m_currentModel->commandAt(i));
 
         QApplication::clipboard()->setText(lines.join('\n'));
 
@@ -2846,7 +2846,7 @@ void frmMain::onTableCopyLines()
         QStringList lines;
 
         for (int i = firstRow.row(); i < firstRow.row() + rowsCount; i++)
-            lines.append(m_currentModel->data().at(i).command);
+            lines.append(m_currentModel->commandAt(i));
 
         QApplication::clipboard()->setText(lines.join('\n'));
     }
@@ -4608,7 +4608,7 @@ void frmMain::sendCommands(QString commands, int tableIndex)
 void frmMain::sendNextFileCommands() {
     if (m_queue.length() > 0) return;
 
-    auto command = m_currentModel->data().at(m_fileCommandIndex).command;
+    auto command = m_currentModel->commandAt(m_fileCommandIndex);
     static QRegExp M230("(M0*2|M30|M0*6)(?!\\d)");
 
     while ((bufferLength() + command.length() + 1) <= BUFFERLENGTH
@@ -4619,7 +4619,7 @@ void frmMain::sendNextFileCommands() {
         m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), GCodeItem::Sent);
         sendCommand(command, m_fileCommandIndex, m_settings->showProgramCommands());
         m_fileCommandIndex++;
-        command = m_currentModel->data().at(m_fileCommandIndex).command;
+        command = m_currentModel->commandAt(m_fileCommandIndex);
     }
 }
 
@@ -4669,9 +4669,9 @@ void frmMain::updateParser()
 
         // Store args if none
         if (args.isEmpty()) {
-            stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
+            stripped = GcodePreprocessorUtils::removeComment(m_currentModel->commandAt(i));
             args = GcodePreprocessorUtils::splitCommand(stripped);
-            m_currentModel->data()[i].args = args;
+            if (!m_currentModel->isLazy(i)) m_currentModel->data()[i].args = args;
         }
 
         // Add command to parser
@@ -4737,9 +4737,9 @@ void frmMain::updateParserInBackground()
 
             // Store args if none
             if (args.isEmpty()) {
-                stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
+                stripped = GcodePreprocessorUtils::removeComment(m_currentModel->commandAt(i));
                 args = GcodePreprocessorUtils::splitCommand(stripped);
-                m_currentModel->data()[i].args = args;
+                if (!m_currentModel->isLazy(i)) m_currentModel->data()[i].args = args;
             }
 
             // Add command to parser
@@ -4851,6 +4851,52 @@ void frmMain::storeOffsetsVars(QString response)
 
 void frmMain::loadFile(QString fileName)
 {
+    {
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, this->windowTitle(), tr("Can't open file:\n") + fileName);
+            return;
+        }
+    }
+
+    // Set filename
+    m_programFileName = fileName;
+
+    // Try to set up a lazy-backed load: line spans are recorded by a byte
+    // scan and command texts stay in the memory-mapped source file.
+    QVector<int> offsets, lengths;
+    QString error;
+    QSharedPointer<ProgramSource> source;
+
+    if (ProgramSource::scanLines(fileName, offsets, lengths, &error)) {
+        source = QSharedPointer<ProgramSource>(new ProgramSource());
+
+        if (!source->open(fileName, &error))
+            source.reset();
+    }
+
+    if (source) {
+        int fileLine = 0;
+
+        loadFileLines([&offsets, &lengths, &fileLine, source](QString &text, int &offset, int &length) -> bool {
+            if (fileLine >= offsets.count())
+                return false;
+
+            offset = offsets[fileLine];
+            length = lengths[fileLine];
+            text = source->lineText(offset, length);
+            fileLine++;
+
+            return true;
+        }, offsets.count(), source);
+
+        return;
+    }
+
+    // Fall back to an eager streaming load (UTF-16/too large/unmappable
+    // files): count lines with a fast byte scan for an accurate progress
+    // dialog and stream the text in without holding the whole file.
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -4858,12 +4904,6 @@ void frmMain::loadFile(QString fileName)
         return;
     }
 
-    // Set filename
-    m_programFileName = fileName;
-
-    // Count lines with a fast byte scan. This lets the loader stream the file
-    // line-by-line (without materializing the whole file as a list of QStrings)
-    // while keeping the progress dialog and model reserve accurate.
     int lineCount = 1;
     QByteArray scanBuf;
     scanBuf.resize(65536);
@@ -4872,11 +4912,12 @@ void frmMain::loadFile(QString fileName)
         lineCount += std::count(scanBuf.constData(), scanBuf.constData() + bytesRead, '\n');
     file.seek(0);
 
-    // Stream lines into the loader
     QTextStream textStream(&file);
-    loadFileLines([&textStream](QString &line) -> bool {
+    loadFileLines([&textStream](QString &line, int &offset, int &length) -> bool {
         if (textStream.atEnd())
             return false;
+        offset = -1;
+        length = -1;
         line = textStream.readLine();
         return true;
     }, lineCount);
@@ -4885,16 +4926,20 @@ void frmMain::loadFile(QString fileName)
 void frmMain::loadFile(const QList<QString> &data)
 {
     int index = 0;
-    loadFileLines([&data, &index](QString &line) -> bool {
+    loadFileLines([&data, &index](QString &line, int &offset, int &length) -> bool {
         if (index >= data.count())
-        return false;
+            return false;
+        offset = -1;
+        length = -1;
         line = data.at(index++);
         return true;
     }, data.count());
 }
 
-void frmMain::loadFileLines(std::function<bool(QString &)> nextLine, int lineCount)
+void frmMain::loadFileLines(std::function<bool(QString &, int &, int &)> nextLine, int lineCount,
+    const QSharedPointer<ProgramSource> &source)
 {
+    const bool lazy = source && source->isOpen();
     ensureParserUpdateNotRunning();
     // Reset tables
     clearTable();
@@ -4938,6 +4983,7 @@ void frmMain::loadFileLines(std::function<bool(QString &)> nextLine, int lineCou
     m_programLoading = true;
 
     QString command;
+    int srcOffset = -1, srcLength = -1;
     QString stripped;
     QString trimmed;
     QList<QByteArray> args;
@@ -4945,6 +4991,7 @@ void frmMain::loadFileLines(std::function<bool(QString &)> nextLine, int lineCou
 
     // Prepare model
     m_programModel.data().clear();
+    m_programModel.setSource(source);
     m_programModel.data().reserve(lineCount);
 
     QProgressDialog progress(tr("Opening file..."), tr("Abort"), 0, lineCount, this);
@@ -4956,7 +5003,7 @@ void frmMain::loadFileLines(std::function<bool(QString &)> nextLine, int lineCou
     }
 
     int i = 0;
-    while (nextLine(command))
+    while (nextLine(command, srcOffset, srcLength))
     {
         // Trim command
         trimmed = command.trimmed();
@@ -4968,8 +5015,17 @@ void frmMain::loadFileLines(std::function<bool(QString &)> nextLine, int lineCou
 
             gp->addCommand(args);
 
-            item.command = trimmed.toUtf8();
-            item.command.squeeze();
+            if (lazy && srcOffset >= 0) {
+                // Text stays in the source file; only the span is stored.
+                item.command = QByteArray();
+                item.srcOffset = srcOffset;
+                item.srcLength = srcLength;
+            } else {
+                item.command = trimmed.toUtf8();
+                item.command.squeeze();
+                item.srcOffset = -1;
+                item.srcLength = -1;
+            }
             item.state = GCodeItem::InQueue;
             item.line = gp->getCommandNumber();
 
@@ -5056,12 +5112,46 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
     QTextStream textStream(&file);
 
     for (int i = 0; i < model->rowCount() - 1; i++) {
-        textStream << model->data().at(i).command << "\r\n";
+        textStream << model->commandAt(i) << "\r\n";
     }
 
     file.close();
 
+    // Rows are now 1:1 with the freshly written file; drop materialized
+    // texts back onto the file and re-anchor the lazy spans.
+    if (model == &m_programModel)
+        reanchorProgramSource(fileName);
+
     return true;
+}
+
+void frmMain::reanchorProgramSource(const QString &fileName)
+{
+    QVector<int> offsets, lengths;
+    QString error;
+
+    if (!ProgramSource::scanLines(fileName, offsets, lengths, &error))
+        return;
+
+    QSharedPointer<ProgramSource> source(new ProgramSource());
+
+    if (!source->open(fileName, &error))
+        return;
+
+    QList<GCodeItem> &items = m_programModel.data();
+
+    // Saved file lines must match program rows exactly.
+    if (offsets.count() != items.count() - 1)
+        return;
+
+    m_programModel.setSource(source);
+
+    for (int i = 0; i < items.count() - 1; i++) {
+        items[i].command = QByteArray();
+        items[i].args = QList<QByteArray>();
+        items[i].srcOffset = offsets[i];
+        items[i].srcLength = lengths[i];
+    }
 }
 
 void frmMain::loadHeightMap(QString fileName)
