@@ -119,6 +119,7 @@ class frmMain : public QMainWindow
     friend class ScriptProgram;
     friend class ScriptDevice;
     friend class ScriptSender;
+    friend class AutomationTools;
 
 public:
     explicit frmMain(QWidget *parent = 0);
