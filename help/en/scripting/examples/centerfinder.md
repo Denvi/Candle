@@ -31,8 +31,9 @@ script.importExtension("qt.widgets"); // access to QInputDialog
     const startY = app.device.work.y;
 
     /* ---------- 3. Find center along Y ---------- */
-    // First touch: move forward by the given radius
-    app.device.sendCommand("G91G38.2F100Y" + radius);
+    // First touch: move forward by the given radius.
+    // G94 selects mm/min feed, so probing stays slow even if G93 was active before.
+    app.device.sendCommand("G91G94G38.2F100Y" + radius);
     app.device.waitResponses();         // wait for probe hit
     const probeY = app.device.probe.y;  // record touch coordinate
 

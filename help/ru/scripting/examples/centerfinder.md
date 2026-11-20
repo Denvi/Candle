@@ -31,8 +31,9 @@ script.importExtension("qt.widgets"); // Доступ к QInputDialog
     const startY = app.device.work.y;
 
     /* ---------- 3. Поиск центра по оси Y ---------- */
-    // Первое касание: двигаемся вперёд на заданный радиус
-    app.device.sendCommand("G91G38.2F100Y" + radius);
+    // Первое касание: двигаемся вперёд на заданный радиус.
+    // G94 включает подачу в мм/мин, чтобы зонд шёл медленно даже после G93.
+    app.device.sendCommand("G91G94G38.2F100Y" + radius);
     app.device.waitResponses();                     // ждём срабатывания щупа
     const probeY = app.device.probe.y;              // фиксируем координату касания
 

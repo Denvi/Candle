@@ -5818,7 +5818,8 @@ bool frmMain::updateHeightMapGrid()
     m_probeModel.clear();
     m_probeModel.insertRow(0);
 
-    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90F%1")
+    // G94: probe feed is always units/min; do not let a leftover G93 speed it up (issue #730)
+    m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G21G90G94F%1")
                         .arg(ui->txtHeightMapProbeFeed->value()));
     m_probeModel.setData(m_probeModel.index(m_probeModel.rowCount() - 1, 1), QString("G0X%1Y%2")
                         .arg(ui->txtHeightMapOriginX->value())
