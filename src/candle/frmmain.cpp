@@ -4366,6 +4366,8 @@ void frmMain::loadPlugins()
         // Translation
         QString loc = m_settings->language();
         QString translationFileName = pluginsDir + p + "/translation_" + loc + ".qm";
+        if (!QFile::exists(translationFileName))
+            translationFileName = pluginsDir + p + "/translation_" + loc.left(2) + ".qm";
         if(QFile::exists(translationFileName)) {
             QTranslator *translator = new QTranslator();
             if (translator->load(translationFileName)) qApp->installTranslator(translator);

@@ -94,8 +94,9 @@ frmSettings::frmSettings(QWidget *parent) :
     QRegExp fx("_([^\\.]+)");
     foreach (const QString &t, tl) {
         if (fx.indexIn(t) != -1) {
-            QLocale l(fx.cap(1));
-            ui->cboLanguage->addItem(l.nativeLanguageName(), l.name().left(2));
+            // Value = locale exactly as the .qm file names it ("zh_CN", "ru"),
+            // not QLocale::name() which normalizes "ru" to "ru_RU".
+            ui->cboLanguage->addItem(QLocale(fx.cap(1)).nativeLanguageName(), fx.cap(1));
         }
     }
 }
@@ -687,6 +688,15 @@ QString frmSettings::language()
 void frmSettings::setLanguage(QString language)
 {
     int i = ui->cboLanguage->findData(language);
+    if (i == -1) {
+        // Older configs stored a bare language code ("zh"); match its regional variant.
+        for (int j = 0; j < ui->cboLanguage->count(); j++) {
+            if (ui->cboLanguage->itemData(j).toString().startsWith(language + "_")) {
+                i = j;
+                break;
+            }
+        }
+    }
     if (i != -1) ui->cboLanguage->setCurrentIndex(i);
 }
 

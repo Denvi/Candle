@@ -30,7 +30,7 @@ void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
     if (!dir.exists())
         return;
 
-    for (const QString &fileName : dir.entryList(QStringList{ "*_" + locale + ".qm" }, QDir::Files))
+    for (const QString &fileName : dir.entryList(QStringList{ "*_" + locale + ".qm", "*_" + locale + "_*.qm" }, QDir::Files))
     {
         auto tr = new QTranslator(&app);
 
