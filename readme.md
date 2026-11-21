@@ -40,9 +40,12 @@ candle --mcp-port 9000      # custom port
 candle --mcp-allow-motion   # unlock gcode_send/jog/motion_control/job_control
 ```
 
-Tools exposed: machine_state, console_tail, grbl_query, gcode_send, jog, motion_control,
+Tools exposed: machine_state (with a modalDialog signal when a popup blocks the main
+window), console_tail, status_report, grbl_query (print queries only; use status_report
+for the '?' real-time report), gcode_send, jog, motion_control,
 job_control, file_load, program_summary, program_lines, ui_tree, ui_click (by objectName
-or dialog button text), ui_set, action_list, action_trigger, screenshot. Motion tools are
+or dialog button text), ui_set, message_box (inspect/dismiss blocking message popups),
+action_list, action_trigger, screenshot. Motion tools are
 locked unless --mcp-allow-motion is given; screenshots include the visualizer and any
 open dialogs. The endpoint is plain JSON-RPC, so scripts/CI can use it without an MCP client.
 
