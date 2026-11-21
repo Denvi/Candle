@@ -49,7 +49,7 @@ jobs:
       id: cache-vcpkg
       with:
         path: vcpkg_cache
-        key: vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'triplets/*.cmake') }}
+        key: vcpkg2-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'triplets/*.cmake') }}
 
     - name: Ensure vcpkg cache dir
       if: steps.cache-vcpkg.outputs.cache-hit != 'true'
@@ -61,7 +61,12 @@ jobs:
 
     - name: Bootstrap vcpkg
       run: |
-          git clone --branch 2025.07.25 --depth 1 https://github.com/microsoft/vcpkg "$HOME/vcpkg"
+          # Pinned for reproducibility. Must stay on a 2026+ tool: it applies
+          # absolute-rpath fixups to Qt host tools on macOS. Older tools leave
+          # moc/lrelease with a @loader_path-relative rpath only, which breaks
+          # with "Library not loaded @rpath/..." when a restored package runs
+          # them from the packages/ staging dir.
+          git clone --branch 2026.10.16 --depth 1 https://github.com/microsoft/vcpkg "$HOME/vcpkg"
           "$HOME/vcpkg/bootstrap-vcpkg.sh" -disableMetrics
 
     - name: Configure
