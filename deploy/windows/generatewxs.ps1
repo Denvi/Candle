@@ -105,11 +105,18 @@ $shortcutGuid = New-Guid
 
 # Root
 $wxs = @"
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package Name="$ProductName" Manufacturer="$Manufacturer" Version="`$(var.ProductVersion)"
            UpgradeCode="$UpgradeCode">
 
     <MediaTemplate EmbedCab="yes" />
+
+    <!-- License page content (WixUI_InstallDir shows LicenseAgreementDlg);
+         path comes per-culture from -d LicenseRtf (see candle.wixproj) -->
+    <WixVariable Id="WixUILicenseRtf" Value="`$(var.LicenseRtf)" />
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
 
 $dirXml
 
