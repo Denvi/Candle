@@ -19,7 +19,7 @@
  * @param plannerBufferSize Planner buffer size ('BLOCK_BUFFER_SIZE' Grbl parameter in 'planner.h')
  * @param minJunctionVelocity Minimum junction speed ('MINIMUM_JUNCTION_SPEED' Grbl parameter in 'config.h')
  */
-TimeEstimator::TimeEstimator(const QList<LineSegment *> &segments, const QList<float> &steps,
+TimeEstimator::TimeEstimator(const QVector<LineSegment> &segments, const QList<float> &steps,
                              const QList<int> &maxRates, const QList<int> &accelerations,
                              bool feedOverride, bool rapidOverride, float feedOverrideValue, float rapidOverrideValue,
                              bool laserMode, float spindleDelay, float junctionDeviation, int plannerBufferSize,
@@ -373,10 +373,10 @@ int TimeEstimator::refineSegment(int index, LineSegment *segment)
         result = d.result;
     } else {
         for (int i = index + 1; i < m_segments.count(); i++) {
-            if (m_segments.at(i)->index() != segment->index()) {
-                segment->setEnd(m_segments.at(i - 1)->getEnd());
-                segment->setModelEnd(m_segments.at(i - 1)->modelEnd());
-                segment->setAxesEnd(m_segments.at(i - 1)->axesEnd());
+            if (m_segments.at(i).index() != segment->index()) {
+                segment->setEnd(m_segments.at(i - 1).getEnd());
+                segment->setModelEnd(m_segments.at(i - 1).modelEnd());
+                segment->setAxesEnd(m_segments.at(i - 1).axesEnd());
                 result = i - index;
                 break;
             }

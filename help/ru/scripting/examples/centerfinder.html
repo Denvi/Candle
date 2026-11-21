@@ -34,8 +34,9 @@ script.importExtension(<span class="hljs-string">"qt.widgets"</span>); <span cla
     <span class="hljs-keyword">const</span> startY = app.device.work.y;
 
     <span class="hljs-comment">/* ---------- 3. Поиск центра по оси Y ---------- */</span>
-    <span class="hljs-comment">// Первое касание: двигаемся вперёд на заданный радиус</span>
-    app.device.sendCommand(<span class="hljs-string">"G91G38.2F100Y"</span> + radius);
+    <span class="hljs-comment">// Первое касание: двигаемся вперёд на заданный радиус.</span>
+    <span class="hljs-comment">// G94 включает подачу в мм/мин, чтобы зонд шёл медленно даже после G93.</span>
+    app.device.sendCommand(<span class="hljs-string">"G91G94G38.2F100Y"</span> + radius);
     app.device.waitResponses();                     <span class="hljs-comment">// ждём срабатывания щупа</span>
     <span class="hljs-keyword">const</span> probeY = app.device.probe.y;              <span class="hljs-comment">// фиксируем координату касания</span>
 

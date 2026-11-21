@@ -43,8 +43,14 @@ public:
 
     void updateFromParser(GcodeParser *gp, double arcPrecision, bool arcDegreeMode, std::function<bool()> isCancelled = nullptr);
 
-    QList<LineSegment*> *getLineSegments();
-    QVector<QList<int>> *getLineSegmentIndexes();
+    QVector<LineSegment> *getLineSegments();
+    // Ownership transfer; rebuilds per-line index from segment line numbers
+    void setLineSegments(QVector<LineSegment> *segments);
+
+    // CSR index: segments for command line N are [lineSegmentRangeBegin(N), lineSegmentRangeEnd(N))
+    int lineSegmentRangeBegin(int line) const;
+    int lineSegmentRangeEnd(int line) const;
+    bool hasLineSegments(int line) const;
 
     void reset();
 
@@ -60,8 +66,8 @@ private:
 
     double m_modelMinLineLength;
 
-    QList<LineSegment*> *m_lineSegments;
-    QVector<QList<int>> *m_lineSegmentIndexes;    
+    QVector<LineSegment> *m_lineSegments;
+    QVector<int> *m_lineSegmentStarts;
 
     // Parsing state.
     QVector3D lastPoint;

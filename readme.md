@@ -29,6 +29,23 @@ Nightly build versions:
 
 * [Nightly](https://github.com/Denvi/Candle/releases/tag/nightly)
 
+AI agents automation (MCP)
+----------
+Candle embeds a minimal MCP (Model Context Protocol) server over HTTP (127.0.0.1 only),
+disabled by default:
+
+```
+candle --mcp                # endpoint at http://127.0.0.1:8765/mcp
+candle --mcp-port 9000      # custom port
+candle --mcp-allow-motion   # unlock gcode_send/jog/motion_control/job_control
+```
+
+Tools exposed: machine_state, console_tail, grbl_query, gcode_send, jog, motion_control,
+job_control, file_load, program_summary, program_lines, ui_tree, ui_click (by objectName
+or dialog button text), ui_set, action_list, action_trigger, screenshot. Motion tools are
+locked unless --mcp-allow-motion is given; screenshots include the visualizer and any
+open dialogs. The endpoint is plain JSON-RPC, so scripts/CI can use it without an MCP client.
+
 Previous versions:
 
 For GRBL v1.1 firmware

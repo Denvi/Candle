@@ -48,12 +48,12 @@ LineSegment::~LineSegment()
 {
 }
 
-int LineSegment::getLineNumber()
+int LineSegment::getLineNumber() const
 {
     return m_lineIndex;
 }
 
-QVector3D &LineSegment::getStart()
+const QVector3D &LineSegment::getStart() const
 {
     return m_first;
 }
@@ -63,7 +63,7 @@ void LineSegment::setStart(QVector3D vector)
     m_first = vector;
 }
 
-QVector3D &LineSegment::getEnd()
+const QVector3D &LineSegment::getEnd() const
 {
     return m_second;
 }
@@ -118,7 +118,7 @@ void LineSegment::setToolHead(int head)
     m_toolhead = head;
 }
 
-int LineSegment::getToolhead()
+int LineSegment::getToolhead() const
 {
     return m_toolhead;
 }
@@ -143,7 +143,7 @@ void LineSegment::setIsAbsolute(bool isAbsolute)
     m_flags.isAbsolute = isAbsolute;
 }
 
-bool LineSegment::isArc()
+bool LineSegment::isArc() const
 {
     return m_flags.isArc;
 }
@@ -213,7 +213,7 @@ void LineSegment::setIsSpline(bool isSpline)
     m_flags.isSpline = isSpline;
 }
 
-bool LineSegment::isZMovement()
+bool LineSegment::isZMovement() const
 {
     return m_flags.isZMovement;
 }
@@ -283,7 +283,7 @@ void LineSegment::setIndex(int index)
     m_index = index;
 }
 
-bool LineSegment::contains(const QVector3D &point)
+bool LineSegment::contains(const QVector3D &point) const
 {
     double delta;
 

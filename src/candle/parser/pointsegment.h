@@ -89,8 +89,8 @@ private:
     double m_speed;
     double m_spindleSpeed;
     double m_dwell;
-    QVector3D *m_point;
-    QVector3D *m_axes;
+    QVector3D m_point;
+    QVector3D m_axes;
     bool m_isMetric;
     bool m_isZMovement;
     bool m_isArc;

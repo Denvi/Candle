@@ -119,6 +119,7 @@ class frmMain : public QMainWindow
     friend class ScriptProgram;
     friend class ScriptDevice;
     friend class ScriptSender;
+    friend class AutomationTools;
 
 public:
     explicit frmMain(QWidget *parent = 0);
@@ -510,6 +511,21 @@ private:
     // Files/models
     void loadFile(QString fileName);
     void loadFile(const QList<QString> &data);
+    // Line-addressed view of the program text: either spans into a
+    // memory-mapped file (offsets/lengths) or an already decoded list.
+    struct LoadSource {
+        QSharedPointer<ProgramSource> map;  // when set, lines are file spans
+        QVector<int> offsets;
+        QVector<int> lengths;
+        QList<QString> list;                // used when 'map' is null
+    };
+
+    GcodeParser *beginProgramLoad(QProgressDialog &progress, QByteArray &headerState,
+        int lineCount, const QSharedPointer<ProgramSource> &source);
+    void finishProgramLoad(const QByteArray &headerState);
+    void loadFileLines(QSharedPointer<LoadSource> lines, int lineCount);
+    void loadFileLinesStream(std::function<bool(QString &, int &, int &)> nextLine, int lineCount);
+    void reanchorProgramSource(const QString &fileName);
     bool saveChanges(bool heightMapMode);
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
     void loadHeightMap(QString fileName);
@@ -545,9 +561,9 @@ private:
     bool dataIsFloating(QString data);
     bool dataIsEnd(QString data);
     bool dataIsReset(QString data);
-    void updateProgramEstimatedTime(const QList<LineSegment *> &lines);
+    void updateProgramEstimatedTime(const QVector<LineSegment> &lines);
     void ensureProgramEstimatedTimeUpdateNotRunning();
-    QList<LineSegment *> subdivideSegment(LineSegment *segment);
+    QVector<LineSegment> subdivideSegment(LineSegment &segment);
     void jogStep();
     void jogContinuous();
     double toMetric(double value);

@@ -49,8 +49,8 @@ PointSegment::PointSegment(PointSegment *ps) : PointSegment(ps->point(), ps->axe
 
 PointSegment::PointSegment(const QVector3D *point, const QVector3D *axes, int num) : PointSegment()
 {
-    this->m_point = new QVector3D(point->x(), point->y(), point->z());
-    this->m_axes = new QVector3D(*axes);
+    this->m_point = QVector3D(point->x(), point->y(), point->z());
+    this->m_axes = *axes;
     this->m_lineNumber = num;
 }
 
@@ -74,34 +74,32 @@ PointSegment::~PointSegment()
         if (this->m_splineProperties->controlPoint2 != NULL) delete this->m_splineProperties->controlPoint2;
         delete this->m_splineProperties;
     }
-    if (this->m_point != NULL) delete this->m_point;
-    if (this->m_axes != NULL) delete this->m_axes;
 }
 
 void PointSegment::setPoint(QVector3D point) {
-    this->m_point = new QVector3D(point.x(), point.y(), point.z());
+    this->m_point = point;
 }
 
 QVector3D *PointSegment::point()
 {
-    return m_point;
+    return &m_point;
 }
 
 void PointSegment::setAxes(QVector3D axes)
 {
-    this->m_axes = new QVector3D(axes);
+    this->m_axes = axes;
 }
 
 QVector3D *PointSegment::axes()
 {
-    return m_axes;
+    return &m_axes;
 }
 
 QVector<double> PointSegment::points()
 {
     QVector<double> points;
-    points.append(m_point->x());
-    points.append(m_point->y());
+    points.append(m_point.x());
+    points.append(m_point.y());
     return points;
 }
 
@@ -214,9 +212,9 @@ void PointSegment::convertToMetric() {
     }
 
     this->m_isMetric = true;
-    this->m_point->setX(this->m_point->x() * 25.4);
-    this->m_point->setY(this->m_point->y() * 25.4);
-    this->m_point->setZ(this->m_point->z() * 25.4);
+    this->m_point.setX(this->m_point.x() * 25.4);
+    this->m_point.setY(this->m_point.y() * 25.4);
+    this->m_point.setZ(this->m_point.z() * 25.4);
 
     if (this->m_isArc && this->m_arcProperties != NULL) {
         this->m_arcProperties->center->setX(this->m_arcProperties->center->x() * 25.4);

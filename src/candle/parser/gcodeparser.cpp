@@ -37,7 +37,9 @@ GcodeParser::GcodeParser()
 GcodeParser::~GcodeParser()
 {
     foreach (PointSegment *ps, this->m_points)
-        delete ps;
+        ps->~PointSegment();
+
+    m_arena.clear();
 }
 
 bool GcodeParser::getConvertArcsToLines() {
@@ -91,13 +93,16 @@ void GcodeParser::setTruncateDecimalLength(int truncateDecimalLength) {
 // Resets the current state.
 void GcodeParser::reset(const QVector3D &initialPoint, const QVector3D &initialAxes)
 {
-    foreach (PointSegment *ps, this->m_points) delete ps;
+    foreach (PointSegment *ps, this->m_points)
+        ps->~PointSegment();
+
+    m_arena.clear();
     this->m_points.clear();
     // The unspoken home location.
     m_currentPoint = initialPoint;
     m_currentAxes = initialAxes;
     m_currentPlane = PointSegment::XY;
-    this->m_points.append(new PointSegment(&this->m_currentPoint, &this->m_currentAxes, -1));
+    this->m_points.append(m_arena.create<PointSegment>(&this->m_currentPoint, &this->m_currentAxes, -1));
 }
 
 /**
@@ -191,8 +196,11 @@ QList<PointSegment*> GcodeParser::expandArc()
     // skip first element.
     if (psi.hasNext()) psi.next();
 
+    QVector3D nullAxes;
+
     while (psi.hasNext()) {
-        temp = new PointSegment(&psi.next(), new QVector3D(), m_commandNumber++);
+        QVector3D point = psi.next();
+        temp = m_arena.create<PointSegment>(&point, &nullAxes, m_commandNumber++);
         temp->setIsMetric(lastSegment->isMetric());
         this->m_points.append(temp);
         psl.append(temp);
@@ -264,7 +272,7 @@ PointSegment *GcodeParser::processCommand(const QStringList &args)
 PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint, 
     const QVector3D &nextAxes, bool fastTraverse)
 {
-    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, m_commandNumber++);
+    PointSegment *ps = m_arena.create<PointSegment>(&nextPoint, &nextAxes, m_commandNumber++);
 
     bool zOnly = false;
 
@@ -295,7 +303,7 @@ PointSegment *GcodeParser::addLinearPointSegment(const QVector3D &nextPoint,
 PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint, 
     const QVector3D &nextAxes, bool clockwise, const QStringList &args)
 {
-    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, 
+    PointSegment *ps = m_arena.create<PointSegment>(&nextPoint, &nextAxes,
         m_commandNumber++);
 
     QVector3D center = GcodePreprocessorUtils::updateCenterWithCommand(args,
@@ -346,7 +354,7 @@ PointSegment *GcodeParser::addArcPointSegment(const QVector3D &nextPoint,
 PointSegment *GcodeParser::addSplinePointSegment(const QVector3D &nextPoint,
     const QVector3D &nextAxes, SplineType type, const QStringList &args)
 {
-    PointSegment *ps = new PointSegment(&nextPoint, &nextAxes, m_commandNumber++);
+    PointSegment *ps = m_arena.create<PointSegment>(&nextPoint, &nextAxes, m_commandNumber++);
 
     // Parse control point offsets
     double I = GcodePreprocessorUtils::parseCoord(args, 'I');

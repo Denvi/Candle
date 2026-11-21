@@ -12,7 +12,7 @@
 class TimeEstimator
 {
 public:
-    TimeEstimator(const QList<LineSegment *> &segments, const QList<float> &steps, const QList<int> &maxRates,
+    TimeEstimator(const QVector<LineSegment> &segments, const QList<float> &steps, const QList<int> &maxRates,
                   const QList<int> &accelerations, bool feedOverride = false, bool rapidOverride = false,
                   float feedOverrideValue = 1.0, float rapidOverrideValue = 1.0, bool laserMode = false,
                   float spindleDelay = 0.0, float junctionDeviation = 0.01, int plannerBufferSize = 15,
@@ -33,7 +33,7 @@ private:
         int result;
     };
 
-    QList<LineSegment*> m_segments;
+    QVector<LineSegment> m_segments;
     bool m_feedOverride;
     bool m_rapidOverride;
     float m_feedOverrideValue;

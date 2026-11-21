@@ -25,8 +25,10 @@ QStringList ScriptProgram::lines() const
 {
     auto r = QStringList();
 
-    for (auto it = m_frmMain->m_currentModel->data().constBegin(); it != m_frmMain->m_currentModel->data().constEnd(); it++)
-        r.append((*it).command);
+    GCodeTableModel *model = m_frmMain->m_currentModel;
+
+    for (int i = 0; i < model->rowCount(); i++)
+        r.append(model->commandAt(i));
 
     return r;
 }

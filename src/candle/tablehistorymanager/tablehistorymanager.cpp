@@ -140,7 +140,7 @@ void TableHistoryManager::onRowsAboutToBeRemoved(const QModelIndex &parent, int 
     m_rowsAboutToBeRemoved.clear();
 
     for (auto i = first; i <= last; i++)
-        m_rowsAboutToBeRemoved.append(m_model->data()[i].command);
+        m_rowsAboutToBeRemoved.append(m_model->commandAt(i));
 }
 
 void TableHistoryManager::onRowsRemoved(const QModelIndex &parent, int first, int last)

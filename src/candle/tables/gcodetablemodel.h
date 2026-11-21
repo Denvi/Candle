@@ -7,6 +7,10 @@
 #include <QAbstractTableModel>
 #include <QString>
 
+#include <QSharedPointer>
+
+#include "programsource.h"
+
 struct GCodeItem
 {
     enum States { InQueue, Sent, Processed, Skipped };
@@ -16,6 +20,12 @@ struct GCodeItem
     QByteArray response;
     int line = -1;
     QList<QByteArray> args;
+
+    // Source file span of the command text. When command is null and the
+    // span is valid, the text lives in the model's ProgramSource instead of
+    // in RAM (see commandAt/materializeRow).
+    int srcOffset = -1;
+    int srcLength = -1;
 };
 
 class GCodeTableModel : public QAbstractTableModel
@@ -40,6 +50,16 @@ public:
 
     QList<GCodeItem> &data();
 
+    void setSource(const QSharedPointer<ProgramSource> &source);
+    const QSharedPointer<ProgramSource> &source() const { return m_source; }
+
+    // Command text of a row whether materialized in RAM or lazily backed by
+    // the source file. Returns an owning copy.
+    QByteArray commandAt(int row) const;
+    bool isLazy(int row) const;
+    void materializeRow(int row);
+    void materializeAll();
+
     void setCommand(int row, const QByteArray &command);
     void insertCommands(int row, const QList<QByteArray> &commands);
     void addRow(int row);
@@ -54,6 +74,7 @@ public slots:
 private:
     QList<GCodeItem> m_data;
     QStringList m_headers;
+    QSharedPointer<ProgramSource> m_source;
 };
 
 #endif // GCODETABLEMODEL_H

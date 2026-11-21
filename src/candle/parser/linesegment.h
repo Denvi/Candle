@@ -19,12 +19,12 @@ public:
     LineSegment(LineSegment *initial);
     ~LineSegment();
 
-    int getLineNumber();
+    int getLineNumber() const;
 
-    QVector3D &getStart();
+    const QVector3D &getStart() const;
     void setStart(QVector3D vector);
 
-    QVector3D &getEnd();
+    const QVector3D &getEnd() const;
     void setEnd(QVector3D vector);
 
     const QVector3D &modelStart() const;
@@ -40,7 +40,7 @@ public:
     void setAxesEnd(const QVector3D &axesEnd);
 
     void setToolHead(int head);
-    int getToolhead();
+    int getToolhead() const;
 
     void setSpeed(double s);
     double getSpeed() const;
@@ -49,7 +49,7 @@ public:
     void setIsAbsolute(bool isAbsolute);
 
     void setIsArc(bool isA);
-    bool isArc();
+    bool isArc() const;
 
     bool isClockwise() const;
     void setIsClockwise(bool isClockwise);
@@ -69,7 +69,7 @@ public:
     bool isSpline() const;
     void setIsSpline(bool isSpline);
 
-    bool isZMovement();
+    bool isZMovement() const;
     void setIsZMovement(bool isZ);
 
     bool isInverseTimeFeed() const;
@@ -90,7 +90,7 @@ public:
     int index() const;
     void setIndex(int index);
 
-    bool contains(const QVector3D &point);
+    bool contains(const QVector3D &point) const;
 
 private:
     struct Flags

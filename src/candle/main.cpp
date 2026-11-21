@@ -18,6 +18,8 @@
 #include "logging/fileloghandler.h"
 #include "versionconfig.h"
 
+#include "automation/automationserver.h"
+
 #include "frmmain.h"
 
 void loadTranslationsForLocale(const QString &locale, QCoreApplication &app)
@@ -61,6 +63,25 @@ int main(int argc, char *argv[])
 
     a.setStyleSheet(a.styleSheet() + "QWidget {font-size: 8pt}");
 
+    // MCP (Model Context Protocol) automation endpoint, off by default:
+    // --mcp [port]           enable JSON-RPC endpoint on 127.0.0.1 (default port 8765)
+    // --mcp-port <port>      explicit port
+    // --mcp-allow-motion     unlock motion tools (gcode_send/jog/motion_control/job_control)
+    quint16 mcpPort = 0;
+    bool mcpAllowMotion = false;
+    const QStringList argList = a.arguments();
+    for (int i = 1; i < argList.size(); i++) {
+        if (argList[i] == "--mcp") {
+            mcpPort = 8765;
+            if (i + 1 < argList.size() && argList[i + 1].toInt())
+                mcpPort = argList[++i].toUShort();
+        } else if (argList[i] == "--mcp-port" && i + 1 < argList.size()) {
+            mcpPort = argList[++i].toUShort();
+        } else if (argList[i] == "--mcp-allow-motion") {
+            mcpAllowMotion = true;
+        }
+    }
+
     frmMain w;
 
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
@@ -75,6 +96,11 @@ int main(int argc, char *argv[])
         w.setStyleSheet(styles.readAll());
 
     w.show();
+
+    if (mcpPort) {
+        AutomationServer *mcp = new AutomationServer(&w, mcpPort, mcpAllowMotion, &w);
+        mcp->start();
+    }
 
     return a.exec();
 }
