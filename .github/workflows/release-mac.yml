@@ -1,4 +1,4 @@
-name: Release / Mac (x64)
+name: Release / Mac (x64, ARM64)
 
 on:
   workflow_dispatch:
@@ -10,11 +10,25 @@ on:
         type: string
 
 env:
+  # Qt 5 still requires the legacy AGL headers omitted from the macOS 26 SDK.
+  DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
   VCPKG_DEFAULT_BINARY_CACHE: ${{github.workspace}}/vcpkg_cache
 
 jobs:
   build:
-    runs-on: macos-15-intel
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: macos-15-intel
+            build_dir: build
+            macho_arch: x86_64
+          - arch: arm64
+            runner: macos-15
+            build_dir: build-arm64
+            macho_arch: arm64
+    runs-on: ${{ matrix.runner }}
 
     steps:
     - uses: actions/checkout@v4
@@ -35,44 +49,63 @@ jobs:
       id: cache-vcpkg
       with:
         path: vcpkg_cache
-        key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+        key: vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'triplets/*.cmake') }}
 
     - name: Ensure vcpkg cache dir
       if: steps.cache-vcpkg.outputs.cache-hit != 'true'
-      run: mkdir vcpkg_cache
+      run: mkdir -p vcpkg_cache
 
     - name: Install packages
       run: |
-        brew install automake autoconf-archive
+        brew install cmake ninja automake autoconf-archive pkgconf
 
     - name: Bootstrap vcpkg
       run: |
           git clone https://github.com/microsoft/vcpkg "$HOME/vcpkg"
-          export VCPKG_ROOT="$HOME/vcpkg"
+          "$HOME/vcpkg/bootstrap-vcpkg.sh" -disableMetrics
 
     - name: Configure
       run: |
-        cmake --preset osx-x64-release
+        cmake --preset osx-${{ matrix.arch }}-release
 
     - name: Build
       run: |
-        cmake --build --preset osx-x64-release --parallel 4
+        cmake --build --preset osx-${{ matrix.arch }}-release --parallel 4
 
     - name: Install
       run: |
-        cmake --install ${{github.workspace}}/build --config Release
+        cmake --install ${{github.workspace}}/${{ matrix.build_dir }} --config Release
 
     - name: Create bundle
       run: |
-        ${{github.workspace}}/build/vcpkg_installed/x64-osx-dynamic-release/tools/qt5/bin/macdeployqt ${{github.workspace}}/build/Candle/Candle.app
+        ${{github.workspace}}/${{ matrix.build_dir }}/vcpkg_installed/${{ matrix.arch }}-osx-dynamic-release/tools/qt5/bin/macdeployqt ${{github.workspace}}/${{ matrix.build_dir }}/Candle/Candle.app
+
+    - name: Verify bundle architecture and sign
+      run: |
+        bundle="${{github.workspace}}/${{ matrix.build_dir }}/Candle/Candle.app"
+        lipo "$bundle/Contents/MacOS/candle" -verify_arch "${{ matrix.macho_arch }}"
+        while IFS= read -r -d '' binary; do
+          if file "$binary" | grep -q 'Mach-O'; then
+            lipo "$binary" -verify_arch "${{ matrix.macho_arch }}" || {
+              echo "Unexpected architecture: $binary" >&2
+              exit 1
+            }
+            # Include Candle's script/designer plugins outside standard bundle paths.
+            if [[ "$binary" != "$bundle/Contents/MacOS/candle" ]]; then
+              codesign --force --sign - "$binary"
+            fi
+          fi
+        done < <(find "$bundle" -type f -print0)
+        codesign --force --deep --sign - "$bundle"
+        codesign --verify --deep --strict "$bundle"
 
     - name: Create image
       run: |
-        ln -s /Applications ${{github.workspace}}/build/Candle/Applications
-        hdiutil create -volname "Candle Installer" -srcfolder ${{github.workspace}}/build/Candle -ov -format UDZO candle-${{steps.tag.outputs.version}}.dmg
+        ln -s /Applications ${{github.workspace}}/${{ matrix.build_dir }}/Candle/Applications
+        hdiutil create -volname "Candle Installer" -srcfolder ${{github.workspace}}/${{ matrix.build_dir }}/Candle -ov -format UDZO candle-${{steps.tag.outputs.version}}-macos-${{ matrix.arch }}.dmg
 
     - name: Upload image
       uses: actions/upload-artifact@v4
       with:
-        name: candle-${{steps.tag.outputs.version}}
-        path: candle-${{steps.tag.outputs.version}}.dmg
+        name: candle-${{steps.tag.outputs.version}}-macos-${{ matrix.arch }}
+        path: candle-${{steps.tag.outputs.version}}-macos-${{ matrix.arch }}.dmg
