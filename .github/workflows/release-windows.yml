@@ -15,7 +15,9 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    # windows-latest ships VS 2026 without the ATL component; the vcpkg
+    # 'atl' port (qt5 dependency) fails to find atlbase.h there.
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4
