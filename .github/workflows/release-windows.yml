@@ -58,12 +58,30 @@ jobs:
         $version = $tag -replace '^v', ''
         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Create package
+    - name: Create packages
       shell: pwsh
       run: |
-        dotnet build ${{github.workspace}}/deploy/windows `
-          -p:DefineConstants=ProductVersion=${{steps.tag.outputs.version}} `
-          -p:OutputName=candle-${{steps.tag.outputs.version}} -c Release
+        # one MSI per installer culture (dialog strings + license RTF are
+        # baked in at build time); obj must be cleared between cultures
+        $v = '${{steps.tag.outputs.version}}'
+        $cultures = [ordered]@{ 'en-us' = 'en'; 'ru-ru' = 'ru' }
+        $dst = '${{github.workspace}}/packages'
+        New-Item -ItemType Directory -Path $dst | Out-Null
+        foreach ($c in $cultures.Keys) {
+          dotnet build ${{github.workspace}}/deploy/windows `
+            -p:ProductVersion=$v -p:InstallerCulture=$c `
+            -p:OutputName=candle-$v-$($cultures[$c]) -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          # each build wipes the previous output, so stage it away
+          Copy-Item '${{github.workspace}}/deploy/windows/bin/x64/Release/*.msi' $dst
+          Remove-Item -Recurse -Force ${{github.workspace}}/deploy/windows/obj
+        }
+
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: candle-${{steps.tag.outputs.version}}
+        path: ${{github.workspace}}/packages/*.msi
 
     - name: Prepare portable version
       shell: pwsh
@@ -71,12 +89,6 @@ jobs:
         New-Item -ItemType Directory -Path ${{github.workspace}}/artifact
         Copy-Item -Recurse -Path ${{github.workspace}}/build/Candle `
                   -Destination ${{github.workspace}}/artifact/Candle
-
-    - name: Upload package
-      uses: actions/upload-artifact@v4
-      with:
-        name: candle-${{steps.tag.outputs.version}}
-        path: ${{github.workspace}}/deploy/windows/bin/x64/Release/candle-${{steps.tag.outputs.version}}.msi
 
     - name: Upload portable version
       uses: actions/upload-artifact@v4

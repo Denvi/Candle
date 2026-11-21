@@ -1,5 +1,15 @@
 <Project Sdk="WixToolset.Sdk/6.0.0">
     <PropertyGroup>
         <Platform>x64</Platform>
+        <!-- Dialog strings (WixUI_<culture>.wxl of the UI extension) and the
+             license RTF are chosen per build; build one MSI per culture:
+               -p:ProductVersion=1.2.3 -p:InstallerCulture=ru-ru -->
+        <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+        <InstallerCulture Condition="'$(InstallerCulture)' == ''">en-us</InstallerCulture>
+        <Cultures>$(InstallerCulture)</Cultures>
+        <DefineConstants Condition="'$(DefineConstants)' == ''">ProductVersion=$(ProductVersion);LicenseRtf=lic\LICENSE.$(InstallerCulture).rtf</DefineConstants>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
+    </ItemGroup>
 </Project>
