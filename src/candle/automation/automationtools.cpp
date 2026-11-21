@@ -29,6 +29,7 @@
 #include <QScrollBar>
 #include <QSlider>
 #include <QSpinBox>
+#include <QTextBlock>
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QWindow>
