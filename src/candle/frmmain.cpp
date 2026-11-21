@@ -44,7 +44,7 @@ frmMain::frmMain(QWidget *parent) : QMainWindow(parent), ui(new Ui::frmMain)
 
 #ifdef Q_OS_WIN
     m_defaultStyleName = "windowsvista";
-#elif Q_OS_MACOS
+#elif defined(Q_OS_MACOS)
     m_defaultStyleName = "macintosh";
 #else
     m_defaultStyleName = "fusion";

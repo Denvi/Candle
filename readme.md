@@ -13,7 +13,7 @@ Supported functions:
 System requirements for running "Candle":
 -------------------
 * Windows/Linux (Ubuntu)/macOS/Raspberry Pi OS (Trixie)
-* CPU with SSE2 instruction set support
+* CPU with SSE2 instruction set support on x86, or an ARM CPU (including Apple silicon on macOS)
 * Graphics card with OpenGL 2.0 support
 * 120 MB free storage space
 
@@ -119,6 +119,51 @@ cmake --install .
 ```
 
 Executable can be found in `~/programs/Candle` directory.
+
+Build instructions (macOS, Intel and Apple silicon)
+------------------
+
+Use Xcode 16.4 with the macOS 15 SDK. Qt 5's OpenGL configuration requires
+legacy AGL headers that are absent from the macOS 26 SDK. Select the developer
+directory for this shell (adjust the path to your Xcode installation), then
+install the build tools:
+
+```sh
+export DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer
+brew install cmake ninja automake autoconf-archive pkgconf
+git clone https://github.com/microsoft/vcpkg.git "$HOME/vcpkg"
+"$HOME/vcpkg/bootstrap-vcpkg.sh" -disableMetrics
+git clone https://github.com/Denvi/Candle.git
+cd Candle
+```
+
+CMake 3.28 or newer is required to read the presets. On Apple silicon, use a
+native ARM64 terminal and ARM64 Homebrew installation, then build and package:
+
+```sh
+cmake --preset osx-arm64-release
+cmake --build --preset osx-arm64-release --parallel 4
+cmake --install build-arm64 --config Release
+build-arm64/vcpkg_installed/arm64-osx-dynamic-release/tools/qt5/bin/macdeployqt build-arm64/Candle/Candle.app
+find build-arm64/Candle/Candle.app -type f ! -path '*/Contents/MacOS/candle' -print0 | while IFS= read -r -d '' binary; do
+    if file "$binary" | grep -q 'Mach-O'; then
+        codesign --force --sign - "$binary"
+    fi
+done
+codesign --force --deep --sign - build-arm64/Candle/Candle.app
+codesign --verify --deep --strict build-arm64/Candle/Candle.app
+open build-arm64/Candle/Candle.app
+```
+
+The preset builds Qt 5 and its dependencies with vcpkg; the first build can take
+some time. If vcpkg is elsewhere, add
+`-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake` to the
+configure command. On an Intel Mac, replace `arm64` with `x64` in the preset and
+triplet names, and replace `build-arm64` with `build` in the paths above.
+
+The **Release / Mac (x64, ARM64)** workflow produces separate
+`candle-<version>-macos-x64.dmg` and `candle-<version>-macos-arm64.dmg` artifacts.
+These builds are ad-hoc signed, not notarized with an Apple Developer identity.
 
 Before creating new issue
 ------
