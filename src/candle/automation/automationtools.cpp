@@ -269,6 +269,7 @@ QJsonObject AutomationTools::machineStateObject() const
     state["device"] = deviceStateName(m_main->m_deviceState);
     state["sender"] = senderStateName(m_main->m_senderState);
     state["statusLine"] = m_lastStatus;
+    state["parserStatus"] = m_main->ui->glwVisualizer->parserStatus();
     state["mpos"] = coordsObject(m_main->ui->txtMPosX->value(), m_main->ui->txtMPosY->value(),
         m_main->ui->txtMPosZ->value(), m_main->ui->txtMPosA->value());
     state["wpos"] = coordsObject(m_main->ui->txtWPosX->value(), m_main->ui->txtWPosY->value(),
@@ -336,8 +337,8 @@ QJsonArray AutomationTools::toolList() const
         QJsonObject props;
         QJsonObject cmd;
         cmd["type"] = "string";
-        cmd["enum"] = QJsonArray() << "?" << "$G" << "$#" << "$$" << "$I" << "$N";
-        cmd["description"] = "GRBL query command.";
+        cmd["enum"] = QJsonArray() << "$G" << "$#" << "$$" << "$I" << "$N";
+        cmd["description"] = "GRBL print-query command.";
         props["command"] = cmd;
         QJsonObject wait;
         wait["type"] = "integer";
@@ -345,8 +346,21 @@ QJsonArray AutomationTools::toolList() const
         wait["default"] = 2000;
         props["waitMs"] = wait;
         tools.append(toolDesc("grbl_query",
-            "Send a read-only GRBL query (status report, parser state, settings...) and "
-            "return the device response.", props, QStringList() << "command"));
+            "Send a print/settings query ($G, $#, $$, $I, $N) through the command "
+            "stream and return its response. Safe while a program is running: GRBL 1.1 "
+            "answers print queries out of order and Candle routes each answer back to "
+            "its request.", props, QStringList() << "command"));
+    }
+    {
+        QJsonObject props;
+        QJsonObject wait;
+        wait["type"] = "integer";
+        wait["description"] = "Milliseconds to wait for the status report (max 15000).";
+        wait["default"] = 2000;
+        props["waitMs"] = wait;
+        tools.append(toolDesc("status_report",
+            "Request the GRBL real-time status report ('?'). Bypasses the command "
+            "stream; safe at any time, including mid-transfer.", props));
     }
     {
         QJsonObject props;
@@ -567,10 +581,14 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
     }
 
     if (tool == "grbl_query") {
-        static const QStringList allowed = { "?", "$G", "$#", "$$", "$I", "$N" };
+        static const QStringList allowed = { "$G", "$#", "$$", "$I", "$N" };
         QString command = args.value("command").toString();
+        if (command == "?") {
+            done(textContent("'?' is a real-time request; use the status_report tool."), true);
+            return;
+        }
         if (!allowed.contains(command)) {
-            done(textContent("Query must be one of: ?, $G, $#, $$, $I, $N."), true);
+            done(textContent("Query must be one of: $G, $#, $$, $I, $N."), true);
             return;
         }
         if (!deviceReady()) {
@@ -580,55 +598,92 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
             return;
         }
 
+        // Print queries ride the command stream (tableIndex -4 marks MCP queries,
+        // keeping them off Candle's internal -3 parser-status slot). The answer is
+        // taken from frmMain::responseReceived, matched by command and tableIndex,
+        // so the tool never depends on console content and cannot disturb the
+        // internal parser-status poller.
         int waitMs = qBound(0, args.value("waitMs").toInt(2000), 15000);
-        int base = consoleLineCount();
 
-        if (command == "?") {
-            // Status reports bypass the console; wait for a fresh status line.
-            QSharedPointer<QString> before(new QString(m_lastStatus));
-            QSharedPointer<QElapsedTimer> elapsed(new QElapsedTimer());
-            elapsed->start();
-
-            int timeout = waitMs ? waitMs : 1500;
-            m_main->m_currentConnection->send(command);
-
-            QTimer *timer = new QTimer(this);
-            timer->setInterval(50);
-            QSharedPointer<ResultCallback> cb(new ResultCallback(done));
-            connect(timer, &QTimer::timeout, this, [=]() {
-                if (m_lastStatus != *before || elapsed->elapsed() >= timeout) {
-                    timer->stop();
-                    timer->deleteLater();
-                    if (m_lastStatus == *before)
-                        (*cb)(textContent("No status response."), true);
-                    else
-                        (*cb)(textContent(m_lastStatus), false);
-                }
-            });
-            timer->start();
+        if (!waitMs) {
+            m_main->sendCommand(command, -4, true, false);
+            done(textContent(QString("Sent '%1' (no wait).").arg(command)), false);
             return;
         }
 
-        m_main->sendCommand(command, -3, true, false);
+        QSharedPointer<ResultCallback> cb(new ResultCallback(done));
+        QSharedPointer<bool> finished(new bool(false));
+        QSharedPointer<QMetaObject::Connection> connection(new QMetaObject::Connection());
 
-        waitForResponse(base, waitMs ? waitMs : 1500,
-            [](const QString &line) {
-                return line == "ok" || line.startsWith("error");
-            },
-            [done, command, waitMs](const QStringList &lines, bool responded) {
-                if (!waitMs) {
-                    done(textContent(QString("Sent '%1' (no wait).").arg(command)), false);
-                    return;
-                }
-                if (!responded) {
-                    done(textContent(QString("No response to '%1'.").arg(command)), true);
-                    return;
-                }
-                QStringList out = lines;
-                if (!out.isEmpty() && (out.last() == "ok" || out.last().startsWith("error")))
-                    out.removeLast();
-                done(textContent(jsonCompact(QJsonArray::fromStringList(out))), false);
-            });
+        QTimer *timer = new QTimer(this);
+        timer->setSingleShot(true);
+
+        *connection = connect(m_main, &frmMain::responseReceived, this,
+            [=](QString responseCommand, int tableIndex, QString response) {
+            if (*finished || tableIndex != -4 || responseCommand != command)
+                return;
+            *finished = true;
+            timer->stop();
+            timer->deleteLater();
+            disconnect(*connection);
+
+            if (response.contains("error")) {
+                (*cb)(textContent(QString("'%1': %2").arg(command, response)), true);
+                return;
+            }
+            if (response.endsWith("; ok"))
+                response.chop(4);
+            (*cb)(textContent(jsonCompact(QJsonArray::fromStringList(
+                response.split("; ", QString::SkipEmptyParts)))), false);
+        });
+
+        connect(timer, &QTimer::timeout, this, [=]() {
+            if (*finished)
+                return;
+            *finished = true;
+            disconnect(*connection);
+            (*cb)(textContent(QString("No response to '%1'.").arg(command)), true);
+        });
+
+        m_main->sendCommand(command, -4, true, false);
+        timer->start(waitMs);
+        return;
+    }
+
+    if (tool == "status_report") {
+        if (!deviceReady()) {
+            done(textContent(isConnected() ?
+                "Device is not ready (reset in progress)." :
+                "Not connected to the device."), true);
+            return;
+        }
+
+        // '?' is a GRBL real-time command: it bypasses the command stream entirely
+        // (no queue entry, no ack) and is safe at any time, including mid-transfer.
+        // Status reports reach Candle through the '<' branch, not the console.
+        int waitMs = qBound(0, args.value("waitMs").toInt(2000), 15000);
+
+        QSharedPointer<QString> before(new QString(m_lastStatus));
+        QSharedPointer<QElapsedTimer> elapsed(new QElapsedTimer());
+        elapsed->start();
+
+        int timeout = waitMs ? waitMs : 1500;
+        m_main->m_currentConnection->send("?");
+
+        QTimer *timer = new QTimer(this);
+        timer->setInterval(50);
+        QSharedPointer<ResultCallback> cb(new ResultCallback(done));
+        connect(timer, &QTimer::timeout, this, [=]() {
+            if (m_lastStatus != *before || elapsed->elapsed() >= timeout) {
+                timer->stop();
+                timer->deleteLater();
+                if (m_lastStatus == *before)
+                    (*cb)(textContent("No status response."), true);
+                else
+                    (*cb)(textContent(m_lastStatus), false);
+            }
+        });
+        timer->start();
         return;
     }
 
