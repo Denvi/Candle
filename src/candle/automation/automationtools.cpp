@@ -21,6 +21,7 @@
 #include <QJsonDocument>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QOpenGLWidget>
 #include <QPainter>
 #include <QPlainTextEdit>
@@ -127,11 +128,20 @@ QWidget *AutomationTools::findWidget(const QString &objectName) const
     if (objectName.isEmpty())
         return nullptr;
 
+    // Prefer matches that are actually on screen: objectNames repeat across
+    // dialogs (cmdOK in frmSettings vs cmdOk in frmAbout), and clicking a
+    // widget of a closed dialog silently does nothing.
+    QWidget *fallback = nullptr;
     foreach (QWidget *w, QApplication::topLevelWidgets()) {
-        if (QWidget *found = w->findChild<QWidget*>(objectName, Qt::FindChildrenRecursively))
+        QWidget *found = w->findChild<QWidget*>(objectName, Qt::FindChildrenRecursively);
+        if (!found)
+            continue;
+        if (found->isVisible())
             return found;
+        if (!fallback)
+            fallback = found;
     }
-    return nullptr;
+    return fallback;
 }
 
 QAction *AutomationTools::findAction(const QString &objectName) const
@@ -184,6 +194,7 @@ QJsonArray AutomationTools::openDialogsInfo()
 
         if (!labels.isEmpty()) o["text"] = labels.join("\n");
         if (!buttons.isEmpty()) o["buttons"] = QJsonArray::fromStringList(buttons);
+        o["modal"] = d->isModal();
 
         QRect pos(d->mapToGlobal(QPoint(0, 0)), d->size());
         QJsonArray rect;
@@ -279,8 +290,14 @@ QJsonObject AutomationTools::machineStateObject() const
         state["connection"] = QString::fromLatin1(m_main->m_currentConnection->metaObject()->className());
 
     QJsonArray dialogs = openDialogsInfo();
-    if (!dialogs.isEmpty())
+    if (!dialogs.isEmpty()) {
         state["dialogs"] = dialogs;
+        foreach (const QJsonValue &v, dialogs)
+            if (v.toObject().value("modal").toBool()) {
+                state["modalDialog"] = true;
+                break;
+            }
+    }
 
     state["program"] = programSummaryObject();
     return state;
@@ -487,6 +504,25 @@ QJsonArray AutomationTools::toolList() const
         tools.append(toolDesc("ui_click",
             "Click a button/checkbox or trigger an action by objectName, or a dialog button "
             "by text (dialogs only). Motion-related targets require --mcp-allow-motion.", props));
+    }
+    {
+        QJsonObject props;
+        QJsonObject accept;
+        accept["type"] = "boolean";
+        accept["description"] = "true: click the default/OK button of the topmost message box.";
+        props["accept"] = accept;
+        QJsonObject button;
+        button["type"] = "string";
+        button["description"] = "Button text to click in the message box (case-insensitive).";
+        props["button"] = button;
+        QJsonObject index;
+        index["type"] = "integer";
+        index["description"] = "Which open box to act on when several are open (default 0).";
+        props["index"] = index;
+        tools.append(toolDesc("message_box",
+            "Detect and dismiss modal message boxes that block the main window. "
+            "No args: report open boxes (text, buttons with roles, blocking flag). "
+            "accept:true clicks the default/OK button; button:\"text\" clicks a named one.", props));
     }
     {
         QJsonObject props;
@@ -839,6 +875,107 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
         return;
     }
 
+    if (tool == "message_box") {
+        QList<QMessageBox*> boxes;
+        foreach (QWidget *w, QApplication::topLevelWidgets()) {
+            QMessageBox *mb = qobject_cast<QMessageBox*>(w);
+            if (mb && mb->isVisible() && !mb->testAttribute(Qt::WA_DontShowOnScreen))
+                boxes.append(mb);
+        }
+
+        bool accept = args.value("accept").toBool(false);
+        QString want = args.value("button").toString();
+
+        // No action requested: report state, so agents can detect that a
+        // modal box is blocking the main window before their next click.
+        if (!accept && want.isEmpty()) {
+            QJsonArray arr;
+            foreach (QMessageBox *mb, boxes) {
+                QJsonObject o;
+                if (!mb->windowTitle().isEmpty()) o["title"] = mb->windowTitle();
+                o["text"] = mb->text();
+                if (!mb->informativeText().isEmpty()) o["informativeText"] = mb->informativeText();
+                o["modal"] = mb->isModal();
+
+                QJsonArray btns;
+                foreach (QAbstractButton *ab, mb->buttons()) {
+                    if (!ab->isVisible())
+                        continue;
+                    QJsonObject bo;
+                    QString bt = ab->text();
+                    bt.remove('&');
+                    bo["text"] = bt;
+                    bo["enabled"] = ab->isEnabled();
+                    QMessageBox::ButtonRole role = mb->buttonRole(ab);
+                    bo["role"] = role == QMessageBox::AcceptRole ? "accept" :
+                        role == QMessageBox::RejectRole ? "reject" : "other";
+                    btns.append(bo);
+                }
+                o["buttons"] = btns;
+                arr.append(o);
+            }
+
+            QJsonObject res;
+            res["open"] = !arr.isEmpty();
+            res["blocking"] = boxes.isEmpty() ? false : boxes.first()->isModal();
+            res["boxes"] = arr;
+            done(textContent(jsonCompact(res)), false);
+            return;
+        }
+
+        if (boxes.isEmpty()) {
+            done(textContent("No open message boxes."), false);
+            return;
+        }
+
+        QMessageBox *box = boxes.at(qBound(0, args.value("index").toInt(0), boxes.size() - 1));
+
+        QAbstractButton *btn = nullptr;
+        if (!want.isEmpty()) {
+            QString needle = want;
+            needle.remove('&');
+            foreach (QAbstractButton *ab, box->buttons()) {
+                QString bt = ab->text();
+                bt.remove('&');
+                if (ab->isEnabled() && bt.compare(needle, Qt::CaseInsensitive) == 0) {
+                    btn = ab;
+                    break;
+                }
+            }
+        } else {
+            foreach (QAbstractButton *ab, box->buttons())
+                if (ab->isEnabled() && box->buttonRole(ab) == QMessageBox::AcceptRole) {
+                    btn = ab;
+                    break;
+                }
+            if (!btn)
+                foreach (QAbstractButton *ab, box->buttons())
+                    if (ab->isEnabled()) {
+                        btn = ab;
+                        break;
+                    }
+        }
+
+        if (!btn) {
+            QStringList available;
+            foreach (QAbstractButton *ab, box->buttons())
+                if (ab->isVisible()) {
+                    QString bt = ab->text();
+                    bt.remove('&');
+                    available << QString("%1%2").arg(bt, ab->isEnabled() ? "" : " (disabled)");
+                }
+            done(textContent(QString("No enabled button '%1' in the message box. Available: %2.")
+                .arg(want, available.join(", "))), true);
+            return;
+        }
+
+        QString clickedText = btn->text();
+        clickedText.remove('&');
+        btn->click();
+        done(textContent(QString("Dismissed message box (clicked '%1').").arg(clickedText)), false);
+        return;
+    }
+
     if (tool == "ui_tree") {
         QString filter = args.value("filter").toString();
         QString rootName = args.value("root").toString();
@@ -986,7 +1123,23 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
                 if (hit) break;
             }
             if (!hit) {
-                done(textContent("No enabled dialog button with text: " + text), true);
+                QJsonArray open = openDialogsInfo();
+                if (open.isEmpty()) {
+                    done(textContent(QString("No dialogs are open; '%1' cannot be clicked by text. "
+                        "Check machine_state/message_box for current windows.").arg(text)), true);
+                    return;
+                }
+                QStringList offers;
+                foreach (const QJsonValue &v, open) {
+                    QJsonObject d = v.toObject();
+                    QStringList bs;
+                    foreach (const QJsonValue &b, d.value("buttons").toArray())
+                        bs << b.toString();
+                    offers << QString("[%1] %2").arg(d.value("title").toString().isEmpty()
+                        ? d.value("class").toString() : d.value("title").toString(), bs.join("/"));
+                }
+                done(textContent(QString("No enabled dialog button with text: %1. Open dialogs: %2")
+                    .arg(text, offers.join("; "))), true);
                 return;
             }
             hit->click();
@@ -1012,12 +1165,20 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
         }
 
         if (w) {
+            if (!w->isVisible()) {
+                done(textContent(QString("'%1' exists but is not visible (its window/tab is closed). "
+                    "Open that window first; use message_box for popups.").arg(name)), true);
+                return;
+            }
             if (QAbstractButton *b = qobject_cast<QAbstractButton*>(w)) {
                 if (!b->isEnabled()) {
                     done(textContent(QString("'%1' is disabled.").arg(name)), true);
                     return;
                 }
-                b->click();
+                // Deferred: a click may open a modal dialog (file open,
+                // settings); triggering inline would hang this callback
+                // until the dialog closes.
+                QTimer::singleShot(0, b, [b]() { b->click(); });
                 done(textContent(QString("Clicked %1 (%2).").arg(name,
                     QString::fromLatin1(w->metaObject()->className()))), false);
                 return;
@@ -1031,7 +1192,9 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
             done(textContent(QString("Action '%1' is disabled.").arg(name)), true);
             return;
         }
-        a->trigger();
+        // Deferred: actions may open modal dialogs (settings, file open);
+        // triggering inline would hang this callback until the dialog closes.
+        QTimer::singleShot(0, a, [a]() { a->trigger(); });
         done(textContent(QString("Triggered %1.").arg(name)), false);
         return;
     }
@@ -1127,7 +1290,9 @@ void AutomationTools::call(const QString &tool, const QJsonObject &args, ResultC
             done(textContent(QString("Action '%1' is disabled.").arg(name)), true);
             return;
         }
-        a->trigger();
+        // Deferred: actions may open modal dialogs (settings, file open);
+        // triggering inline would hang this callback until the dialog closes.
+        QTimer::singleShot(0, a, [a]() { a->trigger(); });
         done(textContent(QString("Triggered %1.").arg(name)), false);
         return;
     }
