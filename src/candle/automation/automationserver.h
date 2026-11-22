@@ -51,6 +51,7 @@ private:
     QHash<QTcpSocket*, QByteArray> m_buffers;
     QByteArray m_sessionId;
     quint16 m_port;
+    bool m_allowMotion;
     bool m_callInFlight;
 };
 

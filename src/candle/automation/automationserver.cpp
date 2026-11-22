@@ -8,6 +8,7 @@
 #include "versionconfig.h"
 
 #include <QHostAddress>
+#include <QCoreApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -23,6 +24,7 @@ AutomationServer::AutomationServer(frmMain *mainWindow, quint16 port, bool allow
     QObject(parent),
     m_main(mainWindow),
     m_server(this),
+    m_allowMotion(allowMotion),
     m_callInFlight(false)
 {
     m_tools = new AutomationTools(mainWindow, allowMotion, this);
@@ -135,6 +137,8 @@ void AutomationServer::handleRequest(QTcpSocket *socket, const QByteArray &head,
         QJsonObject info;
         info["app"] = APP_NAME;
         info["version"] = APP_VERSION;
+        info["pid"] = static_cast<qint64>(QCoreApplication::applicationPid());
+        info["allowMotion"] = m_allowMotion;
         info["mcp"] = QString("http://127.0.0.1:%1/mcp").arg(port());
         respond(socket, 200, "application/json",
             QJsonDocument(info).toJson(QJsonDocument::Compact));
