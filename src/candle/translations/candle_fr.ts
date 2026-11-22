@@ -953,6 +953,30 @@ Temps écoulé: %1</translation>
         <source>Updating...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;New heightmap</source>
+        <translation>&amp;Nouveau palpage</translation>
+    </message>
+    <message>
+        <source>&amp;Open heightmap...</source>
+        <translation>&amp;Ouvrir un palpage...</translation>
+    </message>
+    <message>
+        <source>&amp;Reload heightmap</source>
+        <translation>&amp;Recharger le palpage</translation>
+    </message>
+    <message>
+        <source>&amp;Save heightmap</source>
+        <translation>&amp;Enregistrer le palpage</translation>
+    </message>
+    <message>
+        <source>Save heightmap &amp;as...</source>
+        <translation>Enregistrer le palpage &amp;sous...</translation>
+    </message>
+    <message>
+        <source>Recent &amp;heightmaps</source>
+        <translation>&amp;Palpages récents</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

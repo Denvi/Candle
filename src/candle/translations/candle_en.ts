@@ -951,6 +951,30 @@ Time elapsed: %1</source>
         <source>Updating...</source>
         <translation></translation>
     </message>
+    <message>
+        <source>&amp;New heightmap</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Open heightmap...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Reload heightmap</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Save heightmap</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save heightmap &amp;as...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Recent &amp;heightmaps</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

@@ -956,6 +956,30 @@ Time elapsed: %1</source>
         <source>Updating...</source>
         <translation>Обновление...</translation>
     </message>
+    <message>
+        <source>&amp;New heightmap</source>
+        <translation>&amp;Новая карта высот</translation>
+    </message>
+    <message>
+        <source>&amp;Open heightmap...</source>
+        <translation>&amp;Открыть карту высот...</translation>
+    </message>
+    <message>
+        <source>&amp;Reload heightmap</source>
+        <translation>&amp;Перезагрузить карту высот</translation>
+    </message>
+    <message>
+        <source>&amp;Save heightmap</source>
+        <translation>&amp;Сохранить карту высот</translation>
+    </message>
+    <message>
+        <source>Save heightmap &amp;as...</source>
+        <translation>Сохранить карту высот &amp;как...</translation>
+    </message>
+    <message>
+        <source>Recent &amp;heightmaps</source>
+        <translation>&amp;Недавние карты высот</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

@@ -5278,7 +5278,7 @@ bool frmMain::saveChanges(bool heightMapMode)
             updateRecentFilesMenu(); // Restore g-code files recent menu
         }
 
-        m_fileChanged = false;
+        m_heightMapChanged = false;
     }
 
     return true;
@@ -5603,8 +5603,9 @@ void frmMain::updateControlsState() {
     ui->cmdFileAbort->setEnabled(m_senderState != SenderStopped && m_senderState != SenderStopping && !m_sdRun);
     ui->mnuRecent->setEnabled((m_senderState == SenderStopped) && ((m_recentFiles.count() > 0 && !m_heightMapMode)
                                                       || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
-    ui->actFileSave->setEnabled(m_programModel.rowCount() > 1);
-    ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
+    // In heightmap mode Save/Save As act on the map, so gate them on the map itself.
+    ui->actFileSave->setEnabled(m_heightMapMode ? m_heightMapModel.rowCount() > 0 : m_programModel.rowCount() > 1);
+    ui->actFileSaveAs->setEnabled(m_heightMapMode ? m_heightMapModel.rowCount() > 0 : m_programModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers((m_senderState != SenderStopped || m_sdRun) ? QAbstractItemView::NoEditTriggers :
         QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
@@ -5655,6 +5656,15 @@ void frmMain::updateControlsState() {
     ui->grpProgram->setProperty("overrided", m_heightMapMode);
     style()->unpolish(ui->grpProgram);
     ui->grpProgram->ensurePolished();
+
+    // The File menu items act on different documents depending on the mode;
+    // name the target document in the labels to keep the mode explicit.
+    ui->actFileNew->setText(m_heightMapMode ? tr("&New heightmap") : tr("&New"));
+    ui->actFileOpen->setText(m_heightMapMode ? tr("&Open heightmap...") : tr("&Open"));
+    ui->actFileReload->setText(m_heightMapMode ? tr("&Reload heightmap") : tr("&Reload"));
+    ui->actFileSave->setText(m_heightMapMode ? tr("&Save heightmap") : tr("&Save"));
+    ui->actFileSaveAs->setText(m_heightMapMode ? tr("Save heightmap &as...") : tr("Save &as..."));
+    ui->mnuRecent->setTitle(m_heightMapMode ? tr("Recent &heightmaps") : tr("&Recent files"));
 
     ui->cboJogStep->setEditable(!ui->chkKeyboardControl->isChecked());
     ui->cboJogFeed->setEditable(!ui->chkKeyboardControl->isChecked());

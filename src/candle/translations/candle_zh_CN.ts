@@ -956,6 +956,30 @@ Time elapsed: %1</source>
         <source>Updating...</source>
         <translation>更新中...</translation>
     </message>
+    <message>
+        <source>&amp;New heightmap</source>
+        <translation>新建高度图(&amp;N)</translation>
+    </message>
+    <message>
+        <source>&amp;Open heightmap...</source>
+        <translation>打开高度图(&amp;O)...</translation>
+    </message>
+    <message>
+        <source>&amp;Reload heightmap</source>
+        <translation>重新加载高度图(&amp;R)</translation>
+    </message>
+    <message>
+        <source>&amp;Save heightmap</source>
+        <translation>保存高度图(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Save heightmap &amp;as...</source>
+        <translation>高度图另存为(&amp;A)...</translation>
+    </message>
+    <message>
+        <source>Recent &amp;heightmaps</source>
+        <translation>最近的高度图(&amp;H)</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>

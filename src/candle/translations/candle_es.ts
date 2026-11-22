@@ -953,6 +953,30 @@ Tiempo transcurrido: %1</translation>
         <source>Updating...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;New heightmap</source>
+        <translation>&amp;Nuevo mapa de alturas</translation>
+    </message>
+    <message>
+        <source>&amp;Open heightmap...</source>
+        <translation>&amp;Abrir mapa de alturas...</translation>
+    </message>
+    <message>
+        <source>&amp;Reload heightmap</source>
+        <translation>&amp;Recargar mapa de alturas</translation>
+    </message>
+    <message>
+        <source>&amp;Save heightmap</source>
+        <translation>&amp;Guardar mapa de alturas</translation>
+    </message>
+    <message>
+        <source>Save heightmap &amp;as...</source>
+        <translation>Guardar mapa de alturas &amp;como...</translation>
+    </message>
+    <message>
+        <source>Recent &amp;heightmaps</source>
+        <translation>&amp;Mapas de alturas recientes</translation>
+    </message>
 </context>
 <context>
     <name>frmScript</name>
