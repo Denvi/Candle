@@ -6502,23 +6502,30 @@ QString frmMain::getLineInitCommands(int row)
 
 void frmMain::processSettingsResponse(QString response)
 {
-    static QRegExp gs("\\$(\\d+)\\=([^;]+)\\; ");
+    // Firmware replies to $$ in one of two formats: "$130=300.000" (Grbl 1.1, grblHAL,
+    // FluidNC) or "$130=300.000 (x max travel, mm)" (Grbl 0.9 and forks with the
+    // description strings re-enabled). The response is joined into a single string with
+    // "; " separators, so capture only the value: it ends at whitespace, ';', or '('.
+    static QRegExp gs("\\$(\\d+)[ \\t]*=[ \\t]*([^ \\t\\r\\n;()]+)");
     QMap<int, float> set;
     int p = 0;
 
     while ((p = gs.indexIn(response, p)) != -1) {
-        set[gs.cap(1).toInt()] = gs.cap(2).toFloat();
+        bool ok = false;
+        const float value = gs.cap(2).toFloat(&ok);
+        if (ok && qIsFinite(value)) set[gs.cap(1).toInt()] = value;
         p += gs.matchedLength();
     }
-    if (set.keys().contains(13)) m_settings->setUnits(set[13]);
-    if (set.keys().contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
-    if (set.keys().contains(22)) {
+    if (set.contains(13)) m_settings->setUnits(set[13]);
+    if (set.contains(20)) m_settings->setSoftLimitsEnabled(set[20]);
+    if (set.contains(22)) {
         m_settings->setHomingEnabled(set[22]);
         m_machineBoundsDrawer->setVisible(set[22]);
     }
-    if (set.keys().contains(110)) m_settings->setRapidSpeed(set[110]);
-    if (set.keys().contains(120)) m_settings->setAcceleration(set[120]);
-    if (set.keys().contains(130) && set.keys().contains(131) && set.keys().contains(132)) {
+    if (set.contains(110)) m_settings->setRapidSpeed(set[110]);
+    if (set.contains(120)) m_settings->setAcceleration(set[120]);
+    if (set.contains(130) && set.contains(131) && set.contains(132)
+            && set[130] > 0 && set[131] > 0 && set[132] > 0) {
         m_settings->setMachineBounds(QVector3D(
             m_settings->referenceXPlus() ? -set[130] : set[130],
             m_settings->referenceYPlus() ? -set[131] : set[131],
