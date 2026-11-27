@@ -17,13 +17,14 @@ TelnetConnection::TelnetConnection(const QString &address, const int port, QObje
 
 void TelnetConnection::connect()
 {
-    if (!m_socket.isOpen())
-    {
-        if (m_socket.state() != QAbstractSocket::UnconnectedState)
-            m_socket.abort();
+    // Do not gate on isOpen(): after a RemoteHostClosedError (device powered off while
+    // connected) Qt keeps the "open" flag set, which disabled all further retries.
+    // Re-dial whenever the socket is unconnected; let in-progress dials run their course.
+    if (m_socket.state() != QAbstractSocket::UnconnectedState)
+        return;
 
-        m_socket.connectToHost(m_address, m_port);
-    }
+    m_socket.abort(); // clear stale state left after a remote close
+    m_socket.connectToHost(m_address, m_port);
 }
 
 void TelnetConnection::disconnect()
