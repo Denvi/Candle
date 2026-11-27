@@ -2391,9 +2391,18 @@ void frmMain::onConnectionDataReceived(QString data)
                     m_resetCompleted = true;
                     m_updateParserStatus = true;
 
-                    // Query grbl settings
-                    sendCommand("$$", -2, m_settings->showUICommands());
-                    sendCommand("$#", -2, m_settings->showUICommands(), true);
+                    // Some firmwares (e.g. "Grbl for ARM32" forks) print a multi-line reset
+                    // banner. Sending $$ right after the first banner line makes the remaining
+                    // banner lines fold into the $$ response, so wait for the port to go quiet.
+                    QTimer::singleShot(1000, this, [this]()
+                    {
+                        if (!m_currentConnection || !m_currentConnection->isConnected())
+                            return;
+
+                        // Query grbl settings
+                        sendCommand("$$", -2, m_settings->showUICommands());
+                        sendCommand("$#", -2, m_settings->showUICommands(), true);
+                    });
                 }
 
                 // Clear command buffer on "M2" & "M30" command (old firmwares)
@@ -6121,7 +6130,10 @@ bool frmMain::dataIsEnd(QString data) {
 }
 
 bool frmMain::dataIsReset(QString data) {
-    return QRegExp("^GRBL|GCARVIN\\s\\d\\.\\d.").indexIn(data.toUpper()) != -1;
+    // Reset banner must carry a version number ("Grbl 1.1f ...", "GrblHAL 1.1 ..."):
+    // some forks print extra banner lines like "Grbl for ARM32", and treating those
+    // as a reset drops the pending command queue (issue #731).
+    return QRegExp("^GRBL(HAL)?\\s+v?\\d\\.\\d|GCARVIN\\s\\d\\.\\d.").indexIn(data.toUpper()) != -1;
 }
 
 void frmMain::updateProgramEstimatedTime(const QVector<LineSegment> &lines)
